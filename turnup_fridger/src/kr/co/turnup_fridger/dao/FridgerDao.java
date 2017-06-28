@@ -30,6 +30,8 @@ public interface FridgerDao {
 	
 //	select
 	
+	List<Fridger> selectFridgerAll();
+	
 	/**
 	 * 냉장고 ID로 냉장고 조회
 	 * @param fridgerId
@@ -51,25 +53,33 @@ public interface FridgerDao {
 	 */
 	Fridger selectFridgerAndFridgerGroupByFridgerId(int fridgerId);
 	
+	
+	/**
+	 * 냉장고명으로 조회 
+	 * @param FridgerName
+	 * @return
+	 */
+	List<Fridger> selectFridgerByFridgerFullName(String fridgerName);
+	
 	/**
 	 * 냉장고명으로 조회 (부분검색)
 	 * @param FridgerName
 	 * @return
 	 */
-	List<Fridger> selectFridgerByFridgerName(String FridgerName);
+	List<Fridger> selectFridgerByFridgerName(String fridgerName);
 	
 	/**
 	 * 냉장고명으로 냉장고와 냉장고 속 재료 조회 
 	 * @param FridgerName
 	 * @return
 	 */
-	List<Fridger> selectFridgerAndIrdntByFridgerName(String FridgerName);
+	List<Fridger> selectFridgerAndIrdntByFridgerName(String fridgerName);
 	
 	/**
 	 * 냉장고명으로 냉장고와 냉장고 공유하는 멤버 조회
 	 * @param FridgerName
 	 * @return
 	 */
-	List<Fridger> selectFridgerAndFridgerGroupByFridgerName(String FridgerName);
+	List<Fridger> selectFridgerAndFridgerGroupByFridgerName(String fridgerName);
 	
 }

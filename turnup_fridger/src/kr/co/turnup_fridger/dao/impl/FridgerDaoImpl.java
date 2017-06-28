@@ -1,5 +1,6 @@
 package kr.co.turnup_fridger.dao.impl;
 
+import java.io.File;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -22,19 +23,26 @@ public class FridgerDaoImpl implements FridgerDao{
 	
 	@Override
 	public int insertFridger(Fridger fridger) {
-		return session.insert(makeSql("insertFridger"));
+		return session.insert(makeSql("insertFridger"), fridger);
 	}
 
 	@Override
 	public int updateFridger(Fridger fridger) {
-		return session.update(makeSql("updateFridger"));
+		return session.update(makeSql("updateFridger"), fridger);
 	}
 
 	@Override
 	public int deleteFridger(int fridgerId) {
-		return session.delete(makeSql("deleteFridger"));
+		return session.delete(makeSql("deleteFridger"), fridgerId);
 	}
 
+	
+	
+
+	@Override
+	public List<Fridger> selectFridgerAll() {
+		return session.selectList(makeSql("selectFridgerAll"));
+	}
 	
 	@Override
 	public Fridger selectFridgerByFridgerId(int fridgerId) {
@@ -48,7 +56,13 @@ public class FridgerDaoImpl implements FridgerDao{
 
 	@Override
 	public Fridger selectFridgerAndFridgerGroupByFridgerId(int fridgerId) {
-		return session.selectOne(makeSql("electFridgerAndFridgerGroupByFridgerId"), fridgerId);
+		return session.selectOne(makeSql("selectFridgerAndFridgerGroupByFridgerId"), fridgerId);
+	}
+
+
+	@Override
+	public List<Fridger> selectFridgerByFridgerFullName(String fridgerName) {
+		return session.selectList(makeSql("selectFridgerByFridgerFullName"), fridgerName);
 	}
 
 	@Override
@@ -65,6 +79,8 @@ public class FridgerDaoImpl implements FridgerDao{
 	public List<Fridger> selectFridgerAndFridgerGroupByFridgerName(String FridgerName) {
 		return session.selectList(makeSql("selectFridgerAndFridgerGroupByFridgerName"), FridgerName);
 	}
+
+
 
 	
 }
