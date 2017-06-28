@@ -20,42 +20,47 @@ public class RecipeIrdntDaoImpl implements RecipeIrdntDao{
 	
 	@Override
 	public int insertRecipeIrdnt(RecipeIrdnt recipeIrdnt) {
-		return 0;
+		return session.insert(makeSql("insertRecipeIrdnt"),recipeIrdnt);
 	}
 
 	@Override
 	public int updateRecipeIrdnt(RecipeIrdnt recipeIrdnt) {
-		return 0;
+		return session.update(makeSql("updateRecipeIrdnt"),recipeIrdnt);
 	}
 
 	@Override
 	public int deleteRecipeIrdnt(int recipeId) {
-		return 0;
+		return session.delete(makeSql("deleteRecipeIrdnt"),recipeId);
 	}
 
 	@Override
 	public List<RecipeIrdnt> selectAllRecipeIrdnt() {
-		return null;
+		return session.selectList(makeSql("selectAllRecipeIrdnt"));
 	}
 
 	@Override
-	public List<RecipeIrdnt> selectRecipeIrdntById(int recipeId) {
-		return null;
+	public List<RecipeIrdnt> selectRecipeIrdntById(int recipeNo) {
+		return session.selectList(makeSql("selectRecipeIrdntById"),recipeNo);
 	}
 
 	@Override
 	public RecipeIrdnt selectRecipeIrdntByNo(int irdntNo) {
-		return null;
+		return session.selectOne(makeSql("selectRecipeIrdntByNo"),irdntNo);
 	}
 
 	@Override
 	public List<RecipeIrdnt> selectRecipeIrdntByName(String irdntName) {
-		return null;
+		return session.selectList(makeSql("selectRecipeIrdntByName"),irdntName);
 	}
 
 	@Override
 	public List<RecipeIrdnt> getRecipeCodeByIrdntId(List irdntIds) {
-		return null;
+		
+		int irdntId=0;
+		
+		
+		
+		return session.selectList(makeSql("getRecipeCodeByIrdntId"),irdntId);
 	}
 
 	

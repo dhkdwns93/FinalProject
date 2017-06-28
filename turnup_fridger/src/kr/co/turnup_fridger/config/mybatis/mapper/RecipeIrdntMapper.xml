@@ -2,4 +2,81 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="kr.co.turnup_fridger.config.mybatis.mapper.RecipeIrdntMapper">
+	
+	<sql id="all-column">
+		irdnt_no,
+		irdnt_name,
+		irdnt_amount,
+		irdnt_type_code,
+		irdnt_type_name,
+		recipe_id,
+		irdnt_id
+	</sql>
+	
+	<resultMap type="RecipeIrdnt" id="RecipeIrdnt-resultmap">
+		<id column="irdnt_no" property="irdntNo"/>
+		<result column="irdnt_name" property="irdntName"/>
+		<result column="irdnt_amount" property="irdntAmount"/>
+		<result column="irdnt_type_code" property="irdntTypeCode"/>
+		<result column="irdnt_type_name" property="irdntTypeName"/>
+		<result column="recipe_id" property="recipeId"/>
+		<result column="irdnt_id" property="irdntId"/>
+	</resultMap>
+	
+	<insert id="insertRecipeIrdnt" parameterType="RecipeIrdnt">
+		insert into RecipeIrdnt 
+		values (#{irdntNo},#{irdntName},#{irdntAmount},#{irdntTypeCode},#{irdntTypeName},#{recipeId},#{irdntId})
+	</insert>
+	
+	<update id="updateRecipeIrdnt" parameterType="RecipeIrdnt">
+		update RecipeIrdnt
+		set irdnt_no=#{irdntNo},
+			irdnt_name=#{irdntName},
+			irdnt_amount=#{irdntAmount},
+			irdnt_type_code=#{irdntTypeCode},
+			irdnt_type_name=#{irdntTypeName},
+			recipe_id=#{recipeId},
+			irdnt_id=#{irdntId}
+		where irdnt_no=#{irdntNo}
+	</update>
+	
+	<delete id="deleteRecipeIrdnt" parameterType="_int">
+		delete from RecipeIrdnt
+		where irdnt_no=#{irdntNo}
+	</delete>
+	
+	<select id="selectAllRecipeIrdnt" resultMap="RecipeIrdnt-resultmap">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeIrdnt
+	</select>
+	
+	<select id="selectRecipeIrdntById" resultMap="RecipeIrdnt-resultmap" parameterType="_int">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeIrdnt
+		where recipe_no = #{recipeNo}
+	</select>
+	
+	<select id="selectRecipeIrdntByNo" resultMap="RecipeIrdnt-resultmap" parameterType="_int">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeIrdnt
+		where irdnt_no=#{irdntNo}
+	</select>
+	
+	<select id="selectRecipeIrdntByName" resultMap="RecipeIrdnt-resultmap" parameterType="java.lang.String">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeIrdnt
+		where irdnt_name like '%'||#{irdntName}||'%'
+	</select>
+	
+	<select id="getRecipeCodeByIrdntId" resultMap="RecipeIrdnt-resultmap" parameterType="_int">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeIrdnt
+		where irdnt_id=#{irdnt_id}
+	</select>
+	
 </mapper>

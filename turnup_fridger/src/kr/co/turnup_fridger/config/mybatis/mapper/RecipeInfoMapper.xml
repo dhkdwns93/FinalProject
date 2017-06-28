@@ -2,4 +2,144 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="kr.co.turnup_fridger.config.mybatis.mapper.RecipeInfoMapper">
+	
+	<sql id="all-column">
+		recipe_id,
+		recipe_name,
+		sumry,
+		category_code,
+		category_name,
+		type_code,
+		type_name,
+		cooking_time,
+		calorie,
+		qnt,
+		recipe_level,
+		irdnt_code,
+		price,
+		img_url,
+		det_url,
+		recipe_hits
+	</sql>
+	
+	<resultMap type="RecipeInfo" id="RecipeInfo-resultmap">
+		<id column ="recipe_id" property="recipeId"/>
+		<result column="recipe_name" property="recipeName"/>
+		<result column="sumry" property="sumry"/>
+		<result column="category_code" property="categoryCode"/>
+		<result column="category_name" property="categoryName"/>
+		<result column="type_code" property="typeCode"/>
+		<result column="type_name" property="typeName"/>
+		<result column="cooking_time" property="cookingTime"/>
+		<result column="calorie" property="calorie"/>
+		<result column="qnt" property="qnt"/>
+		<result column="recipe_level" property="recipeLevel"/>
+		<result column="irdnt_code" property="irdntCode"/>
+		<result column="price" property="price"/>
+		<result column="img_url" property="imgUrl"/>
+		<result column="det_url" property="detUrl"/>
+		<result column="recipe_hits" property="recipeHits"/>		
+	</resultMap>
+	
+	<insert id="insertRecipeInfo" parameterType="RecipeInfo">
+		insert into RecipeInfo 
+		values (#{recipeId},
+				#{recipeName},
+				#{sumry},
+				#{categoryCode},
+				#{categoryName},
+				#{typeCode},
+				#{typeName},
+				#{cookingTime},
+				#{qnt},
+				#{recipeLevel},
+				#{irdntCode},
+				#{price},
+				#{imgUrl},
+				#{detUrl},
+				#{recipeHits}
+				)
+	</insert>
+	
+	<update id="updateRecipeInfo" parameterType="RecipeInfo">
+		update RecipeInfo
+		set recipe_id=#{recipeId},
+			recipe_name=#{recipeName},
+			sumry=#{sumry},
+			category_code=#{categoryCode},
+			category_name#{categoryName},
+			type_code=#{typeCode},
+			type_name=#{typeName},
+			cooking_time=#{cookingTime},
+			qnt=#{qnt},
+			recipe_level=#{recipeLevel},
+			irdnt_code=#{irdntCode},
+			price=#{price},
+			img_url=#{imgUrl},
+			det_url=#{detUrl},
+			recipe_hits=#{recipeHits}
+		where recipe_id=#{recipeId}
+	</update>
+	
+	<delete id="deleteRecipeInfo" parameterType="_int">
+		delete from RecipeInfo
+		where recipe_id=#{recipeId}
+	</delete>
+	
+	<select id="selectAllRecipeInfo" resultMap="RecipeInfo-resultmap">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeInfo
+	</select>
+	
+	<select id="selectRecipeInfoById" resultMap="RecipeInfo-resultmap" parameterType="_int">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeInfo
+		where recipe_id=#{recipeId}
+	</select>
+	
+	<select id="selectRecipeInfoByName" resultMap="RecipeInfo-resultmap" parameterType="java.lang.String">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeInfo
+		where recipe_name like '%'||#{recipeName}||'%'
+	</select>
+	
+	<select id="selectRecipeInfoByLevel" resultMap="RecipeInfo-resultmap" parameterType="java.lang.String">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeInfo
+		where recipe_level=#{recipeLevel}
+	</select>
+	
+	<select id="selectRecipeInfoByHits" resultMap="RecipeInfo-resultmap" parameterType="_int">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeInfo
+		where recipe_hits=#{recipeHits}
+	</select>
+	
+	<select id="selectRecipeInfoBycalorie" resultMap="RecipeInfo-resultmap" parameterType="java.lang.String">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeInfo
+		where calorie=#{calorie}
+	</select>
+	
+	<select id="selectRecipeInfoByCategoryName" resultMap="RecipeInfo-resultmap" parameterType="java.lang.String">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeInfo
+		where category_name=#{categoryName}
+	</select>
+	
+	<select id="selectRecipeInfoByTypeName" resultMap="RecipeInfo-resultmap" parameterType="java.lang.String">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeInfo
+		where type_name=#{typeName}
+	</select>
+	
+	
 </mapper>

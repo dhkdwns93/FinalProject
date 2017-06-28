@@ -18,7 +18,7 @@
 	</resultMap>
 
 	<insert id="insertIrdnt" parameterType="IrdntManage">
-		<selectKey resultType="int" keyProperty="irdntId" order="BEFORE">
+		<selectKey resultType="_int" keyProperty="irdntId" order="BEFORE">
 			SELECT IRDNT_ID_seq.nextval FROM dual
 		</selectKey>
 		insert into irdntManage 
@@ -34,7 +34,7 @@
 		where irdnt_id=#{irdntId}
 	</update>
 	
-	<delete id="deleteIrdnt" parameterType="int">
+	<delete id="deleteIrdnt" parameterType="_int">
 		delete from IrdntManage
 		where irdnt_id=#{irdntId}
 	</delete>
@@ -50,11 +50,11 @@
 		SELECT
 		<include refid="all-column" />
 		FROM IrdntManage
-		where irdnt_name=#{irdntName}
-		ORDER BY irdnt_id
+		where irdnt_name like '%'||#{irdntName}||'%'
+		ORDER BY irdnt_id 
 	</select>
 	
-	<select id="selectIrdntById" resultMap="irdntManage-resultmap" parameterType="int">
+	<select id="selectIrdntById" resultMap="irdntManage-resultmap" parameterType="_int">
 		SELECT
 		<include refid="all-column" />
 		FROM IrdntManage
