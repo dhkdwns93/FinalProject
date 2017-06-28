@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.co.turnup_fridger.config.mybatis.mapper.MyIrdntMapper">
+
+	<sql id="all-column">
+		my_irdnt_key,
+		start_date,
+		end_date,
+		fresh_level,
+		irdnt_count,
+		irdnt_id,
+		fridger_id,
+		irdnt_name
+	</sql>
+	
+	<resultMap type="MyIrdnt" id="MyIrdnt-resultmap">
+		<id column ="my_irdnt_key" property ="myIrdntKey"/>
+		<result column="start_date" property="startDate"/>
+		<result column="end_date" property="endDate"/>
+		<result column="fresh_level" property="freshLevel"/>
+		<result column="irdnt_count" property="irdntCount"/>
+		<result column="irdnt_id" property="irdntId"/>
+		<result column="fridger_id" property="fridgerId"/>
+		<result column="irdnt_name" property="irdntName"/>
+	</resultMap>
+	
+	<insert id="insertMyIrdnt" parameterType="MyIrdnt">
+		<selectKey resultType="int" keyProperty="myIrdntKey" order="BEFORE">
+			SELECT MY_IRDNT_KEY_seq.nextval FROM dual
+		</selectKey>
+		insert into MyIrdnt 
+		values (#{myIrdntKey},#{startDate},#{endDate},#{freshLevel},#{irdntCount},#{irdntId},#{fridgerId},#{irdntName})
+	</insert>
+	
+	<update id="updateMyIrdnt" parameterType="MyIrdnt">
+		update MyIrdnt
+		set my_irdnt_key=#{myIrdntKey},
+			start_date=#{startDate},
+			end_date=#{endDate},
+			fresh_level=#{freshLevel},
+			irdnt_count=#{irdntCount},
+			irdnt_id=#{irdntId},
+			fridger_id=#{fridgerId},
+			irdnt_name=#{irdntName}
+		where my_irdnt_key=#{myIrdntKey}
+	</update>
+	
+	<delete id="deleteMyIrdnt" parameterType="int">
+		delete from MyIrdnt
+		where my_irdnt_key=#{myIrdntKey}
+	</delete>
+	
+	<select id="selectAllInfoMyIrdnt" resultMap="MyIrdnt-resultmap">
+		SELECT
+		<include refid="all-column" />
+		FROM MyIrdnt
+		ORDER BY my_irdnt_key
+	</select>
+	
+	<select id="selectMyIrdntById" resultMap="MyIrdnt-resultmap" parameterType="int">
+		SELECT
+		<include refid="all-column" />
+		FROM MyIrdnt
+		where irdnt_id =#{irdntId}
+		ORDER BY my_irdnt_key
+	</select>
+	
+	<select id="selectMyIrdntByName" resultMap="MyIrdnt-resultmap" parameterType="String">
+		SELECT
+		<include refid="all-column" />
+		FROM MyIrdnt
+		where irdnt_name =#{irdntName}
+		ORDER BY my_irdnt_key
+	</select>
+	
+	<select id="selectMyStaleIrdnt" resultMap="MyIrdnt-resultmap" parameterType="String">
+		SELECT
+		<include refid="all-column" />
+		FROM MyIrdnt
+		where fresh_level = #{freshLevel}
+		ORDER BY my_irdnt_key
+	</select>
+	
+	<select id="selectSoonExpireMyIrdnt" resultMap="MyIrdnt-resultmap" parameterType="java.util.Date">
+		SELECT
+		<include refid="all-column" />
+		FROM MyIrdnt
+		where end_date = #{endDate}
+		ORDER BY my_irdnt_key
+	</select>
+	
+	<select id="selectMyIrdntByStartDate" resultMap="MyIrdnt-resultmap" parameterType="java.util.Date">
+		SELECT
+		<include refid="all-column" />
+		FROM MyIrdnt
+		where start_date = #{StartDate}
+		ORDER BY my_irdnt_key
+	</select>
+	
+	<select id="selectCountAllMyIrdnts" resultType="int">
+		SELECT count(*)
+		FROM MyIrdnt
+		ORDER BY my_irdnt_key
+	</select>
+	
+	
+	
+</mapper>

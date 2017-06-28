@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.co.turnUp_fridger.config.mybatis.mapper.myMemoMapper">
+
+<sql id="select">
+SELECT	memo_id,
+			memo_name,
+			memo_txt,
+			member_id,
+			registered_date;
+FROM 	my_memo
+</sql>
+
+<resultMap type="myMemo" id="memo-resultmap">
+	<id column="memo_id" property="memoId"/>
+	<result column="memo_name" property="memoName"/>
+	<result column="memo_txt" property="memoText"/>
+	<result column="member_id" property="memberId"/>
+	<result column="registered_date" property="registeredDate"/>
+</resultMap>
+
+<!-- memo 등록 -->
+<insert id="insertMemo" parameterType="myMemo">
+	<selectKey order="BEFORE" keyProperty="memoId" resultType="_int">
+		SELECT memo_id.nextval
+		FROM dual
+	</selectKey>
+	INSERT INTO my_memo 
+	VALUES(
+				#{memoId}, 
+				#{memoName}, 
+				#{memoTxt},
+				#{memberId}, 
+				#{registeredDate}
+	)
+</insert>
+
+<!-- memo 수정 -->
+<update id="updateMemo" parameterType="myMemo">
+	UPDATE my_memo
+	SET		memo_name = #{memoName},
+				memo_txt = #{memoTxt},
+				member_id = #{memberId},
+				registered_date = #{registeredDate}
+	WHERE	memo_id = #{memoId}
+</update>
+
+<!-- memo 삭제 -->
+<delete id="deleteMemo" parameterType="_int">
+	DELETE FROM my_memo 
+	WHERE memo_id = #{value}
+</delete>
+
+<!-- 회원 당 memo 리스트 조회  -->
+<select id="selectMemoList" parameterType="String" resultMap="memo-resultmap">
+	<include refid="select"/>
+	WHERE member_id = #{value}
+	ORDER BY registered_date DESC
+</select>
+
+<!-- 하나의 memo 조회 - memoId로 -->
+<select id="selectOneMemo" parameterType="_int" resultMap="memo-resultmap">
+	<include refid="select"/>
+	WHERE memo_id = #{value}
+</select>
+
+<!-- memo 총 개수 조회 -->
+<select id="selectMemoCount" parameterType="String" resultType="_int">
+	SELECT COUNT(memo_id) 
+	FROM  my_memo 
+	WHERE member_id = #{value}
+</select>
+
+
+</mapper>

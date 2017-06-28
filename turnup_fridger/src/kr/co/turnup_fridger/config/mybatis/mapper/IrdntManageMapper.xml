@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.co.turnup_fridger.config.mybatis.mapper.IrdntManageMapper">
+	
+	<sql id="all-column">
+		irdnt_id,
+		irdnt_name,
+		irdnt_period,
+		irdnt_category
+	</sql>
+	
+	<resultMap type="IrdntManage" id="irdntManage-resultmap">
+		<id column="irdnt_id" property="irdntId"/>
+		<result column="irdnt_name" property="irdntName"/>
+		<result column="irdnt_period" property="irdntPeriod"/>
+		<result column="irdnt_category" property="irdntCategory"/>
+	</resultMap>
+
+	<insert id="insertIrdnt" parameterType="IrdntManage">
+		<selectKey resultType="int" keyProperty="irdntId" order="BEFORE">
+			SELECT IRDNT_ID_seq.nextval FROM dual
+		</selectKey>
+		insert into irdntManage 
+		values (#{irdntId},#{irdntName},#{irdntPeriod},#{irdntCategory})
+	</insert>
+	
+	<update id="updateMyIrdnt" parameterType="IrdntManage">
+		update IrdntManage
+		set irdnt_id=#{irdntId},
+			irdnt_name=#{irdntName},
+			irdnt_period=#{irdntPeriod},
+			irdnt_category=#{irdntCategory}
+		where irdnt_id=#{irdntId}
+	</update>
+	
+	<delete id="deleteIrdnt" parameterType="int">
+		delete from IrdntManage
+		where irdnt_id=#{irdntId}
+	</delete>
+	
+	<select id="selectAllIrdnt" resultMap="irdntManage-resultmap">
+		SELECT
+		<include refid="all-column" />
+		FROM IrdntManage
+		ORDER BY irdnt_id
+	</select>
+	
+	<select id="selectIrdntByName" resultMap="irdntManage-resultmap" parameterType="String">
+		SELECT
+		<include refid="all-column" />
+		FROM IrdntManage
+		where irdnt_name=#{irdntName}
+		ORDER BY irdnt_id
+	</select>
+	
+	<select id="selectIrdntById" resultMap="irdntManage-resultmap" parameterType="int">
+		SELECT
+		<include refid="all-column" />
+		FROM IrdntManage
+		where irdnt_id = #{irdntId}
+		ORDER BY irdnt_id
+	</select>
+	
+	<select id="selectIrdntByCategory" resultMap="irdntManage-resultmap" parameterType="String">
+		SELECT
+		<include refid="all-column" />
+		FROM IrdntManage
+		where irdnt_Category = #{irdntCategory}
+		ORDER BY irdnt_id
+	</select>
+	
+
+</mapper>
