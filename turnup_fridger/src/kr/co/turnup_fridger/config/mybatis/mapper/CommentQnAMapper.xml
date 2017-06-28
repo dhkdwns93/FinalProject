@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.co.turnup_fridger.config.mybatis.mapper.CommentQnAMapper">
+
+	<!-- 
+			CommentQnA 테이블 관련 mapper
+			+ CommentQnA 등록
+			+ CommentQnA 수정
+			+ CommentQnA 삭제
+			+ CommentQnA 조회
+	 -->
+
+	<!-- ResultMap CommentQnA 등록 -->
+	<resultMap id="commentQnA-resultmap" type="commentQnA">
+		<id column="COMMENT_QNA_ID" property="commentQnAId"/>
+		<result column="COMMENT_QNA_TXT" property="commentQnATxt"/>
+		<result column="COMMENT_QNA_DATE" property="commentQnADate"/>
+		<result column="ADMIN_ID" property="adminId"/>
+		<result column="BOARD_QNA_ID" property="boardQnAId"/>
+	</resultMap>
+
+</mapper>
