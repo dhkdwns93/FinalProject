@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper
-	namespace="fridgerMapper">
+<mapper namespace="fridgerMapper">
 
 <!-- 공동 select sql -->
 <sql id="select-sql">
 	SELECT	fridger_id,
 			fridger_name,
-			member_id,
+			member_id
 	FROM	fridger
 </sql>
 
@@ -15,11 +14,14 @@
 	SELECT	f.fridger_id,
 			f.fridger_name,
 			f.member_id,
-			i.irdnt_name,
+			i.my_irdnt_key,
 			i.start_date,
 			i.end_date,
 			i.fresh_level,
+			i.irdnt_id,
+			i.irdnt_name,
 			i.irdnt_count,
+			i.fridger_id
 	FROM	fridger f, myIrdnt i
 	WHERE	f.fridger_id = i.fridger_id
 </sql>
@@ -28,8 +30,11 @@
 	SELECT	f.fridger_id,
 			f.fridger_name,
 			f.member_id,
-			g.member_id
-	FROM	fridger f, fridgerGroup g
+			g.group_key,
+			g.group_join_seq,
+			g.group_member_id,
+			g.fridger_id
+	FROM	fridger f, fridger_group g
 	WHERE	f.fridger_id = g.fridger_id
 </sql>
 
@@ -38,6 +43,7 @@
 <resultMap type="fridger" id="fridger-resultmap">
 	<id column="fridger_id" property="fridgerId"/>
 	<result column="fridger_name" property="fridgerName"/>
+	<result column="member_id" property="memberId"/>
 </resultMap>
 
 
@@ -45,7 +51,7 @@
 	<collection property="fridgerGroupList" ofType="fridgerGroup">
 	  <id column="group_key" property="groupKey"/>
       <result column="group_join_seq" property="groupJoinSeq"/>
-      <result column="member_id" property="memberId"/>
+      <result column="group_member_id" property="groupMemberId"/>
       <result column="fridger_id" property="fridgerId"/>
 	</collection>
 </resultMap>
@@ -67,17 +73,17 @@
 
 <!-- sql : insert 냉장고 생성하기 ()-->
 <!-- insert / update / delete -->
+
 <insert id="insertFridger" parameterType="fridger">
-INSERT INTO	FRIDGER
-	<selectKey order="BEFORE" keyProperty="fridger_id"
-			resultType="int">
-			SELECT	fridger_ID.nextval
-			FROM	dual
+	<selectKey order="BEFORE" keyProperty="fridgerId" resultType="int">
+			SELECT	fridger_ID.nextval FROM	dual
 	</selectKey>
-VALUES(
-	#{fridger_id},
-	#{fridger_name}
-)
+	INSERT INTO	FRIDGER
+	VALUES(
+		#{fridgerId},
+		#{fridgerName},
+		#{memberId}
+	)
 </insert>
 
 
@@ -95,10 +101,15 @@ WHERE		fridger_id = #{value}
 
 
 <!-- select -->
+<!-- 전체 조회 -->
+<select id="selectFridgerAll" resultMap="fridger-resultmap">
+	<include refid="select-sql"/>
+	ORDER BY fridger_id
+</select>
 <!-- 냉장고 번호로 찾기 -->
 <select id="selectFridgerByFridgerId" parameterType="_int" resultMap="fridger-resultmap">
 	<include refid="select-sql"/>
-FROM fridger_id = #{value}
+WHERE fridger_id = #{value}
 </select>
 
 <select id="selectFridgerAndIrdntByFridgerId" parameterType="_int" resultMap="fridger-myIrdnt-resultmap">
@@ -110,32 +121,39 @@ ORDER BY	i.irdnt_name
 <select id="selectFridgerAndFridgerGroupByFridgerId" parameterType="_int" resultMap="fridger-fridgerGroup-resultmap">
 	<include refid="select-join-fridgerGroup-sql"/>
 AND		f.fridger_id = #{value}
-ORDER BY	g.member_id
+ORDER BY	g.group_member_id
 </select>
 
+
+
 <!-- 냉장고 애칭으로 찾기 -->
+<select id="selectFridgerByFridgerFullName" parameterType="java.lang.String" resultMap="fridger-resultmap">
+	<include refid="select-sql"/>
+WHERE fridger_name = #{value}
+</select>
+
 <select id="selectFridgerByFridgerName" parameterType="java.lang.String" resultMap="fridger-resultmap">
 	<include refid="select-sql"/>
-FROM fridger_name LIKE '%'||#{value}||'%'
+WHERE fridger_name LIKE '%'||#{value}||'%'
 </select>
 
 <select id="selectFridgerAndIrdntByFridgerName" parameterType="java.lang.String" resultMap="fridger-myIrdnt-resultmap">
 	<include refid="select-join-myIrdnt-sql"/>
-AND			f.fridger_name LIKE '%'||#{value}||'%'
+AND			f.fridger_name = #{value}
 ORDER BY	i.irdnt_name
 </select>
 
 <select id="selectFridgerAndFridgerGroupByFridgerName" parameterType="java.lang.String" resultMap="fridger-fridgerGroup-resultmap">
 	<include refid="select-join-fridgerGroup-sql"/>
-AND			f.fridger_name LIKE '%'||#{value}||'%'
-ORDER BY	g.member_id
+AND			f.fridger_name = #{value}
+ORDER BY	g.group_member_id
 </select>
 
 
 <!-- 냉장고 주인으로 찾기 -->
 <select id="selectFridgerByOwnerId" parameterType="_int" resultMap="fridger-resultmap">
 	<include refid="select-sql"/>
-FROM	member_id = #{value}
+WHERE	member_id = #{value}
 </select>
 
 <select id="selectFridgerAndIrdntByOwnerId" parameterType="java.lang.String" resultMap="fridger-myIrdnt-resultmap">
@@ -147,7 +165,7 @@ ORDER BY	i.irdnt_name
 <select id="selectFridgerAndFridgerGroupByOwnerId" parameterType="java.lang.String" resultMap="fridger-fridgerGroup-resultmap">
 	<include refid="select-join-fridgerGroup-sql"/>
 AND			f.member_id = #{value}
-ORDER BY	g.member_id
+ORDER BY	g.group_member_id
 </select>
 
 	

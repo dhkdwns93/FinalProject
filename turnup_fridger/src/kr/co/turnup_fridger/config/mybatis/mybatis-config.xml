@@ -2,11 +2,15 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
 
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
 	<typeAliases>
-		<package name="kr.co.turnup_fridger.vo"/>
+		<package name="kr.co.turnup_fridger.vo" />
 	</typeAliases>
 	<!-- environment를 설정하지 않음-> spring트랜젝션이 처리 -->
 	<mappers>
+
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/fridgerMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/MyIrdntMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/IrdntManageMapper.xml"/>
@@ -18,7 +22,6 @@
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/fridgerGroupMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/BoardNoticeMapper.xml"/>
 		
-	
 	</mappers>
 </configuration>
 

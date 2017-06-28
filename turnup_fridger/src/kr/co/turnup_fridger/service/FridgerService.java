@@ -24,8 +24,16 @@ public interface FridgerService {
 	/**
 	 * 냉장고 삭제 서비스
 	 * @param fridger
+	 * @throws Exception 
 	 */
-	void removeFridger(Fridger fridger);
+	void removeFridger(int fridgerId) throws Exception;
+	
+	
+	/**
+	 * 모든 냉장고 목록 보기
+	 * @return
+	 */
+	List<Fridger> findFridgerAll();
 	
 	/**
 	 * 냉장고 ID로 냉장고 조회 서비스
