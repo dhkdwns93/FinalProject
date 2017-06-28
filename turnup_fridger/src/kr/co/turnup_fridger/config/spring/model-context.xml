@@ -12,7 +12,7 @@
 	<context:component-scan base-package="kr.co.turnup_fridger.service.impl, kr.co.turnup_fridger.dao.impl"/>
 	
 	<!-- mybatis 설정 -->
-	<bean name="dataSource" class="org.apache.tomcat.dbcp.dbcp2.BasicDataSource"
+	<bean name="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
 			  p:driverClassName="oracle.jdbc.driver.OracleDriver"
 			  p:url="jdbc:oracle:thin:@127.0.0.1:1521:XE"
 			  p:username="tuf"
