@@ -16,6 +16,7 @@
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/myMemoMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/shopMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/fridgerGroupMapper.xml"/>
+		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/BoardNoticeMapper.xml"/>
 		
 	
 	</mappers>
