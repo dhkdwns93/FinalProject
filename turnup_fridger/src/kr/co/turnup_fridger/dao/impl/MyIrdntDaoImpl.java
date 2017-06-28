@@ -1,6 +1,7 @@
 package kr.co.turnup_fridger.dao.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -40,34 +41,52 @@ public class MyIrdntDaoImpl implements MyIrdntDao{
 	}
 
 	@Override
-	public MyIrdnt selectMyIrdntById(int irdntId) {
-		return session.selectOne(makeSql("selectMyIrdntById"),irdntId);
+	public MyIrdnt selectMyIrdntByKey(int irdntKey) {
+		return session.selectOne(makeSql("selectMyIrdntByKey"),irdntKey);
 	}
 
 	@Override
-	public List<MyIrdnt> selectMyIrdntByName(String irdntName) {
-		return session.selectList(makeSql("selectMyIrdntByName"),irdntName);
+	public List<MyIrdnt> selectMyIrdntByName(String irdntName,int fridgerId) {
+		HashMap map = new HashMap();
+		map.put("irdntName",irdntName);
+		map.put("fridgerId",fridgerId);
+		return session.selectList(makeSql("selectMyIrdntByName"),map);
 	}
 
 	@Override
-	public List<MyIrdnt> selectMyStaleIrdnt(String freshLevel) {
-		return session.selectList(makeSql("selectMyStaleIrdnt"),freshLevel);
+	public List<MyIrdnt> selectMyStaleIrdnt(String freshLevel,int fridgerId) {
+		HashMap map = new HashMap();
+		map.put("freshLevel",freshLevel);
+		map.put("fridgerId",fridgerId);
+		return session.selectList(makeSql("selectMyStaleIrdnt"),map);
 	}
 
 	@Override
-	public List<MyIrdnt> selectSoonExpireMyIrdnt(Date endDate) {
-		return session.selectList(makeSql("selectSoonExpireMyIrdnt"),endDate);
+	public List<MyIrdnt> selectSoonExpireMyIrdnt(Date endDate,int fridgerId) {
+		HashMap map = new HashMap();
+		map.put("endDate",endDate);
+		map.put("fridgerId",fridgerId);
+		return session.selectList(makeSql("selectSoonExpireMyIrdnt"),map);
 	}
 
 	@Override
-	public List<MyIrdnt> selectMyIrdntByStartDate(Date StartDate) {
-		return session.selectList(makeSql("selectMyIrdntByStartDate"),StartDate);
+	public List<MyIrdnt> selectMyIrdntByStartDate(Date StartDate,int fridgerId) {
+		HashMap map = new HashMap();
+		map.put("StartDate",StartDate);
+		map.put("fridgerId",fridgerId);
+		return session.selectList(makeSql("selectMyIrdntByStartDate"),map);
 	}
 
 	@Override
-	public int selectCountAllMyIrdnts() {
-		return session.selectOne(makeSql("selectCountAllMyIrdnts"));
+	public int selectCountAllMyIrdnts(int fridgerId) {
+		return session.selectOne(makeSql("selectCountAllMyIrdnts"),fridgerId);
 	}
 
+	@Override
+	public List<MyIrdnt> selectMyIrdntByFridgerId(int fridgerId) {
+		return session.selectList(makeSql("selectMyIrdntByFridgerId"),fridgerId);
+	}
+
+	
 	
 }

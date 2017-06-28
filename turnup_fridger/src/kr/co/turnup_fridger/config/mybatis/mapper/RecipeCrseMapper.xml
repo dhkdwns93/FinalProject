@@ -2,4 +2,61 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="kr.co.turnup_fridger.config.mybatis.mapper.RecipeCrseMapper">
+	
+	<sql id="all-column">
+		recipe_id,
+		cooking_no,
+		cooking_dc,
+		step_image_url,
+		step_tip
+	</sql>
+	
+	<resultMap type="RecipeCrse" id="RecipeCrse-resultmap">
+		<id column="recipe_id" property="recipeId"/>
+		<result column="cooking_no" property="cookingNo"/>
+		<result column="cooking_dc" property="cookingDc"/>
+		<result column="step_image_url" property="stepImageUrl"/>
+		<result column="step_tip" property="stepTip"/>
+	</resultMap>
+	
+	<insert id="insertRecipeCrse" parameterType="RecipeCrse">
+		insert into RecipeCrse 
+		values (#{recipeId},#{cookingNo},#{cookingDc},#{stepImageUrl},#{stepTip})
+	</insert>
+	
+	<update id="updateRecipeCrse" parameterType="RecipeCrse">
+		update RecipeCrse
+		set recipe_id=#{recipeId},
+			cooking_no=#{cookingNo},
+			cooking_dc=#{cookingDc},
+			step_image_url=#{stepImageUrl},
+			step_tip=#{stepTip}
+		where recipe_id=#{recipeId} and cooking_no = #{cookingNo}
+	</update>
+	
+	<delete id="deleteRecipeCrse" parameterType="java.util.HashMap">
+		delete from RecipeCrse
+		where recipe_id=#{recipeId.recipeId} and cooking_no=#{cookingNo.cookingNo}
+	</delete>
+	
+	<select id="selectAllRecipeCrse" resultMap="RecipeCrse-resultmap">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeCrse
+	</select>
+	
+	<select id="selectRecipeCrseById" resultMap="RecipeCrse-resultmap" parameterType="_int">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeCrse
+		where recipe_id=#{recipeId}
+	</select>
+	
+	<select id="selectRecipeCrseByIdAndNo" resultMap="RecipeCrse-resultmap" parameterType="java.util.HashMap">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeCrse
+		where recipe_id=#{recipeId.recipeId} and cooking_no=#{cookingNo.cookingNo}
+	</select>
+	
 </mapper>

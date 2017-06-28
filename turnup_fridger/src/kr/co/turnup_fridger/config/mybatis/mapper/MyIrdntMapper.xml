@@ -26,7 +26,7 @@
 	</resultMap>
 	
 	<insert id="insertMyIrdnt" parameterType="MyIrdnt">
-		<selectKey resultType="int" keyProperty="myIrdntKey" order="BEFORE">
+		<selectKey resultType="_int" keyProperty="myIrdntKey" order="BEFORE">
 			SELECT MY_IRDNT_KEY_seq.nextval FROM dual
 		</selectKey>
 		insert into MyIrdnt 
@@ -46,7 +46,7 @@
 		where my_irdnt_key=#{myIrdntKey}
 	</update>
 	
-	<delete id="deleteMyIrdnt" parameterType="int">
+	<delete id="deleteMyIrdnt" parameterType="_int">
 		delete from MyIrdnt
 		where my_irdnt_key=#{myIrdntKey}
 	</delete>
@@ -58,49 +58,58 @@
 		ORDER BY my_irdnt_key
 	</select>
 	
-	<select id="selectMyIrdntById" resultMap="MyIrdnt-resultmap" parameterType="int">
+	<select id="selectMyIrdntByKey" resultMap="MyIrdnt-resultmap" parameterType="_int">
 		SELECT
 		<include refid="all-column" />
 		FROM MyIrdnt
-		where irdnt_id =#{irdntId}
+		where my_irdnt_key=#{myIrdntKey}
 		ORDER BY my_irdnt_key
 	</select>
 	
-	<select id="selectMyIrdntByName" resultMap="MyIrdnt-resultmap" parameterType="String">
+	<select id="selectMyIrdntByName" resultMap="MyIrdnt-resultmap" parameterType="java.util.HashMap">
 		SELECT
 		<include refid="all-column" />
 		FROM MyIrdnt
-		where irdnt_name =#{irdntName}
+		where irdnt_name like '%'||#{irdntName.irdntName}||'%' and fridger_id=#{fridgerId.fridgerId}
 		ORDER BY my_irdnt_key
 	</select>
 	
-	<select id="selectMyStaleIrdnt" resultMap="MyIrdnt-resultmap" parameterType="String">
+	<select id="selectMyStaleIrdnt" resultMap="MyIrdnt-resultmap" parameterType="java.util.HashMap">
 		SELECT
 		<include refid="all-column" />
 		FROM MyIrdnt
-		where fresh_level = #{freshLevel}
+		where fresh_level = #{freshLevel.freshLevel} and fridger_id=#{fridgerId.fridgerId}
 		ORDER BY my_irdnt_key
 	</select>
 	
-	<select id="selectSoonExpireMyIrdnt" resultMap="MyIrdnt-resultmap" parameterType="java.util.Date">
+	<select id="selectSoonExpireMyIrdnt" resultMap="MyIrdnt-resultmap" parameterType="java.util.HashMap">
 		SELECT
 		<include refid="all-column" />
 		FROM MyIrdnt
-		where end_date = #{endDate}
+		where end_date = #{endDate.endDate} and fridger_id=#{fridgerId.fridgerId}
 		ORDER BY my_irdnt_key
 	</select>
 	
-	<select id="selectMyIrdntByStartDate" resultMap="MyIrdnt-resultmap" parameterType="java.util.Date">
+	<select id="selectMyIrdntByStartDate" resultMap="MyIrdnt-resultmap" parameterType="java.util.HashMap">
 		SELECT
 		<include refid="all-column" />
 		FROM MyIrdnt
-		where start_date = #{StartDate}
+		where start_date = #{StartDate.StartDate} and fridger_id=#{fridgerId.fridgerId}
 		ORDER BY my_irdnt_key
 	</select>
 	
-	<select id="selectCountAllMyIrdnts" resultType="int">
+	<select id="selectCountAllMyIrdnts" resultType="_int">
 		SELECT count(*)
 		FROM MyIrdnt
+		where fridger_id=#{fridgerId}
+		ORDER BY my_irdnt_key
+	</select>
+	
+	<select id="selectMyIrdntByFridgerId" resultType="_int">
+		SELECT 
+		<include refid="all-column" />
+		FROM MyIrdnt
+		where fridger_id=#{fridgerId}
 		ORDER BY my_irdnt_key
 	</select>
 	

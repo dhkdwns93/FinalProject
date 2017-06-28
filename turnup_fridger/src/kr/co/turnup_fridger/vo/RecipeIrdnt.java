@@ -6,9 +6,9 @@ public class RecipeIrdnt implements Serializable{
 
 	private int irdntNo;
 	private String irdntName;
-	private String indntAmount;
+	private String irdntAmount;
 	private int irdntTypeCode;
-	private String irdntTyprName;
+	private String irdntTypeName;
 	private int recipeId;
 	private int irdntId;
 	private IrdntManage irdntManage;
@@ -18,13 +18,13 @@ public class RecipeIrdnt implements Serializable{
 		
 	}
 
-	public RecipeIrdnt(int irdntNo, String irdntName, String indntAmount, int irdntTypeCode, String irdntTyprName,
+	public RecipeIrdnt(int irdntNo, String irdntName, String irdntAmount, int irdntTypeCode, String irdntTypeName,
 			int recipeId, int irdntId, IrdntManage irdntManage, kr.co.turnup_fridger.vo.RecipeInfo recipeInfo) {
 		this.irdntNo = irdntNo;
 		this.irdntName = irdntName;
-		this.indntAmount = indntAmount;
+		this.irdntAmount = irdntAmount;
 		this.irdntTypeCode = irdntTypeCode;
-		this.irdntTyprName = irdntTyprName;
+		this.irdntTypeName = irdntTypeName;
 		this.recipeId = recipeId;
 		this.irdntId = irdntId;
 		this.irdntManage = irdntManage;
@@ -47,12 +47,12 @@ public class RecipeIrdnt implements Serializable{
 		this.irdntName = irdntName;
 	}
 
-	public String getIndntAmount() {
-		return indntAmount;
+	public String getirdntAmount() {
+		return irdntAmount;
 	}
 
-	public void setIndntAmount(String indntAmount) {
-		this.indntAmount = indntAmount;
+	public void setirdntAmount(String irdntAmount) {
+		this.irdntAmount = irdntAmount;
 	}
 
 	public int getIrdntTypeCode() {
@@ -63,12 +63,12 @@ public class RecipeIrdnt implements Serializable{
 		this.irdntTypeCode = irdntTypeCode;
 	}
 
-	public String getIrdntTyprName() {
-		return irdntTyprName;
+	public String getIrdntTypeName() {
+		return irdntTypeName;
 	}
 
-	public void setIrdntTyprName(String irdntTyprName) {
-		this.irdntTyprName = irdntTyprName;
+	public void setIrdntTypeName(String irdntTypeName) {
+		this.irdntTypeName = irdntTypeName;
 	}
 
 	public int getRecipeId() {
@@ -105,8 +105,8 @@ public class RecipeIrdnt implements Serializable{
 
 	@Override
 	public String toString() {
-		return "RecipeIrdnt [irdntNo=" + irdntNo + ", irdntName=" + irdntName + ", indntAmount=" + indntAmount
-				+ ", irdntTypeCode=" + irdntTypeCode + ", irdntTyprName=" + irdntTyprName + ", recipeId=" + recipeId
+		return "RecipeIrdnt [irdntNo=" + irdntNo + ", irdntName=" + irdntName + ", irdntAmount=" + irdntAmount
+				+ ", irdntTypeCode=" + irdntTypeCode + ", irdntTypeName=" + irdntTypeName + ", recipeId=" + recipeId
 				+ ", irdntId=" + irdntId + ", irdntManage=" + irdntManage + ", RecipeInfo=" + RecipeInfo + "]";
 	}
 
@@ -115,13 +115,13 @@ public class RecipeIrdnt implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((RecipeInfo == null) ? 0 : RecipeInfo.hashCode());
-		result = prime * result + ((indntAmount == null) ? 0 : indntAmount.hashCode());
+		result = prime * result + ((irdntAmount == null) ? 0 : irdntAmount.hashCode());
 		result = prime * result + irdntId;
 		result = prime * result + ((irdntManage == null) ? 0 : irdntManage.hashCode());
 		result = prime * result + ((irdntName == null) ? 0 : irdntName.hashCode());
 		result = prime * result + irdntNo;
 		result = prime * result + irdntTypeCode;
-		result = prime * result + ((irdntTyprName == null) ? 0 : irdntTyprName.hashCode());
+		result = prime * result + ((irdntTypeName == null) ? 0 : irdntTypeName.hashCode());
 		result = prime * result + recipeId;
 		return result;
 	}
@@ -140,10 +140,10 @@ public class RecipeIrdnt implements Serializable{
 				return false;
 		} else if (!RecipeInfo.equals(other.RecipeInfo))
 			return false;
-		if (indntAmount == null) {
-			if (other.indntAmount != null)
+		if (irdntAmount == null) {
+			if (other.irdntAmount != null)
 				return false;
-		} else if (!indntAmount.equals(other.indntAmount))
+		} else if (!irdntAmount.equals(other.irdntAmount))
 			return false;
 		if (irdntId != other.irdntId)
 			return false;
@@ -161,10 +161,10 @@ public class RecipeIrdnt implements Serializable{
 			return false;
 		if (irdntTypeCode != other.irdntTypeCode)
 			return false;
-		if (irdntTyprName == null) {
-			if (other.irdntTyprName != null)
+		if (irdntTypeName == null) {
+			if (other.irdntTypeName != null)
 				return false;
-		} else if (!irdntTyprName.equals(other.irdntTyprName))
+		} else if (!irdntTypeName.equals(other.irdntTypeName))
 			return false;
 		if (recipeId != other.recipeId)
 			return false;

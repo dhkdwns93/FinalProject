@@ -25,7 +25,7 @@ public interface RecipeIrdntDao {
 	 * @param recipeId
 	 * @return
 	 */
-	int deleteRecipeIrdnt(int recipeId);
+	int deleteRecipeIrdnt(int recipeNo);
 	
 	/**
 	 *모든 재료정보들을 리턴 

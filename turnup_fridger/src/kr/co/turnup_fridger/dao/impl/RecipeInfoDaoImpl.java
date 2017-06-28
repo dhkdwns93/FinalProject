@@ -20,57 +20,57 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 	
 	@Override
 	public int insertRecipeInfo(RecipeInfo recipeInfo) {
-		return 0;
+		return session.insert(makeSql("insertRecipeInfo"),recipeInfo);
 	}
 
 	@Override
 	public int updateRecipeInfo(RecipeInfo recipeInfo) {
-		return 0;
+		return session.update(makeSql("updateRecipeInfo"),recipeInfo);
 	}
 
 	@Override
 	public int deleteRecipeInfo(int recipeId) {
-		return 0;
+		return session.delete(makeSql("deleteRecipeInfo"),recipeId);
 	}
 
 	@Override
 	public List<RecipeInfo> selectAllRecipeInfo() {
-		return null;
+		return session.selectList(makeSql("selectAllRecipeInfo"));
 	}
 
 	@Override
-	public RecipeInfo selectRecipeInfoById() {
-		return null;
+	public RecipeInfo selectRecipeInfoById(int recipeId) {
+		return session.selectOne(makeSql("selectRecipeInfoById"),recipeId);
 	}
 
 	@Override
-	public List<RecipeInfo> selectRecipeInfoByName() {
-		return null;
+	public List<RecipeInfo> selectRecipeInfoByName(String recipeName) {
+		return session.selectList(makeSql("selectRecipeInfoByName"),recipeName);
 	}
 
 	@Override
-	public List<RecipeInfo> selectRecipeInfoByLevel() {
-		return null;
+	public List<RecipeInfo> selectRecipeInfoByLevel(String recipeLevel) {
+		return session.selectList(makeSql("selectRecipeInfoByLevel"),recipeLevel);
 	}
 
 	@Override
-	public List<RecipeInfo> selectRecipeInfoByHits() {
-		return null;
+	public List<RecipeInfo> selectRecipeInfoByHits(int recipeHits) {
+		return session.selectList(makeSql("selectRecipeInfoByHits"),recipeHits);
 	}
 
 	@Override
-	public List<RecipeInfo> selectRecipeInfoBycalorie() {
-		return null;
+	public List<RecipeInfo> selectRecipeInfoBycalorie(String calroie) {
+		return session.selectList(makeSql("selectRecipeInfoBycalorie"),calroie);
 	}
 
 	@Override
-	public List<RecipeInfo> selectRecipeInfoByCategoryName() {
-		return null;
+	public List<RecipeInfo> selectRecipeInfoByCategoryName(String categoryName) {
+		return session.selectList(makeSql("selectRecipeInfoByCategoryName"),categoryName);
 	}
 
 	@Override
-	public List<RecipeInfo> selectRecipeInfoByTypeName() {
-		return null;
+	public List<RecipeInfo> selectRecipeInfoByTypeName(String typeName) {
+		return session.selectList(makeSql("selectRecipeInfoByTypeName"),typeName);
 	}
 
 	

@@ -35,43 +35,43 @@ public interface RecipeInfoDao {
 	 * 레시피코드를 통하여 레시피기본정보하나를 가져옴.
 	 * @return
 	 */
-	RecipeInfo selectRecipeInfoById();
+	RecipeInfo selectRecipeInfoById(int recipeId);
 	
 	/**
 	 * 레시피 이름을 통하여 레시피들을 가져옴
 	 * @return
 	 */
-	List<RecipeInfo> selectRecipeInfoByName();
+	List<RecipeInfo> selectRecipeInfoByName(String recipeName);
 	
 	/**
 	 * 난이도를 통하여 레시피들을 가져옴
 	 * @return
 	 */
-	List<RecipeInfo> selectRecipeInfoByLevel();
+	List<RecipeInfo> selectRecipeInfoByLevel(String recipeLevel);
 	
 	/**
 	 * 조회수를 통하여 레시피들을 가져옴(일정기준을 줄것)
 	 * @return
 	 */
-	List<RecipeInfo> selectRecipeInfoByHits();
+	List<RecipeInfo> selectRecipeInfoByHits(int recipeHits);
 	
 	/**
 	 * 칼로리정보를 통하여 레시피들을 가져옴
 	 * @return
 	 */
-	List<RecipeInfo> selectRecipeInfoBycalorie();
+	List<RecipeInfo> selectRecipeInfoBycalorie(String calorie);
 	
 	/**
 	 * 유형분류명(한식,중식...)을 통하여 레시피들을 가져옴
 	 * @return
 	 */
-	List<RecipeInfo> selectRecipeInfoByCategoryName();
+	List<RecipeInfo> selectRecipeInfoByCategoryName(String categoryName);
 	
 	/**
 	 * 음식분류명(밥,찌개 ...)을 통하여 레시피들을 가져옴
 	 * @return
 	 */
-	List<RecipeInfo> selectRecipeInfoByTypeName();
+	List<RecipeInfo> selectRecipeInfoByTypeName(String typeName);
 	
 	
 }

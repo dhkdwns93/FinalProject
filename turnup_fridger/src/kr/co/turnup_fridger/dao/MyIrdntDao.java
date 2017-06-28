@@ -22,7 +22,7 @@ public interface MyIrdntDao {
 	int updateMyIrdnt(MyIrdnt irdnt);
 	
 	/**
-	 * 나의 식재료 테이블에 입력된 식재료의 재료id와 냉장고id를 받아서 그 재료를 삭제.
+	 * 나의 식재료 테이블에  식재료의 key를 받아서 그 재료를 삭제.
 	 * @param irdntId
 	 * @return
 	 */
@@ -35,46 +35,53 @@ public interface MyIrdntDao {
 	List<MyIrdnt> selectAllInfoMyIrdnt();
 	
 	/**
-	 * 식재료 id와 냉장고id를 입력해서 해당하는 식재료의 정보를 가져온다. 
+	 * irdntKey로 해당하는 식재료의 정보를 가져온다. 
 	 * @param irdntId
 	 * @param fridgerId
 	 * @return
 	 */
-	MyIrdnt selectMyIrdntById(int irdntId);
+	MyIrdnt selectMyIrdntByKey(int irdntKey);
 	
 	/**
-	 * 재료명으로 검색하여 해당하는 나의 식재료의 정보를 가져온다.  
+	 * 재료명으로 검색하여 해당하는 나의 식재료의 정보를 가져온다. (부분일치) 
 	 * @param irdntName
 	 * @return
 	 */
-	List<MyIrdnt> selectMyIrdntByName(String irdntName);
+	List<MyIrdnt> selectMyIrdntByName(String irdntName,int fridgerId);
 	
 	
 	/**
-	 * 신선도가 나쁜 상태인 음식들만 가져오기
+	 * 신선도를 입력받아서 해당하는 음식들 가져오기
 	 * @return
 	 */
-	List<MyIrdnt> selectMyStaleIrdnt(String freshLevel);
+	List<MyIrdnt> selectMyStaleIrdnt(String freshLevel,int fridgerId);
 	
 	
 	/**
 	 * 유통기한 임박인 상태의 음식들만 가져오기 
 	 * @return
 	 */
-	List<MyIrdnt> selectSoonExpireMyIrdnt(Date endDate);
+	List<MyIrdnt> selectSoonExpireMyIrdnt(Date endDate,int fridgerId);
 	
 	
 	/**
 	 * 보관시작일로 검색하여 음식들을 가져오기
 	 * @return
 	 */
-	List<MyIrdnt> selectMyIrdntByStartDate(Date startDate);
+	List<MyIrdnt> selectMyIrdntByStartDate(Date startDate,int fridgerId);
 	
 	/**
 	 * 현재 갖고있는 모든 식재료의 종류 수
 	 * @return
 	 */
-	int selectCountAllMyIrdnts();
+	int selectCountAllMyIrdnts(int fridgerId);
+	
+	/**
+	 * 냉장고id로 전체 식재료목록 가져오기
+	 * @param fridgerId
+	 * @return
+	 */
+	List<MyIrdnt> selectMyIrdntByFridgerId(int fridgerId);
 	
 	
 	
