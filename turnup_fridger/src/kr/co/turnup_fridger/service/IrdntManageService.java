@@ -9,20 +9,23 @@ public interface IrdntManageService {
 	/**
 	 * 재료 등력
 	 * @param irdnt
+	 * @throws Exception 
 	 */
-	void createIrdnt(IrdntManage irdnt);
+	void createIrdnt(IrdntManage irdnt) throws Exception;
 	
 	/**
 	 * 재료수정
 	 * @param irdnt
+	 * @throws Exception 
 	 */
-	void updateIrdnt(IrdntManage irdnt);
+	void updateIrdnt(IrdntManage irdnt) throws Exception;
 	
 	/**
 	 * 재료삭제
 	 * @param irdntId
+	 * @throws Exception 
 	 */
-	void deleteIrdnt(int irdntId);
+	void deleteIrdnt(int irdntId) throws Exception;
 	
 	/**
 	 * 모든 재료 불러오기

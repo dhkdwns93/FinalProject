@@ -29,6 +29,11 @@ public class ShopDaoImpl implements ShopDao{
 	}
 
 	@Override
+	public Shop selectShopById(int shopId) {
+		return session.selectOne(sql+"selectShopById", shopId);
+	}
+	
+	@Override
 	public List<Shop> selectShopList() {
 		return session.selectList(sql+"selectShopList");
 	}

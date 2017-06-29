@@ -21,6 +21,21 @@ public class MyIrdnt {
 		
 	}
 
+	
+	public MyIrdnt(int myIrdntKey, Date startDate, Date endDate, int freshLevel, String irdntCount, int irdntId,
+			String irdntName, int fridgerId, String startFreshLevel) {
+		this.myIrdntKey = myIrdntKey;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.freshLevel = freshLevel;
+		this.irdntCount = irdntCount;
+		this.irdntId = irdntId;
+		this.irdntName = irdntName;
+		this.fridgerId = fridgerId;
+		this.startFreshLevel = startFreshLevel;
+	}
+
+
 	public MyIrdnt(int myIrdntKey, Date startDate, Date endDate, int freshLevel, String irdntCount, int irdntId,
 			String irdntName, int fridgerId, String startFreshLevel, Fridger fridger, IrdntManage irdntManage) {
 		this.myIrdntKey = myIrdntKey;
