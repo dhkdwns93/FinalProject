@@ -54,7 +54,7 @@ public class MyIrdntDaoImpl implements MyIrdntDao{
 	}
 
 	@Override
-	public List<MyIrdnt> selectMyStaleIrdnt(String freshLevel,int fridgerId) {
+	public List<MyIrdnt> selectMyStaleIrdnt(int freshLevel,int fridgerId) {
 		HashMap map = new HashMap();
 		map.put("freshLevel",freshLevel);
 		map.put("fridgerId",fridgerId);

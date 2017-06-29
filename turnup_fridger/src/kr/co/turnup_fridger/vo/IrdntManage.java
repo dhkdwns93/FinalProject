@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class IrdntManage implements Serializable{
 
+	
 	private int irdntId;
 	private String irdntName;
 	private int irdntPeriod;
