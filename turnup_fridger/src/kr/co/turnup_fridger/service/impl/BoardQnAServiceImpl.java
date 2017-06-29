@@ -82,7 +82,7 @@ public class BoardQnAServiceImpl implements BoardQnAService {
 	public static void main(String[] args) {
 		//ApplicationContext 객체 생성
 		ApplicationContext container = new ClassPathXmlApplicationContext("kr/co/turnup_fridger/config/spring/model-context.xml");
-		//Spring 컨테이너로 부터 BoardNoticeService bean 가져오기
+		//Spring 컨테이너로 부터 BoardQnAService bean 가져오기
 		BoardQnAService service = (BoardQnAService)container.getBean("boardQnAServiceImpl");
 		//service.addBoardQnA(new BoardQnA(1, "회원수요청입니다.", "회원 수정하고 싶은데 어떻게 해야 하나요?", new Date(2017-1900,01,02), "jang"));
 		//service.addBoardQnA(new BoardQnA(2, "회원탈퇴요청입니다.", "그만 이 사이트를 이용하고 싶습니다.", new Date(2017-1900,01,02), "jang"));

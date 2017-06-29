@@ -1,6 +1,7 @@
 package kr.co.turnup_fridger.vo;
 
 import java.util.Date;
+import java.util.List;
 
 public class CommentQnA 
 {
@@ -11,49 +12,23 @@ public class CommentQnA
 	private String adminId;
 	private Admin admin;
 	
+	private String memberId;
+	private Member member;
+	
 	private int boardQnAId; 
 	private BoardQnA boardQnA;
 	
 	public CommentQnA(){}
 
-	public CommentQnA(int commentQnAId, String commentQnATxt, Date commentQnADate, String adminId, int boardQnAId) {
 
-		this.commentQnAId = commentQnAId;
-		this.commentQnATxt = commentQnATxt;
-		this.commentQnADate = commentQnADate;
-		this.adminId = adminId;
-		this.boardQnAId = boardQnAId;
-	}
-
-	public CommentQnA(int commentQnAId, String commentQnATxt, Date commentQnADate, String adminId, Admin admin) {
-		super();
-		this.commentQnAId = commentQnAId;
-		this.commentQnATxt = commentQnATxt;
-		this.commentQnADate = commentQnADate;
-		this.adminId = adminId;
-		this.admin = admin;
-	}
-
-	public CommentQnA(int commentQnAId, String commentQnATxt, Date commentQnADate, String adminId, Admin admin,
+	public CommentQnA(int commentQnAId, String commentQnATxt, Date commentQnADate, String adminId, String memberId,
 			int boardQnAId) {
-
 		this.commentQnAId = commentQnAId;
 		this.commentQnATxt = commentQnATxt;
 		this.commentQnADate = commentQnADate;
 		this.adminId = adminId;
-		this.admin = admin;
+		this.memberId = memberId;
 		this.boardQnAId = boardQnAId;
-	}
-
-	public CommentQnA(int commentQnAId, String commentQnATxt, Date commentQnADate, String adminId, Admin admin,
-			int boardQnAId, BoardQnA boardQnA) {
-		this.commentQnAId = commentQnAId;
-		this.commentQnATxt = commentQnATxt;
-		this.commentQnADate = commentQnADate;
-		this.adminId = adminId;
-		this.admin = admin;
-		this.boardQnAId = boardQnAId;
-		this.boardQnA = boardQnA;
 	}
 
 	public int getCommentQnAId() {
@@ -96,6 +71,22 @@ public class CommentQnA
 		this.admin = admin;
 	}
 
+	public String getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+
+	public Member getMember() {
+		return member;
+	}
+
+	public void setMember(Member member) {
+		this.member = member;
+	}
+
 	public int getBoardQnAId() {
 		return boardQnAId;
 	}
@@ -115,8 +106,8 @@ public class CommentQnA
 	@Override
 	public String toString() {
 		return "CommentQnA [commentQnAId=" + commentQnAId + ", commentQnATxt=" + commentQnATxt + ", commentQnADate="
-				+ commentQnADate + ", adminId=" + adminId + ", admin=" + admin + ", boardQnAId=" + boardQnAId
-				+ ", boardQnA=" + boardQnA + "]";
+				+ commentQnADate + ", adminId=" + adminId + ", admin=" + admin + ", memberId=" + memberId + ", member="
+				+ member + ", boardQnAId=" + boardQnAId + ", boardQnA=" + boardQnA + "]";
 	}
 
 	@Override
@@ -130,6 +121,8 @@ public class CommentQnA
 		result = prime * result + ((commentQnADate == null) ? 0 : commentQnADate.hashCode());
 		result = prime * result + commentQnAId;
 		result = prime * result + ((commentQnATxt == null) ? 0 : commentQnATxt.hashCode());
+		result = prime * result + ((member == null) ? 0 : member.hashCode());
+		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
 		return result;
 	}
 
@@ -171,9 +164,20 @@ public class CommentQnA
 				return false;
 		} else if (!commentQnATxt.equals(other.commentQnATxt))
 			return false;
+		if (member == null) {
+			if (other.member != null)
+				return false;
+		} else if (!member.equals(other.member))
+			return false;
+		if (memberId == null) {
+			if (other.memberId != null)
+				return false;
+		} else if (!memberId.equals(other.memberId))
+			return false;
 		return true;
 	}
 
 	
-
+	
+	
 }
