@@ -10,11 +10,6 @@ public class Admin implements Serializable {
 	private String adminEmail;
 	private String adminAuthority;
 	
-	//QnA 댓글     작성자 - 김장규
-	private int boardQnAId;
-	private CommentQnA commentQnA;
-	
-	
 	public Admin(){}
 	
 	public Admin(String adminId, String adminPw, String adminName, String adminTel, String adminEmail,
@@ -25,20 +20,6 @@ public class Admin implements Serializable {
 		this.adminTel = adminTel;
 		this.adminEmail = adminEmail;
 		this.adminAuthority = adminAuthority;
-	}
-	
-	//QnA 댓글     작성자 - 김장규
-	public Admin(String adminId, String adminPw, String adminName, String adminTel, String adminEmail,
-			String adminAuthority, int boardQnAId, CommentQnA commentQnA) {
-		super();
-		this.adminId = adminId;
-		this.adminPw = adminPw;
-		this.adminName = adminName;
-		this.adminTel = adminTel;
-		this.adminEmail = adminEmail;
-		this.adminAuthority = adminAuthority;
-		this.boardQnAId = boardQnAId;
-		this.commentQnA = commentQnA;
 	}
 
 	public String getAdminId() {
@@ -89,27 +70,10 @@ public class Admin implements Serializable {
 		this.adminAuthority = adminAuthority;
 	}
 
-	public int getBoardQnAId() {
-		return boardQnAId;
-	}
-
-	public void setBoardQnAId(int boardQnAId) {
-		this.boardQnAId = boardQnAId;
-	}
-
-	public CommentQnA getCommentQnA() {
-		return commentQnA;
-	}
-
-	public void setCommentQnA(CommentQnA commentQnA) {
-		this.commentQnA = commentQnA;
-	}
-
 	@Override
 	public String toString() {
 		return "Admin [adminId=" + adminId + ", adminPw=" + adminPw + ", adminName=" + adminName + ", adminTel="
-				+ adminTel + ", adminEmail=" + adminEmail + ", adminAuthority=" + adminAuthority + ", boardQnAId="
-				+ boardQnAId + ", commentQnA=" + commentQnA + "]";
+				+ adminTel + ", adminEmail=" + adminEmail + ", adminAuthority=" + adminAuthority + "]";
 	}
 
 	@Override
@@ -122,8 +86,6 @@ public class Admin implements Serializable {
 		result = prime * result + ((adminName == null) ? 0 : adminName.hashCode());
 		result = prime * result + ((adminPw == null) ? 0 : adminPw.hashCode());
 		result = prime * result + ((adminTel == null) ? 0 : adminTel.hashCode());
-		result = prime * result + boardQnAId;
-		result = prime * result + ((commentQnA == null) ? 0 : commentQnA.hashCode());
 		return result;
 	}
 
@@ -166,15 +128,9 @@ public class Admin implements Serializable {
 				return false;
 		} else if (!adminTel.equals(other.adminTel))
 			return false;
-		if (boardQnAId != other.boardQnAId)
-			return false;
-		if (commentQnA == null) {
-			if (other.commentQnA != null)
-				return false;
-		} else if (!commentQnA.equals(other.commentQnA))
-			return false;
 		return true;
 	}
+	
 	
 	
 }

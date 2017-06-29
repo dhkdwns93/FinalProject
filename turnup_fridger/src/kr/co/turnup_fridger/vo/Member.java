@@ -12,8 +12,6 @@ public class Member implements Serializable{
 	private String memberTel;
 	private String memberSex;
 	
-	//작성자 - 김장규
-	private List<BoardQnA> boardQnAList;
 	
 	public Member(){}
 	
@@ -27,20 +25,6 @@ public class Member implements Serializable{
 		this.memberEmail = memberEmail;
 		this.memberTel = memberTel;
 		this.memberSex = memberSex;
-	}
-	
-
-	//작성자 - 김장규
-	public Member(String memberId, String memberPw, String memberName, String memberAddress, String memberEmail,
-			String memberTel, String memberSex, List<BoardQnA> boardQnAList) {
-		this.memberId = memberId;
-		this.memberPw = memberPw;
-		this.memberName = memberName;
-		this.memberAddress = memberAddress;
-		this.memberEmail = memberEmail;
-		this.memberTel = memberTel;
-		this.memberSex = memberSex;
-		this.boardQnAList = boardQnAList;
 	}
 
 
@@ -114,21 +98,11 @@ public class Member implements Serializable{
 	}
 
 
-	public List<BoardQnA> getBoardQnAList() {
-		return boardQnAList;
-	}
-
-
-	public void setBoardQnAList(List<BoardQnA> boardQnAList) {
-		this.boardQnAList = boardQnAList;
-	}
-
-
 	@Override
 	public String toString() {
 		return "Member [memberId=" + memberId + ", memberPw=" + memberPw + ", memberName=" + memberName
 				+ ", memberAddress=" + memberAddress + ", memberEmail=" + memberEmail + ", memberTel=" + memberTel
-				+ ", memberSex=" + memberSex + ", boardQnAList=" + boardQnAList + "]";
+				+ ", memberSex=" + memberSex + "]";
 	}
 
 
@@ -136,7 +110,6 @@ public class Member implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((boardQnAList == null) ? 0 : boardQnAList.hashCode());
 		result = prime * result + ((memberAddress == null) ? 0 : memberAddress.hashCode());
 		result = prime * result + ((memberEmail == null) ? 0 : memberEmail.hashCode());
 		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
@@ -157,11 +130,6 @@ public class Member implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Member other = (Member) obj;
-		if (boardQnAList == null) {
-			if (other.boardQnAList != null)
-				return false;
-		} else if (!boardQnAList.equals(other.boardQnAList))
-			return false;
 		if (memberAddress == null) {
 			if (other.memberAddress != null)
 				return false;
@@ -199,4 +167,5 @@ public class Member implements Serializable{
 			return false;
 		return true;
 	}
+
 }
