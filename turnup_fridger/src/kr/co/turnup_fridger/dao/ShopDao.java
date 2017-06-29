@@ -23,6 +23,13 @@ public interface ShopDao {
 	public int deleteShop(int shopId);
 	
 	/**
+	 * 하나의 쇼핑몰정보를 조회하는 메소드
+	 * @param shopId
+	 * @return
+	 */
+	public Shop selectShopById(int shopId);
+	
+	/**
 	 * 전체 쇼핑몰리스트를 조회하는 메소드
 	 * @param session
 	 * @return
