@@ -6,21 +6,25 @@ import kr.co.turnup_fridger.vo.MyMemo;
 
 public interface MyMemoService {
 
+
 	/**
 	 * 장바구니 메모 등록
 	 * @param memo
+	 * @throws Exception
 	 */
 	void insertMemo(MyMemo memo) throws Exception;
 	
 	/**
 	 * 장바구니 메모 수정
 	 * @param memo
+	 * @throws Exception
 	 */
 	void updateMemo(MyMemo memo) throws Exception;
 	
 	/**
 	 * 장바구니 메모 삭제
 	 * @param memoId
+	 * @throws Exception
 	 */
 	void deleteMemo(int memoId) throws Exception;
 	
