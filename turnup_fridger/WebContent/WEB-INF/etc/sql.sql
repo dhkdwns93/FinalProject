@@ -367,11 +367,12 @@ DROP TABLE join_process;
 DELETE FROM join_process;
 CREATE TABLE join_process (
 	process_no		NUMBER	PRIMARY KEY,	/* 처리번호*/
-	process_sn		NUMBER	NOT NULL,		/* 처리상태 고유 번호*/
 	process_fridger_id	NUMBER	NOT NULL,	/*처리대상 냉장고 (그룹)*/
-	process_state	VARCHAR2(20)	NOT NULL, /*처리상태*/
-	req_member_id	VARCHAR2(20)	NOT NULL, 
-	resp_member_id	VARCHAR2(20)	NOT NULL,
+	process_state	NUMBER	NOT NULL,	/*처리상태: 10-가입승인대기,11-가입승인완료, 12-가입승인거절,20-초대승인대기,21-초대승인완료, 22-초대승인거절*/
+	req_date	DATE	NOT NULL,	/*신청일*/
+	resp_date	DATE,				/*승인일*/
+	req_member_id	VARCHAR2(20)	NOT NULL,	/*요청회원*/
+	resp_member_id	VARCHAR2(20)	NOT NULL,	/*응답회원*/
 CONSTRAINT pprocess_fridger_id_fk FOREIGN KEY(process_fridger_id) REFERENCES FRIDGER(fridger_id),
 CONSTRAINT req_member_id_fk FOREIGN KEY(req_member_id) REFERENCES MEMBER(member_id),
 CONSTRAINT resp_member_id_fk FOREIGN KEY(resp_member_id) REFERENCES MEMBER(member_id)

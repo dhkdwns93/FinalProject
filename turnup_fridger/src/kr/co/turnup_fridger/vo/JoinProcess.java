@@ -1,25 +1,39 @@
 package kr.co.turnup_fridger.vo;
 
+import java.util.Date;
+
 public class JoinProcess {
 	private int processNo;
-	private int processSn;
 	private int processFridgerId;
-	private String processState;
+	private int processState;
+	private Date reqDate;
+	private Date respDate;
 	private String reqMemberId;
-	private String resqMemberId;
+	private String respMemberId;
 	
+
+
+
 	public JoinProcess() {
 	}
 
-	public JoinProcess(int processNo, int processSn, int processFridgerId, String processState, String reqMemberId,
-			String resqMemberId) {
+	
+	public JoinProcess(int processNo, int processFridgerId, int processState, Date reqDate, Date respDate,
+			String reqMemberId, String respMemberId) {
 		this.processNo = processNo;
-		this.processSn = processSn;
 		this.processFridgerId = processFridgerId;
 		this.processState = processState;
+		this.reqDate = reqDate;
+		this.respDate = respDate;
 		this.reqMemberId = reqMemberId;
-		this.resqMemberId = resqMemberId;
+		this.respMemberId = respMemberId;
 	}
+
+
+
+	
+
+
 
 	public int getProcessNo() {
 		return processNo;
@@ -27,14 +41,6 @@ public class JoinProcess {
 
 	public void setProcessNo(int processNo) {
 		this.processNo = processNo;
-	}
-
-	public int getProcessSn() {
-		return processSn;
-	}
-
-	public void setProcessSn(int processSn) {
-		this.processSn = processSn;
 	}
 
 	public int getProcessFridgerId() {
@@ -45,13 +51,33 @@ public class JoinProcess {
 		this.processFridgerId = processFridgerId;
 	}
 
-	public String getProcessState() {
+	public int getProcessState() {
 		return processState;
 	}
 
-	public void setProcessState(String processState) {
+	public void setProcessState(int processState) {
 		this.processState = processState;
 	}
+
+	public Date getReqDate() {
+		return reqDate;
+	}
+
+
+	public void setReqDate(Date reqDate) {
+		this.reqDate = reqDate;
+	}
+
+
+	public Date getRespDate() {
+		return respDate;
+	}
+
+
+	public void setRespDate(Date respDate) {
+		this.respDate = respDate;
+	}
+
 
 	public String getReqMemberId() {
 		return reqMemberId;
@@ -61,13 +87,16 @@ public class JoinProcess {
 		this.reqMemberId = reqMemberId;
 	}
 
-	public String getResqMemberId() {
-		return resqMemberId;
+	public String getRespMemberId() {
+		return respMemberId;
 	}
 
-	public void setResqMemberId(String resqMemberId) {
-		this.resqMemberId = resqMemberId;
+	public void setRespMemberId(String respMemberId) {
+		this.respMemberId = respMemberId;
 	}
+
+
+	
 
 	@Override
 	public int hashCode() {
@@ -75,12 +104,14 @@ public class JoinProcess {
 		int result = 1;
 		result = prime * result + processFridgerId;
 		result = prime * result + processNo;
-		result = prime * result + processSn;
-		result = prime * result + ((processState == null) ? 0 : processState.hashCode());
+		result = prime * result + processState;
+		result = prime * result + ((reqDate == null) ? 0 : reqDate.hashCode());
 		result = prime * result + ((reqMemberId == null) ? 0 : reqMemberId.hashCode());
-		result = prime * result + ((resqMemberId == null) ? 0 : resqMemberId.hashCode());
+		result = prime * result + ((respDate == null) ? 0 : respDate.hashCode());
+		result = prime * result + ((respMemberId == null) ? 0 : respMemberId.hashCode());
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -95,36 +126,38 @@ public class JoinProcess {
 			return false;
 		if (processNo != other.processNo)
 			return false;
-		if (processSn != other.processSn)
+		if (processState != other.processState)
 			return false;
-		if (processState == null) {
-			if (other.processState != null)
+		if (reqDate == null) {
+			if (other.reqDate != null)
 				return false;
-		} else if (!processState.equals(other.processState))
+		} else if (!reqDate.equals(other.reqDate))
 			return false;
 		if (reqMemberId == null) {
 			if (other.reqMemberId != null)
 				return false;
 		} else if (!reqMemberId.equals(other.reqMemberId))
 			return false;
-		if (resqMemberId == null) {
-			if (other.resqMemberId != null)
+		if (respDate == null) {
+			if (other.respDate != null)
 				return false;
-		} else if (!resqMemberId.equals(other.resqMemberId))
+		} else if (!respDate.equals(other.respDate))
+			return false;
+		if (respMemberId == null) {
+			if (other.respMemberId != null)
+				return false;
+		} else if (!respMemberId.equals(other.respMemberId))
 			return false;
 		return true;
 	}
 
+
 	@Override
 	public String toString() {
-		return "JoinProcess [processNo=" + processNo + ", processSn=" + processSn + ", processFridgerId="
-				+ processFridgerId + ", processState=" + processState + ", reqMemberId=" + reqMemberId
-				+ ", resqMemberId=" + resqMemberId + "]";
+		return "JoinProcess [processNo=" + processNo + ", processFridgerId=" + processFridgerId + ", processState="
+				+ processState + ", reqDate=" + reqDate + ", respDate=" + respDate + ", reqMemberId=" + reqMemberId
+				+ ", respMemberId=" + respMemberId + "]";
 	}
-	
-	
-	
-	
 	
 	
 }
