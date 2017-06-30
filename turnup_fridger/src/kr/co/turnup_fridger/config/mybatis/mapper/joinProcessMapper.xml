@@ -2,6 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="joinProcessMapper">
+	
+	
 	<!-- 공통 SQL -->
 	<sql id="select-sql">
 		SELECT	process_no,
@@ -29,6 +31,9 @@
 
 	<!-- insert : 가입신청/초대가 들어오면 삽입됨 -->
 	<insert id="insertJoinProcess" parameterType="joinProcess">
+		<selectKey order="BEFORE" keyProperty="processNo" resultType="int">
+			SELECT	process_no.nextval FROM	dual
+		</selectKey>
 		INSERT INTO join_process
 		VALUES (
 			#{processNo},
@@ -38,7 +43,7 @@
 			#{respDate},
 			#{reqMemberId},
 			#{respMemberId}
-		);
+		)
 	</insert>
 	
 	<!-- update : 처리상태 변경 -->
@@ -98,6 +103,12 @@
 	<select id="selectJoinProcessAll" resultMap="joinProcess-resultmap">
 		<include refid="select-sql"/>
 		ORDER BY	process_no
+	</select>
+	
+	<!-- 처리번호로 -->
+	<select id="selectJoinProcessByProcessNo" parameterType="_int">
+		<include refid="select-sql"/>
+		WHERE process_no = #{value}
 	</select>
 	
 	<!-- 특정 냉장고의 가입처리 목록 조회 -->

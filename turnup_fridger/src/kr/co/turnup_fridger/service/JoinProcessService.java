@@ -14,14 +14,14 @@ public interface JoinProcessService {
 	 * @param joinProcess
 	 * @return
 	 */
-	public void requestJoinFridgerGroup(String reqMemberId, Fridger fridger) throws Exception;
+	public void requestJoinFridgerGroup(JoinProcess joinProcess) throws Exception;
 	
 	/**
 	 * 냉장고(그룹) 초대 신청 처리상태 추가
 	 * @param joinProcess
 	 * @return
 	 */
-	public void inviteJoinFridgerGroup(Fridger fridger, String respMemberId) throws Exception;
+	public void inviteJoinFridgerGroup(JoinProcess joinProcess) throws Exception;
 	
 	/**
 	 * 냉장고(그룹) 가입 신청 / 초대 처리상태 변경

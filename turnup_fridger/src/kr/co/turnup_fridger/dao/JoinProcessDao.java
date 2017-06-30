@@ -41,6 +41,12 @@ public interface JoinProcessDao {
 	 */
 	int deleteJoinProcessCompleted6MonthsBefore();
 
+	/**
+	 * 처리번호로 select
+	 * @param processNo
+	 * @return
+	 */
+	JoinProcess selectJoinProcessByProcessNo(int processNo);
 
 	/**
 	 * 모든 가입처리 목록 select

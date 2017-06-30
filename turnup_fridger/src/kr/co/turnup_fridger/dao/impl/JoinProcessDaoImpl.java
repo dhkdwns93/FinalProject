@@ -48,6 +48,12 @@ public class JoinProcessDaoImpl implements JoinProcessDao{
 	}
 
 	
+
+	@Override
+	public JoinProcess selectJoinProcessByProcessNo(int processNo) {
+		return session.selectOne(makeSql("selectJoinProcessByProcessNo"), processNo);
+	}
+
 	
 	
 	@Override

@@ -5,122 +5,123 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import kr.co.turnup_fridger.dao.FridgerDao;
 import kr.co.turnup_fridger.dao.JoinProcessDao;
 import kr.co.turnup_fridger.service.JoinProcessService;
 import kr.co.turnup_fridger.vo.Fridger;
 import kr.co.turnup_fridger.vo.JoinProcess;
 
+@Service("joinProcessService")
 public class JoinProcessServiceImpl implements JoinProcessService{
 
 	@Autowired
-	private JoinProcessDao dao;
+	private JoinProcessDao jdao;
 	
-	
-	
+	@Autowired
+	private FridgerDao fdao;
 
 	@Override
-	public void requestJoinFridgerGroup(String reqMemberId, Fridger fridger) throws Exception {
+	public void requestJoinFridgerGroup(JoinProcess joinProcess) throws Exception {
 		//존재하는 냉장고인지 체크
-		if(dao.selectJoinProcessByFridgerId(fridger.getFridgerId()) == null || dao.selectJoinProcessByFridgerId(fridger.getFridgerId()).isEmpty()){
+		if(fdao.selectFridgerByFridgerId(joinProcess.getProcessFridgerId()) == null){
 			throw new Exception("존재하지 않는 냉장고 입니다.");
 		}
 		//한 냉장고(그룹)에 대해 중복요청인지 체크
 		// (1)냉장고 id로 검색된 가입처리 목록 가져오기
-		for(JoinProcess jp : dao.selectJoinProcessByFridgerId(fridger.getFridgerId())){
+		for(JoinProcess jp : jdao.selectJoinProcessByFridgerId(joinProcess.getProcessFridgerId())){
 			
-			if(jp.getReqMemberId().equals(reqMemberId) && jp.getProcessState() == 10){
+			if(jp.getReqMemberId().equals(joinProcess.getReqMemberId()) && jp.getProcessState() == 10){
 				//(2)목록의 신청자에 id가 있고, 처리상태가 10(가입승인대기)일 때
 				throw new Exception("이미 가입승인대기중인 냉장고입니다.");
 			}
 		}
 		//(3)목록의 신청자가 아니라면 -> 가입처리 목록에 가입승인대기(10) 상태로 추가
-		dao.insertJoinProcess(new JoinProcess(0, fridger.getFridgerId(), 10, new Date(), null, reqMemberId, fridger.getMemberId() ));
+		jdao.insertJoinProcess(joinProcess);
 	}
 
 	@Override
-	public void inviteJoinFridgerGroup(Fridger fridger, String respMemberId) throws Exception {
+	public void inviteJoinFridgerGroup(JoinProcess joinProcess) throws Exception {
 		// 존재하는 회원인지 체크
 		/*if (){
 		}*/
 		
 		// 같은 회원(그룹)에 대해 중복요청인지 체크
 		// (1)냉장고 id로 검색된 가입처리 목록 가져오기
-		for (JoinProcess jp : dao.selectJoinProcessByFridgerId(fridger.getFridgerId())) {
-			if (jp.getRespMemberId().equals(respMemberId) && jp.getProcessState() == 20) {
+		for (JoinProcess jp : jdao.selectJoinProcessByFridgerId(joinProcess.getProcessFridgerId())) {
+			if (jp.getRespMemberId().equals(joinProcess.getRespMemberId()) && jp.getProcessState() == 20) {
 				// (2)목록의 신청자에 id가 있고, 처리상태가 20(초대승인대기)일 때
 				throw new Exception("이미 초대승인대기중인 회원입니다.");
 			}
 		}
 		// (3)목록의 응답자가 아니라면 -> 가입처리 목록에 초대승인대기(20) 상태로 추가
-		dao.insertJoinProcess(
-				new JoinProcess(0, fridger.getFridgerId(), 20, new Date(), null, fridger.getMemberId(), respMemberId));
+		jdao.insertJoinProcess(joinProcess);
 	}
 
 	@Override
 	public void updateJoinProcess(JoinProcess joinProcess) throws Exception {
-		// TODO Auto-generated method stub
+		//처리번호 오류
+		if(jdao.selectJoinProcessByProcessNo(joinProcess.getProcessNo()) == null){
+			throw new Exception("처리번호가 존재하지 않습니다!");
+		}
+		jdao.updateJoinProcess(joinProcess);
 		
 	}
 
 	@Override
 	public int removeJoinProcessByProcessNo(ArrayList<Integer> processNoList) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		if(processNoList == null || processNoList.isEmpty()){
+			throw new Exception("선택하신 가입처리가 없습니다.");
+		}
+		return jdao.deleteJoinProcessByProcessNo(processNoList);
 	}
 
 	@Override
 	public int removeJoinProcessNotProcessedIn14Days() {
-		// TODO Auto-generated method stub
-		return 0;
+		return jdao.deleteJoinProcessNotProcessedIn14Days();
 	}
 
 	@Override
 	public int removeJoinProcessCompleted6MonthsBefore() {
-		// TODO Auto-generated method stub
-		return 0;
+		return jdao.deleteJoinProcessCompleted6MonthsBefore();
 	}
 
 	@Override
 	public List<JoinProcess> findJoinProcessAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return jdao.selectJoinProcessAll();
 	}
 
 	@Override
 	public List<JoinProcess> findJoinProcessByFridgerId(int fridgerId) {
-		// TODO Auto-generated method stub
-		return null;
+		return jdao.selectJoinProcessByFridgerId(fridgerId);
 	}
 
 	@Override
 	public List<JoinProcess> findJoinProcessByProcessState(int processState) {
-		// TODO Auto-generated method stub
-		return null;
+		return jdao.selectJoinProcessByProcessState(processState);
 	}
 
 	@Override
 	public List<JoinProcess> findJoinProcessByRequestMemberId(String reqMemberId) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return jdao.selectJoinProcessByRequestMemberId(reqMemberId);
 	}
 
 	@Override
 	public List<JoinProcess> findJoinProcessByResponseMemberId(String respMemberId) {
-		// TODO Auto-generated method stub
-		return null;
+
+		return jdao.selectJoinProcessByResponseMemberId(respMemberId);
 	}
 
 	@Override
 	public List<JoinProcess> findJoinProcessByRequestDate(Date requestDate) {
-		// TODO Auto-generated method stub
-		return null;
+		return jdao.selectJoinProcessByRequestDate(requestDate);
 	}
 
 	@Override
 	public List<JoinProcess> findJoinProcessByResponseDate(Date responseDate) {
-		// TODO Auto-generated method stub
-		return null;
+		return jdao.selectJoinProcessByResponseDate(responseDate);
 	}
 
 	

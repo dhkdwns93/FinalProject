@@ -18,6 +18,38 @@ public class JoinProcess {
 	}
 
 	
+	
+	public JoinProcess(int processNo, int processState, Date respDate) {
+		this.processNo = processNo;
+		this.processState = processState;
+		this.respDate = respDate;
+	}
+
+	
+
+
+	public JoinProcess(int processNo, int processFridgerId, Date reqDate, String reqMemberId) {
+		this.processNo = processNo;
+		this.processFridgerId = processFridgerId;
+		this.reqDate = reqDate;
+		this.reqMemberId = reqMemberId;
+	}
+	
+	
+
+
+
+	public JoinProcess(int processNo, int processFridgerId, int processState, Date reqDate, String reqMemberId,
+			String respMemberId) {
+		this.processNo = processNo;
+		this.processFridgerId = processFridgerId;
+		this.processState = processState;
+		this.reqDate = reqDate;
+		this.reqMemberId = reqMemberId;
+		this.respMemberId = respMemberId;
+	}
+
+
 	public JoinProcess(int processNo, int processFridgerId, int processState, Date reqDate, Date respDate,
 			String reqMemberId, String respMemberId) {
 		this.processNo = processNo;

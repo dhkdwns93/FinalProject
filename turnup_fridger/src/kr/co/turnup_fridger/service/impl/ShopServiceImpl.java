@@ -17,25 +17,18 @@ public class ShopServiceImpl implements ShopService{
 	
 	public static void main(String[] args)  throws Exception{
 		
-		ApplicationContext c = new ClassPathXmlApplicationContext("kr/co/turnup_fridger/config/spring/model-context.xml");
+		ApplicationContext container = new ClassPathXmlApplicationContext("kr/co/turnup_fridger/config/spring/model-context.xml");
 		
-		ShopService s = (ShopService)c.getBean("shopServiceImpl");
+		ShopService s = (ShopService)container.getBean("shopServiceImpl");
 		
+		Shop shop = new Shop(123, "이름", "주소", "사진");
 		
-		// 쇼핑몰 추가
-		s.insertShop( new Shop(7, "이름", "주소", "사진"));
+		s.insertShop(shop);
 		//System.out.println(shop.getShopName()+"이 등록되었습니다." );
-		System.out.println("--------------------");
-		// 쇼핑몰 삭제
-		s.deleteShop(1);
-		System.out.println("--------------------");
-		// 총 쇼핑몰개수
-		System.out.println("총 개수 : "+s.selectShopCount());
-		System.out.println("--------------------");
-		// 하나의 쇼핑몰 조회
-		System.out.println(s.selectShopById(1));
-		System.out.println("--------------------");
-		// 전체 쇼핑몰 조회 
+		
+		s.deleteShop(4);
+		s.selectShopCount();
+		s.selectShopById(1);
 		List<Shop> list = s.selectShopList();
 		for(Shop sh : list){
 			System.out.println(sh);
