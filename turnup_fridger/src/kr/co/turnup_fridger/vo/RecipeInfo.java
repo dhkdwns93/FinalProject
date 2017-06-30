@@ -21,8 +21,8 @@ public class RecipeInfo implements Serializable{
 	private String imgUrl;
 	private String detUrl;
 	private int recipeHits;
-	private List<RecipeIrdnt> recipeIrdnts;
-	private List<RecipeCrse> recipeCrses;
+	private List<RecipeIrdnt> recipeIrdnt;
+	private List<RecipeCrse> recipeCrse;
  	
 	public RecipeInfo(){
 		
@@ -31,7 +31,7 @@ public class RecipeInfo implements Serializable{
 	public RecipeInfo(int recipeId, String recipeName, String sumry, int categoryCode, String categoryName,
 			int typeCode, String typeName, String cookingTime, String calorie, String qnt, String recipeLevel,
 			String irdntCode, String price, String imgUrl, String detUrl, int recipeHits,
-			List<RecipeIrdnt> recipeIrdnts, List<RecipeCrse> recipeCrses) {
+			List<RecipeIrdnt> recipeIrdnt, List<RecipeCrse> recipeCrse) {
 		this.recipeId = recipeId;
 		this.recipeName = recipeName;
 		this.sumry = sumry;
@@ -48,8 +48,8 @@ public class RecipeInfo implements Serializable{
 		this.imgUrl = imgUrl;
 		this.detUrl = detUrl;
 		this.recipeHits = recipeHits;
-		this.recipeIrdnts = recipeIrdnts;
-		this.recipeCrses = recipeCrses;
+		this.recipeIrdnt = recipeIrdnt;
+		this.recipeCrse = recipeCrse;
 	}
 
 	public int getRecipeId() {
@@ -180,20 +180,20 @@ public class RecipeInfo implements Serializable{
 		this.recipeHits = recipeHits;
 	}
 
-	public List<RecipeIrdnt> getRecipeIrdnts() {
-		return recipeIrdnts;
+	public List<RecipeIrdnt> getrecipeIrdnt() {
+		return recipeIrdnt;
 	}
 
-	public void setRecipeIrdnts(List<RecipeIrdnt> recipeIrdnts) {
-		this.recipeIrdnts = recipeIrdnts;
+	public void setrecipeIrdnt(List<RecipeIrdnt> recipeIrdnt) {
+		this.recipeIrdnt = recipeIrdnt;
 	}
 
-	public List<RecipeCrse> getRecipeCrses() {
-		return recipeCrses;
+	public List<RecipeCrse> getrecipeCrse() {
+		return recipeCrse;
 	}
 
-	public void setRecipeCrses(List<RecipeCrse> recipeCrses) {
-		this.recipeCrses = recipeCrses;
+	public void setrecipeCrse(List<RecipeCrse> recipeCrse) {
+		this.recipeCrse = recipeCrse;
 	}
 
 	@Override
@@ -202,8 +202,8 @@ public class RecipeInfo implements Serializable{
 				+ ", categoryCode=" + categoryCode + ", categoryName=" + categoryName + ", typeCode=" + typeCode
 				+ ", typeName=" + typeName + ", cookingTime=" + cookingTime + ", calorie=" + calorie + ", Qnt=" + Qnt
 				+ ", recipeLevel=" + recipeLevel + ", irdntCode=" + irdntCode + ", price=" + price + ", imgUrl="
-				+ imgUrl + ", detUrl=" + detUrl + ", recipeHits=" + recipeHits + ", recipeIrdnts=" + recipeIrdnts
-				+ ", recipeCrses=" + recipeCrses + "]";
+				+ imgUrl + ", detUrl=" + detUrl + ", recipeHits=" + recipeHits + ", recipeIrdnt=" + recipeIrdnt
+				+ ", recipeCrse=" + recipeCrse + "]";
 	}
 
 	@Override
@@ -219,10 +219,10 @@ public class RecipeInfo implements Serializable{
 		result = prime * result + ((imgUrl == null) ? 0 : imgUrl.hashCode());
 		result = prime * result + ((irdntCode == null) ? 0 : irdntCode.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
-		result = prime * result + ((recipeCrses == null) ? 0 : recipeCrses.hashCode());
+		result = prime * result + ((recipeCrse == null) ? 0 : recipeCrse.hashCode());
 		result = prime * result + recipeHits;
 		result = prime * result + recipeId;
-		result = prime * result + ((recipeIrdnts == null) ? 0 : recipeIrdnts.hashCode());
+		result = prime * result + ((recipeIrdnt == null) ? 0 : recipeIrdnt.hashCode());
 		result = prime * result + ((recipeLevel == null) ? 0 : recipeLevel.hashCode());
 		result = prime * result + ((recipeName == null) ? 0 : recipeName.hashCode());
 		result = prime * result + ((sumry == null) ? 0 : sumry.hashCode());
@@ -282,19 +282,19 @@ public class RecipeInfo implements Serializable{
 				return false;
 		} else if (!price.equals(other.price))
 			return false;
-		if (recipeCrses == null) {
-			if (other.recipeCrses != null)
+		if (recipeCrse == null) {
+			if (other.recipeCrse != null)
 				return false;
-		} else if (!recipeCrses.equals(other.recipeCrses))
+		} else if (!recipeCrse.equals(other.recipeCrse))
 			return false;
 		if (recipeHits != other.recipeHits)
 			return false;
 		if (recipeId != other.recipeId)
 			return false;
-		if (recipeIrdnts == null) {
-			if (other.recipeIrdnts != null)
+		if (recipeIrdnt == null) {
+			if (other.recipeIrdnt != null)
 				return false;
-		} else if (!recipeIrdnts.equals(other.recipeIrdnts))
+		} else if (!recipeIrdnt.equals(other.recipeIrdnt))
 			return false;
 		if (recipeLevel == null) {
 			if (other.recipeLevel != null)

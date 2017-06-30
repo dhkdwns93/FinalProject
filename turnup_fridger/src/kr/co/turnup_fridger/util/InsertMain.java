@@ -13,10 +13,10 @@ public class InsertMain {
 //		insertMethod.insertAPI("C:\\Java\\api\\recipe\\","recipe_crse");
 		
 		//레시피기본정보
-		//insertMethod.insertAPI("C:\\Java\\api\\recipe\\","recipe_info");
+		insertMethod.insertAPI("C:\\Java\\api\\recipe\\","recipe_info");
 		
 		
-		insertMethod.insertAPI("C:\\Java\\api\\recipe\\","irdnt_manage");//(파일루트, txt파일명)
+		//insertMethod.insertAPI("C:\\Java\\api\\recipe\\","irdnt_manage");//(파일루트, txt파일명)
 
 	}//end of main
 }

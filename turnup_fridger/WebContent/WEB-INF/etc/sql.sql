@@ -324,6 +324,10 @@ CREATE TABLE RECIPE_INFO (
    RECIPE_HITS NUMBER NOT NULL /* 조회수 */
 );
 
+--select * from RECIPE_INFO
+--select distinct category_name from RECIPE_INFO
+--select category_name, type_name from RECIPE_INFO where category_name ='퓨전' group by category_name, type_name 
+
 /* 레시피 과정정보 */
 DROP TABLE RECIPE_CRSE;
 DELETE FROM RECIPE_CRSE;
