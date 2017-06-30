@@ -11,6 +11,7 @@ CREATE TABLE MEMBER (
    MEMBER_SEX VARCHAR2(10) NOT NULL /* 성별 */
 );
 select * from member;
+--insert into MEMBER values('id','pw','이름','주소','이메일','전번','성별')
 
 /* 개인 메모 */
 DROP TABLE MY_MEMO;
@@ -212,8 +213,8 @@ DROP SEQUENCE IRDNT_ID;
 CREATE SEQUENCE IRDNT_ID INCREMENT BY 1 START WITH 1;  
 SELECT IRDNT_ID.NEXTVAL FROM DUAL;
 
-insert into irdnt_manage values (2,'당근1',14,'채소류');
-select * from IRDNT_MANAGE;
+--insert into irdnt_manage values (2,'당근1',14,'채소류');
+--select * from IRDNT_MANAGE;
 
 /* 나의 식재료 */
 DROP TABLE MY_IRDNT;
@@ -236,8 +237,8 @@ DROP SEQUENCE MY_IRDNT_KEY;
 CREATE SEQUENCE MY_IRDNT_KEY INCREMENT BY 1 START WITH 1; 
 SELECT MY_IRDNT_KEY.NEXTVAL FROM DUAL;
 
-insert into MY_IRDNT values (1,'2017-05-01','2017-06-01',2,'5',2,'2',1,'좋음');
-select * from MY_IRDNT;
+--insert into MY_IRDNT values (1,'2017-05-01','2017-06-01',2,'5',2,'2',1,'좋음');
+--select * from MY_IRDNT;
 
 /* 공유레시피재료 */
 DROP TABLE SHARE_RECIPE_IRDNT;
@@ -266,6 +267,8 @@ CREATE TABLE MY_DISLIKE_IRDNT (
 DROP SEQUENCE MY_DISLIKE_IRDNT_KEY;
 CREATE SEQUENCE MY_DISLIKE_IRDNT_KEY INCREMENT BY 1 START WITH 1; 
 --SELECT MY_DISLIKE_IRDNT_KEY.NEXTVAL FROM DUAL;
+select * from MY_DISLIKE_IRDNT;
+insert into MY_DISLIKE_IRDNT values(1,'id',2);
 
 /* 관리자  */
 DROP TABLE ADMIN;

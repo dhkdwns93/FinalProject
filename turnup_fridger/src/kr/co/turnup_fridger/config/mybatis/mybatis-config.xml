@@ -23,6 +23,8 @@
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/BoardQnAMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/CommentQnAMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/joinProcessMapper.xml"/>
+		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/MyDislikeIrdntMapper.xml"/>
+		
 	</mappers>
 </configuration>
 
