@@ -9,7 +9,7 @@ import kr.co.turnup_fridger.dao.IrdntManageDao;
 import kr.co.turnup_fridger.service.IrdntManageService;
 import kr.co.turnup_fridger.vo.IrdntManage;
 
-@Service(value="IrdntMangageService")
+@Service(value="IrdntManageService")
 public class IrdntManageServiceImpl implements IrdntManageService{
 
 	@Autowired
@@ -25,9 +25,9 @@ public class IrdntManageServiceImpl implements IrdntManageService{
 			throw new Exception("이미 존재하는 식재료입니다.");
 		}
 		
-		if(dao.selectIrdntByName(irdnt.getIrdntName())!=null){
-			throw new Exception("이미 존재하는 재료명입니다.");
-		}
+		/*if(dao.selectIrdntByFullName(irdnt.getIrdntName())!=null){
+			throw new Exception("다른 재료명을 입력해주세요.");
+		}*/
 		
 		dao.insertIrdnt(irdnt);
 		
@@ -41,50 +41,46 @@ public class IrdntManageServiceImpl implements IrdntManageService{
 			throw new Exception("없는 식재료입니다.");
 		}
 		
-		if(dao.selectIrdntByName(irdnt.getIrdntName())!=null){
+		/*if(dao.selectIrdntByFullName(irdnt.getIrdntName())!=null){
 			throw new Exception("다른 재료명을 입력해주세요.");
-		}
+		}*/
 		
 		dao.updateIrdnt(irdnt);
 		
 	}
 
 	@Override
-	public void deleteIrdnt(int irdntId) throws Exception {
+	public void removeIrdnt(int irdntId) throws Exception {
 		//없는id는 삭제못하겠지 
 		if(dao.selectIrdntById(irdntId)==null){
 			throw new Exception("없는 식재료입니다.");
 		}
 		dao.deleteIrdnt(irdntId);
+		System.out.println("삭제완료");
 		
 	}
 
 	@Override
 	public List<IrdntManage> findAllIrdnt() {
-		
-		dao.selectAllIrdnt();
-		return null;
+		return dao.selectAllIrdnt();
 	}
 
 	@Override
 	public List<IrdntManage> findIrdntByIrdntName(String irdntName) {
 		//공백들어오면? 그냥 전부나오겠네 부분검색이니까 
-		dao.selectIrdntByName(irdntName);
-		return null;
+		return dao.selectIrdntByName(irdntName);
 	}
 
 	@Override
 	public IrdntManage findIrdntByIrdntId(int irdntId) {
 		//공백이거나 틀린타입이면? validation?
-		dao.selectIrdntById(irdntId);
-		return null;
+		return dao.selectIrdntById(irdntId);
 	}
 
 	@Override
 	public List<IrdntManage> fingIrdntByIrdntCategory(String irdntCategory) {
 		//이거는 드롭박스로 해서 선택하게 할거야
-		dao.selectIrdntByCategory(irdntCategory);
-		return null;
+		return dao.selectIrdntByCategory(irdntCategory);
 	}
 
 	

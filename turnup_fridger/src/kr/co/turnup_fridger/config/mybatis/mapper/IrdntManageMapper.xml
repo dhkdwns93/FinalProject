@@ -19,14 +19,14 @@
 
 	<insert id="insertIrdnt" parameterType="IrdntManage">
 		<selectKey resultType="_int" keyProperty="irdntId" order="BEFORE">
-			SELECT IRDNT_ID_seq.nextval FROM dual
+			SELECT IRDNT_ID.nextval FROM dual
 		</selectKey>
-		insert into irdntManage 
+		insert into irdnt_Manage 
 		values (#{irdntId},#{irdntName},#{irdntPeriod},#{irdntCategory})
 	</insert>
 	
-	<update id="updateMyIrdnt" parameterType="IrdntManage">
-		update IrdntManage
+	<update id="updateIrdnt" parameterType="IrdntManage">
+		update Irdnt_Manage
 		set irdnt_id=#{irdntId},
 			irdnt_name=#{irdntName},
 			irdnt_period=#{irdntPeriod},
@@ -35,29 +35,38 @@
 	</update>
 	
 	<delete id="deleteIrdnt" parameterType="_int">
-		delete from IrdntManage
+		delete from Irdnt_Manage
 		where irdnt_id=#{irdntId}
 	</delete>
 	
 	<select id="selectAllIrdnt" resultMap="irdntManage-resultmap">
 		SELECT
 		<include refid="all-column" />
-		FROM IrdntManage
+		FROM Irdnt_Manage
 		ORDER BY irdnt_id
 	</select>
 	
 	<select id="selectIrdntByName" resultMap="irdntManage-resultmap" parameterType="String">
 		SELECT
 		<include refid="all-column" />
-		FROM IrdntManage
+		FROM Irdnt_Manage
 		where irdnt_name like '%'||#{irdntName}||'%'
 		ORDER BY irdnt_id 
 	</select>
 	
+	<select id="selectIrdntByFullName" resultMap="irdntManage-resultmap" parameterType="String">
+		SELECT
+		<include refid="all-column" />
+		FROM Irdnt_Manage
+		where irdnt_name =#{irdntName}
+		ORDER BY irdnt_id 
+	</select>
+	
+	
 	<select id="selectIrdntById" resultMap="irdntManage-resultmap" parameterType="_int">
 		SELECT
 		<include refid="all-column" />
-		FROM IrdntManage
+		FROM Irdnt_Manage
 		where irdnt_id = #{irdntId}
 		ORDER BY irdnt_id
 	</select>
@@ -65,7 +74,7 @@
 	<select id="selectIrdntByCategory" resultMap="irdntManage-resultmap" parameterType="String">
 		SELECT
 		<include refid="all-column" />
-		FROM IrdntManage
+		FROM Irdnt_Manage
 		where irdnt_Category = #{irdntCategory}
 		ORDER BY irdnt_id
 	</select>

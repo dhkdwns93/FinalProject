@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="kr.co.turnup_fridger.config.mybatis.mapper.MyIrdntMapper">
+	namespace="MyIrdnt">
 
 	<sql id="all-column">
 		my_irdnt_key,
@@ -10,8 +10,9 @@
 		fresh_level,
 		irdnt_count,
 		irdnt_id,
+		irdnt_name,
 		fridger_id,
-		irdnt_name
+		start_fresh_level
 	</sql>
 	
 	<resultMap type="MyIrdnt" id="MyIrdnt-resultmap">
@@ -21,98 +22,105 @@
 		<result column="fresh_level" property="freshLevel"/>
 		<result column="irdnt_count" property="irdntCount"/>
 		<result column="irdnt_id" property="irdntId"/>
-		<result column="fridger_id" property="fridgerId"/>
 		<result column="irdnt_name" property="irdntName"/>
+		<result column="fridger_id" property="fridgerId"/>
+		<result column="start_fresh_level" property="startFreshLevel"/>
 	</resultMap>
 	
 	<insert id="insertMyIrdnt" parameterType="MyIrdnt">
 		<selectKey resultType="_int" keyProperty="myIrdntKey" order="BEFORE">
-			SELECT MY_IRDNT_KEY_seq.nextval FROM dual
+			SELECT MY_IRDNT_KEY.nextval FROM dual
 		</selectKey>
-		insert into MyIrdnt 
-		values (#{myIrdntKey},#{startDate},#{endDate},#{freshLevel},#{irdntCount},#{irdntId},#{fridgerId},#{irdntName})
+		insert into My_Irdnt 
+		values (#{myIrdntKey},
+				#{startDate},
+				#{endDate},
+				#{freshLevel},
+				#{irdntCount},
+				#{irdntId},
+				#{irdntName},
+				#{fridgerId},
+				#{startFreshLevel})
 	</insert>
 	
 	<update id="updateMyIrdnt" parameterType="MyIrdnt">
-		update MyIrdnt
+		update My_Irdnt
 		set my_irdnt_key=#{myIrdntKey},
 			start_date=#{startDate},
 			end_date=#{endDate},
 			fresh_level=#{freshLevel},
 			irdnt_count=#{irdntCount},
 			irdnt_id=#{irdntId},
+			irdnt_name=#{irdntName},
 			fridger_id=#{fridgerId},
-			irdnt_name=#{irdntName}
+			start_fresh_level=#{startFreshLevel}
 		where my_irdnt_key=#{myIrdntKey}
 	</update>
 	
 	<delete id="deleteMyIrdnt" parameterType="_int">
-		delete from MyIrdnt
-		where my_irdnt_key=#{myIrdntKey}
+		delete from My_Irdnt
+		where my_irdnt_key=#{value}
 	</delete>
 	
 	<select id="selectAllInfoMyIrdnt" resultMap="MyIrdnt-resultmap">
 		SELECT
 		<include refid="all-column" />
-		FROM MyIrdnt
+		FROM My_Irdnt
 		ORDER BY my_irdnt_key
 	</select>
 	
 	<select id="selectMyIrdntByKey" resultMap="MyIrdnt-resultmap" parameterType="_int">
 		SELECT
 		<include refid="all-column" />
-		FROM MyIrdnt
-		where my_irdnt_key=#{myIrdntKey}
-		ORDER BY my_irdnt_key
+		FROM My_Irdnt
+		where my_irdnt_key=#{value}
 	</select>
 	
 	<select id="selectMyIrdntByName" resultMap="MyIrdnt-resultmap" parameterType="java.util.HashMap">
 		SELECT
 		<include refid="all-column" />
-		FROM MyIrdnt
-		where irdnt_name like '%'||#{irdntName.irdntName}||'%' and fridger_id=#{fridgerId.fridgerId}
+		FROM My_Irdnt
+		where irdnt_name like '%'||#{irdntName}||'%' and fridger_id=#{fridgerId}
 		ORDER BY my_irdnt_key
 	</select>
 	
 	<select id="selectMyStaleIrdnt" resultMap="MyIrdnt-resultmap" parameterType="java.util.HashMap">
 		SELECT
 		<include refid="all-column" />
-		FROM MyIrdnt
-		where fresh_level = #{freshLevel.freshLevel} and fridger_id=#{fridgerId.fridgerId}
+		FROM My_Irdnt
+		where fresh_level = #{freshLevel} and fridger_id=#{fridgerId}
 		ORDER BY my_irdnt_key
 	</select>
 	
 	<select id="selectSoonExpireMyIrdnt" resultMap="MyIrdnt-resultmap" parameterType="java.util.HashMap">
 		SELECT
 		<include refid="all-column" />
-		FROM MyIrdnt
-		where end_date = #{endDate.endDate} and fridger_id=#{fridgerId.fridgerId}
+		FROM My_Irdnt
+		where end_date = #{endDate} and fridger_id=#{fridgerId}
 		ORDER BY my_irdnt_key
 	</select>
 	
 	<select id="selectMyIrdntByStartDate" resultMap="MyIrdnt-resultmap" parameterType="java.util.HashMap">
 		SELECT
 		<include refid="all-column" />
-		FROM MyIrdnt
-		where start_date = #{StartDate.StartDate} and fridger_id=#{fridgerId.fridgerId}
+		FROM My_Irdnt
+		where start_date = #{StartDate} and fridger_id=#{fridgerId}
 		ORDER BY my_irdnt_key
 	</select>
 	
 	<select id="selectCountAllMyIrdnts" resultType="_int">
 		SELECT count(*)
-		FROM MyIrdnt
+		FROM My_Irdnt
 		where fridger_id=#{fridgerId}
 		ORDER BY my_irdnt_key
 	</select>
 	
-	<select id="selectMyIrdntByFridgerId" resultType="_int">
+	<select id="selectMyIrdntByFridgerId" resultMap="MyIrdnt-resultmap" parameterType="_int">
 		SELECT 
-		<include refid="all-column" />
-		FROM MyIrdnt
+		<include refid="all-column"/>
+		FROM My_Irdnt
 		where fridger_id=#{fridgerId}
 		ORDER BY my_irdnt_key
 	</select>
-	
-	
 	
 </mapper>

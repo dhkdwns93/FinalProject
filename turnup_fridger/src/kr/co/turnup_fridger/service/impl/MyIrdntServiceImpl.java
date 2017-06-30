@@ -32,8 +32,12 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 		int FreshLevel = getFreshLevel(myIrdnt);
 		String IrdntName = irdntDao.selectIrdntById(myIrdnt.getIrdntId()).getIrdntName();
 		
-		MyIrdnt newMyIrdnt= new MyIrdnt(0,myIrdnt.getStartDate(),myIrdnt.getEndDate(),FreshLevel,
+		System.out.println(FreshLevel+" "+IrdntName);
+		
+		MyIrdnt newMyIrdnt= new MyIrdnt(myIrdnt.getMyIrdntKey(),myIrdnt.getStartDate(),myIrdnt.getEndDate(),FreshLevel,
 				myIrdnt.getIrdntCount(),myIrdnt.getIrdntId(),IrdntName,myIrdnt.getFridgerId(),myIrdnt.getStartFreshLevel());
+		
+		System.out.println(newMyIrdnt);
 		
 		dao.insertMyIrdnt(newMyIrdnt);
 	}

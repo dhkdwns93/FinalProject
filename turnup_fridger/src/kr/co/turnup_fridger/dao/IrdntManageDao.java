@@ -37,6 +37,14 @@ public interface IrdntManageDao {
 	List<IrdntManage> selectIrdntByName(String irdntName);
 	
 	/**
+	 * 재료명으로 검색(완전일치)
+	 * @param irdntName
+	 * @return
+	 */
+	List<IrdntManage> selectIrdntByFullName(String irdntName);
+	
+	
+	/**
 	 * 재료 id로 재료조회
 	 * @return
 	 */
