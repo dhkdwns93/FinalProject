@@ -48,7 +48,7 @@ public interface RecipeIrdntDao {
 	RecipeIrdnt selectRecipeIrdntByNo(int irdntNo);
 	
 	/**
-	 * 입력받은 재료명으로 일치하는 재료들을 찾기.
+	 * 입력받은 재료명으로 일치하는 재료들을 찾기.(부분일치?)
 	 * @param irdntName
 	 * @return
 	 */

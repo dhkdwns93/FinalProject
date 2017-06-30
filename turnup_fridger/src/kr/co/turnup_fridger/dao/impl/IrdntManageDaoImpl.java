@@ -44,6 +44,11 @@ public class IrdntManageDaoImpl implements IrdntManageDao{
 	}
 
 	@Override
+	public List<IrdntManage> selectIrdntByFullName(String irdntName) {
+		return session.selectList(makeSql("selectIrdntByFullName"),irdntName);
+	}
+
+	@Override
 	public IrdntManage selectIrdntById(int irdntId) {
 		return session.selectOne(makeSql("selectIrdntById"),irdntId);
 	}

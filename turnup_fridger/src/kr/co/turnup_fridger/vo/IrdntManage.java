@@ -9,6 +9,7 @@ public class IrdntManage implements Serializable{
 	private String irdntName;
 	private int irdntPeriod;
 	private String irdntCategory;
+	
 	private MyIrdnt myIrdnt;
 	private ShareRecipeIrdnt shareRecipeIrdnt;
 	private MyDislikeIrdnt myDislikeIrdnt;
@@ -17,6 +18,17 @@ public class IrdntManage implements Serializable{
 	public IrdntManage(){
 		
 	}
+
+	
+	
+	public IrdntManage(int irdntId, String irdntName, int irdntPeriod, String irdntCategory) {
+		this.irdntId = irdntId;
+		this.irdntName = irdntName;
+		this.irdntPeriod = irdntPeriod;
+		this.irdntCategory = irdntCategory;
+	}
+
+
 
 	public IrdntManage(int irdntId, String irdntName, int irdntPeriod, String irdntCategory, MyIrdnt myIrdnt,
 			ShareRecipeIrdnt shareRecipeIrdnt, MyDislikeIrdnt myDislikeIrdnt,

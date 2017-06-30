@@ -16,11 +16,11 @@ public class FridgerMain {
 				"kr/co/turnup_fridger/config/spring/model-context.xml");
 		FridgerService service = (FridgerService) context.getBean("fridgerService");
 
-		// service.createFridger(new Fridger(10, "2123545", "id-1"));
+		 service.createFridger(new Fridger(10, "2123545", "id-1"));
 		// service.updateFridger(new Fridger(1, "냉장고명 수정이욥", "id-3"));
 		//service.removeFridger(25);
 		
-		
+		/*
 		System.out.println("--------------findFridgerAll--------------");
 		List<Fridger> list = service.findFridgerAll();
 		for (Fridger f : list) {
@@ -38,7 +38,7 @@ public class FridgerMain {
 		list = service.findFridgerByFridgerName("냉장고");
 		for (Fridger f : list) {
 			System.out.println(f);
-		}
+		}*/
 	}
 
 }

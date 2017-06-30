@@ -20,8 +20,9 @@ public class MyIrdnt {
 	public MyIrdnt(){
 		
 	}
-
 	
+
+
 	public MyIrdnt(int myIrdntKey, Date startDate, Date endDate, int freshLevel, String irdntCount, int irdntId,
 			String irdntName, int fridgerId, String startFreshLevel) {
 		this.myIrdntKey = myIrdntKey;
@@ -34,6 +35,8 @@ public class MyIrdnt {
 		this.fridgerId = fridgerId;
 		this.startFreshLevel = startFreshLevel;
 	}
+
+
 
 
 	public MyIrdnt(int myIrdntKey, Date startDate, Date endDate, int freshLevel, String irdntCount, int irdntId,
@@ -51,93 +54,139 @@ public class MyIrdnt {
 		this.irdntManage = irdntManage;
 	}
 
+
+
 	public int getMyIrdntKey() {
 		return myIrdntKey;
 	}
+
+
 
 	public void setMyIrdntKey(int myIrdntKey) {
 		this.myIrdntKey = myIrdntKey;
 	}
 
+
+
 	public Date getStartDate() {
 		return startDate;
 	}
+
+
 
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
 
+
+
 	public Date getEndDate() {
 		return endDate;
 	}
+
+
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
 
+
+
 	public int getFreshLevel() {
 		return freshLevel;
 	}
+
+
 
 	public void setFreshLevel(int freshLevel) {
 		this.freshLevel = freshLevel;
 	}
 
+
+
 	public String getIrdntCount() {
 		return irdntCount;
 	}
+
+
 
 	public void setIrdntCount(String irdntCount) {
 		this.irdntCount = irdntCount;
 	}
 
+
+
 	public int getIrdntId() {
 		return irdntId;
 	}
+
+
 
 	public void setIrdntId(int irdntId) {
 		this.irdntId = irdntId;
 	}
 
+
+
 	public String getIrdntName() {
 		return irdntName;
 	}
+
+
 
 	public void setIrdntName(String irdntName) {
 		this.irdntName = irdntName;
 	}
 
+
+
 	public int getFridgerId() {
 		return fridgerId;
 	}
+
+
 
 	public void setFridgerId(int fridgerId) {
 		this.fridgerId = fridgerId;
 	}
 
+
+
 	public String getStartFreshLevel() {
 		return startFreshLevel;
 	}
+
+
 
 	public void setStartFreshLevel(String startFreshLevel) {
 		this.startFreshLevel = startFreshLevel;
 	}
 
+
+
 	public Fridger getFridger() {
 		return fridger;
 	}
+
+
 
 	public void setFridger(Fridger fridger) {
 		this.fridger = fridger;
 	}
 
+
+
 	public IrdntManage getIrdntManage() {
 		return irdntManage;
 	}
 
+
+
 	public void setIrdntManage(IrdntManage irdntManage) {
 		this.irdntManage = irdntManage;
 	}
+
+
 
 	@Override
 	public String toString() {
@@ -146,6 +195,8 @@ public class MyIrdnt {
 				+ irdntName + ", fridgerId=" + fridgerId + ", startFreshLevel=" + startFreshLevel + ", fridger="
 				+ fridger + ", irdntManage=" + irdntManage + "]";
 	}
+
+
 
 	@Override
 	public int hashCode() {
@@ -164,6 +215,8 @@ public class MyIrdnt {
 		result = prime * result + ((startFreshLevel == null) ? 0 : startFreshLevel.hashCode());
 		return result;
 	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -219,8 +272,8 @@ public class MyIrdnt {
 			return false;
 		return true;
 	}
-	
 
-	
+
+
 	
 }

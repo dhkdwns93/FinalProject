@@ -17,9 +17,8 @@ public class MyIrdntDaoImpl implements MyIrdntDao{
 	@Autowired
 	private SqlSessionTemplate session;
 	private String makeSql(String id){
-		return "kr.co.turnup_fridger.config.mybatis.mapper.MyIrdnt."+id;
+		return "MyIrdnt."+id;
 	}
-	
 	@Override
 	public int insertMyIrdnt(MyIrdnt irdnt) {
 		return session.insert(makeSql("insertMyIrdnt"),irdnt);
