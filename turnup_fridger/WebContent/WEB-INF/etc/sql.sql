@@ -390,3 +390,23 @@ DROP SEQUENCE process_no;
 CREATE SEQUENCE process_no INCREMENT BY 1 START WITH 1;
 --SELECT FAVORITE_RECIPE_KEY.NEXTVAL FROM DUAL;
 
+
+
+
+
+-------------------재로료 레시피 추출하기(원하는 재료포함, 기피재료 미포함)------------
+SELECT * FROM RECIPE_IRDNT;
+
+SELECT	COUNT(*), recipe_id
+		recipe_id
+FROM	recipe_irdnt
+WHERE	recipe_id	NOT IN (
+	SELECT	recipe_id
+	FROM	recipe_irdnt
+	WHERE	irdnt_id	IN ( 50 )
+)
+AND		irdnt_id	IN ( 702, 29, 169, 302, 303, 176)
+GROUP BY	recipe_id
+HAVING COUNT(*) >= 2
+ORDER BY	COUNT(*) DESC, recipe_id;
+
