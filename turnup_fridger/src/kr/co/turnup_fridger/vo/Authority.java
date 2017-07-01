@@ -9,21 +9,21 @@ package kr.co.turnup_fridger.vo;
 import java.io.Serializable;
 
 public class Authority implements Serializable{
-	private String logId;
+	private String loginId;
 	private String loginPw;
 	private String loginAuthority;
 	
 	public Authority(){}
-	public Authority(String logId, String loginPw, String loginAuthority) {
-		this.logId = logId;
+	public Authority(String loginId, String loginPw, String loginAuthority) {
+		this.loginId = loginId;
 		this.loginPw = loginPw;
 		this.loginAuthority = loginAuthority;
 	}
-	public String getLogId() {
-		return logId;
+	public String getLoginId() {
+		return loginId;
 	}
-	public void setLogId(String logId) {
-		this.logId = logId;
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
 	}
 	public String getLoginPw() {
 		return loginPw;
@@ -39,13 +39,13 @@ public class Authority implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "Authority [logId=" + logId + ", loginPw=" + loginPw + ", loginAuthority=" + loginAuthority + "]";
+		return "Authority [loginId=" + loginId + ", loginPw=" + loginPw + ", loginAuthority=" + loginAuthority + "]";
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((logId == null) ? 0 : logId.hashCode());
+		result = prime * result + ((loginId == null) ? 0 : loginId.hashCode());
 		result = prime * result + ((loginAuthority == null) ? 0 : loginAuthority.hashCode());
 		result = prime * result + ((loginPw == null) ? 0 : loginPw.hashCode());
 		return result;
@@ -59,10 +59,10 @@ public class Authority implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Authority other = (Authority) obj;
-		if (logId == null) {
-			if (other.logId != null)
+		if (loginId == null) {
+			if (other.loginId != null)
 				return false;
-		} else if (!logId.equals(other.logId))
+		} else if (!loginId.equals(other.loginId))
 			return false;
 		if (loginAuthority == null) {
 			if (other.loginAuthority != null)
@@ -76,5 +76,4 @@ public class Authority implements Serializable{
 			return false;
 		return true;
 	}
-	
 }

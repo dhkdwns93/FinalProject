@@ -9,6 +9,7 @@ package kr.co.turnup_fridger.service;
 
 import java.util.List;
 
+import kr.co.turnup_fridger.exception.ChangeMemberInfoFailException;
 import kr.co.turnup_fridger.exception.FindMemberFailException;
 import kr.co.turnup_fridger.exception.SignUpMemberFailException;
 import kr.co.turnup_fridger.vo.Member;
@@ -21,7 +22,7 @@ public interface MemberService {
 	/**
 	 * 개인회원 가입하기. -Id, 이메일 같으면 회원가입 불가. -authority에도 추가
 	 * @param member
-	 * @throws SignUpFailException
+	 * @throws SignUpMemberFailException
 	 */
 	void  signUpMember(Member member) throws SignUpMemberFailException;
 	
@@ -37,7 +38,7 @@ public interface MemberService {
 	 * 개인회원정보 수정하기   -authority에도 수정
 	 * @param loginId
 	 */
-	void changeMemberInfo(Member member);
+	void changeMemberInfo(Member member) throws ChangeMemberInfoFailException;
 	
 	/**
 	 * 개인회원 탈퇴하기  -authority에도 삭제

@@ -32,6 +32,7 @@
 		<jstl.version>1.2</jstl.version>
 		<tiles.version>3.0.7</tiles.version>
 		<basicDataSource.version>2.1.1</basicDataSource.version>
+		<validator.version>5.4.1.Final</validator.version>
 	</properties>
 	<dependencies>
 	<!-- 스프링 mvc -->
@@ -96,5 +97,11 @@
 			<artifactId>tiles-jsp</artifactId>
 			<version>${tiles.version}</version>
 		</dependency>
+	<!--validator  -->
+	<dependency>
+    	<groupId>org.hibernate</groupId>
+    	<artifactId>hibernate-validator</artifactId>
+    	<version>${validator.version}</version>
+</dependency>
 	</dependencies>
 </project>

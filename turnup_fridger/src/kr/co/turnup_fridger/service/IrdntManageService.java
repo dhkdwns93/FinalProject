@@ -9,9 +9,10 @@ public interface IrdntManageService {
 	/**
 	 * 재료 등력
 	 * @param irdnt
+	 * @return 
 	 * @throws Exception 
 	 */
-	void createIrdnt(IrdntManage irdnt) throws Exception;
+	String createIrdnt(IrdntManage irdnt) throws Exception;
 	
 	/**
 	 * 재료수정
