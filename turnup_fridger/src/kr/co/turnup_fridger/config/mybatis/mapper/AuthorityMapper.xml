@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.co.turnup_fridger.config.mybatis.mapper.AuthorityMapper">
+
+	<!-- 	int insertAuthority(Authority authority); -->
+	<!-- 	 authority테이블에 유저 추가 -->
+	<insert id="insertAuthority" parameterType="authority">
+		INSERT INTO authority VALUES(#{loginId},#{loginPw},#{loginAuthority})
+	</insert>
+
+	<!-- 	int updateAuthority(Authority authority); -->
+	<!-- 	 authority테이블에 유저정보 수정 -->
+	<update id="updateAuthority" parameterType="authority">
+	 	UPDATE authority
+	 	SET login_pw=#{loginPw},
+	 		login_authority=#{loginAuthority}
+	 	WHERE login_id=#{loginId}
+	</update>
+
+
+	<!-- 	int deleteAuthority(String loginId); -->
+	<!-- 	authority테이블에 유저 삭제 -->
+	<delete id="deleteAuthority" parameterType="string">
+		DELETE FROM authority WHERE login_id=#{value}
+	</delete>
+		
+
+	<!-- 	Authority selectAuthorityById(String loginId); -->
+	<!-- 	loginId를 매개변수로 받아 하나의 유저 정보를 조회. -->
+	<select id="selectAuthorityById" parameterType="string" resultType="authority">
+		SELECT login_id loginId,
+					login_pw loginPw,
+					login_authority loginAuthority 
+		FROM authority
+	</select>
+</mapper>
