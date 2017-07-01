@@ -29,8 +29,8 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDao memberDao;
 	@Autowired
 	private AuthorityDao authorityDao;
-	@Autowired
-	private PasswordEncoder passwordEncoder;
+	//@Autowired
+	//private PasswordEncoder passwordEncoder;
 	
 	
 	@Override
@@ -44,11 +44,11 @@ public class MemberServiceImpl implements MemberService {
 				throw new SignUpMemberFailException("이미 등록된 Email입니다.");
 			}else{
 				//패스워드 암호화 처리
-				member.setLoginPw(passwordEncoder.encode(member.getLoginPw()));
-				//Member 테이블 insert
-				memberDao.insertMember(member);
-				//Authority 테이블 insert //일반회원으로 가입하는 경우 자동으로 권한 =member로 설정
+				//member.setLoginPw(passwordEncoder.encode(member.getLoginPw()));
+				//Authority 테이블 insert -foreignKey제약조건때문에 먼저 넣어줘야해 //일반회원으로 가입하는 경우 자동으로 권한 =member로 설정
 				authorityDao.insertAuthority(new Authority(member.getLoginId(),member.getLoginPw(),"member"));
+				//Member 테이블 insert
+				memberDao.insertMember(member);	
 			}
 		}
 	}
@@ -62,27 +62,27 @@ public class MemberServiceImpl implements MemberService {
 	public void changeMemberInfo(Member member) throws ChangeMemberInfoFailException {
 		//다른 기존회원 중 같은 이메일 사용 회원있으면 update불가.
 		Member existMember=memberDao.selectMemberByEmail(member.getMemberEmail());//바꾸려는 member정보중 이메일이
-		if(!existMember.getLoginId().equals(member.getLoginId())){//같은 회원이 자기와 다른 회원일때=>즉, 다른 회원중 수정하려는 이메일 소유자가 있을 때
+		if(existMember!=null&&!existMember.getLoginId().equals(member.getLoginId())){//같은 회원이 자기와 다른 회원일때=>즉, 다른 회원중 수정하려는 이메일 소유자가 있을 때
 			throw new ChangeMemberInfoFailException("이미 타사용자가 사용중인 이메일입니다.");			
 		}
 		// 패스워드 암호화 처리
-		member.setLoginPw(passwordEncoder.encode(member.getLoginPw()));
-		// Member 테이블 해당 회원 update
-		memberDao.updateMember(member);
+		//member.setLoginPw(passwordEncoder.encode(member.getLoginPw()));
 		// 비밀번호가 바꼈을 경우 Authority 테이블 해당 회원 update
 		Member existMember2=memberDao.selectMemberById(member.getLoginId());
 		if(!existMember2.equals(member.getLoginPw())){//비밀번호가 바꼈을 경우
 			//**권한은 바꾸지 않음.
 			authorityDao.updateAuthority(new Authority(member.getLoginId(),member.getLoginPw(),existMember.getMemberAuthority()));
 		}
+		// Member 테이블 해당 회원 update
+		memberDao.updateMember(member);
 	}
 
 	@Override
 	public void deleteMember(String loginId) {
-		//Member 테이블 해당 회원 삭제
-		memberDao.deleteMemberById(loginId);
 		//Authority 테이블 해당 회원 삭제
 		authorityDao.deleteAuthority(loginId);
+		//Member 테이블 해당 회원 삭제
+		memberDao.deleteMemberById(loginId);
 	}
 
 	@Override

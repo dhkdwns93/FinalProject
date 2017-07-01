@@ -8,7 +8,7 @@ import kr.co.turnup_fridger.vo.Member;
 
 public class MemberMain {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		ApplicationContext ctx
 			=new ClassPathXmlApplicationContext("kr/co/turnup_fridger/config/spring/model-context.xml");
 		MemberService service=(MemberService)ctx.getBean("memberService");
@@ -29,6 +29,16 @@ public class MemberMain {
 		//다른 기존회원 중 같은 이메일 사용회원있으면 update불가.
 		Member testChangeMem2=new Member("id-3","pw-3바뀜","name-바뀜","address-바뀜","email-5","tel","sex");
 	
+		//회원가입확인
+		service.signUpMember(mem1);
+//		service.signUpMember(mem2);
+//		service.signUpMember(mem3);
+//		service.signUpMember(mem4);
+//		service.signUpMember(mem5);
+//		service.signUpMember(mem6);
+		System.out.println("mem1정보만 봐보기"+service.inquiryMemberInfo(mem1.getLoginId()));
+		System.out.println("[전체 member정보]==============");
+		System.out.println(service.inquiryMemberList());
 		
 		
 	
