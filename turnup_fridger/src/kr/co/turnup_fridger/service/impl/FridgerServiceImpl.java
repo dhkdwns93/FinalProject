@@ -49,7 +49,7 @@ public class FridgerServiceImpl implements FridgerService{
 			//바꾸려는 회원이 해당 냉장고를 공유하고 있는 그룹 내 없는 회원인지 판별
 			//반복문으로 그룹 회원들을 돌려보면서 아이디가 일치하는지 체크
 			System.out.println(fg);
-			if(fridger.getMemberId() != fg.getMemberId()){
+			if(fridger.getMemberId() != fg.getGroupMemberId()){
 				// 바꾸려는 아이디와 대상 아이디가 같지 않다면 다음 회원 아이디 체크
 				continue;
 			}else{

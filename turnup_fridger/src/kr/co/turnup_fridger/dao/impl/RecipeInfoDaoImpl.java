@@ -1,6 +1,8 @@
 package kr.co.turnup_fridger.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,11 +46,6 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 	}
 
 	@Override
-	public List<RecipeInfo> selectRecipeInfoByName(String recipeName) {
-		return session.selectList(makeSql("selectRecipeInfoByName"),recipeName);
-	}
-
-	@Override
 	public List<RecipeInfo> selectRecipeInfoByLevel(String recipeLevel) {
 		return session.selectList(makeSql("selectRecipeInfoByLevel"),recipeLevel);
 	}
@@ -63,7 +60,47 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 		return session.selectList(makeSql("selectRecipeInfoBycalorie"),calroie);
 	}
 
+	//조인
 	@Override
+	public RecipeInfo selectThreeOfRecipesById(int recipeId) {
+		return session.selectOne(makeSql("selectThreeOfRecipesById"),recipeId);
+	}
+	
+	//페이징
+	@Override
+	public List<RecipeInfo> selectRecipeInfoByName(String recipeName,int startIndex,int endIndex) {
+		
+		Map<String,String> input= new HashMap<String,String>();
+		input.put("startIndex",String.valueOf(startIndex));
+		input.put("endIndex",String.valueOf(endIndex));
+		input.put("recipeName", recipeName);
+		
+		return session.selectList(makeSql("selectRecipeInfoByName"),input);
+	}
+	
+	@Override
+	public int selectRecipeInfoByNameCount(String recipeName) {
+		return session.selectOne(makeSql("selectRecipeInfoByNameCount"),recipeName);
+	}
+
+	//페이징
+	@Override
+	public List<RecipeInfo> selectRecipeInfoByCategoryAndType(String categoryName, String typeName) {
+		HashMap map = new HashMap();
+		map.put("categoryName", categoryName);
+		map.put("typeName", typeName);
+		return session.selectList(makeSql("selectRecipeInfoByCategoryAndType"),map);
+	}
+
+	//페이징
+	@Override
+	public List<RecipeInfo> selectRecipesInfoByIds(List<Integer> recipeId) {
+		return session.selectList(makeSql("selectRecipesInfoByIds"),recipeId);
+	}
+	
+	
+	
+/*	@Override
 	public List<RecipeInfo> selectRecipeInfoByCategoryName(String categoryName) {
 		return session.selectList(makeSql("selectRecipeInfoByCategoryName"),categoryName);
 	}
@@ -72,6 +109,18 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 	public List<RecipeInfo> selectRecipeInfoByTypeName(String typeName) {
 		return session.selectList(makeSql("selectRecipeInfoByTypeName"),typeName);
 	}
+	@Override
+	public List<RecipeInfo> selectThreeOfRecipeByName(String recipeName) {
+		return session.selectList(makeSql("selectThreeOfRecipeByName"),recipeName);
+	}
+
+	@Override
+	public List<RecipeInfo> selectThreeOfRecipeByCategoryAndType(String categoryName, String typeName) {
+		HashMap map = new HashMap();
+		map.put("categoryName", categoryName);
+		map.put("typeName", typeName);
+		return session.selectList(makeSql("selectThreeOfRecipeByCategoryAndType"),map);
+	}*/
 
 	
 }

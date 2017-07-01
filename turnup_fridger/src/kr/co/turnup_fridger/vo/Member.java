@@ -1,25 +1,35 @@
+/**
+ (VO)member
+작성자 :  김경혜
+최초 작성일 170627
+변경이력 
+170701 Authority변수 추가 *member테이블 데이터들의 권한은 모두 "member"
+*/
 package kr.co.turnup_fridger.vo;
 
 import java.io.Serializable;
 import java.util.List;
 
 public class Member implements Serializable{
-	private String memberId;
-	private String memberPw;
+	private String loginId;
+	private String loginPw;
 	private String memberName;
 	private String memberAddress;
 	private String memberEmail;
 	private String memberTel;
 	private String memberSex;
 	
+	//DB상에는 없음.
+	private String memberAuthority="member";
+	
 	
 	public Member(){}
 	
-	
-	public Member(String memberId, String memberPw, String memberName, String memberAddress, String memberEmail,
+	//memberAuthority 미포함 생성자
+	public Member(String loginId, String loginPw, String memberName, String memberAddress, String memberEmail,
 			String memberTel, String memberSex) {
-		this.memberId = memberId;
-		this.memberPw = memberPw;
+		this.loginId = loginId;
+		this.loginPw = loginPw;
 		this.memberName = memberName;
 		this.memberAddress = memberAddress;
 		this.memberEmail = memberEmail;
@@ -27,24 +37,23 @@ public class Member implements Serializable{
 		this.memberSex = memberSex;
 	}
 
-
-	public String getMemberId() {
-		return memberId;
+	public String getLoginId() {
+		return loginId;
 	}
 
 
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
 	}
 
 
-	public String getMemberPw() {
-		return memberPw;
+	public String getLoginPw() {
+		return loginPw;
 	}
 
 
-	public void setMemberPw(String memberPw) {
-		this.memberPw = memberPw;
+	public void setLoginPw(String loginPw) {
+		this.loginPw = loginPw;
 	}
 
 
@@ -98,28 +107,35 @@ public class Member implements Serializable{
 	}
 
 
-	@Override
-	public String toString() {
-		return "Member [memberId=" + memberId + ", memberPw=" + memberPw + ", memberName=" + memberName
-				+ ", memberAddress=" + memberAddress + ", memberEmail=" + memberEmail + ", memberTel=" + memberTel
-				+ ", memberSex=" + memberSex + "]";
+	public String getMemberAuthority() {
+		return memberAuthority;
 	}
 
+	public void setMemberAuthority(String memberAuthority) {
+		this.memberAuthority = memberAuthority;
+	}
+
+	@Override
+	public String toString() {
+		return "Member [loginId=" + loginId + ", loginPw=" + loginPw + ", memberName=" + memberName + ", memberAddress="
+				+ memberAddress + ", memberEmail=" + memberEmail + ", memberTel=" + memberTel + ", memberSex="
+				+ memberSex + ", memberAuthority=" + memberAuthority + "]";
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((loginId == null) ? 0 : loginId.hashCode());
+		result = prime * result + ((loginPw == null) ? 0 : loginPw.hashCode());
 		result = prime * result + ((memberAddress == null) ? 0 : memberAddress.hashCode());
+		result = prime * result + ((memberAuthority == null) ? 0 : memberAuthority.hashCode());
 		result = prime * result + ((memberEmail == null) ? 0 : memberEmail.hashCode());
-		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
 		result = prime * result + ((memberName == null) ? 0 : memberName.hashCode());
-		result = prime * result + ((memberPw == null) ? 0 : memberPw.hashCode());
 		result = prime * result + ((memberSex == null) ? 0 : memberSex.hashCode());
 		result = prime * result + ((memberTel == null) ? 0 : memberTel.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -130,30 +146,35 @@ public class Member implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Member other = (Member) obj;
+		if (loginId == null) {
+			if (other.loginId != null)
+				return false;
+		} else if (!loginId.equals(other.loginId))
+			return false;
+		if (loginPw == null) {
+			if (other.loginPw != null)
+				return false;
+		} else if (!loginPw.equals(other.loginPw))
+			return false;
 		if (memberAddress == null) {
 			if (other.memberAddress != null)
 				return false;
 		} else if (!memberAddress.equals(other.memberAddress))
+			return false;
+		if (memberAuthority == null) {
+			if (other.memberAuthority != null)
+				return false;
+		} else if (!memberAuthority.equals(other.memberAuthority))
 			return false;
 		if (memberEmail == null) {
 			if (other.memberEmail != null)
 				return false;
 		} else if (!memberEmail.equals(other.memberEmail))
 			return false;
-		if (memberId == null) {
-			if (other.memberId != null)
-				return false;
-		} else if (!memberId.equals(other.memberId))
-			return false;
 		if (memberName == null) {
 			if (other.memberName != null)
 				return false;
 		} else if (!memberName.equals(other.memberName))
-			return false;
-		if (memberPw == null) {
-			if (other.memberPw != null)
-				return false;
-		} else if (!memberPw.equals(other.memberPw))
 			return false;
 		if (memberSex == null) {
 			if (other.memberSex != null)
@@ -167,5 +188,6 @@ public class Member implements Serializable{
 			return false;
 		return true;
 	}
+
 
 }
