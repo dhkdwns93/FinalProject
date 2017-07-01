@@ -5,12 +5,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger2/scripts/jquery.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 function delete_event(){
 	if (confirm("정말 삭제하시겠습니까??") == true){    
 		//확인
-		location.href="/turnup_fridger2/boardnotice/boardnotice_list.do";
+		location.href="/turnup_fridger/boardnotice/boardnotice_list.do";
 	}else{   
 		//취소
 	    return false;

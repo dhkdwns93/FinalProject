@@ -6,13 +6,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger2/scripts/jquery.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#items").on("change",function(){
 		$. ajax
 		({
-			"url":"/turnup_fridger2/boardnotice/boardNoticeByItems.do",
+			"url":"/turnup_fridger/boardnotice/boardNoticeByItems.do",
 			"type":"POST",
 			"data":{"items":$("#items").val()},
 			"dataType":"json",
