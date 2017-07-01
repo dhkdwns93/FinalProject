@@ -10,7 +10,7 @@ package kr.co.turnup_fridger.service;
 import java.util.List;
 
 import kr.co.turnup_fridger.exception.FindMemberFailException;
-import kr.co.turnup_fridger.exception.SignUpFailException;
+import kr.co.turnup_fridger.exception.SignUpMemberFailException;
 import kr.co.turnup_fridger.vo.Member;
 
 /**
@@ -23,7 +23,7 @@ public interface MemberService {
 	 * @param member
 	 * @throws SignUpFailException
 	 */
-	void  signUpMember(Member member) throws SignUpFailException;
+	void  signUpMember(Member member) throws SignUpMemberFailException;
 	
 	
 	/**

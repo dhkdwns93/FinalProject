@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import kr.co.turnup_fridger.dao.AuthorityDao;
 import kr.co.turnup_fridger.dao.MemberDao;
 import kr.co.turnup_fridger.exception.FindMemberFailException;
-import kr.co.turnup_fridger.exception.SignUpFailException;
+import kr.co.turnup_fridger.exception.SignUpMemberFailException;
 import kr.co.turnup_fridger.service.MemberService;
 import kr.co.turnup_fridger.vo.Authority;
 import kr.co.turnup_fridger.vo.Member;
@@ -27,14 +27,14 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	@Override
-	public void signUpMember(Member member) throws SignUpFailException{
+	public void signUpMember(Member member) throws SignUpMemberFailException{
 		//전체 user들 관리테이블인 Authority테이블에 같은 Id있으면 회원가입 불가
 		if(authorityDao.selectAuthorityById(member.getLoginId())!=null){
-			throw new SignUpFailException("이미 등록된 ID입니다.");
+			throw new SignUpMemberFailException("이미 등록된 ID입니다.");
 		}else{
 			//전체 member들 관리테이블인 Member테이블에 같은 Email있으면 회원가입 불가
 			if(memberDao.selectMemberByEmail(member.getMemberEmail())!=null){
-				throw new SignUpFailException("이미 등록된 Email입니다.");
+				throw new SignUpMemberFailException("이미 등록된 Email입니다.");
 			}else{
 				//패스워드 암호화 처리
 				member.setLoginPw(passwordEncoder.encode(member.getLoginPw()));
