@@ -7,14 +7,10 @@ import org.hibernate.validator.constraints.Range;
 
 public class IrdntManage implements Serializable{
 
-	@NotEmpty
 	private int irdntId;
-	@NotEmpty (message = "재료명을 넣으세요")
 	private String irdntName;
-	@Range(min=1, max=1000,message="보관기간은 1일에서 1000일 사이로만 가능합니다.")
 	private int irdntPeriod;
 	private String irdntCategory;
-	
 	private MyIrdnt myIrdnt;
 	private ShareRecipeIrdnt shareRecipeIrdnt;
 	private MyDislikeIrdnt myDislikeIrdnt;
