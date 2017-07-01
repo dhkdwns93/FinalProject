@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- /**
+ (mybatis-config)mybatis-config
+작성자 :  
+최초 작성일 
+변경이력 
+-170630 김경혜) member, admin mapper resource에 추가
+*/ -->
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
 
@@ -12,6 +19,7 @@
 	<mappers>
 
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/fridgerMapper.xml"/>
+		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/fridgerGroupMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/MyIrdntMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/IrdntManageMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/RecipeInfoMapper.xml"/>
@@ -24,6 +32,9 @@
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/CommentQnAMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/joinProcessMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/MyDislikeIrdntMapper.xml"/>
+		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/MemberMapper.xml"/>
+		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/AdminMapper.xml"/>
+		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/AuthorityMapper.xml"/>
 		
 	</mappers>
 </configuration>

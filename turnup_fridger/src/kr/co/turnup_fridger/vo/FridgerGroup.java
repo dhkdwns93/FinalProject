@@ -74,12 +74,12 @@ public class FridgerGroup implements Serializable{
 	}
 
 
-	public String getMemberId() {
+	public String getGroupMemberId() {
 		return groupMemberId;
 	}
 
 
-	public void setMemberId(String memberId) {
+	public void setGroupMemberId(String memberId) {
 		this.groupMemberId = memberId;
 	}
 

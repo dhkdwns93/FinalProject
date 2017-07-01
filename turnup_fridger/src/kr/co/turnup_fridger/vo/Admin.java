@@ -1,10 +1,16 @@
+/**
+ (VO)admin
+작성자 :  김경혜
+최초 작성일 170627
+변경이력 
+*/
 package kr.co.turnup_fridger.vo;
 
 import java.io.Serializable;
 
 public class Admin implements Serializable {
-	private String adminId;
-	private String adminPw;
+	private String loginId;
+	private String loginPw;
 	private String adminName;
 	private String adminTel;
 	private String adminEmail;
@@ -12,30 +18,38 @@ public class Admin implements Serializable {
 	
 	public Admin(){}
 	
-	public Admin(String adminId, String adminPw, String adminName, String adminTel, String adminEmail,
+	
+	public Admin(String loginId, String adminAuthority) {
+		this.loginId = loginId;
+		this.adminAuthority = adminAuthority;
+	}
+
+
+	public Admin(String loginId, String loginPw, String adminName, String adminTel, String adminEmail,
 			String adminAuthority) {
-		this.adminId = adminId;
-		this.adminPw = adminPw;
+		this.loginId = loginId;
+		this.loginPw = loginPw;
 		this.adminName = adminName;
 		this.adminTel = adminTel;
 		this.adminEmail = adminEmail;
 		this.adminAuthority = adminAuthority;
 	}
+	
 
-	public String getAdminId() {
-		return adminId;
+	public String getLoginId() {
+		return loginId;
 	}
 
-	public void setAdminId(String adminId) {
-		this.adminId = adminId;
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
 	}
 
-	public String getAdminPw() {
-		return adminPw;
+	public String getLoginPw() {
+		return loginPw;
 	}
 
-	public void setAdminPw(String adminPw) {
-		this.adminPw = adminPw;
+	public void setLoginPw(String loginPw) {
+		this.loginPw = loginPw;
 	}
 
 	public String getAdminName() {
@@ -72,7 +86,7 @@ public class Admin implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Admin [adminId=" + adminId + ", adminPw=" + adminPw + ", adminName=" + adminName + ", adminTel="
+		return "Admin [loginId=" + loginId + ", loginPw=" + loginPw + ", adminName=" + adminName + ", adminTel="
 				+ adminTel + ", adminEmail=" + adminEmail + ", adminAuthority=" + adminAuthority + "]";
 	}
 
@@ -82,9 +96,9 @@ public class Admin implements Serializable {
 		int result = 1;
 		result = prime * result + ((adminAuthority == null) ? 0 : adminAuthority.hashCode());
 		result = prime * result + ((adminEmail == null) ? 0 : adminEmail.hashCode());
-		result = prime * result + ((adminId == null) ? 0 : adminId.hashCode());
+		result = prime * result + ((loginId == null) ? 0 : loginId.hashCode());
 		result = prime * result + ((adminName == null) ? 0 : adminName.hashCode());
-		result = prime * result + ((adminPw == null) ? 0 : adminPw.hashCode());
+		result = prime * result + ((loginPw == null) ? 0 : loginPw.hashCode());
 		result = prime * result + ((adminTel == null) ? 0 : adminTel.hashCode());
 		return result;
 	}
@@ -108,20 +122,20 @@ public class Admin implements Serializable {
 				return false;
 		} else if (!adminEmail.equals(other.adminEmail))
 			return false;
-		if (adminId == null) {
-			if (other.adminId != null)
+		if (loginId == null) {
+			if (other.loginId != null)
 				return false;
-		} else if (!adminId.equals(other.adminId))
+		} else if (!loginId.equals(other.loginId))
 			return false;
 		if (adminName == null) {
 			if (other.adminName != null)
 				return false;
 		} else if (!adminName.equals(other.adminName))
 			return false;
-		if (adminPw == null) {
-			if (other.adminPw != null)
+		if (loginPw == null) {
+			if (other.loginPw != null)
 				return false;
-		} else if (!adminPw.equals(other.adminPw))
+		} else if (!loginPw.equals(other.loginPw))
 			return false;
 		if (adminTel == null) {
 			if (other.adminTel != null)
