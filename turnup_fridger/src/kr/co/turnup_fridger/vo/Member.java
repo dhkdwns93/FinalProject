@@ -37,20 +37,6 @@ public class Member implements Serializable{
 		this.memberSex = memberSex;
 	}
 
-	//memberAuthority 포함 생성자
-	public Member(String loginId, String loginPw, String memberName, String memberAddress, String memberEmail,
-			String memberTel, String memberSex, String memberAuthority) {
-		this.loginId = loginId;
-		this.loginPw = loginPw;
-		this.memberName = memberName;
-		this.memberAddress = memberAddress;
-		this.memberEmail = memberEmail;
-		this.memberTel = memberTel;
-		this.memberSex = memberSex;
-		this.memberAuthority = memberAuthority;
-	}
-
-
 	public String getLoginId() {
 		return loginId;
 	}

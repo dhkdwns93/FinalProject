@@ -9,16 +9,20 @@ package kr.co.turnup_fridger.dao.impl;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import kr.co.turnup_fridger.dao.MemberDao;
 import kr.co.turnup_fridger.vo.Member;
 
+@Repository
 public class MemberDaoImpl implements MemberDao {
 	
+	@Autowired
 	private SqlSessionTemplate session;
 	
 	private String makeSqlId(String id){
-		return "kr.co.turnup_fridger.config.mybatis.mapper.MemberMapper."+id;
+		return "MemberMapper."+id;
 	}
 	
 	@Override

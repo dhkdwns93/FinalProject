@@ -9,16 +9,20 @@ package kr.co.turnup_fridger.dao.impl;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import kr.co.turnup_fridger.dao.AdminDao;
 import kr.co.turnup_fridger.vo.Admin;
 
+@Repository
 public class AdminDaoImpl implements AdminDao {
-
+	
+	@Autowired
 	private SqlSessionTemplate session;
 	
 	private String makeSqlId(String id){
-		return "kr.co.turnup_fridger.config.mybatis.mapper.AdminMapper."+id;
+		return "AdminMapper."+id;
 	}
 	
 	@Override

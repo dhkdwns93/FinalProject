@@ -7,16 +7,20 @@
 package kr.co.turnup_fridger.dao.impl;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import kr.co.turnup_fridger.dao.AuthorityDao;
 import kr.co.turnup_fridger.vo.Authority;
 
+@Repository
 public class AuthorityDaoImpl implements AuthorityDao {
 
+	@Autowired
 	private SqlSessionTemplate session;
 	
 	private String makeSqlId(String id){
-		return "kr.co.turnup_fridger.config.mybatis.mapper.AuthorityMapper."+id;
+		return "AuthorityMapper."+id;
 	}
 	
 	@Override
