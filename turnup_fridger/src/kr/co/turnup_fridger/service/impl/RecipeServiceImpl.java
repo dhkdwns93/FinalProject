@@ -60,13 +60,11 @@ public class RecipeServiceImpl implements RecipeService{
 			throw new Exception("없는 레시피입니다.");
 		}
 		infoDao.deleteRecipeInfo(recipeId);
-		//crse는 cookingno을 알아서 지울수가 있네...
-		//irdnt는 irdntno로....
-		//cascade로 지울수없나? on delete cascade?
+
 	}
 
 	@Override
-	public List<RecipeInfo> findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds) {
+	public List<RecipeInfo> findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword) {
 		//페이징
 		//로직도 복잡....
 		
@@ -74,7 +72,7 @@ public class RecipeServiceImpl implements RecipeService{
 	}
 
 	@Override
-	public Map<String,Object> findRecipeByRecipeName(String recipeName,int page) {
+	public Map<String,Object> findRecipeByRecipeName(String recipeName,int page,String keyword) {
 		HashMap<String,Object> map = new HashMap<>();
 		int totalCount=infoDao.selectRecipeInfoByNameCount(recipeName);
 		PagingBean pageBean = new PagingBean(totalCount,page);
@@ -86,17 +84,17 @@ public class RecipeServiceImpl implements RecipeService{
 	}
 
 	@Override
-	public List<RecipeInfo> findRecipeByCategory(String categoryName, String typeName) {
+	public List<RecipeInfo> findRecipeByCategory(String categoryName, String typeName,String keyword) {
 		//페이징
 		return null;
 	}
 
-	@Override
+/*	@Override
 	public List<RecipeInfo> RangeRecipeByKeyword(List<RecipeInfo> Recipes, String keyword) {
 		//최다조회순,정확도순,칼로리낮은순, 칼로리높은순, 난이도?
 		return null;
 	}
-
+*/
 	@Override
 	public RecipeInfo ShowDetailOfRecipe(int recipeId) {
 		return infoDao.selectThreeOfRecipesById(recipeId);
