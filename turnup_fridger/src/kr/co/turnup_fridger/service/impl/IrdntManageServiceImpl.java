@@ -16,7 +16,7 @@ public class IrdntManageServiceImpl implements IrdntManageService{
 	private IrdntManageDao dao;
 	
 	@Override
-	public void createIrdnt(IrdntManage irdnt) throws Exception{
+	public String createIrdnt(IrdntManage irdnt) throws Exception{
 		
 		//id는 겹치면 안되고, 재료명도 겹치면 안됨.
 		//보관기간 입력은 관리자니까 무조건할거야. 
@@ -31,6 +31,7 @@ public class IrdntManageServiceImpl implements IrdntManageService{
 		
 		dao.insertIrdnt(irdnt);
 		
+		return "";
 	}
 
 	@Override

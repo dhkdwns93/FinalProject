@@ -42,8 +42,8 @@
 	</resultMap>
 	
 	<resultMap type="RecipeInfo" id="recipeInfo-recipeCrse-recipeIrdnt-resultmap" extends="RecipeInfo-resultmap">
-		<association property="recipeCrse" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeCrseMapper.RecipeCrse-resultmap"/>
-		<association property="recipeIrdnt" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeIrdntMapper.RecipeIrdnt-resultmap"/>
+		<collection property="recipeCrse" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeCrseMapper.RecipeCrse-resultmap"/>
+		<collection property="recipeIrdnt" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeIrdntMapper.RecipeIrdnt-resultmap"/>
 	</resultMap>
 	
 	<insert id="insertRecipeInfo" parameterType="RecipeInfo">
@@ -151,7 +151,7 @@
 	</select>
 	
 	<!--재료명으로 조회한거 페이징  -->
-	<select id="selectRecipeInfoByName" resultMap="RecipeInfo-resultmap" parameterType="java.lang.String">
+	<select id="selectRecipeInfoByName" resultMap="RecipeInfo-resultmap" parameterType="java.util.HashMap">
 	select recipe_id,recipe_name,sumry,category_code,category_name,type_code,type_name,cooking_time,calorie,
 			qnt,recipe_level,irdnt_code,price,img_url,det_url,recipe_hits
 	from(	
