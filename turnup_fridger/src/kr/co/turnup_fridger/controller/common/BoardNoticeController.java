@@ -1,4 +1,4 @@
-package kr.co.turnup_fridger.controller;
+package kr.co.turnup_fridger.controller.common;
 
 import java.io.File;
 import java.util.List;
