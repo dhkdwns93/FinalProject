@@ -1,5 +1,6 @@
 package kr.co.turnup_fridger.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -54,14 +55,15 @@ public class RecipeIrdntDaoImpl implements RecipeIrdntDao{
 	}
 
 	@Override
-	public List<RecipeIrdnt> getRecipeCodeByIrdntId(List irdntIds) {
+	public List<Integer> getRecipeCodeByIrdntIds(List<Integer> irdntIds, List<Integer> hateIrdntIds) {
+		HashMap map = new HashMap();
+		map.put("irdntIds",irdntIds);
+		map.put("hateIrdntIds",hateIrdntIds);
 		
-		int irdntId=0;
-		
-		
-		
-		return session.selectList(makeSql("getRecipeCodeByIrdntId"),irdntId);
+		return session.selectList(makeSql("getRecipeCodeByIrdntIds"),map);
 	}
+
+
 
 	
 }

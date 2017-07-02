@@ -30,7 +30,7 @@ public class RecipeServiceImpl implements RecipeService{
 		if(infoDao.selectRecipeInfoById(recipe.getRecipeId())!=null){
 			throw new Exception("이미 존재하는 레시피입니다.");
 		}
-		//3중조인된 타입으로 들어가는건가?
+
 		infoDao.insertRecipeInfo(recipe);
 		for(int i=0;i<recipe.getrecipeCrse().size();i++){
 			crseDao.insertRecipeCrse(recipe.getrecipeCrse().get(i));
@@ -59,46 +59,53 @@ public class RecipeServiceImpl implements RecipeService{
 		if(infoDao.selectRecipeInfoById(recipeId)==null){
 			throw new Exception("없는 레시피입니다.");
 		}
+		//on delete cascade.
 		infoDao.deleteRecipeInfo(recipeId);
-
 	}
 
 	@Override
-	public List<RecipeInfo> findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword) {
+	public Map<String,Object> findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword,int page) {
 		//페이징
-		//로직도 복잡....
+		List<Integer> recipeIds = irdntDao.getRecipeCodeByIrdntIds(irdntIds, hateIrdntIds);
 		
-		return null;
-	}
-
-	@Override
-	public Map<String,Object> findRecipeByRecipeName(String recipeName,int page,String keyword) {
 		HashMap<String,Object> map = new HashMap<>();
-		int totalCount=infoDao.selectRecipeInfoByNameCount(recipeName);
+		int totalCount= infoDao.selectRecipesInfoByIdsCount(recipeIds, keyword);
 		PagingBean pageBean = new PagingBean(totalCount,page);
-		
-		List<RecipeInfo> list = infoDao.selectRecipeInfoByName(recipeName, pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
+		List<RecipeInfo> list = infoDao.selectRecipesInfoByIds(recipeIds, keyword, pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
 		map.put("pageBean", pageBean);
 		map.put("list", list);
 		return map;
 	}
 
 	@Override
-	public List<RecipeInfo> findRecipeByCategory(String categoryName, String typeName,String keyword) {
-		//페이징
-		return null;
+	public Map<String,Object> findRecipeByRecipeName(String recipeName,String keyword,int page) {
+		HashMap<String,Object> map = new HashMap<>();
+		int totalCount=infoDao.selectRecipeInfoByNameCount(recipeName,keyword);
+		PagingBean pageBean = new PagingBean(totalCount,page);
+		
+		List<RecipeInfo> list = infoDao.selectRecipeInfoByName(recipeName,keyword,pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
+		map.put("pageBean", pageBean);
+		map.put("list", list);
+		return map;
 	}
 
-/*	@Override
-	public List<RecipeInfo> RangeRecipeByKeyword(List<RecipeInfo> Recipes, String keyword) {
-		//최다조회순,정확도순,칼로리낮은순, 칼로리높은순, 난이도?
-		return null;
+	@Override
+	public Map<String,Object> findRecipeByCategory(String categoryName, String typeName,String keyword,int page) {
+		//페이징
+		//infoDao.selectRecipeInfoByCategoryAndType(categoryName, typeName, keyword);
+		HashMap<String,Object> map = new HashMap<>();
+		int totalCount=infoDao.selectRecipeInfoByCategoryAndTypeCount(categoryName, typeName, keyword);
+		PagingBean pageBean = new PagingBean(totalCount,page);
+		
+		List<RecipeInfo> list = infoDao.selectRecipeInfoByCategoryAndType(categoryName, typeName, keyword, pageBean.getBeginItemInPage(), pageBean.getEndPage());
+		map.put("pageBean", pageBean);
+		map.put("list", list);
+		return map;
 	}
-*/
+
 	@Override
 	public RecipeInfo ShowDetailOfRecipe(int recipeId) {
 		return infoDao.selectThreeOfRecipesById(recipeId);
-
 	}
 
 	@Override
