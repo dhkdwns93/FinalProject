@@ -1,5 +1,8 @@
 package kr.co.turnup_fridger.security.provider;
 
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -8,7 +11,21 @@ import org.springframework.stereotype.Component;
  * 	=> AuthenticationProvider
  * 구현 : AuthenticationProvider를 implements. 메소드 오버라이딩(authenticate())
  */
-public class UserAuthenticationProvider {
+public class UserAuthenticationProvider implements AuthenticationProvider
+
+{
+
+	@Override
+	public Authentication authenticate(Authentication arg0) throws AuthenticationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean supports(Class<?> arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 	
 	
