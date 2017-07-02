@@ -341,6 +341,7 @@ CREATE TABLE RECIPE_INFO (
 --select * from RECIPE_INFO
 --select distinct category_name from RECIPE_INFO
 --select category_name, type_name from RECIPE_INFO where category_name ='퓨전' group by category_name, type_name 
+--select distinct recipe_level from RECIPE_INFO 
 
 /* 레시피 과정정보 */
 DROP TABLE RECIPE_CRSE;

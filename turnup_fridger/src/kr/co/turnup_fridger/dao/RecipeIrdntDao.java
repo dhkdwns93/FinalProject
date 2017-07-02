@@ -55,11 +55,11 @@ public interface RecipeIrdntDao {
 	List<RecipeIrdnt> selectRecipeIrdntByName(String irdntName);
 	
 	/**
-	 * 입력받은 재료id로 해당하는 재료정보의 레시피 재료정보들을 반환. (1개만)?
+	 * 입력받은 재료id들로 해당되는 레시피id들만 골라내는 작업.
 	 * @param irdntId
 	 * @return
 	 */
-	List<RecipeIrdnt> getRecipeCodeByIrdntId(List irdntId);
+	List<Integer> getRecipeCodeByIrdntIds(List<Integer> irdntIds, List<Integer> hateIrdntIds);
 	
 	
 }

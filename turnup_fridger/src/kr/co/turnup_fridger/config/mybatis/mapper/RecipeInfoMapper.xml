@@ -103,41 +103,7 @@
 		FROM RecipeInfo
 		where recipe_id=#{recipeId}
 	</select>
-	
-	<select id="selectRecipeInfoByLevel" resultMap="RecipeInfo-resultmap" parameterType="java.lang.String">
-		SELECT
-		<include refid="all-column" />
-		FROM RecipeInfo
-		where recipe_level=#{recipeLevel}
-	</select>
-	
-	<select id="selectRecipeInfoByHits" resultMap="RecipeInfo-resultmap" parameterType="_int">
-		SELECT
-		<include refid="all-column" />
-		FROM RecipeInfo
-		where recipe_hits=#{recipeHits}
-	</select>
-	
-	<select id="selectRecipeInfoBycalorie" resultMap="RecipeInfo-resultmap" parameterType="java.lang.String">
-		SELECT
-		<include refid="all-column" />
-		FROM RecipeInfo
-		where calorie=#{calorie}
-	</select>
-	
-	<select id="selectRecipeInfoByCategoryName" resultMap="RecipeInfo-resultmap" parameterType="java.lang.String">
-		SELECT
-		<include refid="all-column" />
-		FROM RecipeInfo
-		where category_name=#{categoryName}
-	</select>
-	
-	<select id="selectRecipeInfoByTypeName" resultMap="RecipeInfo-resultmap" parameterType="java.lang.String">
-		SELECT
-		<include refid="all-column" />
-		FROM RecipeInfo
-		where type_name=#{typeName}
-	</select>
+
 	
 	<!--조인  -->
 	<select id="selectThreeOfRecipesById" resultMap="recipeInfo-recipeCrse-recipeIrdnt-resultmap" parameterType="_int">
@@ -150,7 +116,8 @@
 		where i.recipe_id = c.recipe_id(+) and i.recipe_id = d.recipe_id(+) 
 	</select>
 	
-	<!--재료명으로 조회한거 페이징  -->
+	
+	<!--레시피명으로 조회한거 페이징  -->
 	<select id="selectRecipeInfoByName" resultMap="RecipeInfo-resultmap" parameterType="java.util.HashMap">
 	select recipe_id,recipe_name,sumry,category_code,category_name,type_code,type_name,cooking_time,calorie,
 			qnt,recipe_level,irdnt_code,price,img_url,det_url,recipe_hits
@@ -160,16 +127,62 @@
 		from(
 			SELECT <include refid="all-column" />
 			FROM RecipeInfo
-			where recipe_name like '%'||#{recipeName}||'%')
+			where recipe_name like '%'||#{recipeName}||'%'
+			<choose>
+			<when test="keyword=='recipeHitsDesc'">
+				order by recipeHits desc
+			</when>
+			<when test="keyword=='recipeHitsAsc'">
+				order by recipeHits asc
+			</when>
+			<when test="keyword =='calorieDesc'">
+				order by calrorie desc
+			</when>
+			<when test="keyword =='calorieAsc'">
+				order by calrorie asc
+			</when>
+			<when test="keyword == '초보환영'">
+				and recipe_level='초보환영'
+			</when>
+			<when test="keyword == '보통'">
+				and recipe_level='보통'
+			</when>
+			<when test="keyword == '어려움'">
+				and recipe_level='어려움'
+			</when>			
+		</choose> )
 		where rownum &lt;=#{endIndex})
 	where rnum >=#{startIndex}
 	</select>
 	
-	<!--재료명 카운트  -->
-	<select id="selectRecipeInfoByNameCount" resultType="_int" parameterType="java.lang.String">
-			SELECT count(*)
-			FROM RecipeInfo
-			where recipe_name like '%'||#{recipeName}||'%'
+	<!--레시피명 카운트  -->
+	<select id="selectRecipeInfoByNameCount" resultType="_int" parameterType="java.util.HashMap">
+		SELECT count(*)
+		FROM RecipeInfo
+		where recipe_name like '%'||#{recipeName}||'%' 
+		<choose>
+			<when test="keyword=='recipeHitsDesc'">
+				order by recipeHits desc
+			</when>
+			<when test="keyword=='recipeHitsAsc'">
+				order by recipeHits asc
+			</when>
+			<when test="keyword =='calorieDesc'">
+				order by calrorie desc
+			</when>
+			<when test="keyword =='calorieAsc'">
+				order by calrorie asc
+			</when>
+			<when test="keyword == '초보환영'">
+				and recipe_level='초보환영'
+			</when>
+			<when test="keyword == '보통'">
+				and recipe_level='보통'
+			</when>
+			<when test="keyword == '어려움'">
+				and recipe_level='어려움'
+			</when>			
+		</choose>
 	</select>
 	
 	<!--카테고리페이징  -->
@@ -177,9 +190,61 @@
 		SELECT
 		<include refid="all-column" />
 		FROM RecipeInfo
-		where category_name=#{categoryName} and type_name=#{typeName}
-		<!--전체검색일때는 어떻게 처리하지? 공백으로 처리해서 부분검색?  --> 
+		where category_name like '%'||#{categoryName}||'%' and type_name like '%'||#{typeName}||'%'
+			<choose>
+			<when test="keyword=='recipeHitsDesc'">
+				order by recipeHits desc
+			</when>
+			<when test="keyword=='recipeHitsAsc'">
+				order by recipeHits asc
+			</when>
+			<when test="keyword =='calorieDesc'">
+				order by calrorie desc
+			</when>
+			<when test="keyword =='calorieAsc'">
+				order by calrorie asc
+			</when>
+			<when test="keyword == '초보환영'">
+				and recipe_level='초보환영'
+			</when>
+			<when test="keyword == '보통'">
+				and recipe_level='보통'
+			</when>
+			<when test="keyword == '어려움'">
+				and recipe_level='어려움'
+			</when>			
+		</choose>
 	</select>
+		
+	<!--카테고리 카운트  -->
+	<select id="selectRecipeInfoByCategoryAndTypeCount" resultType="_int" parameterType="java.util.HashMap">
+		SELECT count(*)
+		FROM RecipeInfo
+		where category_name like '%'||#{categoryName}||'%' and type_name like '%'||#{typeName}||'%'
+				<choose>
+			<when test="keyword=='recipeHitsDesc'">
+				order by recipeHits desc
+			</when>
+			<when test="keyword=='recipeHitsAsc'">
+				order by recipeHits asc
+			</when>
+			<when test="keyword =='calorieDesc'">
+				order by calrorie desc
+			</when>
+			<when test="keyword =='calorieAsc'">
+				order by calrorie asc
+			</when>
+			<when test="keyword == '초보환영'">
+				and recipe_level='초보환영'
+			</when>
+			<when test="keyword == '보통'">
+				and recipe_level='보통'
+			</when>
+			<when test="keyword == '어려움'">
+				and recipe_level='어려움'
+			</when>			
+		</choose>
+	</select>	
 		
 	<!--recipe_id들로 조회한거 페이징  -->
 	<select id="selectRecipesInfoByIds" resultMap="RecipeInfo-resultmap" parameterType="java.util.List">
@@ -187,8 +252,60 @@
 		<include refid="all-column" />
 		FROM RecipeInfo
 		where recipe_id in (#{recipeId})
+			<choose>
+			<when test="keyword=='recipeHitsDesc'">
+				order by recipeHits desc
+			</when>
+			<when test="keyword=='recipeHitsAsc'">
+				order by recipeHits asc
+			</when>
+			<when test="keyword =='calorieDesc'">
+				order by calrorie desc
+			</when>
+			<when test="keyword =='calorieAsc'">
+				order by calrorie asc
+			</when>
+			<when test="keyword == '초보환영'">
+				and recipe_level='초보환영'
+			</when>
+			<when test="keyword == '보통'">
+				and recipe_level='보통'
+			</when>
+			<when test="keyword == '어려움'">
+				and recipe_level='어려움'
+			</when>			
+		</choose>
 		<!--이게 되는 구문인가...? foreach로 하나하나 빼서 in()처리? -->
-				
+	</select>
+	
+	<!--id로 카운트  -->
+	<select id="selectRecipeInfoByNameCount" resultType="_int" parameterType="java.util.HashMap">
+		SELECT count(*)
+		FROM RecipeInfo
+		where recipe_id = #{recipeId}
+			<choose>
+			<when test="keyword=='recipeHitsDesc'">
+				order by recipeHits desc
+			</when>
+			<when test="keyword=='recipeHitsAsc'">
+				order by recipeHits asc
+			</when>
+			<when test="keyword =='calorieDesc'">
+				order by calrorie desc
+			</when>
+			<when test="keyword =='calorieAsc'">
+				order by calrorie asc
+			</when>
+			<when test="keyword == '초보환영'">
+				and recipe_level='초보환영'
+			</when>
+			<when test="keyword == '보통'">
+				and recipe_level='보통'
+			</when>
+			<when test="keyword == '어려움'">
+				and recipe_level='어려움'
+			</when>			
+		</choose>
 	</select>
 	
 </mapper>
