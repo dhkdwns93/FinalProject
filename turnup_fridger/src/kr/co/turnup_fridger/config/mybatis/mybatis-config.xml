@@ -17,7 +17,6 @@
 	</typeAliases>
 	<!-- environment를 설정하지 않음-> spring트랜젝션이 처리 -->
 	<mappers>
-
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/fridgerMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/fridgerGroupMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/MyIrdntMapper.xml"/>
