@@ -1,7 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
+ 	<mvc:annotation-driven/>
+	
+	<context:component-scan base-package="kr.co.turnup_fridger.controller, kr.co.turnup_fridger.service.impl, kr.co.turnup_fridger.dao.impl, kr.co.turnup_fridger"/>
+	
+	
+	<!-- multipartResolver 등록  -->
+	<bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+	
+	
+	
+	<!-- 단순 링크 등록 -->
+	<mvc:view-controller path="/index.do" view-name="index"/>
+	<!-- 공지사항 목록 페이지 -->
+	<mvc:view-controller path="/boardnotice/boardnoticelist.do" view-name="boardnotice/boardnoticelist"/>
+	<!-- 공지사항 등록 폼 페이지 -->
+	<mvc:view-controller path="/boardnotice/boardnotice_form.do" view-name="boardnotice/boardnotice_form"/>
+	<!-- 공지사항 상세페이지 -->
+	<mvc:view-controller path="/boardnotice/boardnotice_view.do" view-name="boardnotice/boardnotice_view"/>
+	<!-- 공지사항 수정 폼 페이지 -->
+	<mvc:view-controller path="/boardnotice/boardnotice_upload.do" view-name="boardnotice/boardnotice_upload"/>	
+	
 
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/WEB-INF/view/"
+		p:suffix=".jsp"/>	
+		
+	<!-- properties파일 등록 -->
+	<bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"
+		p:basename="kr.co.turnup_fridger.validation.message.error_message"
+		p:defaultEncoding="UTF-8"/>	
 </beans>

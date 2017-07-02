@@ -4,14 +4,12 @@
 	namespace="kr.co.turnup_fridger.config.mybatis.mapper.BoardNoticeMapper">
 	
 	<!-- 
-			boardNotice 테이블 관련 mapper  - 작성자 : 김장규
+			boardNotice 테이블 관련 mapper
 			+ boardNotice 등록
 			+ boardNotice 수정
 			+ boardNotice 삭제
 			+ boardNotice 조회
 	 -->
-	 
-	 
 	<!-- boardNotice 기본 조회 sql -->
 	<sql id="boardNotice-select-sql">
 		SELECT BOARD_NOTICE_ID, BOARE_NOTICE_ITEMS, BOARD_NOTICE_TITLE, 
@@ -19,52 +17,49 @@
 		FROM BOARD_NOTICE
 	</sql>
 	
-	
 	<!-- ResultMap 등록 -->
 	<resultMap id="boardNotice-resultmap" type="boardNotice">
-		<id column="BOARD_NOTICE_ID" property="boardNoticeId"/>
-		<result column="BOARE_NOTICE_ITEMS" property="boardNoticeItems"/>
-		<result column="BOARD_NOTICE_TITLE" property="boardNoticeTitle"/>
-		<result column="BOARD_NOTICE_TXT" property="boardNoticeTxt"/>
-		<result column="BOARD_NOTICE_IMG" property="boardNoticeImg"/>
+		<id column="BOARD_NOTICE_ID" property="id"/>
+		<result column="BOARE_NOTICE_ITEMS" property="items"/>
+		<result column="BOARD_NOTICE_TITLE" property="title"/>
+		<result column="BOARD_NOTICE_TXT" property="txt"/>
+		<result column="BOARD_NOTICE_IMG" property="img" />
 		<result column="BOARD_NOTICE_DATE" property="date"/>
 	</resultMap>
 	
-	
-	
 	<!-- 등록 SQL -->
 	<insert id="insertBoardNotice" parameterType="boardNotice">
-		INSERT INTO BOARD_NOTICE 
+		<selectKey resultType="_int" keyProperty="id" order="BEFORE">
+			select BOARD_NOTICE_ID.nextval from dual
+		</selectKey>
+		INSERT INTO BOARD_NOTICE
 		VALUES(
-				#{boardNoticeId},
-				#{boardNoticeItems},
-				#{boardNoticeTitle},
-				#{boardNoticeTxt},
-				#{boardNoticeImg},
-				#{date}
-			   )
+				#{id},
+				#{items},
+				#{title},
+				#{txt},
+				#{img},
+				sysdate
+			   )	
 	</insert>
 	
 	
 	<!-- 업데이트 SQL -->
 	<update id="updateBoardNotice" parameterType="boardNotice">
 		UPDATE 	BOARD_NOTICE 
-		SET		BOARE_NOTICE_ITEMS = #{boardNoticeItems},
-				BOARD_NOTICE_TITLE = #{boardNoticeTitle},
-				BOARD_NOTICE_TXT = #{boardNoticeTxt},
-				BOARD_NOTICE_IMG = #{boardNoticeImg},
-				BOARD_NOTICE_DATE = #{date}
-		WHERE	BOARD_NOTICE_ID = #{boardNoticeId}
+		SET		BOARE_NOTICE_ITEMS = #{items},
+				BOARD_NOTICE_TITLE = #{title},
+				BOARD_NOTICE_TXT = #{txt},
+				BOARD_NOTICE_IMG = #{img},
+				BOARD_NOTICE_DATE = SYSDATE
+		WHERE	BOARD_NOTICE_ID = #{id}
 	</update>
-	
 	
 	
 	<!-- 삭세 SQL-->
 	<delete id="deleteBoardNotice" parameterType="_int">
-		DELETE FROM BOARD_NOTICE WHERE BOARD_NOTICE_ID = #{boardNoticeId}
+		DELETE FROM BOARD_NOTICE WHERE BOARD_NOTICE_ID = #{id}
 	</delete>
-	
-	
 	
 	<!-- 조회 SQL -->
 	
@@ -72,20 +67,21 @@
 	<!-- LIST 전체 조회 SQL -->
 	<select id="selectBoardNoticeList" resultMap = "boardNotice-resultmap">
 		<include refid="boardNotice-select-sql"/>
+		ORDER BY BOARD_NOTICE_DATE DESC
 	</select> 
-	
 	
 	<!-- LIST 중에서 ID로 조회하는 SQL -->
 	<select id="selectBoardNoticeById" parameterType="_int" resultMap="boardNotice-resultmap">
 		<include refid="boardNotice-select-sql"/>
-		WHERE BOARD_NOTICE_ID = #{boardNoticeId}
+		WHERE BOARD_NOTICE_ID = #{id}
+		ORDER BY BOARD_NOTICE_DATE DESC
 	</select>
-	
 	
 	<!-- LIST 중에서 ITEMS로 조회하는 SQL  -->
 	<select id="selectBoardNoticeByItems" parameterType="string" resultMap="boardNotice-resultmap">
 		<include refid="boardNotice-select-sql"/>
-		WHERE BOARE_NOTICE_ITEMS = #{boardNoticeItems}
+		WHERE BOARE_NOTICE_ITEMS = #{items}
+		ORDER BY BOARD_NOTICE_DATE DESC
 	</select>
 	
 </mapper>
