@@ -20,8 +20,14 @@ public class IrdntManageValidator implements Validator{
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "irdntId", "requried");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "irdntName", "requried");
 
-		if(irdnt.getIrdntPeriod()<0||irdnt.getIrdntPeriod()>1000){
-			errors.rejectValue("irdntPeriod", "required");
+		if(irdnt.getRoomTemPeriod()<0 || irdnt.getRoomTemPeriod()>1000){
+			errors.rejectValue("RoomTemPeriod", "required");
+		}
+		if(irdnt.getColdTemPeriod()<0||irdnt.getColdTemPeriod()>1000){
+			errors.rejectValue("ColdTemPeriod", "required");
+		}
+		if(irdnt.getFreezeTemPeriod()<0||irdnt.getFreezeTemPeriod()>1000){
+			errors.rejectValue("FreezeTemPeriod", "required");
 		}
 		
 	}
