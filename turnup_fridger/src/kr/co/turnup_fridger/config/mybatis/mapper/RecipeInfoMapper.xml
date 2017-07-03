@@ -279,7 +279,7 @@
 	</select>
 	
 	<!--id로 카운트  -->
-	<select id="selectRecipeInfoByNameCount" resultType="_int" parameterType="java.util.HashMap">
+	<select id="selectRecipesInfoByIdsCount" resultType="_int" parameterType="java.util.HashMap">
 		SELECT count(*)
 		FROM RecipeInfo
 		where recipe_id = #{recipeId}
