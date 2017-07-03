@@ -28,10 +28,10 @@ public interface MemberDao {
 	/**
 	 * (사용자)개인회원 탈퇴하기
 	 * (관리자)개인회원 강제탈퇴시키기
-	 * @param loginId
+	 * @param memberId
 	 * @return
 	 */
-	int deleteMemberById(String loginId);
+	int deleteMemberById(String memberId);
 	
 	/**
 	 * (관리자)전체개인회원정보 조회하기
@@ -43,10 +43,10 @@ public interface MemberDao {
 	 * memberId를 매개변수로 받아 하나의 회원정보를 조회.
 	 * (사용자)개인회원 로그인하기
 	 * (사용자)개인회원정보조회하기
-	 * @param loginId
+	 * @param memberId
 	 * @return
 	 */
-	Member selectMemberById(String loginId);
+	Member selectMemberById(String memberId);
 	
 	/**
 	 * memberEmail를 매개변수로 받아 하나의 회원정보를조회.

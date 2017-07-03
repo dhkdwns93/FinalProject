@@ -29,23 +29,23 @@ public interface MemberService {
 	
 	/**
 	 * 개인회원정보 조회하기
-	 * @param loginId
+	 * @param memberId
 	 * @return
 	 */
-	Member inquiryMemberInfo(String loginId);
+	Member inquiryMemberInfo(String memberId);
 	
 	/**
 	 * 개인회원정보 수정하기   -authority에도 수정
-	 * @param loginId
+	 * @param memberId
 	 */
 	void changeMemberInfo(Member member) throws ChangeMemberInfoFailException;
 	
 	/**
 	 * 개인회원 탈퇴하기  -authority에도 삭제
 	 * (관리자)개인회원 강제탈퇴 -authority에도 삭제
-	 * @param loginId
+	 * @param memberId
 	 */
-	void deleteMember(String loginId);
+	void deleteMember(String memberId);
 	
 	/**
 	 * 개인회원 이메일계정으로 아이디/비번 찾기 -이름도 입력 받음. 이름-이메일 일치하지 않으면 아이디/비번 찾기 불가

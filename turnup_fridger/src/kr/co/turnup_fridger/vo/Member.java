@@ -8,11 +8,10 @@
 package kr.co.turnup_fridger.vo;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class Member implements Serializable{
-	private String loginId;
-	private String loginPw;
+	private String memberId;
+	private String memberPw;
 	private String memberName;
 	private String memberAddress;
 	private String memberEmail;
@@ -22,121 +21,86 @@ public class Member implements Serializable{
 	//DB상에는 없음.
 	private String memberAuthority="member";
 	
-	
 	public Member(){}
-	
 	//memberAuthority 미포함 생성자
-	public Member(String loginId, String loginPw, String memberName, String memberAddress, String memberEmail,
+	public Member(String memberId, String memberPw, String memberName, String memberAddress, String memberEmail,
 			String memberTel, String memberSex) {
-		this.loginId = loginId;
-		this.loginPw = loginPw;
+		this.memberId = memberId;
+		this.memberPw = memberPw;
 		this.memberName = memberName;
 		this.memberAddress = memberAddress;
 		this.memberEmail = memberEmail;
 		this.memberTel = memberTel;
 		this.memberSex = memberSex;
 	}
-
-	public String getLoginId() {
-		return loginId;
+	public String getMemberId() {
+		return memberId;
 	}
-
-
-	public void setLoginId(String loginId) {
-		this.loginId = loginId;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
-
-
-	public String getLoginPw() {
-		return loginPw;
+	public String getMemberPw() {
+		return memberPw;
 	}
-
-
-	public void setLoginPw(String loginPw) {
-		this.loginPw = loginPw;
+	public void setMemberPw(String memberPw) {
+		this.memberPw = memberPw;
 	}
-
-
 	public String getMemberName() {
 		return memberName;
 	}
-
-
 	public void setMemberName(String memberName) {
 		this.memberName = memberName;
 	}
-
-
 	public String getMemberAddress() {
 		return memberAddress;
 	}
-
-
 	public void setMemberAddress(String memberAddress) {
 		this.memberAddress = memberAddress;
 	}
-
-
 	public String getMemberEmail() {
 		return memberEmail;
 	}
-
-
 	public void setMemberEmail(String memberEmail) {
 		this.memberEmail = memberEmail;
 	}
-
-
 	public String getMemberTel() {
 		return memberTel;
 	}
-
-
 	public void setMemberTel(String memberTel) {
 		this.memberTel = memberTel;
 	}
-
-
 	public String getMemberSex() {
 		return memberSex;
 	}
-
-
 	public void setMemberSex(String memberSex) {
 		this.memberSex = memberSex;
 	}
-
-
 	public String getMemberAuthority() {
 		return memberAuthority;
 	}
-
 	public void setMemberAuthority(String memberAuthority) {
 		this.memberAuthority = memberAuthority;
 	}
-
 	@Override
 	public String toString() {
-		return "Member [loginId=" + loginId + ", loginPw=" + loginPw + ", memberName=" + memberName + ", memberAddress="
-				+ memberAddress + ", memberEmail=" + memberEmail + ", memberTel=" + memberTel + ", memberSex="
-				+ memberSex + ", memberAuthority=" + memberAuthority + "]";
+		return "Member [memberId=" + memberId + ", memberPw=" + memberPw + ", memberName=" + memberName
+				+ ", memberAddress=" + memberAddress + ", memberEmail=" + memberEmail + ", memberTel=" + memberTel
+				+ ", memberSex=" + memberSex + ", memberAuthority=" + memberAuthority + "]";
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((loginId == null) ? 0 : loginId.hashCode());
-		result = prime * result + ((loginPw == null) ? 0 : loginPw.hashCode());
 		result = prime * result + ((memberAddress == null) ? 0 : memberAddress.hashCode());
 		result = prime * result + ((memberAuthority == null) ? 0 : memberAuthority.hashCode());
 		result = prime * result + ((memberEmail == null) ? 0 : memberEmail.hashCode());
+		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
 		result = prime * result + ((memberName == null) ? 0 : memberName.hashCode());
+		result = prime * result + ((memberPw == null) ? 0 : memberPw.hashCode());
 		result = prime * result + ((memberSex == null) ? 0 : memberSex.hashCode());
 		result = prime * result + ((memberTel == null) ? 0 : memberTel.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -146,16 +110,6 @@ public class Member implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Member other = (Member) obj;
-		if (loginId == null) {
-			if (other.loginId != null)
-				return false;
-		} else if (!loginId.equals(other.loginId))
-			return false;
-		if (loginPw == null) {
-			if (other.loginPw != null)
-				return false;
-		} else if (!loginPw.equals(other.loginPw))
-			return false;
 		if (memberAddress == null) {
 			if (other.memberAddress != null)
 				return false;
@@ -171,10 +125,20 @@ public class Member implements Serializable{
 				return false;
 		} else if (!memberEmail.equals(other.memberEmail))
 			return false;
+		if (memberId == null) {
+			if (other.memberId != null)
+				return false;
+		} else if (!memberId.equals(other.memberId))
+			return false;
 		if (memberName == null) {
 			if (other.memberName != null)
 				return false;
 		} else if (!memberName.equals(other.memberName))
+			return false;
+		if (memberPw == null) {
+			if (other.memberPw != null)
+				return false;
+		} else if (!memberPw.equals(other.memberPw))
 			return false;
 		if (memberSex == null) {
 			if (other.memberSex != null)
@@ -188,6 +152,7 @@ public class Member implements Serializable{
 			return false;
 		return true;
 	}
-
-
+	
 }
+
+

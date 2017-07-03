@@ -34,10 +34,10 @@ public interface AdminDao {
 	
 	/**
 	 * (마스터관리자)관리자 탈퇴시키기-authority 테이블에도 삭제
-	 * @param loginId
+	 * @param adminId
 	 * @return
 	 */
-	int deleteAdminById(String loginId);
+	int deleteAdminById(String adminId);
 	
 	/**
 	 * (관리자)전체관리자 등록정보 조회하기.
@@ -46,11 +46,11 @@ public interface AdminDao {
 	List<Admin> selectAdminList();
 	
 	/**
-	 * loginId를 매개변수로 받아 하나의 관리자 정보를 조회.
+	 * adminId를 매개변수로 받아 하나의 관리자 정보를 조회.
 	 * (관리자)관리자 로그인하기
 	 * (관리자)관리자 개인정보 수정하기
-	 * @param loginId
+	 * @param adminId
 	 * @return
 	 */
-	Admin selectAdminById(String loginId);
+	Admin selectAdminById(String adminId);
 }
