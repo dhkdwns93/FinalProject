@@ -14,7 +14,7 @@ $(document).ready(function () {
         "success": function(list){
         	$("tbody").empty();
 	        $.each(list, function(){
-	        	 $("tbody").append($("<tr>").append($("<td>").append(this.fridgerId))
+	        	 $("tbody").append($("<tr>").prop("class","row_title").append($("<td>").append(this.fridgerId))
 						 .append($("<td>").append(this.fridgerName))
 						 .append($("<td>").append(this.memberId))
 						 .append($("<td>").append($("<a>").prop("href","/turnup_fridger/fridger/join.do").append($("<button>").prop("type","button").append("JOIN")))))
@@ -56,7 +56,7 @@ $(document).ready(function () {
 			},
 	        "success": function(fridger){
 	        	$("tbody").empty();
-	        	 $("tbody").append($("<tr>").append($("<td>").append(fridger.fridgerId))
+	        	 $("tbody").append($("<tr>").prop("class","row_title").append($("<td>").append(fridger.fridgerId))
 						 				.append($("<td>").append(fridger.fridgerName))
 						 				.append($("<td>").append(fridger.memberId))
 						 				.append($("<td>").append($("<a>").prop("href","/turnup_fridger/fridger/join.do").append($("<button>").prop("type","button").append("JOIN")))))
@@ -94,7 +94,7 @@ $(document).ready(function () {
 		        
 		        $("tbody").empty();
 		        $.each(list, function(){
-		        	 $("tbody").append($("<tr>").append($("<td>").append(this.fridgerId))
+		        	 $("tbody").append($("<tr>").prop("class","row_title").append($("<td>").append(this.fridgerId))
 							 .append($("<td>").append(this.fridgerName))
 							 .append($("<td>").append(this.memberId))
 							 .append($("<td>").append($("<a>").prop("href","/turnup_fridger/fridger/join.do").append($("<button>").prop("type","button").append("JOIN")))))
@@ -131,7 +131,7 @@ $(document).ready(function () {
 		        
 		        $("tbody").empty();
 		        $.each(list, function(){
-		        	 $("tbody").append($("<tr>").append($("<td>").append(this.fridgerId))
+		        	 $("tbody").append($("<tr>").prop("class","row_title").append($("<td>").append(this.fridgerId))
 												 .append($("<td>").append(this.fridgerName))
 												 .append($("<td>").append(this.memberId))
 												 .append($("<td>").append($("<a>").prop("href","/turnup_fridger/fridger/join.do").append($("<button>").prop("type","button").append("JOIN")))))
@@ -148,11 +148,22 @@ $(document).ready(function () {
 	
 	
 	
-	 $(document).on("click","tbody>tr",function(){
+	 $(document).on("click",".row_title",function(){
 		
-		$("tbody>tr").css("background-color", "white");
+		$(".row_title").css("background-color", "white");
 		$(this).css("background-color", "lightblue");
-		$("tr.collapse").addClass("out").removeClass("in");
+		//한번에 여러개 냉장고 정보 열어서 비교가능함
+		//$(".row_title").next().addClass("out").removeClass("in");
+
+		if($(this).next().hasClass("out")) {
+			$(".row_title").next().addClass("out").removeClass("in");
+	    	$(this).next().addClass("in");
+	    	$(this).next().removeClass("out");
+	    } else {
+	    	$(".row_title").next().addClass("out").removeClass("in");
+	    	$(this).next().addClass("out");
+	    	$(this).next().removeClass("in");
+	    }
 		
 		if($(this).is("[id^=info]")){	// 인포를 보여주는 row 라면 ajax 실행 하지 않는다!
 			return false;
@@ -190,15 +201,6 @@ $(document).ready(function () {
 			}
 		});	//end of ajax
 		
-		
-		
-		if($("#info"+fridgerId).hasClass("out")) {
-	    	$("#info"+fridgerId).addClass("in");
-	    	$("#info"+fridgerId).removeClass("out");
-	    } else {
-	    	$("#info"+fridgerId).addClass("out");
-	    	$("#info"+fridgerId).removeClass("in");
-	    }
 		
 		/* 
 		$.ajax({

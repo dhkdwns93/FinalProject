@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.turnup_fridger.exception.ExistingFridgerNameException;
 import kr.co.turnup_fridger.service.FridgerGroupService;
 import kr.co.turnup_fridger.service.FridgerService;
 import kr.co.turnup_fridger.validation.form.FridgerForm;
@@ -43,7 +44,7 @@ public class FridgerController {
 	 * @throws Exception
 	 */
 	@RequestMapping("register")
-	public ModelAndView registerFridger(@ModelAttribute("fridger") @Valid FridgerForm fridgerForm, BindingResult errors ) throws Exception{
+	public ModelAndView registerFridger(@ModelAttribute("fridger") @Valid FridgerForm fridgerForm, BindingResult errors ) {
 		// 요청 파라미터 검증 끝
 		
 		if(errors.hasErrors()){
@@ -55,7 +56,12 @@ public class FridgerController {
 		fridger = new Fridger();
 		System.out.println(fridger);
 		BeanUtils.copyProperties(fridgerForm, fridger);
-		fService.createFridger(fridger);
+		
+		try {
+			fService.createFridger(fridger);
+		} catch (ExistingFridgerNameException e) {
+			return new ModelAndView("fridger/register_form", "errorMsg", e.getMessage());
+		}
 		
 		return new ModelAndView("redirect:/fridger/register/success.do", "fridgerId", fridger.getFridgerId());
 	}

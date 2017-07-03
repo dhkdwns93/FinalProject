@@ -1,8 +1,9 @@
 package kr.co.turnup_fridger.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class MyIrdnt {
+public class MyIrdnt implements Serializable{
 
 	private int myIrdntKey;
 	private Date startDate;
