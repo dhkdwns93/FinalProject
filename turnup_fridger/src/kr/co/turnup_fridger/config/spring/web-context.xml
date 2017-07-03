@@ -28,8 +28,7 @@
 	<!-- 공지사항 수정 폼 페이지 -->
 	<mvc:view-controller path="/boardnotice/boardnotice_upload.do" view-name="boardnotice/boardnotice_upload"/>	
 	<!-- 냉장고리스트 페이지 (검색) -->
-	<mvc:view-controller path="/fridger/show/list.do" view-name="fridger/list"/>
-	
+	<mvc:view-controller path="/fridger/list.do" view-name="fridger/list"/>
 	<!-- 재료관리 목록 페이지   -->
 	<mvc:view-controller path="/irdntManage/irdntList.do" view-name="irdntManage/irdntList"/>
 	<!-- 재료관리 등록폼 페이지   -->

@@ -17,8 +17,8 @@ $(document).ready(function () {
 	        	 $("tbody").append($("<tr>").append($("<td>").append(this.fridgerId))
 						 .append($("<td>").append(this.fridgerName))
 						 .append($("<td>").append(this.memberId))
-						 .append($("<td>").append($("<a>").attr("href","/turnup_fridger/fridger/join.do").append($("<button>").attr("type","button").append("JOIN")))))
-							.append($("<tr>").attr("class","collapse out").attr("id", "info"+ this.fridgerId).append($("<td>").attr("colspan","4").append(" 정보가보여용")));
+						 .append($("<td>").append($("<a>").prop("href","/turnup_fridger/fridger/join.do").append($("<button>").prop("type","button").append("JOIN")))))
+							.append($("<tr>").prop("class","collapse out").prop("id", "info"+ this.fridgerId).append($("<td>").prop("colspan","4").append(" 정보가보여용")));
 	        })
         				
 			/* var txt ="";
@@ -59,8 +59,8 @@ $(document).ready(function () {
 	        	 $("tbody").append($("<tr>").append($("<td>").append(fridger.fridgerId))
 						 				.append($("<td>").append(fridger.fridgerName))
 						 				.append($("<td>").append(fridger.memberId))
-						 				.append($("<td>").append($("<a>").attr("href","/turnup_fridger/fridger/join.do").append($("<button>").attr("type","button").append("JOIN")))))
-						.append($("<tr>").attr("class","collapse out").attr("id", "info"+ fridger.fridgerId).append($("<td>").attr("colspan","4").append(" 정보가보여용")));
+						 				.append($("<td>").append($("<a>").prop("href","/turnup_fridger/fridger/join.do").append($("<button>").prop("type","button").append("JOIN")))))
+						.append($("<tr>").prop("class","collapse out").prop("id", "info"+ fridger.fridgerId).append($("<td>").prop("colspan","4").append(" 정보가보여용")));
 
 	        },
 	        "error":function(xhr, msg, code){
@@ -97,8 +97,8 @@ $(document).ready(function () {
 		        	 $("tbody").append($("<tr>").append($("<td>").append(this.fridgerId))
 							 .append($("<td>").append(this.fridgerName))
 							 .append($("<td>").append(this.memberId))
-							 .append($("<td>").append($("<a>").attr("href","/turnup_fridger/fridger/join.do").append($("<button>").attr("type","button").append("JOIN")))))
-			.append($("<tr>").attr("class","collapse out").attr("id", "info"+ this.fridgerId).append($("<td>").attr("colspan","4").append(" 정보가보여용")));
+							 .append($("<td>").append($("<a>").prop("href","/turnup_fridger/fridger/join.do").append($("<button>").prop("type","button").append("JOIN")))))
+			.append($("<tr>").prop("class","collapse out").prop("id", "info"+ this.fridgerId).append($("<td>").prop("colspan","4").append(" 정보가보여용")));
 		        });	// end of each
 	        },
 	        "error":function(xhr, msg, code){
@@ -134,8 +134,8 @@ $(document).ready(function () {
 		        	 $("tbody").append($("<tr>").append($("<td>").append(this.fridgerId))
 												 .append($("<td>").append(this.fridgerName))
 												 .append($("<td>").append(this.memberId))
-												 .append($("<td>").append($("<a>").attr("href","/turnup_fridger/fridger/join.do").append($("<button>").attr("type","button").append("JOIN")))))
-								.append($("<tr>").attr("class","collapse out").attr("id", "info"+ this.fridgerId).append($("<td>").attr("colspan","4").append(" 정보가보여용")));
+												 .append($("<td>").append($("<a>").prop("href","/turnup_fridger/fridger/join.do").append($("<button>").prop("type","button").append("JOIN")))))
+								.append($("<tr>").prop("class","collapse out").prop("id", "info"+ this.fridgerId).append($("<td>").prop("colspan","4").append(" 정보가보여용")));
 						
 		        });	// end of each
 	        },
