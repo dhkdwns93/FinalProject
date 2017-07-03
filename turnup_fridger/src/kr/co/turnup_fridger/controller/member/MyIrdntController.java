@@ -32,7 +32,7 @@ public class MyIrdntController {
 		validator.validate(irdnt, errors);*/
 		
 		if(errors.hasErrors()){
-			return new ModelAndView("/MyIrdnt/myIrdnt_form");
+			return new ModelAndView("/myIrdnt/myIrdnt_form");
 		}
 		
 		MyIrdnt myIrdnt = new MyIrdnt();
@@ -41,7 +41,7 @@ public class MyIrdntController {
 		
 		List<MyIrdnt> list = service.findAllMyIrdntByFridgerId(fridgerId);
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/MyIrdnt/MyIrdntList");
+		mav.setViewName("/myIrdnt/myIrdntList");
 	    mav.addObject("list", list); 
 	    return mav;
 		
@@ -54,7 +54,7 @@ public class MyIrdntController {
 		validator.validate(irdnt, errors);*/
 		
 		if(errors.hasErrors()){
-			return new ModelAndView("/MyIrdnt/myIrdnt_form");
+			return new ModelAndView("/myIrdnt/myIrdnt_form");
 		}
 		MyIrdnt myIrdnt = new MyIrdnt();
 		BeanUtils.copyProperties(myIrdntForm, myIrdnt);
@@ -62,7 +62,7 @@ public class MyIrdntController {
 		
 		List<MyIrdnt> list = service.findAllMyIrdntByFridgerId(fridgerId);
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/MyIrdnt/MyIrdntList");
+		mav.setViewName("/myIrdnt/myIrdntList");
 	    mav.addObject("list", list); 
 	    return mav;
 	}
@@ -73,7 +73,7 @@ public class MyIrdntController {
 		
 		List<MyIrdnt> list = service.findAllMyIrdntByFridgerId(fridgerId);
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/MyIrdnt/MyIrdntList");
+		mav.setViewName("/myIrdnt/myIrdntList");
 	    mav.addObject("list", list); 
 	    return mav;
 		
@@ -84,7 +84,7 @@ public class MyIrdntController {
 	public ModelAndView allMyIrdntList(@RequestParam int fridgerId){
 		List<MyIrdnt> list = service.findAllMyIrdntByFridgerId(fridgerId);
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/MyIrdnt/MyIrdntList");
+		mav.setViewName("/myIrdnt/myIrdntList");
 	    mav.addObject("list", list); 
 	    return mav;
 	}

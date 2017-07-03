@@ -9,8 +9,11 @@ public class IrdntManage implements Serializable{
 
 	private int irdntId;
 	private String irdntName;
-	private int irdntPeriod;
 	private String irdntCategory;
+	private int roomTemPeriod;
+	private int coldTemPeriod;
+	private int freezeTemPeriod;
+	
 	private MyIrdnt myIrdnt;
 	private ShareRecipeIrdnt shareRecipeIrdnt;
 	private MyDislikeIrdnt myDislikeIrdnt;
@@ -20,24 +23,25 @@ public class IrdntManage implements Serializable{
 		
 	}
 
-	
-	
-	public IrdntManage(int irdntId, String irdntName, int irdntPeriod, String irdntCategory) {
+	public IrdntManage(int irdntId, String irdntName, String irdntCategory, int roomTemPeriod, int coldTemPeriod,
+			int freezeTemPeriod) {
 		this.irdntId = irdntId;
 		this.irdntName = irdntName;
-		this.irdntPeriod = irdntPeriod;
 		this.irdntCategory = irdntCategory;
+		this.roomTemPeriod = roomTemPeriod;
+		this.coldTemPeriod = coldTemPeriod;
+		this.freezeTemPeriod = freezeTemPeriod;
 	}
 
-
-
-	public IrdntManage(int irdntId, String irdntName, int irdntPeriod, String irdntCategory, MyIrdnt myIrdnt,
-			ShareRecipeIrdnt shareRecipeIrdnt, MyDislikeIrdnt myDislikeIrdnt,
+	public IrdntManage(int irdntId, String irdntName, String irdntCategory, int roomTemPeriod, int coldTemPeriod,
+			int freezeTemPeriod, MyIrdnt myIrdnt, ShareRecipeIrdnt shareRecipeIrdnt, MyDislikeIrdnt myDislikeIrdnt,
 			kr.co.turnup_fridger.vo.RecipeIrdnt recipeIrdnt) {
 		this.irdntId = irdntId;
 		this.irdntName = irdntName;
-		this.irdntPeriod = irdntPeriod;
 		this.irdntCategory = irdntCategory;
+		this.roomTemPeriod = roomTemPeriod;
+		this.coldTemPeriod = coldTemPeriod;
+		this.freezeTemPeriod = freezeTemPeriod;
 		this.myIrdnt = myIrdnt;
 		this.shareRecipeIrdnt = shareRecipeIrdnt;
 		this.myDislikeIrdnt = myDislikeIrdnt;
@@ -60,20 +64,36 @@ public class IrdntManage implements Serializable{
 		this.irdntName = irdntName;
 	}
 
-	public int getIrdntPeriod() {
-		return irdntPeriod;
-	}
-
-	public void setIrdntPeriod(int irdntPeriod) {
-		this.irdntPeriod = irdntPeriod;
-	}
-
 	public String getIrdntCategory() {
 		return irdntCategory;
 	}
 
 	public void setIrdntCategory(String irdntCategory) {
 		this.irdntCategory = irdntCategory;
+	}
+
+	public int getRoomTemPeriod() {
+		return roomTemPeriod;
+	}
+
+	public void setRoomTemPeriod(int roomTemPeriod) {
+		this.roomTemPeriod = roomTemPeriod;
+	}
+
+	public int getColdTemPeriod() {
+		return coldTemPeriod;
+	}
+
+	public void setColdTemPeriod(int coldTemPeriod) {
+		this.coldTemPeriod = coldTemPeriod;
+	}
+
+	public int getFreezeTemPeriod() {
+		return freezeTemPeriod;
+	}
+
+	public void setFreezeTemPeriod(int freezeTemPeriod) {
+		this.freezeTemPeriod = freezeTemPeriod;
 	}
 
 	public MyIrdnt getMyIrdnt() {
@@ -110,8 +130,9 @@ public class IrdntManage implements Serializable{
 
 	@Override
 	public String toString() {
-		return "IrdntManage [irdntId=" + irdntId + ", irdntName=" + irdntName + ", irdntPeriod=" + irdntPeriod
-				+ ", irdntCategory=" + irdntCategory + ", myIrdnt=" + myIrdnt + ", shareRecipeIrdnt=" + shareRecipeIrdnt
+		return "IrdntManage [irdntId=" + irdntId + ", irdntName=" + irdntName + ", irdntCategory=" + irdntCategory
+				+ ", roomTemPeriod=" + roomTemPeriod + ", coldTemPeriod=" + coldTemPeriod + ", freezeTemPeriod="
+				+ freezeTemPeriod + ", myIrdnt=" + myIrdnt + ", shareRecipeIrdnt=" + shareRecipeIrdnt
 				+ ", myDislikeIrdnt=" + myDislikeIrdnt + ", RecipeIrdnt=" + RecipeIrdnt + "]";
 	}
 
@@ -120,12 +141,14 @@ public class IrdntManage implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((RecipeIrdnt == null) ? 0 : RecipeIrdnt.hashCode());
+		result = prime * result + coldTemPeriod;
+		result = prime * result + freezeTemPeriod;
 		result = prime * result + ((irdntCategory == null) ? 0 : irdntCategory.hashCode());
 		result = prime * result + irdntId;
 		result = prime * result + ((irdntName == null) ? 0 : irdntName.hashCode());
-		result = prime * result + irdntPeriod;
 		result = prime * result + ((myDislikeIrdnt == null) ? 0 : myDislikeIrdnt.hashCode());
 		result = prime * result + ((myIrdnt == null) ? 0 : myIrdnt.hashCode());
+		result = prime * result + roomTemPeriod;
 		result = prime * result + ((shareRecipeIrdnt == null) ? 0 : shareRecipeIrdnt.hashCode());
 		return result;
 	}
@@ -144,6 +167,10 @@ public class IrdntManage implements Serializable{
 				return false;
 		} else if (!RecipeIrdnt.equals(other.RecipeIrdnt))
 			return false;
+		if (coldTemPeriod != other.coldTemPeriod)
+			return false;
+		if (freezeTemPeriod != other.freezeTemPeriod)
+			return false;
 		if (irdntCategory == null) {
 			if (other.irdntCategory != null)
 				return false;
@@ -156,8 +183,6 @@ public class IrdntManage implements Serializable{
 				return false;
 		} else if (!irdntName.equals(other.irdntName))
 			return false;
-		if (irdntPeriod != other.irdntPeriod)
-			return false;
 		if (myDislikeIrdnt == null) {
 			if (other.myDislikeIrdnt != null)
 				return false;
@@ -168,6 +193,8 @@ public class IrdntManage implements Serializable{
 				return false;
 		} else if (!myIrdnt.equals(other.myIrdnt))
 			return false;
+		if (roomTemPeriod != other.roomTemPeriod)
+			return false;
 		if (shareRecipeIrdnt == null) {
 			if (other.shareRecipeIrdnt != null)
 				return false;
@@ -176,6 +203,13 @@ public class IrdntManage implements Serializable{
 		return true;
 	}
 	
+	
+
+	
+	
+	
+
+
 	
 	
 }

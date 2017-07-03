@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.turnup_fridger.service.IrdntManageService;
@@ -23,6 +24,7 @@ public class IrdntManageController {
 	private IrdntManageService service;
 	
 	@RequestMapping("createIrdnt")
+	@ResponseBody
 	public ModelAndView createIrdnt(@ModelAttribute IrdntManage irdnt,BindingResult errors) throws Exception{
 		
 		IrdntManageValidator validator= new IrdntManageValidator();
@@ -42,6 +44,7 @@ public class IrdntManageController {
 	}
 	
 	@RequestMapping("updateIrdnt")
+	@ResponseBody
 	public ModelAndView updateIrdnt(@ModelAttribute IrdntManage irdnt,BindingResult errors) throws Exception{
 		
 		IrdntManageValidator validator= new IrdntManageValidator();
@@ -61,6 +64,7 @@ public class IrdntManageController {
 	}
 	
 	@RequestMapping("removeIrdnt")
+	@ResponseBody
 	public ModelAndView removeIrdnt(@RequestParam int irdntId) throws Exception{
 		
 		service.removeIrdnt(irdntId);
@@ -73,15 +77,15 @@ public class IrdntManageController {
 	}
 	
 	@RequestMapping("allIrdntList")
-	public ModelAndView allIrdntList(){
+	@ResponseBody
+	public List allIrdntList(){
+		System.out.println("넘어옴");
 		List<IrdntManage> list = service.findAllIrdnt();
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/irdntManage/irdntList");
-	    mav.addObject("list", list); 
-	    return mav;
+		return list;
 	}
 	
 	@RequestMapping("findIrdntByKeyword")
+	@ResponseBody
 	public List findIrdntByKeyword(@RequestParam String keyword, @RequestParam String searchWord){
 		
 		if(keyword.equals("재료명")){
