@@ -10,14 +10,14 @@
 	namespace="AdminMapper">
 	
 	<sql id="select-admin-sql">
-		SELECT login_id, login_pw, admin_name,
+		SELECT admin_id, admin_pw, admin_name,
 				admin_tel, admin_email, admin_authority 
 		FROM admin
 	</sql>
 	
 	<resultMap type="admin" id="admin-resultmap">
-		<id column="login_id" property="loginId"/>
-		<result column="login_pw" property="loginPw"/>
+		<id column="admin_id" property="adminId"/>
+		<result column="admin_pw" property="adminPw"/>
 		<result column="admin_name" property="adminName"/>
 		<result column="admin_tel" property="adminTel"/>
 		<result column="admin_email" property="adminEmail"/>
@@ -27,7 +27,7 @@
 	<!-- 	int insertAdmin(Admin admin); -->
 	<!-- 관리자 등록하기_하나의 관리자 정보를 입력 -->
 	<insert id="insertAdmin" parameterType="admin">
-	INSERT INTO admin VALUES(#{loginId},#{loginPw},#{adminName},
+	INSERT INTO admin VALUES(#{adminId},#{adminPw},#{adminName},
 										#{adminTel},#{adminEmail},#{adminAuthority})	
 	</insert>
 	
@@ -35,11 +35,11 @@
 	<!--  (관리자)관리자개인정보 수정하기-권한제외_하나의 관리자 정보를 수정-->
 	<update id="updateAdmin" parameterType="admin">
 	UPDATE admin
-	SET login_pw=#{loginPw},
+	SET admin_pw=#{adminPw},
 		admin_name=#{adminName},
 		admin_tel=#{adminTel},
 		admin_email=#{adminEmail}
-	WHERE login_id=#{loginId}
+	WHERE admin_id=#{adminId}
 	</update>
 	
 
@@ -48,14 +48,14 @@
 	<update id="updateAuthority" parameterType="admin">
 	UPDATE admin
 	SET admin_authority=#{adminAuthority}
-	WHERE login_id=#{loginId}
+	WHERE admin_id=#{adminId}
 	</update>
 	
 	
-	<!-- 	int deleteAdminById(String loginId); -->
+	<!-- 	int deleteAdminById(String adminId); -->
 	<!-- 	 (마스터관리자)관리자 탈퇴시키기_하나의 관리자정보를 삭제 -->
 	<delete id="deleteAdminById" parameterType="int">
-	DELETE FROM admin WHERE login_id=#{value}
+	DELETE FROM admin WHERE admin_id=#{value}
 	</delete>
 	
 	
@@ -66,11 +66,11 @@
 	</select>
 	
 
-	<!-- 	Admin selectAdminById(String loginId); -->
-	<!-- 	 * (관리자)관리자 로그인하기 & 관리자 개인정보 수정하기 _loginId를 매개변수로 받아 하나의 관리자 정보를 조회.-->
+	<!-- 	Admin selectAdminById(String adminId); -->
+	<!-- 	 * (관리자)관리자 로그인하기 & 관리자 개인정보 수정하기 _adminId를 매개변수로 받아 하나의 관리자 정보를 조회.-->
 	<select id="selectAdminById" parameterType="String" resultMap="admin-resultmap">
 		<include refid="select-admin-sql"/>
-		WHERE login_id=#{value}
+		WHERE admin_id=#{value}
 	</select>
 
 </mapper>

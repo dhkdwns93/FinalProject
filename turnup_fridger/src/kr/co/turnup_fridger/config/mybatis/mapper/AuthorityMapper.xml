@@ -33,5 +33,6 @@
 					login_pw loginPw,
 					login_authority loginAuthority 
 		FROM authority
+		WHERE login_id=#{value}
 	</select>
 </mapper>

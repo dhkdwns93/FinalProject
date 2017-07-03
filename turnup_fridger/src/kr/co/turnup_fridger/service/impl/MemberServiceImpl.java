@@ -36,7 +36,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void signUpMember(Member member) throws SignUpMemberFailException{
 		//전체 user들 관리테이블인 Authority테이블에 같은 Id있으면 회원가입 불가
-		if(authorityDao.selectAuthorityById(member.getLoginId())!=null){
+		if(authorityDao.selectAuthorityById(member.getMemberId())!=null){
 			throw new SignUpMemberFailException("이미 등록된 ID입니다.");
 		}else{
 			//전체 member들 관리테이블인 Member테이블에 같은 Email있으면 회원가입 불가
@@ -44,9 +44,9 @@ public class MemberServiceImpl implements MemberService {
 				throw new SignUpMemberFailException("이미 등록된 Email입니다.");
 			}else{
 				//패스워드 암호화 처리
-				//member.setLoginPw(passwordEncoder.encode(member.getLoginPw()));
+				//member.setmemberPw(passwordEncoder.encode(member.getMemberPw()));
 				//Authority 테이블 insert -foreignKey제약조건때문에 먼저 넣어줘야해 //일반회원으로 가입하는 경우 자동으로 권한 =member로 설정
-				authorityDao.insertAuthority(new Authority(member.getLoginId(),member.getLoginPw(),"member"));
+				authorityDao.insertAuthority(new Authority(member.getMemberId(),member.getMemberPw(),"member"));
 				//Member 테이블 insert
 				memberDao.insertMember(member);	
 			}
@@ -54,41 +54,45 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member inquiryMemberInfo(String loginId) {
-		return memberDao.selectMemberById(loginId);
+	public Member inquiryMemberInfo(String memberId) {
+		return memberDao.selectMemberById(memberId);
 	}
 
 	@Override
 	public void changeMemberInfo(Member member) throws ChangeMemberInfoFailException {
 		//다른 기존회원 중 같은 이메일 사용 회원있으면 update불가.
 		Member existMember=memberDao.selectMemberByEmail(member.getMemberEmail());//바꾸려는 member정보중 이메일이
-		if(existMember!=null&&!existMember.getLoginId().equals(member.getLoginId())){//같은 회원이 자기와 다른 회원일때=>즉, 다른 회원중 수정하려는 이메일 소유자가 있을 때
+		if(existMember!=null&&!existMember.getMemberId().equals(member.getMemberId())){//같은 회원이 자기와 다른 회원일때=>즉, 다른 회원중 수정하려는 이메일 소유자가 있을 때
 			throw new ChangeMemberInfoFailException("이미 타사용자가 사용중인 이메일입니다.");			
 		}
 		// 패스워드 암호화 처리
-		//member.setLoginPw(passwordEncoder.encode(member.getLoginPw()));
-		// 비밀번호가 바꼈을 경우 Authority 테이블 해당 회원 update
-		Member existMember2=memberDao.selectMemberById(member.getLoginId());
-		if(!existMember2.equals(member.getLoginPw())){//비밀번호가 바꼈을 경우
-			//**권한은 바꾸지 않음.
-			authorityDao.updateAuthority(new Authority(member.getLoginId(),member.getLoginPw(),existMember.getMemberAuthority()));
-		}
+		//member.setmemberPw(passwordEncoder.encode(member.getMemberPw()));
 		// Member 테이블 해당 회원 update
 		memberDao.updateMember(member);
+		// 비밀번호가 바꼈을 경우 Authority 테이블 해당 회원 update
+		Authority existAuthority=authorityDao.selectAuthorityById(member.getMemberId());
+		if(!existAuthority.getLoginPw().equals(member.getMemberPw())){//비밀번호가 바꼈을 경우
+			//**권한은 바꾸지 않음.
+			authorityDao.updateAuthority(new Authority(member.getMemberId(),member.getMemberPw(),existMember.getMemberAuthority()));
+		}
+		
 	}
 
 	@Override
-	public void deleteMember(String loginId) {
-		//Authority 테이블 해당 회원 삭제
-		authorityDao.deleteAuthority(loginId);
+	public void deleteMember(String memberId) {
 		//Member 테이블 해당 회원 삭제
-		memberDao.deleteMemberById(loginId);
+		memberDao.deleteMemberById(memberId);
+		//Authority 테이블 해당 회원 삭제
+		authorityDao.deleteAuthority(memberId);
 	}
 
 	@Override
 	public Member findMember(String name, String memberEmail) throws FindMemberFailException {
 		Member existMember=memberDao.selectMemberByEmail(memberEmail);
 		//이메일, 이름 모두 일치하지 않으면 이용불가.
+		if(existMember==null){
+			throw new FindMemberFailException("해당 이메일의 회원이 존재하지 않습니다.");
+		}
 		if(!existMember.getMemberName().equals(name)){
 			throw new FindMemberFailException("이름과 이메일이 일치하지 않습니다.");
 		}
