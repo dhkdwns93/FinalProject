@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
-	namespace="kr.co.turnUp_fridger.config.mybatis.mapper.myMemoMapper">
+	namespace="kr.co.turnup_fridger.config.mybatis.mapper.myMemoMapper">
 
 <sql id="select">
 SELECT	memo_id,
 			memo_name,
 			memo_txt,
 			member_id,
-			registered_date;
+			registered_date
 FROM 	my_memo
 </sql>
-
+ 
 <resultMap type="myMemo" id="memo-resultmap">
 	<id column="memo_id" property="memoId"/>
 	<result column="memo_name" property="memoName"/>
-	<result column="memo_txt" property="memoText"/>
+	<result column="memo_txt" property="memoTxt"/>
 	<result column="member_id" property="memberId"/>
 	<result column="registered_date" property="registeredDate"/>
 </resultMap>
@@ -67,7 +67,7 @@ FROM 	my_memo
 
 <!-- memo 총 개수 조회 -->
 <select id="selectMemoCount" parameterType="String" resultType="_int">
-	SELECT COUNT(memo_id) 
+	SELECT COUNT(memo_id)
 	FROM  my_memo 
 	WHERE member_id = #{value}
 </select>
