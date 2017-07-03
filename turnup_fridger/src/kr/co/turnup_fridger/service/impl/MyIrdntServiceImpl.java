@@ -35,7 +35,7 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 		System.out.println(FreshLevel+" "+IrdntName);
 		
 		MyIrdnt newMyIrdnt= new MyIrdnt(myIrdnt.getMyIrdntKey(),myIrdnt.getStartDate(),myIrdnt.getEndDate(),FreshLevel,
-				myIrdnt.getIrdntCount(),myIrdnt.getIrdntId(),IrdntName,myIrdnt.getFridgerId(),myIrdnt.getStartFreshLevel());
+				myIrdnt.getIrdntCount(),myIrdnt.getIrdntId(),IrdntName,myIrdnt.getFridgerId(),myIrdnt.getStartFreshLevel(),myIrdnt.getStorgePlace());
 		
 		System.out.println(newMyIrdnt);
 		
@@ -53,7 +53,7 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 		
 		//key값은 jsp쪽에서 고정되도록 처리해야겠다. 
 		MyIrdnt newMyIrdnt= new MyIrdnt(myIrdnt.getMyIrdntKey(),myIrdnt.getStartDate(),myIrdnt.getEndDate(),FreshLevel,
-				myIrdnt.getIrdntCount(),myIrdnt.getIrdntId(),IrdntName,myIrdnt.getFridgerId(),myIrdnt.getStartFreshLevel());
+				myIrdnt.getIrdntCount(),myIrdnt.getIrdntId(),IrdntName,myIrdnt.getFridgerId(),myIrdnt.getStartFreshLevel(),myIrdnt.getStorgePlace());
 		
 		dao.updateMyIrdnt(newMyIrdnt);
 		
@@ -82,46 +82,55 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 
 	@Override
 	public int getFreshLevel(MyIrdnt myirdnt) {
-		// 해당냉장고에서의 재료마다의 신선도 계산하는 메서드.
+	      // 해당냉장고에서의 재료마다의 신선도 계산하는 메서드.
 
-		int irdntId = myirdnt.getIrdntId();
-		Long leftDay; // 남은 일수 밀리초변환.
-		
-		if (myirdnt.getEndDate() == null) {// 유통기한 없으면
-			// Calendar myPeriod = Calendar.getInstance();
-			int period = irdntDao.selectIrdntById(irdntId).getIrdntPeriod();// 재료의 보관기간
-			Date startDay = myirdnt.getStartDate();// 재료의 보관시작일
-			// myPeriod.setTime(myirdnt.getStartDate());
+	      int irdntId = myirdnt.getIrdntId();
+	      Long leftDay; // 남은 일수 밀리초변환.
+	      
+	      if (myirdnt.getEndDate() == null) {// 유통기한 없으면
+	         // Calendar myPeriod = Calendar.getInstance();
+	    	 int period;
+	        
+	    	 if (dao.selectMyIrdntByKey(myirdnt.getMyIrdntKey()).getStorgePlace().equals("실온")) {
+	 			period = irdntDao.selectIrdntById(irdntId).getRoomTemPeriod();
+	 		} else if (dao.selectMyIrdntByKey(myirdnt.getMyIrdntKey()).getStorgePlace().equals("냉장")) {
+	 			period = irdntDao.selectIrdntById(irdntId).getColdTemPeriod();
+	 		}else{
+	 			//냉동
+	 			period = irdntDao.selectIrdntById(irdntId).getFreezeTemPeriod();	
+	 		}
+	 			
+	         switch (myirdnt.getStartFreshLevel()) {
+	         case "좋음":
+	            period = period * 1;
+	            break;
+	         case "보통":
+	            period = (int) (period * 0.7);
+	            break;
+	         case "나쁨":
+	            period = (int) (period * 0.5);
+	            break;
+	         }
+	         
+	         Date startDay = myirdnt.getStartDate();// 재료의 보관시작일
+	         
+	         // myperiod = 보관시작일+보관기간 의 밀리초.
+	         long myPeriod = startDay.getTime() + (period * 86400000);
 
-			switch (myirdnt.getStartFreshLevel()) {
-			case "좋음":
-				period = period * 1;
-				break;
-			case "보통":
-				period = (int) (period * 0.7);
-				break;
-			case "나쁨":
-				period = (int) (period * 0.5);
-				break;
-			}
-
-			// myperiod = 보관시작일+보관기간 의 밀리초.
-			long myPeriod = startDay.getTime() + (period * 86400000);
-
-			// 예상 유통기한에서 현재시간을 뺀 밀리초.
-			leftDay = myPeriod - new Date().getTime();
-		}
-		else {// 유통기한이 입력됨
-			// 밀리초단위 : 유통기한 - 현재시간
-			leftDay = myirdnt.getEndDate().getTime() - new Date().getTime();
-		}
-		
-		//남은날짜에 따라 1-4로 리턴
-		if(leftDay < 1*86400000) return 4;
-		if(leftDay < 3*86400000) return 3;
-		if(leftDay < 7*86400000) return 2;
-		else return 1;
-	
+	         // 예상 유통기한에서 현재시간을 뺀 밀리초.
+	         leftDay = myPeriod - new Date().getTime();
+	      }
+	      else {// 유통기한이 입력됨
+	         // 밀리초단위 : 유통기한 - 현재시간
+	         leftDay = myirdnt.getEndDate().getTime() - new Date().getTime();
+	      }
+	      
+	      //남은날짜에 따라 1-4로 리턴
+	      if(leftDay < 1*86400000) return 4;
+	      if(leftDay < 3*86400000) return 3;
+	      if(leftDay < 7*86400000) return 2;
+	      else return 1;
+	   
 	}
 
 	@Override

@@ -90,6 +90,30 @@ public class InsertMethod {
 				}
 				System.out.println("레시피기본정보 자료 넣기 완료");
 				break;
+			//재료관리
+			case "irdnt_manage":
+				sql = "insert into " + fileName + " values(?,?,?,?)";
+				System.out.println(fileName);
+				int cnt = 1;
+				pstmt = conn.prepareStatement(sql);
+				while ((line = in.readLine()) != null) {
+					str = line.split("&");
+
+					if (str.length == 2) {// 열갯수=4
+						
+						pstmt.setInt(1, cnt++); 
+						pstmt.setString(2, str[1].trim()); 
+						pstmt.setInt(3, 0);
+						pstmt.setString(4, "카테고리"); 
+						
+						pstmt.executeUpdate();
+					} else {
+						System.out.println("열 갯수 오류 - " + str[0]);
+					}
+				}
+				System.out.println("재료관리 자료 넣기 완료");
+				break;	
+				
 			// 다른파일
 			default:
 				System.out.println("파일명확인");

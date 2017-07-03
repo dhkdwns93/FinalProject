@@ -13,6 +13,7 @@ public class MyIrdnt {
 	private String irdntName;
 	private int fridgerId;
 	private String startFreshLevel;//시작시 입력받을 식품의 상태
+	private String storgePlace;
 	
 	private Fridger fridger;
 	private IrdntManage irdntManage; 	
@@ -20,11 +21,11 @@ public class MyIrdnt {
 	public MyIrdnt(){
 		
 	}
+
 	
-
-
+	
 	public MyIrdnt(int myIrdntKey, Date startDate, Date endDate, int freshLevel, String irdntCount, int irdntId,
-			String irdntName, int fridgerId, String startFreshLevel) {
+			String irdntName, int fridgerId, String startFreshLevel, String storgePlace) {
 		this.myIrdntKey = myIrdntKey;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -34,13 +35,14 @@ public class MyIrdnt {
 		this.irdntName = irdntName;
 		this.fridgerId = fridgerId;
 		this.startFreshLevel = startFreshLevel;
+		this.storgePlace = storgePlace;
 	}
 
 
 
-
 	public MyIrdnt(int myIrdntKey, Date startDate, Date endDate, int freshLevel, String irdntCount, int irdntId,
-			String irdntName, int fridgerId, String startFreshLevel, Fridger fridger, IrdntManage irdntManage) {
+			String irdntName, int fridgerId, String startFreshLevel, String storgePlace, Fridger fridger,
+			IrdntManage irdntManage) {
 		this.myIrdntKey = myIrdntKey;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -50,6 +52,7 @@ public class MyIrdnt {
 		this.irdntName = irdntName;
 		this.fridgerId = fridgerId;
 		this.startFreshLevel = startFreshLevel;
+		this.storgePlace = storgePlace;
 		this.fridger = fridger;
 		this.irdntManage = irdntManage;
 	}
@@ -164,6 +167,18 @@ public class MyIrdnt {
 
 
 
+	public String getStorgePlace() {
+		return storgePlace;
+	}
+
+
+
+	public void setStorgePlace(String storgePlace) {
+		this.storgePlace = storgePlace;
+	}
+
+
+
 	public Fridger getFridger() {
 		return fridger;
 	}
@@ -192,8 +207,8 @@ public class MyIrdnt {
 	public String toString() {
 		return "MyIrdnt [myIrdntKey=" + myIrdntKey + ", startDate=" + startDate + ", endDate=" + endDate
 				+ ", freshLevel=" + freshLevel + ", irdntCount=" + irdntCount + ", irdntId=" + irdntId + ", irdntName="
-				+ irdntName + ", fridgerId=" + fridgerId + ", startFreshLevel=" + startFreshLevel + ", fridger="
-				+ fridger + ", irdntManage=" + irdntManage + "]";
+				+ irdntName + ", fridgerId=" + fridgerId + ", startFreshLevel=" + startFreshLevel + ", storgePlace="
+				+ storgePlace + ", fridger=" + fridger + ", irdntManage=" + irdntManage + "]";
 	}
 
 
@@ -213,6 +228,7 @@ public class MyIrdnt {
 		result = prime * result + myIrdntKey;
 		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
 		result = prime * result + ((startFreshLevel == null) ? 0 : startFreshLevel.hashCode());
+		result = prime * result + ((storgePlace == null) ? 0 : storgePlace.hashCode());
 		return result;
 	}
 
@@ -270,8 +286,19 @@ public class MyIrdnt {
 				return false;
 		} else if (!startFreshLevel.equals(other.startFreshLevel))
 			return false;
+		if (storgePlace == null) {
+			if (other.storgePlace != null)
+				return false;
+		} else if (!storgePlace.equals(other.storgePlace))
+			return false;
 		return true;
 	}
+	
+	
+
+
+
+
 
 
 

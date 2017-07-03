@@ -9,14 +9,14 @@
 <mapper namespace="MemberMapper">
 
 <sql id="select-member-sql">
-	SELECT login_id, login_pw, member_name, member_address,
+	SELECT member_id, member_pw, member_name, member_address,
 			member_email, member_tel, member_sex
 	FROM member
 </sql>
 
 <resultMap type="member" id="member-resultmap">
-	<id column="login_id" property="loginId"/>
-	<result column="login_pw" property="loginPw"/>
+	<id column="member_id" property="memberId"/>
+	<result column="member_pw" property="memberPw"/>
 	<result column="member_name" property="memberName"/>
 	<result column="member_address" property="memberAddress"/>
 	<result column="member_email" property="memberEmail"/>
@@ -27,7 +27,7 @@
 	<!-- 	int insertMember(Member member); -->
 	<!-- 개인회원 가입하기_ 하나의 회원정보를 입력 -->
 	<insert id="insertMember" parameterType="member">
-	INSERT INTO member VALUES(#{loginId},#{loginPw},#{memberName},#{memberAddress},
+	INSERT INTO member VALUES(#{memberId},#{memberPw},#{memberName},#{memberAddress},
 											#{memberEmail},#{memberTel},#{memberSex})
 	</insert>
 	
@@ -35,19 +35,19 @@
 	<!-- 개인회원정보 수정하기_하나의 회원정보를 수정 -->
 	<update id="updateMember" parameterType="member">
 	UPDATE member
-	SET login_pw=#{memverPw},
+	SET member_pw=#{memberPw},
 		member_name=#{memberName},
 		member_address=#{memberAddress},
 		member_email=#{memberEmail},
 		member_tel=#{memberTel},
 		member_sex=#{memberSex}
-	WHERE login_id=#{loginId}
+	WHERE member_id=#{memberId}
 	</update>
 	
-	<!-- 	int deleteMemberById(String loginId); -->
+	<!-- 	int deleteMemberById(String memberId); -->
 	<!-- 	 (사용자)개인회원 탈퇴하기 & (관리자)개인회원 강제탈퇴시키기_하나의 회원정보를 삭제-->
 	<delete id="deleteMemberById" parameterType="String">
-	DELETE FROM member WHERE login_id=#{value}
+	DELETE FROM member WHERE member_id=#{value}
 	</delete>
 	
 	<!-- 	List<Member> selectMemberList(); -->
@@ -57,11 +57,11 @@
 	</select>
 	
 
-	<!-- 	Member selectMemberById(String loginId); -->
-	<!-- 	개인회원 로그인하기 & 개인회원정보조회하기_loginId를 매개변수로 받아 하나의 회원정보를 조회. -->
+	<!-- 	Member selectMemberById(String memberId); -->
+	<!-- 	개인회원 로그인하기 & 개인회원정보조회하기_memberId를 매개변수로 받아 하나의 회원정보를 조회. -->
 	<select id="selectMemberById" parameterType="String" resultMap="member-resultmap">
 		<include refid="select-member-sql"/>
-		WHERE login_id=#{value}
+		WHERE member_id=#{value}
 	</select>
 	
 	
