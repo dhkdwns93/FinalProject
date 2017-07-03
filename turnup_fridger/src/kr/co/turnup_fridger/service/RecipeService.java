@@ -24,7 +24,7 @@ public interface RecipeService {
 	/**
 	 * 레시피를 삭제
 	 * @param recipeCode
-	 * @throws Exception 
+	 * @throws Exception d
 	 */
 	void removeRecipe(int recipeId) throws Exception;
 	
@@ -35,7 +35,7 @@ public interface RecipeService {
 	 * 2. recipeId들의 리스트를 가지고 recipeInfo만 가져오는걸 한다.(페이징) 
 	 * @return
 	 */
-	List<RecipeInfo> findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds);
+	Map<String,Object> findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword,int page);
 	
 	
 	/**
@@ -43,20 +43,13 @@ public interface RecipeService {
 	 * @param recipeName
 	 * @return
 	 */
-	Map<String, Object> findRecipeByRecipeName(String recipeName,int page);
+	Map<String, Object> findRecipeByRecipeName(String recipeName,String keyword,int page);
 	
 	/**
 	 * 카테고리로 레시피들을 찾기 (페이징)
 	 * @return
 	 */
-	List<RecipeInfo> findRecipeByCategory(String categoryName, String typeName);
-
-	
-	/**
-	 * 검색된 재료들은 분류키워드를 받아서 정렬하는 작업 (페이징)
-	 * @return
-	 */
-	List<RecipeInfo> RangeRecipeByKeyword(List<RecipeInfo> Recipes, String keyword);
+	Map<String,Object> findRecipeByCategory(String categoryName, String typeName,String keyword,int page);
 
 	
 	/**

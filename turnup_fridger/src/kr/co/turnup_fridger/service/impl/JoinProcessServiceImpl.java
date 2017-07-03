@@ -15,6 +15,7 @@ import kr.co.turnup_fridger.vo.JoinProcess;
 
 @Service("joinProcessService")
 public class JoinProcessServiceImpl implements JoinProcessService{
+	
 
 	@Autowired
 	private JoinProcessDao jdao;

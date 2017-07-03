@@ -8,7 +8,7 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-<context:component-scan base-package="domain.security"/>
+<context:component-scan base-package="kr.co.turnup_fridger.security"/>
 <!--패스워드 자동으로 암호화해주는 Bean  -->
 <beans:bean name="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
@@ -37,7 +37,7 @@
 	<form-login login-page="/login_form.do"	
 				login-processing-url="/login.do" 
 				username-parameter="userId" 
-				password-parameter="userPassword"
+				password-parameter="userPassword" 
 				authentication-failure-handler-ref="loginFailHandler"
 				default-target-url="/index.do"/>
 	<logout logout-url="/logout.do" logout-success-url="/index.do"/>

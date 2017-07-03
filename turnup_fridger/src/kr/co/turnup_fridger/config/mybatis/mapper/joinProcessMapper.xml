@@ -84,7 +84,7 @@
 	 <!--  -->
 	<delete id="deleteJoinProcessNotProcessedIn14Days">
 		DELETE FROM	join_process
-		WHERE		resp_date IS NULL;
+		WHERE		resp_date IS NULL
 		AND			to_date(sysdate, 'yy-MM-dd') - to_date(req_date,'yy-MM-dd') > 14
 	</delete>
 	
@@ -92,8 +92,8 @@
 	<!-- delete : 처리완료(승인, 거절)인 것들은 6개월 뒤 삭제됨(관리자? spring 스케줄링?) -->
 	<delete id="deleteJoinProcessCompleted6MonthsBefore">
 		DELETE FROM	join_process
-		WHERE		resp_date IS NOT NULL;
-		AND			MONTHS_BETWEEN(to_date(sysdate, 'yy-MM-dd'), to_date(resp_date,'yy-MM-dd')) > 14
+		WHERE		resp_date IS NOT NULL
+		AND			MONTHS_BETWEEN(to_date(sysdate, 'yy-MM-dd'), to_date(resp_date,'yy-MM-dd')) > 6
 	</delete>
 	
 	

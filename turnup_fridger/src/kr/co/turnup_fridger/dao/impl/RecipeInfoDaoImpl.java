@@ -45,21 +45,6 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 		return session.selectOne(makeSql("selectRecipeInfoById"),recipeId);
 	}
 
-	@Override
-	public List<RecipeInfo> selectRecipeInfoByLevel(String recipeLevel) {
-		return session.selectList(makeSql("selectRecipeInfoByLevel"),recipeLevel);
-	}
-
-	@Override
-	public List<RecipeInfo> selectRecipeInfoByHits(int recipeHits) {
-		return session.selectList(makeSql("selectRecipeInfoByHits"),recipeHits);
-	}
-
-	@Override
-	public List<RecipeInfo> selectRecipeInfoBycalorie(String calroie) {
-		return session.selectList(makeSql("selectRecipeInfoBycalorie"),calroie);
-	}
-
 	//조인
 	@Override
 	public RecipeInfo selectThreeOfRecipesById(int recipeId) {
@@ -68,7 +53,7 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 	
 	//페이징
 	@Override
-	public List<RecipeInfo> selectRecipeInfoByName(String recipeName,int startIndex,int endIndex) {
+	public List<RecipeInfo> selectRecipeInfoByName(String recipeName, String keyword,int startIndex,int endIndex) {
 		
 		Map<String,String> input= new HashMap<String,String>();
 		input.put("startIndex",String.valueOf(startIndex));
@@ -77,50 +62,46 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 		
 		return session.selectList(makeSql("selectRecipeInfoByName"),input);
 	}
-	
 	@Override
-	public int selectRecipeInfoByNameCount(String recipeName) {
-		return session.selectOne(makeSql("selectRecipeInfoByNameCount"),recipeName);
+	public int selectRecipeInfoByNameCount(String recipeName, String keyword) {
+		HashMap map = new HashMap();
+		map.put("recipeName", recipeName);
+		map.put("keyword",keyword);		
+		return session.selectOne(makeSql("selectRecipeInfoByNameCount"),map);
 	}
 
 	//페이징
 	@Override
-	public List<RecipeInfo> selectRecipeInfoByCategoryAndType(String categoryName, String typeName) {
+	public List<RecipeInfo> selectRecipeInfoByCategoryAndType(String categoryName, String typeName,String keyword,int startIndex,int endIndex) {
 		HashMap map = new HashMap();
 		map.put("categoryName", categoryName);
 		map.put("typeName", typeName);
 		return session.selectList(makeSql("selectRecipeInfoByCategoryAndType"),map);
 	}
-
-	//페이징
 	@Override
-	public List<RecipeInfo> selectRecipesInfoByIds(List<Integer> recipeId) {
-		return session.selectList(makeSql("selectRecipesInfoByIds"),recipeId);
-	}
-	
-	
-	
-/*	@Override
-	public List<RecipeInfo> selectRecipeInfoByCategoryName(String categoryName) {
-		return session.selectList(makeSql("selectRecipeInfoByCategoryName"),categoryName);
-	}
-
-	@Override
-	public List<RecipeInfo> selectRecipeInfoByTypeName(String typeName) {
-		return session.selectList(makeSql("selectRecipeInfoByTypeName"),typeName);
-	}
-	@Override
-	public List<RecipeInfo> selectThreeOfRecipeByName(String recipeName) {
-		return session.selectList(makeSql("selectThreeOfRecipeByName"),recipeName);
-	}
-
-	@Override
-	public List<RecipeInfo> selectThreeOfRecipeByCategoryAndType(String categoryName, String typeName) {
+	public int selectRecipeInfoByCategoryAndTypeCount(String categoryName, String typeName, String keyword) {
 		HashMap map = new HashMap();
 		map.put("categoryName", categoryName);
 		map.put("typeName", typeName);
-		return session.selectList(makeSql("selectThreeOfRecipeByCategoryAndType"),map);
-	}*/
+		map.put("keyword",keyword);		
+		return session.selectOne(makeSql("selectRecipeInfoByCategoryAndTypeCount"),map);
+	}
+	
+	
+	//페이징
+	@Override
+	public List<RecipeInfo> selectRecipesInfoByIds(List<Integer> recipeId,String keyword,int startIndex,int endIndex) {
+		return session.selectList(makeSql("selectRecipesInfoByIds"),recipeId);
+	}
 
+	@Override
+	public int selectRecipesInfoByIdsCount(List<Integer> recipeIds, String keyword) {
+		HashMap map = new HashMap();
+		map.put("recipeIds", recipeIds);
+		map.put("keyword",keyword);		
+		return session.selectOne(makeSql("selectRecipesInfoByIdsCount"),map);
+	}
+
+	
 	
 }

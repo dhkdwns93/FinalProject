@@ -72,11 +72,17 @@
 		where irdnt_name like '%'||#{irdntName}||'%'
 	</select>
 	
-	<select id="getRecipeCodeByIrdntId" resultMap="RecipeIrdnt-resultmap" parameterType="_int">
-		SELECT
-		<include refid="all-column" />
-		FROM RecipeIrdnt
-		where irdnt_id=#{irdnt_id}
+	<select id="getRecipeCodeByIrdntIds" resultType="_int" parameterType="java.util.HashMap">
+		SELECT COUNT(*), recipe_id recipe_id
+		FROM recipe_irdnt
+		WHERE recipe_id NOT IN (
+				SELECT recipe_id
+				FROM recipe_irdnt
+				WHERE irdnt_id IN ( #{hateIrdnts} ))
+		AND irdnt_id IN ( #{Irdnts} )
+		GROUP BY recipe_id
+		HAVING COUNT(*) >= 2
+		ORDER BY COUNT(*) DESC, recipe_id;
 	</select>
 	
 </mapper>
