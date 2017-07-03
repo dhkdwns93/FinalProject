@@ -7,18 +7,15 @@ public class Shop implements Serializable{
 	private int shopId;
 	private String shopName;
 	private String shopAddress;
-	private String shopImage;
+	private String shopImg;
 	
-	
-	public Shop() {
-		super();
-	}
-	public Shop(int shopId, String shopName, String shopAddress, String shopImage) {
+	public Shop(){}
+	public Shop(int shopId, String shopName, String shopAddress, String shopImg) {
 		super();
 		this.shopId = shopId;
 		this.shopName = shopName;
 		this.shopAddress = shopAddress;
-		this.shopImage = shopImage;
+		this.shopImg = shopImg;
 	}
 	public int getShopId() {
 		return shopId;
@@ -38,11 +35,11 @@ public class Shop implements Serializable{
 	public void setShopAddress(String shopAddress) {
 		this.shopAddress = shopAddress;
 	}
-	public String getShopImage() {
-		return shopImage;
+	public String getShopImg() {
+		return shopImg;
 	}
-	public void setShopImage(String shopImage) {
-		this.shopImage = shopImage;
+	public void setShopImg(String shopImg) {
+		this.shopImg = shopImg;
 	}
 	@Override
 	public int hashCode() {
@@ -50,7 +47,7 @@ public class Shop implements Serializable{
 		int result = 1;
 		result = prime * result + ((shopAddress == null) ? 0 : shopAddress.hashCode());
 		result = prime * result + shopId;
-		result = prime * result + ((shopImage == null) ? 0 : shopImage.hashCode());
+		result = prime * result + ((shopImg == null) ? 0 : shopImg.hashCode());
 		result = prime * result + ((shopName == null) ? 0 : shopName.hashCode());
 		return result;
 	}
@@ -70,10 +67,10 @@ public class Shop implements Serializable{
 			return false;
 		if (shopId != other.shopId)
 			return false;
-		if (shopImage == null) {
-			if (other.shopImage != null)
+		if (shopImg == null) {
+			if (other.shopImg != null)
 				return false;
-		} else if (!shopImage.equals(other.shopImage))
+		} else if (!shopImg.equals(other.shopImg))
 			return false;
 		if (shopName == null) {
 			if (other.shopName != null)
@@ -84,8 +81,8 @@ public class Shop implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "Shop [shopId=" + shopId + ", shopName=" + shopName + ", shopAddress=" + shopAddress + ", shopImage="
-				+ shopImage + "]";
+		return "Shop [shopId=" + shopId + ", shopName=" + shopName + ", shopAddress=" + shopAddress + ", shopImg="
+				+ shopImg + "]";
 	}
 	
 	

@@ -8,17 +8,17 @@
 	SELECT	shop_id,
 				shop_name,
 				shop_address,
-				shop_image
-	FROM 	shop
+				shop_img
+	FROM 	shop 
 	</sql>
 	
 	<resultMap type="shop" id="shop-resultmap">
 		<id column="shop_id" property="shopId"/>
 		<result column="shop_name" property="shopName"/>
 		<result column="shop_address" property="shopAddress"/>
-		<result column="shop_image" property="shopImage"/>
+		<result column="shop_img" property="shopImg"/>
 	</resultMap>
-	
+
 	<!-- shop 등록 -->
 	<insert id="insertShop" parameterType="shop">
 		<selectKey order="BEFORE" keyProperty="shopId" resultType="_int">
@@ -30,7 +30,7 @@
 					#{shopId}, 
 					#{shopName}, 
 					#{shopAddress}, 
-					#{shopImage}
+					#{shopImg}
 		)
 	</insert>
 	
