@@ -151,7 +151,7 @@ ORDER BY	g.group_member_id
 
 
 <!-- 냉장고 주인으로 찾기 -->
-<select id="selectFridgerByOwnerId" parameterType="_int" resultMap="fridger-resultmap">
+<select id="selectFridgerByOwnerId" parameterType="java.lang.String" resultMap="fridger-resultmap">
 	<include refid="select-sql"/>
 WHERE	member_id = #{value}
 </select>

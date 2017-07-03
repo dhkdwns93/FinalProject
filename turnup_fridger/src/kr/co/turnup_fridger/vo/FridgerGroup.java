@@ -7,6 +7,7 @@ public class FridgerGroup implements Serializable{
 	private int groupJoinSeq;
 	private String groupMemberId;
 	private int fridgerId;
+	
 	private Fridger fridger;
 	private Member member;
 	

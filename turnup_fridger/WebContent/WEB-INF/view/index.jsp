@@ -19,7 +19,8 @@
 <hr>
 <!-- 은영 -->
 <h4>냉장고관련</h4>
-<a href="${initParam.rootPath}/fridger/show/list.do"><button type="button">냉장고검색</button></a>
+<a href="${initParam.rootPath}/fridger/list.do"><button type="button">냉장고검색</button></a>
+<a href="${initParam.rootPath}/fridger/show/list.do"><button type="button">냉장고검색서블릿</button></a>
 
 <hr>
 <!-- 경혜 -->

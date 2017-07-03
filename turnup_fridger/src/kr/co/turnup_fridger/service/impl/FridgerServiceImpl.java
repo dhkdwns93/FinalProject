@@ -110,6 +110,25 @@ public class FridgerServiceImpl implements FridgerService{
 		return dao.selectFridgerAndFridgerGroupByFridgerName(fridgerName);
 	}
 
+	@Override
+	public List<Fridger> findFridgerByOwner(String memberId) {
+		return dao.selectFridgerByOwnerId(memberId);
+	}
+
+	@Override
+	public List<Fridger> findFridgerAndFridgerGroupByOwnerId(String memberId) {
+		return dao.selectFridgerAndFridgerGroupByOwnerId(memberId);
+	}
+
+	@Override
+	public List<Fridger> findFridgerAndIrdntByOwnerId(String memberId) {
+		return dao.selectFridgerAndIrdntByOwnerId(memberId);
+	}
+	
+	
+	
+	
+
 
 	
 	

@@ -230,7 +230,7 @@ CREATE SEQUENCE IRDNT_ID INCREMENT BY 1 START WITH 1;
 SELECT IRDNT_ID.NEXTVAL FROM DUAL;
 
 --insert into irdnt_manage values (2,'당근1',14,'채소류');
---select * from IRDNT_MANAGE;
+select * from IRDNT_MANAGE;
 
 /* 나의 식재료 */
 DROP TABLE MY_IRDNT;
@@ -373,7 +373,7 @@ CREATE TABLE RECIPE_IRDNT (
    CONSTRAINT VTRI_RECIPE_ID_FK FOREIGN KEY(RECIPE_ID) REFERENCES RECIPE_INFO on delete cascade,
    CONSTRAINT VTRI_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE 
 );
-
+select distinct irdnt_name from RECIPE_IRDNT order by irdnt_name;
 select count(*) from recipe_crse;
 select count(*) from recipe_info;
 select count(*) from recipe_irdnt;
