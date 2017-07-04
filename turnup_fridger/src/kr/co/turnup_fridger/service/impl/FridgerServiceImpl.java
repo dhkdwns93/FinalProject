@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.turnup_fridger.dao.FridgerDao;
 import kr.co.turnup_fridger.dao.FridgerGroupDao;
-import kr.co.turnup_fridger.exception.ExistingFridgerNameException;
+import kr.co.turnup_fridger.exception.DuplicatedFridgerException;
 import kr.co.turnup_fridger.service.FridgerService;
 import kr.co.turnup_fridger.vo.Fridger;
 import kr.co.turnup_fridger.vo.FridgerGroup;
@@ -28,10 +28,10 @@ public class FridgerServiceImpl implements FridgerService{
 	 */
 	
 	@Override
-	public void createFridger(Fridger fridger) throws ExistingFridgerNameException {
+	public void createFridger(Fridger fridger) throws DuplicatedFridgerException {
 		System.out.println(fridger.getFridgerName());
 		if(!fDao.selectFridgerByFridgerName(fridger.getFridgerName()).isEmpty()){
-			throw new ExistingFridgerNameException("이미 존재하는 냉장고 애칭입니다!");	
+			throw new DuplicatedFridgerException("이미 존재하는 냉장고 애칭입니다!");	
 		}
 		fDao.insertFridger(fridger);
 		FridgerGroup fg = new FridgerGroup(0, 1, fridger.getMemberId(), fridger.getFridgerId());

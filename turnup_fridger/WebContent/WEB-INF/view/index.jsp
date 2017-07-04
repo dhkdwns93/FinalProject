@@ -21,14 +21,15 @@
 <!-- 장규/준 -->
 <form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
 <a href="${initParam.rootPath}/boardnotice/boardnoticelist.do"><input type="submit" value="공지사항"/></a>
-
+</form>
 
 <hr>
 <!-- 은영 -->
 <h4>냉장고관련</h4>
 
-<a href="${initParam.rootPath}/fridger/list.do"><button type="button">냉장고검색</button></a>
-<a href="${initParam.rootPath}/fridger/register_form.do"><button type="button">냉장고등록</button></a>
+<%-- <a href="${initParam.rootPath}/common/member/fridger/list.do"><button type="button">냉장고검색</button></a>
+<a href="${initParam.rootPath}/common/member/fridger/register_form.do"><button type="button">냉장고등록</button></a> --%>
+<a href="${initParam.rootPath}/fridger/list.do"><button type="button">냉장고목록보기 </button></a>
 
 
 <hr>
@@ -45,6 +46,6 @@
 <hr>
 <!-- 현화 -->
 
-</form>
+
 </body>
 </html>

@@ -20,6 +20,13 @@ public class JoinProcess implements Serializable{
 
 	
 	
+	public JoinProcess(int processFridgerId, String reqMemberId) {
+		this.processFridgerId = processFridgerId;
+		this.reqMemberId = reqMemberId;
+	}
+
+
+
 	public JoinProcess(int processNo, int processState, Date respDate) {
 		this.processNo = processNo;
 		this.processState = processState;

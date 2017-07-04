@@ -2,7 +2,7 @@ package kr.co.turnup_fridger.service;
 
 import java.util.List;
 
-import kr.co.turnup_fridger.exception.ExistingFridgerNameException;
+import kr.co.turnup_fridger.exception.DuplicatedFridgerException;
 import kr.co.turnup_fridger.exception.FindMemberFailException;
 import kr.co.turnup_fridger.vo.Fridger;
 
@@ -14,7 +14,7 @@ public interface FridgerService {
 	 * @return
 	 * @throws Exception 
 	 */
-	void createFridger(Fridger fridger) throws ExistingFridgerNameException;
+	void createFridger(Fridger fridger) throws DuplicatedFridgerException;
 	
 	/**
 	 * 냉장고 정보 수정 서비스
