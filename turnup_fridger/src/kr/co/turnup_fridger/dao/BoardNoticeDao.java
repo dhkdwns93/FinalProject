@@ -31,12 +31,20 @@ public interface BoardNoticeDao
 	 */
 	int deleteBoardNoticeByid(int id);
 	
+	
+	/**
+	 * 모든 공자사항의 전체수를 반환
+	 * @param session
+	 * @return
+	 */
+	int selectBoardNoticeCount();
+	
 	/**
 	 * BoardNotice 목록을 보여주는 메소드
 	 * @return
 	 * 작성자 : 김장규
 	 */
-	List<BoardNotice> selectBoardNoticeList();
+	List<BoardNotice> selectBoardNoticeList(int startIndex, int endIndex);
 	
 	/**
 	 * BoardNotice 상세정보를 보여주는 메소드 
@@ -46,11 +54,19 @@ public interface BoardNoticeDao
 	 */
 	BoardNotice selectBoardNoticeById(int id);
 
+	
+	
+	
+	
+	
+	int selectBoardNoticeByItmesCount(String items);
+	
+	
 	/**
 	 * ITEMS로 BoardNotice 목록 정렬해주는 메소드
 	 * @param items
 	 * @return
 	 * 작성자 : 김장규
 	 */
-	List<BoardNotice> selectBoardNoticeByItems(String items);
+	List<BoardNotice> selectBoardNoticeByItems(String items, int startIndex, int endIndex);
 }
