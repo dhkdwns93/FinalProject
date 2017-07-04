@@ -14,7 +14,7 @@
 	<h2>냉장고 등록폼</h2>
 	<form action="${ initParam.rootPath }/common/member/fridger/register.do"
 		method="post">
-
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		<table>
 			<tr>
 				<th>냉장고 이름</th>
@@ -26,13 +26,11 @@
 							</c:if>
 							</span></td>
 			</tr>
-			<!-- 회원id는 나중에 세션 값으로  -->
+			<!-- 회원id는 principal 값으로  -->
 			<tr>
 				<th>회원ID</th>
-				<td><input type="text" name="memberId"
-					value="${ param.memberId }"> <span class="error"><form:errors
-							path="fridger.memberId" delimiter="&nbsp;" />
-							</span></td>
+				<td><sec:authentication property="principal.loginId"/>
+				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
@@ -40,7 +38,7 @@
 				</td>
 			</tr>
 		</table>
-		<sec:csrfInput/><%-- csrf 토큰 --%>
+		
 	</form>
 
 

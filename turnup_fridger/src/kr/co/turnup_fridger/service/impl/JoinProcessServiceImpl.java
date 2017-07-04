@@ -41,8 +41,13 @@ public class JoinProcessServiceImpl implements JoinProcessService{
 		for(JoinProcess jp : jdao.selectJoinProcessByFridgerId(joinProcess.getProcessFridgerId())){
 			
 			if(jp.getReqMemberId().equals(joinProcess.getReqMemberId()) && jp.getProcessState() == 10){
-				//(2)목록의 요청자에 신청하는 회원 id가 있고, 처리상태가 10(가입승인대기)일 때
-				throw new JoinProcessFailException("이미 가입승인대기중인 냉장고입니다.");
+				
+				if(joinProcess.getReqMemberId().equals(joinProcess.getRespMemberId())){
+					//(2-1)회원이 자기의 냉장고 가입신청으로 접근했을 때
+					throw new JoinProcessFailException("이미 주인인 냉장고입니다!");
+				}
+				//(2-2)목록의 요청자에 신청하는 회원 id가 있고, 처리상태가 10(가입승인대기)일 때
+				throw new JoinProcessFailException("이미 가입승인대기중인 냉장고입니다!");
 			}
 		}
 		//(3)목록의 신청자가 아니라면 -> 가입처리 목록에 가입승인대기(10) 상태로 추가
@@ -61,7 +66,12 @@ public class JoinProcessServiceImpl implements JoinProcessService{
 		// (1)냉장고 id로 검색된 가입처리 목록 가져오기
 		for (JoinProcess jp : jdao.selectJoinProcessByFridgerId(joinProcess.getProcessFridgerId())) {
 			if (jp.getRespMemberId().equals(joinProcess.getRespMemberId()) && jp.getProcessState() == 20) {
-				// (2)목록의 응답자에 초대할 회원id가 있고, 처리상태가 20(초대승인대기)일 때
+				
+				if(joinProcess.getReqMemberId().equals(joinProcess.getRespMemberId())){
+					//(2-1)회원이 자기의 냉장고  초대로 접근했을 때
+					throw new JoinProcessFailException("이미 주인인 냉장고입니다!");
+				}
+				// (2-2)목록의 응답자에 초대할 회원id가 있고, 처리상태가 20(초대승인대기)일 때
 				throw new JoinProcessFailException("이미 초대승인대기중인 회원입니다.");
 			}
 		}
