@@ -25,22 +25,31 @@ public class IrdntManageController {
 	
 	@RequestMapping("createIrdnt")
 	@ResponseBody
-	public ModelAndView createIrdnt(@ModelAttribute IrdntManage irdnt,BindingResult errors) throws Exception{
+	public ModelAndView createIrdnt(@ModelAttribute IrdntManage irdnt,BindingResult errors){
 		
 		IrdntManageValidator validator= new IrdntManageValidator();
 		validator.validate(irdnt, errors);
+		String msg;
+		
+		System.out.println(irdnt);
 		
 		if(errors.hasErrors()){
-			return new ModelAndView("/common/admin/irdntManage/irdnt_form");
+			return new ModelAndView("common/admin/irdntManage/irdnt_form");
 		}
+		try {
+			msg = service.createIrdnt(irdnt);
+		} catch (Exception e) {
+			return new ModelAndView("common/admin/irdntManage/irdnt_form", "errorMsg", e.getMessage());
+		}		
 		
-		service.createIrdnt(irdnt);		
+		//service에서 받아온 등록완료 메세지. jsp에서 알럿으로 띄워줘야징~
+		return new ModelAndView("common/admin/irdntManage/irdntList","msg",msg);
 		
-		List<IrdntManage> list = service.findAllIrdnt();
+		/*List<IrdntManage> list = service.findAllIrdnt();
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/irdntManage/irdntList");
 	    mav.addObject("list", list); 
-		return mav;
+		return mav;*/
 	}
 	
 	@RequestMapping("updateIrdnt")

@@ -13,8 +13,7 @@
 			"url":"/turnup_fridger/common/admin/irdntManage/allIrdntList.do",
 			"dataType":"json", 
 			"success":function(list){
-				alert("응답옴");
-		        
+				alert("응답옴");  
 				$("#thead").append("<tr><td>재료id</td><td>재료명</td><td>재료분류명</td><td>상온보관기간</td><td>냉장보관기간</td><td>냉동보관기간</td><td>비고</td></tr>");
 				var txt="";
 				$.each(list,function(){
