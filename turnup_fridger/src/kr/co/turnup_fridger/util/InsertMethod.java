@@ -92,20 +92,23 @@ public class InsertMethod {
 				break;
 			//재료관리
 			case "irdnt_manage":
-				sql = "insert into " + fileName + " values(?,?,?,?)";
+				sql = "insert into " + fileName + " values(?,?,?,?,?,?,?)";
 				System.out.println(fileName);
 				int cnt = 1;
 				pstmt = conn.prepareStatement(sql);
 				while ((line = in.readLine()) != null) {
 					str = line.split("&");
 
-					if (str.length == 2) {// 열갯수=4
+					if (str.length == 7) {// 열갯수=7
 						
-						pstmt.setInt(1, cnt++); 
-						pstmt.setString(2, str[1].trim()); 
-						pstmt.setInt(3, 0);
-						pstmt.setString(4, "카테고리"); 
-						
+						pstmt.setInt(1, cnt++);//id 
+						pstmt.setString(2, str[1].trim()); //name
+						pstmt.setString(3, str[2].trim());//catregory
+						pstmt.setInt(4,Integer.parseInt(str[3].trim())); //room
+						pstmt.setInt(5,Integer.parseInt(str[4].trim())); //cold
+						pstmt.setInt(6,Integer.parseInt(str[5].trim())); //freeze
+						pstmt.setString(7,str[6].trim() ); //note
+												
 						pstmt.executeUpdate();
 					} else {
 						System.out.println("열 갯수 오류 - " + str[0]);

@@ -22,7 +22,7 @@ import kr.co.turnup_fridger.vo.Fridger;
 import kr.co.turnup_fridger.vo.FridgerGroup;
 
 @Controller
-@RequestMapping("/fridger/")
+@RequestMapping("/common/member/fridger/")
 public class FridgerController {
 
 	@Autowired
@@ -63,13 +63,13 @@ public class FridgerController {
 			return new ModelAndView("common/member/fridger/register_form", "errorMsg", e.getMessage());
 		}
 		
-		return new ModelAndView("redirect:/common/member/fridger/register/success.do", "fridgerId", fridger.getFridgerId());
+		return new ModelAndView("redirect:register/success.do", "fridgerId", fridger.getFridgerId());
 	}
 	
 	@RequestMapping("register/success")
 	public ModelAndView registerSuccess(@RequestParam int fridgerId ) throws Exception{
 		fridger = fService.findFridgerByFridgerId(fridgerId);
-		return new ModelAndView("/common/memberfridger/register_success", "fridger", fridger);
+		return new ModelAndView("common/member/fridger/register_success", "fridger", fridger);
 	}
 	
 	

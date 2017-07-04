@@ -6,15 +6,21 @@
 	<sql id="all-column">
 		irdnt_id,
 		irdnt_name,
-		irdnt_period,
-		irdnt_category
+		irdnt_category,
+		room_tem_period,
+		cold_tem_period,
+		freeze_tem_period,
+		note
 	</sql>
 	
 	<resultMap type="IrdntManage" id="irdntManage-resultmap">
 		<id column="irdnt_id" property="irdntId"/>
 		<result column="irdnt_name" property="irdntName"/>
-		<result column="irdnt_period" property="irdntPeriod"/>
 		<result column="irdnt_category" property="irdntCategory"/>
+		<result column="room_tem_period" property="roomTemPeriod"/>
+		<result column="cold_tem_period" property="coldTemPeriod"/>
+		<result column="freeze_tem_period" property="freezeTemPeriod"/>
+		<result column="note" property="note"/>
 	</resultMap>
 
 	<insert id="insertIrdnt" parameterType="IrdntManage">
@@ -22,15 +28,18 @@
 			SELECT IRDNT_ID.nextval FROM dual
 		</selectKey>
 		insert into irdnt_Manage 
-		values (#{irdntId},#{irdntName},#{irdntPeriod},#{irdntCategory})
+		values (#{irdntId},#{irdntName},#{irdntCategory},#{roomTemPeriod},#{coldTempPeriod},#{freezeTemPeriod},#{note})
 	</insert>
 	
 	<update id="updateIrdnt" parameterType="IrdntManage">
 		update Irdnt_Manage
 		set irdnt_id=#{irdntId},
 			irdnt_name=#{irdntName},
-			irdnt_period=#{irdntPeriod},
-			irdnt_category=#{irdntCategory}
+			irdnt_category=#{irdntCategory},
+			room_tem_period=#{roomTemPeriod},
+			cold_tem_period=#{coldTemPeriod},
+			freeze_tem_period=#{freezeTemPeriod},
+			note=#{note}					
 		where irdnt_id=#{irdntId}
 	</update>
 	

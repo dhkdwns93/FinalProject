@@ -9,7 +9,7 @@
 $(document).ready(function () {
 	//냉장고목록검색 페이지 디폴트는 전체 목록번호순으로 
 	$.ajax({
-		"url":"/turnup_fridger/fridger/show/list.do",
+		"url":"/turnup_fridger/common/member/fridger/show/list.do",
         "dataType": "json",
         "success": function(list){
         	$("tbody").empty();
@@ -44,7 +44,7 @@ $(document).ready(function () {
 	
 	$("#searchByIdBtn").on("click", function(){
 		$.ajax({
-			"url":"/turnup_fridger/fridger/show/fridgerById.do",
+			"url":"/turnup_fridger/common/member/fridger/show/fridgerById.do",
 			/* "type" : "post", */
 			"data" : {fridgerId : $("input#fridgerId").val()},
 	        "dataType": "json",
@@ -73,7 +73,7 @@ $(document).ready(function () {
 	
 	$("#searchByNameBtn").on("click", function(){
 		$.ajax({
-			"url":"/turnup_fridger/fridger/show/fridgerByName.do",
+			"url":"/turnup_fridger/common/member/fridger/show/fridgerByName.do",
 			/* "type" : "post", */
 			"data" : {fridgerName : $("input#fridgerName").val()},
 	        "dataType": "json",
@@ -110,7 +110,7 @@ $(document).ready(function () {
 	
 	$("#searchByOwnerBtn").on("click", function(){
 		$.ajax({
-			"url":"/turnup_fridger/fridger/show/fridgerByOwner.do",
+			"url":"/turnup_fridger/common/member/fridger/show/fridgerByOwner.do",
 			/* "type" : "post", */
 			"data" : {memberId : $("input#memberId").val()},
 	        "dataType": "json",
@@ -179,7 +179,7 @@ $(document).ready(function () {
 	    alert(ownerId);
 	    
 		$.ajax({
-			"url":"/turnup_fridger/fridger/show/detail.do",
+			"url":"/turnup_fridger/common/member/fridger/show/detail.do",
 			/* "type" : "post", */
 			"data" : {fridgerId : fridgerId},
 	        "dataType": "json",
