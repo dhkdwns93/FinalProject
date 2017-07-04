@@ -60,7 +60,6 @@
 	
 	
 
->>>>>>> branch 'master' of https://github.com/dhkdwns93/FinalProject.git
 	<bean name="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:prefix="/WEB-INF/view/"
 		p:suffix=".jsp"/>	
