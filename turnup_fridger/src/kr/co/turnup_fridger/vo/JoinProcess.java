@@ -1,8 +1,9 @@
 package kr.co.turnup_fridger.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class JoinProcess {
+public class JoinProcess implements Serializable{
 	private int processNo;
 	private int processFridgerId;
 	private int processState;

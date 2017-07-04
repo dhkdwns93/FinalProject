@@ -7,7 +7,7 @@ public class MyMemo implements Serializable{
 
 	private int memoId;
 	private String memoName;
-	private String memoText;
+	private String memoTxt;
 	private String memberId;
 	private Date registeredDate;
 	
@@ -15,11 +15,11 @@ public class MyMemo implements Serializable{
 		super();
 	}
 
-	public MyMemo(int memoId, String memoName, String memoText, String memberId, Date registeredDate) {
+	public MyMemo(int memoId, String memoName, String memoTxt, String memberId, Date registeredDate) {
 		super();
 		this.memoId = memoId;
 		this.memoName = memoName;
-		this.memoText = memoText;
+		this.memoTxt = memoTxt;
 		this.memberId = memberId;
 		this.registeredDate = registeredDate;
 	}
@@ -39,11 +39,11 @@ public class MyMemo implements Serializable{
 	public void setMemoName(String memoName) {
 		this.memoName = memoName;
 	}
-	public String getMemoText() {
-		return memoText;
+	public String getmemoTxt() {
+		return memoTxt;
 	}
-	public void setMemoText(String memoText) {
-		this.memoText = memoText;
+	public void setmemoTxt(String memoTxt) {
+		this.memoTxt = memoTxt;
 	}
 	public String getMemberId() {
 		return memberId;
@@ -67,7 +67,7 @@ public class MyMemo implements Serializable{
 		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
 		result = prime * result + memoId;
 		result = prime * result + ((memoName == null) ? 0 : memoName.hashCode());
-		result = prime * result + ((memoText == null) ? 0 : memoText.hashCode());
+		result = prime * result + ((memoTxt == null) ? 0 : memoTxt.hashCode());
 		result = prime * result + ((registeredDate == null) ? 0 : registeredDate.hashCode());
 		return result;
 	}
@@ -93,10 +93,10 @@ public class MyMemo implements Serializable{
 				return false;
 		} else if (!memoName.equals(other.memoName))
 			return false;
-		if (memoText == null) {
-			if (other.memoText != null)
+		if (memoTxt == null) {
+			if (other.memoTxt != null)
 				return false;
-		} else if (!memoText.equals(other.memoText))
+		} else if (!memoTxt.equals(other.memoTxt))
 			return false;
 		if (registeredDate == null) {
 			if (other.registeredDate != null)
@@ -108,7 +108,7 @@ public class MyMemo implements Serializable{
 
 	@Override
 	public String toString() {
-		return "MyMemo [memoId=" + memoId + ", memoName=" + memoName + ", memoText=" + memoText + ", memberId="
+		return "MyMemo [memoId=" + memoId + ", memoName=" + memoName + ", memoTxt=" + memoTxt + ", memberId="
 				+ memberId + ", registeredDate=" + registeredDate + "]";
 	}
 

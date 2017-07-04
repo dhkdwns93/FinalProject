@@ -16,7 +16,7 @@ public class MyIrdntMain {
 				"kr/co/turnup_fridger/config/spring/model-context.xml");
 		MyIrdntService service = (MyIrdntService) context.getBean("MyIrdntService");
 		
-		service.createMyIrdnt(new MyIrdnt(10,new Date(116,5,1),new Date(116,6,1),0,"5",2,"공백",1,"보통"));
+		//service.createMyIrdnt(new MyIrdnt(10,new Date(116,5,1),new Date(116,6,1),0,"5",2,"공백",1,"보통"));
 		//완료service.updateMyIrdnt(new MyIrdnt(0,new Date(117,4,1),new Date(117,5,1),0,"10",2,"0",0,"좋음"));
 		//완료 service.removeMyIrdnt(0);
 		

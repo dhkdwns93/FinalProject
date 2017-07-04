@@ -82,4 +82,27 @@ public interface FridgerDao {
 	 */
 	List<Fridger> selectFridgerAndFridgerGroupByFridgerName(String fridgerName);
 	
+	/**
+	 * 냉장고 주인회원으로 조회
+	 * @param memberId
+	 * @return
+	 */
+	List<Fridger> selectFridgerByOwnerId(String memberId);
+
+	/**
+	 * 냉장고 주인회원으로 냉장고와 냉장고 공유하는 멤버 조회
+	 * @param memberId
+	 * @return
+	 */
+	List<Fridger> selectFridgerAndFridgerGroupByOwnerId(String memberId);
+	
+	/**
+	 * 냉장고 주인회원으로 냉장고와 냉장고 속 재료 조회 
+	 * @param memberId
+	 * @return
+	 */
+	List<Fridger> selectFridgerAndIrdntByOwnerId(String memberId);
+
+	
 }
+

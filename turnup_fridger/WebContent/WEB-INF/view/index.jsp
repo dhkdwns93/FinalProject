@@ -26,13 +26,21 @@
 <hr>
 <!-- 은영 -->
 <h4>냉장고관련</h4>
-<a href="${initParam.rootPath}/fridger/show/list.do"><button type="button">냉장고검색</button></a>
+
+<a href="${initParam.rootPath}/fridger/list.do"><button type="button">냉장고검색</button></a>
+<a href="${initParam.rootPath}/fridger/register_form.do"><button type="button">냉장고등록</button></a>
+
+
 <hr>
 <!-- 경혜 -->
 <a href="${initParam.rootPath}/user/index_kh.do"><button type="button">경혜기능모음</button></a>
 
 <hr>
 <!-- 연수 -->
+<h4>재료관리 관련</h4>
+<a href="${initParam.rootPath}/irdntManage/irdntList.do"><button type="button">재료관리</button></a><br>
+<h4>나의 식재료 관련</h4>
+<a href="${initParam.rootPath}/myIrdnt/myIrdntList.do"><button type="button">나의 식재료</button></a><br>
 
 <hr>
 <!-- 현화 -->

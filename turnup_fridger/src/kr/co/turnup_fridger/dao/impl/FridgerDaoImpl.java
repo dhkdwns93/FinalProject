@@ -81,6 +81,24 @@ public class FridgerDaoImpl implements FridgerDao{
 	}
 
 
+	@Override
+	public List<Fridger> selectFridgerByOwnerId(String memberId) {
+		return session.selectList(makeSql("selectFridgerByOwnerId"), memberId);
+	}
+
+
+	@Override
+	public List<Fridger> selectFridgerAndFridgerGroupByOwnerId(String memberId) {
+		return session.selectList(makeSql("selectFridgerAndFridgerGroupByOwnerId"), memberId);
+	}
+
+
+	@Override
+	public List<Fridger> selectFridgerAndIrdntByOwnerId(String memberId) {
+		return session.selectList(makeSql("selectFridgerAndIrdntByOwnerId"), memberId);
+	}
+
+
 
 	
 }
