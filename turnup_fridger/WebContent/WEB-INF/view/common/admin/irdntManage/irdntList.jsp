@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,8 +12,8 @@
 		$("button").on("click",function(){
 			alert("시작");	
 		$.ajax({
-			"url"="/turnup_fridger/irdntManage/allIrdntList.do",
-			"type"="POST", 
+			"url"="/turnup_fridger/common/admin/irdntManage/allIrdntList.do",
+			"type"="get", 
 			"dataType":"json", 
 			"success":function(obj){
 				alert("응답옴");
@@ -54,7 +56,7 @@ td {
 
 <h2>재료 목록</h2><hr>
 <button type="button" id="list">재료목록조회</button>
-<a href = "/turnup_fridger/irdntManage/irdnt_form.do">재료추가</a>
+<a href = "/turnup_fridger/common/admin/irdntManage/irdnt_form.do">재료추가</a>
 
 <div id ="result">
 <table>

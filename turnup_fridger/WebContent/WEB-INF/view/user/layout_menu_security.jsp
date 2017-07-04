@@ -11,6 +11,10 @@
    									내용을 태그의 content로 넣는다.
  --%>
  <ul class="nav nav-stacked">
+ <%--인증 관련 없는 메뉴(로그인 유무에 상관없이 보일 메뉴) --%>
+ 	여러분들을 위한 프레젠또~
+ 	<a href="${initParam.rootPath}/index.do"><button type="button">index.do ㄱㄱ</button></a>
+ 	<hr>
  <%--비회원 메뉴 (로그인 하면 안보여야 하는 메뉴)--%>
  <sec:authorize access="!isAuthenticated()">
  	<a href="${initParam.rootPath}/login_form.do"><button type="button">로그인</button></a><br>
@@ -28,7 +32,7 @@
  
  <%--마스터관리자 메뉴 /admin/master으로 시작--%>
  
- <%--인증 관련 없는 메뉴(로그인 유무에 상관없이 보일 메뉴) --%>
+
  </ul>
  
  
