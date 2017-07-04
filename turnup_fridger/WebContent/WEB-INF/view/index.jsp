@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!-- 
  (jsp)index
 작성자 : 
@@ -21,27 +22,28 @@
 <!-- 장규/준 -->
 <form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
 <a href="${initParam.rootPath}/boardnotice/boardnoticelist.do"><input type="submit" value="공지사항"/></a>
+<sec:csrfInput/>
 </form>
 
 <hr>
 <!-- 은영 -->
 <h4>냉장고관련</h4>
 
-<%-- <a href="${initParam.rootPath}/common/member/fridger/list.do"><button type="button">냉장고검색</button></a>
-<a href="${initParam.rootPath}/common/member/fridger/register_form.do"><button type="button">냉장고등록</button></a> --%>
-<a href="${initParam.rootPath}/fridger/list.do"><button type="button">냉장고목록보기 </button></a>
+<a href="${initParam.rootPath}/common/member/fridger/list.do"><button type="button">냉장고검색</button></a>
+<a href="${initParam.rootPath}/common/member/fridger/register_form.do"><button type="button">냉장고등록</button></a>
+
 
 
 <hr>
 <!-- 경혜 -->
-<a href="${initParam.rootPath}/user/index_kh.do"><button type="button">경혜기능모음</button></a>
+<a href="${initParam.rootPath}/index_kh.do"><button type="button">경혜기능모음</button></a>
 
 <hr>
 <!-- 연수 -->
 <h4>재료관리 관련</h4>
-<a href="${initParam.rootPath}/irdntManage/irdntList.do"><button type="button">재료관리</button></a><br>
+<a href="${initParam.rootPath}/common/admin/irdntManage/irdntList.do" ><button type="button">재료관리</button></a><br>
 <h4>나의 식재료 관련</h4>
-<a href="${initParam.rootPath}/myIrdnt/myIrdntList.do"><button type="button">나의 식재료</button></a><br>
+<a href="${initParam.rootPath}/common/member/myIrdnt/myIrdntList.do"><button type="button">나의 식재료</button></a><br>
 
 <hr>
 <!-- 현화 -->

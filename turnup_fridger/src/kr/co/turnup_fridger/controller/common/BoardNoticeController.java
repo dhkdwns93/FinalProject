@@ -1,11 +1,16 @@
 package kr.co.turnup_fridger.controller.common;
 
 import java.io.File;
-import java.util.List;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.turnup_fridger.dao.BoardNoticeDao;
 import kr.co.turnup_fridger.service.BoardNoticeService;
 import kr.co.turnup_fridger.validation.BoardNoticeValidator;
 import kr.co.turnup_fridger.vo.BoardNotice;
@@ -27,35 +33,70 @@ public class BoardNoticeController extends HttpServlet {
 	
 	@Autowired
 	private BoardNoticeService service;
+	@Autowired
+	private BoardNoticeDao dao;
+	
+	private String eclipseDir = "C:\\Java\\eclipse\\workspace_web\\turnup_fridger2\\WebContent\\up_image"; 
+	
+	
+	private void copyToEclipseDir(String newImageName, MultipartFile upImage) throws Exception{
+		File eclipseDest = new File(eclipseDir, newImageName);
+		FileOutputStream fo = new FileOutputStream(eclipseDest);
+		InputStream is = upImage.getInputStream();
+		byte [] b = new byte[10000];
+		int cnt = is.read(b);
+		while(cnt != -1){
+			fo.write(b, 0, cnt);
+			cnt = is.read(b);
+		}
+		fo.close();
+		is.close();
+	}
 	
 	
 	//전체 리스트
 	@RequestMapping("boardNoticeList")
-	public ModelAndView boardNoticeList() throws Exception
-	{
-		 List<BoardNotice> list = service.findBoardNoticeList();
-		 
-		 ModelAndView mav = new ModelAndView();
-		
-		 mav.setViewName("/boardnotice/boardnotice_list");
-	     mav.addObject("list", list); 
-	     return mav;
+	public ModelAndView boardNoticeList(@RequestParam(defaultValue="1") int page) throws Exception
+	{  
+	    Map<String, Object> map = service.findBoardNoticeList(page);
+	
+	    
+	    
+	    ModelAndView mav = new ModelAndView(); 
+	    
+	    mav.addObject("list", map.get("list"));
+	    mav.addObject("pageBean", map.get("pageBean"));
+	    mav.setViewName("boardnotice/boardnotice_list"); 
+	    
+	    return mav;
 	} 
 	
 	//말머리 조회
 	@RequestMapping("boardNoticeByItems")
-	@ResponseBody
-	public List boardNoticeById(@RequestParam String items)
+	//@ResponseBody
+	public ModelAndView boardNoticeById(@RequestParam String items, @RequestParam(defaultValue="1") int page) throws Exception
 	{
-		 List<BoardNotice> list = service.findBoardNoticeByItmes(items);
-		 String s = "전체보기";
-		 if(items.equals(s))
-		 {
-			 list=service.findBoardNoticeList();
-			 return list;
-		 }
-		 System.out.println(list);
-	     return list;
+		ModelAndView mav = new ModelAndView(); 
+		
+		Map<String, Object> map = service.findBoardNoticeByItmes(items,page);
+		
+		String s = "전체보기";
+		if(items.equals(s))
+		{
+			 map = service.findBoardNoticeList(page);
+ 
+			 mav.addObject("list", map.get("list"));
+			 mav.addObject("pageBean", map.get("pageBean"));
+			 mav.setViewName("boardnotice/boardnotice_list"); 
+			    
+			return mav;
+		}
+	    mav.addObject("list", map.get("list"));
+	    mav.addObject("items",  map.get("items"));
+	    mav.addObject("pageBean", map.get("pageBean"));
+	    mav.setViewName("boardnotice/boardnotice_list_items");
+		
+	    return mav;
 	} 
 	
 	
@@ -75,70 +116,49 @@ public class BoardNoticeController extends HttpServlet {
 	 
 	
 	//등록
-	//@RequestMapping("boardNoticeAdd")
-	 public ModelAndView insert(@ModelAttribute BoardNotice boardNotice, BindingResult errors, @RequestParam MultipartFile img, HttpServletRequest request, ModelMap map) throws Exception
+	@RequestMapping("boardNoticeAdd")
+	 public ModelAndView insert(@ModelAttribute BoardNotice boardNotice,BindingResult errors, HttpServletRequest request, ModelMap map) throws Exception
 	{
-/*		BoardNoticeValidator validator = new BoardNoticeValidator();
-		validator.validate(boardNotice, errors);
-	
-		if(errors.hasErrors())
-		{
-			return new ModelAndView("boardnotice/boardnotice_form");
-		}*/
-
-		String fileName = img.getOriginalFilename();//업로드된 파일명
-		
-		if(img !=null && !img.isEmpty()) //이미지 이름이 없거나 넘어올때 파일이없을때 체크
-		{
-			
-			long size = img.getSize();//업로드 파일 크기
-			
-			File dest = new File(request.getServletContext().getRealPath("/up_image"),fileName); //톰켓 경로
-			img.transferTo(dest);
-
-			map.addAttribute("fileName",fileName);
-		}
-		
-		BoardNotice bn = new BoardNotice(0,boardNotice.getItems(), boardNotice.getTitle(),boardNotice.getTxt(),fileName,boardNotice.getDate() );
-		
-		service.addBoardNotice(bn);
-		map.addAttribute("boardNotice", bn);
-		return new ModelAndView("boardnotice/boardnotice_success");
-	}
-	
-	
-	
-		//등록
-		@RequestMapping("boardNoticeAdd")
-		 public ModelAndView insert2(@ModelAttribute BoardNotice boardNotice, BindingResult errors, @RequestParam MultipartFile img, HttpServletRequest request, ModelMap map) throws Exception
-		{
-	/*		BoardNoticeValidator validator = new BoardNoticeValidator();
+			BoardNoticeValidator validator = new BoardNoticeValidator();
 			validator.validate(boardNotice, errors);
-		
-			if(errors.hasErrors())
+			if(errors.hasErrors()) 
 			{
-				return new ModelAndView("boardnotice/boardnotice_form");
-			}*/
-
-			String fileName = img.getOriginalFilename();//업로드된 파일명
-			
-			if(img !=null && !img.isEmpty()) //이미지 이름이 없거나 넘어올때 파일이없을때 체크
-			{
-				
-				long size = img.getSize();//업로드 파일 크기
-				
-				File dest = new File(request.getServletContext().getRealPath("/up_image"),fileName); //톰켓 경로
-				img.transferTo(dest);
-
-				map.addAttribute("fileName",fileName);
+				//errors에 오류가 1개라도 등록되 있으면 true 리턴
+				return new ModelAndView("boardnotice/boardnotice_form"); 
 			}
 			
-			BoardNotice bn = new BoardNotice(0,boardNotice.getItems(), boardNotice.getTitle(),boardNotice.getTxt(),fileName,boardNotice.getDate() );
+			String upImageDir = request.getServletContext().getRealPath("/up_image");
+			MultipartFile upImage = boardNotice.getUpImage();
 			
-			service.addBoardNotice(bn);
-			map.addAttribute("boardNotice", bn);
-			return new ModelAndView("boardnotice/boardnotice_success");
-		}
+			String fname = upImage.getOriginalFilename();
+
+			if (fname.equals("")) 
+			{
+				boardNotice.setSaveImg(null);
+		    } 
+			if(upImage!=null && !upImage.isEmpty())
+			{
+				boardNotice.setImg(upImage.getOriginalFilename());
+				String newImageName = UUID.randomUUID().toString();
+				boardNotice.setSaveImg(newImageName);
+				File dest = new File(upImageDir);
+				//파일 이동
+				/************************************
+				 * 이클립스 경로로 카피
+				 *************************************/
+				copyToEclipseDir(newImageName,upImage);
+				/************************************
+				 * 이클립스 경로로 카피
+				 *************************************/
+				//파일 이동시키기
+				upImage.transferTo(dest);
+				//저장
+				service.addBoardNotice(boardNotice);
+				boardNotice = new BoardNotice(0,boardNotice.getItems(), boardNotice.getTitle(),boardNotice.getTxt(),boardNotice.getImg(),boardNotice.getSaveImg(),boardNotice.getDate() );
+				map.addAttribute("boardNotice", boardNotice);
+				}
+			return new ModelAndView("boardnotice/boardnotice_view");	
+	}
 	
 	
 	
@@ -158,33 +178,48 @@ public class BoardNoticeController extends HttpServlet {
 	
 	//수정
 	@RequestMapping("boardNoticeUploadForm")
-	 public ModelAndView boardNoticeUploadForm(@ModelAttribute BoardNotice boardNotice, BindingResult errors, @RequestParam MultipartFile img, HttpServletRequest request, ModelMap map) throws Exception
+	 public ModelAndView boardNoticeUploadForm(@ModelAttribute BoardNotice boardNotice,BindingResult errors, HttpServletRequest request, ModelMap map) throws Exception
 	{
-/*		BoardNoticeValidator validator = new BoardNoticeValidator();
+		BoardNoticeValidator validator = new BoardNoticeValidator();
 		validator.validate(boardNotice, errors);
-	
-		if(errors.hasErrors())
+		if(errors.hasErrors()) 
 		{
-			return new ModelAndView("boardnotice/boardnotice_form");
-		}*/
-
-		String fileName = img.getOriginalFilename();//업로드된 파일명
-		
-		if(img !=null && !img.isEmpty()) //이미지 이름이 없거나 넘어올때 파일이없을때 체크
-		{
-			long size = img.getSize();//업로드 파일 크기
-			
-			File dest = new File(request.getServletContext().getRealPath("/up_image"),fileName); //톰켓 경로
-			img.transferTo(dest);
-
-			map.addAttribute("fileName",fileName);
+			//errors에 오류가 1개라도 등록되 있으면 true 리턴
+			return new ModelAndView("boardnotice/boardnotice_form"); 
 		}
 		
-		BoardNotice bn = new BoardNotice(boardNotice.getId(),boardNotice.getItems(), boardNotice.getTitle(),boardNotice.getTxt(),fileName,boardNotice.getDate());
+		String upImageDir = request.getServletContext().getRealPath("/up_image");
+		MultipartFile upImage = boardNotice.getUpImage();
 		
-		service.updateBoardNotice(bn);
-		map.addAttribute("boardNotice", bn);
-		return new ModelAndView("boardnotice/boardnotice_success");
+		String fname = upImage.getOriginalFilename();
+
+		if (fname.equals("")) 
+		{
+			boardNotice.setSaveImg(null);
+	    } 
+		else if(upImage!=null && !upImage.isEmpty())
+		{
+			boardNotice.setImg(upImage.getOriginalFilename());
+			String newImageName = UUID.randomUUID().toString();
+			boardNotice.setSaveImg(newImageName);
+			File dest = new File(upImageDir);
+			//파일 이동
+			/************************************
+			 * 이클립스 경로로 카피
+			 *************************************/
+			copyToEclipseDir(newImageName,upImage);
+			/************************************
+			 * 이클립스 경로로 카피
+			 *************************************/
+			//파일 이동시키기
+			upImage.transferTo(dest);
+			//저장
+			service.addBoardNotice(boardNotice);
+		}else
+		{
+			return new ModelAndView("boardnotice/boardnotice_upload"); 
+		}
+		return new ModelAndView("boardnotice/boardnotice_view");
 	}
 	
 	
@@ -192,18 +227,20 @@ public class BoardNoticeController extends HttpServlet {
 	
 	//삭제
 	@RequestMapping("boardNoticRemove")
-	public ModelAndView boardNoticRemove(@RequestParam int id)
+	public ModelAndView boardNoticRemove(@RequestParam int id, @RequestParam(defaultValue="1") int page) throws Exception
 	{
 		service.removeBoardNoticeById(id);
 		
-		List<BoardNotice> list = service.findBoardNoticeList();
-		 
-		ModelAndView mav = new ModelAndView();
-		
-		mav.setViewName("/boardnotice/boardnotice_list");
-	    mav.addObject("list", list); 
+	    Map<String, Object> map = service.findBoardNoticeList(page);
+
+	    ModelAndView mav = new ModelAndView(); 
 	    
-		return mav;
+	    mav.addObject("list", map.get("list"));
+	    mav.addObject("pageBean", map.get("pageBean"));
+	    mav.setViewName("boardnotice/boardnotice_list"); 
+	    
+	    return mav;
+
 	}	
 	
 	

@@ -36,24 +36,26 @@
 					logout : 로그아웃관련설정
 							속성 : logout-url = "로그아웃 처리 요청url"
 -->
+
+				<!-- 관리자권한줄때 반드시 ROLE_**** 이런식으로 대문자!!  -->
 	<http>
-		<intercept-url pattern="/common/admin/master/**" access="hasRole('masterAdmin')"/><!-- master만 -->
-		<intercept-url pattern="/common/admin/**" access="hasAnyRole('admin','masterAdmin')"/><!-- master, 관리자 -->
-		<intercept-url pattern="/common/member/**" access="hasRole('member')"/><!-- member만 -->
+		<intercept-url pattern="/common/admin/master/**" access="hasRole('ROLE_MASTERADMIN')"/><!-- master만 -->
+		<intercept-url pattern="/common/admin/**" access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN')"/><!-- master, 관리자 -->
+		<intercept-url pattern="/common/member/**" access="hasRole('ROLE_MEMBER')"/><!-- member만 -->
 		<intercept-url pattern="/common/**" access="isAuthenticated()"/><!-- 로그인한 사람들 모두 : member, master, 관리자 -->
 		<intercept-url pattern="/**" access="permitAll"/><!-- 전체 -->
 		
 		<!-- 로그인관련설정  -->
 		<form-login
-						login-page="/user/login_form.do"
-						login-processing-url="/user/login.do"
+						login-page="/login_form.do"
+						login-processing-url="/login.do"
 						username-parameter="userId"
 						password-parameter="userPw"
 						authentication-failure-handler-ref="loginFailHandler"
-						default-target-url="/user/index_kh.do"/> <!-- 로그인성공하면 index.do로 이동 -->
+						default-target-url="/index_kh.do"/> <!-- 로그인성공하면 index.do로 이동 -->
 		
 		<!-- 로그아웃관련설정 -->			
-		<logout logout-url="/user/logout.do" logout-success-url="/user/index_kh.do"/> <!-- 로그아웃하면 /user/index.kh.do로 이동 -->
+		<logout logout-url="/common/logout.do" logout-success-url="/index_kh.do"/> <!-- 로그아웃하면 /user/index.kh.do로 이동 -->
 	
 		<!-- 사용자가 권한이 없는 요청을 한 경우 이동할 url등록, 등록하지 않으면 403에러페이지 -->
 		<access-denied-handler error-page="/error/access_denied.do"/>

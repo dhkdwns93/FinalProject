@@ -34,16 +34,17 @@ public class UserManageController {
 	 * @return
 	 * @throws SignUpMemberFailException 
 	 */
-	@RequestMapping("/user/join_member")
+	@RequestMapping("/join_member")
 	public ModelAndView signUpMember(@ModelAttribute Member member) throws SignUpMemberFailException{
+		System.out.println(member);
 		service.signUpMember(member);
-		return new ModelAndView("redirect:/user/join_member_success.do","memberId",member.getMemberId());
+		return new ModelAndView("redirect:/user/join_member_success","memberId",member.getMemberId());
 	}
 	
-	@RequestMapping("/user/join_member_success")
+	@RequestMapping("/join_member_success")
 	public ModelAndView signUpSuccessMember(@RequestParam String memberId){
 		Member member=service.inquiryMemberInfo(memberId);
-		return new ModelAndView("/user/member/join_member_success.do","member",member);
+		return new ModelAndView("/user/join_member_success","member",member);
 	}
 
 }

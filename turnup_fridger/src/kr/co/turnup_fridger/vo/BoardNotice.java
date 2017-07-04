@@ -3,7 +3,7 @@ package kr.co.turnup_fridger.vo;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -17,19 +17,22 @@ public class BoardNotice implements Serializable
 	private String items;
 	private String title;
 	private String txt;
-	private String img;
+	private String img;//원래이름
+	private String saveImg; //UUID로 생성한 이름 - 파일명 중복을 피하기 위해
 	@JsonSerialize(using=DateJSONSerializer.class)
 	private Date date;
+	private MultipartFile upImage;
 	
 	public BoardNotice (){}
 
-	public BoardNotice(int id, String items, String title, String txt, String img, Date date) {
+	public BoardNotice(int id, String items, String title, String txt, String img, String saveImg, Date date) {
 		super();
 		this.id = id;
 		this.items = items;
 		this.title = title;
 		this.txt = txt;
 		this.img = img;
+		this.saveImg = saveImg;
 		this.date = date;
 	}
 
@@ -73,6 +76,14 @@ public class BoardNotice implements Serializable
 		this.img = img;
 	}
 
+	public String getSaveImg() {
+		return saveImg;
+	}
+
+	public void setSaveImg(String saveImg) {
+		this.saveImg = saveImg;
+	}
+
 	public Date getDate() {
 		return date;
 	}
@@ -81,10 +92,20 @@ public class BoardNotice implements Serializable
 		this.date = date;
 	}
 
+	public MultipartFile getUpImage() {
+		return upImage;
+	}
+
+	public void setUpImage(MultipartFile upImage) {
+		this.upImage = upImage;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "BoardNotice [id=" + id + ", items=" + items + ", title=" + title + ", txt=" + txt + ", img=" + img
-				+ ", date=" + date + "]";
+				+ ", saveImg=" + saveImg + ", date=" + date + ", upImage=" + upImage + "]";
 	}
 
 	@Override
@@ -95,8 +116,10 @@ public class BoardNotice implements Serializable
 		result = prime * result + id;
 		result = prime * result + ((img == null) ? 0 : img.hashCode());
 		result = prime * result + ((items == null) ? 0 : items.hashCode());
+		result = prime * result + ((saveImg == null) ? 0 : saveImg.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((txt == null) ? 0 : txt.hashCode());
+		result = prime * result + ((upImage == null) ? 0 : upImage.hashCode());
 		return result;
 	}
 
@@ -126,6 +149,11 @@ public class BoardNotice implements Serializable
 				return false;
 		} else if (!items.equals(other.items))
 			return false;
+		if (saveImg == null) {
+			if (other.saveImg != null)
+				return false;
+		} else if (!saveImg.equals(other.saveImg))
+			return false;
 		if (title == null) {
 			if (other.title != null)
 				return false;
@@ -136,9 +164,13 @@ public class BoardNotice implements Serializable
 				return false;
 		} else if (!txt.equals(other.txt))
 			return false;
+		if (upImage == null) {
+			if (other.upImage != null)
+				return false;
+		} else if (!upImage.equals(other.upImage))
+			return false;
 		return true;
 	}
 
-
-
+	
 }

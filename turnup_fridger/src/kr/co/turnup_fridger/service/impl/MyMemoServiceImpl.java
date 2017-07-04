@@ -24,7 +24,6 @@ public class MyMemoServiceImpl implements MyMemoService{
 			throw new Exception("메모가 이미 존재합니다");
 		}
 		dao.insertMemo(memo);
-		System.out.println("메모등록완료♡");
 	}
 
 	@Override // 장바구니 메모 수정
@@ -33,7 +32,6 @@ public class MyMemoServiceImpl implements MyMemoService{
 			throw new Exception("해당 메모가 존재하지 않습니다");
 		}
 		dao.updateMemo(memo);
-		System.out.println("메모수정완료♡");
 	}
 
 	@Override // 장바구니 메모 삭제
@@ -42,7 +40,6 @@ public class MyMemoServiceImpl implements MyMemoService{
 			throw new Exception("해당 메모가 존재하지 않습니다");
 		}
 		dao.deleteMemo(memoId);
-		System.out.println("메모삭제완료♡");
 	}
 
 	@Override //  한 회원의 메모리스트 조회
@@ -65,16 +62,31 @@ public class MyMemoServiceImpl implements MyMemoService{
 
 	public static void main(String[] args) throws Exception {
 		
-		ApplicationContext container = new ClassPathXmlApplicationContext("kr/co/turnup_fridger/config/spring/model-context.xml");
-		MyMemoService s = (MyMemoService)container.getBean("myMemoServiceImpl");
+		ApplicationContext c = new ClassPathXmlApplicationContext("kr/co/turnup_fridger/config/spring/model-context.xml");
+		MyMemoService s = (MyMemoService)c.getBean("myMemoServiceImpl");
 		
-		MyMemo memo = new MyMemo(0, "간식거리", "과자, 과일, 음료수", "shh", new Date());
+		// 추가
+		s.insertMemo(new MyMemo(0, "야식", "떡볶이, 피자, 치킨", "shh", new Date()));
 		
-		s.insertMemo(memo);
-		s.updateMemo(memo);
-		s.deleteMemo(9);
-		s.selectMemoCount("shh");
-		s.selectMemoList("shh");
-		s.selectOneMemo(7);
+		// 수정
+/*		s.updateMemo(new MyMemo(0, "간식거리", "과자, 과일, 음료수", "shh", new Date()));
+		
+		// 삭제
+		s.deleteMemo(9);*/
+		
+		// 총 개수
+		System.out.println("--------------회원당 작성한 메모 개수-------------");
+		System.out.println(s.selectMemoCount("shh"));
+		
+		// memberid로 메모리스트 조회 
+		System.out.println("-------------한회원의 메모리스트--------------");
+		List<MyMemo> list = s.selectMemoList("shh");
+		for(MyMemo m : list){
+			System.out.println(m);
+		}
+		
+		// 메모id로 하나의 메모조회
+		System.out.println("--------------하나의 메모조회-------------");
+		System.out.println(s.selectOneMemo(27));
 	}
 }

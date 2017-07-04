@@ -25,8 +25,7 @@ import kr.co.turnup_fridger.vo.FridgerGroup;
 import kr.co.turnup_fridger.vo.JoinProcess;
 
 @Controller
-//@RequestMapping("/common/member/fridger/")
-@RequestMapping("/fridger/")
+@RequestMapping("/common/member/fridger/")
 public class FridgerController {
 
 	@Autowired
@@ -48,7 +47,7 @@ public class FridgerController {
 		// 요청 파라미터 검증 끝
 		
 		if(errors.hasErrors()){
-			return new ModelAndView("fridger/register_form");
+			return new ModelAndView("common/member/fridger/register_form");
 		}
 		
 		// 비즈니스 로직 처리
@@ -59,20 +58,20 @@ public class FridgerController {
 		
 		try {
 			fService.createFridger(fridger);
+
 		} catch (DuplicatedFridgerException e) {
-//			return new ModelAndView("common/member/fridger/register_form", "errorMsg", e.getMessage());
-			return new ModelAndView("fridger/register_form", "errorMsg", e.getMessage());
+			return new ModelAndView("common/member/fridger/register_form", "errorMsg", e.getMessage());
 		}
 		
-//		return new ModelAndView("redirect:common/member/fridger/register/success.do", "fridgerId", fridger.getFridgerId());
 		return new ModelAndView("redirect:register/success.do", "fridgerId", fridger.getFridgerId());
 	}
 	
 	@RequestMapping("register/success")
 	public ModelAndView registerSuccess(@RequestParam int fridgerId ) throws Exception{
 		fridger = fService.findFridgerByFridgerId(fridgerId);
-//		return new ModelAndView("common/member/fridger/register_success", "fridger", fridger);
-		return new ModelAndView("fridger/register_success", "fridger", fridger);
+
+		return new ModelAndView("common/member/fridger/register_success", "fridger", fridger);
+
 	}
 	
 	

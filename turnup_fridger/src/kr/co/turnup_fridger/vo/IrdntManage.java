@@ -13,6 +13,7 @@ public class IrdntManage implements Serializable{
 	private int roomTemPeriod;
 	private int coldTemPeriod;
 	private int freezeTemPeriod;
+	private String note;
 	
 	private MyIrdnt myIrdnt;
 	private ShareRecipeIrdnt shareRecipeIrdnt;
@@ -23,15 +24,18 @@ public class IrdntManage implements Serializable{
 		
 	}
 
+	
 	public IrdntManage(int irdntId, String irdntName, String irdntCategory, int roomTemPeriod, int coldTemPeriod,
-			int freezeTemPeriod) {
+			int freezeTemPeriod, String note) {
 		this.irdntId = irdntId;
 		this.irdntName = irdntName;
 		this.irdntCategory = irdntCategory;
 		this.roomTemPeriod = roomTemPeriod;
 		this.coldTemPeriod = coldTemPeriod;
 		this.freezeTemPeriod = freezeTemPeriod;
+		this.note = note;
 	}
+
 
 	public IrdntManage(int irdntId, String irdntName, String irdntCategory, int roomTemPeriod, int coldTemPeriod,
 			int freezeTemPeriod, MyIrdnt myIrdnt, ShareRecipeIrdnt shareRecipeIrdnt, MyDislikeIrdnt myDislikeIrdnt,
@@ -48,93 +52,125 @@ public class IrdntManage implements Serializable{
 		RecipeIrdnt = recipeIrdnt;
 	}
 
+
 	public int getIrdntId() {
 		return irdntId;
 	}
+
 
 	public void setIrdntId(int irdntId) {
 		this.irdntId = irdntId;
 	}
 
+
 	public String getIrdntName() {
 		return irdntName;
 	}
+
 
 	public void setIrdntName(String irdntName) {
 		this.irdntName = irdntName;
 	}
 
+
 	public String getIrdntCategory() {
 		return irdntCategory;
 	}
+
 
 	public void setIrdntCategory(String irdntCategory) {
 		this.irdntCategory = irdntCategory;
 	}
 
+
 	public int getRoomTemPeriod() {
 		return roomTemPeriod;
 	}
+
 
 	public void setRoomTemPeriod(int roomTemPeriod) {
 		this.roomTemPeriod = roomTemPeriod;
 	}
 
+
 	public int getColdTemPeriod() {
 		return coldTemPeriod;
 	}
+
 
 	public void setColdTemPeriod(int coldTemPeriod) {
 		this.coldTemPeriod = coldTemPeriod;
 	}
 
+
 	public int getFreezeTemPeriod() {
 		return freezeTemPeriod;
 	}
+
 
 	public void setFreezeTemPeriod(int freezeTemPeriod) {
 		this.freezeTemPeriod = freezeTemPeriod;
 	}
 
+
+	public String getNote() {
+		return note;
+	}
+
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+
 	public MyIrdnt getMyIrdnt() {
 		return myIrdnt;
 	}
+
 
 	public void setMyIrdnt(MyIrdnt myIrdnt) {
 		this.myIrdnt = myIrdnt;
 	}
 
+
 	public ShareRecipeIrdnt getShareRecipeIrdnt() {
 		return shareRecipeIrdnt;
 	}
+
 
 	public void setShareRecipeIrdnt(ShareRecipeIrdnt shareRecipeIrdnt) {
 		this.shareRecipeIrdnt = shareRecipeIrdnt;
 	}
 
+
 	public MyDislikeIrdnt getMyDislikeIrdnt() {
 		return myDislikeIrdnt;
 	}
+
 
 	public void setMyDislikeIrdnt(MyDislikeIrdnt myDislikeIrdnt) {
 		this.myDislikeIrdnt = myDislikeIrdnt;
 	}
 
+
 	public RecipeIrdnt getRecipeIrdnt() {
 		return RecipeIrdnt;
 	}
+
 
 	public void setRecipeIrdnt(RecipeIrdnt recipeIrdnt) {
 		RecipeIrdnt = recipeIrdnt;
 	}
 
+
 	@Override
 	public String toString() {
 		return "IrdntManage [irdntId=" + irdntId + ", irdntName=" + irdntName + ", irdntCategory=" + irdntCategory
 				+ ", roomTemPeriod=" + roomTemPeriod + ", coldTemPeriod=" + coldTemPeriod + ", freezeTemPeriod="
-				+ freezeTemPeriod + ", myIrdnt=" + myIrdnt + ", shareRecipeIrdnt=" + shareRecipeIrdnt
+				+ freezeTemPeriod + ", note=" + note + ", myIrdnt=" + myIrdnt + ", shareRecipeIrdnt=" + shareRecipeIrdnt
 				+ ", myDislikeIrdnt=" + myDislikeIrdnt + ", RecipeIrdnt=" + RecipeIrdnt + "]";
 	}
+
 
 	@Override
 	public int hashCode() {
@@ -148,10 +184,12 @@ public class IrdntManage implements Serializable{
 		result = prime * result + ((irdntName == null) ? 0 : irdntName.hashCode());
 		result = prime * result + ((myDislikeIrdnt == null) ? 0 : myDislikeIrdnt.hashCode());
 		result = prime * result + ((myIrdnt == null) ? 0 : myIrdnt.hashCode());
+		result = prime * result + ((note == null) ? 0 : note.hashCode());
 		result = prime * result + roomTemPeriod;
 		result = prime * result + ((shareRecipeIrdnt == null) ? 0 : shareRecipeIrdnt.hashCode());
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -193,6 +231,11 @@ public class IrdntManage implements Serializable{
 				return false;
 		} else if (!myIrdnt.equals(other.myIrdnt))
 			return false;
+		if (note == null) {
+			if (other.note != null)
+				return false;
+		} else if (!note.equals(other.note))
+			return false;
 		if (roomTemPeriod != other.roomTemPeriod)
 			return false;
 		if (shareRecipeIrdnt == null) {
@@ -202,13 +245,6 @@ public class IrdntManage implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
-
-	
-	
-	
-
 
 	
 	

@@ -2,16 +2,16 @@ package kr.co.turnup_fridger.service.impl;
 
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.turnup_fridger.dao.BoardNoticeDao;
 import kr.co.turnup_fridger.service.BoardNoticeService;
+import kr.co.turnup_fridger.util.PagingBean;
 import kr.co.turnup_fridger.vo.BoardNotice;
 
 @Service
@@ -23,6 +23,19 @@ public class BoardNoticeServiceImpl implements BoardNoticeService
 	
 	@Override
 	public void addBoardNotice(BoardNotice boardNotice) {
+        String title = boardNotice.getTitle();
+        String txt = boardNotice.getTxt();
+        // *태그문자 처리 (< ==> &lt; > ==> &gt;)
+        // replace(A, B) A를 B로 변경
+        title = title.replace("<", "&lt;");
+        title = title.replace("<", "&gt;");
+        // *공백문자 처리
+        title = title.replace("  ",    "&nbsp;&nbsp;");
+        // *줄바꿈 문자처리
+        txt = txt.replace("\n", "<br>");
+        boardNotice.setTitle(title);
+        boardNotice.setTxt(txt);
+  
 		dao.insertBoardNotice(boardNotice);
 	}
 
@@ -49,16 +62,29 @@ public class BoardNoticeServiceImpl implements BoardNoticeService
 
 
 	@Override
-	public List<BoardNotice> findBoardNoticeList() {
-		// TODO Auto-generated method stub
-		return dao.selectBoardNoticeList();
+	public Map<String, Object>  findBoardNoticeList(int page) {
+		HashMap<String, Object> map = new HashMap<>();
+		int totalCount = dao.selectBoardNoticeCount();
+		PagingBean pageBean = new PagingBean(totalCount, page);
+		map.put("pageBean", pageBean);
+		
+		List<BoardNotice> list = dao.selectBoardNoticeList(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
+		map.put("list", list);
+		
+		return map;
 	}
 
-
 	@Override
-	public List<BoardNotice> findBoardNoticeByItmes(String items) {
-		// TODO Auto-generated method stub
-		return dao.selectBoardNoticeByItems(items);
+	public Map<String, Object> findBoardNoticeByItmes(String items, int page) {
+		HashMap<String, Object> map = new HashMap<>();
+		int totalCount = dao.selectBoardNoticeByItmesCount(items);
+		PagingBean pageBean = new PagingBean(totalCount, page);
+		map.put("pageBean", pageBean);
+		List<BoardNotice> list = dao.selectBoardNoticeByItems(items, pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
+		map.put("items", items);
+		map.put("list", list);
+		
+		return map;
 	}
 	
 	

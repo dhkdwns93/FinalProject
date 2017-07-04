@@ -12,7 +12,7 @@
 </head>
 <body>
 	<h2>냉장고 등록폼</h2>
-	<form action="${ initParam.rootPath }/fridger/register.do"
+	<form action="${ initParam.rootPath }/common/member/fridger/register.do"
 		method="post">
 
 		<table>

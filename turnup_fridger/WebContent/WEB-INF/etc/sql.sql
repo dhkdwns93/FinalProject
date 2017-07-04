@@ -6,9 +6,13 @@ CREATE TABLE AUTHORITY(
 	LOGIN_PW VARCHAR2(20) NOT NULL,
 	LOGIN_AUTHORITY VARCHAR2(50) NOT NULL
 );
+--관리자권한줄때 반드시 ROLE_**** 이런식으로 대문자!!
+--select * from authority order by login_id;
+--select * from admin order by admin_id;
+--DELETE FROM AUTHORITY WHERE LOGIN_ID='admin1';
+--insert into authority values('admin1','1111','ROLE_ADMIN');
+--insert into authority values('user1','1111','ROLE_MEMBER');
 
-select * from authority order by login_id;
-select * from admin order by admin_id;
 
 /* 회원정보 */
 DROP TABLE MEMBER;
@@ -23,8 +27,9 @@ CREATE TABLE MEMBER (
    MEMBER_SEX VARCHAR2(10) NOT NULL,/* 성별 */
    CONSTRAINT MEMBER_LOGIN_ID_FK FOREIGN KEY(MEMBER_ID) REFERENCES AUTHORITY(LOGIN_ID)
 );
-select * from member order by member_id;
+--select * from member order by member_id;
 --insert into MEMBER values('id','pw','이름','주소','이메일','전번','성별')
+--INSERT INTO MEMBER VALUES('user1','1111','회원1','주소1','이메일1','전번1','여성');
 
 /* 개인 메모 */
 DROP TABLE MY_MEMO;
@@ -197,6 +202,7 @@ CREATE TABLE BOARD_NOTICE (
    BOARD_NOTICE_TITLE VARCHAR2(300) NOT NULL, /* 제목 */
    BOARD_NOTICE_TXT VARCHAR2(3000) NOT NULL, /* 내용 */
    BOARD_NOTICE_IMG VARCHAR2(500), /* 사진 */
+   BOARD_NOTICE_SAVE_IMG VARCHAR2(500), /* UUID로 생성한 사진 이름*/
    BOARD_NOTICE_DATE DATE DEFAULT SYSDATE NOT NULL /* 작성일 */
 ); 
 DROP SEQUENCE BOARD_NOTICE_ID;
@@ -218,6 +224,7 @@ CREATE SEQUENCE SHOP_ID INCREMENT BY 1 START WITH 1;
 
 /* 재료 관리 */
 DROP TABLE IRDNT_MANAGE;
+--ALTER TABLE IRDNT_MANAGE ADD(NOTE VARCHAR2(50));
 DELETE FROM IRDNT_MANAGE;
 CREATE TABLE IRDNT_MANAGE (
    IRDNT_ID NUMBER PRIMARY KEY, /* 재료ID */
@@ -225,7 +232,8 @@ CREATE TABLE IRDNT_MANAGE (
    IRDNT_CATEGORY VARCHAR2(20), /* 재료분류 */
    ROOM_TEM_PERIOD NUMBER, /*상온보관기간*/
    COLD_TEM_PERIOD NUMBER, /*냉장보관기간*/
-   FREEZE_TEM_PERIOD NUMBER /*냉동보관기간*/
+   FREEZE_TEM_PERIOD NUMBER, /*냉동보관기간*/
+   NOTE VARCHAR2(50)
 );
 DROP SEQUENCE IRDNT_ID;
 CREATE SEQUENCE IRDNT_ID INCREMENT BY 1 START WITH 1;  
@@ -301,6 +309,10 @@ CREATE TABLE ADMIN (
    ADMIN_AUTHORITY VARCHAR2(50), /* 권한 */
    CONSTRAINT ADMIN_LOGIN_ID_FK FOREIGN KEY(ADMIN_ID) REFERENCES AUTHORITY(LOGIN_ID)
 );
+--관리자권한줄때 반드시 ROLE_**** 이런식으로 대문자!!
+--SELECT * FROM ADMIN;
+--DELETE FROM ADMIN WHERE ADMIN_ID='admin1';
+--insert into admin values('admin1','1111','관리자1','01097029900','kite_90@naver.com','ROLE_ADMIN');
 
 /* Q&A 댓글 */
 DROP TABLE COMMENT_QNA;

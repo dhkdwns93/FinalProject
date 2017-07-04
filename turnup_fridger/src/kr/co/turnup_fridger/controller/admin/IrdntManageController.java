@@ -17,7 +17,7 @@ import kr.co.turnup_fridger.validation.IrdntManageValidator;
 import kr.co.turnup_fridger.vo.IrdntManage;
 
 @Controller
-@RequestMapping("/irdntManage/")
+@RequestMapping("/common/admin/irdntManage/")
 public class IrdntManageController {
 
 	@Autowired
@@ -31,7 +31,7 @@ public class IrdntManageController {
 		validator.validate(irdnt, errors);
 		
 		if(errors.hasErrors()){
-			return new ModelAndView("/irdntManage/irdnt_form");
+			return new ModelAndView("/common/admin/irdntManage/irdnt_form");
 		}
 		
 		service.createIrdnt(irdnt);		
@@ -78,8 +78,7 @@ public class IrdntManageController {
 	
 	@RequestMapping("allIrdntList")
 	@ResponseBody
-	public List allIrdntList(){
-		System.out.println("넘어옴");
+	public List<IrdntManage> allIrdntList(){
 		List<IrdntManage> list = service.findAllIrdnt();
 		return list;
 	}
