@@ -58,9 +58,7 @@
 	<!-- 나의 식재료 등록폼 페이지   -->
 	<mvc:view-controller path="/myIrdnt/myIrdnt_form.do" view-name="myIrdnt/myIrdnt_form"/>
 	
-	
 
->>>>>>> branch 'master' of https://github.com/dhkdwns93/FinalProject.git
 	<bean name="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:prefix="/WEB-INF/view/"
 		p:suffix=".jsp"/>	
