@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import kr.co.turnup_fridger.dao.FridgerGroupDao;
 import kr.co.turnup_fridger.service.FridgerGroupService;
-import kr.co.turnup_fridger.service.MyMemoService;
 import kr.co.turnup_fridger.vo.FridgerGroup;
 
 @Service
