@@ -47,7 +47,7 @@ public class MemberServiceImpl implements MemberService {
 		//	member.setMemberPw(passwordEncoder.encode(member.getMemberPw()));
 			System.out.println(member);
 			//Authority 테이블 insert -foreignKey제약조건때문에 먼저 넣어줘야해 //일반회원으로 가입하는 경우 자동으로 권한 =member로 설정
-			authorityDao.insertAuthority(new Authority(member.getMemberId(),member.getMemberPw(),"member"));
+			authorityDao.insertAuthority(new Authority(member.getMemberId(),member.getMemberPw(),"ROLE_MEMBER"));
 			//Member 테이블 insert
 			memberDao.insertMember(member);	
 		}

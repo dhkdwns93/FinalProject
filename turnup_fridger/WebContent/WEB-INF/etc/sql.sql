@@ -7,12 +7,11 @@ CREATE TABLE AUTHORITY(
 	LOGIN_AUTHORITY VARCHAR2(50) NOT NULL
 );
 --관리자권한줄때 반드시 ROLE_**** 이런식으로 대문자!!
---select * from authority order by login_id;
---select * from admin order by admin_id;
+select * from authority order by login_id;
+select * from admin order by admin_id;
 --DELETE FROM AUTHORITY WHERE LOGIN_ID='admin1';
 --insert into authority values('admin1','1111','ROLE_ADMIN');
 --insert into authority values('user1','1111','ROLE_MEMBER');
-
 
 /* 회원정보 */
 DROP TABLE MEMBER;
@@ -202,6 +201,7 @@ CREATE TABLE BOARD_NOTICE (
    BOARD_NOTICE_TITLE VARCHAR2(300) NOT NULL, /* 제목 */
    BOARD_NOTICE_TXT VARCHAR2(3000) NOT NULL, /* 내용 */
    BOARD_NOTICE_IMG VARCHAR2(500), /* 사진 */
+   BOARD_NOTICE_SAVE_IMG VARCHAR2(500), /* UUID로 생성한 사진 이름*/
    BOARD_NOTICE_DATE DATE DEFAULT SYSDATE NOT NULL /* 작성일 */
 ); 
 DROP SEQUENCE BOARD_NOTICE_ID;

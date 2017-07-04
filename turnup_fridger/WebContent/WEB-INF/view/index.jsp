@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!-- 
  (jsp)index
 작성자 : 
@@ -21,7 +22,8 @@
 <!-- 장규/준 -->
 <form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
 <a href="${initParam.rootPath}/boardnotice/boardnoticelist.do"><input type="submit" value="공지사항"/></a>
-
+<sec:csrfInput/>
+</form>
 
 <hr>
 <!-- 은영 -->
@@ -29,6 +31,7 @@
 
 <a href="${initParam.rootPath}/common/member/fridger/list.do"><button type="button">냉장고검색</button></a>
 <a href="${initParam.rootPath}/common/member/fridger/register_form.do"><button type="button">냉장고등록</button></a>
+
 
 
 <hr>
@@ -45,6 +48,6 @@
 <hr>
 <!-- 현화 -->
 
-</form>
+
 </body>
 </html>
