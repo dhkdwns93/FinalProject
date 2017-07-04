@@ -15,10 +15,11 @@
 			"dataType":"json", 
 			"success":function(obj){
 				alert("응답옴");
-				$("#thead").append("<tr><td>재료id</td><td>재료명</td><td>보관기간</td></tr>");
+				$("#thead").append("<tr><td>재료id</td><td>재료명</td><td>재료분류명</td><td>상온보관기간</td><td>냉장보관기간</td><td>냉동보관기간</td></tr>");
 				var txt="";
 				$.each(obj,function(){
-					txt += ("<tr><td>"+this.irdntId+"</td><td>"+this.irdntName+"</td><td>"+this.irdntPeriod+"</td></tr>");
+					txt += ("<tr><td>"+this.irdntId+"</td><td>"+this.irdntName+"</td><td>"+this.irdntCategory+
+							"</td><td>"+this.roomTemPeriod+"</td><td>"+this.coldTemPeriod+"</td><td>"+this.freezeTemPeriod+"</td></tr>");
 				});//each
 				$("#tbody").html(txt);
 			},//success
