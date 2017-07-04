@@ -29,7 +29,7 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDao memberDao;
 	@Autowired
 	private AuthorityDao authorityDao;
-	@Autowired
+	//@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	
@@ -44,7 +44,7 @@ public class MemberServiceImpl implements MemberService {
 			throw new SignUpMemberFailException("이미 등록된 Email입니다.");
 		}else{
 			//패스워드 암호화 처리
-			member.setMemberPw(passwordEncoder.encode(member.getMemberPw()));
+		//	member.setMemberPw(passwordEncoder.encode(member.getMemberPw()));
 			System.out.println(member);
 			//Authority 테이블 insert -foreignKey제약조건때문에 먼저 넣어줘야해 //일반회원으로 가입하는 경우 자동으로 권한 =member로 설정
 			authorityDao.insertAuthority(new Authority(member.getMemberId(),member.getMemberPw(),"member"));
