@@ -32,11 +32,11 @@ import kr.co.turnup_fridger.vo.JoinProcess;
 public class FridgerController {
 
 	@Autowired
-	private FridgerService fService;
+	private FridgerService fridgerService;
 	@Autowired
-	private FridgerGroupService fgService; 
+	private FridgerGroupService fridgerGroupService; 
 	@Autowired
-	private JoinProcessService jpService;
+	private JoinProcessService joinProcessService;
 	
 	List list;
 	Fridger fridger;
@@ -66,7 +66,7 @@ public class FridgerController {
 		
 		try {
 			// 2) 냉장고 DB에 저장(서비스단에서 냉장고 그룹생성 과정 처리)
-			fService.createFridger(fridger);
+			fridgerService.createFridger(fridger);
 
 		} catch (DuplicatedFridgerException e) {	//냉장고 이름중복되면 예외발생
 			return new ModelAndView("common/member/fridger/register_form", "errorMsg", e.getMessage());
@@ -77,7 +77,7 @@ public class FridgerController {
 	
 	@RequestMapping("register/success")
 	public ModelAndView registerSuccess(@RequestParam int fridgerId ) throws Exception{
-		fridger = fService.findFridgerByFridgerId(fridgerId);
+		fridger = fridgerService.findFridgerByFridgerId(fridgerId);
 
 		return new ModelAndView("common/member/fridger/register_success", "fridger", fridger);
 
@@ -89,13 +89,13 @@ public class FridgerController {
 	public String requestFridgerGroup(@RequestParam int fridgerId){
 		
 		Authority authority = (Authority)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		fridger = fService.findFridgerByFridgerId(fridgerId);
+		fridger = fridgerService.findFridgerByFridgerId(fridgerId);
 		System.out.println(fridger);	//log
 		
 		joinProcess = new JoinProcess(0, fridger.getFridgerId(), 10, new Date(), authority.getLoginId(), fridger.getMemberId());
 		
 		try {
-			jpService.requestJoinFridgerGroup(joinProcess);
+			joinProcessService.requestJoinFridgerGroup(joinProcess);
 		} catch (Exception e) {
 			return e.getMessage();
 		}
@@ -108,13 +108,13 @@ public class FridgerController {
 	@ResponseBody
 	public String inviteFridgerGroup(@RequestParam int fridgerId, @RequestParam String respMemberId){
 		
-		fridger = fService.findFridgerByFridgerId(fridgerId);
+		fridger = fridgerService.findFridgerByFridgerId(fridgerId);
 		System.out.println("초대로그:"+fridger);	//log
 		
 		joinProcess = new JoinProcess(0, fridger.getFridgerId(), 20, new Date(), fridger.getMemberId(), respMemberId);
 		
 		try {
-			jpService.inviteJoinFridgerGroup(joinProcess);
+			joinProcessService.inviteJoinFridgerGroup(joinProcess);
 		} catch (Exception e) {
 			return e.getMessage();
 		}
@@ -122,14 +122,25 @@ public class FridgerController {
 		return "초대요청을 완료했습니다.";
 	}
 	
+	@RequestMapping("joinProcess/show/list/requst")
+	@ResponseBody
+	public List<JoinProcess> getJoinProcessRequestList(String reqMemberId){
+		list = joinProcessService.findJoinProcessByRequestMemberId(reqMemberId);
+		return list;
+	}
 	
-	
+	@RequestMapping("joinProcess/show/list/invite")
+	@ResponseBody
+	public List<JoinProcess> getJoinProcessList(String respMemberId){
+		list = joinProcessService.findJoinProcessByResponseMemberId(respMemberId);
+		return list;
+	}
 	
 	// 모든 리스트 뿌려주는 handler
 	@RequestMapping("show/list")
 	@ResponseBody
-	public List<Fridger> getFridgerListAll(){
-		list = fService.findFridgerAll();
+	public List<Fridger> getFridgerList(){
+		list = fridgerService.findFridgerAll();
 		return list;
 	}
 	
@@ -137,7 +148,7 @@ public class FridgerController {
 	@RequestMapping("show/byId")
 	@ResponseBody
 	public Fridger getFridgerById(int fridgerId){
-		fridger = fService.findFridgerByFridgerId(fridgerId);
+		fridger = fridgerService.findFridgerByFridgerId(fridgerId);
 		return fridger;
 	}
 	
@@ -145,7 +156,7 @@ public class FridgerController {
 	@RequestMapping("show/byName")
 	@ResponseBody
 	public List<Fridger> getFridgerByName(String fridgerName){
-		list = fService.findFridgerByFridgerName(fridgerName);
+		list = fridgerService.findFridgerByFridgerName(fridgerName);
 		return list;
 	}
 	
@@ -155,7 +166,7 @@ public class FridgerController {
 	@ResponseBody
 	public List<Fridger> getFridgerByOwner(String memberId){
 		System.out.println(memberId);
-		list = fService.findFridgerByOwner(memberId);
+		list = fridgerService.findFridgerByOwner(memberId);
 		return list;
 	}
 	
@@ -164,7 +175,7 @@ public class FridgerController {
 		@ResponseBody
 		public List<Fridger> getFridgerMine(){
 			Authority authority = (Authority)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			list = fService.findFridgerByOwner(authority.getLoginId());
+			list = fridgerService.findFridgerByOwner(authority.getLoginId());
 			System.out.println(list);
 			return list;
 		}
@@ -174,7 +185,7 @@ public class FridgerController {
 	@RequestMapping("show/detail")
 	@ResponseBody
 	public List<FridgerGroup> getFriderInDetail(int fridgerId){
-		list = fService.findFridgerAndFridgerGroupByFridgerId(fridgerId).getFridgerGroupList();
+		list = fridgerService.findFridgerAndFridgerGroupByFridgerId(fridgerId).getFridgerGroupList();
 		
 		/*로그*/
 		for(Object f : list){

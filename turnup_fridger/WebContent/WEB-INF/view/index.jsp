@@ -31,7 +31,7 @@
 
 <a href="${initParam.rootPath}/common/member/fridger/list.do"><button type="button">냉장고검색</button></a>
 <a href="${initParam.rootPath}/common/member/fridger/register_form.do"><button type="button">냉장고등록</button></a>
-
+<a href="${initParam.rootPath}/common/member/fridger/joinProcess/list.do"><button type="button">냉장고 가입처리</button></a>
 
 
 <hr>

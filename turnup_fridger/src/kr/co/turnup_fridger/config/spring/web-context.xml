@@ -54,10 +54,12 @@
 
 	<!-- 냉장고 리스트 페이지 (검색) -->
 	<mvc:view-controller path="/common/member/fridger/list.do" view-name="common/member/fridger/list"/>
-	<!-- 냉장고 등록 페이지 (검색) -->
+	<!-- 냉장고 등록 페이지 -->
 	<mvc:view-controller path="/common/member/fridger/register_form.do" view-name="common/member/fridger/register_form"/>
-	<!-- 냉장고 초대 페이지 (검색) -->
+	<!-- 냉장고 초대 페이지 -->
 	<mvc:view-controller path="/common/member/fridger/invite_form.do" view-name="common/member/fridger/invite_form"/>
+	<!-- 냉장고 그룹 가입처리 리스트 (검색) -->
+	<mvc:view-controller path="/common/member/fridger/joinProcess/list.do" view-name="common/member/fridger/joinProcess/list"/>
 	<!-- 재료관리 목록 페이지   -->
 	<mvc:view-controller path="/common/admin/irdntManage/irdntList.do" view-name="common/admin/irdntManage/irdntList"/>
 	<!-- 재료관리 등록폼 페이지   -->

@@ -29,11 +29,11 @@ $(document).ready(function(){
 	
 	// 냉장고 초대
 	$(document).on("click","#inviteBtn", function(){
-		alert($("#fridgerList").html());
+		alert($("#fridgerList>selected:selected").val());
 		$.ajax({
 			"url":"/turnup_fridger/common/member/fridger/invite.do",
 			"type":"post",
-			"data":{'fridgerId' : $("#fridgerId:selected").v, 'respMemberId':$("#respMemberId").val(), '${_csrf.parameterName}':'${_csrf.token}'},
+			"data":{'fridgerId' : $("#fridgerList>selected:selected").val(), 'respMemberId':$("#respMemberId").val(), '${_csrf.parameterName}':'${_csrf.token}'},
 			"dataType":"text",
 			"beforeSend":function(){	
 				if(confirm("초대하시겠습니까?") != true){
