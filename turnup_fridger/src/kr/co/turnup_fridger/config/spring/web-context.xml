@@ -55,14 +55,16 @@
 	<!-- 냉장고 등록 페이지 (검색) -->
 	<mvc:view-controller path="/fridger/register_form.do" view-name="fridger/register_form"/>
 	<!-- 재료관리 목록 페이지   -->
-	<mvc:view-controller path="/irdntManage/irdntList.do" view-name="irdntManage/irdntList"/>
+	<mvc:view-controller path="/common/admin/irdntManage/irdntList.do" view-name="common/admin/irdntManage/irdntList"/>
 	<!-- 재료관리 등록폼 페이지   -->
-	<mvc:view-controller path="/irdntManage/irdnt_form.do" view-name="irdntManage/irdnt_form"/>
+	<mvc:view-controller path="/common/admin/irdntManage/irdnt_form.do" view-name="common/admin/irdntManage/irdnt_form"/>
 	<!-- 나의 식재료 목록 페이지   -->
 	<mvc:view-controller path="/myIrdnt/myIrdntList.do" view-name="myIrdnt/myIrdntList"/>
 	<!-- 나의 식재료 등록폼 페이지   -->
 	<mvc:view-controller path="/myIrdnt/myIrdnt_form.do" view-name="myIrdnt/myIrdnt_form"/>
 	
+	<!-- 권한 없을 경우 에러페이지 -->
+	<mvc:view-controller path="/error/access_denied.do" view-name="error/access_denied"/>
 
 	<bean name="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:prefix="/WEB-INF/view/"

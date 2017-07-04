@@ -6,9 +6,11 @@ CREATE TABLE AUTHORITY(
 	LOGIN_PW VARCHAR2(20) NOT NULL,
 	LOGIN_AUTHORITY VARCHAR2(50) NOT NULL
 );
-
-select * from authority order by login_id;
-select * from admin order by admin_id;
+--관리자권한줄때 반드시 ROLE_**** 이런식으로 대문자!!
+--select * from authority order by login_id;
+--select * from admin order by admin_id;
+--DELETE FROM AUTHORITY WHERE LOGIN_ID='admin1';
+--insert into authority values('admin1','1111','ROLE_ADMIN');
 
 
 /* 회원정보 */
@@ -304,6 +306,10 @@ CREATE TABLE ADMIN (
    ADMIN_AUTHORITY VARCHAR2(50), /* 권한 */
    CONSTRAINT ADMIN_LOGIN_ID_FK FOREIGN KEY(ADMIN_ID) REFERENCES AUTHORITY(LOGIN_ID)
 );
+--관리자권한줄때 반드시 ROLE_**** 이런식으로 대문자!!
+--SELECT * FROM ADMIN;
+--DELETE FROM ADMIN WHERE ADMIN_ID='admin1';
+--insert into admin values('admin1','1111','관리자1','01097029900','kite_90@naver.com','ROLE_ADMIN');
 
 /* Q&A 댓글 */
 DROP TABLE COMMENT_QNA;
