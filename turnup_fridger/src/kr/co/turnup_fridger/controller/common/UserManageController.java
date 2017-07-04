@@ -36,7 +36,6 @@ public class UserManageController {
 	 */
 	@RequestMapping("/join_member")
 	public ModelAndView signUpMember(@ModelAttribute Member member) throws SignUpMemberFailException{
-		System.out.println(member);
 		service.signUpMember(member);
 		return new ModelAndView("redirect:/user/join_member_success","memberId",member.getMemberId());
 	}

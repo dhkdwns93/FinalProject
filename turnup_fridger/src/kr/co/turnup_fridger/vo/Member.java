@@ -19,7 +19,7 @@ public class Member implements Serializable{
 	private String memberSex;
 	
 	//DB상에는 없음.
-	private String memberAuthority="member";
+	private String memberAuthority="ROLE_MEMBER";
 	
 	public Member(){}
 	//memberAuthority 미포함 생성자

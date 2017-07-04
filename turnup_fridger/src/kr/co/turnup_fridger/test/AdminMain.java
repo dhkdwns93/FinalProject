@@ -11,7 +11,7 @@ public class AdminMain {
 		ApplicationContext ctx=new ClassPathXmlApplicationContext("kr/co/turnup_fridger/config/spring/model-context.xml");
 		AdminService service=(AdminService)ctx.getBean("adminService");
 		
-		Admin admin1=new Admin("admin-1","pw-1","name","tel","email");
+		Admin admin1=new Admin("admin-1","pw-1","name","tel","email","ROLE_MASTERADMIN");
 		Admin admin2=new Admin("admin-2","pw-2","name","tel","email");
 		Admin admin3=new Admin("admin-3","pw-3","name","tel","email");
 		Admin admin4=new Admin("admin-4","pw-4","name","tel","email");
@@ -25,11 +25,11 @@ public class AdminMain {
 		
 		
 		//관리자 등록확인
-/*		service.registerAdmin(admin1);
+		service.registerAdmin(admin1);
 		service.registerAdmin(admin2);
 		service.registerAdmin(admin3);
 		service.registerAdmin(admin4);
-		service.registerAdmin(admin5);*/
+		service.registerAdmin(admin5);
 		
 		System.out.println("admin1정보만 봐보기"+service.inquiryAdminInfo("admin-1"));
 		System.out.println("[전체 admin정보]============");

@@ -15,7 +15,7 @@ public class Admin implements Serializable {
 	private String adminName;
 	private String adminTel;
 	private String adminEmail;
-	private String adminAuthority="admin";//default = 기본관리자로 설정
+	private String adminAuthority="ROLE_ADMIN";//default = 기본관리자로 설정
 	
 	public Admin(){}
 	public Admin(String adminId, String adminPw, String adminName, String adminTel, String adminEmail,
