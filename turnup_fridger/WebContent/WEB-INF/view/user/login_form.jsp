@@ -24,7 +24,7 @@
 		${param.errorMessage }
 	</div>
 </c:if>
-<form action="${initParam.rootPath}/user/login.do" method="post">
+<form action="${initParam.rootPath}/login.do" method="post">
 	<sec:csrfInput/><%-- csrf token생성 --%>
 	<div class="form-group">
 	<label for="id">ID</label><br>
