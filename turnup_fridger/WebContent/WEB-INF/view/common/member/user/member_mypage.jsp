@@ -46,7 +46,7 @@
 </table>
 
 <hr>
-
+<a href="${initParam.rootPath }/common/member/member_change_info.do"><button type="button" class="btn btn-default">회원정보수정</button></a>
 	
 
 </body>
