@@ -1,4 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+<!-- 
+ (jsp)index
+작성자 : 
+최초 작성일
+변경이력 
+170703 (경혜)로그인 버튼 추가
+ -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,9 +27,9 @@
 <!-- 은영 -->
 <h4>냉장고관련</h4>
 <a href="${initParam.rootPath}/fridger/show/list.do"><button type="button">냉장고검색</button></a>
-
 <hr>
 <!-- 경혜 -->
+<a href="${initParam.rootPath}/user/index_kh.do"><button type="button">경혜기능모음</button></a>
 
 <hr>
 <!-- 연수 -->

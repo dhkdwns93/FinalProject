@@ -8,7 +8,7 @@ CREATE TABLE AUTHORITY(
 );
 
 select * from authority order by login_id;
-
+select * from admin order by admin_id;
 
 /* 회원정보 */
 DROP TABLE MEMBER;

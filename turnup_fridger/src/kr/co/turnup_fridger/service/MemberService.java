@@ -37,6 +37,7 @@ public interface MemberService {
 	/**
 	 * 개인회원정보 수정하기   -authority에도 수정
 	 * @param memberId
+	 * @throws ChangeMemberInfoFailException
 	 */
 	void changeMemberInfo(Member member) throws ChangeMemberInfoFailException;
 	

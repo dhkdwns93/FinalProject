@@ -15,7 +15,7 @@ public class Admin implements Serializable {
 	private String adminName;
 	private String adminTel;
 	private String adminEmail;
-	private String adminAuthority;
+	private String adminAuthority="admin";//default = 기본관리자로 설정
 	
 	public Admin(){}
 	public Admin(String adminId, String adminPw, String adminName, String adminTel, String adminEmail,
@@ -27,6 +27,15 @@ public class Admin implements Serializable {
 		this.adminEmail = adminEmail;
 		this.adminAuthority = adminAuthority;
 	}
+	//권한제외
+	public Admin(String adminId, String adminPw, String adminName, String adminTel, String adminEmail) {
+		this.adminId = adminId;
+		this.adminPw = adminPw;
+		this.adminName = adminName;
+		this.adminTel = adminTel;
+		this.adminEmail = adminEmail;
+	}
+	
 	public String getAdminId() {
 		return adminId;
 	}

@@ -30,12 +30,12 @@ public class MemberMain {
 		Member testChangeMem2=new Member("id-3","pw-3바뀜","name-바뀜","address-바뀜","email-5","tel","sex");
 	
 		//회원가입확인
-/*		service.signUpMember(mem1);
+		service.signUpMember(mem1);
 		service.signUpMember(mem2);
 		service.signUpMember(mem3);
 		service.signUpMember(mem4);
 		service.signUpMember(mem5);
-		service.signUpMember(mem6);*/
+		service.signUpMember(mem6);
 		
 		
 		System.out.println("mem1정보만 봐보기"+service.inquiryMemberInfo(mem1.getMemberId()));

@@ -54,7 +54,7 @@
 	
 	<!-- 	int deleteAdminById(String adminId); -->
 	<!-- 	 (마스터관리자)관리자 탈퇴시키기_하나의 관리자정보를 삭제 -->
-	<delete id="deleteAdminById" parameterType="int">
+	<delete id="deleteAdminById" parameterType="String">
 	DELETE FROM admin WHERE admin_id=#{value}
 	</delete>
 	

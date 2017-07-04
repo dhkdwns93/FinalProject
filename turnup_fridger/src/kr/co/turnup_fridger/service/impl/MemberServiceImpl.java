@@ -29,8 +29,8 @@ public class MemberServiceImpl implements MemberService {
 	private MemberDao memberDao;
 	@Autowired
 	private AuthorityDao authorityDao;
-	//@Autowired
-	//private PasswordEncoder passwordEncoder;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	
 	@Override
@@ -38,18 +38,18 @@ public class MemberServiceImpl implements MemberService {
 		//전체 user들 관리테이블인 Authority테이블에 같은 Id있으면 회원가입 불가
 		if(authorityDao.selectAuthorityById(member.getMemberId())!=null){
 			throw new SignUpMemberFailException("이미 등록된 ID입니다.");
+		}
+		//전체 member들 관리테이블인 Member테이블에 같은 Email있으면 회원가입 불가
+		if(memberDao.selectMemberByEmail(member.getMemberEmail())!=null){
+			throw new SignUpMemberFailException("이미 등록된 Email입니다.");
 		}else{
-			//전체 member들 관리테이블인 Member테이블에 같은 Email있으면 회원가입 불가
-			if(memberDao.selectMemberByEmail(member.getMemberEmail())!=null){
-				throw new SignUpMemberFailException("이미 등록된 Email입니다.");
-			}else{
-				//패스워드 암호화 처리
-				//member.setmemberPw(passwordEncoder.encode(member.getMemberPw()));
-				//Authority 테이블 insert -foreignKey제약조건때문에 먼저 넣어줘야해 //일반회원으로 가입하는 경우 자동으로 권한 =member로 설정
-				authorityDao.insertAuthority(new Authority(member.getMemberId(),member.getMemberPw(),"member"));
-				//Member 테이블 insert
-				memberDao.insertMember(member);	
-			}
+			//패스워드 암호화 처리
+			member.setMemberPw(passwordEncoder.encode(member.getMemberPw()));
+			System.out.println(member);
+			//Authority 테이블 insert -foreignKey제약조건때문에 먼저 넣어줘야해 //일반회원으로 가입하는 경우 자동으로 권한 =member로 설정
+			authorityDao.insertAuthority(new Authority(member.getMemberId(),member.getMemberPw(),"member"));
+			//Member 테이블 insert
+			memberDao.insertMember(member);	
 		}
 	}
 
@@ -66,16 +66,15 @@ public class MemberServiceImpl implements MemberService {
 			throw new ChangeMemberInfoFailException("이미 타사용자가 사용중인 이메일입니다.");			
 		}
 		// 패스워드 암호화 처리
-		//member.setmemberPw(passwordEncoder.encode(member.getMemberPw()));
+		member.setMemberPw(passwordEncoder.encode(member.getMemberPw()));
 		// Member 테이블 해당 회원 update
 		memberDao.updateMember(member);
 		// 비밀번호가 바꼈을 경우 Authority 테이블 해당 회원 update
 		Authority existAuthority=authorityDao.selectAuthorityById(member.getMemberId());
 		if(!existAuthority.getLoginPw().equals(member.getMemberPw())){//비밀번호가 바꼈을 경우
 			//**권한은 바꾸지 않음.
-			authorityDao.updateAuthority(new Authority(member.getMemberId(),member.getMemberPw(),existMember.getMemberAuthority()));
+			authorityDao.updateAuthority(new Authority(member.getMemberId(),member.getMemberPw(),existAuthority.getLoginAuthority()));
 		}
-		
 	}
 
 	@Override
