@@ -37,9 +37,10 @@
 							속성 : logout-url = "로그아웃 처리 요청url"
 -->
 	<http>
-		<intercept-url pattern="/user/admin/master/**" access="hasRole('masterAdmin')"/><!-- master만 -->
-		<intercept-url pattern="/user/admin/**" access="hasAnyRole('admin','masterAdmin')"/><!-- master, 관리자 -->
-		<intercept-url pattern="/user/member/**" access="hasRole('member')"/><!-- member만 -->
+		<intercept-url pattern="/common/admin/master/**" access="hasRole('masterAdmin')"/><!-- master만 -->
+		<intercept-url pattern="/common/admin/**" access="hasAnyRole('admin','masterAdmin')"/><!-- master, 관리자 -->
+		<intercept-url pattern="/common/member/**" access="hasRole('member')"/><!-- member만 -->
+		<intercept-url pattern="/common/**" access="isAuthenticated()"/><!-- 로그인한 사람들 모두 : member, master, 관리자 -->
 		<intercept-url pattern="/**" access="permitAll"/><!-- 전체 -->
 		
 		<!-- 로그인관련설정  -->
