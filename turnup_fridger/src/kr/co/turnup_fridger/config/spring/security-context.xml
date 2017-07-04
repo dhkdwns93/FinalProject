@@ -67,7 +67,7 @@
 		
 	</http>
 	
-	<!-- 인증(로그인)처리를 담당할 bean : AuthenticationProvider -->
+	<!-- 인증(로그인)처리를 담당할 bean : AuthenticationProvider(security.privider-UserAuthenticationProvider에서 로그인처리) -->
 	<authentication-manager>
 		<authentication-provider ref="userAuthenticationProvider"/>
 	</authentication-manager>

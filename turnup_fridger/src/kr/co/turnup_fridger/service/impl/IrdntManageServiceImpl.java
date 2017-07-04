@@ -18,20 +18,13 @@ public class IrdntManageServiceImpl implements IrdntManageService{
 	@Override
 	public String createIrdnt(IrdntManage irdnt) throws Exception{
 		
-		//id는 겹치면 안되고, 재료명도 겹치면 안됨.
-		//보관기간 입력은 관리자니까 무조건할거야. 
-		//재료분류도 카테고리검색해서 선택하는걸로.
-		if(dao.selectIrdntById(irdnt.getIrdntId())!=null){
-			throw new Exception("이미 존재하는 식재료입니다.");
-		}
-		
-		/*if(dao.selectIrdntByFullName(irdnt.getIrdntName())!=null){
+		if(dao.selectIrdntByFullName(irdnt.getIrdntName())!=null){
 			throw new Exception("다른 재료명을 입력해주세요.");
-		}*/
-		
+		}
+		irdnt.setIrdntId(0);
 		dao.insertIrdnt(irdnt);
 		
-		return "";
+		return "등록성공!";
 	}
 
 	@Override

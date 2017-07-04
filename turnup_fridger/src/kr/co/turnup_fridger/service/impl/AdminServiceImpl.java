@@ -37,7 +37,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public void changeAdminInfo(Admin admin) {
 		//패스워드 암호화 처리 
-		admin.setAdminPw(passwordEncoder.encode(admin.getAdminPw()));
+	//	admin.setAdminPw(passwordEncoder.encode(admin.getAdminPw()));
 		//Admin 테이블 해당 관리자 update
 		adminDao.updateAdmin(admin);
 		//비밀번호가 바꼈을 경우 Authority 테이블 해당 관리자 update
@@ -60,7 +60,7 @@ public class AdminServiceImpl implements AdminService {
 			throw new RegisterAdminFailException("이미 등록된 ID입니다.");
 		}
 		//패스워드 암호화 처리
-		admin.setAdminPw(passwordEncoder.encode(admin.getAdminPw()));
+	//	admin.setAdminPw(passwordEncoder.encode(admin.getAdminPw()));
 		//Authority 테이블 insert //처음 등록할때는 자동으로 권한 = (일반관리자)"admin"(VO에서 처리)
 		authorityDao.insertAuthority(new Authority(admin.getAdminId(),admin.getAdminPw(),admin.getAdminAuthority()));
 		//Admin 테이블 insert

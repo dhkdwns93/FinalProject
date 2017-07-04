@@ -14,8 +14,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import kr.co.turnup_fridger.dao.AdminDao;
 import kr.co.turnup_fridger.dao.AuthorityDao;
+import kr.co.turnup_fridger.dao.MemberDao;
+import kr.co.turnup_fridger.vo.Admin;
 import kr.co.turnup_fridger.vo.Authority;
+import kr.co.turnup_fridger.vo.Member;
 
 @Component
 /*
@@ -26,7 +30,11 @@ import kr.co.turnup_fridger.vo.Authority;
 public class UserAuthenticationProvider implements AuthenticationProvider{
 
 	@Autowired
-	private AuthorityDao dao;
+	private AuthorityDao authorityDao;
+	@Autowired
+	private MemberDao memberDao;
+	@Autowired
+	private AdminDao adminDao;
 	@Autowired
 	private PasswordEncoder encoder;
 	//문자열을 암호화 - encode()
@@ -40,33 +48,58 @@ public class UserAuthenticationProvider implements AuthenticationProvider{
 	*/
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		//ID체크
+		
 		String loginId=authentication.getName();//사용자가 입력한 ID
-		Authority user=dao.selectAuthorityById(loginId);
-		if(user==null){//해당ID의 회원이 없으면 로그인 실패
-			throw new UsernameNotFoundException("등록되지 않은 ID입니다.");
-		}
-		
-		//PW체크
 		String loginPw=(String)authentication.getCredentials();//사용자가 입력한 PW
-		if(!loginPw.equals(user.getLoginPw())){
-		//if(!encoder.matches(loginPw,user.getLoginPw())){//Pw가 일치하지 않으면 로그인 실패
-			throw new BadCredentialsException("입력하신 ID와 패스워드가 일치하지 않습니다.");
-		}
-		
-		//===========(인증성공)==============
 		
 		//권한 조회
-		String userAuthority=user.getLoginAuthority();
-		if(userAuthority==null||userAuthority.trim().isEmpty()){
+		Authority user=authorityDao.selectAuthorityById(loginId);
+		String userAuthority = user.getLoginAuthority();
+		if (userAuthority == null || userAuthority.trim().isEmpty()) {
 			throw new UsernameNotFoundException("권한 입력에 오류가 있는 사용자 입니다.");
 		}
-		List<SimpleGrantedAuthority> list=new ArrayList<>();
-		list.add(new SimpleGrantedAuthority(userAuthority));
+		if(userAuthority.equals("ROLE_MEMBER")){
+			//ID체크
+			Member member=memberDao.selectMemberById(loginId);			
+			if(member==null){//해당ID의 회원이 없으면 로그인 실패
+				throw new UsernameNotFoundException("등록되지 않은 ID입니다.");
+			}
+			//PW체크
+			if(!loginPw.equals(member.getMemberPw())){
+			//if(!encoder.matches(loginPw,user.getLoginPw())){//Pw가 일치하지 않으면 로그인 실패
+				throw new BadCredentialsException("입력하신 ID와 패스워드가 일치하지 않습니다.");
+			}
+			//System.out.println(member);
+			//===========(인증성공)==============
+			List<SimpleGrantedAuthority> list=new ArrayList<>();
+			list.add(new SimpleGrantedAuthority(userAuthority));
+			
+			//System.out.println(list);//확인용
+			//System.out.println(new UsernamePasswordAuthenticationToken(member, null, list));
+			
+			return new UsernamePasswordAuthenticationToken(member, null, list);
+		}
 		
-		System.out.println(list);//확인용
-		
-		return new UsernamePasswordAuthenticationToken(user, null, list);
+		//권한이 admin(+masterAdmin)이면 vo.admin객체를 담아 리턴.
+		if(userAuthority.equals("ROLE_ADMIN")||userAuthority.equals("ROLE_MASTERADMIN")){
+			//ID체크	
+			Admin admin=adminDao.selectAdminById(loginId);
+			if(admin==null){//해당ID의 회원이 없으면 로그인 실패
+				throw new UsernameNotFoundException("등록되지 않은 ID입니다.");
+			}
+			//PW체크
+			if(!loginPw.equals(admin.getAdminPw())){
+			//if(!encoder.matches(loginPw,user.getLoginPw())){//Pw가 일치하지 않으면 로그인 실패
+				throw new BadCredentialsException("입력하신 ID와 패스워드가 일치하지 않습니다.");
+			}
+			System.out.println("User..Provider"+admin);
+			//===========(인증성공)==============
+			List<SimpleGrantedAuthority> list=new ArrayList<>();
+			list.add(new SimpleGrantedAuthority(userAuthority));
+			System.out.println("User..Provider"+list);//확인용
+			return new UsernamePasswordAuthenticationToken(admin,null,list);
+		}
+		return null;//- 인증 실패 : Exception을 던지거나 return null 인 경우 스프링 시큐리티 컨테이너는 인증실패로처리
 	}
 
 	@Override

@@ -36,6 +36,7 @@
 	<mvc:view-controller path="/boardnotice/boardnotice_upload.do" view-name="boardnotice/boardnotice_upload"/>	
 
 	<!-- 경혜 view controller등록-->
+	<!-- /** -->
 	<!-- 사용자관리 view 모여있는 곳을으로 이동 (나중에 삭제)  -->
 	<mvc:view-controller path="/index_kh.do" view-name="user/index_kh"/>
 	<!-- user(전체사용자) 로그인 -->
@@ -44,6 +45,12 @@
 	<mvc:view-controller path="/join_member_form.do" view-name="user/join_member_form"/>
 	<!-- 회원가입성공 -->
 	<mvc:view-controller path="/join_member_success.do" view-name="user/join_member_success"/>
+	
+	<!-- /common/member -->
+	<!-- 마이페이지(개인회원정보조회) -->
+	<mvc:view-controller path="/common/member/member_mypage.do" view-name="common/member/user/member_mypage"/>
+	<!-- 회원정보수정 -->
+	<mvc:view-controller path="/common/member/member_change_info.do" view-name="common/member/user/member_change_info"/>
 
 	<!-- 냉장고 리스트 페이지 (검색) -->
 	<mvc:view-controller path="/common/member/fridger/list.do" view-name="common/member/fridger/list"/>
