@@ -12,8 +12,8 @@
 냉장고 주인 : ${ requestScope.fridger.memberId }<br>
 
 <br>
-<a href="${ initParam.rootPath }/common/member/fridger/register_form.do">등록폼으로 가기</a><br>
-<a href="${ initParam.rootPath }/common/member/fridger/list.do">냉장고 목록보기</a><br>
+<a href="${ initParam.rootPath }/fridger/register_form.do">등록폼으로 가기</a><br>
+<a href="${ initParam.rootPath }/fridger/list.do">냉장고 목록보기</a><br>
 <a href="${ initParam.rootPath }">index로 돌아가기</a><br>
 
 

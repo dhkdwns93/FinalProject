@@ -6,6 +6,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-등록완료
+sdfsdfsdf
+
 </body>
 </html>

@@ -11,7 +11,7 @@ select * from authority order by login_id;
 select * from admin order by admin_id;
 --DELETE FROM AUTHORITY WHERE LOGIN_ID='admin1';
 --insert into authority values('admin1','1111','ROLE_ADMIN');
- 
+--insert into authority values('user1','1111','ROLE_MEMBER');
 
 /* 회원정보 */
 DROP TABLE MEMBER;
@@ -26,8 +26,9 @@ CREATE TABLE MEMBER (
    MEMBER_SEX VARCHAR2(10) NOT NULL,/* 성별 */
    CONSTRAINT MEMBER_LOGIN_ID_FK FOREIGN KEY(MEMBER_ID) REFERENCES AUTHORITY(LOGIN_ID)
 );
-select * from member order by member_id;
+--select * from member order by member_id;
 --insert into MEMBER values('id','pw','이름','주소','이메일','전번','성별')
+--INSERT INTO MEMBER VALUES('user1','1111','회원1','주소1','이메일1','전번1','여성');
 
 /* 개인 메모 */
 DROP TABLE MY_MEMO;
@@ -200,6 +201,7 @@ CREATE TABLE BOARD_NOTICE (
    BOARD_NOTICE_TITLE VARCHAR2(300) NOT NULL, /* 제목 */
    BOARD_NOTICE_TXT VARCHAR2(3000) NOT NULL, /* 내용 */
    BOARD_NOTICE_IMG VARCHAR2(500), /* 사진 */
+   BOARD_NOTICE_SAVE_IMG VARCHAR2(500), /* UUID로 생성한 사진 이름*/
    BOARD_NOTICE_DATE DATE DEFAULT SYSDATE NOT NULL /* 작성일 */
 ); 
 DROP SEQUENCE BOARD_NOTICE_ID;

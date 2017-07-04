@@ -56,8 +56,8 @@ a:hover{
 <select name="items" id="items" value="${requestScope.items}">
 	 <!-- 검색조건을 검색처리후 결과화면에 보여주기위해  c:out 출력태그 사용, 삼항연산자 -->
 	<option value="전체보기">전체보기</option>
-	<option value="공지사항" >공지사항</option>
-	<option value="뉴스" >뉴스</option>
+	<option value="공지사항">공지사항</option>
+	<option value="뉴스">뉴스</option>
 	<input type="submit" value="검색"/>
 </select>
 <sec:csrfInput/>
@@ -98,7 +98,7 @@ a:hover{
 														페이징 처리
 			###################################################### --%>
 	<!-- 첫페이지로 이동 -->
-	<a href="${initParam.rootPath}/boardnotice/boardNoticeList.do?page=1">첫페이지</a>
+	<a href="${initParam.rootPath}/boardnotice/boardNoticeByItems.do?page=1&items=${requestScope.items}">첫페이지</a>
 
 	<!--
 		이전 페이지 그룹 처리.
@@ -107,7 +107,7 @@ a:hover{
 	<c:choose>
 		<c:when test="${requestScope.pageBean.previousPageGroup}">
 			<%-- 이전페이지 그룹이 있디면 : previousPageGroup()--%>
-			<a href="${initParam.rootPath }/boardnotice/boardNoticeList.do?page=${requestScope.pageBean.beginPage - 1}">☜</a>
+			<a href="${initParam.rootPath }/boardnotice/boardNoticeByItems.do?page=${requestScope.pageBean.beginPage - 1}&items=${requestScope.items}">☜</a>
 		</c:when>
 		<c:otherwise>
 				☜	
@@ -122,7 +122,7 @@ a:hover{
 		<c:forEach begin="${requestScope.pageBean.beginPage}" end="${requestScope.pageBean.endPage}" var="page">
 			<c:choose>
 				<c:when test="${requestScope.pageBean.page != page}"> <%-- 현재패이지가 아니라면 --%>
-					<a href="${initParam.rootPath}/boardnotice/boardNoticeList.do?page=${page}">&nbsp;${page}&nbsp;</a>
+					<a href="${initParam.rootPath}/boardnotice/boardNoticeByItems.do?page=${page}&items=${requestScope.items}">&nbsp;${page}&nbsp;</a>
 				</c:when>
 				<c:otherwise>
 					&nbsp;[${page}]&nbsp;
@@ -140,7 +140,7 @@ a:hover{
 	<c:choose>
 		<c:when test="${requestScope.pageBean.nextPageGroup}">
 			<%-- 다음페이지 그룹이 있디면 : nextPageGroup()--%>
-			<a href="${initParam.rootPath }/boardnotice/boardNoticeList.do?page=${requestScope.pageBean.endPage + 1}">☞</a>
+			<a href="${initParam.rootPath }/boardnotice/boardNoticeByItems.do?page=${requestScope.pageBean.endPage + 1}&items=${requestScope.items}">☞</a>
 		</c:when>
 		<c:otherwise>
 				☞		
@@ -154,7 +154,7 @@ a:hover{
 	
 	
 	<!-- 마지막 페이지로 이동 -->
-	<a href="${initParam.rootPath}/boardnotice/boardNoticeList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
+	<a href="${initParam.rootPath}/boardnotice/boardNoticeByItems.do?page=${requestScope.pageBean.totalPage}&items=${requestScope.items}">마지막페이지</a>
 
 
 
