@@ -9,19 +9,17 @@
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		$("button").on("click",function(){
-			alert("시작");	
 		$.ajax({
-			"url"="/turnup_fridger/common/admin/irdntManage/allIrdntList.do",
-			"type"="get", 
+			"url":"/turnup_fridger/common/admin/irdntManage/allIrdntList.do",
 			"dataType":"json", 
-			"success":function(obj){
+			"success":function(list){
 				alert("응답옴");
-				$("#thead").append("<tr><td>재료id</td><td>재료명</td><td>재료분류명</td><td>상온보관기간</td><td>냉장보관기간</td><td>냉동보관기간</td></tr>");
+		        
+				$("#thead").append("<tr><td>재료id</td><td>재료명</td><td>재료분류명</td><td>상온보관기간</td><td>냉장보관기간</td><td>냉동보관기간</td><td>비고</td></tr>");
 				var txt="";
-				$.each(obj,function(){
+				$.each(list,function(){
 					txt += ("<tr><td>"+this.irdntId+"</td><td>"+this.irdntName+"</td><td>"+this.irdntCategory+
-							"</td><td>"+this.roomTemPeriod+"</td><td>"+this.coldTemPeriod+"</td><td>"+this.freezeTemPeriod+"</td></tr>");
+							"</td><td>"+this.roomTemPeriod+"</td><td>"+this.coldTemPeriod+"</td><td>"+this.freezeTemPeriod+"</td><td>"+this.note+"</td></tr>");
 				});//each
 				$("#tbody").html(txt);
 			},//success
@@ -29,7 +27,6 @@
 				alert("오류다!");
 			} 
 		})//ajax
-		})//btn 
 	})
 
 </script>
@@ -55,7 +52,7 @@ td {
 <body>
 
 <h2>재료 목록</h2><hr>
-<button type="button" id="list">재료목록조회</button>
+
 <a href = "/turnup_fridger/common/admin/irdntManage/irdnt_form.do">재료추가</a>
 
 <div id ="result">

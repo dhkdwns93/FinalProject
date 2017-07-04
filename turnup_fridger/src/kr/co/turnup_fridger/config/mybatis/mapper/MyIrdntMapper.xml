@@ -12,7 +12,8 @@
 		irdnt_id,
 		irdnt_name,
 		fridger_id,
-		start_fresh_level
+		start_fresh_level,
+		storge_place
 	</sql>
 	
 	<resultMap type="MyIrdnt" id="MyIrdnt-resultmap">
@@ -25,6 +26,7 @@
 		<result column="irdnt_name" property="irdntName"/>
 		<result column="fridger_id" property="fridgerId"/>
 		<result column="start_fresh_level" property="startFreshLevel"/>
+		<result column="storge_place" property="storgePlace"/>
 	</resultMap>
 	
 	<insert id="insertMyIrdnt" parameterType="MyIrdnt">
@@ -40,7 +42,8 @@
 				#{irdntId},
 				#{irdntName},
 				#{fridgerId},
-				#{startFreshLevel})
+				#{startFreshLevel},
+				#{storgePlace})
 	</insert>
 	
 	<update id="updateMyIrdnt" parameterType="MyIrdnt">
@@ -54,6 +57,7 @@
 			irdnt_name=#{irdntName},
 			fridger_id=#{fridgerId},
 			start_fresh_level=#{startFreshLevel}
+			storge_place=#{storgePlace}
 		where my_irdnt_key=#{myIrdntKey}
 	</update>
 	
