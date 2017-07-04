@@ -33,7 +33,7 @@
 
 <hr>
 <!-- 경혜 -->
-<a href="${initParam.rootPath}/user/index_kh.do"><button type="button">경혜기능모음</button></a>
+<a href="${initParam.rootPath}/index_kh.do"><button type="button">경혜기능모음</button></a>
 
 <hr>
 <!-- 연수 -->

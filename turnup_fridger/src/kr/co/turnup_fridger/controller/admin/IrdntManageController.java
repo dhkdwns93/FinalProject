@@ -78,8 +78,7 @@ public class IrdntManageController {
 	
 	@RequestMapping("allIrdntList")
 	@ResponseBody
-	public List allIrdntList(){
-		System.out.println("넘어옴");
+	public List<IrdntManage> allIrdntList(){
 		List<IrdntManage> list = service.findAllIrdnt();
 		return list;
 	}
