@@ -3,16 +3,6 @@
 <mapper
 	namespace="kr.co.turnup_fridger.config.mybatis.mapper.fridgerGroupMapper">
 	
-	<!-- ======================================================
-			fridger_group = 냉장고공유멤버
-			
-			fridger_group 생성 = 그룹원추가
-			fridger_group 삭제 = 그룹원탈퇴
-			fridger_group 전체조회 = X
-			fridger_group 조회-냉장고id로 = 한 냉장고의 공유멤버리스트 조회 
-			fridger_group 개수 조회-냉장고id로 = 한 냉장고의 총 멤버수 조회 
-	========================================================= -->
-	
 	<!-- 냉장고그룹 select sql -->
 	<sql id="select">
 	SELECT  	group_key,
