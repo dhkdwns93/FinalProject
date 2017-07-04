@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!-- 
  (jsp)join_member_form
 작성자 :  김경혜
@@ -18,7 +19,7 @@
 
 <h2>회원가입페이지</h2>
 <%-- controller.common패키지 --%>
-<form action="${initParam.rootPath}/user/join_member.do" method="post">
+<form action="${initParam.rootPath}/join_member.do" method="post">
 	<div class="form-group">
 		<label for="id">회원 ID</label>
 		<input type="text" id="id" name="memberId" class="form-control">
@@ -47,6 +48,7 @@
 		성별 <label for="sex_man">남</label><input type="radio" id="sex_man" name="memberSex" value="M" class="form-control">
 			<label for="sex_woman">여</label><input type="radio" id="sex_woman" name="memberSex" value="W" class="form-control">
 	</div>
+	<sec:csrfInput/>
 	<button type="submit" class="btn btn-default">가입</button>
 	<button type="reset" class="btn btn-default">다시작성</button>
 </form>
