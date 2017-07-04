@@ -45,10 +45,6 @@
 	<div>성별</div>
 	<div>${requestScope.member.memberSex }</div>
 </div>
-<div class="row">
-	<div>권한</div>
-	<div>${requestScope.member.memberAuthority }</div>
-</div>
 
 <a href="${initParam.rootPath}/login_form.do"><button type="button">LOGIN</button></a>
 

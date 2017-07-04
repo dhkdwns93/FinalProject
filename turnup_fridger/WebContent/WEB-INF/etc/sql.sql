@@ -7,11 +7,11 @@ CREATE TABLE AUTHORITY(
 	LOGIN_AUTHORITY VARCHAR2(50) NOT NULL
 );
 --관리자권한줄때 반드시 ROLE_**** 이런식으로 대문자!!
---select * from authority order by login_id;
---select * from admin order by admin_id;
+select * from authority order by login_id;
+select * from admin order by admin_id;
 --DELETE FROM AUTHORITY WHERE LOGIN_ID='admin1';
 --insert into authority values('admin1','1111','ROLE_ADMIN');
-
+ 
 
 /* 회원정보 */
 DROP TABLE MEMBER;
