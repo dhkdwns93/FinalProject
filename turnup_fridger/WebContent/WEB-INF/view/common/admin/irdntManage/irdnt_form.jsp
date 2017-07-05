@@ -12,7 +12,7 @@
 
 <h2>재료 등록</h2>
 
-<form action="/turnup_fridger/irdntManage/createIrdnt.do" method="post">
+<form action="/turnup_fridger/common/admin/irdntManage/createIrdnt.do" method="post">
 <table>
 	<tr>
 		<th>재료명</th>
@@ -20,23 +20,23 @@
 	</tr>
 	<tr>
 		<th>카테고리</th>
-		<td><input type="text" name="irdntPeriod" value="${param.irdntCategory}"><span class="error"><form:errors path="irdnt.irdntCategory" delimiter="&nbsp;&nbsp;"/></span></td>
+		<td><input type="text" name="irdntCategory" value="${param.irdntCategory}"><span class="error"><form:errors path="irdnt.irdntCategory" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr>
 		<th>실온보관기간</th>
-		<td><input type="text" name="irdntPeriod" value="${param.roomTemPeriod}"><span class="error"><form:errors path="irdnt.roomTemPeriod" delimiter="&nbsp;&nbsp;"/></span></td>
+		<td><input type="text" name="roomTemPeriod" value="${param.roomTemPeriod}"><span class="error"><form:errors path="irdnt.roomTemPeriod" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr>
 		<th>냉장보관기간</th>
-		<td><input type="text" name="irdntPeriod" value="${param.coldTemPeriod}"><span class="error"><form:errors path="irdnt.coldTemPeriod" delimiter="&nbsp;&nbsp;"/></span></td>
+		<td><input type="text" name="coldTemPeriod" value="${param.coldTemPeriod}"><span class="error"><form:errors path="irdnt.coldTemPeriod" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr>
 		<th>냉동보관기간</th>
-		<td><input type="text" name="irdntPeriod" value="${param.freezeTemPeriod}"><span class="error"><form:errors path="irdnt.freezeTemPeriod" delimiter="&nbsp;&nbsp;"/></span></td>
+		<td><input type="text" name="freezeTemPeriod" value="${param.freezeTemPeriod}"><span class="error"><form:errors path="irdnt.freezeTemPeriod" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr>
 		<th>비고</th>
-		<td><input type="text" name="irdntPeriod" value="${param.note}"><span class="error"><form:errors path="irdnt.note" delimiter="&nbsp;&nbsp;"/></span></td>
+		<td><input type="text" name="note" value="${param.note}"><span class="error"><form:errors path="irdnt.note" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr>
 		<td colspan="2">

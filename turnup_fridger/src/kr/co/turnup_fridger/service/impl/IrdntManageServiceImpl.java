@@ -18,11 +18,14 @@ public class IrdntManageServiceImpl implements IrdntManageService{
 	@Override
 	public String createIrdnt(IrdntManage irdnt) throws Exception{
 		
-		if(dao.selectIrdntByFullName(irdnt.getIrdntName())!=null){
+		if(!dao.selectIrdntByFullName(irdnt.getIrdntName()).isEmpty()){
+			System.out.println("뭐가잡혔어? "+ irdnt);
 			throw new Exception("다른 재료명을 입력해주세요.");
 		}
 		irdnt.setIrdntId(0);
+		System.out.println(irdnt);
 		dao.insertIrdnt(irdnt);
+		System.out.println("serviceImpl : "+ irdnt);
 		
 		return "등록성공!";
 	}
@@ -42,13 +45,13 @@ public class IrdntManageServiceImpl implements IrdntManageService{
 	}
 
 	@Override
-	public String removeIrdnt(int irdntId) throws Exception {
+	public void removeIrdnt(int irdntId) throws Exception {
 		//없는id는 삭제못하겠지 
 		if(dao.selectIrdntById(irdntId)==null){
 			throw new Exception("없는 식재료입니다.");
 		}
 		dao.deleteIrdnt(irdntId);
-		return "삭제성공!";
+	
 	}
 	
 	@Override

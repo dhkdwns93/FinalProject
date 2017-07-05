@@ -23,22 +23,23 @@ public class IrdntManageController {
 	@Autowired
 	private IrdntManageService service;
 	
-	@RequestMapping("createIrdnt")
+	@RequestMapping(value="createIrdnt", produces="html/text;charset=UTF-8;")
 	@ResponseBody
 	public ModelAndView createIrdnt(@ModelAttribute IrdntManage irdnt,BindingResult errors){
 		
 		IrdntManageValidator validator= new IrdntManageValidator();
 		validator.validate(irdnt, errors);
 		String msg;
-		
-		System.out.println(irdnt);
-		
+	
 		if(errors.hasErrors()){
+			System.out.println("haserror");
 			return new ModelAndView("common/admin/irdntManage/irdnt_form");
 		}
 		try {
 			msg = service.createIrdnt(irdnt);
 		} catch (Exception e) {
+			System.out.println("잡혔어?");
+			
 			return new ModelAndView("common/admin/irdntManage/irdnt_form", "errorMsg", e.getMessage());
 		}		
 		
@@ -72,11 +73,20 @@ public class IrdntManageController {
 		return mav;
 	}
 	
-	@RequestMapping("removeIrdnt")
+	
+	/*
+	@RequestMapping("updateIrdnt")
 	@ResponseBody
-	public ModelAndView removeIrdnt(@RequestParam int irdntId) throws Exception{
+	public ModelAndView updateIrdnt(@ModelAttribute IrdntManage irdnt,BindingResult errors) throws Exception{
 		
-		service.removeIrdnt(irdntId);
+		IrdntManageValidator validator= new IrdntManageValidator();
+		validator.validate(irdnt, errors);
+		
+		if(errors.hasErrors()){
+			return new ModelAndView("common/admin/irdntManage/irdnt_form");
+		}
+		
+		service.updateIrdnt(irdnt);
 		
 		List<IrdntManage> list = service.findAllIrdnt();
 		ModelAndView mav = new ModelAndView();
@@ -84,45 +94,39 @@ public class IrdntManageController {
 	    mav.addObject("list", list); 
 		return mav;
 	}
+	*/
+	@RequestMapping(value="removeIrdnt" , produces="html/text;charset=UTF-8;")
+	@ResponseBody
+	public String removeIrdnt(@RequestParam int irdntId){
+		try {
+			service.removeIrdnt(irdntId);
+		} catch (Exception e) {
+			return "삭제가 안되썽"+e.getMessage();
+		}
+		return "삭제완료";
+	}
+	
 	
 	@RequestMapping("allIrdntList")
 	@ResponseBody
 	public List<IrdntManage> allIrdntList(){
 		List<IrdntManage> list = service.findAllIrdnt();
-		System.out.println("allIrdntList로그"+list);
 		return list;
 	}
 	
 	@RequestMapping("findIrdntByKeyword")
 	@ResponseBody
 	public List<IrdntManage> findIrdntByKeyword(@RequestParam String irdntName,@RequestParam String irdntCategory){
-		
-		
 		List<IrdntManage> list = service.findIrdntsByKeyword(irdntName, irdntCategory);
+		System.out.println("findIrdntByKeyword : "+list);
 		return list;
-		
-	/*	if(keyword.equals("재료명")){
-			List<IrdntManage> list = service.findIrdntByIrdntName(searchWord);
-			return list;
-		}
-		if(keyword.equals("재료id")){
-			int searchWord2 = Integer.parseInt(searchWord);
-			IrdntManage irdnt = service.findIrdntByIrdntId(searchWord2);
-			List<IrdntManage> list = new ArrayList<>();
-			list.add(irdnt);
-			return list;
-		}
-		else{
-			List<IrdntManage> list = service.findAllIrdnt();
-			return list;
-		}*/
+
 	}
 	
 	@RequestMapping("findAllICategory")
 	@ResponseBody
 	public ModelAndView findAllCategory(){
 		List<String> list = service.findAllIrdntCategory();
-		System.out.println(list);
 		return new ModelAndView("common/admin/irdntManage/irdntList","irdntCategory",list);
 	}
 	

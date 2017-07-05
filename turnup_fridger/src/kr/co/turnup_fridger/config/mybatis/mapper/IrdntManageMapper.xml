@@ -92,15 +92,14 @@
       SELECT
       <include refid="all-column" />
       FROM Irdnt_Manage
-      where irdnt_name like '%'||#{irdntName}||'%' 
-       <choose>
-      	<when test="irdntCategory=='전체'">
+      <choose>
+      	<when test="irdntCategory =='전체'">
+      		where irdnt_name like '%'||#{irdntName}||'%' ORDER BY irdnt_id
       	</when>
       	<otherwise>
-      		and irdnt_category=#{irdntCategory}
+      		where irdnt_name like '%'||#{irdntName}||'%' and irdnt_category=#{irdntCategory} ORDER BY irdnt_id
       	</otherwise>
-      	</choose>
-      ORDER BY irdnt_id
+      </choose>
    </select>
    
    <select id="selectAllIrdntCategory" resultType="java.lang.String">
