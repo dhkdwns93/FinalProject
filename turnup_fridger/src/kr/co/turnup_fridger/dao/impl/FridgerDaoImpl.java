@@ -1,6 +1,5 @@
 package kr.co.turnup_fridger.dao.impl;
 
-import java.io.File;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -61,8 +60,8 @@ public class FridgerDaoImpl implements FridgerDao{
 
 
 	@Override
-	public List<Fridger> selectFridgerByFridgerFullName(String fridgerName) {
-		return session.selectList(makeSql("selectFridgerByFridgerFullName"), fridgerName);
+	public Fridger selectFridgerByFridgerFullName(String fridgerName) {
+		return session.selectOne(makeSql("selectFridgerByFridgerFullName"), fridgerName);
 	}
 
 	@Override

@@ -115,10 +115,18 @@ public class FridgerController {
 		try {
 			fridgerService.updateFridger(fridger);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ModelAndView("common/member/fridger/update_form", "errorMsg", e.getMessage());
 		}
 		
-		return new ModelAndView("redirect:update/success.do");
+		return new ModelAndView("redirect:update/success.do", "fridgerId", fridger.getFridgerId());
+	}
+	
+	@RequestMapping("update/success")
+	public void updateSuccess(@RequestParam int fridgerId ) throws Exception{
+		fridger = fridgerService.findFridgerByFridgerId(fridgerId);
+		
+		//return new ModelAndView("common/member/fridger/update_success", "fridger", fridger);
 	}
 	
 	
