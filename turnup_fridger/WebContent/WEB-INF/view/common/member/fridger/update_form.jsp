@@ -11,15 +11,16 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>냉장고 등록폼</h2>
-	<form action="${ initParam.rootPath }/common/member/fridger/register.do"
+	<h2>냉장고 업뎃폼</h2>	
+	<form action="${ initParam.rootPath }/common/member/fridger/update.do"
 		method="post">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		<table>
 			<tr>
 				<th>냉장고 이름</th>
 				<td><input type="text" name="fridgerName"
-					value="${ param.fridgerName }"> <span class="error"><form:errors
+					value="${ param.fridgerName }">
+					<span class="error"><form:errors
 							path="fridger.fridgerName" delimiter="&nbsp;" />
 							<c:if test="${ requestScope.errorMsg != null }">
 							${ requestScope.errorMsg }

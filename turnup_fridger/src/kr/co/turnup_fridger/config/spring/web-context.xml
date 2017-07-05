@@ -52,10 +52,14 @@
 	<!-- 회원정보수정 -->
 	<mvc:view-controller path="/common/member/member_change_info.do" view-name="common/member/user/member_change_info"/>
 
+	<!-- 냉장고 include 페이지 -->
+	<mvc:view-controller path="/common/member/fridger/loginInfo.do" view-name="/common/member/fridger/loginInfo"/>
 	<!-- 냉장고 리스트 페이지 (검색) -->
 	<mvc:view-controller path="/common/member/fridger/list.do" view-name="common/member/fridger/list"/>
 	<!-- 냉장고 등록 페이지 -->
 	<mvc:view-controller path="/common/member/fridger/register_form.do" view-name="common/member/fridger/register_form"/>
+	<!-- 냉장고 수정 페이지 -->
+	<mvc:view-controller path="/common/member/fridger/update_form.do" view-name="common/member/fridger/update_form"/>
 	<!-- 냉장고 초대 페이지 -->
 	<mvc:view-controller path="/common/member/fridger/invite_form.do" view-name="common/member/fridger/invite_form"/>
 	<!-- 냉장고 그룹 가입처리 리스트 (검색) -->

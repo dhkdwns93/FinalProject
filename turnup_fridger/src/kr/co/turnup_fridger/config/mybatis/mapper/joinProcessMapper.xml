@@ -106,7 +106,7 @@
 	</select>
 	
 	<!-- 처리번호로 -->
-	<select id="selectJoinProcessByProcessNo" parameterType="_int">
+	<select id="selectJoinProcessByProcessNo" parameterType="_int" resultMap="joinProcess-resultmap">
 		<include refid="select-sql"/>
 		WHERE process_no = #{value}
 	</select>

@@ -425,11 +425,11 @@ CREATE TABLE join_process (
 	resp_member_id	VARCHAR2(20)	NOT NULL,	/*응답회원*/
 CONSTRAINT pprocess_fridger_id_fk FOREIGN KEY(process_fridger_id) REFERENCES FRIDGER(fridger_id),
 CONSTRAINT req_member_id_fk FOREIGN KEY(req_member_id) REFERENCES MEMBER(member_id),
-CONSTRAINT resp_member_id_fk FOREIGN KEY(resp_member_id) REFERENCES MEMBER(member_id)
+CONSTRAINT resp_member_id_fk FOREIGN KEY(resp_member_id) REFE	RENCES MEMBER(member_id)
 );
 DROP SEQUENCE process_no;
 CREATE SEQUENCE process_no INCREMENT BY 1 START WITH 1;
---SELECT FAVORITE_RECIPE_KEY.NEXTVAL FROM DUAL;
+SELECT * FROM JOIN_PROCESS
 
 
 
