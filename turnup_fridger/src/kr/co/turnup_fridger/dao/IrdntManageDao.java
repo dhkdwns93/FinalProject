@@ -31,12 +31,6 @@ public interface IrdntManageDao {
 	List<IrdntManage> selectAllIrdnt();
 	
 	/**
-	 * 재료명으로 재료들 조회 (부분일치)
-	 * @return
-	 */
-	List<IrdntManage> selectIrdntByName(String irdntName);
-	
-	/**
 	 * 재료명으로 검색(완전일치)
 	 * @param irdntName
 	 * @return
@@ -50,10 +44,33 @@ public interface IrdntManageDao {
 	 */
 	IrdntManage selectIrdntById(int irdntId);
 	
+	
+	/**
+	 * 재료명(부분일치)과 카테고리(전체포함)을 받아서 재료명을 검색.
+	 * @param irdntName
+	 * @param irdntCategory
+	 * @return
+	 */
+	List<IrdntManage> selectIrdntsBykeyword(String irdntName, String irdntCategory);
+	
+	
+	//==============
+	/**
+	 * 재료명으로 재료들 조회 (부분일치)
+	 * @return
+	 */
+	List<IrdntManage> selectIrdntByName(String irdntName);
+	
 	/**
 	 * 재료분류로 재료들 조회
 	 * @return
 	 */
 	List<IrdntManage> selectIrdntByCategory(String irdntCategory);
+	
+	/**
+	 * 카테고리명들을 불러오는 메서드.
+	 * @return
+	 */
+	List<String> selectAllIrdntCategory();
 	
 }

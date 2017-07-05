@@ -60,7 +60,7 @@ public class IrdntManageController {
 		validator.validate(irdnt, errors);
 		
 		if(errors.hasErrors()){
-			return new ModelAndView("/irdntManage/irdnt_form");
+			return new ModelAndView("common/admin/irdntManage/irdnt_form");
 		}
 		
 		service.updateIrdnt(irdnt);
@@ -89,14 +89,19 @@ public class IrdntManageController {
 	@ResponseBody
 	public List<IrdntManage> allIrdntList(){
 		List<IrdntManage> list = service.findAllIrdnt();
+		System.out.println("allIrdntList로그"+list);
 		return list;
 	}
 	
 	@RequestMapping("findIrdntByKeyword")
 	@ResponseBody
-	public List findIrdntByKeyword(@RequestParam String keyword, @RequestParam String searchWord){
+	public List<IrdntManage> findIrdntByKeyword(@RequestParam String irdntName,@RequestParam String irdntCategory){
 		
-		if(keyword.equals("재료명")){
+		
+		List<IrdntManage> list = service.findIrdntsByKeyword(irdntName, irdntCategory);
+		return list;
+		
+	/*	if(keyword.equals("재료명")){
 			List<IrdntManage> list = service.findIrdntByIrdntName(searchWord);
 			return list;
 		}
@@ -110,7 +115,15 @@ public class IrdntManageController {
 		else{
 			List<IrdntManage> list = service.findAllIrdnt();
 			return list;
-		}
+		}*/
+	}
+	
+	@RequestMapping("findAllICategory")
+	@ResponseBody
+	public ModelAndView findAllCategory(){
+		List<String> list = service.findAllIrdntCategory();
+		System.out.println(list);
+		return new ModelAndView("common/admin/irdntManage/irdntList","irdntCategory",list);
 	}
 	
 

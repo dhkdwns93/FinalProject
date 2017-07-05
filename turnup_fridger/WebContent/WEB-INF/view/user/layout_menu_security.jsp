@@ -32,7 +32,9 @@
  </sec:authorize>
  
  <%--관리자 메뉴 /admin으로 시작--%>
- 
+ <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN')">
+ 	<a href="${initParam.rootPath}/common/admin/admin_mypage.do"><button type="button">MyPage(관리자용)</button></a>
+ </sec:authorize>
  <%--마스터관리자 메뉴 /admin/master으로 시작--%>
  
 

@@ -1,5 +1,6 @@
 package kr.co.turnup_fridger.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -57,5 +58,20 @@ public class IrdntManageDaoImpl implements IrdntManageDao{
 	public List<IrdntManage> selectIrdntByCategory(String irdntCategory) {
 		return session.selectList(makeSql("selectIrdntByCategory"),irdntCategory);
 	}
+
+	@Override
+	public List<IrdntManage> selectIrdntsBykeyword(String irdntName, String irdntCategory) {
+		HashMap map = new HashMap();
+		map.put(irdntName, "irdntName");
+		map.put(irdntCategory, "irdntCategory");
+		return session.selectList(makeSql("selectIrdntsBykeyword"),map);
+	}
+
+	@Override
+	public List<String> selectAllIrdntCategory() {
+		return session.selectList(makeSql("selectAllIrdntCategory"));
+	}
+	
+	
 
 }

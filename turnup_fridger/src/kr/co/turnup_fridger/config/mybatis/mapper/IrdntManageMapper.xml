@@ -88,5 +88,25 @@
       ORDER BY irdnt_id
    </select>
    
+   <select id="selectIrdntsBykeyword" resultMap="irdntManage-resultmap" parameterType="java.util.HashMap">
+      SELECT
+      <include refid="all-column" />
+      FROM Irdnt_Manage
+      where irdnt_name like '%'||#{irdntName}||'%' 
+       <choose>
+      	<when test="irdntCategory=='전체'">
+      	</when>
+      	<otherwise>
+      		and irdnt_category=#{irdntCategory}
+      	</otherwise>
+      	</choose>
+      ORDER BY irdnt_id
+   </select>
+   
+   <select id="selectAllIrdntCategory" resultType="java.lang.String">
+   	select distinct irdnt_category 
+   	from irdnt_manage
+   </select>
+   
 
 </mapper>
