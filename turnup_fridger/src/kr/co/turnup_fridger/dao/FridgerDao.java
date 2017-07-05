@@ -59,7 +59,7 @@ public interface FridgerDao {
 	 * @param FridgerName
 	 * @return
 	 */
-	List<Fridger> selectFridgerByFridgerFullName(String fridgerName);
+	Fridger selectFridgerByFridgerFullName(String fridgerName);
 	
 	/**
 	 * 냉장고명으로 조회 (부분검색)

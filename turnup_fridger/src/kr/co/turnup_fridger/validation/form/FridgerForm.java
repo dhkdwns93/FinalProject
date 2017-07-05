@@ -11,13 +11,26 @@ public class FridgerForm {
 	private String fridgerName;
 	//컨트롤러 처리(권한)
 	private String memberId;
-	
-	
-	
+	public int getFridgerId() {
+		return fridgerId;
+	}
+	public void setFridgerId(int fridgerId) {
+		this.fridgerId = fridgerId;
+	}
 	public String getFridgerName() {
 		return fridgerName;
 	}
 	public void setFridgerName(String fridgerName) {
 		this.fridgerName = fridgerName;
 	}
+	public String getMemberId() {
+		return memberId;
+	}
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+	
+	
+	
+	
 }

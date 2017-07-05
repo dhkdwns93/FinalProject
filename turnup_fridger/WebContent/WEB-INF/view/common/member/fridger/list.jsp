@@ -28,8 +28,8 @@ $(document).ready(function () {
 										 .append($("<td>").prop("class","fridgerName_col").append(this.fridgerName))
 										 .append($("<td>").append(this.memberId))
 										 .append($("<td>").append($("<button>").prop("type","button").prop("id","requestBtn").prop("value",this.fridgerId).append("가입")))
-										 .append($("<td>").append($("<a>").prop("href", "/turnup_fridger/common/member/fridger/update_chk.do?fridgerId="+this.fridgerId).append($("<button>").prop("type","button").prop("id","updatetBtn").prop("value",this.fridgerId).append("수정")))))
-								 .append($("<tr>").prop("class","collapse out").prop("id", "info"+ this.fridgerId).append($("<td>").prop("colspan","5").append(" 정보가보여용")));
+												 .append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").prop("value",this.fridgerId).append("수정"))))
+												 .append($("<tr>").prop("class","collapse out").prop("id", "info"+ this.fridgerId).append($("<td>").prop("colspan","5").append(" 정보가보여용")));
         				
 	        });	// end of each
 	      
@@ -55,8 +55,8 @@ $(document).ready(function () {
 						 				.append($("<td>").prop("class","fridgerName_col").append(fridger.fridgerName))
 						 				.append($("<td>").append(fridger.memberId))
 						 				.append($("<td>").append($("<button>").prop("type","button").prop("id","requestBtn").prop("value",this.fridgerId).append("JOIN")))
-										  .append($("<td>").append($("<a>").prop("href", "/turnup_fridger/common/member/fridger/update_chk.do?fridgerId="+this.fridgerId).append($("<button>").prop("type","button").prop("id","updatetBtn").prop("value",this.fridgerId).append("수정")))))
-								.append($("<tr>").prop("class","collapse out").prop("id", "info"+ fridger.fridgerId).append($("<td>").prop("colspan","5").append(" 정보가보여용")));
+										 .append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").prop("value",this.fridgerId).append("수정"))))
+												 .append($("<tr>").prop("class","collapse out").prop("id", "info"+ fridger.fridgerId).append($("<td>").prop("colspan","5").append(" 정보가보여용")));
 
 	        },
 	        "error":function(xhr, msg, code){
@@ -88,8 +88,8 @@ $(document).ready(function () {
 												 .append($("<td>").prop("class","fridgerName_col").append(this.fridgerName))
 												 .append($("<td>").append(this.memberId))
 												.append($("<td>").append($("<button>").prop("type","button").prop("id","requestBtn").prop("value",this.fridgerId).append("JOIN"))) 
-												 .append($("<td>").append($("<a>").prop("href", "/turnup_fridger/common/member/fridger/update_chk.do?fridgerId="+this.fridgerId).append($("<button>").prop("type","button").prop("id","updatetBtn").prop("value",this.fridgerId).append("수정")))))
-								 .append($("<tr>").prop("class","collapse out").prop("id", "info"+ this.fridgerId).append($("<td>").prop("colspan","5").append(" 정보가보여용")));
+												 .append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").prop("value",this.fridgerId).append("수정"))))
+												 .append($("<tr>").prop("class","collapse out").prop("id", "info"+ this.fridgerId).append($("<td>").prop("colspan","5").append(" 정보가보여용")));
 		        });	// end of each
 	        },
 	        "error":function(xhr, msg, code){
@@ -120,7 +120,7 @@ $(document).ready(function () {
 												 .append($("<td>").prop("class","fridgerName_col").append(this.fridgerName))
 												 .append($("<td>").append(this.memberId))
 												 .append($("<td>").append($("<button>").prop("type","button").prop("id","requestBtn").prop("value",this.fridgerId).append("JOIN")))										
-												 .append($("<td>").append($("<a>").prop("href", "/turnup_fridger/common/member/fridger/update_chk.do?fridgerId="+this.fridgerId).append($("<button>").prop("type","button").prop("id","updatetBtn").prop("value",this.fridgerId).append("수정")))))
+												 .append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").prop("value",this.fridgerId).append("수정"))))
 								.append($("<tr>").prop("class","collapse out").prop("id", "info"+ this.fridgerId).append($("<td>").prop("colspan","5").append(" 정보가보여용")));
 						
 		        });	// end of each
@@ -207,6 +207,16 @@ $(document).ready(function () {
 		});	//end of ajax
 	});	// end of click on requstBtn
 	
+	// 냉장고 수정
+	$(document).on("click","#updateBtn", function(){
+		alert($(this).val());
+		window.open(
+				"${ initParam.rootPath }/common/member/fridger/update_chk.do?fridgerId="+$(this).val(),
+				"_blank",
+				"fullscreen=yes, height=700, width=500, resizable=no, scrollbars=no, location=no, toolbar=no, directories=no, menubar=no"
+				);
+		
+	});	// end of click on requstBtn
 });
  </script>
 

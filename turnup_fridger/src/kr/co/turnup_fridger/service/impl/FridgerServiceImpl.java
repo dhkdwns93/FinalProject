@@ -47,10 +47,8 @@ public class FridgerServiceImpl implements FridgerService{
 
 	@Override
 	public void updateFridger(Fridger fridger) throws FindFridgerFailException, DuplicatedFridgerException, FindMemberFailException  {
-		if(fDao.selectFridgerByFridgerId(fridger.getFridgerId()) == null){
-			throw new FindFridgerFailException("찾으시는 냉장고가 없습니다!");	
-		}
 		System.out.println(fridger.getFridgerName());
+		System.out.println(fDao.selectFridgerByFridgerFullName(fridger.getFridgerName()));
 		if(fDao.selectFridgerByFridgerFullName(fridger.getFridgerName()) != null){
 			throw new DuplicatedFridgerException("이미 존재하는 냉장고 애칭입니다!");	
 		}
