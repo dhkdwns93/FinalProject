@@ -34,7 +34,9 @@ public class FridgerServiceImpl implements FridgerService{
 			throw new DuplicatedFridgerException("이미 존재하는 냉장고 애칭입니다!");	
 		}
 		fDao.insertFridger(fridger);
+		
 		FridgerGroup fg = new FridgerGroup(0, 1, fridger.getMemberId(), fridger.getFridgerId());
+		
 		System.out.println(fg);
 		fgDao.insertFridgerGroup(fg);
 		
