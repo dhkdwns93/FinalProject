@@ -73,8 +73,10 @@ public class UserAuthenticationProvider implements AuthenticationProvider{
 			//===========(인증성공)==============
 			List<SimpleGrantedAuthority> list=new ArrayList<>();
 			list.add(new SimpleGrantedAuthority(userAuthority));
+			
 			//System.out.println(list);//확인용
-			System.out.println(new UsernamePasswordAuthenticationToken(member, null, list));
+			//System.out.println(new UsernamePasswordAuthenticationToken(member, null, list));
+			
 			return new UsernamePasswordAuthenticationToken(member, null, list);
 		}
 		
@@ -90,11 +92,11 @@ public class UserAuthenticationProvider implements AuthenticationProvider{
 			//if(!encoder.matches(loginPw,user.getLoginPw())){//Pw가 일치하지 않으면 로그인 실패
 				throw new BadCredentialsException("입력하신 ID와 패스워드가 일치하지 않습니다.");
 			}
-			System.out.println(admin);
+			//System.out.println("User..Provider"+admin);
 			//===========(인증성공)==============
 			List<SimpleGrantedAuthority> list=new ArrayList<>();
 			list.add(new SimpleGrantedAuthority(userAuthority));
-			System.out.println(list);//확인용
+			//System.out.println("User..Provider"+list);//확인용
 			return new UsernamePasswordAuthenticationToken(admin,null,list);
 		}
 		return null;//- 인증 실패 : Exception을 던지거나 return null 인 경우 스프링 시큐리티 컨테이너는 인증실패로처리

@@ -46,8 +46,8 @@
 </table>
 
 <hr>
-
-	
+<a href="${initParam.rootPath }/common/member/member_change_info.do"><button type="button" class="btn btn-default">회원정보수정</button></a>
+<a href="${initParam.rootPath }/common/member/member_delete_form.do"><button type="button" class="btn btn-default">회원탈퇴하기</button></a>
 
 </body>
 </html>

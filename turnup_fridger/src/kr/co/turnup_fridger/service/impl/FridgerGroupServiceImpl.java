@@ -52,6 +52,7 @@ public class FridgerGroupServiceImpl implements FridgerGroupService{
 				throw new Exception("이미 해당그룹의 멤버입니다");
 			}
 		}
+		fg.setGroupJoinSeq(list.size()+1);
 		dao.insertFridgerGroup(fg);
 	}
 
