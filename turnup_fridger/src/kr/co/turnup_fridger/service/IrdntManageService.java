@@ -28,7 +28,7 @@ public interface IrdntManageService {
 	 * @return 
 	 * @throws Exception 
 	 */
-	String removeIrdnt(int irdntId) throws Exception;
+	void removeIrdnt(int irdntId) throws Exception;
 	
 	/**
 	 * 모든 재료 불러오기

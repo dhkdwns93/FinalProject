@@ -62,8 +62,8 @@ public class IrdntManageDaoImpl implements IrdntManageDao{
 	@Override
 	public List<IrdntManage> selectIrdntsBykeyword(String irdntName, String irdntCategory) {
 		HashMap map = new HashMap();
-		map.put(irdntName, "irdntName");
-		map.put(irdntCategory, "irdntCategory");
+		map.put("irdntName",irdntName);
+		map.put("irdntCategory",irdntCategory);
 		return session.selectList(makeSql("selectIrdntsBykeyword"),map);
 	}
 

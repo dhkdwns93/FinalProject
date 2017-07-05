@@ -38,11 +38,15 @@ public class IrdntManageMain {
 		//id
 		System.out.println(service.findIrdntByIrdntId(1));
 		
-		//카테고리
+		카테고리
 		List<IrdntManage> list3 = service.fingIrdntByIrdntCategory("채소류");
 		for(IrdntManage m : list3){
 			System.out.println(m);
 		}*/
-	}
+		
+		/*List<IrdntManage> list = service.findIrdntsByKeyword("소세지","가공식품");
+		for(IrdntManage m : list){
+			System.out.println(m);
+		}*/
 	
-}
+} }
