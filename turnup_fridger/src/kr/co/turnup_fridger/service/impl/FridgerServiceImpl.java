@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import kr.co.turnup_fridger.dao.FridgerDao;
 import kr.co.turnup_fridger.dao.FridgerGroupDao;
 import kr.co.turnup_fridger.exception.DuplicatedFridgerException;
+import kr.co.turnup_fridger.exception.FindFridgerFailException;
+import kr.co.turnup_fridger.exception.FindMemberFailException;
 import kr.co.turnup_fridger.service.FridgerService;
 import kr.co.turnup_fridger.vo.Fridger;
 import kr.co.turnup_fridger.vo.FridgerGroup;
@@ -44,13 +46,13 @@ public class FridgerServiceImpl implements FridgerService{
 	}
 
 	@Override
-	public void updateFridger(Fridger fridger) throws Exception {
+	public void updateFridger(Fridger fridger) throws FindFridgerFailException, DuplicatedFridgerException, FindMemberFailException  {
 		if(fDao.selectFridgerByFridgerId(fridger.getFridgerId()) == null){
-			throw new Exception("찾으시는 냉장고가 없습니다!");	
+			throw new FindFridgerFailException("찾으시는 냉장고가 없습니다!");	
 		}
 		System.out.println(fridger.getFridgerName());
 		if(fDao.selectFridgerByFridgerFullName(fridger.getFridgerName()) != null){
-			throw new Exception("이미 존재하는 냉장고 애칭입니다!");	
+			throw new DuplicatedFridgerException("이미 존재하는 냉장고 애칭입니다!");	
 		}
 		// 냉장고 주인 회원 수정 : 양도
 		Fridger f = fDao.selectFridgerAndFridgerGroupByFridgerId(fridger.getFridgerId());
@@ -70,7 +72,7 @@ public class FridgerServiceImpl implements FridgerService{
 			}
 		}
 		// 마지막 반복까지 일치하는 아이디가 나타나지 않는 그룹에 속하지 않는 회원이므로 예외를 던진다
-		throw new Exception("그룹에 존재하지 않은 회원 입니다!");
+		throw new FindMemberFailException("그룹에 존재하지 않은 회원 입니다!");
 	}
 
 	@Override

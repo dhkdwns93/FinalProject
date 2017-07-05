@@ -7,7 +7,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -22,10 +21,12 @@ import kr.co.turnup_fridger.service.FridgerGroupService;
 import kr.co.turnup_fridger.service.FridgerService;
 import kr.co.turnup_fridger.service.JoinProcessService;
 import kr.co.turnup_fridger.validation.form.FridgerForm;
+import kr.co.turnup_fridger.validation.form.JoinProcessForm;
 import kr.co.turnup_fridger.vo.Authority;
 import kr.co.turnup_fridger.vo.Fridger;
 import kr.co.turnup_fridger.vo.FridgerGroup;
 import kr.co.turnup_fridger.vo.JoinProcess;
+import kr.co.turnup_fridger.vo.Member;
 
 @Controller
 @RequestMapping("/common/member/fridger/")
@@ -42,7 +43,7 @@ public class FridgerController {
 	Fridger fridger;
 	FridgerGroup fridgerGroup;
 	JoinProcess joinProcess;
-	// 0) 권한 ID 체크(지금 로그인한 회원)
+
 	
 	
 	
@@ -57,11 +58,12 @@ public class FridgerController {
 		}
 		
 		// 비즈니스 로직 처리
-		Authority authority = (Authority)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		// 1) 냉장고 생성
+		// 0) 권한 ID 체크(지금 로그인한 회원)
+		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		// 1) 빈 냉장고 생성해서  검증된 fridgerForm 넣기
 		fridger = new Fridger();
 		BeanUtils.copyProperties(fridgerForm, fridger);
-		fridger.setMemberId(authority.getLoginId());
+		fridger.setMemberId(member.getMemberId());
 		System.out.println("냉장고 등록 로그:"+fridger);	//log
 		
 		try {
@@ -78,21 +80,64 @@ public class FridgerController {
 	@RequestMapping("register/success")
 	public ModelAndView registerSuccess(@RequestParam int fridgerId ) throws Exception{
 		fridger = fridgerService.findFridgerByFridgerId(fridgerId);
-
+		
 		return new ModelAndView("common/member/fridger/register_success", "fridger", fridger);
-
 	}
+	
+
+	// 냉장고 정보 갱신 페이지 연결 handler(요청하는 사람과 실제 냉장고 주인 첵)
+	@RequestMapping(value="update_chk", produces="text/html;charset=UTF-8")
+	public ModelAndView moveToUpdateForm(@RequestParam int fridgerId) throws Exception{
+		// 0) 권한 ID 체크(지금 로그인한 회원)
+		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		fridger = fridgerService.findFridgerByFridgerId(fridgerId);
+		// 수정 요청한 ID 실제 냉장고 주인ID가 다르면 예외
+		if(!member.getMemberId().equals(fridger.getMemberId())){
+			return new ModelAndView();
+		}
+		return new ModelAndView("common/member/fridger/update_form", "fridger", fridger );
+	}
+	
+	// 냉장고 정보 갱신 handler(주인 바꾸기, 이름바꾸기)
+	@RequestMapping("update")
+	public ModelAndView updateFridger(@ModelAttribute("fridger") @Valid FridgerForm fridgerForm, BindingResult errors ){
+		// 요청 파라미터 검증 끝
+		if(errors.hasErrors()){
+			return new ModelAndView("common/member/fridger/update_form");
+		}
+		
+		// 1) 빈 냉장고 생성 해서 검증된 fridgerForm 넣기
+		fridger = new Fridger();
+		BeanUtils.copyProperties(fridgerForm, fridger);
+		System.out.println("냉장고 수정 로그:"+fridger);	//log
+
+		
+		try {
+			fridgerService.updateFridger(fridger);
+		} catch (Exception e) {
+			return new ModelAndView("common/member/fridger/update_form", "errorMsg", e.getMessage());
+		}
+		
+		return new ModelAndView("redirect:update/success.do");
+	}
+	
 	
 	
 	@RequestMapping(value="request",produces="text/html;charset=UTF-8")
 	@ResponseBody
-	public String requestFridgerGroup(@RequestParam int fridgerId){
-		
-		Authority authority = (Authority)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		fridger = fridgerService.findFridgerByFridgerId(fridgerId);
-		System.out.println(fridger);	//log
-		
-		joinProcess = new JoinProcess(0, fridger.getFridgerId(), 10, new Date(), authority.getLoginId(), fridger.getMemberId());
+	public String requestFridgerGroup(@ModelAttribute("joinProcess") @Valid JoinProcessForm joinProcessForm, BindingResult errors){
+		// 요청 파라미터 검증 끝
+				if(errors.hasErrors()){
+					return errors.getObjectName()+"에서 오류 발생";
+				}
+		// 0) 권한 ID 체크(지금 로그인한 회원)
+		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		// 1) 빈 냉장고 생성 해서 검증된 joinProess 넣기
+		joinProcess = new JoinProcess();
+		BeanUtils.copyProperties(joinProcessForm, joinProcess);
+		joinProcess.setReqMemberId(member.getMemberId());
+		joinProcess.setReqDate(new Date());
+		System.out.println("냉장고 그룹 가입로그:"+joinProcess);	//log
 		
 		try {
 			joinProcessService.requestJoinFridgerGroup(joinProcess);
@@ -106,21 +151,37 @@ public class FridgerController {
 	
 	@RequestMapping(value="invite",produces="text/html;charset=UTF-8")
 	@ResponseBody
-	public String inviteFridgerGroup(@RequestParam int fridgerId, @RequestParam String respMemberId){
-		
-		fridger = fridgerService.findFridgerByFridgerId(fridgerId);
-		System.out.println("초대로그:"+fridger);	//log
-		
-		joinProcess = new JoinProcess(0, fridger.getFridgerId(), 20, new Date(), fridger.getMemberId(), respMemberId);
+	public ModelAndView inviteFridgerGroup(@ModelAttribute("joinProcess") @Valid JoinProcessForm joinProcessForm, BindingResult errors){
+		// 요청 파라미터 검증 끝
+		if(errors.hasErrors()){
+			return new ModelAndView("common/member/fridger/update_form");
+		}
+	
+		// 0) 권한 ID 체크(지금 로그인한 회원)
+		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		// 1) 빈 냉장고 생성 해서 검증된 joinProess 넣기
+		joinProcess = new JoinProcess();
+		BeanUtils.copyProperties(joinProcessForm, joinProcess);
+		joinProcess.setReqMemberId(member.getMemberId());
+		joinProcess.setReqDate(new Date());
+		System.out.println("냉장고그룹 초대 로그:"+joinProcess);	//log
 		
 		try {
 			joinProcessService.inviteJoinFridgerGroup(joinProcess);
 		} catch (Exception e) {
-			return e.getMessage();
+			return new ModelAndView("common/member/fridger/invite_form", "errorMsg", e.getMessage());
 		}
 
-		return "초대요청을 완료했습니다.";
+		return new ModelAndView("redirect:invite/success.do", "processNo", joinProcess.getProcessNo());
 	}
+	
+	@RequestMapping("invite/success")
+	public ModelAndView inviteSuccess(@RequestParam int processNo){
+		joinProcess = joinProcessService.findJoinProcessByProcessNo(processNo);
+
+		return new ModelAndView("common/member/fridger/invite_success", "joinProcess", joinProcess);
+	}
+	
 	
 	@RequestMapping("joinProcess/show/list/requst")
 	@ResponseBody
@@ -173,9 +234,9 @@ public class FridgerController {
 	//로그인 된 회원의 냉장고 찾는 handler
 		@RequestMapping("show/mine" )
 		@ResponseBody
-		public List<Fridger> getFridgerMine(){
-			Authority authority = (Authority)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			list = fridgerService.findFridgerByOwner(authority.getLoginId());
+		public List<Fridger> getFridgerMine(){	
+			Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			list = fridgerService.findFridgerByOwner(member.getMemberId());
 			System.out.println(list);
 			return list;
 		}

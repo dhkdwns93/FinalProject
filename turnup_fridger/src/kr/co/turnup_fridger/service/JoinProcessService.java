@@ -52,6 +52,13 @@ public interface JoinProcessService {
 
 
 	/**
+	 * 처리목록 No으로 조회
+	 * @param processNo
+	 * @return
+	 */
+	JoinProcess findJoinProcessByProcessNo(int processNo);
+
+	/**
 	 * 모든 가입처리 목록 조회
 	 * @return
 	 */

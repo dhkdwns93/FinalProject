@@ -46,15 +46,14 @@
 	<!-- 회원가입성공 -->
 	<mvc:view-controller path="/join_member_success.do" view-name="user/join_member_success"/>
 	
-	
 	<!-- /common/member -->
 	<!-- 마이페이지(개인회원정보조회) -->
 	<mvc:view-controller path="/common/member/member_mypage.do" view-name="common/member/user/member_mypage"/>
 	<!-- 회원정보수정 -->
 	<mvc:view-controller path="/common/member/member_change_info.do" view-name="common/member/user/member_change_info"/>
+
 	<!-- 회원탈퇴페이지 -->
 	<mvc:view-controller path="/common/member/member_delete_form.do" view-name="common/member/user/member_delete_form"/>
-
 	<!-- 냉장고 리스트 페이지 (검색) -->
 	<mvc:view-controller path="/common/member/fridger/list.do" view-name="common/member/fridger/list"/>
 	<!-- 냉장고 등록 페이지 -->

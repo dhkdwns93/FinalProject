@@ -26,29 +26,6 @@ $(document).ready(function(){
 		}
 	}); //end of ajax
 	
-	
-	// 냉장고 초대
-	$(document).on("click","#inviteBtn", function(){
-		alert($("#fridgerList>selected:selected").val());
-		$.ajax({
-			"url":"/turnup_fridger/common/member/fridger/invite.do",
-			"type":"post",
-			"data":{'fridgerId' : $("#fridgerList>selected:selected").val(), 'respMemberId':$("#respMemberId").val(), '${_csrf.parameterName}':'${_csrf.token}'},
-			"dataType":"text",
-			"beforeSend":function(){	
-				if(confirm("초대하시겠습니까?") != true){
-					return false;
-				}
-			},
-			"success": function(txt){
-		       alert(txt);
-		     },
-	        "error":function(xhr, msg, code){
-				alert("오류발생-" + code);
-			}
-			
-		});	//end of ajax
-	});	// end of click on inviteBtn
 });
  
  </script>
@@ -60,21 +37,21 @@ $(document).ready(function(){
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		<table>
 			<tr>
-				<th colspan="2">현재 로그인한 회원은"<sec:authentication property="principal.loginId"/>"님 입니다</th>
+				<th colspan="2">현재 로그인한 회원은"<sec:authentication property="principal.memberId"/>"님 입니다</th>
 			</tr>
 			<tr>
 				<th>내 냉장고 목록</th>
-				<td><select name="fridger" id="fridgerList"></select>
+				<td><select name="processFridgerId" id="fridgerList"></select>
 			</tr>
 			<tr>
 				<th>초대할 회원ID</th>
 			 	<td><input type="text" name="respMemberId"></td>
 			<tr>
-				<td colspan="2"><input type="button" id="inviteBtn" value="초대하기">
+				<td colspan="2"><input type="submit"value="초대하기">
 				</td>
 			</tr>
 		</table>
-		
+		<input type="hidden" name="processState" value="20">
 	</form>
 
 </body>
