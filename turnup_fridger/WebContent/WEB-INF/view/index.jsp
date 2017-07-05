@@ -41,7 +41,7 @@
 <hr>
 <!-- 연수 -->
 <h4>재료관리 관련</h4>
-<a href="${initParam.rootPath}/common/admin/irdntManage/irdntList.do" ><button type="button">재료관리</button></a><br>
+<a href="${initParam.rootPath}/common/admin/irdntManage/findAllICategory.do" ><button type="button">재료관리</button></a><br>
 <h4>나의 식재료 관련</h4>
 <a href="${initParam.rootPath}/common/member/myIrdnt/myIrdntList.do"><button type="button">나의 식재료</button></a><br>
 

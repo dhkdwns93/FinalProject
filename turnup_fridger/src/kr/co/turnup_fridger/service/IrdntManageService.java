@@ -17,16 +17,18 @@ public interface IrdntManageService {
 	/**
 	 * 재료수정
 	 * @param irdnt
+	 * @return 
 	 * @throws Exception 
 	 */
-	void updateIrdnt(IrdntManage irdnt) throws Exception;
+	String updateIrdnt(IrdntManage irdnt) throws Exception;
 	
 	/**
 	 * 재료삭제
 	 * @param irdntId
+	 * @return 
 	 * @throws Exception 
 	 */
-	void removeIrdnt(int irdntId) throws Exception;
+	String removeIrdnt(int irdntId) throws Exception;
 	
 	/**
 	 * 모든 재료 불러오기
@@ -35,13 +37,6 @@ public interface IrdntManageService {
 	List<IrdntManage> findAllIrdnt();
 	
 	/**
-	 * 재료명으로 재료검색 (부분일치)
-	 * @param irdntName
-	 * @return
-	 */
-	List<IrdntManage> findIrdntByIrdntName(String irdntName);
- 	
-	/**
 	 * 재료id로 재료 검색
 	 * @param irdntId
 	 * @return
@@ -49,10 +44,17 @@ public interface IrdntManageService {
 	IrdntManage findIrdntByIrdntId(int irdntId);
 	
 	/**
-	 * 카테고리로 재료들 검색
+	 * 재료명(부분일치)과 카테고리(전체포함 각각)로 재료검색 
+	 * @param irdntName
 	 * @param irdntCategory
 	 * @return
 	 */
-	List<IrdntManage> fingIrdntByIrdntCategory(String irdntCategory);
+	List<IrdntManage> findIrdntsByKeyword(String irdntName, String irdntCategory);
+	
+	/**
+	 * 카테고리명들을 불러오는 메서드.
+	 * @return
+	 */
+	List<String> findAllIrdntCategory();
 	
 }
