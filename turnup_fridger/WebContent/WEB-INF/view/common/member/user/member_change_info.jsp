@@ -24,29 +24,36 @@
 		<input type="text" id="id" name="memberId" readonly="readonly" value='<sec:authentication property="principal.memberId"/>' class="form-control">
 	</div>
 	<div class="form-group">
-		<label for="oldPassword">기존 PW</label>
-		<input type="password" id="oldPassword" name="oldMemberPw"  class="form-control">
-	</div>
-	<div class="form-group">
-		<label for="password">변경할 PW</label>
+		<label for="password">기존 PW</label>
 		<input type="password" id="password" name="memberPw"  class="form-control">
 	</div>
 	<div class="form-group">
-		<label for="id">이름</label>
-		<input type="text" id="id" name="memberId" value='<sec:authentication property="principal.memberId"/>' class="form-control">
+		<label for="newPassword">변경할 PW</label>
+		<input type="password" id="newPassword" name="newMemberPw"  class="form-control">
 	</div>
 	<div class="form-group">
-		<label for="id">주소</label>
-		<input type="text" id="id" name="memberId" value='<sec:authentication property="principal.memberId"/>' class="form-control">
+		<label for="name">이름</label>
+		<input type="text" id="name" name="memberName" value='<sec:authentication property="principal.memberName"/>' class="form-control">
 	</div>
 	<div class="form-group">
-		<label for="id">이메일</label>
-		<input type="text" id="id" name="memberId" value='<sec:authentication property="principal.memberId"/>' class="form-control">
+		<label for="address">주소</label>
+		<input type="text" id="address" name="memberAddress" value='<sec:authentication property="principal.memberAddress"/>' class="form-control">
 	</div>
 	<div class="form-group">
-		<label for="id">성별</label>
-		<input type="text" id="id" name="memberId" value='<sec:authentication property="principal.memberId"/>' class="form-control">
+		<label for="email">이메일</label>
+		<input type="text" id="email" name="memberEmail" value='<sec:authentication property="principal.memberEmail"/>' class="form-control">
 	</div>
+	<div class="form-group">
+		<label for="tel">전화번호</label>
+		<input type="text" id="tel" name="memberTel" value='<sec:authentication property="principal.memberTel"/>' class="form-control">
+	</div>
+	<div class="form-group">
+		성별
+		<input type="text" id="sex" name="memberSex" readonly="readonly" value='<sec:authentication property="principal.memberSex"/>' class="form-control">
+	</div>
+	<sec:csrfInput/>
+	<button type="submit" class="btn btn-default">수정완료</button>
+	<button type="reset" class="btn btn-default">다시작성</button>
 </form>
 </body>
 </html>

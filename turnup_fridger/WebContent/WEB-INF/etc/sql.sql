@@ -26,7 +26,7 @@ CREATE TABLE MEMBER (
    MEMBER_SEX VARCHAR2(10) NOT NULL,/* 성별 */
    CONSTRAINT MEMBER_LOGIN_ID_FK FOREIGN KEY(MEMBER_ID) REFERENCES AUTHORITY(LOGIN_ID)
 );
---select * from member order by member_id;
+select * from member order by member_id;
 --insert into MEMBER values('id','pw','이름','주소','이메일','전번','성별')
 --INSERT INTO MEMBER VALUES('user1','1111','회원1','주소1','이메일1','전번1','여성');
 
