@@ -28,7 +28,7 @@
          SELECT IRDNT_ID.nextval FROM dual
       </selectKey>
       insert into irdnt_Manage 
-      values (#{irdntId},#{irdntName},#{irdntCategory},#{roomTemPeriod},#{coldTempPeriod},#{freezeTemPeriod},#{note})
+      values (#{irdntId},#{irdntName},#{irdntCategory},#{roomTemPeriod},#{coldTemPeriod},#{freezeTemPeriod},#{note})
    </insert>
    
    <update id="updateIrdnt" parameterType="IrdntManage">

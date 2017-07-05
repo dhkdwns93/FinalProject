@@ -1,5 +1,6 @@
 
 
+
 /*전체 사용자(회원, 관리자) 권한관리_로그인용*/
 DROP TABLE AUTHORITY CASCADE CONSTRAINT;
 DELETE FROM AUTHORITY;
@@ -239,18 +240,13 @@ CREATE TABLE IRDNT_MANAGE (
    NOTE VARCHAR2(50)
 );
 DROP SEQUENCE IRDNT_ID;
-CREATE SEQUENCE IRDNT_ID INCREMENT BY 1 START WITH 1;  
+CREATE SEQUENCE IRDNT_ID INCREMENT BY 1000 START WITH 1;  
 SELECT IRDNT_ID.NEXTVAL FROM DUAL;
 
 --insert into irdnt_manage values (0,'테스트','가공식품',1,1,1,'테스트야~');
 --select * from IRDNT_MANAGE;
 --select distinct irdnt_category from irdnt_manage;
-      SELECT
-      *
-      FROM Irdnt_Manage
-      where irdnt_name ='테스트'
-      ORDER BY irdnt_id 
-
+  
 /* 나의 식재료 */
 DROP TABLE MY_IRDNT;
 DELETE FROM MY_IRDNT;

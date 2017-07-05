@@ -12,7 +12,7 @@ public interface IrdntManageService {
 	 * @return 
 	 * @throws Exception 
 	 */
-	String createIrdnt(IrdntManage irdnt) throws Exception;
+	void createIrdnt(IrdntManage irdnt) throws Exception;
 	
 	/**
 	 * 재료수정
@@ -20,7 +20,7 @@ public interface IrdntManageService {
 	 * @return 
 	 * @throws Exception 
 	 */
-	String updateIrdnt(IrdntManage irdnt) throws Exception;
+	void updateIrdnt(IrdntManage irdnt) throws Exception;
 	
 	/**
 	 * 재료삭제
@@ -56,5 +56,12 @@ public interface IrdntManageService {
 	 * @return
 	 */
 	List<String> findAllIrdntCategory();
+	
+	/**
+	 * 재료명(부분일치)으로 재료들의 목록을 가져오기.
+	 * @param irdntName
+	 * @return
+	 */
+	List<IrdntManage> findIrdntByName(String irdntName);
 	
 }

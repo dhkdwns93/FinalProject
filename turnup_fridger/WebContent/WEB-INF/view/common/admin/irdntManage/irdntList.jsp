@@ -33,59 +33,34 @@
 				"data":{'irdntCategory' : $("#irdntCategory").val(), 'irdntName' : $("#irdntName").val(),'${_csrf.parameterName}':'${_csrf.token}'},
 				"dataType":"json",
 				"success":function(list){
+					$("#tbody").empty();
 					$.each(list, function(){
-					$("#tbody").append($("<tr>").prop("id","irdnt_col").append($("<td>").append(this.irdntId)).append($("<td>").append(this.irdntName)).append($("<td>").append(this.irdntCategory))
-					.append($("<td>").append(this.roomTemPeriod)).append($("<td>").append(this.coldTemPeriod)).append($("<td>").append(this.freezeTemPeriod)).append($("<td>").append(this.note))
-					.append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").append("수정")))
-					.append($("<td>").append($("<button>").prop("type","button").prop("id","deleteBtn").append("삭제"))));
-					 });//each
+						$("#tbody").append($("<tr>").prop("id","irdnt_col").append($("<td>").append(this.irdntId)).append($("<td>").append(this.irdntName)).append($("<td>").append(this.irdntCategory))
+						.append($("<td>").append(this.roomTemPeriod)).append($("<td>").append(this.coldTemPeriod)).append($("<td>").append(this.freezeTemPeriod)).append($("<td>").append(this.note))
+						.append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").append("수정")))
+						.append($("<td>").append($("<button>").prop("type","button").prop("id","deleteBtn").append("삭제"))));
+						 });//each
 				},
 				"error":function(errorMsg){
 					alert("오류다!")
 				}
 			})
 		});//searchBtn
-		
-		
+
 		$(document).on("click","#updateBtn",function(){
 			var irdntId = $(this).parent().parent().children(":first-child").text();
-			$.ajax({
-				"url" : "/turnup_fridger/common/admin/irdntManage/updateIrdnt.do",
-				"type" : "POST",
-				"data" : {
-					'irdntId' : $("#irdntId").val(),
-					'irdntName' : $("#irdntName").val(),
-					'irdntCategory' : $("#irdntCategory").val(),
-					'roomTemPeriod' : $("#roomTemPeriod").val(),
-					'coldTemPeriod' : $("#coldTemPeriod").val(),
-					'freezeTemPeriod' : $("#freezeTemPeriod").val(),
-					'note' : $("#note").val(),
-					'${_csrf.parameterName}' : '${_csrf.token}'},
-				"dataType" : "json",
-				"success" : function(list) {
-					alert("수정완료!")
-				},
-				"error" : function(errorMsg) {
-					alert("오류다!")
-				}
-			})//ajax 
+			var irdntName=$(this).parent().parent().children(":nth-child(2)").text();
+			var irdntCategory=$(this).parent().parent().children(":nth-child(3)").text();
+			var roomTemPeriod=$(this).parent().parent().children(":nth-child(4)").text();
+			var coldTemPeriod=$(this).parent().parent().children(":nth-child(5)").text();
+			var freezeTemPeriod=$(this).parent().parent().children(":nth-child(6)").text();
+			var note=$(this).parent().parent().children(":nth-child(7)").text();
 			
-			
-			
-			
-			
-			/*var irdnt $(this).parent().
-			window.open("/turnup_fridger/common/admin/irdntManage/irdnt_update_form","재료수정","width=500, height=500");
-			window.document.irdntId.value = $(this).parent().parent().children(":fist-child"),text;
-			window.document.irdntName.value = $(this).parent().parent().children(":fist-child"),text;
-			window.document.irdntCategory.value = $(this).parent().parent().children(":fist-child"),text;
-			window.document.roomTemPeriod.value = $(this).parent().parent().children(":fist-child"),text;
-			window.document.coldTemPeriod.value = $(this).parent().parent().children(":fist-child"),text;
-			window.document.freezeTemPeriod.value = $(this).parent().parent().children(":fist-child"),text;
-			window.document.note.value = $(this).parent().parent().children(":fist-child"),text; 	 */
-		
-		});//updateBtn
-		
+			window.open("/turnup_fridger/common/admin/irdntManage/irdnt_update_form.do?irdntId="+irdntId+"&irdntName="+irdntName+"&irdntCategory="+
+					irdntCategory+"&roomTemPeriod="+roomTemPeriod+"&coldTemPeriod="+coldTemPeriod+"&freezeTemPeriod="+freezeTemPeriod+"&note="+note
+					,"updateForm","width=500, height=400");				
+		});//update
+
 		$(document).on("click","#deleteBtn",function(){
 			var irdntId = $(this).parent().parent().children(":first-child").text();	
 			$.ajax({
@@ -131,7 +106,7 @@ td {
 
 	<a href="/turnup_fridger/common/admin/irdntManage/irdnt_form.do">재료추가</a><br><br>
 
-	카테고리 : 
+	카테고리 :
 	<select name="irdntCategory" id="irdntCategory">
 		<option value="전체">전체</option>
 		<c:forEach items="${requestScope.irdntCategory}" var="irdntCategory">

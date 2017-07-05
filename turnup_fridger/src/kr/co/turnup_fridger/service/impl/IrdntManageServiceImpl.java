@@ -16,32 +16,36 @@ public class IrdntManageServiceImpl implements IrdntManageService{
 	private IrdntManageDao dao;
 	
 	@Override
-	public String createIrdnt(IrdntManage irdnt) throws Exception{
-		
-		if(!dao.selectIrdntByFullName(irdnt.getIrdntName()).isEmpty()){
-			System.out.println("뭐가잡혔어? "+ irdnt);
+	public void createIrdnt(IrdntManage irdnt) throws Exception{
+
+		if (!dao.selectIrdntByFullName(irdnt.getIrdntName()).isEmpty()) {
 			throw new Exception("다른 재료명을 입력해주세요.");
 		}
 		irdnt.setIrdntId(0);
-		System.out.println(irdnt);
-		dao.insertIrdnt(irdnt);
-		System.out.println("serviceImpl : "+ irdnt);
-		
-		return "등록성공!";
+		try {
+			dao.insertIrdnt(irdnt);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
-	public String updateIrdnt(IrdntManage irdnt) throws Exception{
+	public void updateIrdnt(IrdntManage irdnt) throws Exception{
 		
 		//재료id로 검색해서 id가 없으면못한다고 하고, 재료명 이미 있는거 안됨.
-		if(dao.selectIrdntById(irdnt.getIrdntId())==null){
+		if(dao.selectIrdntById(irdnt.getIrdntId())==null){			
 			throw new Exception("없는 식재료입니다.");
 		}
-		if(dao.selectIrdntByFullName(irdnt.getIrdntName())!=null){
+		if(!dao.selectIrdntByFullName(irdnt.getIrdntName()).isEmpty()){			
 			throw new Exception("다른 재료명을 입력해주세요.");
 		}
-		dao.updateIrdnt(irdnt);
-		return "수정성공!";
+		try{	
+			dao.updateIrdnt(irdnt);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 	}
 
 	@Override
@@ -73,8 +77,13 @@ public class IrdntManageServiceImpl implements IrdntManageService{
 	public List<String> findAllIrdntCategory() {
 		return dao.selectAllIrdntCategory();
 	}
+
+	@Override
+	public List<IrdntManage> findIrdntByName(String irdntName) {
+		return dao.selectIrdntByName(irdntName);
+	}
 	
-
-
+	
+	
 	
 }

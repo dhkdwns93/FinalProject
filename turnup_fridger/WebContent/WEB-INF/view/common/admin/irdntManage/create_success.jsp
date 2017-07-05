@@ -8,7 +8,7 @@
 <body>
 등록성공! 
 
-<a href = "turnup_fridger/common/admin/irdntManage/irdntList.do"><button>전체목록보기</button></a>
+<a href = "/turnup_fridger/common/admin/irdntManage/irdntList.do"><button>전체목록보기</button></a>
 
 </body>
 </html>

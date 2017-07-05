@@ -29,48 +29,39 @@ public class IrdntManageController {
 		
 		IrdntManageValidator validator= new IrdntManageValidator();
 		validator.validate(irdnt, errors);
-		String msg;
 	
 		if(errors.hasErrors()){
 			System.out.println("haserror");
 			return new ModelAndView("common/admin/irdntManage/irdnt_form");
 		}
+		
+		//관리자인지 권한체크해야하나?
+		
 		try {
-			msg = service.createIrdnt(irdnt);
-		} catch (Exception e) {
-			System.out.println("잡혔어?");
-			
+			service.createIrdnt(irdnt);
+		} catch (Exception e) {			
 			return new ModelAndView("common/admin/irdntManage/irdnt_form", "errorMsg", e.getMessage());
 		}		
-		
-		//service에서 받아온 등록완료 메세지. jsp에서 알럿으로 띄워줘야징~
-		return new ModelAndView("common/admin/irdntManage/irdntList","msg",msg);
-		
-		/*List<IrdntManage> list = service.findAllIrdnt();
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/irdntManage/irdntList");
-	    mav.addObject("list", list); 
-		return mav;*/
+		return new ModelAndView("common/admin/irdntManage/create_success");
+
 	}
 	
-	@RequestMapping("updateIrdnt")
+	@RequestMapping(value="updateIrdnt",produces="html/text;charset=UTF-8;")
 	@ResponseBody
-	public ModelAndView updateIrdnt(@ModelAttribute IrdntManage irdnt,BindingResult errors) throws Exception{
+	public ModelAndView updateIrdnt(@ModelAttribute IrdntManage irdnt,BindingResult errors){
 		
 		IrdntManageValidator validator= new IrdntManageValidator();
 		validator.validate(irdnt, errors);
 		
 		if(errors.hasErrors()){
-			return new ModelAndView("common/admin/irdntManage/irdnt_form");
+			return new ModelAndView("common/admin/irdntManage/irdnt_update_form");
 		}
-		
-		service.updateIrdnt(irdnt);
-		
-		List<IrdntManage> list = service.findAllIrdnt();
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/irdntManage/irdntList");
-	    mav.addObject("list", list); 
-		return mav;
+		try {
+			service.updateIrdnt(irdnt);
+		} catch (Exception e) {
+			return new ModelAndView("common/admin/irdntManage/irdnt_update_form","errorMsg",e.getMessage());			
+		}
+		return new ModelAndView("common/admin/irdntManage/irdntList");
 	}
 	
 	
@@ -118,7 +109,6 @@ public class IrdntManageController {
 	@ResponseBody
 	public List<IrdntManage> findIrdntByKeyword(@RequestParam String irdntName,@RequestParam String irdntCategory){
 		List<IrdntManage> list = service.findIrdntsByKeyword(irdntName, irdntCategory);
-		System.out.println("findIrdntByKeyword : "+list);
 		return list;
 
 	}
@@ -130,7 +120,12 @@ public class IrdntManageController {
 		return new ModelAndView("common/admin/irdntManage/irdntList","irdntCategory",list);
 	}
 	
-
+	@RequestMapping("findIrdntByName")
+	@ResponseBody
+	public List<IrdntManage> findIrdntByName(@RequestParam String irdntName){
+		List<IrdntManage> list = service.findIrdntByName(irdntName);
+		return list;
+	}
 
 	
 }
