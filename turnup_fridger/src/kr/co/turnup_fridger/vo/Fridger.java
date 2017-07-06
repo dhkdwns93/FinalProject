@@ -12,6 +12,8 @@ public class Fridger implements Serializable{
 	private List<FridgerGroup> fridgerGroupList;
 	private List<MyIrdnt> myIrdntList;
 	
+	private String resultCode;
+	
 	public Fridger() {
 	}
 	
@@ -45,6 +47,20 @@ public class Fridger implements Serializable{
 		this.fridgerGroupList = fridgerGroupList;
 		this.myIrdntList = myIrdntList;
 	}
+	
+	
+	public String getResultCode() {
+		return resultCode;
+	}
+
+
+
+	public void setResultCode(String resultCode) {
+		this.resultCode = resultCode;
+	}
+
+
+
 	public int getFridgerId() {
 		return fridgerId;
 	}
@@ -78,7 +94,7 @@ public class Fridger implements Serializable{
 	@Override
 	public String toString() {
 		return "Fridger [fridgerId=" + fridgerId + ", fridgerName=" + fridgerName + ", memberId=" + memberId
-				+ ", fridgerGroupList=" + fridgerGroupList + ", myIrdntList=" + myIrdntList + "]";
+				+ ", fridgerGroupList=" + fridgerGroupList + ", myIrdntList=" + myIrdntList + "resultCode:"+ resultCode+"]";
 	}
 	@Override
 	public int hashCode() {

@@ -6,7 +6,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h2>등록 성공했다</h2>
+<h2>업뎃 성공했다</h2>
 냉장고 ID : ${ requestScope.fridger.fridgerId }<br>
 냉장고 이름 : ${ requestScope.fridger.fridgerName }<br>
 냉장고 주인 : ${ requestScope.fridger.memberId }<br>

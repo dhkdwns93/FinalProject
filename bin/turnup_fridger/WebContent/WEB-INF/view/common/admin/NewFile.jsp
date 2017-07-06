@@ -6,7 +6,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h2>나의 식재료 등록</h2>
+
 
 </body>
 </html>

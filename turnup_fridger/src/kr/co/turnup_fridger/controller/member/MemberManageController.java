@@ -53,7 +53,7 @@ public class MemberManageController {
 		//System.out.println("기존의 비밀번호" + member.getMemberPw());
 		//PW 체크
 		String memberPw=((Member)authentication.getPrincipal()).getMemberPw();
-		//if(!passwordEncoder.matches(oldMemberPassword,((Member)authentication.getPrincipal()).getMemberPw())){
+		//if(!passwordEncoder.matches(memberPw,member.getMemberPw())){
 		if(!memberPw.equals(member.getMemberPw())){
 			System.out.println("MemberManageController + PW가 다릅니다");
 			throw new RuntimeException("PW가 다릅니다.");
@@ -63,7 +63,6 @@ public class MemberManageController {
 		member.setMemberPw(newMemberPw);
 		//System.out.println("MemberManage"+newMemberPw);
 		
-		//**encoding처리 추가
 		memberService.changeMemberInfo(member);
 		
 		ctx.setAuthentication(new UsernamePasswordAuthenticationToken(member,null,authentication.getAuthorities()));
@@ -73,7 +72,7 @@ public class MemberManageController {
 	/**
 	 * 회원탈퇴
 	 * 기존 패스워드를 받음
-	 * 탈퇴 후 기본페이지로 이동
+	 * 탈퇴 후 기본페이지로 이동 -redirect방식 이동
 	 * @param member
 	 * @param oldMemberPassword
 	 * @return

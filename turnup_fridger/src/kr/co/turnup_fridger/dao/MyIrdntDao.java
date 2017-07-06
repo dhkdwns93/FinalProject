@@ -54,7 +54,7 @@ public interface MyIrdntDao {
 	 * 신선도를 입력받아서 해당하는 음식들 가져오기
 	 * @return
 	 */
-	List<MyIrdnt> selectMyStaleIrdnt(int freshLevel,int fridgerId);
+	List<MyIrdnt> selectMyStaleIrdnt(String freshLevel,int fridgerId);
 	
 	
 	/**
@@ -84,6 +84,13 @@ public interface MyIrdntDao {
 	List<MyIrdnt> selectMyIrdntByFridgerId(int fridgerId);
 	
 	
+	/**
+	 * 신선도와 재료명으로 검색하여 해당하는 나의 식재료들만 불러오기.
+	 * @param freshLevel
+	 * @param irdntName
+	 * @return
+	 */
+	List<MyIrdnt> selectMyIrdntByFreshLevelAndIrdntName(String freshLevel, String irdntName,int fridgerId);
 	
 	
 	

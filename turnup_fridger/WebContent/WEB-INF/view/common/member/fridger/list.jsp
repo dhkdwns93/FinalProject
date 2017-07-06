@@ -99,15 +99,16 @@ $(document).ready(function () {
 	}); //end of click on searchByName
 	
 	
-	$("#searchByOwnerBtn").on("click", function(){
-		alert($(this).parent().children("input#memberId").val());
+	$(".searchByOwnerBtn").on("click", function(){
+		var memberId = $(this).parent().children("input#memberId").val();
 		$.ajax({
 			"url":"/turnup_fridger/common/member/fridger/show/byOwner.do",
 			/* "type" : "post", */
-			"data" : {'memberId' : $(this).parent().children("input#memberId").val(),  '${_csrf.parameterName}':'${_csrf.token}'},
+			"data" : {'memberId' :  memberId,  '${_csrf.parameterName}':'${_csrf.token}'},
 	        "dataType": "json",
 	        "beforeSend":function(){	
-				if(!$("input#memberId").val()){
+	        	
+				if(memberId===''){
 					alert("조회할 회원ID를 입력하세요");
 					return false;
 				}
@@ -246,6 +247,15 @@ $(document).ready(function () {
 	<sec:authentication property="principal.memberId" var="memberId"/>
 		<span><input type="text" name="memberId" id="memberId" placeholder="현재회원 : ${ memberId }">
 		<!-- <input type="button" value="조회" id="searchByOwnerBtn"> -->
+	    <button type="button" class="btn btn-default searchByOwnerBtn" id="searchByOwnerBtn">
+      	<span class="glyphicon glyphicon-search"></span> 
+    	</button>
+    	</span>
+    	
+		<br>
+		<sec:authentication property="principal.memberId" var="memberId"/>
+		내 냉장고 조회 : ${ memberId }
+		<span><input type="hidden" name="memberId" id="memberId" value="${ memberId }">
 	    <button type="button" class="btn btn-default searchByOwnerBtn" id="searchByOwnerBtn">
       	<span class="glyphicon glyphicon-search"></span> 
     	</button>
