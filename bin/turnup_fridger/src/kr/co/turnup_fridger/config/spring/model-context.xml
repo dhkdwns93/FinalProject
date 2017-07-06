@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	<context:component-scan base-package="kr.co.turnup_fridger.service.impl, kr.co.turnup_fridger.dao.impl"/>
+	
+	<!-- mybatis 설정 -->
+	<bean name="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+			  p:driverClassName="oracle.jdbc.driver.OracleDriver"
+			  p:url="jdbc:oracle:thin:@127.0.0.1:1521:XE"
+			  p:username="tuf"
+			  p:password="turnup"
+			  p:initialSize="1"
+			  p:maxTotal="100"/>
+	<bean 	name="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean"
+			   	p:dataSource-ref="dataSource"
+			   	p:configLocation="classpath:kr/co/turnup_fridger/config/mybatis/mybatis-config.xml"/>
+	<bean 	name="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate"
+				c:sqlSessionFactory-ref="sqlSessionFactoryBean"/>
+	
+	<!-- Transaction  -->
+	<bean 	name="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+			p:dataSource-ref="dataSource"/>
+	<tx:annotation-driven transaction-manager="transactionManager"/>			
+
+		
+	<!-- multipartResolver 등록  -->
+	<bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+
+</beans>

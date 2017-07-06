@@ -9,7 +9,7 @@ CREATE TABLE AUTHORITY(
 --관리자권한줄때 반드시 ROLE_**** 이런식으로 대문자!!
 select * from authority order by login_id;
 
-select * from admin order by admin_id;
+select * from admin order by admin_authority desc, admin_id;
 --DELETE FROM AUTHORITY WHERE LOGIN_ID='admin1';
 --insert into authority values('admin1','1111','ROLE_ADMIN');
 --insert into authority values('user1','1111','ROLE_MEMBER');
@@ -236,6 +236,8 @@ CREATE TABLE IRDNT_MANAGE (
    FREEZE_TEM_PERIOD NUMBER, /*냉동보관기간*/
    NOTE VARCHAR2(50)
 );
+select * from irdnt_manage;
+
 DROP SEQUENCE IRDNT_ID;
 CREATE SEQUENCE IRDNT_ID INCREMENT BY 1 START WITH 1;  
 SELECT IRDNT_ID.NEXTVAL FROM DUAL;
@@ -293,6 +295,8 @@ CREATE TABLE MY_DISLIKE_IRDNT (
    CONSTRAINT MY_DISLIKE_IRDNT_MEMBER_ID_FK FOREIGN KEY(MEMBER_ID) REFERENCES MEMBER,
    CONSTRAINT MY_DISLIKE_IRDNT_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE
 );
+select * from my_dislike_irdnt;
+
 DROP SEQUENCE MY_DISLIKE_IRDNT_KEY;
 CREATE SEQUENCE MY_DISLIKE_IRDNT_KEY INCREMENT BY 1 START WITH 1; 
 --SELECT MY_DISLIKE_IRDNT_KEY.NEXTVAL FROM DUAL;

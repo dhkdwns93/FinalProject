@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.co.turnup_fridger.config.mybatis.mapper.RecipeInfoMapper">
+	
+	<sql id="all-column">
+		recipe_id,
+		recipe_name,
+		sumry,
+		category_code,
+		category_name,
+		type_code,
+		type_name,
+		cooking_time,
+		calorie,
+		qnt,
+		recipe_level,
+		irdnt_code,
+		price,
+		img_url,
+		det_url,
+		recipe_hits
+	</sql>
+	
+	<resultMap type="RecipeInfo" id="RecipeInfo-resultmap">
+		<id column ="recipe_id" property="recipeId"/>
+		<result column="recipe_name" property="recipeName"/>
+		<result column="sumry" property="sumry"/>
+		<result column="category_code" property="categoryCode"/>
+		<result column="category_name" property="categoryName"/>
+		<result column="type_code" property="typeCode"/>
+		<result column="type_name" property="typeName"/>
+		<result column="cooking_time" property="cookingTime"/>
+		<result column="calorie" property="calorie"/>
+		<result column="qnt" property="qnt"/>
+		<result column="recipe_level" property="recipeLevel"/>
+		<result column="irdnt_code" property="irdntCode"/>
+		<result column="price" property="price"/>
+		<result column="img_url" property="imgUrl"/>
+		<result column="det_url" property="detUrl"/>
+		<result column="recipe_hits" property="recipeHits"/>		
+	</resultMap>
+	
+	<resultMap type="RecipeInfo" id="recipeInfo-recipeCrse-recipeIrdnt-resultmap" extends="RecipeInfo-resultmap">
+		<collection property="recipeCrse" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeCrseMapper.RecipeCrse-resultmap"/>
+		<collection property="recipeIrdnt" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeIrdntMapper.RecipeIrdnt-resultmap"/>
+	</resultMap>
+	
+	<insert id="insertRecipeInfo" parameterType="RecipeInfo">
+		insert into RecipeInfo 
+		values (#{recipeId},
+				#{recipeName},
+				#{sumry},
+				#{categoryCode},
+				#{categoryName},
+				#{typeCode},
+				#{typeName},
+				#{cookingTime},
+				#{qnt},
+				#{recipeLevel},
+				#{irdntCode},
+				#{price},
+				#{imgUrl},
+				#{detUrl},
+				#{recipeHits}
+				)
+	</insert>
+	
+	<update id="updateRecipeInfo" parameterType="RecipeInfo">
+		update RecipeInfo
+		set recipe_id=#{recipeId},
+			recipe_name=#{recipeName},
+			sumry=#{sumry},
+			category_code=#{categoryCode},
+			category_name#{categoryName},
+			type_code=#{typeCode},
+			type_name=#{typeName},
+			cooking_time=#{cookingTime},
+			qnt=#{qnt},
+			recipe_level=#{recipeLevel},
+			irdnt_code=#{irdntCode},
+			price=#{price},
+			img_url=#{imgUrl},
+			det_url=#{detUrl},
+			recipe_hits=#{recipeHits}
+		where recipe_id=#{recipeId}
+	</update>
+	
+	<delete id="deleteRecipeInfo" parameterType="_int">
+		delete from RecipeInfo
+		where recipe_id=#{recipeId}
+	</delete>
+	
+	<select id="selectAllRecipeInfo" resultMap="RecipeInfo-resultmap">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeInfo
+	</select>
+	
+	<select id="selectRecipeInfoById" resultMap="RecipeInfo-resultmap" parameterType="_int">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeInfo
+		where recipe_id=#{recipeId}
+	</select>
+
+	
+	<!--조인  -->
+	<select id="selectThreeOfRecipesById" resultMap="recipeInfo-recipeCrse-recipeIrdnt-resultmap" parameterType="_int">
+		select 
+		i.recipe_id,i.recipe_name,i.sumry,i.category_code,i.category_name,i.type_code,i.type_name,i.cooking_time,
+		i.calorie,i.qnt,i.recipe_level,i.irdnt_code,i.price,i.img_url,i.det_url,i.recipe_hits,
+		d.irdnt_no, d.irdnt_name, d.irdnt_amount, d.irdnt_type_code, d.irdnt_type_name, d.recipe_id, d.irdnt_id,
+		c.cooking_no, c.cooking_dc, c.step_image_url, c.step_tip, c.recipe_id
+		from recipe_info i,recipe_crse c,recipe_irdnt d
+		where i.recipe_id = c.recipe_id(+) and i.recipe_id = d.recipe_id(+) 
+	</select>
+	
+	
+	<!--레시피명으로 조회한거 페이징  -->
+	<select id="selectRecipeInfoByName" resultMap="RecipeInfo-resultmap" parameterType="java.util.HashMap">
+	select recipe_id,recipe_name,sumry,category_code,category_name,type_code,type_name,cooking_time,calorie,
+			qnt,recipe_level,irdnt_code,price,img_url,det_url,recipe_hits
+	from(	
+		select rownum rnum,recipe_id,recipe_name,sumry,category_code,category_name,type_code,type_name,cooking_time,calorie,
+				qnt,recipe_level,irdnt_code,price,img_url,det_url,recipe_hits
+		from(
+			SELECT <include refid="all-column" />
+			FROM RecipeInfo
+			where recipe_name like '%'||#{recipeName}||'%'
+			<choose>
+			<when test="keyword=='recipeHitsDesc'">
+				order by recipeHits desc
+			</when>
+			<when test="keyword=='recipeHitsAsc'">
+				order by recipeHits asc
+			</when>
+			<when test="keyword =='calorieDesc'">
+				order by calrorie desc
+			</when>
+			<when test="keyword =='calorieAsc'">
+				order by calrorie asc
+			</when>
+			<when test="keyword == '초보환영'">
+				and recipe_level='초보환영'
+			</when>
+			<when test="keyword == '보통'">
+				and recipe_level='보통'
+			</when>
+			<when test="keyword == '어려움'">
+				and recipe_level='어려움'
+			</when>			
+		</choose> )
+		where rownum &lt;=#{endIndex})
+	where rnum >=#{startIndex}
+	</select>
+	
+	<!--레시피명 카운트  -->
+	<select id="selectRecipeInfoByNameCount" resultType="_int" parameterType="java.util.HashMap">
+		SELECT count(*)
+		FROM RecipeInfo
+		where recipe_name like '%'||#{recipeName}||'%' 
+		<choose>
+			<when test="keyword=='recipeHitsDesc'">
+				order by recipeHits desc
+			</when>
+			<when test="keyword=='recipeHitsAsc'">
+				order by recipeHits asc
+			</when>
+			<when test="keyword =='calorieDesc'">
+				order by calrorie desc
+			</when>
+			<when test="keyword =='calorieAsc'">
+				order by calrorie asc
+			</when>
+			<when test="keyword == '초보환영'">
+				and recipe_level='초보환영'
+			</when>
+			<when test="keyword == '보통'">
+				and recipe_level='보통'
+			</when>
+			<when test="keyword == '어려움'">
+				and recipe_level='어려움'
+			</when>			
+		</choose>
+	</select>
+	
+	<!--카테고리페이징  -->
+	<select id="selectRecipeInfoByCategoryAndType" resultMap="RecipeInfo-resultmap" parameterType="java.util.HashMap">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeInfo
+		where category_name like '%'||#{categoryName}||'%' and type_name like '%'||#{typeName}||'%'
+			<choose>
+			<when test="keyword=='recipeHitsDesc'">
+				order by recipeHits desc
+			</when>
+			<when test="keyword=='recipeHitsAsc'">
+				order by recipeHits asc
+			</when>
+			<when test="keyword =='calorieDesc'">
+				order by calrorie desc
+			</when>
+			<when test="keyword =='calorieAsc'">
+				order by calrorie asc
+			</when>
+			<when test="keyword == '초보환영'">
+				and recipe_level='초보환영'
+			</when>
+			<when test="keyword == '보통'">
+				and recipe_level='보통'
+			</when>
+			<when test="keyword == '어려움'">
+				and recipe_level='어려움'
+			</when>			
+		</choose>
+	</select>
+		
+	<!--카테고리 카운트  -->
+	<select id="selectRecipeInfoByCategoryAndTypeCount" resultType="_int" parameterType="java.util.HashMap">
+		SELECT count(*)
+		FROM RecipeInfo
+		where category_name like '%'||#{categoryName}||'%' and type_name like '%'||#{typeName}||'%'
+				<choose>
+			<when test="keyword=='recipeHitsDesc'">
+				order by recipeHits desc
+			</when>
+			<when test="keyword=='recipeHitsAsc'">
+				order by recipeHits asc
+			</when>
+			<when test="keyword =='calorieDesc'">
+				order by calrorie desc
+			</when>
+			<when test="keyword =='calorieAsc'">
+				order by calrorie asc
+			</when>
+			<when test="keyword == '초보환영'">
+				and recipe_level='초보환영'
+			</when>
+			<when test="keyword == '보통'">
+				and recipe_level='보통'
+			</when>
+			<when test="keyword == '어려움'">
+				and recipe_level='어려움'
+			</when>			
+		</choose>
+	</select>	
+		
+	<!--recipe_id들로 조회한거 페이징  -->
+	<select id="selectRecipesInfoByIds" resultMap="RecipeInfo-resultmap" parameterType="java.util.List">
+		SELECT
+		<include refid="all-column" />
+		FROM RecipeInfo
+		where recipe_id in (#{recipeId})
+			<choose>
+			<when test="keyword=='recipeHitsDesc'">
+				order by recipeHits desc
+			</when>
+			<when test="keyword=='recipeHitsAsc'">
+				order by recipeHits asc
+			</when>
+			<when test="keyword =='calorieDesc'">
+				order by calrorie desc
+			</when>
+			<when test="keyword =='calorieAsc'">
+				order by calrorie asc
+			</when>
+			<when test="keyword == '초보환영'">
+				and recipe_level='초보환영'
+			</when>
+			<when test="keyword == '보통'">
+				and recipe_level='보통'
+			</when>
+			<when test="keyword == '어려움'">
+				and recipe_level='어려움'
+			</when>			
+		</choose>
+		<!--이게 되는 구문인가...? foreach로 하나하나 빼서 in()처리? -->
+	</select>
+	
+	<!--id로 카운트  -->
+	<select id="selectRecipesInfoByIdsCount" resultType="_int" parameterType="java.util.HashMap">
+		SELECT count(*)
+		FROM RecipeInfo
+		where recipe_id = #{recipeId}
+			<choose>
+			<when test="keyword=='recipeHitsDesc'">
+				order by recipeHits desc
+			</when>
+			<when test="keyword=='recipeHitsAsc'">
+				order by recipeHits asc
+			</when>
+			<when test="keyword =='calorieDesc'">
+				order by calrorie desc
+			</when>
+			<when test="keyword =='calorieAsc'">
+				order by calrorie asc
+			</when>
+			<when test="keyword == '초보환영'">
+				and recipe_level='초보환영'
+			</when>
+			<when test="keyword == '보통'">
+				and recipe_level='보통'
+			</when>
+			<when test="keyword == '어려움'">
+				and recipe_level='어려움'
+			</when>			
+		</choose>
+	</select>
+	
+</mapper>

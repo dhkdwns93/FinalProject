@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.co.turnup_fridger.config.mybatis.mapper.BoardQnAMapper">
+	
+		<!-- 
+			BoardQnA 테이블 관련 mapper
+			+ BoardQnA 등록
+			+ BoardQnA 수정
+			+ BoardQnA 삭제
+			+ BoardQnA 조회
+	 -->
+	 <!-- BoardQnA 기본 조회 sql -->
+	 <sql id="boardQnA-select-sql">
+	 	SELECT BOARD_QNA_ID, BOARD_QNA_TITLE, BOARD_QNA_TXT, BOARD_QNA_DATE, MEMBER_ID
+	 	FROM BOARD_QNA
+	 </sql>
+	
+	<!-- ResultMap BoardQnA 등록 -->
+	<resultMap id="boardQnA-resultmap" type="boardQnA">
+		<id column="BOARD_QNA_ID" property="boardQnAId"/>
+		<result column="BOARD_QNA_TITLE" property="boardQnATitle"/>
+		<result column="BOARD_QNA_TXT" property="boardQnATxt"/>
+		<result column="BOARD_QNA_DATE" property="boardQnAdate"/>
+		<result column="MEMBER_ID" property="memberId"/>
+	</resultMap>
+	
+	
+	<!-- ResultMap BoardQnA-CommentQnA 등록 -->
+	<resultMap id="boardQnA-commentQnA-resultmap" type="boardQnA" extends="boardQnA-resultmap">
+		<collection property="commentQnAList" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.CommentQnAMapper.commentQnA-resultmap"/>
+	</resultMap>
+	
+	
+	<!-- 등록 SQL -->
+	<insert id="insertBoardQnA" parameterType="boardQnA">
+		INSERT INTO BOARD_QNA 
+		VALUES(
+				#{boardQnAId},
+				#{boardQnATitle},
+				#{boardQnATxt},
+				#{boardQnAdate},
+				#{memberId}
+		  	  )
+	</insert>
+	
+	
+	<!-- 업데이트 SQL -->
+	<update id="updateBoardQnA" parameterType="boardQnA">
+		UPDATE 	BOARD_QNA 
+		SET		BOARD_QNA_TITLE = #{boardQnATitle},
+				BOARD_QNA_TXT = #{boardQnATxt},
+				BOARD_QNA_DATE = #{boardQnAdate},
+				MEMBER_ID = #{memberId}
+		WHERE	BOARD_QNA_ID = #{boardQnAId}
+	</update>
+	
+	<!-- 삭세 SQL-->
+	<delete id="deleteBoardQnA" parameterType="_int">
+		DELETE FROM BOARD_QNA WHERE BOARD_QNA_ID = #{boardQnAId}
+	</delete>	
+	
+	<!-- 조회 SQL -->
+	
+	
+	<!-- LIST 전체 조회 SQL -->
+	<select id="selectBoardQnAList" resultMap="boardQnA-commentQnA-resultmap">
+		 SELECT b.BOARD_QNA_ID, b.BOARD_QNA_TITLE, b.BOARD_QNA_TXT, b.BOARD_QNA_DATE, b.MEMBER_ID,
+		 		c.COMMENT_QNA_ID, c.COMMENT_QNA_TXT, c.COMMENT_QNA_DATE, c.ADMIN_ID
+		 FROM BOARD_QNA b, COMMENT_QNA c
+		 WHERE b.BOARD_QNA_ID =c.BOARD_QNA_ID(+)
+	</select> 	
+	
+	<!-- LIST 중에서 memberId로 조회하는 SQL -->
+	<select id="selectBoardQnAByMemberId" parameterType="string" resultMap="boardQnA-commentQnA-resultmap">
+		 SELECT b.BOARD_QNA_ID, b.BOARD_QNA_TITLE, b.BOARD_QNA_TXT, b.BOARD_QNA_DATE, b.MEMBER_ID,
+		 		c.COMMENT_QNA_ID, c.COMMENT_QNA_TXT, c.COMMENT_QNA_DATE, c.ADMIN_ID
+		 FROM BOARD_QNA b, COMMENT_QNA c
+		 WHERE b.BOARD_QNA_ID =c.BOARD_QNA_ID(+)
+		 AND b.MEMBER_ID = #{value}
+	</select>
+	
+		<!-- LIST 중에서 ID로 조회하는 SQL -->
+	<select id="selectBoardQnAById" parameterType="_int" resultMap="boardQnA-commentQnA-resultmap">
+		 SELECT b.BOARD_QNA_ID, b.BOARD_QNA_TITLE, b.BOARD_QNA_TXT, b.BOARD_QNA_DATE, b.MEMBER_ID,
+		 		c.COMMENT_QNA_ID, c.COMMENT_QNA_TXT, c.COMMENT_QNA_DATE, c.ADMIN_ID
+		 FROM BOARD_QNA b, COMMENT_QNA c
+		 WHERE b.BOARD_QNA_ID =c.BOARD_QNA_ID(+)
+		 AND b.BOARD_QNA_ID = #{value}
+	</select>
+
+</mapper>
