@@ -27,8 +27,8 @@ form{display:inline}
 <a href="${initParam.rootPath}/boardnotice/boardnoticelist.do"><input type="submit" value="공지사항"/></a>
 <sec:csrfInput/>
 </form>
-<form action="${initParam.rootPath}/boardqna/boardQnAList.do" method="post">
-<a href="${initParam.rootPath}/boardqna/boardqna_list.do"><input type="submit" value="QnA"/></a>
+<form action="${initParam.rootPath}/common/boardqna/boardQnAList.do" method="post">
+<a href="${initParam.rootPath}/common/boardqna/boardqna_list.do"><input type="submit" value="QnA"/></a>
 <sec:csrfInput/>
 </form>
 

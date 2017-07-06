@@ -161,5 +161,6 @@ a:hover{
 
 </p>
 <a href="${initParam.rootPath}/boardnotice/boardnotice_form.do"><button>등록</button></a>
+<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 </body>
 </html>

@@ -12,11 +12,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.turnup_fridger.service.BoardQnAService;
 import kr.co.turnup_fridger.service.CommentQnAService;
+import kr.co.turnup_fridger.validation.CommentQnAValidator;
 import kr.co.turnup_fridger.vo.BoardQnA;
 import kr.co.turnup_fridger.vo.CommentQnA;
 
 @Controller
-@RequestMapping("/commentqna/")
+@RequestMapping("/common/commentqna/")
 public class CommentQnAController extends HttpServlet {
 	
 		@Autowired
@@ -32,11 +33,23 @@ public class CommentQnAController extends HttpServlet {
 
 			ModelAndView mav = new ModelAndView();
 			
+			CommentQnAValidator validator = new CommentQnAValidator();
+			validator.validate(commentQnA, errors);
+			if(errors.hasErrors()) 
+			{
+				//errors에 오류가 1개라도 등록되 있으면 true 리턴
+				mav.setViewName("common/boardqna/boardqna_view");
+				mav.addObject("commentQnA",commentQnA);
+				mav.addObject("boardQnA", service2.findBoardQnAById(boardQnAId));
+				
+				return mav; 
+			}
+			
 			service.addCommentQnA(commentQnA);
 			
 			mav.addObject("commentQnA",commentQnA);
 			mav.addObject("boardQnA", service2.findBoardQnAById(boardQnAId));
-			mav.setViewName("boardqna/boardqna_view");
+			mav.setViewName("common/boardqna/boardqna_view");
 			return mav;
 		}
 
@@ -50,7 +63,7 @@ public class CommentQnAController extends HttpServlet {
 			
 			BoardQnA boardQnA = service2.findBoardQnAById(boardQnAId);
 			mav.addObject("boardQnA", boardQnA);
-			mav.setViewName("boardqna/boardqna_view");
+			mav.setViewName("common/boardqna/boardqna_view");
 	        return mav; 
 
 		}	
@@ -61,7 +74,7 @@ public class CommentQnAController extends HttpServlet {
 		{
 			ModelAndView mav = new ModelAndView();
 			
-			mav.setViewName("boardqna/commentqna_upload");
+			mav.setViewName("common/boardqna/commentqna_upload");
 			
 			mav.addObject("commentQnA", service.selectCommentQnAById(commentQnAId));
 		    
@@ -78,7 +91,7 @@ public class CommentQnAController extends HttpServlet {
 				
 				mav.addObject("commentQnA",commentQnA);
 				mav.addObject("boardQnA", service2.findBoardQnAById(boardQnAId));
-				mav.setViewName("boardqna/boardqna_view");
+				mav.setViewName("common/boardqna/boardqna_view");
 		    
 			return mav;
 

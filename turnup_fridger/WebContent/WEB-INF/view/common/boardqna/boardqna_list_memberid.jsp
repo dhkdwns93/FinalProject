@@ -29,12 +29,16 @@ form{display:inline}
 <body>
 
 
-<form action="${initParam.rootPath}/boardqna/boardQnAByMemberId.do" method="post">
+<form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
+	QnA > ${row.memberId}검색
 	<input type="text" name="memberId" placeholder="아이디를 입력해주세요">
 	<button>검색</button>
 	<sec:csrfInput/>
 </form>
-
+<form action="${initParam.rootPath}/common/boardqna/boardQnAList.do" method="post">
+	<button>전체보기</button>
+	<sec:csrfInput/>
+</form>
 
 
 <table border="1" width="600px">
@@ -51,7 +55,7 @@ form{display:inline}
 <c:forEach var="row" items="${list}">
     <tr>
         <td>${row.boardQnAId}</td>
-        <td><a href="${initParam.rootPath}/boardqna/boardQnAView.do?boardQnAId=${row.boardQnAId}">${row.boardQnATitle}</a></td>
+        <td><a href="${initParam.rootPath}/common/boardqna/boardQnAView.do?boardQnAId=${row.boardQnAId}">${row.boardQnATitle}</a></td>
         <td>
             <fmt:formatDate value="${row.boardQnAdate}" pattern="yyyy-MM-dd"/>
         </td>
@@ -65,7 +69,7 @@ form{display:inline}
 														페이징 처리
 			###################################################### --%>
 	<!-- 첫페이지로 이동 -->
-	<a href="${initParam.rootPath}/boardqna/boardQnAList.do?page=1">첫페이지</a>
+	<a href="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do?page=1&memberId=${requestScope.memberId}">첫페이지</a>
 
 	<!--
 		이전 페이지 그룹 처리.
@@ -74,7 +78,7 @@ form{display:inline}
 	<c:choose>
 		<c:when test="${requestScope.pageBean.previousPageGroup}">
 			<%-- 이전페이지 그룹이 있디면 : previousPageGroup()--%>
-			<a href="${initParam.rootPath }/boardqna/boardQnAList.do?page=${requestScope.pageBean.beginPage - 1}">☜</a>
+			<a href="${initParam.rootPath }/common/boardqna/boardQnAByMemberId.do?page=${requestScope.pageBean.beginPage - 1}&memberId=${requestScope.memberId}">☜</a>
 		</c:when>
 		<c:otherwise>
 				☜	
@@ -89,17 +93,14 @@ form{display:inline}
 		<c:forEach begin="${requestScope.pageBean.beginPage}" end="${requestScope.pageBean.endPage}" var="page">
 			<c:choose>
 				<c:when test="${requestScope.pageBean.page != page}"> <%-- 현재패이지가 아니라면 --%>
-					<a href="${initParam.rootPath}/boardqna/boardQnAList.do?page=${page}">&nbsp;${page}&nbsp;</a>
+					<a href="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do?page=${page}&memberId=${requestScope.memberId}">&nbsp;${page}&nbsp;</a>
 				</c:when>
 				<c:otherwise>
 					&nbsp;[${page}]&nbsp;
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
-	
 
-	
-	
 	<!-- 
 		다음페이지 그룹으로 이동
 		만약에 다음페이지 그룹이 있으면 링크 처리 없으면 화살표만 나오도록 처리
@@ -107,28 +108,22 @@ form{display:inline}
 	<c:choose>
 		<c:when test="${requestScope.pageBean.nextPageGroup}">
 			<%-- 다음페이지 그룹이 있디면 : nextPageGroup()--%>
-			<a href="${initParam.rootPath }/boardqna/boardQnAList.do?page=${requestScope.pageBean.endPage + 1}">☞</a>
+			<a href="${initParam.rootPath }/common/boardqna/boardQnAByMemberId.do?page=${requestScope.pageBean.endPage + 1}&memberId=${requestScope.memberId}">☞</a>
 		</c:when>
 		<c:otherwise>
 				☞		
 		</c:otherwise>
 	</c:choose>			
 	
-	
-	
-	
-	
-	
-	
+
 	<!-- 마지막 페이지로 이동 -->
-	<a href="${initParam.rootPath}/boardqna/boardQnAList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
-
-
-
-
-
+	<a href="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do?page=${requestScope.pageBean.totalPage}&memberId=${requestScope.memberId}">마지막페이지</a>
 </p>
-<a href="${initParam.rootPath}/boardqna/boardqna_form.do"><button>등록</button></a>
+
+<!-- 회원만 등록 가능 -->
+ <sec:authorize access="hasRole('ROLE_MEMBER')">
+ 	<a href="${initParam.rootPath}/common/boardqna/boardqna_form.do"><button>등록</button></a>
+ </sec:authorize>
 <a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 </body>
 </html>

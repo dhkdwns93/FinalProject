@@ -35,9 +35,11 @@ public class BoardNoticeController extends HttpServlet {
 	@Autowired
 	private BoardNoticeDao dao;
 	
+	//이미지 경로
 	private String eclipseDir = "C:\\Java\\eclipse\\workspace_web\\turnup_fridger2\\WebContent\\up_image"; 
 	
 	
+	//카피
 	private void copyToEclipseDir(String newImageName, MultipartFile upImage) throws Exception{
 		File eclipseDest = new File(eclipseDir, newImageName);
 		FileOutputStream fo = new FileOutputStream(eclipseDest);
@@ -55,7 +57,7 @@ public class BoardNoticeController extends HttpServlet {
 	
 	//전체 리스트
 	@RequestMapping("boardNoticeList")
-	public ModelAndView boardNoticeList(@RequestParam(defaultValue="1") int page) throws Exception
+	public ModelAndView boardNoticeList(@RequestParam(defaultValue="1") int page)
 	{  
 	    Map<String, Object> map = service.findBoardNoticeList(page);
 	
@@ -73,7 +75,7 @@ public class BoardNoticeController extends HttpServlet {
 	//말머리 조회
 	@RequestMapping("boardNoticeByItems")
 	//@ResponseBody
-	public ModelAndView boardNoticeById(@RequestParam String items, @RequestParam(defaultValue="1") int page) throws Exception
+	public ModelAndView boardNoticeById(@RequestParam String items, @RequestParam(defaultValue="1") int page)
 	{
 		/*int p =  Integer.parseInt(page);
 	
@@ -102,9 +104,9 @@ public class BoardNoticeController extends HttpServlet {
 	} 
 	
 	
+	
 	//상세보기
 	@RequestMapping("boardNoticeView")
-	@ResponseBody
 	public ModelAndView boardNoticeView(@RequestParam int id)
 	{
 		ModelAndView mav = new ModelAndView();
@@ -119,7 +121,7 @@ public class BoardNoticeController extends HttpServlet {
 	
 	//등록
 	@RequestMapping(value="boardNoticeAdd", method = RequestMethod.POST)
-	 public ModelAndView insert(@ModelAttribute BoardNotice boardNotice,BindingResult errors, HttpServletRequest request) throws Exception
+	 public ModelAndView boardNoticeAdd(@ModelAttribute BoardNotice boardNotice,BindingResult errors, HttpServletRequest request) throws Exception
 	{
 			BoardNoticeValidator validator = new BoardNoticeValidator();
 			validator.validate(boardNotice, errors);
@@ -168,7 +170,7 @@ public class BoardNoticeController extends HttpServlet {
 	
 	
 	
-	//수정 폼
+	//수정 폼 이동
 	@RequestMapping("boardNoticeUploadView")
 	@ResponseBody
 	public ModelAndView boardNoticeUploadView(@RequestParam int id)

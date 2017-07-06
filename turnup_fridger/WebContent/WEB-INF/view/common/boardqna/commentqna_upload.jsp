@@ -6,12 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger2/scripts/jquery.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 function upload_event(){
 	if (confirm("등록 하시겠습니까??") == true){    
 		//확인
-		location.href="/turnup_fridger2/boardqna/boardqna_view.do";
+		location.href="/turnup_fridger/common/boardqna/boardqna_view.do";
 	}else{   
 		//취소
 	    return false;
@@ -26,7 +26,7 @@ window.onload = function(){
 </script>
 </head>
 <body>
-<form name="form" id="form" action="${initParam.rootPath}/commentqna/boardQnAUploadForm.do" method="post" >
+<form name="form" id="form" action="${initParam.rootPath}/common/commentqna/boardQnAUploadForm.do" method="post" >
 
 	<table border="1">
 		<tr>

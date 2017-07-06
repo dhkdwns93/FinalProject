@@ -19,7 +19,7 @@ span.error {
 </style>
 </head>
 <body>
-	<form action="${initParam.rootPath}/boardnotice/boardNoticeAdd.do" enctype="multipart/form-data">
+	<form action="${initParam.rootPath}/boardnotice/boardNoticeAdd.do?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		<table>
 			<tr>
