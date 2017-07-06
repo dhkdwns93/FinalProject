@@ -17,12 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.turnup_fridger.exception.DuplicatedFridgerException;
+import kr.co.turnup_fridger.exception.FindFridgerFailException;
+import kr.co.turnup_fridger.exception.FindMemberFailException;
 import kr.co.turnup_fridger.service.FridgerGroupService;
 import kr.co.turnup_fridger.service.FridgerService;
 import kr.co.turnup_fridger.service.JoinProcessService;
 import kr.co.turnup_fridger.validation.form.FridgerForm;
 import kr.co.turnup_fridger.validation.form.JoinProcessForm;
-import kr.co.turnup_fridger.vo.Authority;
 import kr.co.turnup_fridger.vo.Fridger;
 import kr.co.turnup_fridger.vo.FridgerGroup;
 import kr.co.turnup_fridger.vo.JoinProcess;
@@ -49,9 +50,10 @@ public class FridgerController {
 	
 	
 	
-	//냉장고 생성 handler (우선 시큐리티 제외, 맵퍼에 주석처리하고 해야함)
+	//냉장고 생성 handler 
 	@RequestMapping("register")
 	public ModelAndView registerFridger(@ModelAttribute("fridger") @Valid FridgerForm fridgerForm, BindingResult errors ) {
+		System.out.println(fridgerForm);//log
 		// 요청 파라미터 검증 끝
 		if(errors.hasErrors()){
 			return new ModelAndView("common/member/fridger/register_form");
@@ -69,7 +71,6 @@ public class FridgerController {
 		try {
 			// 2) 냉장고 DB에 저장(서비스단에서 냉장고 그룹생성 과정 처리)
 			fridgerService.createFridger(fridger);
-
 		} catch (DuplicatedFridgerException e) {	//냉장고 이름중복되면 예외발생
 			return new ModelAndView("common/member/fridger/register_form", "errorMsg", e.getMessage());
 		}
@@ -95,38 +96,49 @@ public class FridgerController {
 		if(!member.getMemberId().equals(fridger.getMemberId())){
 			return new ModelAndView();
 		}
+		System.out.println("체크하고 jsp로");
 		return new ModelAndView("common/member/fridger/update_form", "fridger", fridger );
 	}
 	
 	// 냉장고 정보 갱신 handler(주인 바꾸기, 이름바꾸기)
 	@RequestMapping("update")
-	public ModelAndView updateFridger(@ModelAttribute("fridger") @Valid FridgerForm fridgerForm, BindingResult errors ){
+	public ModelAndView updateFridger(@ModelAttribute("fridger") @Valid FridgerForm fridgerForm, BindingResult errors ) {
 		// 요청 파라미터 검증 끝
+		System.out.println("넘어오나 우선 보자");
+		fridger = new Fridger();
 		if(errors.hasErrors()){
+			fridger.setResultCode("FAIL");
 			return new ModelAndView("common/member/fridger/update_form");
 		}
 		
-		// 1) 빈 냉장고 생성 해서 검증된 fridgerForm 넣기
-		fridger = new Fridger();
 		BeanUtils.copyProperties(fridgerForm, fridger);
+		fridger.setResultCode("SUCCESS");
 		System.out.println("냉장고 수정 로그:"+fridger);	//log
-
 		
-		try {
-			fridgerService.updateFridger(fridger);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ModelAndView("common/member/fridger/update_form", "errorMsg", e.getMessage());
-		}
+	
+			try {
+				fridgerService.updateFridger(fridger);
+			} catch (FindFridgerFailException e) {
+				e.printStackTrace();
+				fridger.setResultCode("FAIL");
+				return new ModelAndView("common/member/fridger/update_form", "errorMsg_fridgerId", e.getMessage());
+			} catch (DuplicatedFridgerException e) {
+				e.printStackTrace();
+				fridger.setResultCode("FAIL");
+				return new ModelAndView("common/member/fridger/update_form", "errorMsg_fridgerName",e.getMessage());
+			} catch (FindMemberFailException e) {
+				e.printStackTrace();//log
+				fridger.setResultCode("FAIL");
+				return new ModelAndView("common/member/fridger/update_form", "errorMsg_memberId", e.getMessage());
+			}
 		
-		return new ModelAndView("redirect:update/success.do", "fridgerId", fridger.getFridgerId());
+	return new ModelAndView("redirect:update/success.do", "fridgerId", fridger.getFridgerId());
 	}
 	
 	@RequestMapping("update/success")
-	public void updateSuccess(@RequestParam int fridgerId ) throws Exception{
+	public ModelAndView updateSuccess(@RequestParam int fridgerId ) throws Exception{
 		fridger = fridgerService.findFridgerByFridgerId(fridgerId);
-		
-		//return new ModelAndView("common/member/fridger/update_success", "fridger", fridger);
+		return new ModelAndView("common/member/fridger/update_success", "fridger", fridger);
 	}
 	
 	

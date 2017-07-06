@@ -36,7 +36,7 @@ $(document).ready(function(){
 					'memberId': $("input#memberId").val(),
 					'${_csrf.parameterName}':'${_csrf.token}'
 					},
-			"dataType":"text",
+			"dataType":"json",
 			"beforeSend":function(){	
 				if(confirm("수정하시겠습니까?") != true){
 					return false;
@@ -44,14 +44,13 @@ $(document).ready(function(){
 			},
 			"success": function(result){
 				console.log(result);
-				if(result == "success"){
-				window.opener.location.reload;
-				self.close();
-				}
-				location.reload;
-				
-		
-				
+			   if(result.resultCode=="SUCCESS"){
+				  	window.opener.name = "parentPage"; // 부모창의 이름 설정
+					document.fridgerUpdateForm.target = "parentPage"; // 타켓을 부모창으로 설정
+					document.fridgerUpdateForm.submit();
+					self.close();
+			   }
+				   
 		     },
 	        "error":function(xhr, msg, code){
 				alert("오류발생-" + code);
@@ -69,60 +68,15 @@ $(document).ready(function(){
 
 <script type="text/javascript">
 $(document).ready(function(){
-	
+	window.opener.location.reload;
+	self.close();
 });
 </script>
 <body>
-	<h2>냉장고 업뎃폼</h2>	
-	<form name="fridgerUpdateForm" action="${ initParam.rootPath }/common/member/fridger/update.do" method="post">
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-		<table>
-			<tr>
-				<th>냉장고 ID</th>
-				<td><input type="text" name="fridgerId" id="fridgerId" value="${ requestScope.fridger.fridgerId }" readonly="readonly">
-				<span class="error"><form:errors
-							path="fridger.fridgerId" delimiter="&nbsp;"/>
-							<c:if test="${ requestScope.errorMsg_fridgerId != null }">
-							${ requestScope.errorMsg_fridgerId }
-							</c:if>
-							</span></td>
-			
-			</tr>
-			<tr>
-				<th>냉장고 이름</th>
-				<td><input type="text" name="fridgerName" id="fridgerName"
-					value="${ param.fridgerName }" placeholder="${ requestScope.fridger.fridgerName }">
-					<span class="error"><form:errors
-							path="fridger.fridgerName" delimiter="&nbsp;" />
-							<c:if test="${ requestScope.errorMsg_fridgerName != null }">
-							${ requestScope.errorMsg_fridgerName }
-							</c:if>
-							</span></td>
-			</tr>
-			<!-- 회원id는 principal 값으로  -->
-			<tr>
-				<th>냉장고주인ID</th>
-				<sec:authentication property="principal.memberId" var="memberId"/>
-				<td><input type="text" name="memberId" id="memberId" 
-					placeholder="${ memberId }">
-					<span class="error"><form:errors
-							path="fridger.memberId" delimiter="&nbsp;" />
-							<c:if test="${ requestScope.errorMsg_memberId != null }">
-							${ requestScope.errorMsg_memberId }
-							</c:if>
-							</span>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<input type="submit" id="submitBtn" value="업데이트">
-					<input type="reset" value="초기화">
-				</td>
-			</tr>
-		</table>
-		
-	</form>
-
+<h2>업뎃 성공했다</h2>
+냉장고 ID : ${ requestScope.fridger.fridgerId }<br>
+냉장고 이름 : ${ requestScope.fridger.fridgerName }<br>
+냉장고 주인 : ${ requestScope.fridger.memberId }<br>
 
 </body>
 </html>
