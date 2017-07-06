@@ -30,9 +30,17 @@ public interface CommentQnADao {
 	int deleteCommentQnA(int id);
 	
 	/**
-	 * CommentQnA 상세정보를 보여주는 메소드
+	 * CommentQnA 리스트를 보여주는 메소드
 	 * @return
 	 * 작성자 : 김장규
 	 */
 	List<CommentQnA> selectCommentQnAList();
+	
+	/**
+	 * CommentQnA 상세정보를 보여주는 메소드
+	 * @return
+	 * 작성자 : 김장규
+	 */
+	CommentQnA selectCommentQnAById(int commentQnAId);	
+	
 }

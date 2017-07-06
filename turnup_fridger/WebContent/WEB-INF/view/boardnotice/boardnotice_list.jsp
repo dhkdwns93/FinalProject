@@ -53,14 +53,13 @@ a:hover{
 <body>
 
 <form action="${initParam.rootPath}/boardnotice/boardNoticeByItems.do" method="post">
+<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 <select name="items" id="items" value="${requestScope.items}">
-	 <!-- 검색조건을 검색처리후 결과화면에 보여주기위해  c:out 출력태그 사용, 삼항연산자 -->
 	<option value="전체보기">전체보기</option>
 	<option value="공지사항" >공지사항</option>
 	<option value="뉴스" >뉴스</option>
-	<input type="submit" value="검색"/>
 </select>
-<sec:csrfInput/>
+<input type="submit" value="검색"/>
 </form>
 <table border="1" width="600px">
 <thead id="thead">

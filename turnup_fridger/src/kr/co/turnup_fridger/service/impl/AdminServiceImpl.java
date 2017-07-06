@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.turnup_fridger.dao.AdminDao;
 import kr.co.turnup_fridger.dao.AuthorityDao;
@@ -35,6 +36,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	@Transactional
 	public void changeAdminInfo(Admin admin) {
 		//패스워드 암호화 처리 
 	//	admin.setAdminPw(passwordEncoder.encode(admin.getAdminPw()));
@@ -54,6 +56,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	@Transactional
 	public void registerAdmin(Admin admin) throws RegisterAdminFailException {
 		//전체 user들 관리테이블인 Authority테이블에 같은 Id있으면 관리자 등록 불가.
 		if(authorityDao.selectAuthorityById(admin.getAdminId())!=null){
@@ -68,6 +71,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	@Transactional
 	public void changeAdminAuthority(String adminId, String adminAuthority) {
 		Admin existAdmin=adminDao.selectAdminById(adminId);
 		existAdmin.setAdminAuthority(adminAuthority);
@@ -78,6 +82,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteAdmin(String adminId) {
 		//Admin 테이블 해당 관리자 삭제 //-head마스터 삭제못하게 후에 수정해야함
 		adminDao.deleteAdminById(adminId);

@@ -10,7 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.turnup_fridger.service.MyMemoService;
 import kr.co.turnup_fridger.validation.form.MyMemoForm;
@@ -23,11 +26,12 @@ public class MemoController {
 	@Autowired
 	private MyMemoService service;
 	
-	@RequestMapping(value="addMemo", produces="text/html;charset=UTF-8") // ajax사용시 produces해줘야 한글 깨지지않음!
-	public String addMemo(@ModelAttribute("MyMemo") @Valid MyMemoForm memoForm, Errors err){
-		
+	// 메모등록
+	@RequestMapping(value="addMemo", method=RequestMethod.POST) // ajax사용시 produces해줘야 한글 깨지지않음!
+	public ModelAndView addMemo(@ModelAttribute("myMemo") @Valid MyMemoForm memoForm, Errors err){
+		System.out.println("== memo add ===");
 		if(err.hasErrors()){
-			return "등록실패";
+			return new ModelAndView("common/member/memo/memo_register_form");
 		}
 		
 		MyMemo m = new MyMemo();
@@ -35,56 +39,55 @@ public class MemoController {
 		try {
 			service.insertMemo(m);
 		} catch (Exception e) {
-			return e.getMessage();
+			return new ModelAndView("common/member/memo/memo_register_form", "error", e.getMessage());
 		}
-		return "등록완료";
+		System.out.println("=== memo add!! ===");
+		return new ModelAndView("common/member/memo/memoList");
 	}
-	
-	@RequestMapping(value="delMemo", produces="text/html;charset=UTF-8")
-	@ResponseBody
-	public String removeMemo(int memoId, Errors err){
-		if(err.hasErrors()){
-			return "삭제실패";
-		}
+	// 메모삭제
+	@RequestMapping(value="delMemo")
+	public ModelAndView removeMemo(@RequestParam int memoId){
 			try {
 				service.deleteMemo(memoId);
 			} catch (Exception e) {
-				return "error!";
+				return new ModelAndView("common/member/memo/memoDetail", "error", e.getMessage());
 			}
-			return "삭제 완료";
+			return new ModelAndView("common/member/memo/memoList");
 	}
-	
-	@RequestMapping(value="modMemo", produces="text/html;charset=UTF-8")
-	public String modMemo(MyMemo memo){
+	// 메모수정
+	@RequestMapping(value="modMemo")
+	public ModelAndView modMemo(String memoName, String memoTxt){
+		System.out.println("======= 메모수정 =======");
+		MyMemo memo = new MyMemo();
+		memo.setMemoName(memoName);
+		memo.setmemoTxt(memoTxt);
 		try {
 			service.updateMemo(memo);
 		} catch (Exception e) {
-			return "error!";
+			return  new ModelAndView("common/member/memo/memo_update_form", "error", e.getMessage());
 		}
-		return "수정 완료";
+		return new ModelAndView("common/member/memo/memoList");
 	}
 	
 	// 내가 쓴 메모목록
-	@RequestMapping(value="memoList", produces="text/html;charset=UTF-8")
+	@RequestMapping(value="memoList", produces="application/json;charset=UTF-8")
 	@ResponseBody
 	public List<MyMemo> selectMemoByMember(String memberId){
-/*		List<MyMemo> list = service.selectMemoList("shh");
-		for(MyMemo m : list){
-			System.out.println(m);
-		}*/
+		System.out.println("======= MemoList =======");
+		System.out.println(service.selectMemoList(memberId));
 		return service.selectMemoList(memberId);
 	}
 	
 	// 메모하나 상세보기
-	@RequestMapping(value="/findOneMemo", produces="text/html;charset=UTF-8")
-	@ResponseBody
-	public MyMemo selectOneMemo(int memoId){
-		
-		return service.selectOneMemo(memoId);
+	@RequestMapping("findOneMemo")
+	public ModelAndView selectOneMemo(String memId){
+		int memoId = Integer.parseInt(memId);
+		MyMemo mm = service.selectOneMemo(memoId);
+		return new ModelAndView("common/member/memo/memoDetail", "memo", mm);
 	}
 	
 	// 내가 쓴 메모개수
-	@RequestMapping(value="/findMemoCount", produces="text/html;charset=UTF-8")
+	@RequestMapping(value="/findMemoCount")
 	@ResponseBody
 	public int selectMemoCount(String memberId){
 		

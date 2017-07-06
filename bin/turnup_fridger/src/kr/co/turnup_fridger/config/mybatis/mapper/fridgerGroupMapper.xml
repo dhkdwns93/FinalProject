@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.co.turnup_fridger.config.mybatis.mapper.fridgerGroupMapper">
+	
+	<!-- 냉장고그룹 select sql -->
+	<sql id="select">
+	SELECT  	group_key,
+				group_join_seq,
+				group_member_id,
+				fridger_id
+	FROM		fridger_group	
+	</sql>
+	
+	<!-- 냉장고그룹 +냉장고 select sql -->
+	<sql id="select-fridger">
+	SELECT  	fg.group_key,
+				fg.group_join_seq,
+				fg.group_member_id,
+				fg.fridger_id,
+				f.fridger_Id,
+				f.fridger_name
+	FROM		fridger_group fg, fridger f	
+	WHERE	fg.fridger_id = f.fridger_id
+	</sql>
+	
+	
+	<!-- 냉장고그룹 resultMap -->
+	<resultMap type="fridgerGroup" id="fridger_group-resultmap">
+		<id 	  column="group_key" 	  		property="groupKey"/>
+		<result column="group_join_seq" 		property="groupJoinSeq"/>
+		<result column="group_member_id" 	property="groupMemberId"/>
+		<result column="fridger_id" 		  		property="fridgerId"/>
+	</resultMap>
+	
+	<!-- 냉장고그룹 + 냉장고 resultMap -->
+	<resultMap type="fridgerGroup" id="fridger_group-fridger-resultmap" extends="fridger_group-resultmap">
+		<association property="fridger" javaType="kr.co.turnup_fridger.vo.Fridger">
+			<result column="fridger_id" 		property="fridgerId"/>
+			<result column="fridger_name"  property="fridgerName"/>
+		</association>
+	</resultMap>	
+	
+	<!-- ================================== -->
+	
+	<!-- 냉장고그룹 생성 - 공유멤버 추가 -->
+	<insert id="insertFridgerGroup" parameterType="fridgerGroup">
+		<selectKey order="BEFORE" keyProperty="groupKey" resultType="_int">
+			select group_key.nextval from dual
+		</selectKey>
+		INSERT INTO fridger_group
+		VALUES(
+					#{groupKey},
+					#{groupJoinSeq},
+					#{groupMemberId},
+					#{fridgerId}
+		)
+	</insert>
+	
+	<!-- 냉장고그룹 삭제 - 공유멤버 탈퇴 -->
+	<delete id="deleteFridgerGroup" parameterType="String">
+		DELETE FROM fridger_group WHERE group_member_id = #{value}
+	</delete>
+	
+	<!-- ============= select =============== -->
+	
+	<!-- 회원id로 공유멤버조회 -->
+	<select id="selectFridgerGroupByGroupMemberId" parameterType="String" resultMap="fridger_group-resultmap">
+		<include refid="select"/>
+		WHERE group_member_id = #{value}
+	</select>
+	
+	<!-- 한 냉장고의 공유멤버 리스트 조회 - 가입순서 정렬 - fridger_id로 -->
+	<select id="selectFridgerGroupByFridgerId" parameterType="_int" resultMap="fridger_group-resultmap">
+		<include refid="select"/>
+		WHERE fridger_id = #{value}
+		ORDER BY group_join_seq
+	</select>
+	
+	<!-- 한 냉장고의 총 공유멤버 수 조회 - fridger_id로 -->
+	<select id="selectFridgerGroupCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) FROM fridger_group WHERE fridger_id = #{value}
+	</select>
+	
+</mapper>

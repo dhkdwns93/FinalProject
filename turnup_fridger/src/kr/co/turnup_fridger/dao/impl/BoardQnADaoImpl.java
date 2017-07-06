@@ -1,6 +1,8 @@
 package kr.co.turnup_fridger.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,13 +49,25 @@ public class BoardQnADaoImpl implements BoardQnADao{
 		return session.delete(makeSqlId("deleteBoardQnA"),id);
 	}
 
+	
+	
+	
+	
+	@Override
+	public int selectBoardQnACount() {
+		// TODO Auto-generated method stub
+		return session.selectOne(makeSqlId("selectBoardQnACount"));
+	}
 	/**
-	 * QnA 목록 조회(댓글 포함)
+	 * QnA 목록 조회
 	 * 작성자 - 김장규
 	 */
 	@Override
-	public List<BoardQnA> selectBoardQnAList() {
-		return session.selectList(makeSqlId("selectBoardQnAList"));
+	public List<BoardQnA> selectBoardQnAList(int startIndex, int endIndex) {
+		Map<String, Integer> input = new HashMap<String, Integer>();
+		input.put("startIndex",startIndex);
+		input.put("endIndex",endIndex);
+		return session.selectList(makeSqlId("selectBoardQnAList"),input);
 	}
 
 	/**
@@ -65,13 +79,27 @@ public class BoardQnADaoImpl implements BoardQnADao{
 		return session.selectOne(makeSqlId("selectBoardQnAById"),id);
 	}
 
+	
+	
+	
+	
+	
+	@Override
+	public int selectBoardQnAByMemberIdCount(String memberId) {
+		return session.selectOne(makeSqlId("selectBoardQnAByMemberIdCount"),memberId);
+	}
+
 	/**
-	 * QnA MemberId로 조회(댓글 포함)
+	 * QnA MemberId로 조회
 	 * 작성자 - 김장규
 	 */
 	@Override
-	public List<BoardQnA> selectBoardQnAByMemberId(String id) {
-		return session.selectList(makeSqlId("selectBoardQnAByMemberId"), id);
+	public List<BoardQnA> selectBoardQnAByMemberId(String memberId,int startIndex, int endIndex) {
+		Map<String, Object> input = new HashMap<String, Object>();
+		input.put("memberId",memberId);
+		input.put("startIndex",startIndex);
+		input.put("endIndex",endIndex);
+		return session.selectList(makeSqlId("selectBoardQnAByMemberId"), input);
 	}
 	
 	

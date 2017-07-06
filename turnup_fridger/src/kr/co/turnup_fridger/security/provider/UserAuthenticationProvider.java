@@ -1,3 +1,11 @@
+/**
+ (AuthenticationProvider)UserAuthenticationProvider
+작성자 : 
+최초 작성일 
+변경이력
+-
+170705 headmaster권한 추가
+*/
 package kr.co.turnup_fridger.security.provider;
 
 import java.util.ArrayList;
@@ -81,7 +89,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider{
 		}
 		
 		//권한이 admin(+masterAdmin)이면 vo.admin객체를 담아 리턴.
-		if(userAuthority.equals("ROLE_ADMIN")||userAuthority.equals("ROLE_MASTERADMIN")){
+		if(userAuthority.equals("ROLE_ADMIN")||userAuthority.equals("ROLE_MASTERADMIN")||userAuthority.equals("ROLE_HEADMASTERADMIN")){
 			//ID체크	
 			Admin admin=adminDao.selectAdminById(loginId);
 			if(admin==null){//해당ID의 회원이 없으면 로그인 실패
@@ -96,7 +104,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider{
 			//===========(인증성공)==============
 			List<SimpleGrantedAuthority> list=new ArrayList<>();
 			list.add(new SimpleGrantedAuthority(userAuthority));
-			//System.out.println("User..Provider"+list);//확인용
+			System.out.println("User..Provider"+list);//확인용
 			return new UsernamePasswordAuthenticationToken(admin,null,list);
 		}
 		return null;//- 인증 실패 : Exception을 던지거나 return null 인 경우 스프링 시큐리티 컨테이너는 인증실패로처리

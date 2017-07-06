@@ -12,6 +12,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+form{display:inline}
+</style>
 </head>
 <body>
 <h1>★☆★냉장고 털ㄴ업★☆★</h1>
@@ -22,6 +25,10 @@
 <!-- 장규/준 -->
 <form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
 <a href="${initParam.rootPath}/boardnotice/boardnoticelist.do"><input type="submit" value="공지사항"/></a>
+<sec:csrfInput/>
+</form>
+<form action="${initParam.rootPath}/boardqna/boardQnAList.do" method="post">
+<a href="${initParam.rootPath}/boardqna/boardqna_list.do"><input type="submit" value="QnA"/></a>
 <sec:csrfInput/>
 </form>
 

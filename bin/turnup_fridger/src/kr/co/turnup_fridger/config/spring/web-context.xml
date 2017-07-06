@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+ (spring-context)web-context
+작성자 :  
+최초 작성일 
+변경이력 
+170703 (경혜) 회원,관리자 관리와 관련된 view-controller 등록
+ -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+ 	
+	<context:component-scan base-package="kr.co.turnup_fridger.controller"/>
+	<mvc:annotation-driven/>
+
+	
+	<!-- 장규 view controler등록 -->
+	<!-- 단순 링크 등록 -->
+	<mvc:view-controller path="/index.do" view-name="index"/>
+	<!-- 공지사항 목록 페이지 -->
+	<mvc:view-controller path="/boardnotice/boardnotice_list.do" view-name="boardnotice/boardnotice_list"/>
+	<!-- 공지사항 목록 페이지 -->
+	<mvc:view-controller path="/boardnotice/boardnotice_list_items.do" view-name="boardnotice/boardnotice_list"/>
+	<!-- 공지사항 등록 폼 페이지 -->
+	<mvc:view-controller path="/boardnotice/boardnotice_form.do" view-name="boardnotice/boardnotice_form"/>
+	<!-- 공지사항 상세페이지 -->
+	<mvc:view-controller path="/boardnotice/boardnotice_view.do" view-name="boardnotice/boardnotice_view"/>
+	<!-- 공지사항 수정 폼 페이지 -->
+	<mvc:view-controller path="/boardnotice/boardnotice_upload.do" view-name="boardnotice/boardnotice_upload"/>	
+
+	<!-- 경혜 view controller등록-->
+	<!-- /** -->
+	<!-- 사용자관리 view 모여있는 곳을으로 이동 (나중에 삭제)  -->
+	<mvc:view-controller path="/index_kh.do" view-name="user/index_kh"/>
+	<!-- user(전체사용자) 로그인 -->
+	<mvc:view-controller path="/login_form.do" view-name="user/login_form"/>
+	<!-- 회원가입 -->
+	<mvc:view-controller path="/join_member_form.do" view-name="user/join_member_form"/>
+	<!-- 회원가입성공 -->
+	<mvc:view-controller path="/join_member_success.do" view-name="user/join_member_success"/>
+	
+	
+	<!-- /common/member -->
+	<!-- 마이페이지(개인회원정보조회) -->
+	<mvc:view-controller path="/common/member/member_mypage.do" view-name="common/member/user/member_mypage"/>
+	<!-- 회원정보수정 -->
+	<mvc:view-controller path="/common/member/member_change_info.do" view-name="common/member/user/member_change_info"/>
+	<!-- 회원탈퇴페이지 -->
+	<mvc:view-controller path="/common/member/member_delete_form.do" view-name="common/member/user/member_delete_form"/>
+
+	<!-- 냉장고 리스트 페이지 (검색) -->
+	<mvc:view-controller path="/common/member/fridger/list.do" view-name="common/member/fridger/list"/>
+	<!-- 냉장고 등록 페이지 -->
+	<mvc:view-controller path="/common/member/fridger/register_form.do" view-name="common/member/fridger/register_form"/>
+	<!-- 냉장고 초대 페이지 -->
+	<mvc:view-controller path="/common/member/fridger/invite_form.do" view-name="common/member/fridger/invite_form"/>
+	<!-- 냉장고 그룹 가입처리 리스트 (검색) -->
+	<mvc:view-controller path="/common/member/fridger/joinProcess/list.do" view-name="common/member/fridger/joinProcess/list"/>
+	<!-- 재료관리 목록 페이지   -->
+	<mvc:view-controller path="/common/admin/irdntManage/irdntList.do" view-name="common/admin/irdntManage/irdntList"/>
+	<!-- 재료관리 등록폼 페이지   -->
+	<mvc:view-controller path="/common/admin/irdntManage/irdnt_form.do" view-name="common/admin/irdntManage/irdnt_form"/>
+	<!-- 나의 식재료 목록 페이지   -->
+	<mvc:view-controller path="/common/member/myIrdnt/myIrdntList.do" view-name="common/member/myIrdnt/myIrdntList"/>
+	<!-- 나의 식재료 등록폼 페이지   -->
+	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_form.do" view-name="common/member/myIrdnt/myIrdnt_form"/>
+	
+	<!-- 권한 없을 경우 에러페이지 -->
+	<mvc:view-controller path="/error/access_denied.do" view-name="error/access_denied"/>
+
+	<bean name="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/WEB-INF/view/"
+		p:suffix=".jsp"/>	
+		
+	<!-- properties파일 등록 -->
+	<bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"
+		p:basename="kr.co.turnup_fridger.validation.message.error_message"
+		p:defaultEncoding="UTF-8"/>	
+</beans>

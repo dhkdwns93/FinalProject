@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fridgerMapper">
+
+<!-- 공동 select sql -->
+<sql id="select-sql">
+	SELECT	fridger_id,
+			fridger_name,
+			member_id
+	FROM	fridger
+</sql>
+
+<sql id="select-join-myIrdnt-sql">
+	SELECT	f.fridger_id,
+			f.fridger_name,
+			f.member_id,
+			i.my_irdnt_key,
+			i.start_date,
+			i.end_date,
+			i.fresh_level,
+			i.irdnt_id,
+			i.irdnt_name,
+			i.irdnt_count,
+			i.fridger_id
+	FROM	fridger f, myIrdnt i
+	WHERE	f.fridger_id = i.fridger_id
+</sql>
+
+<sql id="select-join-fridgerGroup-sql">
+	SELECT	f.fridger_id,
+			f.fridger_name,
+			f.member_id,
+			g.group_key,
+			g.group_join_seq,
+			g.group_member_id,
+			g.fridger_id
+	FROM	fridger f, fridger_group g
+	WHERE	f.fridger_id = g.fridger_id
+</sql>
+
+
+<!-- result-mapping -->
+<resultMap type="fridger" id="fridger-resultmap">
+	<id column="fridger_id" property="fridgerId"/>
+	<result column="fridger_name" property="fridgerName"/>
+	<result column="member_id" property="memberId"/>
+</resultMap>
+
+
+<resultMap type="fridger" id="fridger-fridgerGroup-resultmap" extends="fridger-resultmap">
+	<collection property="fridgerGroupList" ofType="fridgerGroup">
+	  <id column="group_key" property="groupKey"/>
+      <result column="group_join_seq" property="groupJoinSeq"/>
+      <result column="group_member_id" property="groupMemberId"/>
+      <result column="fridger_id" property="fridgerId"/>
+	</collection>
+</resultMap>
+
+<resultMap type="fridger" id="fridger-myIrdnt-resultmap" extends="fridger-resultmap">
+	<collection property="myIrdntList" ofType="myIrdnt">
+	  <id column="my_irdnt_key" property="myIrdntKey"/>
+      <result column="start_date" property="startDate"/>
+      <result column="end_date" property="endDate"/>
+      <result column="fresh_level" property="freshLevel"/>
+      <result column="irdnt_count" property="irdntCount"/>
+      <result column="irdnt_id" property="irdntId"/>
+      <result column="irdnt_name" property="irdntName"/>
+      <result column="fridger_id" property="fridgerId"/>
+	</collection>
+</resultMap>
+
+
+
+<!-- sql : insert 냉장고 생성하기 ()-->
+<!-- insert / update / delete -->
+
+<insert id="insertFridger" parameterType="fridger">
+	<selectKey order="BEFORE" keyProperty="fridgerId" resultType="int">
+			SELECT	fridger_ID.nextval FROM	dual
+	</selectKey>
+	INSERT INTO	FRIDGER
+	VALUES(
+		#{fridgerId},
+		#{fridgerName},
+		#{memberId}
+	)
+</insert>
+
+
+<update id="updateFridger" parameterType="fridger">
+UPDATE	fridger
+SET		fridger_name = #{fridgerName},
+		member_id = #{memberId}
+WHERE	fridger_id = #{fridgerId}
+</update>
+
+<delete id="deleteFridger" parameterType="_int">
+DELETE FROM	fridger
+WHERE		fridger_id = #{value}
+</delete>
+
+
+<!-- select -->
+<!-- 전체 조회 -->
+<select id="selectFridgerAll" resultMap="fridger-resultmap">
+	<include refid="select-sql"/>
+	ORDER BY fridger_id
+</select>
+<!-- 냉장고 번호로 찾기 -->
+<select id="selectFridgerByFridgerId" parameterType="_int" resultMap="fridger-resultmap">
+	<include refid="select-sql"/>
+WHERE fridger_id = #{value}
+</select>
+
+<select id="selectFridgerAndIrdntByFridgerId" parameterType="_int" resultMap="fridger-myIrdnt-resultmap">
+	<include refid="select-join-myIrdnt-sql"/>
+AND		f.fridger_id = #{value}
+ORDER BY	i.irdnt_name
+</select>
+
+<select id="selectFridgerAndFridgerGroupByFridgerId" parameterType="_int" resultMap="fridger-fridgerGroup-resultmap">
+	<include refid="select-join-fridgerGroup-sql"/>
+AND		f.fridger_id = #{value}
+ORDER BY	g.group_member_id
+</select>
+
+
+
+<!-- 냉장고 애칭으로 찾기 -->
+<select id="selectFridgerByFridgerFullName" parameterType="java.lang.String" resultMap="fridger-resultmap">
+	<include refid="select-sql"/>
+WHERE fridger_name = #{value}
+</select>
+
+<select id="selectFridgerByFridgerName" parameterType="java.lang.String" resultMap="fridger-resultmap">
+	<include refid="select-sql"/>
+WHERE fridger_name LIKE '%'||#{value}||'%'
+</select>
+
+<select id="selectFridgerAndIrdntByFridgerName" parameterType="java.lang.String" resultMap="fridger-myIrdnt-resultmap">
+	<include refid="select-join-myIrdnt-sql"/>
+AND			f.fridger_name = #{value}
+ORDER BY	i.irdnt_name
+</select>
+
+<select id="selectFridgerAndFridgerGroupByFridgerName" parameterType="java.lang.String" resultMap="fridger-fridgerGroup-resultmap">
+	<include refid="select-join-fridgerGroup-sql"/>
+AND			f.fridger_name = #{value}
+ORDER BY	g.group_member_id
+</select>
+
+
+<!-- 냉장고 주인으로 찾기 -->
+<select id="selectFridgerByOwnerId" parameterType="java.lang.String" resultMap="fridger-resultmap">
+	<include refid="select-sql"/>
+WHERE	member_id = #{value}
+</select>
+
+<select id="selectFridgerAndIrdntByOwnerId" parameterType="java.lang.String" resultMap="fridger-myIrdnt-resultmap">
+	<include refid="select-join-myIrdnt-sql"/>
+AND			f.member_id = #{value}
+ORDER BY	i.irdnt_name
+</select>
+
+<select id="selectFridgerAndFridgerGroupByOwnerId" parameterType="java.lang.String" resultMap="fridger-fridgerGroup-resultmap">
+	<include refid="select-join-fridgerGroup-sql"/>
+AND			f.member_id = #{value}
+ORDER BY	g.group_member_id
+</select>
+
+	
+</mapper>

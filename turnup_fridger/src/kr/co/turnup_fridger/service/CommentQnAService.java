@@ -28,9 +28,18 @@ public interface CommentQnAService {
 	void removeCommentQnA(int id);
 	
 	/**
-	 * 댓글 정보를 조회 하는 메소드
+	 * 댓글 리스트를 조회 하는 메소드
 	 * 작성자 - 김장규
 	 * @return
 	 */
 	List<CommentQnA> selectCommentQnAList();
+	
+	
+	/**
+	 * 댓글 상세 정보를 조회 하는 메소드
+	 * 작성자 - 김장규
+	 * @return
+	 */
+	CommentQnA selectCommentQnAById(int commentQnAId);
+	
 }

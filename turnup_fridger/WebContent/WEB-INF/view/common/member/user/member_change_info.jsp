@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!-- 
- (jsp)member_mypage
+ (jsp)member_change_info
 작성자 :  김경혜
 최초 작성일 170704
 변경이력 
