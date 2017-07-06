@@ -29,7 +29,7 @@ public interface FridgerService {
 	 * @param fridger
 	 * @throws Exception 
 	 */
-	void removeFridger(int fridgerId) throws Exception;
+	void removeFridger(int fridgerId) throws FindFridgerFailException;
 	
 	
 	/**

@@ -8,21 +8,6 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-a:link{
-	/*방문하지 않은 링크 설정.*/
-	text-decoration:none; /*밑줄 안나오도록 처리.*/
-	color:black;
-}
-a:visited{
-	/*방문한 링크 설정*/
-	text-decoration: none;
-	color:black;
-}
-a:hover{
-	/*마우스 포인터가 올라간 시점의 설정.*/
-	text-decoration: underline;
-	color:red;
-}
 form{display:inline}
 </style>
 </head>
@@ -55,7 +40,26 @@ form{display:inline}
 <c:forEach var="row" items="${list}">
     <tr>
         <td>${row.boardQnAId}</td>
-        <td><a href="${initParam.rootPath}/common/boardqna/boardQnAView.do?boardQnAId=${row.boardQnAId}">${row.boardQnATitle}</a></td>
+        <td>
+        	<form action="${initParam.rootPath}/common/boardqna/boardQnAView.do" method="get">
+        	<!-- 회원일때 보여줌 -->
+        	<sec:authorize access="hasRole('ROLE_MEMBER')">
+        		<input type="hidden" name="member" value="<sec:authentication property="principal.memberId"></sec:authentication>"> 
+        		<input type="hidden" name="admin" value="">
+        		<input type="hidden" name="memberId" value="${row.memberId}">
+				<button value="${row.boardQnAId}" name="boardQnAId" style="background-color:white;border:0">${row.boardQnATitle}</button>  
+			</sec:authorize>
+        
+     		<!-- 관리자일때 보여줌 -->	
+     		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN')">
+				<input type="hidden" name="admin" value="<sec:authentication property="principal.adminId"></sec:authentication>"> 
+				<input type="hidden" name="member" value="">
+				<input type="hidden" name="memberId" value="${row.memberId}">
+				<button value="${row.boardQnAId}" name="boardQnAId" style="background-color:white;border:0">${row.boardQnATitle}</button>  
+			</sec:authorize>
+			<sec:csrfInput/>
+		</form>
+        </td>
         <td>
             <fmt:formatDate value="${row.boardQnAdate}" pattern="yyyy-MM-dd"/>
         </td>

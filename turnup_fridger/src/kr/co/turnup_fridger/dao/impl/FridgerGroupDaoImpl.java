@@ -27,7 +27,13 @@ public class FridgerGroupDaoImpl implements FridgerGroupDao{
 	public int deleteFridgerGroup(String groupMemberId) {
 		return session.delete(sql+"deleteFridgerGroup", groupMemberId);
 	}
+
 	
+	@Override
+	public int deleteFridgerGroupByFridgerId(int groupFridgerId) {
+		return session.delete(sql+"deleteFridgerGroupByFridgerId", groupFridgerId);
+	}
+
 	@Override
 	public FridgerGroup selectFridgerGroupByGroupMemberId(String groupMemberId) {
 		return session.selectOne(sql+"selectFridgerGroupByGroupMemberId", groupMemberId);

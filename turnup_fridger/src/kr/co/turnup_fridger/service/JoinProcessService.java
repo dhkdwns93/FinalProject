@@ -36,7 +36,7 @@ public interface JoinProcessService {
 	 * @param processNoList
 	 * @return
 	 */
-	int removeJoinProcessByProcessNo(ArrayList<Integer> processNoList) throws Exception;
+	int removeJoinProcessByProcessNo(ArrayList<Integer> processNoList);
 	
 	/**
 	 * 처리상태가  승인대기상태로 14일이 경과한 건 삭제

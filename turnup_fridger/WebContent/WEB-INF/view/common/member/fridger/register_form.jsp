@@ -18,8 +18,9 @@
 			<tr>
 				<th>냉장고 이름</th>
 				<td><input type="text" name="fridgerName"
-					value="${ param.fridgerName }"> <span class="error"><form:errors
-							path="fridger.fridgerName" delimiter="&nbsp;" />
+					value="${ param.fridgerName }">
+					<span class="error"><form:errors
+							path="fridger.fridgerName" delimiter="&nbsp;"/>
 							<c:if test="${ requestScope.errorMsg_fridgerName != null }">
 							${ requestScope.errorMsg_fridgerName }
 							</c:if>
