@@ -55,6 +55,14 @@ public class CommentQnADaoImpl implements CommentQnADao{
 	public List<CommentQnA> selectCommentQnAList() {
 		return session.selectList(makeSqlId("selectCommentQnAList"));
 	}
+
+	@Override
+	public CommentQnA selectCommentQnAById(int commentQnAId) {
+		// TODO Auto-generated method stub
+		return session.selectOne(makeSqlId("selectCommentQnAById"),commentQnAId);
+	}
+	
+	
 	
 	
 }

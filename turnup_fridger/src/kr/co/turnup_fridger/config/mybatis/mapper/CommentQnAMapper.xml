@@ -31,11 +31,14 @@
 	
 	<!-- 등록 SQL -->
 	<insert id="insertCommentQnA" parameterType="commentQnA">
+		<selectKey resultType="int" keyProperty="commentQnAId" order="BEFORE">
+			select COMMENT_QNA_ID.nextval from dual
+		</selectKey>
 		INSERT INTO COMMENT_QNA 
 		VALUES(
 				#{commentQnAId},
 				#{commentQnATxt},
-				#{commentQnADate},
+				sysdate,
 				#{adminId},
 				#{memberId},
 				#{boardQnAId}
@@ -46,7 +49,7 @@
 	<update id="updateCommentQnA" parameterType="commentQnA">
 		UPDATE 	COMMENT_QNA 
 		SET		COMMENT_QNA_TXT = #{commentQnATxt},
-				COMMENT_QNA_DATE = #{commentQnADate},
+				COMMENT_QNA_DATE = sysdate,
 				ADMIN_ID = #{adminId},
 				MEMBER_ID = #{memberId},
 				BOARD_QNA_ID = #{boardQnAId}
@@ -62,5 +65,14 @@
 	<select id="selectCommentQnAList" resultMap="commentQnA-resultmap">
 		<include refid="commentQnA-select-sql"></include>
 	</select> 
+
+	<!-- id 조회 SQL -->
+	<select id="selectCommentQnAById" resultMap="commentQnA-resultmap">
+		<include refid="commentQnA-select-sql"></include>
+		WHERE COMMENT_QNA_ID = #{commentQnAId}
+	</select> 
+
+
+
 
 </mapper>

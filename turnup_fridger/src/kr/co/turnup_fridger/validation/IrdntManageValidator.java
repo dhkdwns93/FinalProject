@@ -17,7 +17,7 @@ public class IrdntManageValidator implements Validator{
 	public void validate(Object target, Errors errors) {
 		IrdntManage irdnt = (IrdntManage) target;
 		
-		//ValidationUtils.rejectIfEmptyOrWhitespace(errors, "irdntId", "requried");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "irdntId", "requried");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "irdntName", "requried");
 
 		if(irdnt.getRoomTemPeriod()<0 || irdnt.getRoomTemPeriod()>1000){

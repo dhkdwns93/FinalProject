@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.co.turnup_fridger.config.mybatis.mapper.BoardNoticeMapper">
+	
+	<!-- 
+			boardNotice 테이블 관련 mapper
+			+ boardNotice 등록
+			+ boardNotice 수정
+			+ boardNotice 삭제
+			+ boardNotice 조회
+	 -->
+	 
+	<sql id="all-column">
+		BOARD_NOTICE_ID, BOARE_NOTICE_ITEMS, BOARD_NOTICE_TITLE, 
+		BOARD_NOTICE_TXT, BOARD_NOTICE_IMG, BOARD_NOTICE_SAVE_IMG, BOARD_NOTICE_DATE
+	</sql> 
+	 
+	 
+	 
+	<!-- boardNotice 기본 조회 sql -->
+	<sql id="boardNotice-select-sql">
+		SELECT BOARD_NOTICE_ID, BOARE_NOTICE_ITEMS, BOARD_NOTICE_TITLE, 
+		       BOARD_NOTICE_TXT, BOARD_NOTICE_IMG, BOARD_NOTICE_SAVE_IMG, BOARD_NOTICE_DATE
+		FROM BOARD_NOTICE
+	</sql>
+	
+	<!-- ResultMap 등록 -->
+	<resultMap id="boardNotice-resultmap" type="boardNotice">
+		<id column="BOARD_NOTICE_ID" property="id"/>
+		<result column="BOARE_NOTICE_ITEMS" property="items"/>
+		<result column="BOARD_NOTICE_TITLE" property="title"/>
+		<result column="BOARD_NOTICE_TXT" property="txt"/>
+		<result column="BOARD_NOTICE_IMG" property="img"/>
+		<result column="BOARD_NOTICE_SAVE_IMG" property="saveImg"/>
+		<result column="BOARD_NOTICE_DATE" property="date"/>
+	</resultMap>
+	
+	<!-- 등록 SQL -->
+	<insert id="insertBoardNotice" parameterType="boardNotice">
+		<selectKey resultType="_int" keyProperty="id" order="BEFORE">
+			select BOARD_NOTICE_ID.nextval from dual
+		</selectKey>
+		INSERT INTO BOARD_NOTICE
+		VALUES(
+				#{id},
+				#{items},
+				#{title},
+				#{txt},
+				#{img},
+				#{saveImg},
+				sysdate
+			   )	
+	</insert>
+	
+	
+	<!-- 업데이트 SQL -->
+	<update id="updateBoardNotice" parameterType="boardNotice">
+		UPDATE 	BOARD_NOTICE 
+		SET		BOARE_NOTICE_ITEMS = #{items},
+				BOARD_NOTICE_TITLE = #{title},
+				BOARD_NOTICE_TXT = #{txt},
+				BOARD_NOTICE_IMG = #{img},
+				BOARD_NOTICE_SAVE_IMG = #{saveImg},
+				BOARD_NOTICE_DATE = SYSDATE
+		WHERE	BOARD_NOTICE_ID = #{id}
+	</update>
+	
+	<!-- 삭세 SQL-->
+	<delete id="deleteBoardNotice" parameterType="_int">
+		DELETE FROM BOARD_NOTICE WHERE BOARD_NOTICE_ID = #{id}
+	</delete>
+	
+	
+	
+	
+	<!-- 조회 SQL -->
+	<!-- BOARD_NOTICE 카운트  -->
+	<select id = "selectBoardNoticeCount" resultType="_int">
+		SELECT COUNT(*) FROM BOARD_NOTICE
+	</select>
+	
+	
+	
+	<!-- LIST 전체 조회 SQL -->
+	<select id="selectBoardNoticeList" parameterType="map" resultMap = "boardNotice-resultmap">
+		SELECT <include refid="all-column"/>
+			FROM
+			(
+				SELECT ROWNUM RNUM, <include refid="all-column"/>
+				FROM(
+					<include refid="boardNotice-select-sql"/>
+					ORDER BY BOARD_NOTICE_DATE DESC
+					)
+			WHERE ROWNUM &lt;=#{endIndex}
+			)
+		WHERE RNUM>=#{startIndex}
+	</select> 
+	
+	
+	
+	<!-- LIST 중에서 ID로 조회하는 SQL -->
+	<select id="selectBoardNoticeById" parameterType="_int" resultMap="boardNotice-resultmap">
+		<include refid="boardNotice-select-sql"/>
+		WHERE BOARD_NOTICE_ID = #{id}
+		ORDER BY BOARD_NOTICE_DATE DESC
+	</select>
+	
+	
+	
+		<!-- LIST 중에서 ITEMS로 조회하는 SQL  -->
+	<select id="selectBoardNoticeByItemsCount" parameterType="map" resultType="int" >
+		SELECT COUNT(*)
+		FROM BOARD_NOTICE
+		WHERE BOARE_NOTICE_ITEMS LIKE #{items}
+	</select>	
+
+	
+
+	<select id="selectBoardNoticeByItems" parameterType="map" resultMap="boardNotice-resultmap">
+	SELECT <include refid="all-column"/>
+			FROM
+			(
+				SELECT ROWNUM RNUM, <include refid="all-column"/>
+				FROM
+					(
+						<include refid="boardNotice-select-sql"/>	
+							 <choose>
+							 	<when test="items == null">
+						            ORDER BY BOARD_NOTICE_DATE DESC 
+						        </when>
+						        <!-- 검색옵션이 전체 검색일 경우 -->
+						        <when test="items == '전체보기'">
+						            ORDER BY BOARD_NOTICE_DATE DESC 
+						        </when>
+						        <!-- 전체 검색이 아닐 경우 -->
+						        <otherwise>
+						            WHERE BOARE_NOTICE_ITEMS LIKE '%'||#{items}||'%'
+						            ORDER BY BOARD_NOTICE_DATE DESC
+						        </otherwise>
+						    </choose>
+					)	
+				WHERE ROWNUM &lt;=#{endIndex}
+			)
+			WHERE RNUM>=#{startIndex}
+	</select>
+
+
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.co.turnup_fridger.config.mybatis.mapper.shopMapper">
+	
+	<!-- sql -->
+	<sql id="select">
+	SELECT	shop_id,
+				shop_name,
+				shop_address,
+				shop_img
+	FROM 	shop 
+	</sql>
+	
+	<resultMap type="shop" id="shop-resultmap">
+		<id column="shop_id" property="shopId"/>
+		<result column="shop_name" property="shopName"/>
+		<result column="shop_address" property="shopAddress"/>
+		<result column="shop_img" property="shopImg"/>
+	</resultMap>
+
+	<!-- shop 등록 -->
+	<insert id="insertShop" parameterType="shop">
+		<selectKey order="BEFORE" keyProperty="shopId" resultType="_int">
+			SELECT shop_id.nextval
+			FROM  dual
+		</selectKey>
+		INSERT INTO shop 
+		VALUES(
+					#{shopId}, 
+					#{shopName}, 
+					#{shopAddress}, 
+					#{shopImg}
+		)
+	</insert>
+	
+	<!-- shop 삭제 -->
+	<delete id="deleteShop" parameterType="_int">
+		DELETE FROM shop 
+		WHERE shop_id = #{shopId}
+	</delete>
+	
+	<!-- 하나의 shop 조회 -id로 -->
+	<select id="selectShopById" parameterType="_int" resultMap="shop-resultmap">
+		<include refid="select"/>
+		WHERE shop_id = #{value}
+	</select>
+	
+	<!-- shop 전체조회 -->
+	<select id="selectShopList" resultMap="shop-resultmap">
+		<include refid="select"/>
+	</select>
+
+	<!-- shop 총 개수 조회 -->
+	<select id="selectShopCount" resultType="_int">
+		SELECT COUNT(shop_id) FROM shop
+	</select>
+</mapper>

@@ -5,6 +5,8 @@
 최초 작성일 
 변경이력 
 170703 (경혜) 회원,관리자 관리와 관련된 view-controller 등록
+170704 (경혜) 회원,관리자 관리와 관련된 view-controller 등록
+170705 (경혜) 관리자 관리와 관련된 view-controller 등록
  -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -20,13 +22,13 @@
 	<context:component-scan base-package="kr.co.turnup_fridger.controller"/>
 	<mvc:annotation-driven/>
 
-	
-	<!-- 장규 view controler등록 -->
 	<!-- 단순 링크 등록 -->
 	<mvc:view-controller path="/index.do" view-name="index"/>
+	
+	<!-- 장규 view controler등록 -->
 	<!-- 공지사항 목록 페이지 -->
 	<mvc:view-controller path="/boardnotice/boardnotice_list.do" view-name="boardnotice/boardnotice_list"/>
-	<!-- 공지사항 목록 페이지 -->
+	<!-- 공지사항 items 목록 페이지 -->
 	<mvc:view-controller path="/boardnotice/boardnotice_list_items.do" view-name="boardnotice/boardnotice_list"/>
 	<!-- 공지사항 등록 폼 페이지 -->
 	<mvc:view-controller path="/boardnotice/boardnotice_form.do" view-name="boardnotice/boardnotice_form"/>
@@ -34,11 +36,25 @@
 	<mvc:view-controller path="/boardnotice/boardnotice_view.do" view-name="boardnotice/boardnotice_view"/>
 	<!-- 공지사항 수정 폼 페이지 -->
 	<mvc:view-controller path="/boardnotice/boardnotice_upload.do" view-name="boardnotice/boardnotice_upload"/>	
+	<!-- QNA 목록 페이지 -->
+	<mvc:view-controller path="/boardqna/boardqna_list.do" view-name="boardqna/boardqna_list"/>	
+	<!-- QNA memberId 목록 페이지 -->
+	<mvc:view-controller path="/boardqna/boardqna_list_memberid.do" view-name="boardqna/boardqna_list_memberid"/>	
+	<!-- QNA 상세페이지 -->
+	<mvc:view-controller path="/boardqna/boardqna_view.do" view-name="boardqna/boardqna_view"/>	
+	<!-- QNA 등록 폼 페이지 -->
+	<mvc:view-controller path="/boardqna/boardqna_form.do" view-name="boardqna/boardqna_form"/>	
+	<!-- QNA 수정 폼 페이지 -->
+	<mvc:view-controller path="/boardqna/boardqna_upload.do" view-name="boardqna/boardqna_upload"/>	
+	<!-- commentQNA 수정 폼 페이지 -->
+	<mvc:view-controller path="/boardqna/commentqna_upload.do" view-name="boardqna/commentqna_upload"/>	
 
 	<!-- 경혜 view controller등록-->
 	<!-- /** -->
 	<!-- 사용자관리 view 모여있는 곳을으로 이동 (나중에 삭제)  -->
 	<mvc:view-controller path="/index_kh.do" view-name="user/index_kh"/>
+	<!-- 403 권한 없음 에러 페이지 -->
+	<mvc:view-controller path="/error/access_denied.do" view-name="error/access_denied"/>
 	<!-- user(전체사용자) 로그인 -->
 	<mvc:view-controller path="/login_form.do" view-name="user/login_form"/>
 	<!-- 회원가입 -->
@@ -51,9 +67,26 @@
 	<mvc:view-controller path="/common/member/member_mypage.do" view-name="common/member/user/member_mypage"/>
 	<!-- 회원정보수정 -->
 	<mvc:view-controller path="/common/member/member_change_info.do" view-name="common/member/user/member_change_info"/>
-
 	<!-- 회원탈퇴페이지 -->
 	<mvc:view-controller path="/common/member/member_delete_form.do" view-name="common/member/user/member_delete_form"/>
+
+	<!-- /common/admin -->
+	<!-- 마이페이지(관리자정보조회) -->
+	<mvc:view-controller path="/common/admin/admin_mypage.do" view-name="common/admin/user/admin_mypage"/>
+	<!-- 전체관리자등록정보 조회 페이지 -->
+	<mvc:view-controller path="/common/admin/admin_list.do" view-name="common/admin/user/admin_list"/>
+	<!-- 관리자 개인정보수정 -->
+	<mvc:view-controller path="/common/admin/admin_change_info.do" view-name="common/admin/user/admin_change_info"/>
+	<!-- 전체개인회원정보 조회 페이지 -->
+	<mvc:view-controller path="/common/admin/member_list.do" view-name="common/admin/user/member_list"/>
+
+	<!-- /common/admin/master -->
+	<!-- 관리자등록 -->
+	<mvc:view-controller path="/common/admin/master/join_admin_form.do" view-name="common/admin/master/user/join_admin_form"/>
+	<!-- 관리자등록성공 -->
+	<mvc:view-controller path="/common/admin/master/join_admin_success.do" view-name="common/admin/master/user/join_admin_success"/>
+	
+	
 	<!-- 냉장고 리스트 페이지 (검색) -->
 	<mvc:view-controller path="/common/member/fridger/list.do" view-name="common/member/fridger/list"/>
 	<!-- 냉장고 등록 페이지 -->
@@ -84,8 +117,6 @@
 	<!-- 나의 식재료 등록폼 페이지   -->
 	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_form.do" view-name="common/member/myIrdnt/myIrdnt_form"/>
 	
-	<!-- 권한 없을 경우 에러페이지 -->
-	<mvc:view-controller path="/error/access_denied.do" view-name="error/access_denied"/>
 
 	<bean name="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:prefix="/WEB-INF/view/"

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+   namespace="kr.co.turnup_fridger.config.mybatis.mapper.IrdntManageMapper">
+   
+   <sql id="all-column">
+      irdnt_id,
+      irdnt_name,
+      irdnt_category,
+      room_tem_period,
+      cold_tem_period,
+      freeze_tem_period,
+      note
+   </sql>
+   
+   <resultMap type="IrdntManage" id="irdntManage-resultmap">
+      <id column="irdnt_id" property="irdntId"/>
+      <result column="irdnt_name" property="irdntName"/>
+      <result column="irdnt_category" property="irdntCategory"/>
+      <result column="room_tem_period" property="roomTemPeriod"/>
+      <result column="cold_tem_period" property="coldTemPeriod"/>
+      <result column="freeze_tem_period" property="freezeTemPeriod"/>
+      <result column="note" property="note"/>
+   </resultMap>
+
+   <insert id="insertIrdnt" parameterType="IrdntManage">
+      <selectKey resultType="_int" keyProperty="irdntId" order="BEFORE">
+         SELECT IRDNT_ID.nextval FROM dual
+      </selectKey>
+      insert into irdnt_Manage 
+      values (#{irdntId},#{irdntName},#{irdntCategory},#{roomTemPeriod},#{coldTempPeriod},#{freezeTemPeriod},#{note})
+   </insert>
+   
+   <update id="updateIrdnt" parameterType="IrdntManage">
+      update Irdnt_Manage
+      set irdnt_id=#{irdntId},
+         irdnt_name=#{irdntName},
+         irdnt_category=#{irdntCategory},
+         room_tem_period=#{roomTemPeriod},
+         cold_tem_period=#{coldTemPeriod},
+         freeze_tem_period=#{freezeTemPeriod},
+         note=#{note}               
+      where irdnt_id=#{irdntId}
+   </update>
+   
+   <delete id="deleteIrdnt" parameterType="_int">
+      delete from Irdnt_Manage
+      where irdnt_id=#{irdntId}
+   </delete>
+   
+   <select id="selectAllIrdnt" resultMap="irdntManage-resultmap">
+      SELECT
+      <include refid="all-column" />
+      FROM Irdnt_Manage
+      ORDER BY irdnt_id
+   </select>
+   
+   <select id="selectIrdntByName" resultMap="irdntManage-resultmap" parameterType="String">
+      SELECT
+      <include refid="all-column" />
+      FROM Irdnt_Manage
+      where irdnt_name like '%'||#{irdntName}||'%'
+      ORDER BY irdnt_id 
+   </select>
+   
+   <select id="selectIrdntByFullName" resultMap="irdntManage-resultmap" parameterType="String">
+      SELECT
+      <include refid="all-column" />
+      FROM Irdnt_Manage
+      where irdnt_name =#{irdntName}
+      ORDER BY irdnt_id 
+   </select>
+   
+   
+   <select id="selectIrdntById" resultMap="irdntManage-resultmap" parameterType="_int">
+      SELECT
+      <include refid="all-column" />
+      FROM Irdnt_Manage
+      where irdnt_id = #{irdntId}
+      ORDER BY irdnt_id
+   </select>
+   
+   <select id="selectIrdntByCategory" resultMap="irdntManage-resultmap" parameterType="String">
+      SELECT
+      <include refid="all-column" />
+      FROM Irdnt_Manage
+      where irdnt_Category = #{irdntCategory}
+      ORDER BY irdnt_id
+   </select>
+   
+   <select id="selectIrdntsBykeyword" resultMap="irdntManage-resultmap" parameterType="java.util.HashMap">
+      SELECT
+      <include refid="all-column" />
+      FROM Irdnt_Manage
+      where irdnt_name like '%'||#{irdntName}||'%' 
+       <choose>
+      	<when test="irdntCategory=='전체'">
+      	</when>
+      	<otherwise>
+      		and irdnt_category=#{irdntCategory}
+      	</otherwise>
+      	</choose>
+      ORDER BY irdnt_id
+   </select>
+   
+   <select id="selectAllIrdntCategory" resultType="java.lang.String">
+   	select distinct irdnt_category 
+   	from irdnt_manage
+   </select>
+   
+
+</mapper>

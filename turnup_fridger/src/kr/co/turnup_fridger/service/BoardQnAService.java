@@ -1,6 +1,7 @@
 package kr.co.turnup_fridger.service;
 
 import java.util.List;
+import java.util.Map;
 
 import kr.co.turnup_fridger.vo.BoardQnA;
 
@@ -32,7 +33,7 @@ public interface BoardQnAService {
 	 * @return
 	 * 작성자 - 김장규
 	 */
-	List<BoardQnA> findBoardQnAList();
+	Map<String, Object> findBoardQnAList(int page);
 	
 	/**
 	 * 저장된 QnA 정보 중 매개변수 ID를 가진 정보 조회하는 메소드
@@ -48,5 +49,5 @@ public interface BoardQnAService {
 	 * @return
 	 * 작성자 - 김장규
 	 */
-	List<BoardQnA> findBoardQnAByMemberId(String id);
+	Map<String, Object> findBoardQnAByMemberId(String memberId,int page);
 }

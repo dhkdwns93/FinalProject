@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+ (spring-context)web-context
+작성자 :  
+최초 작성일 
+변경이력 
+170703 (경혜) 회원,관리자 관리와 관련 설정
+ -->
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+<!-- spring sercurity 관련 설정 파일 -->
+<context:component-scan base-package="kr.co.turnup_fridger.security"/>
+<!--패스워드 자동으로 암호화해주는 Bean  -->
+<beans:bean name="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+
+
+<!--http 태그 : 웹 인증처리를 위한 설정을 하는 태그.  
+		- 하위태그 : intercept-url : 어떤 url경로요청은 어떤권한이 있어야 하는지 설정(경로-권한 매칭)
+									하위 url경로부터 잡아야한다. 
+									속성 : pattern -url 패턴지정 , access - 권한지정(Spring시큐리티 EL표현식 사용) 
+									EL표현식 : hasRole('권한명') , 
+												hasAnyRole('권한','권한'[, ....])-여러권한지정.
+												isAuthenticated()- 인증한 사용자. 
+												permitAll - 인증/권한이 필요없는 경우.
+												표현식 앞에 !-not 반대.
+					form-login : 로그인관련 설정
+								속성 : login-page="로그인폼 요청url" -> 로그인 안한사람이 isAuthenticated()가 필요한 요청했을때 이동할 페이지
+										login-processing-url="로그인처리를 요청하는 url경로" -> 
+					logout : 로그아웃관련설정
+							속성 : logout-url = "로그아웃 처리 요청url"
+-->
+
+				<!-- 관리자권한줄때 반드시 ROLE_**** 이런식으로 대문자!!  -->
+	<http>
+		<intercept-url pattern="/common/admin/master/**" access="hasRole('ROLE_MASTERADMIN')"/><!-- master만 -->
+		<intercept-url pattern="/common/admin/**" access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN')"/><!-- master, 관리자 -->
+		<intercept-url pattern="/common/member/**" access="hasRole('ROLE_MEMBER')"/><!-- member만 -->
+		<intercept-url pattern="/common/**" access="isAuthenticated()"/><!-- 로그인한 사람들 모두 : member, master, 관리자 -->
+		<intercept-url pattern="/**" access="permitAll"/><!-- 전체 -->
+		
+		<!-- 로그인관련설정  -->
+		<form-login
+						login-page="/login_form.do"
+						login-processing-url="/login.do"
+						username-parameter="userId"
+						password-parameter="userPw"
+						authentication-failure-handler-ref="loginFailHandler"
+						default-target-url="/index_kh.do"/> <!-- 로그인성공하면 index.do로 이동 -->
+		
+		<!-- 로그아웃관련설정 -->			
+		<logout logout-url="/common/logout.do" logout-success-url="/index_kh.do"/> <!-- 로그아웃하면 /user/index.kh.do로 이동 -->
+	
+		<!-- 사용자가 권한이 없는 요청을 한 경우 이동할 url등록, 등록하지 않으면 403에러페이지 -->
+		<access-denied-handler error-page="/error/access_denied.do"/>
+		
+		<!-- 중복로그인 방지 (/login_duplicate아직 안만듦) -->
+		<session-management>
+			<concurrency-control max-sessions="1" expired-url="/login_duplicate"/>
+		</session-management>
+		
+	</http>
+	
+	<!-- 인증(로그인)처리를 담당할 bean : AuthenticationProvider(security.privider-UserAuthenticationProvider에서 로그인처리) -->
+	<authentication-manager>
+		<authentication-provider ref="userAuthenticationProvider"/>
+	</authentication-manager>
+	
+
+	
+</beans:beans>

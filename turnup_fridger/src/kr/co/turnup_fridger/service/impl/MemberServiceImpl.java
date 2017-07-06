@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.turnup_fridger.dao.AuthorityDao;
 import kr.co.turnup_fridger.dao.MemberDao;
@@ -34,6 +35,7 @@ public class MemberServiceImpl implements MemberService {
 	
 	
 	@Override
+	@Transactional
 	public void signUpMember(Member member) throws SignUpMemberFailException{
 		//전체 user들 관리테이블인 Authority테이블에 같은 Id있으면 회원가입 불가
 		if(authorityDao.selectAuthorityById(member.getMemberId())!=null){
@@ -59,6 +61,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	@Transactional
 	public void changeMemberInfo(Member member) throws ChangeMemberInfoFailException {
 		//다른 기존회원 중 같은 이메일 사용 회원있으면 update불가.
 		Member existMember=memberDao.selectMemberByEmail(member.getMemberEmail());//바꾸려는 member정보중 이메일이
@@ -78,6 +81,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteMember(String memberId) {
 		//Member 테이블 해당 회원 삭제
 		memberDao.deleteMemberById(memberId);

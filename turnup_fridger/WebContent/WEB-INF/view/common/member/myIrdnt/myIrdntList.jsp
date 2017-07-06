@@ -7,27 +7,28 @@
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		$("button").on("click",function(){
-			alert("시작");	
+		
+		//기본적으로 가져오는 모든 재료 목록들. 
 		$.ajax({
-			"url"="/turnup_fridger/myIrdnt/allMyIrdntList.do",
-			"type"="POST", 
+			"url":"/turnup_fridger/common/member/myIrdnt/allMyIrdntList.do",
 			"dataType":"json", 
-			"success":function(obj){
-				alert("응답옴");
-				$("#thead").append("<tr><td>재료id</td><td>재료명</td><td>재료분류명</td><td>상온보관기간</td><td>냉장보관기간</td><td>냉동보관기간</td></tr>");
-				var txt="";
-				$.each(obj,function(){
-					txt += ("<tr><td>"+this.irdntId+"</td><td>"+this.irdntName+"</td><td>"+this.irdntCategory+
-							"</td><td>"+this.roomTemPeriod+"</td><td>"+this.coldTemPeriod+"</td><td>"+this.freezeTemPeriod+"</td></tr>");
+			"success":function(list){
+				$.each(list,function(){
+					
+					
 				});//each
-				$("#tbody").html(txt);
 			},//success
 			"error":function(errorMsg){
 				alert("오류다!");
 			} 
 		})//ajax
-		})//btn 
+		
+		//재료클릭 -> 재료 상세정보 팝업.-> 일단 보여주고, 수정하기 누르면 수정모드.
+		
+		//선택삭제
+		
+		//
+	
 	})
 
 </script>
@@ -54,12 +55,16 @@ td {
 
 
 <h2>나의 식재료 목록</h2><hr>
-<button type="button" id="list">나의 식재료 목록조회</button>
-<a href = "/turnup_fridger/myIrdnt/myIrdnt_form.do">재료추가</a>
+<a href = "/turnup_fridger/common/member/myIrdnt/myIrdnt_form.do">재료추가</a>
 
 <div id ="result">
 <table>
 	<thead id = "thead">
+		<tr>
+			<th></th>
+			<th></th>
+			<th></th>
+		</tr>
 	</thead>
 	<tbody id = "tbody"></tbody>
 	</table>

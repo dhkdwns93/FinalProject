@@ -8,15 +8,14 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -76,6 +75,9 @@ public class BoardNoticeController extends HttpServlet {
 	//@ResponseBody
 	public ModelAndView boardNoticeById(@RequestParam String items, @RequestParam(defaultValue="1") int page) throws Exception
 	{
+		/*int p =  Integer.parseInt(page);
+	
+		System.out.printf("%s,%d",items,p);*/
 		ModelAndView mav = new ModelAndView(); 
 		
 		Map<String, Object> map = service.findBoardNoticeByItmes(items,page);
@@ -116,8 +118,8 @@ public class BoardNoticeController extends HttpServlet {
 	 
 	
 	//등록
-	@RequestMapping("boardNoticeAdd")
-	 public ModelAndView insert(@ModelAttribute BoardNotice boardNotice,BindingResult errors, HttpServletRequest request, ModelMap map) throws Exception
+	@RequestMapping(value="boardNoticeAdd", method = RequestMethod.POST)
+	 public ModelAndView insert(@ModelAttribute BoardNotice boardNotice,BindingResult errors, HttpServletRequest request) throws Exception
 	{
 			BoardNoticeValidator validator = new BoardNoticeValidator();
 			validator.validate(boardNotice, errors);
@@ -127,6 +129,8 @@ public class BoardNoticeController extends HttpServlet {
 				return new ModelAndView("boardnotice/boardnotice_form"); 
 			}
 			
+			ModelAndView mav = new ModelAndView();
+			
 			String upImageDir = request.getServletContext().getRealPath("/up_image");
 			MultipartFile upImage = boardNotice.getUpImage();
 			
@@ -135,8 +139,9 @@ public class BoardNoticeController extends HttpServlet {
 			if (fname.equals("")) 
 			{
 				boardNotice.setSaveImg(null);
+				service.addBoardNotice(boardNotice);
 		    } 
-			if(upImage!=null && !upImage.isEmpty())
+			else if(upImage!=null && !upImage.isEmpty())
 			{
 				boardNotice.setImg(upImage.getOriginalFilename());
 				String newImageName = UUID.randomUUID().toString();
@@ -154,10 +159,11 @@ public class BoardNoticeController extends HttpServlet {
 				upImage.transferTo(dest);
 				//저장
 				service.addBoardNotice(boardNotice);
-				boardNotice = new BoardNotice(0,boardNotice.getItems(), boardNotice.getTitle(),boardNotice.getTxt(),boardNotice.getImg(),boardNotice.getSaveImg(),boardNotice.getDate() );
-				map.addAttribute("boardNotice", boardNotice);
-				}
-			return new ModelAndView("boardnotice/boardnotice_view");	
+			}
+			mav.addObject("boardNotice",boardNotice);
+			mav.setViewName("boardnotice/boardnotice_view");
+			mav.addObject("boardNotice", service.findBoardNoticeById(boardNotice.getId()));
+			return mav;	
 	}
 	
 	
@@ -188,6 +194,8 @@ public class BoardNoticeController extends HttpServlet {
 			return new ModelAndView("boardnotice/boardnotice_form"); 
 		}
 		
+		ModelAndView mav = new ModelAndView();
+		
 		String upImageDir = request.getServletContext().getRealPath("/up_image");
 		MultipartFile upImage = boardNotice.getUpImage();
 		
@@ -196,6 +204,7 @@ public class BoardNoticeController extends HttpServlet {
 		if (fname.equals("")) 
 		{
 			boardNotice.setSaveImg(null);
+			service.updateBoardNotice(boardNotice);
 	    } 
 		else if(upImage!=null && !upImage.isEmpty())
 		{
@@ -214,12 +223,12 @@ public class BoardNoticeController extends HttpServlet {
 			//파일 이동시키기
 			upImage.transferTo(dest);
 			//저장
-			service.addBoardNotice(boardNotice);
-		}else
-		{
-			return new ModelAndView("boardnotice/boardnotice_upload"); 
+			service.updateBoardNotice(boardNotice);
 		}
-		return new ModelAndView("boardnotice/boardnotice_view");
+		mav.addObject("boardNotice",boardNotice);
+		mav.setViewName("boardnotice/boardnotice_view");
+		mav.addObject("boardNotice", service.findBoardNoticeById(boardNotice.getId()));
+		return mav;	
 	}
 	
 	

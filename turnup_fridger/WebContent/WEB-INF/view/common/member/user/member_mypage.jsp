@@ -40,6 +40,10 @@
 		<th><sec:authentication property="principal.memberEmail"></sec:authentication></th>
 	</tr>
 	<tr>
+		<th>전화번호</th>
+		<th><sec:authentication property="principal.memberTel"></sec:authentication></th>
+	</tr>
+	<tr>
 		<th>성별</th>
 		<th><sec:authentication property="principal.memberSex"></sec:authentication></th>
 	</tr>

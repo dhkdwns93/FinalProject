@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="MyDislikeIrdnt">
+	
+	<sql id ="all-column">
+		my_dislike_irdnt_key,
+		member_id,
+		irdnt_id
+	</sql>
+	
+	<resultMap type="MyDislikeIrdnt" id="mydislikeirdnt-resultmap">
+		<id column="my_dislike_irdnt_key" property="myDislikeIrdntKey"/>
+		<result column ="member_id" property="memberId"/>
+		<result column ="irdnt_id" property="irdntId"/>
+	</resultMap>
+	
+	<insert id="insertMyDislikeIrdnt" parameterType="MyDislikeIrdnt">
+		<selectKey resultType="_int" keyProperty="myDislikeIrdntKey" order="BEFORE">
+			SELECT my_dislike_irdnt_key.nextval FROM dual
+		</selectKey>
+		insert into MY_DISLIKE_IRDNT 
+		values (#{myDislikeIrdntKey},#{memberId},#{irdntId})
+	</insert>
+	
+	<update id="updateMyDislikeIrdnt" parameterType="MyDislikeIrdnt">
+		update MY_DISLIKE_IRDNT
+		set my_dislike_irdnt_key=#{myDislikeIrdntKey},
+			member_id=#{memberId},
+			irdnt_id=#{irdntId}
+		where my_dislike_irdnt_key=#{myDislikeIrdntKey}
+	</update>
+	
+	<delete id="deleteMyDislikeIrdnt" parameterType="_int">
+		delete from MY_DISLIKE_IRDNT
+		where my_dislike_irdnt_key=#{myDislikeIrdntKey}
+	</delete>
+	
+	<select id="selectMyDislikeIrdntByMemberId" resultMap="mydislikeirdnt-resultmap" parameterType="java.lang.String">
+		SELECT
+		<include refid="all-column" />
+		FROM MY_DISLIKE_IRDNT
+		where member_id=#{value}
+	</select>
+	
+	<select id="selectMyDislikeIrdntByMyDislikeIrdntKey" resultMap="mydislikeirdnt-resultmap" parameterType="_int">
+		SELECT
+		<include refid="all-column" />
+		FROM MY_DISLIKE_IRDNT
+		where my_dislike_irdnt_key=#{value}
+	</select>
+</mapper>

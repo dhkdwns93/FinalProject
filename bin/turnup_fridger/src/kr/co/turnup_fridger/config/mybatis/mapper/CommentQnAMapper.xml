@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.co.turnup_fridger.config.mybatis.mapper.CommentQnAMapper">
+
+	<!-- 
+			CommentQnA 테이블 관련 mapper
+			+ CommentQnA 등록
+			+ CommentQnA 수정
+			+ CommentQnA 삭제
+			+ CommentQnA 조회
+	 -->
+
+	 <!-- CommentQnA 기본 조회 sql -->
+	 <sql id="commentQnA-select-sql">
+	 	SELECT COMMENT_QNA_ID, COMMENT_QNA_TXT, COMMENT_QNA_DATE, ADMIN_ID, MEMBER_ID, BOARD_QNA_ID
+	 	FROM COMMENT_QNA
+	 </sql>
+
+
+	<!-- ResultMap CommentQnA 등록 -->
+	<resultMap id="commentQnA-resultmap" type="commentQnA">
+		<id column="COMMENT_QNA_ID" property="commentQnAId"/>
+		<result column="COMMENT_QNA_TXT" property="commentQnATxt"/>
+		<result column="COMMENT_QNA_DATE" property="commentQnADate"/>
+		<result column="ADMIN_ID" property="adminId"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		<result column="BOARD_QNA_ID" property="boardQnAId"/>
+	</resultMap>
+	
+	
+	<!-- 등록 SQL -->
+	<insert id="insertCommentQnA" parameterType="commentQnA">
+		INSERT INTO COMMENT_QNA 
+		VALUES(
+				#{commentQnAId},
+				#{commentQnATxt},
+				#{commentQnADate},
+				#{adminId},
+				#{memberId},
+				#{boardQnAId}
+		  	  )
+	</insert>
+	
+	<!-- 업데이트 SQL -->
+	<update id="updateCommentQnA" parameterType="commentQnA">
+		UPDATE 	COMMENT_QNA 
+		SET		COMMENT_QNA_TXT = #{commentQnATxt},
+				COMMENT_QNA_DATE = #{commentQnADate},
+				ADMIN_ID = #{adminId},
+				MEMBER_ID = #{memberId},
+				BOARD_QNA_ID = #{boardQnAId}
+		WHERE	COMMENT_QNA_ID = #{commentQnAId}
+	</update>
+	
+	<!-- 삭세 SQL-->
+	<delete id="deleteCommentQnA" parameterType="_int">
+		DELETE FROM COMMENT_QNA WHERE COMMENT_QNA_ID = #{commentQnAId}
+	</delete>	
+	
+	<!-- LIST 전체 조회 SQL -->
+	<select id="selectCommentQnAList" resultMap="commentQnA-resultmap">
+		<include refid="commentQnA-select-sql"></include>
+	</select> 
+
+</mapper>
