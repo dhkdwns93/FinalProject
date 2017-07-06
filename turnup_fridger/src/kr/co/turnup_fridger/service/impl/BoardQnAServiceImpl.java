@@ -1,7 +1,9 @@
 package kr.co.turnup_fridger.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.turnup_fridger.dao.BoardQnADao;
 import kr.co.turnup_fridger.service.BoardQnAService;
+import kr.co.turnup_fridger.util.PagingBean;
 import kr.co.turnup_fridger.vo.BoardQnA;
 
 @Service
@@ -24,6 +27,19 @@ public class BoardQnAServiceImpl implements BoardQnAService {
 	 */
 	@Override
 	public void addBoardQnA(BoardQnA boardQnA) {
+        String title = boardQnA.getBoardQnATitle();
+        String txt = boardQnA.getBoardQnATxt();
+        // *태그문자 처리 (< ==> &lt; > ==> &gt;)
+        // replace(A, B) A를 B로 변경
+        title = title.replace("<", "&lt;");
+        title = title.replace("<", "&gt;");
+        // *공백문자 처리
+        title = title.replace("  ",    "&nbsp;&nbsp;");
+        // *줄바꿈 문자처리
+        txt = txt.replace("\n", "<br>");
+        boardQnA.setBoardQnATitle(title);
+        boardQnA.setBoardQnATitle(txt);
+  
 		dao.insertBoardQnA(boardQnA);
 	}
 
@@ -52,8 +68,16 @@ public class BoardQnAServiceImpl implements BoardQnAService {
 	 * 작성자 - 김장규
 	 */
 	@Override
-	public List<BoardQnA> findBoardQnAList() {
-		return dao.selectBoardQnAList();
+	public Map<String, Object> findBoardQnAList(int page) {
+		HashMap<String, Object> map = new HashMap<>();
+		int totalCount = dao.selectBoardQnACount();
+		PagingBean pageBean = new PagingBean(totalCount, page);
+		map.put("pageBean", pageBean);
+		
+		List<BoardQnA> list = dao.selectBoardQnAList(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
+		map.put("list", list);
+		
+		return map;
 	}
 	
 	/**
@@ -70,8 +94,17 @@ public class BoardQnAServiceImpl implements BoardQnAService {
 	 * 작성자 - 김장규
 	 */	
 	@Override
-	public List<BoardQnA> findBoardQnAByMemberId(String id) {
-		return dao.selectBoardQnAByMemberId(id);
+	public Map<String, Object> findBoardQnAByMemberId(String memberId,int page) {
+		HashMap<String, Object> map = new HashMap<>();
+		int totalCount = dao.selectBoardQnAByMemberIdCount(memberId);
+		PagingBean pageBean = new PagingBean(totalCount, page);
+		map.put("pageBean", pageBean);
+		
+		List<BoardQnA> list = dao.selectBoardQnAByMemberId(memberId, pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
+		map.put("memberId", memberId);
+		map.put("list", list);
+		
+		return map;
 	}
 
 	
@@ -82,10 +115,10 @@ public class BoardQnAServiceImpl implements BoardQnAService {
 	public static void main(String[] args) {
 		//ApplicationContext 객체 생성
 		ApplicationContext container = new ClassPathXmlApplicationContext("kr/co/turnup_fridger/config/spring/model-context.xml");
-		//Spring 컨테이너로 부터 BoardQnAService bean 가져오기
+		//Spring 컨테이너로 부터 BoardNoticeService bean 가져오기
 		BoardQnAService service = (BoardQnAService)container.getBean("boardQnAServiceImpl");
 		//service.addBoardQnA(new BoardQnA(1, "회원수요청입니다.", "회원 수정하고 싶은데 어떻게 해야 하나요?", new Date(2017-1900,01,02), "jang"));
-		//service.addBoardQnA(new BoardQnA(2, "회원탈퇴요청입니다.", "그만 이 사이트를 이용하고 싶습니다.", new Date(2017-1900,01,02), "jang"));
+		service.addBoardQnA(new BoardQnA(5, "회원탈퇴요청입니다.", "그만 이 사이트를 이용하고 싶습니다.", new Date(2017-1900,01,02), "id-3"));
 		
 		int upId = 1;
 		//service.updateBoardQnA(new BoardQnA(upId, "궁금한게 있어요!!!", "재료추가 하고 싶은데 어떻게 하나요????", new Date(2017-1900,01,02), "jang"));
@@ -96,17 +129,17 @@ public class BoardQnAServiceImpl implements BoardQnAService {
 		
 		List<BoardQnA> list = null;
 		BoardQnA board =null;
-		list = service.findBoardQnAList();
+		//list = service.findBoardQnAList();
 		//System.out.println(list);
 		
 		int selId = 1;
 		
 		board = service.findBoardQnAById(selId);
-		//System.out.println(board);
+		System.out.println(board);
 		
 		String id = "jang";
-		list = service.findBoardQnAByMemberId(id);
-		System.out.println(list);
+		//list = service.findBoardQnAByMemberId(id);
+		//System.out.println(list);
 	}
 	
 }

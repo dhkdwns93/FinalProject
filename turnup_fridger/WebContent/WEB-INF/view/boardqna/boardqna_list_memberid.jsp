@@ -7,31 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger2/scripts/jquery.js"></script>
-<script type="text/javascript">
-/* $(document).ready(function(){
-	$("#items").on("change",function(){
-		$.ajax
-		({
-			"url":"/turnup_fridger2/boardnotice/boardNoticeByItems.do",
-			"type":"POST",
-			"data":{"items":$("#items").val()},
-			"dataType":"json",
-			"success":function(obj)
-			{
-				$("#tbody").empty();
-				var txt = "";
-				$.each(obj, function()
-				{
-					txt = txt+"<tr><td>"+this.id+"</td><td>"+this.items+"</td><td><a href=/turnup_fridger2/boardnotice/boardNoticeView.do?id="+this.id+">"+this.title+"</td><td>"+this.date+"</td><td>관리자</td>";
-					$("#tbody").html(txt);
-				});
-			}
-		});
-		
-	});
-}); */
-</script>
 <style type="text/css">
 a:link{
 	/*방문하지 않은 링크 설정.*/
@@ -48,24 +23,27 @@ a:hover{
 	text-decoration: underline;
 	color:red;
 }
+form{display:inline}
 </style>
 </head>
 <body>
 
-<form action="${initParam.rootPath}/boardnotice/boardNoticeByItems.do" method="post">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-<select name="items" id="items" value="${requestScope.items}">
-	<option value="전체보기">전체보기</option>
-	<option value="공지사항" >공지사항</option>
-	<option value="뉴스" >뉴스</option>
-</select>
-<input type="submit" value="검색"/>
+
+<form action="${initParam.rootPath}/boardqna/boardQnAByMemberId.do" method="post">
+	<input type="text" name="memberId" placeholder="아이디를 입력해주세요">
+	<button>검색</button>
+	<sec:csrfInput/>
 </form>
+<form action="${initParam.rootPath}/boardqna/boardQnAList.do" method="post">
+	<button>전체보기</button>
+	<sec:csrfInput/>
+</form>
+
+
 <table border="1" width="600px">
 <thead id="thead">
     <tr>
         <th>번호</th>
-        <th>말머리</th>
         <th>제목</th>
         <th>작성일</th>
         <th>작성자</th>
@@ -75,29 +53,22 @@ a:hover{
 <tbody id="tbody">
 <c:forEach var="row" items="${list}">
     <tr>
-        <td>${row.id}</td>
-        <td>${row.items}</td>
-        <td><a href="${initParam.rootPath}/boardnotice/boardNoticeView.do?id=${row.id}">${row.title}</td>
+        <td>${row.boardQnAId}</td>
+        <td><a href="${initParam.rootPath}/boardqna/boardQnAView.do?boardQnAId=${row.boardQnAId}">${row.boardQnATitle}</a></td>
         <td>
-            <fmt:formatDate value="${row.date}" pattern="yyyy-MM-dd"/>
+            <fmt:formatDate value="${row.boardQnAdate}" pattern="yyyy-MM-dd"/>
         </td>
-        <td>관리자</td>
+        <td>${row.memberId}</td>
     </tr>    
 </c:forEach>
  </tbody>
 </table>
-
-
-
-
-
-
 <p>
 	<%-- ######################################################
 														페이징 처리
 			###################################################### --%>
 	<!-- 첫페이지로 이동 -->
-	<a href="${initParam.rootPath}/boardnotice/boardNoticeList.do?page=1">첫페이지</a>
+	<a href="${initParam.rootPath}/boardqna/boardQnAByMemberId.do?page=1&memberId=${requestScope.memberId}">첫페이지</a>
 
 	<!--
 		이전 페이지 그룹 처리.
@@ -106,7 +77,7 @@ a:hover{
 	<c:choose>
 		<c:when test="${requestScope.pageBean.previousPageGroup}">
 			<%-- 이전페이지 그룹이 있디면 : previousPageGroup()--%>
-			<a href="${initParam.rootPath }/boardnotice/boardNoticeList.do?page=${requestScope.pageBean.beginPage - 1}">☜</a>
+			<a href="${initParam.rootPath }/boardqna/boardQnAByMemberId.do?page=${requestScope.pageBean.beginPage - 1}&memberId=${requestScope.memberId}">☜</a>
 		</c:when>
 		<c:otherwise>
 				☜	
@@ -121,17 +92,14 @@ a:hover{
 		<c:forEach begin="${requestScope.pageBean.beginPage}" end="${requestScope.pageBean.endPage}" var="page">
 			<c:choose>
 				<c:when test="${requestScope.pageBean.page != page}"> <%-- 현재패이지가 아니라면 --%>
-					<a href="${initParam.rootPath}/boardnotice/boardNoticeList.do?page=${page}">&nbsp;${page}&nbsp;</a>
+					<a href="${initParam.rootPath}/boardqna/boardQnAByMemberId.do?page=${page}&memberId=${requestScope.memberId}">&nbsp;${page}&nbsp;</a>
 				</c:when>
 				<c:otherwise>
 					&nbsp;[${page}]&nbsp;
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
-	
 
-	
-	
 	<!-- 
 		다음페이지 그룹으로 이동
 		만약에 다음페이지 그룹이 있으면 링크 처리 없으면 화살표만 나오도록 처리
@@ -139,27 +107,19 @@ a:hover{
 	<c:choose>
 		<c:when test="${requestScope.pageBean.nextPageGroup}">
 			<%-- 다음페이지 그룹이 있디면 : nextPageGroup()--%>
-			<a href="${initParam.rootPath }/boardnotice/boardNoticeList.do?page=${requestScope.pageBean.endPage + 1}">☞</a>
+			<a href="${initParam.rootPath }/boardqna/boardQnAByMemberId.do?page=${requestScope.pageBean.endPage + 1}&memberId=${requestScope.memberId}">☞</a>
 		</c:when>
 		<c:otherwise>
 				☞		
 		</c:otherwise>
 	</c:choose>			
 	
-	
-	
-	
-	
-	
-	
+
 	<!-- 마지막 페이지로 이동 -->
-	<a href="${initParam.rootPath}/boardnotice/boardNoticeList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
-
-
-
-
-
+	<a href="${initParam.rootPath}/boardqna/boardQnAByMemberId.do?page=${requestScope.pageBean.totalPage}&memberId=${requestScope.memberId}">마지막페이지</a>
 </p>
-<a href="${initParam.rootPath}/boardnotice/boardnotice_form.do"><button>등록</button></a>
+
+<a href="${initParam.rootPath}/boardqna/boardqna_form.do"><button>등록</button></a>
+<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 </body>
 </html>

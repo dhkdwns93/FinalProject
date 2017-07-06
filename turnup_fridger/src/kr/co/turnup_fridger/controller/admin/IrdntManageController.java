@@ -23,35 +23,49 @@ public class IrdntManageController {
 	@Autowired
 	private IrdntManageService service;
 	
-	@RequestMapping("createIrdnt")
+	@RequestMapping(value="createIrdnt", produces="html/text;charset=UTF-8;")
 	@ResponseBody
 	public ModelAndView createIrdnt(@ModelAttribute IrdntManage irdnt,BindingResult errors){
 		
 		IrdntManageValidator validator= new IrdntManageValidator();
 		validator.validate(irdnt, errors);
-		String msg;
-		
-		System.out.println(irdnt);
-		
+	
 		if(errors.hasErrors()){
+			System.out.println("haserror");
 			return new ModelAndView("common/admin/irdntManage/irdnt_form");
 		}
+		
+		//관리자인지 권한체크해야하나?
+		
 		try {
-			msg = service.createIrdnt(irdnt);
-		} catch (Exception e) {
+			service.createIrdnt(irdnt);
+		} catch (Exception e) {			
 			return new ModelAndView("common/admin/irdntManage/irdnt_form", "errorMsg", e.getMessage());
 		}		
-		
-		//service에서 받아온 등록완료 메세지. jsp에서 알럿으로 띄워줘야징~
-		return new ModelAndView("common/admin/irdntManage/irdntList","msg",msg);
-		
-		/*List<IrdntManage> list = service.findAllIrdnt();
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/irdntManage/irdntList");
-	    mav.addObject("list", list); 
-		return mav;*/
+		return new ModelAndView("common/admin/irdntManage/create_success");
+
 	}
 	
+	@RequestMapping(value="updateIrdnt",produces="html/text;charset=UTF-8;")
+	@ResponseBody
+	public ModelAndView updateIrdnt(@ModelAttribute IrdntManage irdnt,BindingResult errors){
+		
+		IrdntManageValidator validator= new IrdntManageValidator();
+		validator.validate(irdnt, errors);
+		
+		if(errors.hasErrors()){
+			return new ModelAndView("common/admin/irdntManage/irdnt_update_form");
+		}
+		try {
+			service.updateIrdnt(irdnt);
+		} catch (Exception e) {
+			return new ModelAndView("common/admin/irdntManage/irdnt_update_form","errorMsg",e.getMessage());			
+		}
+		return new ModelAndView("common/admin/irdntManage/irdntList");
+	}
+	
+	
+	/*
 	@RequestMapping("updateIrdnt")
 	@ResponseBody
 	public ModelAndView updateIrdnt(@ModelAttribute IrdntManage irdnt,BindingResult errors) throws Exception{
@@ -71,62 +85,47 @@ public class IrdntManageController {
 	    mav.addObject("list", list); 
 		return mav;
 	}
-	
-	@RequestMapping("removeIrdnt")
+	*/
+	@RequestMapping(value="removeIrdnt" , produces="html/text;charset=UTF-8;")
 	@ResponseBody
-	public ModelAndView removeIrdnt(@RequestParam int irdntId) throws Exception{
-		
-		service.removeIrdnt(irdntId);
-		
-		List<IrdntManage> list = service.findAllIrdnt();
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/irdntManage/irdntList");
-	    mav.addObject("list", list); 
-		return mav;
+	public String removeIrdnt(@RequestParam int irdntId){
+		try {
+			service.removeIrdnt(irdntId);
+		} catch (Exception e) {
+			return "삭제가 안되썽"+e.getMessage();
+		}
+		return "삭제완료";
 	}
+	
 	
 	@RequestMapping("allIrdntList")
 	@ResponseBody
 	public List<IrdntManage> allIrdntList(){
 		List<IrdntManage> list = service.findAllIrdnt();
-		System.out.println("allIrdntList로그"+list);
 		return list;
 	}
 	
 	@RequestMapping("findIrdntByKeyword")
 	@ResponseBody
 	public List<IrdntManage> findIrdntByKeyword(@RequestParam String irdntName,@RequestParam String irdntCategory){
-		
-		
 		List<IrdntManage> list = service.findIrdntsByKeyword(irdntName, irdntCategory);
 		return list;
-		
-	/*	if(keyword.equals("재료명")){
-			List<IrdntManage> list = service.findIrdntByIrdntName(searchWord);
-			return list;
-		}
-		if(keyword.equals("재료id")){
-			int searchWord2 = Integer.parseInt(searchWord);
-			IrdntManage irdnt = service.findIrdntByIrdntId(searchWord2);
-			List<IrdntManage> list = new ArrayList<>();
-			list.add(irdnt);
-			return list;
-		}
-		else{
-			List<IrdntManage> list = service.findAllIrdnt();
-			return list;
-		}*/
+
 	}
 	
 	@RequestMapping("findAllICategory")
 	@ResponseBody
 	public ModelAndView findAllCategory(){
 		List<String> list = service.findAllIrdntCategory();
-		System.out.println(list);
 		return new ModelAndView("common/admin/irdntManage/irdntList","irdntCategory",list);
 	}
 	
-
+	@RequestMapping("findIrdntByName")
+	@ResponseBody
+	public List<IrdntManage> findIrdntByName(@RequestParam String irdntName){
+		List<IrdntManage> list = service.findIrdntByName(irdntName);
+		return list;
+	}
 
 	
 }

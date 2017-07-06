@@ -28,7 +28,7 @@ $(document).ready(function () {
 										 .append($("<td>").prop("class","fridgerName_col").append(this.fridgerName))
 										 .append($("<td>").append(this.memberId))
 										 .append($("<td>").append($("<button>").prop("type","button").prop("id","requestBtn").prop("value",this.fridgerId).append("가입")))
-												 .append($("<td>").append($("<a>").prop("href","/turnup_fridger/fridger/update.do").append($("<button>").prop("type","button").append("UPDATE")))))
+												 .append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").prop("value",this.fridgerId).append("수정"))))
 												 .append($("<tr>").prop("class","collapse out").prop("id", "info"+ this.fridgerId).append($("<td>").prop("colspan","5").append(" 정보가보여용")));
         				
 	        });	// end of each
@@ -55,13 +55,13 @@ $(document).ready(function () {
 						 				.append($("<td>").prop("class","fridgerName_col").append(fridger.fridgerName))
 						 				.append($("<td>").append(fridger.memberId))
 						 				.append($("<td>").append($("<button>").prop("type","button").prop("id","requestBtn").prop("value",this.fridgerId).append("JOIN")))
-												 .append($("<td>").append($("<a>").prop("href","/turnup_fridger/fridger/update.do").append($("<button>").prop("type","button").append("UPDATE")))))
+										 .append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").prop("value",this.fridgerId).append("수정"))))
 												 .append($("<tr>").prop("class","collapse out").prop("id", "info"+ fridger.fridgerId).append($("<td>").prop("colspan","5").append(" 정보가보여용")));
 
 	        },
 	        "error":function(xhr, msg, code){
 				//매개변수 : 1. XMLHttpRequest, 2.응답메세지(success/error), 3. HTTP응답 메세지(모두)
-			alert("오류발생-" + code);
+			alert("오류발생-" +msg+ ":" +code);
 			}
 		});	//end of ajax
 	}); //end of click on searchById
@@ -88,7 +88,7 @@ $(document).ready(function () {
 												 .append($("<td>").prop("class","fridgerName_col").append(this.fridgerName))
 												 .append($("<td>").append(this.memberId))
 												.append($("<td>").append($("<button>").prop("type","button").prop("id","requestBtn").prop("value",this.fridgerId).append("JOIN"))) 
-												.append($("<td>").append($("<a>").prop("href","/turnup_fridger/fridger/update.do").append($("<button>").prop("type","button").append("UPDATE")))))
+												 .append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").prop("value",this.fridgerId).append("수정"))))
 												 .append($("<tr>").prop("class","collapse out").prop("id", "info"+ this.fridgerId).append($("<td>").prop("colspan","5").append(" 정보가보여용")));
 		        });	// end of each
 	        },
@@ -100,10 +100,11 @@ $(document).ready(function () {
 	
 	
 	$("#searchByOwnerBtn").on("click", function(){
+		alert($(this).parent().children("input#memberId").val());
 		$.ajax({
 			"url":"/turnup_fridger/common/member/fridger/show/byOwner.do",
 			/* "type" : "post", */
-			"data" : {'memberId' : $("input#memberId").val(),  '${_csrf.parameterName}':'${_csrf.token}'},
+			"data" : {'memberId' : $(this).parent().children("input#memberId").val(),  '${_csrf.parameterName}':'${_csrf.token}'},
 	        "dataType": "json",
 	        "beforeSend":function(){	
 				if(!$("input#memberId").val()){
@@ -118,8 +119,8 @@ $(document).ready(function () {
 		        	 $("tbody").append($("<tr>").append($("<td>").append(this.fridgerId))
 												 .append($("<td>").prop("class","fridgerName_col").append(this.fridgerName))
 												 .append($("<td>").append(this.memberId))
-												 .append($("<td>").append($("<button>").prop("type","button").prop("id","requestBtn").prop("value",this.fridgerId).append("JOIN")))											 
-												 .append($("<td>").append($("<a>").prop("href","/turnup_fridger/fridger/update.do").append($("<button>").prop("type","button").append("UPDATE")))))
+												 .append($("<td>").append($("<button>").prop("type","button").prop("id","requestBtn").prop("value",this.fridgerId).append("JOIN")))										
+												 .append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").prop("value",this.fridgerId).append("수정"))))
 								.append($("<tr>").prop("class","collapse out").prop("id", "info"+ this.fridgerId).append($("<td>").prop("colspan","5").append(" 정보가보여용")));
 						
 		        });	// end of each
@@ -181,11 +182,15 @@ $(document).ready(function () {
 	
 	// 냉장고 가입신청 
 	$(document).on("click","#requestBtn", function(){
-
+		alert($(this).parent().parent().children(":nth-child(3)").text());
 		$.ajax({
 			"url":"/turnup_fridger/common/member/fridger/request.do",
 			"type":"post",
-			"data":{'fridgerId' : $(this).val(), '${_csrf.parameterName}':'${_csrf.token}'},
+			"data":{'processFridgerId' : $(this).val(),
+					'processState':10,
+					'respMemberId': $(this).parent().parent().children(":nth-child(3)").text(),
+					'${_csrf.parameterName}':'${_csrf.token}'
+					},
 			"dataType":"text",
 			"beforeSend":function(){	
 				if(confirm("가입신청하시겠습니까?") != true){
@@ -201,6 +206,17 @@ $(document).ready(function () {
 			
 		});	//end of ajax
 	});	// end of click on requstBtn
+	
+	// 냉장고 수정
+	$(document).on("click","#updateBtn", function(){
+		alert($(this).val());
+		window.open(
+				"${ initParam.rootPath }/common/member/fridger/update_chk.do?fridgerId="+$(this).val(),
+				"_blank",
+				"fullscreen=yes, height=700, width=500, resizable=no, scrollbars=no, location=no, toolbar=no, directories=no, menubar=no"
+				);
+		
+	});	// end of click on requstBtn
 });
  </script>
 
@@ -209,27 +225,32 @@ $(document).ready(function () {
 <h3>조회</h3>
 	<div id="search">
 	냉장고ID로 조회
-		<input type="text" name="fridgerId" id="fridgerId">
+		<span><input type="text" name="fridgerId" id="fridgerId">
 		<!-- <input type="button" value="조회" id="searchByIdBtn"> -->
-		<button type="button" class="btn btn-default" id="fridgerId">
+		<button type="button" class="btn btn-default" id="searchByIdBtn">
       	<span class="glyphicon glyphicon-search"></span> 
     	</button>
+    	</span>
 		<br>
 		
 	냉장고 이름으로 조회
-		<input type="text" name="fridgerName" id="fridgerName">
+		<span><input type="text" name="fridgerName" id="fridgerName">
 		<!-- <input type="button" value="조회" id="searchByNameBtn"> -->
 		<button type="button" class="btn btn-default" id="searchByNameBtn">
       	<span class="glyphicon glyphicon-search"></span> 
     	</button>
+    	</span>
 		<br>
 		
 	냉장고 주인으로 조회
-		<input type="text" name="memberId" id="memberId">
+	<sec:authentication property="principal.memberId" var="memberId"/>
+		<span><input type="text" name="memberId" id="memberId" placeholder="현재회원 : ${ memberId }">
 		<!-- <input type="button" value="조회" id="searchByOwnerBtn"> -->
-	    <button type="button" class="btn btn-default" id="searchByOwnerBtn">
+	    <button type="button" class="btn btn-default searchByOwnerBtn" id="searchByOwnerBtn">
       	<span class="glyphicon glyphicon-search"></span> 
     	</button>
+    	</span>
+    	
 		<br>
 	</div>
 <hr>
@@ -246,7 +267,6 @@ $(document).ready(function () {
 					<th style="width:50%;">냉장고명</th>
 					<th style="width:15%;">냉장고주인</th>
 					<th style="width:10%;">가입</th>
-					<th style="width:10%;">초대</th>
 					<th style="width:10%;">변경</th>
 				</tr>
 			</thead>

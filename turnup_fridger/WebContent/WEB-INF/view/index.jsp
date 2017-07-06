@@ -12,6 +12,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+form{display:inline}
+</style>
 </head>
 <body>
 <h1>★☆★냉장고 털ㄴ업★☆★</h1>
@@ -24,6 +27,10 @@
 <a href="${initParam.rootPath}/boardnotice/boardnoticelist.do"><input type="submit" value="공지사항"/></a>
 <sec:csrfInput/>
 </form>
+<form action="${initParam.rootPath}/boardqna/boardQnAList.do" method="post">
+<a href="${initParam.rootPath}/boardqna/boardqna_list.do"><input type="submit" value="QnA"/></a>
+<sec:csrfInput/>
+</form>
 
 <hr>
 <!-- 은영 -->
@@ -31,6 +38,7 @@
 
 <a href="${initParam.rootPath}/common/member/fridger/list.do"><button type="button">냉장고검색</button></a>
 <a href="${initParam.rootPath}/common/member/fridger/register_form.do"><button type="button">냉장고등록</button></a>
+<a href="${initParam.rootPath}/common/member/fridger/update_form.do"><button type="button">냉장고업뎃</button></a>
 <a href="${initParam.rootPath}/common/member/fridger/joinProcess/list.do"><button type="button">냉장고 가입처리</button></a>
 
 

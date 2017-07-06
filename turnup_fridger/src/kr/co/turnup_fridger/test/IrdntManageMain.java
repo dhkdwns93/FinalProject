@@ -16,7 +16,7 @@ public class IrdntManageMain {
 				"kr/co/turnup_fridger/config/spring/model-context.xml");
 		IrdntManageService service = (IrdntManageService) context.getBean("IrdntManageService");
 		
-		//service.createIrdnt(new IrdntManage(10,"호박",20,"채소류"));
+		service.createIrdnt(new IrdntManage(10,"테스트","테스트",20,20,20,"채소류"));
 
 		//service.updateIrdnt(new IrdntManage(2,"당근2",15,"채소류"));
 		
@@ -38,11 +38,15 @@ public class IrdntManageMain {
 		//id
 		System.out.println(service.findIrdntByIrdntId(1));
 		
-		//카테고리
+		카테고리
 		List<IrdntManage> list3 = service.fingIrdntByIrdntCategory("채소류");
 		for(IrdntManage m : list3){
 			System.out.println(m);
 		}*/
-	}
+		
+		/*List<IrdntManage> list = service.findIrdntsByKeyword("소세지","가공식품");
+		for(IrdntManage m : list){
+			System.out.println(m);
+		}*/
 	
-}
+} }

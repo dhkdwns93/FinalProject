@@ -29,7 +29,7 @@
 			<!-- 회원id는 principal 값으로  -->
 			<tr>
 				<th>회원ID</th>
-				<td><sec:authentication property="principal.loginId"/>
+				<td><sec:authentication property="principal.memberId"/>
 				</td>
 			</tr>
 			<tr>
