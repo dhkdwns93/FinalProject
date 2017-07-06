@@ -89,10 +89,8 @@ public class JoinProcessServiceImpl implements JoinProcessService{
 	}
 
 	@Override
-	public int removeJoinProcessByProcessNo(ArrayList<Integer> processNoList) throws Exception {
-		if(processNoList == null || processNoList.isEmpty()){
-			throw new Exception("선택하신 가입처리가 없습니다.");
-		}
+	public int removeJoinProcessByProcessNo(ArrayList<Integer> processNoList){
+		
 		return jdao.deleteJoinProcessByProcessNo(processNoList);
 	}
 

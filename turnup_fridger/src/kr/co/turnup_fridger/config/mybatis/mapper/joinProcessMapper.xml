@@ -50,8 +50,8 @@
 	<!-- 승인완료가 되면 냉장고 그룹으로 insert (서비스단에서!) -->
 	<update id="updateJoinProcess" parameterType="joinProcess">
 		UPDATE	join_process
-		SET		#{processState},
-				#{respDate}
+		SET		process_state =#{processState},
+				resp_date = #{respDate}
 		WHERE	process_no = #{processNo}
 	</update>
 	
