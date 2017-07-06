@@ -135,12 +135,15 @@ function insert_event(){
 		<td>${list.commentQnATxt}</td>
 		<td><fmt:formatDate value="${list.commentQnADate}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
 		<td>
-			<c:if test="${list.adminId != null}">
-				${list.adminId}
-			</c:if>
+			<!-- 사용자 등록일 경우  -->
 			<c:if test="${list.adminId == null}">
 				${list.memberId}
 			</c:if>
+			<!-- 관리자 등록일 경우 -->
+			<c:if test="${list.adminId != null}">
+				${list.adminId}
+			</c:if>
+			
 		</td>
 		<td>
 	     	<form action="${initParam.rootPath}/common/commentqna/commentQnAUploadView.do" method="post">
@@ -150,16 +153,16 @@ function insert_event(){
 						<input type="hidden" name="boardQnAId" id="boardQnAId" value="${list.boardQnAId}">
 						
 						
-				<!-- 작성자가 관리자이면 관리자만 수정폼 보임 -->
+				<!-- 작성자가 관리자이면 관리자 댓글 수정가능 -->
 				<c:if test="${list.adminId != null}">		
 					 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN')">
 							<input type="button" value="수정하기">
 					 </sec:authorize>
 				</c:if>
 				
-				<!-- 작성자가 사용자이면 관리자/사용자 둘 다 수정폼 보임 -->
+				<!-- 작성자가 사용자이면 사용자 댓글 수정 -->
 				<c:if test="${list.adminId == null}">
-					 <sec:authorize access="isAuthenticated()">
+					 <sec:authorize access="hasRole('ROLE_MEMBER')">
 					 	<input type="button" value="수정하기">
 					 </sec:authorize>
 				</c:if>
@@ -173,14 +176,14 @@ function insert_event(){
 				<input type="hidden" name="boardQnAId" value="${list.boardQnAId}">
 				<input type="hidden" name="commentQnAId" value="${list.commentQnAId}">
 				
-				<!-- 작성자가 관리자이면 관리자만 수정폼 보임 -->
+				<!-- 작성자가 관리자이면 관리자/사용자 댓글 삭제 가능 -->
 				<c:if test="${list.adminId != null}">		
 					 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN')">
 							<input type="submit" value="삭제하기" onclick="return delete_event2();">
 					 </sec:authorize>
 				</c:if>
 				
-				<!-- 작성자가 사용자이면 관리자/사용자 둘 다 수정폼 보임 -->
+				<!-- 작성자가 사용자이면 사용자 댓글만 삭제 가능 -->
 				<c:if test="${list.adminId == null}">
 					 <sec:authorize access="isAuthenticated()">
 					 	<input type="submit" value="삭제하기" onclick="return delete_event2();">
@@ -216,7 +219,7 @@ function insert_event(){
 	<tbody id="tbody">
 		<tr>
 			<td><textarea name="commentQnATxt" row="120" cols="70" placeholder="내용을 입력해주세요"></textarea><span class="error"><form:errors path="commentQnA.commentQnATxt" delimiter="&nbsp;"/></td>
-			<td><input type="text" name="memberId" value="<sec:authentication property="principal.memberId"/>"></td>
+			<td><input type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"/>"></td>
 		</tr>   
 	 </tbody>
 	</table>
@@ -240,7 +243,7 @@ function insert_event(){
 	<tbody id="tbody">
 		<tr>
 			<td><textarea name="commentQnATxt" row="120" cols="70" placeholder="내용을 입력해주세요"></textarea><span class="error"><form:errors path="commentQnA.commentQnATxt" delimiter="&nbsp;"/></td>
-			<td><input type="text" name="adminId" value="<sec:authentication property="principal.adminId"/>"></td>
+			<td><input type="text" name="adminId" readonly value="<sec:authentication property="principal.adminId"/>"></td>
 		</tr>   
 	 </tbody>
 	</table>

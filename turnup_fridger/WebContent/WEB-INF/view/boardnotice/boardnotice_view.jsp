@@ -7,12 +7,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger2/scripts/jquery.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 function delete_event(){
 	if (confirm("정말 삭제하시겠습니까??") == true){    
 		//확인
-		location.href="/turnup_fridger2/boardnotice/boardnotice_list.do";
+		location.href="/turnup_fridger/common/admin/boardnotice/boardnotice_list.do";
 	}else{   
 		//취소
 	    return false;
@@ -51,18 +51,25 @@ form{display:inline}
 		</td>
 	</tr>
 </table>
-
-<form action="${initParam.rootPath}/boardnotice/boardNoticeUploadView.do" method="post" enctype="multipart/form-data">
+<!-- 관리자만 수정 가능 -->
+ <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadView.do?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<input type="hidden" name="id" id="id" value="${boardNotice.id}">
 	<button>수정하기</button>
 </form>
+</sec:authorize>
 
-<form action="${initParam.rootPath}/boardnotice/boardNoticRemove.do" method="post">
+
+<!-- 관리자만 삭제 가능 -->
+ <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticRemove.do" method="post">
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<input type="hidden" name="id" value="${boardNotice.id}">
 	<input type="submit" value="삭제하기" onclick="return delete_event();">
 </form>
+</sec:authorize>
+
 
 <form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">

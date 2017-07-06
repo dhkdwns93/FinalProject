@@ -6,7 +6,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Insert title here</title><script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<script type="text/javascript">
+function insert_event(){
+	if (confirm("등록 하시겠습니까??") == true){    
+		//확인
+		location.href="/turnup_fridger/boardnotice/boardnotice_view.do";
+	}else{   
+		//취소
+	    return false;
+	}
+};
+</script>
 <style type="text/css">
 span, td, th {
 	padding: 5px;
@@ -19,7 +30,7 @@ span.error {
 </style>
 </head>
 <body>
-	<form action="${initParam.rootPath}/boardnotice/boardNoticeAdd.do?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data">
+	<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeAdd.do?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		<table>
 			<tr>
@@ -44,7 +55,7 @@ span.error {
 				<td><textarea name="txt" row="120" cols="70" placeholder="내용을 입력해주세요">${boardNotice.txt}</textarea><span class="error"><form:errors path="boardNotice.txt" delimiter="&nbsp;" /></td>
 			</tr>
 			<tr>
-				<td><input type="submit" value="등록"></td>
+				<td><input type="submit" value="등록" onclick="return insert_event();"></td>
 			</tr>
 		</table>
 	</form>

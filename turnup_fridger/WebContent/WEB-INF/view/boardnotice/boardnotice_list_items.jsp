@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger2/scripts/jquery.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 
 </script>
@@ -121,7 +121,10 @@ a:hover{
 	<a href="${initParam.rootPath}/boardnotice/boardNoticeByItems.do?page=${requestScope.pageBean.totalPage}&items=${requestScope.items}">마지막페이지</a>
 
 </p>
-<a href="${initParam.rootPath}/boardnotice/boardnotice_form.do"><button>등록</button></a>
+<!-- 관리자만 등록 가능 -->
+ <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+ 	<a href="${initParam.rootPath}/common/admin/boardnotice/boardnotice_form.do"><button>등록</button></a>
+ </sec:authorize>
 <a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 </body>
 </html>
