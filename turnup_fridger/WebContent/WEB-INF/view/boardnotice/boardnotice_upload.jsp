@@ -29,6 +29,7 @@ span.error{
 </head>
 <body>
 <form action="${initParam.rootPath}/boardnotice/boardNoticeUploadForm.do" method="post" enctype="multipart/form-data">
+<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 <table>
 	<tr>
 		<th>제목</th>
@@ -58,7 +59,6 @@ span.error{
 	</tr>
 	
 </table>
-<sec:csrfInput/>
 </form>
 </body>
 </html>

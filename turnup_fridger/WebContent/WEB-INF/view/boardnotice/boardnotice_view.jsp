@@ -19,6 +19,9 @@ function delete_event(){
 	}
 };
 </script>
+<style type="text/css">
+form{display:inline}
+</style>
 </head>
 <body>
 <table border="1" style="text-align:center">
@@ -48,21 +51,22 @@ function delete_event(){
 		</td>
 	</tr>
 </table>
+
 <form action="${initParam.rootPath}/boardnotice/boardNoticeUploadView.do" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<input type="hidden" name="id" id="id" value="${boardNotice.id}">
 	<button>수정하기</button>
-	<sec:csrfInput/>
 </form>
 
 <form action="${initParam.rootPath}/boardnotice/boardNoticRemove.do" method="post">
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<input type="hidden" name="id" value="${boardNotice.id}">
 	<input type="submit" value="삭제하기" onclick="return delete_event();">
-	<sec:csrfInput/>
 </form>
 
 <form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<input type="submit" value="뒤로가기"/>
-	<sec:csrfInput/>
 </form>
 
 </body>
