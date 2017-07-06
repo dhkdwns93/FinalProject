@@ -53,7 +53,7 @@ public class MyIrdntDaoImpl implements MyIrdntDao{
 	}
 
 	@Override
-	public List<MyIrdnt> selectMyStaleIrdnt(int freshLevel,int fridgerId) {
+	public List<MyIrdnt> selectMyStaleIrdnt(String freshLevel,int fridgerId) {
 		HashMap map = new HashMap();
 		map.put("freshLevel",freshLevel);
 		map.put("fridgerId",fridgerId);
@@ -84,6 +84,14 @@ public class MyIrdntDaoImpl implements MyIrdntDao{
 	@Override
 	public List<MyIrdnt> selectMyIrdntByFridgerId(int fridgerId) {
 		return session.selectList(makeSql("selectMyIrdntByFridgerId"),fridgerId);
+	}
+	@Override
+	public List<MyIrdnt> selectMyIrdntByFreshLevelAndIrdntName(String freshLevel, String irdntName,int fridgerId) {
+		HashMap map = new HashMap();
+		map.put("irdntName", irdntName);
+		map.put("freshLevel", freshLevel);
+		map.put("fridgerId", fridgerId);
+		return session.selectList(makeSql("selectMyIrdntByFreshLevelAndIrdntName"),map);
 	}
 
 	

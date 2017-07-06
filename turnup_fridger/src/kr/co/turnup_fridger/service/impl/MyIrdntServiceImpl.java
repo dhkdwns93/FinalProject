@@ -29,7 +29,7 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 		//수정해서 넣을값 = 식재료key(시퀀스), 신선도(계산), 재료이름(매치해서 넣자)
 		
 		//여기서 넣을때 신선도 계산해서 넣어야지 
-		int FreshLevel = getFreshLevel(myIrdnt);
+		String FreshLevel = getFreshLevel(myIrdnt);
 		String IrdntName = irdntDao.selectIrdntById(myIrdnt.getIrdntId()).getIrdntName();
 		
 		System.out.println(FreshLevel+" "+IrdntName);
@@ -48,7 +48,7 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 			throw new Exception("없는 식재료입니다.");
 		}
 		//재료id를 제외한 다른것들을 수정, 다시 계산해야함
-		int FreshLevel = getFreshLevel(myIrdnt);
+		String FreshLevel = getFreshLevel(myIrdnt);
 		String IrdntName = irdntDao.selectIrdntById(myIrdnt.getIrdntId()).getIrdntName();
 		
 		//key값은 jsp쪽에서 고정되도록 처리해야겠다. 
@@ -81,7 +81,7 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 	}
 
 	@Override
-	public int getFreshLevel(MyIrdnt myirdnt) {
+	public String getFreshLevel(MyIrdnt myirdnt) {
 	      // 해당냉장고에서의 재료마다의 신선도 계산하는 메서드.
 
 	      int irdntId = myirdnt.getIrdntId();
@@ -126,10 +126,9 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 	      }
 	      
 	      //남은날짜에 따라 1-4로 리턴
-	      if(leftDay < 1*86400000) return 4;
-	      if(leftDay < 3*86400000) return 3;
-	      if(leftDay < 7*86400000) return 2;
-	      else return 1;
+	      if(leftDay < 3*86400000) return "위험";
+	      if(leftDay < 7*86400000) return "보통";
+	      else return "안전";
 	   
 	}
 
@@ -149,11 +148,18 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 	}
 
 	@Override
-	public List<MyIrdnt> findMyIrdntByFreshLevel(int freshLevel,int fridgerId) {
+	public List<MyIrdnt> findMyIrdntByFreshLevel(String freshLevel,int fridgerId) {
 		//신선도입력해서 해당하는 식재료들 뽑아오는거. 
 		//나중에 이걸로 식재료 신선도 보여주자 
 		return dao.selectMyStaleIrdnt(freshLevel, fridgerId);
 	}
 
+	@Override
+	public List<MyIrdnt> findMyIrdntByFreshLevelAndIrdntName(String freshLevel, String irdntName, int fridgerId) {
+		return dao.selectMyIrdntByFreshLevelAndIrdntName(freshLevel, irdntName, fridgerId);
+	}
+
+	
+	
 	
 }

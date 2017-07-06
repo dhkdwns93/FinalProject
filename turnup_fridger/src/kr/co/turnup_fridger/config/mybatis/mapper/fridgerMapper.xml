@@ -57,16 +57,7 @@
 </resultMap>
 
 <resultMap type="fridger" id="fridger-myIrdnt-resultmap" extends="fridger-resultmap">
-	<collection property="myIrdntList" ofType="myIrdnt">
-	  <id column="my_irdnt_key" property="myIrdntKey"/>
-      <result column="start_date" property="startDate"/>
-      <result column="end_date" property="endDate"/>
-      <result column="fresh_level" property="freshLevel"/>
-      <result column="irdnt_count" property="irdntCount"/>
-      <result column="irdnt_id" property="irdntId"/>
-      <result column="irdnt_name" property="irdntName"/>
-      <result column="fridger_id" property="fridgerId"/>
-	</collection>
+	<collection property="myIrdntList" resultMap="MyIrdnt.MyIrdnt-resultmap"/>
 </resultMap>
 
 

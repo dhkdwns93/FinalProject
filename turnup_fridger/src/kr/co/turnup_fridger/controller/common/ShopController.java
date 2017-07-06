@@ -1,19 +1,22 @@
 package kr.co.turnup_fridger.controller.common;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
-import javax.validation.Valid;
+import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.turnup_fridger.service.ShopService;
-import kr.co.turnup_fridger.validation.form.ShopForm;
 import kr.co.turnup_fridger.vo.Shop;
 
 @RequestMapping("/shop/")
@@ -23,19 +26,27 @@ public class ShopController {
 	private ShopService service;
 	
 	// 관리자
-	@RequestMapping(value="addShop", produces="text/html;charset=UTF-8")
-	public ModelAndView addShop(@ModelAttribute("shop") @Valid ShopForm shopForm, Errors errors){
+	@RequestMapping(value="addShop", method=RequestMethod.POST)
+	public ModelAndView addShop(@RequestParam String shopName, @RequestParam String url, @RequestParam MultipartFile shopImg, HttpServletRequest req, ModelMap map) throws IllegalStateException, IOException{
+		Shop shop = new Shop();
+		shop.setShopName(shopName);
+		shop.setShopAddress(url);
+		shop.setShopImg(shopImg.getOriginalFilename()); //
 		
-		if(errors.hasErrors()){
-			return new ModelAndView("shop/shop_register_form");
+		if(shopImg != null && !shopImg.isEmpty()){
+			String fileName = shopImg.getOriginalFilename();
+			File dest = new File(req.getServletContext().getRealPath("/up_images"), fileName); 
+			shopImg.transferTo(dest);
+			
+			shop = new Shop(0, shopName, url, fileName);
+			map.addAttribute("shop", shop);
+			map.addAttribute("fileName", fileName);
 		}
 		
-		Shop shop = new Shop();
-		BeanUtils.copyProperties(shopForm, shop);
 		try {
 			service.insertShop(shop);
 		} catch (Exception e) {
-			return new ModelAndView("shop/shop_register_form", "error", errors);
+			return new ModelAndView("shop/shop_register_form", "error", "등록실패");
 		}
 		return new ModelAndView("shop/addShop");
 	}
@@ -63,10 +74,11 @@ public class ShopController {
 	}
 	
 	// 쇼핑몰 전체목록(회원, 관리자)
-	@RequestMapping(value="findShopList", produces="text/html;charset=UTF-8")
-	@ResponseBody
-	public List<Shop> findShopList(){
-		return service.selectShopList();
+	@RequestMapping("findShopList")
+	public ModelAndView findShopList(){
+		System.out.println("=== shop List ===");
+		List<Shop>list = service.selectShopList();
+		return new ModelAndView("common/shop/shopList", "list", list);
 	}
 	
 	// 쇼핑몰 총 개수(회원, 관리자)

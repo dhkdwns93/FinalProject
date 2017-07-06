@@ -7,30 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger2/scripts/jquery.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
-/* $(document).ready(function(){
-	$("#items").on("change",function(){
-		$.ajax
-		({
-			"url":"/turnup_fridger2/boardnotice/boardNoticeByItems.do",
-			"type":"POST",
-			"data":{"items":$("#items").val()},
-			"dataType":"json",
-			"success":function(obj)
-			{
-				$("#tbody").empty();
-				var txt = "";
-				$.each(obj, function()
-				{
-					txt = txt+"<tr><td>"+this.id+"</td><td>"+this.items+"</td><td><a href=/turnup_fridger2/boardnotice/boardNoticeView.do?id="+this.id+">"+this.title+"</td><td>"+this.date+"</td><td>관리자</td>";
-					$("#tbody").html(txt);
-				});
-			}
-		});
-		
-	});
-}); */
+
 </script>
 <style type="text/css">
 a:link{
@@ -142,6 +121,10 @@ a:hover{
 	<a href="${initParam.rootPath}/boardnotice/boardNoticeByItems.do?page=${requestScope.pageBean.totalPage}&items=${requestScope.items}">마지막페이지</a>
 
 </p>
-<a href="${initParam.rootPath}/boardnotice/boardnotice_form.do"><button>등록</button></a>
+<!-- 관리자만 등록 가능 -->
+ <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+ 	<a href="${initParam.rootPath}/common/admin/boardnotice/boardnotice_form.do"><button>등록</button></a>
+ </sec:authorize>
+<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 </body>
 </html>
