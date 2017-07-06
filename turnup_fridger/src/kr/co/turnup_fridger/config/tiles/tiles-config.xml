@@ -5,11 +5,12 @@
 <tiles-definitions>
 
 	<definition name="template" template="/WEB-INF/view/layout/template.jsp">
+		<put-attribute name="head" value="/WEB-INF/view/layout/head.jsp" />
 		<put-attribute name="menu" value="/WEB-INF/view/layout/menu.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/view/layout/footer.jsp" />
 	</definition>
 
-	<!-- 없을걸? -->
+	<!-- 시작페이지 -->
 	<definition name="*.tiles" extends="template">
 		<put-attribute name="content" value="/WEB-INF/view/content/{1}.jsp" />
 	</definition>

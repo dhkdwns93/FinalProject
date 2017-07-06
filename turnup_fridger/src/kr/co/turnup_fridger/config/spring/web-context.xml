@@ -117,10 +117,39 @@
 	<!-- 나의 식재료 등록폼 페이지   -->
 	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_form.do" view-name="common/member/myIrdnt/myIrdnt_form"/>
 	
-
-	<bean name="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-		p:prefix="/WEB-INF/view/"
-		p:suffix=".jsp"/>	
+	<!-- 메모등록 -->
+	<mvc:view-controller path="/common/member/memo/memo_register_form.do" view-name="common/member/memo/memo_register_form"/>
+	<!-- 메모수정 -->
+	<mvc:view-controller path="/common/member/memo/memo_update_form.do" view-name="common/member/memo/memo_update_form"/>
+	<!-- 메모리스트 -->
+	<mvc:view-controller path="/common/member/memo/memoList.do" view-name="common/member/memo/memoList.tiles"/>
+	<!-- 메모상세 -->
+	<mvc:view-controller path="/common/member/memo/memoDetail.do" view-name="common/member/memo/memoDetail"/>
+	<!-- 쇼핑몰등록 -->
+	<mvc:view-controller path="/common/shop/shop_register_form.do" view-name="common/shop/shop_register_form"/>
+	<!-- 쇼핑몰리스트 -->
+	<mvc:view-controller path="/common/shop/shopList.do" view-name="common/shop/shopList"/>
+	<!-- 냉장고그룹멤버목록 -->
+	<mvc:view-controller path="/common/member/FridgerGroup/groupMemberList.do" view-name="common/member/FridgerGroup/groupMemberList"/>
+	
+	
+	<!-- TilesConfigurer : tiles설정파일을 등록하는 bean -->
+	<bean name="tilesConfig" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions">
+			<list>
+				<value>classpath:kr/co/turnup_fridger/config/tiles/tiles-config.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- TilesViewResolver : 위에 등록한 설정파일을 가지고 일하는 애 -->
+	<bean name="tilesViewResolver" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver" 
+			p:order="1"/>
+	<!-- viewResolver가 여러개일 경우 InternalResourceViewResolver는 반드시 마지막 순서로 둬야한다(얘는 무조건 view를 리턴해주기때문에 뒤 순서애들이 의미가 없어짐) -->
+	<bean name="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+			p:order="2"
+			p:prefix="/WEB-INF/view/"
+			p:suffix=".jsp"/>	
 		
 	<!-- properties파일 등록 -->
 	<bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"
