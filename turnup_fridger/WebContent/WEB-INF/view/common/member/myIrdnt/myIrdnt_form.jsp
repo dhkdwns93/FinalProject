@@ -1,7 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ page import="java.util.Date"%>
 
 <!DOCTYPE html>
 <html>
@@ -10,29 +9,31 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
-	$(document).ready(function(){
-		
+	$(document).ready(function(){		
 		//검색버튼을 누르면,myIrdnt_search_result팝업창을 열고-> 팝업창에서 irdntId가 넘어올예정.
 		$("#searchBtn").on("click",function(){
 			window.open("/turnup_fridger/common/member/myIrdnt/myIrdnt_search_result.do","Irdnt_search","width=1100, height=700");
 		})//searchBtn
-		
-		
-		
+
 	})//ready
 </script>
 </head>
 <body>
 <h2>나의 식재료 등록</h2>
 
-<form action="/turnup_fridger/common/member/MyIrdnt/createMyIrdnt.do" method="post" name="form">
+<form action="/turnup_fridger/common/member/myIrdnt/createMyIrdnt.do" method="post">
 <table>
+	<tr>
+		<td>
+			<input type="hidden" name="fridgerId" id="fridgerId" value="1"><span class="error"><form:errors path="MyIrdnt.fridgerId" delimiter="&nbsp;&nbsp;"/></span>
+		</td>
+	</tr>
 	<tr>
 		<th>재료명</th>
 		<td>
 			<input type="text" name ="irdntName" id="irdntName"><button type="button" id="searchBtn">검색</button>
 			<!-- 검색클릭하면 재료명으로 검색해서 id만 골라오는거 하기. 여기에 id저장. --> 
-			재료id<input type="text" name="irdntId" id="irdntId" value="${param.irdntId}"><span class="error"><form:errors path="MyIrdnt.irdntId" delimiter="&nbsp;&nbsp;"/></span></td>
+			<input type="hidden" name="irdntId" id="irdntId" value="${param.irdntId}"><span class="error"><form:errors path="MyIrdnt.irdntId" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr>
 		<th>보관시작일</th>

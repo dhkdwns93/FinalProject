@@ -17,32 +17,142 @@
 			//"data":{'fridgerId': 1},
 			"dataType":"json", 
 			"success":function(list){
-				$.each(list, function(){
+			/*  	$.each(list, function(){
 					if(this.storgePlace=="실온"){
 						$("#roomTbody").append($("<tr>").prop("id","myIrdnt_col").append($("<td>").append(this.irdntName)).append($("<td>").append(this.freshLevel))
-								.append($("<td>").append("<input>").prop("type","checkbox").prop("id","deleteChk").prop("value",this.irdntKey)))
+								.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.irdntKey))))
 						} 
 					else if(this.storgePlace=="냉장"){
 						$("#coldTbody").append($("<tr>").prop("id","myIrdnt_col").append($("<td>").append(this.irdntName)).append($("<td>").append(this.freshLevel))
-								.append($("<td>").append("<input>").prop("type","checkbox").prop("id","deleteChk").prop("value",this.irdntKey)))
+								.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.irdntKey))))
 						}
 					else if(this.storgePlace=="냉동"){
 						$("#freezeTbody").append($("<tr>").prop("id","myIrdnt_col").append($("<td>").append(this.irdntName)).append($("<td>").append(this.freshLevel))
-								.append($("<td>").append("<input>").prop("type","checkbox").prop("id","deleteChk").prop("value",this.irdntKey)))
+								.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.irdntKey))))
 						}
-					})//each			
+					})//each */
+				 $.each(list, function(){
+					if(this.storgePlace=="실온"){
+						$("#roomTbody").append($("<tr>").append($("<td>").append(this.myIrdntKey)).append($("<td>").append(this.irdntId)).append($("<td>").prop("id","irdntName_col")
+								.append(this.irdntName)).append($("<td>").append(this.startDate)).append($("<td>").append(this.endDate)).append($("<td>").append(this.irdntCount))
+								.append($("<td>").append(this.startFreshLevel)).append($("<td>").append(this.storgePlace)).append($("<td>").append(this.freshLevel))
+								.append($("<td>").append(this.fridgerId))
+								.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.myIrdntKey))))
+						} 
+					else if(this.storgePlace=="냉장"){ 
+						$("#coldTbody").append($("<tr>").append($("<td>").append(this.myIrdntKey)).append($("<td>").append(this.irdntId)).append($("<td>").prop("id","irdntName_col")
+								.append(this.irdntName)).append($("<td>").append(this.startDate)).append($("<td>").append(this.endDate)).append($("<td>").append(this.irdntCount))
+								.append($("<td>").append(this.startFreshLevel)).append($("<td>").append(this.storgePlace)).append($("<td>").append(this.freshLevel))
+								.append($("<td>").append(this.fridgerId))
+								.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.myIrdntKey))))
+						}
+					else if(this.storgePlace=="냉동"){
+						$("#freezeTbody").append($("<tr>").append($("<td>").append(this.myIrdntKey)).append($("<td>").append(this.irdntId)).append($("<td>").prop("id","irdntName_col")
+								.append(this.irdntName)).append($("<td>").append(this.startDate)).append($("<td>").append(this.endDate)).append($("<td>").append(this.irdntCount))
+								.append($("<td>").append(this.startFreshLevel)).append($("<td>").append(this.storgePlace)).append($("<td>").append(this.freshLevel))
+								.append($("<td>").append(this.fridgerId))
+								.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.myIrdntKey))))
+						}
+					})//each	  		
 			},//success
-			"error":function(errorMsg){
-				alert("오류다!");
+			"error":function(xhr, msg, code){
+				alert("오류발생-" +msg+ ":" +code);
 			} 
-		})//ajax
+		});//ajax
 		
 		//재료클릭 -> 재료 상세정보 팝업 (쿼리로 정보들 붙여서 보내기)
-		
+		$(document).on("click","#irdntName_col",function(){
+			var myIrdntKey = $(this).parent().children(":first-child").text();
+			var irdntName = $(this).text();
+			var startDate = $(this).parent().children(":nth-child(4)").text();
+			var endDate =$(this).parent().children(":nth-child(5)").text();
+			var irdntCount=$(this).parent().children(":nth-child(6)").text();
+			var startFreshLevel=$(this).parent().children(":nth-child(7)").text();
+			var storgePlace=$(this).parent().children(":nth-child(8)").text();
+			var fridgerId=$(this).parent().children(":nth-child(10)").text();
+			
+			window.open("/turnup_fridger/common/member/myIrdnt/myIrdnt_detail.do?irdntName="+irdntName+"&startDate="+startDate+"&endDate="+endDate+"&irdntCount="+irdntCount+
+					"&startFreshLevel="+startFreshLevel+"&storgePlace="+storgePlace+"&fridgerId="+fridgerId,"myirdnt_detail","width=500, height=400");
+		});//
+				
 		//선택삭제 -> 체크박스 만들어서 체크된것만 삭제처리하게 
-		
+		$(document).on("click","#deleteOnSelect",function(){
+			//var irdntKey = $(this).parent().parent().children(":first-child").text();
+			var irdntKeyList = [];
+			$("input[name='deleteChk']:checked").each(function(){
+				irdntKeyList.push($(this).parent().parent().children(":first-child").text());
+			});
+			
+			$.ajax({
+				"url":"/turnup_fridger/common/member/myIrdnt/removeMyIrdnt.do",
+				"type":"POST",
+				"data":{'irdntKey':irdntKeyList,'fridgerId':1,'${_csrf.parameterName}':'${_csrf.token}'},
+				"dataType":"text",
+				"traditional": true,
+				"success":function(TEXT){
+					alert(TEXT);
+					//window.location.reload();
+				},
+				"error":function(xhr, msg, code){
+					alert("오류발생-" +msg+ ":" +code);
+				}
+			})			
+		});
+				
 		//검색버튼
-	
+		$("#searchBtn").on("click",function(){
+			$.ajax({
+				"url":"/turnup_fridger/common/member/myIrdnt/findMyIrdntByFreshLevelAndIrdntName.do?fridgerId=1",
+				"type":"post",
+				"data":{'freshLevel':$("#freshLevel").val(), 'irdntName':$("#irdntName").val(),'${_csrf.parameterName}':'${_csrf.token}'},
+				"dataType":"json", 
+				"success":function(list){
+					$("#roomTbody").empty();
+					$("#coldTbody").empty();
+					$("#freezeTbody").empty();
+				 	/* $.each(list, function(){
+						if(this.storgePlace=="실온"){
+							$("#roomTbody").append($("<tr>").append($("<td>").append(this.myIrdntKey)).append($("<td>").append(this.irdntName)).append($("<td>").append(this.freshLevel))
+									.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.irdntKey))))
+							} 
+						else if(this.storgePlace=="냉장"){
+							$("#coldTbody").append($("<tr>").append($("<td>").append(this.myIrdntKey)).append($("<td>").append(this.irdntName)).append($("<td>").append(this.freshLevel))
+									.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.irdntKey))))
+							}
+						else if(this.storgePlace=="냉동"){
+							$("#freezeTbody").append($("<tr>").append($("<td>").append(this.myIrdntKey)).append($("<td>").append(this.irdntName)).append($("<td>").append(this.freshLevel))
+									.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.irdntKey))))
+							}
+						})//each	  */
+		 			 	$.each(list, function(){
+							if(this.storgePlace=="실온"){
+								$("#roomTbody").append($("<tr>").append($("<td>").append(this.myIrdntKey)).append($("<td>").append(this.irdntId)).append($("<td>").prop("id","irdntName_col")
+										.append(this.irdntName)).append($("<td>").append(this.startDate)).append($("<td>").append(this.endDate)).append($("<td>").append(this.irdntCount))
+										.append($("<td>").append(this.startFreshLevel)).append($("<td>").append(this.storgePlace)).append($("<td>").append(this.freshLevel))
+										.append($("<td>").append(this.fridgerId))
+										.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.irdntKey))))
+								} 
+							else if(this.storgePlace=="냉장"){ 
+								$("#coldTbody").append($("<tr>").append($("<td>").append(this.myIrdntKey)).append($("<td>").append(this.irdntId)).append($("<td>").prop("id","irdntName_col")
+										.append(this.irdntName)).append($("<td>").append(this.startDate)).append($("<td>").append(this.endDate)).append($("<td>").append(this.irdntCount))
+										.append($("<td>").append(this.startFreshLevel)).append($("<td>").append(this.storgePlace)).append($("<td>").append(this.freshLevel))
+										.append($("<td>").append(this.fridgerId))
+										.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.irdntKey))))
+								}
+							else if(this.storgePlace=="냉동"){
+								$("#freezeTbody").append($("<tr>").append($("<td>").append(this.myIrdntKey)).append($("<td>").append(this.irdntId)).append($("<td>").prop("id","irdntName_col")
+										.append(this.irdntName)).append($("<td>").append(this.startDate)).append($("<td>").append(this.endDate)).append($("<td>").append(this.irdntCount))
+										.append($("<td>").append(this.startFreshLevel)).append($("<td>").append(this.storgePlace)).append($("<td>").append(this.freshLevel))
+										.append($("<td>").append(this.fridgerId))
+										.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.irdntKey))))
+								}
+							})//each	
+				},//success
+				"error":function(xhr, msg, code){
+					alert("오류발생-" +msg+ ":" +code);
+				} 
+			});
+		});
 	})
 
 </script>
@@ -52,7 +162,7 @@ table, td {
 }
 
 table {
-	width: 700px;
+	width: 1000px;
 	border-collapse: collapse;
 }
 
@@ -89,9 +199,22 @@ td {
 <table id = "room">
 	<thead>
 		<tr>
+			<th>재료key</th>
+			<th>재료id</th>
+			<th>재료명</th>
+			<th>보관시작일</th>
+			<th>유통기한</th>
+			<th>수량메모</th>
+			<th>보관시작상태</th>
+			<th>보관장소</th>
+			<th>신선도</th>
+			<th>냉장고id</th>
+			<th>삭제여부</th>
+			
+			<!-- <th>재료key</th>
 			<th>재료명</th>
 			<th>신선도</th>
-			<th>삭제</th>
+			<th>삭제여부</th> -->
 		</tr>
 	</thead>
 	<tbody id = "roomTbody"></tbody>
@@ -100,9 +223,17 @@ td {
 <table id = "cold">
 	<thead>
 		<tr>
+			<th>재료key</th>
+			<th>재료id</th>
 			<th>재료명</th>
+			<th>보관시작일</th>
+			<th>유통기한</th>
+			<th>수량메모</th>
+			<th>보관시작상태</th>
+			<th>보관장소</th>
 			<th>신선도</th>
-			<th>삭제</th>
+			<th>냉장고id</th>
+			<th>삭제여부</th>
 		</tr>
 	</thead>
 	<tbody id = "coldTbody"></tbody>
@@ -111,9 +242,17 @@ td {
 <table id = "freeze">
 	<thead>
 		<tr>
+			<th>재료key</th>
+			<th>재료id</th>
 			<th>재료명</th>
+			<th>보관시작일</th>
+			<th>유통기한</th>
+			<th>수량메모</th>
+			<th>보관시작상태</th>
+			<th>보관장소</th>
 			<th>신선도</th>
-			<th>삭제</th>
+			<th>냉장고id</th>
+			<th>삭제여부</th>
 		</tr>
 	</thead>
 	<tbody id = "freezeTbody"></tbody>

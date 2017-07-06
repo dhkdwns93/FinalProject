@@ -27,17 +27,15 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 		}
 		//받아올 값 = 재료id, 보관시작일, 유통기한, 수량메모, 재료id, 냉장고id, 보관시작상태 
 		//수정해서 넣을값 = 식재료key(시퀀스), 신선도(계산), 재료이름(매치해서 넣자)
-		
 		//여기서 넣을때 신선도 계산해서 넣어야지 
 		String FreshLevel = getFreshLevel(myIrdnt);
+
 		String IrdntName = irdntDao.selectIrdntById(myIrdnt.getIrdntId()).getIrdntName();
 		
-		System.out.println(FreshLevel+" "+IrdntName);
 		
 		MyIrdnt newMyIrdnt= new MyIrdnt(myIrdnt.getMyIrdntKey(),myIrdnt.getStartDate(),myIrdnt.getEndDate(),FreshLevel,
 				myIrdnt.getIrdntCount(),myIrdnt.getIrdntId(),IrdntName,myIrdnt.getFridgerId(),myIrdnt.getStartFreshLevel(),myIrdnt.getStorgePlace());
-		
-		System.out.println(newMyIrdnt);
+
 		
 		dao.insertMyIrdnt(newMyIrdnt);
 	}
@@ -48,14 +46,18 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 			throw new Exception("없는 식재료입니다.");
 		}
 		//재료id를 제외한 다른것들을 수정, 다시 계산해야함
+		System.out.println("신선도 전");
 		String FreshLevel = getFreshLevel(myIrdnt);
-		String IrdntName = irdntDao.selectIrdntById(myIrdnt.getIrdntId()).getIrdntName();
+		System.out.println("신선도 후");
+		//String IrdntName = irdntDao.selectIrdntById(myIrdnt.getIrdntId()).getIrdntName();
 		
 		//key값은 jsp쪽에서 고정되도록 처리해야겠다. 
 		MyIrdnt newMyIrdnt= new MyIrdnt(myIrdnt.getMyIrdntKey(),myIrdnt.getStartDate(),myIrdnt.getEndDate(),FreshLevel,
-				myIrdnt.getIrdntCount(),myIrdnt.getIrdntId(),IrdntName,myIrdnt.getFridgerId(),myIrdnt.getStartFreshLevel(),myIrdnt.getStorgePlace());
+				myIrdnt.getIrdntCount(),myIrdnt.getIrdntId(),myIrdnt.getIrdntName(),myIrdnt.getFridgerId(),myIrdnt.getStartFreshLevel(),myIrdnt.getStorgePlace());
 		
+		System.out.println("dao 가기전");
 		dao.updateMyIrdnt(newMyIrdnt);
+		System.out.println("dao간후");
 		
 	}
 
@@ -84,6 +86,7 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 	public String getFreshLevel(MyIrdnt myirdnt) {
 	      // 해당냉장고에서의 재료마다의 신선도 계산하는 메서드.
 
+		System.out.println("신선도시작~"+myirdnt);
 	      int irdntId = myirdnt.getIrdntId();
 	      Long leftDay; // 남은 일수 밀리초변환.
 	      
@@ -91,14 +94,24 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 	         // Calendar myPeriod = Calendar.getInstance();
 	    	 int period;
 	        
-	    	 if (dao.selectMyIrdntByKey(myirdnt.getMyIrdntKey()).getStorgePlace().equals("실온")) {
-	 			period = irdntDao.selectIrdntById(irdntId).getRoomTemPeriod();
-	 		} else if (dao.selectMyIrdntByKey(myirdnt.getMyIrdntKey()).getStorgePlace().equals("냉장")) {
-	 			period = irdntDao.selectIrdntById(irdntId).getColdTemPeriod();
-	 		}else{
-	 			//냉동
-	 			period = irdntDao.selectIrdntById(irdntId).getFreezeTemPeriod();	
-	 		}
+	    	 if(myirdnt.getStorgePlace().equals("실온")){
+	    		 period = irdntDao.selectIrdntById(myirdnt.getIrdntId()).getRoomTemPeriod();
+	    	 }
+	    	 else if(myirdnt.getStorgePlace().equals("냉장")){
+	    		 period=irdntDao.selectIrdntById(myirdnt.getIrdntId()).getColdTemPeriod();
+	    	 }
+	    	 else{
+	    		 period=irdntDao.selectIrdntById(myirdnt.getIrdntId()).getFreezeTemPeriod();
+	    	 }
+	    	 
+	    	/* if (dao.selectMyIrdntByKey(myirdnt.getMyIrdntKey()).getStorgePlace().equals("실온")) {
+		 			period = irdntDao.selectIrdntById(irdntId).getRoomTemPeriod();
+		 		} else if (dao.selectMyIrdntByKey(myirdnt.getMyIrdntKey()).getStorgePlace().equals("냉장")) {
+		 			period = irdntDao.selectIrdntById(irdntId).getColdTemPeriod();
+		 		}else{
+		 			//냉동
+		 			period = irdntDao.selectIrdntById(irdntId).getFreezeTemPeriod();	
+		 		}*/
 	 			
 	         switch (myirdnt.getStartFreshLevel()) {
 	         case "좋음":

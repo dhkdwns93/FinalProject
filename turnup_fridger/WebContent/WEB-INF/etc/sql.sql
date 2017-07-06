@@ -1,6 +1,4 @@
 
-
-
 /*전체 사용자(회원, 관리자) 권한관리_로그인용*/
 DROP TABLE AUTHORITY CASCADE CONSTRAINT;
 DELETE FROM AUTHORITY;
@@ -272,7 +270,7 @@ DROP SEQUENCE MY_IRDNT_KEY;
 CREATE SEQUENCE MY_IRDNT_KEY INCREMENT BY 1 START WITH 1; 
 SELECT MY_IRDNT_KEY.NEXTVAL FROM DUAL;
 
-insert into MY_IRDNT values (1,SYSDATE,NULL,'보통','2개',17,'감자전분',1,'보통','실온');
+--insert into MY_IRDNT values (1,SYSDATE,NULL,'보통','2개',17,'감자전분',1,'보통','실온');
 --select * from MY_IRDNT;
 
 /* 공유레시피재료 */

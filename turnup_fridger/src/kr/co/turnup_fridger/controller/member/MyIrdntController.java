@@ -37,14 +37,13 @@ public class MyIrdntController {
 	
 	@RequestMapping(value = "createMyIrdnt", produces="html/text;charset=UTF-8;")
 	@ResponseBody
-	public ModelAndView createMyIrdnt(@ModelAttribute ("myIrdnt") @Valid MyIrdntForm myIrdntForm, @RequestParam int fridgerId, BindingResult errors)throws Exception{
-		
+	public ModelAndView createMyIrdnt(@ModelAttribute ("myIrdnt") @Valid MyIrdntForm myIrdntForm,BindingResult errors)throws Exception{
 		if(errors.hasErrors()){
 			return new ModelAndView("common/member/myIrdnt/myIrdnt_form");
 		}
 		
 		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<FridgerGroup> group = fridgerService.findFridgerAndFridgerGroupByFridgerId(fridgerId).getFridgerGroupList();
+		List<FridgerGroup> group = fridgerService.findFridgerAndFridgerGroupByFridgerId(myIrdntForm.getFridgerId()).getFridgerGroupList();
 		boolean validChk = false;
 		for(int i=0; i<group.size();i++){
 			if(member.getMemberId().equals(group.get(i).getGroupMemberId())){
@@ -59,7 +58,7 @@ public class MyIrdntController {
 		
 		MyIrdnt myIrdnt = new MyIrdnt();
 		BeanUtils.copyProperties(myIrdntForm, myIrdnt);
-		
+
 		try {
 			service.createMyIrdnt(myIrdnt);
 		} catch (Exception e) {
@@ -70,40 +69,45 @@ public class MyIrdntController {
 	
 	@RequestMapping(value="updateMyIrdnt", produces="html/text;charset=UTF-8;")
 	@ResponseBody
-	public ModelAndView updateMyIrdnt(@ModelAttribute ("myIrdnt") MyIrdntForm myIrdntForm,BindingResult errors,@RequestParam int fridgerId) throws Exception{
+	public ModelAndView updateMyIrdnt(@ModelAttribute ("myIrdnt") @Valid MyIrdntForm myIrdntForm,BindingResult errors,@RequestParam int fridgerId){
 		
 		/*MyIrdntValidator validator = new MyIrdntValidator();
 		validator.validate(irdnt, errors);*/
 		
 		if(errors.hasErrors()){
-			return new ModelAndView("/common/member/myIrdnt/myIrdnt_form");
+			System.out.println("발리데이션?");
+			return new ModelAndView("/common/member/myIrdnt/myIrdnt_update_form");
 		}
+		
 		MyIrdnt myIrdnt = new MyIrdnt();
 		BeanUtils.copyProperties(myIrdntForm, myIrdnt);
-		service.updateMyIrdnt(myIrdnt);
+		try {
+			System.out.println("서비스에 보내는 "+myIrdnt);
+			service.updateMyIrdnt(myIrdnt);
+		} catch (Exception e) {
+			System.out.println("서비스에서 입셉션~");
+			return new ModelAndView("common/member/myIrdnt/myIrdnt_update_form","errorMsg",e.getMessage());
+		}
+		return new ModelAndView("common/member/myIrdnt/myIrdntList");
 		
-		List<MyIrdnt> list = service.findAllMyIrdntByFridgerId(fridgerId);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/common/member/myIrdnt/myIrdntList");
-	    mav.addObject("list", list); 
-	    return mav;
 	}
 	
 	@RequestMapping(value="removeMyIrdnt", produces="html/text;charset=UTF-8;")
 	@ResponseBody
-	public ModelAndView removeMyIrdnt(@RequestParam int irdntKey,@RequestParam int fridgerId) throws Exception{
-		service.removeMyIrdnt(irdntKey);
+	public String removeMyIrdnt(@RequestParam List<Integer> irdntKey,@RequestParam int fridgerId){
 		
-		List<MyIrdnt> list = service.findAllMyIrdntByFridgerId(fridgerId);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/common/member/myIrdnt/myIrdntList");
-	    mav.addObject("list", list); 
-	    return mav;
-		
-	
+		try {
+			for(int i=0;i<irdntKey.size();i++){
+				service.removeMyIrdnt(irdntKey.get(i));
+			}
+		} catch (Exception e) {
+			return "삭제안돼앵~"+e.getMessage();
+		}
+		return "삭제완료!";
 	}
 	
 	@RequestMapping("allMyIrdntList")
+	@ResponseBody
 	public List<MyIrdnt> allMyIrdntList(@RequestParam int fridgerId){
 		List<MyIrdnt> list = service.findAllMyIrdntByFridgerId(fridgerId);
 		return list;
@@ -112,6 +116,8 @@ public class MyIrdntController {
 	@RequestMapping("findMyIrdntByFreshLevelAndIrdntName")
 	@ResponseBody
 	public List<MyIrdnt> findMyIrdntByFreshLevelAndIrdntName(@RequestParam String freshLevel, @RequestParam String irdntName, @RequestParam int fridgerId){
+		System.out.println(freshLevel +","+irdntName+","+fridgerId);
+		
 		List<MyIrdnt> list = service.findMyIrdntByFreshLevelAndIrdntName(freshLevel, irdntName, fridgerId);
 		return list;
 	}

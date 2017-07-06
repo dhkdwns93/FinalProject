@@ -8,18 +8,19 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class MyIrdntForm {
 
 	private int myIrdntKey;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	//@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date startDate;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	//@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
 	private int freshLevel;//동적으로 관리될 식품의 신선도상태
 	private String irdntCount;
-	@NotEmpty(message ="재료id는 필수항목입니다.")
+	//@NotEmpty(message ="재료id는 필수항목입니다.")
 	private int irdntId;
 	private String irdntName;
-	@NotEmpty(message = "냉장고id는 필수항목입니다.")
+	//@NotEmpty(message = "냉장고id는 필수항목입니다.")
 	private int fridgerId;
 	private String startFreshLevel;//시작시 입력받을 식품의 상태
+	private String storgePlace;
 	public int getMyIrdntKey() {
 		return myIrdntKey;
 	}
@@ -74,6 +75,13 @@ public class MyIrdntForm {
 	public void setStartFreshLevel(String startFreshLevel) {
 		this.startFreshLevel = startFreshLevel;
 	}
+	public String getStorgePlace() {
+		return storgePlace;
+	}
+	public void setStorgePlace(String storgePlace) {
+		this.storgePlace = storgePlace;
+	}
+	
 	
 	
 }

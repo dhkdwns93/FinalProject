@@ -61,8 +61,7 @@ public class IrdntManageController {
 		} catch (Exception e) {
 			return new ModelAndView("common/admin/irdntManage/irdnt_update_form","errorMsg",e.getMessage());			
 		}
-		return null;
-				//new ModelAndView("common/admin/irdntManage/irdntList");
+		return new ModelAndView("common/admin/irdntManage/irdntList");
 	}
 	
 	@RequestMapping(value="removeIrdnt" , produces="html/text;charset=UTF-8;")

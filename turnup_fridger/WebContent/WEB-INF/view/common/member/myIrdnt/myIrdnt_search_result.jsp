@@ -31,14 +31,12 @@ $(document).ready(function(){
 	})//searchBtn
 	
 	$(document).on("click","#irdnt_col",function(){
+		//id랑 재료명만 받아오는고~
 		var irdntId = $(this).children(":first-child").text();
-		var irdntName = $(this).children(":ntn-child(2)").text();
-		alert(irdntId);
-		alert(irdntName);
+		var irdntName = $(this).children(":nth-child(2)").text();
 		
-		window.opener.document.getElementById("#irdntId").value = irdntId;
-		window.opener.document.getElementById("#irdntName").value = irdntName;
-
+		$("#irdntId", parent.opener.document).val(irdntId);
+		$("#irdntName", parent.opener.document).val(irdntName);
 	})//click
 })//ready	
 </script>
@@ -62,9 +60,9 @@ td {
 </style>
 </head>
 <body>
-<h2>재료명 검색결과</h2><hr>
+<h2>재료명 검색</h2><hr>
 
-	재료명검색 : 
+	재료명 : 
 	<input type="text" name ="irdntName" id="irdntName">
 	<button type="button" id="searchBtn">검색</button><br><br>
 

@@ -15,8 +15,7 @@ import kr.co.turnup_fridger.vo.IrdntManage;
 public class FindIrdntByIrdntName {
 	
 	@Autowired
-	private IrdntManageService service;
-	
+	private IrdntManageService service;	
 	
 	@RequestMapping("findIrdntByName")
 	@ResponseBody
