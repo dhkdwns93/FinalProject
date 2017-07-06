@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.turnup_fridger.config.mybatis.mapper.ShareRecipeIrdntMapper">
+
+	<sql id="all-column">
+		SELECT
+		SHARE_RECIPE_IRDNT_KEY,
+		BOARD_SHARE_RECIPE_ID,
+		IRDNT_ID
+		FROM SHARE_RECIPE_IRDNT
+	</sql>
+	
+	<!-- resultmap -->
+	<resultMap type="shareRecipeIrdnt" id="shareRecipeIrdnt-resultmap">
+		<id column="SHARE_RECIPE_IRDNT_KEY" property="irdntKey"/>
+		<result column="BOARD_SHARE_RECIPE_ID" property="recipeId"/>
+		<result column="IRDNT_ID" property="irdntId"/>
+	</resultMap>
+	
+	<insert id="insertShareRecipeIrdnt" parameterType="shareRecipeIrdnt">
+		<selectKey keyProperty="irdntKey" resultType="int" order="BEFORE">
+		SELECT SHARE_RECIPE_IRDNT_KEY.NEXTVAL FROM DUAL
+	</selectKey>
+		INSERT INTO SHARE_RECIPE_IRDNT
+		VALUES(#{irdntKey},
+			   #{recipeId},
+			   #{irdntId})
+	</insert>
+	
+	<update id="updateShareRecipeIrdnt" parameterType="shareRecipeIrdnt">
+		UPDATE SHARE_RECIPE_IRDNT
+		SET BOARD_SHARE_RECIPE_ID = #{recipeId},
+			IRDNT_ID = #{irdntId}
+		WHERE SHARE_RECIPE_IRDNT_KEY = #{irdntKey}
+	</update>
+	
+	<delete id="deleteShareRecipeIrdnt" parameterType="int">
+		DELETE FROM SHARE_RECIPE_IRDNT
+		WHERE SHARE_RECIPE_IRDNT_KEY = #{irdntKey}
+	</delete>
+	
+	<select id="selectShareRecipeIrdntAll" resultMap="shareRecipeIrdnt-resultmap">
+		<include refid="all-column"/>
+	</select>
+	
+	<select id="selectShareRecipeIrdntByIrdntId" parameterType="int" resultMap="shareRecipeIrdnt-resultmap">
+		<include refid="all-column"/>
+		WHERE IRDNT_ID = #{irdntId}
+	</select>
+	
+	<select id="selectShareRecipeIrdntJoinByRecipeId" parameterType="int" resultMap="shareRecipeIrdnt-resultmap">
+		<include refid="all-column"/>
+		WHERE BOARD_SHARE_RECIPE_ID = #{recipeId}
+	</select>
+</mapper>

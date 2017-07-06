@@ -68,13 +68,15 @@ $(document).ready(function(){
 </script> -->
 
 <script type="text/javascript">
-$(document).ready(function(){
-	
-});
+function closeWin(){
+	document.fridgerUpdateForm.action="${ initParam.rootPath }/common/member/fridger/update.do";
+	window.opener.location.reload();
+
+}
 </script>
 <body>
 	<h2>냉장고 업뎃폼</h2>	
-	<form name="fridgerUpdateForm" action="${ initParam.rootPath }/common/member/fridger/update.do" method="post">
+	<form name="fridgerUpdateForm"  method="post" onsubmit="closeWin()">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		<table>
 			<tr>

@@ -68,6 +68,7 @@ $(document).ready(function(){
 
 <script type="text/javascript">
 $(document).ready(function(){
+	console.log(window.opener.location);	
 	window.opener.location.reload;
 	self.close();
 });

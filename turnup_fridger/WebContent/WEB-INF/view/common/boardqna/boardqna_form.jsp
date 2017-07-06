@@ -6,12 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger2/scripts/jquery.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 function insert_event(){
 	if (confirm("등록 하시겠습니까??") == true){    
 		//확인
-		location.href="/turnup_fridger2/boardqna/boardqna_view.do";
+		location.href="/turnup_fridger/common/boardqna/boardqna_view.do";
 	}else{   
 		//취소
 	    return false;
@@ -29,12 +29,11 @@ span.error{
 </style>
 </head>
 <body>
-<form action="${initParam.rootPath}/boardqna/boardQnAUploadForm.do" method="post">
-<input type="hidden" name="boardQnAId" value="${boardQnA.boardQnAId}">
+<form action="${initParam.rootPath}/common/boardqna/boardQnAAdd.do" method="POST">
 <table>
 	<tr>
 		<th>작성자</th>
-		<td><input type="text" name="memberId" value="${boardQnA.memberId}"></td>
+		<td><input type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>"></td>
 	</tr>
 	<tr>
 		<th>제목</th>
@@ -46,7 +45,7 @@ span.error{
 	</tr>	
 	<tr>
 		<td>
-			<input type="submit" value="수정" onclick="goSubmit()">
+			<input type="submit" value="등록" onclick="return insert_event();">
 		</td>
 	</tr>
 </table>

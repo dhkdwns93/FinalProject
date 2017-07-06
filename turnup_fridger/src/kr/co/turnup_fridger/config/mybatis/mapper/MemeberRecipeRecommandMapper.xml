@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.turnup_fridger.config.mybatis.mapper.MemeberRecipeRecommandMapper">
+	
+	<sql id="search">
+	<choose>
+	<!-- 검색옵션이 전체 검색일 경우 -->
+		<when test="serchOption == 'all'">
+			WHERE MEMBER_ID LIKE '%'||#{keyword}||'%'
+			OR BOARD_SHARE_RECIPE_TITLE LIKE '%'||#{keyword}||'%'
+			OR BOARD_SHARE_RECIPE_TXT LIKE '%'||#{keyword}||'%'
+		</when>
+	<!-- 전체 검색이 아닐경우 -->
+		<otherwise>
+		WHERE ${searchOption} LIKE '%'||#{keyword}||'%'
+		</otherwise>	
+	</choose>
+	
+	</sql>
+	
+	<!-- 추천 resultMap -->
+	<resultMap type="memberRecipeRecommand" id="recommand-resultmap">
+		<id column="MEMBER_RECIPE_RECOMMAND_KEY" property="recommandKey"/>
+		<result column="BOARD_SHARE_RECIPE_ID" property="recipeId"/>
+		<result column="MEMBER_ID" property="memberId"/>
+		
+	</resultMap>
+
+	<insert id="insertMemberRecipeRecommand" parameterType="memberRecipeRecommand" >
+		<selectKey keyProperty="recommandKey" resultType="int" order="BEFORE">
+			SELECT MEMBER_RECIPE_RECOMMAND_KEY.NEXTVAL FROM DUAL
+		</selectKey>
+	INSERT INTO MEMBER_RECIPE_RECOMMAND
+	VALUES(#{recommandKey},
+		   #{recipeId},
+		   #{memberId})
+	</insert>
+	
+	
+	<update id="updateMemberRecipeRecommand" parameterType="int">
+	UPDATE BOARD_SHARE_RECIPE 
+	SET BOARD_SHARE_RECIPE_RECOMMAND = BOARD_SHARE_RECIPE_RECOMMAND + 1
+	WHERE BOARD_SHARE_RECIPE_ID = #{recipeId}
+	</update>
+	
+	<delete id="deleteRecipeRecommand" parameterType="int">
+	DELETE FROM MEMBER_RECIPE_RECOMMAND
+	WHERE BOARD_SHARE_RECIPE_ID = #{recipeId}
+	</delete>
+	
+	<delete id="deleteMemberRecommand" parameterType="java.lang.String">
+	DELETE FROM MEMBER_RECIPE_RECOMMAND
+	WHERE MEMBER_ID = #{memberId}
+	</delete>
+	
+	<select id="selectRecommand" parameterType="java.util.HashMap" resultMap="recommand-resultmap">
+	SELECT MEMBER_RECIPE_RECOMMAND_KEY, 
+		   BOARD_SHARE_RECIPE_ID, 
+		   MEMBER_ID
+	FROM MEMBER_RECIPE_RECOMMAND
+	WHERE BOARD_SHARE_RECIPE_ID = #{recipeId} AND MEMBER_ID = #{memberId}
+	</select>
+	
+	<select id="searchListAll" parameterType="java.util.HashMap" resultMap="recommand-resultmap">
+	SELECT MEMBER_RECIPE_RECOMMAND_KEY, 
+		   BOARD_SHARE_RECIPE_ID, 
+		   MEMBER_ID,
+		   MEMBER_RECIPE_RECOMMAND_KEYWORD,
+		   MEMBER_RECIPE_RECOMMAND_SEARCHOPTION
+	FROM MEMBER_RECIPE_RECOMMAND
+	<include refid="search"/>
+	ORDER BY MEMBER_RECIPE_RECOMMAND_KEY DESC
+	
+	</select>
+	
+	
+	
+
+
+	
+
+
+
+
+
+
+
+
+
+
+</mapper>

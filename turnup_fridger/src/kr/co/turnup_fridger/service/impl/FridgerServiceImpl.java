@@ -32,7 +32,7 @@ public class FridgerServiceImpl implements FridgerService{
 	@Override
 	public void createFridger(Fridger fridger) throws DuplicatedFridgerException {
 		System.out.println(fridger.getFridgerName());
-		if(!fDao.selectFridgerByFridgerName(fridger.getFridgerName()).isEmpty()){
+		if(fDao.selectFridgerByFridgerFullName(fridger.getFridgerName())!=null){
 			throw new DuplicatedFridgerException("이미 존재하는 냉장고 애칭입니다!");	
 		}
 		fDao.insertFridger(fridger);
@@ -75,10 +75,11 @@ public class FridgerServiceImpl implements FridgerService{
 	}
 
 	@Override
-	public void removeFridger(int fridgerId) throws Exception {
+	public void removeFridger(int fridgerId) throws FindFridgerFailException {
 		if(fDao.selectFridgerByFridgerId(fridgerId) == null){
-			throw new Exception("찾으시는 냉장고가 없습니다!");	
+			throw new FindFridgerFailException("찾으시는 냉장고가 없습니다!");	
 		}
+		fgDao.deleteFridgerGroupByFridgerId(fridgerId);
 		fDao.deleteFridger(fridgerId);
 		System.out.println("------------삭제완료");
 		
