@@ -31,6 +31,9 @@ form{display:inline}
 <a href="${initParam.rootPath}/common/boardqna/boardqna_list.do"><input type="submit" value="QnA"/></a>
 <sec:csrfInput/>
 </form>
+<hr>
+<h3>레시피공유게시판</h3>
+<a href="${initParam.rootPath }/boardRecipe/boardRecipeList.do"><button type="button">목록 시이자악</button></a>
 
 <hr>
 <!-- 은영 -->

@@ -34,6 +34,10 @@
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/MemberMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/AdminMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/AuthorityMapper.xml"/>
+		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/BoardShareRecipeMapper.xml"/>
+		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/ShareRecipeIrdntMapper.xml"/>
+		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/BoardShareRecipeImgMapper.xml"/>
+		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/MemeberRecipeRecommandMapper.xml"/>
 		
 	</mappers>
 </configuration>

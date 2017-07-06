@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.turnup_fridger.config.mybatis.mapper.BoardShareRecipeMapper">
+	
+	<sql id="select-boardShareRecipe">
+		SELECT BOARD_SHARE_RECIPE_ID, 
+		BOARD_SHARE_RECIPE_TITLE, 
+		BOARD_SHARE_RECIPE_TXT, 
+		BOARD_SHARE_RECIPE_DATE, 
+		BOARD_SHARE_RECIPE_RECOMMAND, 
+		BOARD_SHARE_RECIPE_HITS, 
+		BOARD_SHARE_IRDNT_ETC, 
+		MEMBER_ID
+		FROM BOARD_SHARE_RECIPE
+	</sql>
+	
+	<sql id="all-column">
+		BOARD_SHARE_RECIPE_ID, 
+		BOARD_SHARE_RECIPE_TITLE, 
+		BOARD_SHARE_RECIPE_TXT, 
+		BOARD_SHARE_RECIPE_DATE, 
+		BOARD_SHARE_RECIPE_RECOMMAND, 
+		BOARD_SHARE_RECIPE_HITS, 
+		BOARD_SHARE_IRDNT_ETC, 
+		MEMBER_ID
+	</sql>
+	
+	
+	<!-- 공유게시판 resultmap  -->
+	<resultMap type="boardShareRecipe" id="boardShareRecipe-resultmap">
+		<id column="BOARD_SHARE_RECIPE_ID" property="recipeId"/>
+		<result column="BOARD_SHARE_RECIPE_TITLE" property="title"/>
+		<result column="BOARD_SHARE_RECIPE_TXT" property="txt"/>
+		<result column="BOARD_SHARE_RECIPE_DATE" property="date"/>
+		<result column="BOARD_SHARE_RECIPE_RECOMMAND" property="recommand"/>
+		<result column="BOARD_SHARE_RECIPE_HITS" property="hits"/>
+		<result column="BOARD_SHARE_IRDNT_ETC" property="etc"/>
+		<result column="MEMBER_ID" property="memberId"/>
+	</resultMap>
+	<!--  추천현황 resultMap -->
+	<resultMap type="MemberRecipeRecommand" id="recommand-resultMap">
+		<id column="MEMBER_RECIPE_RECOMMAND_KEY" property="recommandKey"/>
+		<result column="BOARD_SHARE_RECIPE_ID" property="recipeId"/>
+		<result column="MEMBER_ID" property="memberId"/>
+	</resultMap>
+	
+	<!-- (사진 + 레시피공유게시판  + 재료명) + 추천현황 -->
+	<resultMap type="boardShareRecipe" id="boardShareRecipe-image-recommand-irdnt-resultmap"
+	extends="boardShareRecipe-irdnt-resultmap">
+		<collection property="memberRecommand" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.MemeberRecipeRecommandMapper.recommand-resultmap"/>
+	</resultMap>
+	
+	
+	<!-- 사진 + 레시피공유게시판 resultMap  -->
+	<resultMap type="boardShareRecipe" id="boardShareRecipe-images-resultmap" extends="boardShareRecipe-resultmap">
+		<collection property="images" column="boardShareRecipeImgUrl" ofType="java.lang.String"/>
+	</resultMap> 
+	
+	
+	<!-- (사진 + 레시피공유게시판) + 재료명  -->
+	<resultMap type="boardShareRecipe" id="boardShareRecipe-irdnt-resultmap"
+	extends="boardShareRecipe-images-resultmap">
+		<collection property="shareRecipeIrdnt" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.ShareRecipeIrdntMapper.shareRecipeIrdnt-resultmap"/>
+	</resultMap>
+	
+	
+	
+	<!-- INSERT -->
+	<insert id="insertBoardShareRecipe" parameterType="boardShareRecipe">
+	<selectKey keyProperty="recipeId" resultType="int" order="BEFORE">
+		SELECT BOARD_SHARE_RECIPE_ID.NEXTVAL FROM DUAL
+	</selectKey>
+		INSERT INTO BOARD_SHARE_RECIPE VALUES(#{recipeId},
+											#{title},
+											#{txt},
+											SYSDATE,
+											#{recommand},
+											#{hits},
+											#{etc},
+											#{memberId}
+											)
+	</insert>
+	
+	<!-- DELETE -->
+	<delete id="deleteBoardShareRecipe" parameterType="int">
+		delete from BOARD_SHARE_RECIPE
+		where BOARD_SHARE_RECIPE_ID = #{recipeId}
+	</delete>
+	
+	<!-- UPDATE -->
+	<update id="updateBoardShareRecipeByRecipeId" parameterType="boardShareRecipe">
+		UPDATE BOARD_SHARE_RECIPE 
+		SET BOARD_SHARE_RECIPE_TITLE = #{title},
+			BOARD_SHARE_RECIPE_TXT = #{txt},
+			BOARD_SHARE_RECIPE_DATE = SYSDATE,
+			BOARD_SHARE_IRDNT_ETC = #{etc},
+		WHERE BOARD_SHARE_RECIPE_ID = #{recipeId}
+	</update>
+	
+	<!-- 조회수  -->
+	<update id="increaseHit" parameterType="int">
+	UPDATE BOARD_SHARE_RECIPE 
+	SET BOARD_SHARE_RECIPE_HITS = BOARD_SHARE_RECIPE_HITS + 1
+	WHERE BOARD_SHARE_RECIPE_ID = #{recipeId}
+	</update>
+	
+	<!-- SELECT : 제목으로 조회 O -->
+	<select id="selectBoardShareRecipeByTitle" parameterType="string"
+	resultMap="boardShareRecipe-resultmap">
+	<include refid="select-boardShareRecipe"/>
+	WHERE BOARD_SHARE_RECIPE_TITLE LIKE '%'||#{title}||'%'
+	</select>
+	
+	<!-- 페이징 카운터  -->
+	<select id="selectBoardCount" resultType="int">
+		SELECT COUNT(*) FROM BOARD_SHARE_RECIPE 
+	</select>
+
+	<!-- SELECT 페이징 : 전체조회 O -->
+	<select id="selectBoardShareRecipeByAll" parameterType="map" resultMap="boardShareRecipe-resultmap" >
+	SELECT<include refid="all-column"/>
+	FROM (
+			SELECT ROWNUM RNUM, <include refid="all-column"/>
+			FROM(
+				<include refid="select-boardShareRecipe"/>
+				ORDER BY BOARD_SHARE_RECIPE_ID ASC
+				)
+			WHERE ROWNUM &lt;=#{endIndex}
+			)
+	WHERE RNUM>=#{startIndex}
+	</select>
+	
+	<!-- 추천 수정 +1 -->
+	<update id="updateBoardRecommand" parameterType="int">
+	UPDATE BOARD_SHARE_RECIPE
+	SET BOARD_SHARE_RECIPE_RECOMMAND = BOARD_SHARE_RECIPE_RECOMMAND + 1
+	WHERE BOARD_SHARE_RECIPE_ID = #{value}
+	</update>
+	
+	<!-- 추천수 등록 -->
+	<insert id="insertRecommand" parameterType="memberRecipeRecommand">
+	<selectKey keyProperty="recommandKey" resultType="int" order="BEFORE">
+		SELECT MEMBER_RECIPE_RECOMMAND_KEY.NEXTVAL FROM DUAL
+	</selectKey>
+	INSERT INTO MEMBER_RECIPE_RECOMMAND
+	VALUES( #{recommandKey}, 
+			#{recipeId}, 
+			#{memberId})
+	
+	</insert>
+	
+	<select id="selectRecommand" parameterType="java.util.HashMap" resultMap="recommand-resultMap">
+	SELECT BOARD_SHARE_RECIPE_ID, MEMBER_ID
+	FROM MEMBER_RECIPE_RECOMMAND
+	WHERE BOARD_SHARE_RECIPE_ID = #{recipeId}
+	AND MEMBER_ID = #{memberId}
+	</select>
+	
+	<!-- 쓸지안쓸지 다시한번 확인 -->
+	<delete id="deleteRecommandService" parameterType="int">
+	DELETE FROM MEMBER_RECIPE_RECOMMAND
+	WHERE BOARD_SHARE_RECIPE_ID = #{recipeId}
+	</delete>
+	
+	<select id="boardSearchByTitle" parameterType="java.util.HashMap" resultMap="boardShareRecipe-resultmap">
+	SELECT<include refid="all-column"/>
+	FROM(
+		SELECT ROWNUM RNUM, <include refid="all-column"/>
+		FROM (
+		 	<include refid="select-boardShareRecipe"/>
+			WHERE BOARD_SHARE_RECIPE_TITLE LIKE '%'||#{keyword}||'%'
+			ORDER BY BOARD_SHARE_RECIPE_ID ASC
+		)
+		WHERE ROWNUM &lt;=#{endIndex}
+	)
+	WHERE RNUM>=#{startIndex}
+	</select>
+	
+	<select id="boardSearchByTxt" parameterType="java.util.HashMap" resultMap="boardShareRecipe-resultmap">
+	SELECT<include refid="all-column"/>
+	FROM(
+		SELECT ROWNUM RNUM, <include refid="all-column"/>
+		FROM (
+		 	<include refid="select-boardShareRecipe"/> 
+			WHERE BOARD_SHARE_RECIPE_TXT LIKE '%'||#{keyword}||'%'
+			ORDER BY BOARD_SHARE_RECIPE_ID ASC
+		)
+		WHERE ROWNUM &lt;=#{endIndex}
+	)
+	WHERE RNUM>=#{startIndex}
+	</select>
+	
+	<select id="boardSearchByMemberId" parameterType="java.util.HashMap" resultMap="boardShareRecipe-resultmap">
+	SELECT<include refid="all-column"/>
+	FROM(
+		SELECT ROWNUM RNUM, <include refid="all-column"/>
+		FROM (
+		 	<include refid="select-boardShareRecipe"/>
+			WHERE MEMBER_ID LIKE '%'||#{keyword}||'%'
+			ORDER BY BOARD_SHARE_RECIPE_ID ASC
+		)
+		WHERE ROWNUM &lt;=#{endIndex}
+	)
+	WHERE RNUM>=#{startIndex}
+	</select>
+	
+	
+	<select id="selectBoardTop4" resultMap="boardShareRecipe-resultmap">
+	SELECT ROWNUM RNUM, <include refid="all-column"/>
+	FROM (
+			<include refid="select-boardShareRecipe"/>
+			<!-- HAVING BOARD_SHARE_RECIPE_RECOMMAND == BOARD_SHARE_RECIPE_RECOMMAND --> 
+			ORDER BY BOARD_SHARE_RECIPE_RECOMMAND DESC 
+			<!-- ORDER BY BOARD_SHARE_RECIPE_DATE ASC -->
+			  
+			
+		)
+	WHERE ROWNUM <![CDATA[<=]]> 4
+	</select>
+	
+	
+	
+	
+	
+	
+	<select id="selectBoardShareRecipeByRecipeIdToImg" parameterType="int" resultMap="boardShareRecipe-images-resultmap">
+		<include refid="select-boardShareRecipe"/>
+		WHERE BOARD_SHARE_RECIPE_ID = #{recipeId}
+	</select>
+	
+	<!--******************************************************************************  -->
+	
+	
+	<!-- SELECT (사진+공유게시판) + 재료 조인 -->
+	<select id="selectBoardShareRecipeByRecipeIdToIrdnt" parameterType="int"
+	resultMap="boardShareRecipe-irdnt-resultmap">
+	SELECT  b.BOARD_SHARE_RECIPE_ID, 
+			b.BOARD_SHARE_RECIPE_TITLE, 
+			b.BOARD_SHARE_RECIPE_TXT, 
+			b.BOARD_SHARE_RECIPE_DATE, 
+			b.BOARD_SHARE_RECIPE_RECOMMAND, 
+			b.BOARD_SHARE_RECIPE_HITS, 
+			b.BOARD_SHARE_IRDNT_ETC , 
+			b.MEMBER_ID,
+			s.SHARE_RECIPE_IRDNT_KEY, 
+			s.BOARD_SHARE_RECIPE_ID, 
+			s.IRDNT_ID
+	FROM BOARD_SHARE_RECIPE b, SHARE_RECIPE_IRDNT s
+	WHERE b.BOARD_SHARE_RECIPE_ID = s.BOARD_SHARE_RECIPE_ID(+) 
+	AND b.BOARD_SHARE_RECIPE_ID = #{recipeId}
+	</select>
+	
+	<select id="boardRead" parameterType="int" resultMap="boardShareRecipe-resultmap">
+	SELECT * FROM BOARD_SHARE_RECIPE
+	WHERE BOARD_SHARE_RECIPE_ID = #{recipeId}
+	</select>
+	
+</mapper>

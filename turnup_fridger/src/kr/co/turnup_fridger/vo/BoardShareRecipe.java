@@ -16,6 +16,7 @@ public class BoardShareRecipe implements Serializable{
 	private int hits;	//조회수
 	private String etc;	 //기타재료
 	
+	
 	private String memberId;	//회원ID
 	private Member member;//회원 객체
 	
@@ -31,14 +32,39 @@ public class BoardShareRecipe implements Serializable{
 
 
 	public BoardShareRecipe() {
-		super();
+	
 	}
 
 	
 
+	public BoardShareRecipe(int recipeId, String title, String txt, Date date, String etc) {
+		
+		this.recipeId = recipeId;
+		this.title = title;
+		this.txt = txt;
+		this.date = date;
+		this.etc = etc;
+	}
+
+
+	//insert
+	public BoardShareRecipe(int recipeId, String title, String txt, Date date, int recommand, int hits, String etc,
+			String memberId) {
+		this.recipeId = recipeId;
+		this.title = title;
+		this.txt = txt;
+		this.date = date;
+		this.recommand = recommand;
+		this.hits = hits;
+		this.etc = etc;
+		this.memberId = memberId;
+	}
+
+
+
 	public BoardShareRecipe(int recipeId, String title, String txt, Date date, int recommand, int hits, String etc,
 			List<String> images) {
-		super();
+		
 		this.recipeId = recipeId;
 		this.title = title;
 		this.txt = txt;
@@ -53,7 +79,7 @@ public class BoardShareRecipe implements Serializable{
 
 	public BoardShareRecipe(int recipeId, String title, String txt, Date date, int recommand, int hits, String etc,
 			String memberId, List<String> images, List<ShareRecipeIrdnt> shareRecipeIrdnt) {
-		super();
+		
 		this.recipeId = recipeId;
 		this.title = title;
 		this.txt = txt;
@@ -70,7 +96,7 @@ public class BoardShareRecipe implements Serializable{
 
 	public BoardShareRecipe(int recipeId, String title, String txt, Date date, int recommand, int hits, String etc,
 			String memberId, Member member, List<MemberRecipeRecommand> memberRecommand) {
-		super();
+		
 		this.recipeId = recipeId;
 		this.title = title;
 		this.txt = txt;
@@ -88,7 +114,7 @@ public class BoardShareRecipe implements Serializable{
 	public BoardShareRecipe(int recipeId, String title, String txt, Date date, int recommand, int hits, String etc,
 			String memberId, Member member, List<String> images, List<MemberRecipeRecommand> memberRecommand,
 			List<ShareRecipeIrdnt> shareRecipeIrdnt) {
-		super();
+		
 		this.recipeId = recipeId;
 		this.title = title;
 		this.txt = txt;
