@@ -9,21 +9,6 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <style type="text/css">
-a:link{
-	/*방문하지 않은 링크 설정.*/
-	text-decoration:none; /*밑줄 안나오도록 처리.*/
-	color:black;
-}
-a:visited{
-	/*방문한 링크 설정*/
-	text-decoration: none;
-	color:black;
-}
-a:hover{
-	/*마우스 포인터가 올라간 시점의 설정.*/
-	text-decoration: underline;
-	color:red;
-}
 
 form{display:inline}
 
