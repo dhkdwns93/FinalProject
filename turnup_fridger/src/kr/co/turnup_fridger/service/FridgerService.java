@@ -101,5 +101,7 @@ public interface FridgerService {
 	 */
 	List<Fridger> findFridgerAndIrdntByOwnerId(String memberId);
 	
+	
+	
 
 }
