@@ -38,7 +38,11 @@ public class MyIrdntController {
 	@RequestMapping(value = "createMyIrdnt", produces="html/text;charset=UTF-8;")
 	@ResponseBody
 	public ModelAndView createMyIrdnt(@ModelAttribute ("myIrdnt") @Valid MyIrdntForm myIrdntForm,BindingResult errors)throws Exception{
+		
+		System.out.println("++++"+myIrdntForm);
 		if(errors.hasErrors()){
+			
+			System.out.println("발리데이션?");
 			return new ModelAndView("common/member/myIrdnt/myIrdnt_form");
 		}
 		
@@ -53,6 +57,7 @@ public class MyIrdntController {
 			}
 		}
 		if(!validChk){
+			
 			throw new Exception("적합한 사용자가 아닙니다."); 
 		}
 		
@@ -60,23 +65,24 @@ public class MyIrdntController {
 		BeanUtils.copyProperties(myIrdntForm, myIrdnt);
 
 		try {
+			System.out.println("서비스 보내기 전");
 			service.createMyIrdnt(myIrdnt);
+			System.out.println("서비스 후 ");
 		} catch (Exception e) {
+			System.out.println("잡혔어?");
 			return new ModelAndView("common/member/myIrdnt/myIrdnt_form","errorMsg",e.getMessage());
 		}
+		
 		return new ModelAndView("common/member/myIrdnt/myIrdntList");
 	}
 	
 	@RequestMapping(value="updateMyIrdnt", produces="html/text;charset=UTF-8;")
 	@ResponseBody
-	public ModelAndView updateMyIrdnt(@ModelAttribute ("myIrdnt") @Valid MyIrdntForm myIrdntForm,BindingResult errors,@RequestParam int fridgerId){
-		
-		/*MyIrdntValidator validator = new MyIrdntValidator();
-		validator.validate(irdnt, errors);*/
+	public ModelAndView updateMyIrdnt(@ModelAttribute ("myIrdnt") @Valid MyIrdntForm myIrdntForm,BindingResult errors){
 		
 		if(errors.hasErrors()){
 			System.out.println("발리데이션?");
-			return new ModelAndView("/common/member/myIrdnt/myIrdnt_update_form");
+			return new ModelAndView("/common/member/myIrdnt/myIrdnt_detail");
 		}
 		
 		MyIrdnt myIrdnt = new MyIrdnt();
@@ -86,7 +92,7 @@ public class MyIrdntController {
 			service.updateMyIrdnt(myIrdnt);
 		} catch (Exception e) {
 			System.out.println("서비스에서 입셉션~");
-			return new ModelAndView("common/member/myIrdnt/myIrdnt_update_form","errorMsg",e.getMessage());
+			return new ModelAndView("common/member/myIrdnt/myIrdnt_detail","errorMsg",e.getMessage());
 		}
 		return new ModelAndView("common/member/myIrdnt/myIrdntList");
 		
@@ -122,9 +128,7 @@ public class MyIrdntController {
 		return list;
 	}
 	
-	//날짜순 정렬을 만들어야하나?
-	//재료명만으로 검색도 만들어야하나...? 쓸곳이 있나...?
-	
+	//날짜순 정렬을 만들어야하나?	
 	
 	@RequestMapping("findIrdntByName" )
 	@ResponseBody
@@ -133,6 +137,12 @@ public class MyIrdntController {
 		return list;
 	}
 	
+	@RequestMapping("findIrdntByKey")
+	@ResponseBody
+	public ModelAndView findIrdntByKey(@RequestParam int myIrdntKey){
+		MyIrdnt myIrdnt = service.fingMyIrdntBymyIrdntKey(myIrdntKey);
+		return new ModelAndView("common/member/myIrdnt/myIrdnt_detail","myIrdnt",myIrdnt);
+	}
 	
 	
 /*	@RequestMapping("findMyIrdntByKeyword")

@@ -11,7 +11,7 @@
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){		
-		//검색버튼을 누르면,myIrdnt_search_result팝업창을 열고-> 팝업창에서 irdntId가 넘어올예정.
+		
 		$("#searchBtn").on("click",function(){
 			window.open("/turnup_fridger/common/member/myIrdnt/myIrdnt_search_result.do","Irdnt_search","width=1100, height=700");
 		})//searchBtn

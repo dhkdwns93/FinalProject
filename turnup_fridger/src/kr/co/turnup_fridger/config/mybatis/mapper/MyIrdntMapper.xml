@@ -56,7 +56,7 @@
 			irdnt_id=#{irdntId},
 			irdnt_name=#{irdntName},
 			fridger_id=#{fridgerId},
-			start_fresh_level=#{startFreshLevel}
+			start_fresh_level=#{startFreshLevel},
 			storge_place=#{storgePlace}
 		where my_irdnt_key=#{myIrdntKey}
 	</update>
