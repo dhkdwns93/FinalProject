@@ -51,6 +51,7 @@
         <filter-name>springMultipartFilter</filter-name>
         <url-pattern>*.do</url-pattern>
     </filter-mapping>
+    <!-- 시큐리티 필터는 항상 맨 끝에 두세요 -->
  <filter>
     <filter-name>springSecurityFilterChain</filter-name>
     <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
