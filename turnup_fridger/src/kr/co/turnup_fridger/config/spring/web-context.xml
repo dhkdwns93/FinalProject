@@ -150,8 +150,7 @@
 	<!-- 나의 식재료 재료명 검색 페이지   -->
 	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_search_result.do" view-name="common/member/myIrdnt/myIrdnt_search_result"/>
 	
-	
-	
+
 	<!-- 메모등록 -->
 	<mvc:view-controller path="/common/member/memo/memo_register_form.do" view-name="common/member/memo/memo_register_form"/>
 	<!-- 메모수정 -->
@@ -164,9 +163,7 @@
 	<mvc:view-controller path="/common/shop/shop_register_form.do" view-name="common/shop/shop_register_form"/>
 	<!-- 쇼핑몰리스트 -->
 	<mvc:view-controller path="/common/shop/shopList.do" view-name="common/shop/shopList"/>
-	<!-- 냉장고그룹멤버목록 -->
-	<mvc:view-controller path="/common/member/FridgerGroup/groupMemberList.do" view-name="common/member/FridgerGroup/groupMemberList"/>
-	
+
 	
 	<!-- TilesConfigurer : tiles설정파일을 등록하는 bean -->
 	<bean name="tilesConfig" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">

@@ -16,7 +16,7 @@ public class MyMemoDaoImpl implements MyMemoDao{
 	@Autowired
 	private SqlSessionTemplate session;
 
-	String sql="kr.co.turnUp_fridger.config.mybatis.mapper.myMemoMapper.";
+	String sql="kr.co.turnup_fridger.config.mybatis.mapper.myMemoMapper.";
 	
 	@Override
 	public int insertMemo(MyMemo memo) {

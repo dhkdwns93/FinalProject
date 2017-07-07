@@ -23,7 +23,7 @@ public class ShopServiceImpl implements ShopService{
 		
 		
 		// 쇼핑몰 추가
-		s.insertShop( new Shop(7, "이름", "주소", "사진"));
+		//s.insertShop( new Shop(7, "이름", "주소", "사진"));
 		//System.out.println(shop.getShopName()+"이 등록되었습니다." );
 		
 		System.out.println("--------------------");
