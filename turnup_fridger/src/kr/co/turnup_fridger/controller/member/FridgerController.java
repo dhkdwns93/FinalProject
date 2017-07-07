@@ -1,20 +1,26 @@
 package kr.co.turnup_fridger.controller.member;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.turnup_fridger.exception.DuplicatedFridgerException;
@@ -40,6 +46,9 @@ public class FridgerController {
 	private FridgerGroupService fridgerGroupService; 
 	@Autowired
 	private JoinProcessService joinProcessService;
+	
+	private String eclipseDir = "C:\\Java\\src\\images"; 
+	 
 	
 	List list;
 	Fridger fridger;
@@ -415,5 +424,57 @@ public class FridgerController {
 
 		return result + "이 거절되었습니다!";
 	}
+	
+	
+	
+	
+	/*************************업로드 테스트**************************/
+	
+	@RequestMapping(value="/register/imgs", method={RequestMethod.POST} )	// input type="file"으로 전송받는 변수는 MultipartFile 타입으로 선언
+	public ModelAndView regisgerFridgerWithImgs(@RequestParam String fridgerName,
+												@RequestParam String memberId,
+									@RequestParam MultipartFile fridgerImgSrc,
+								HttpServletRequest request,
+								ModelMap map) throws IllegalStateException, IOException{
+		fridger = new Fridger(0, fridgerName, memberId);
+		String fileName = null;
+		System.out.println("=========="+fridgerName);
+		long fileSize= 0;		//업로드된 파일은 임시 경로에 있음 -> 최종 저장 디렉터리에 옮기는 작업
+		if(fridgerImgSrc != null && !fridgerImgSrc.isEmpty()){
+			fileName = fridgerImgSrc.getOriginalFilename();
+			fileSize= fridgerImgSrc.getSize();
+			System.out.printf("파일명 :%s, 파일크기 :%d%n", fileName, fileSize);
+			
+			//이동 : request.getServletContext().getRealPath("하위 경로") - Application의 Root경로의 실제 파일경로로 리턴
+			System.out.println("request.getServletContext().getRealPath() : "+ request.getServletContext().getRealPath("/images") );
+			File dest = new File(request.getServletContext().getRealPath("/images"), fileName);
+			
+			fridgerImgSrc.transferTo(dest);	// Exception 던짐
+			
+		}
+		// 요청 파라미터 검증 
+		
+		
+			
+		
+		// 비즈니스 로직 처리
+		// 0) 권한 ID 체크(지금 로그인한 회원)
+		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		// 1) 빈 냉장고 생성해서  검증된 fridgerForm 넣기
+		fridger.setMemberId(member.getMemberId());
+		fridger.setFridgerImg(fileName);
+		System.out.println("냉장고 등록 로그:"+fridger);	//log
+		
+		try {
+			// 2) 냉장고 DB에 저장(서비스단에서 냉장고 그룹생성 과정 처리)
+			fridgerService.createFridger(fridger);
+		} catch (DuplicatedFridgerException e) {	//냉장고 이름중복되면 예외발생
+			e.printStackTrace();
+			return new ModelAndView("common/member/fridger/register_form", "errorMsg_fridgerName", e.getMessage());
+		}
+		
+		return new ModelAndView("redirect:success.do", "fridgerId", fridger.getFridgerId());
+	}
+	
 	
 }

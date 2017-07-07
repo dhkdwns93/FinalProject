@@ -44,6 +44,7 @@
 	<id column="fridger_id" property="fridgerId"/>
 	<result column="fridger_name" property="fridgerName"/>
 	<result column="member_id" property="memberId"/>
+	<result column="fridger_img" property="fridgerImg"/>
 </resultMap>
 
 
@@ -73,7 +74,8 @@
 	VALUES(
 		#{fridgerId},
 		#{fridgerName},
-		#{memberId}
+		#{memberId},
+		#{fridgerImg}
 	)
 </insert>
 
