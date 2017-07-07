@@ -104,13 +104,12 @@ td {
 	<h2>재료 목록</h2>
 	<hr>
 
-	<a href="/turnup_fridger/common/admin/irdntManage/irdnt_form.do">재료추가</a><br><br>
-
+	<a href="/turnup_fridger/common/admin/irdntManage/findAllICategory2.do">재료추가</a><br><br>
 	카테고리 :
 	<select name="irdntCategory" id="irdntCategory">
 		<option value="전체">전체</option>
-		<c:forEach items="${requestScope.irdntCategory}" var="irdntCategory">
-			<option value="${irdntCategory}">${irdntCategory}</option>
+		<c:forEach items="${requestScope.irdntCategory}" var="cate">
+			<option value="${cate}">${cate}</option>
 		</c:forEach>
 	</select> 
 	

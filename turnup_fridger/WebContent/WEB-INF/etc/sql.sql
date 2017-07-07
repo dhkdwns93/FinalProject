@@ -239,7 +239,7 @@ CREATE TABLE IRDNT_MANAGE (
    FREEZE_TEM_PERIOD NUMBER, /*냉동보관기간*/
    NOTE VARCHAR2(50)
 );
-select * from irdnt_manage;
+--select distinct irdnt_category from irdnt_manage;
 
 DROP SEQUENCE IRDNT_ID;
 CREATE SEQUENCE IRDNT_ID INCREMENT BY 1000 START WITH 1;  
@@ -247,7 +247,7 @@ SELECT IRDNT_ID.NEXTVAL FROM DUAL;
 
 --insert into irdnt_manage values (0,'테스트','가공식품',1,1,1,'테스트야~');
 --select * from IRDNT_MANAGE;
---select distinct irdnt_category from irdnt_manage;
+select distinct irdnt_category from irdnt_manage;
   
 /* 나의 식재료 */
 DROP TABLE MY_IRDNT;

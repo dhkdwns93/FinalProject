@@ -2,6 +2,8 @@ package kr.co.turnup_fridger.service;
 
 import java.util.List;
 
+import kr.co.turnup_fridger.exception.DuplicateIrdntException;
+import kr.co.turnup_fridger.exception.NoneIrdntException;
 import kr.co.turnup_fridger.vo.IrdntManage;
 
 public interface IrdntManageService {
@@ -12,7 +14,7 @@ public interface IrdntManageService {
 	 * @return 
 	 * @throws Exception 
 	 */
-	void createIrdnt(IrdntManage irdnt) throws Exception;
+	void createIrdnt(IrdntManage irdnt) throws DuplicateIrdntException;
 	
 	/**
 	 * 재료수정
@@ -20,7 +22,7 @@ public interface IrdntManageService {
 	 * @return 
 	 * @throws Exception 
 	 */
-	void updateIrdnt(IrdntManage irdnt) throws Exception;
+	void updateIrdnt(IrdntManage irdnt) throws DuplicateIrdntException,NoneIrdntException;
 	
 	/**
 	 * 재료삭제
@@ -28,7 +30,7 @@ public interface IrdntManageService {
 	 * @return 
 	 * @throws Exception 
 	 */
-	void removeIrdnt(int irdntId) throws Exception;
+	void removeIrdnt(int irdntId) throws NoneIrdntException;
 	
 	/**
 	 * 모든 재료 불러오기

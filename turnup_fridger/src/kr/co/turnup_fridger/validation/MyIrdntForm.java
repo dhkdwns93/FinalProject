@@ -12,12 +12,13 @@ public class MyIrdntForm {
 	
 	private int myIrdntKey;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@NotNull(message="보관시작일을 입력해주세요.")
 	private Date startDate;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
-	private int freshLevel;//동적으로 관리될 식품의 신선도상태
+	private String freshLevel;//동적으로 관리될 식품의 신선도상태
 	private String irdntCount;
-	@NotNull(message ="재료id는 필수항목입니다.")
+	//@NotNull(message ="재료id는 필수항목입니다.")
 	private int irdntId;
 	@NotEmpty(message ="재료명은 필수항목입니다. ")
 	private String irdntName;
@@ -46,10 +47,10 @@ public class MyIrdntForm {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	public int getFreshLevel() {
+	public String getFreshLevel() {
 		return freshLevel;
 	}
-	public void setFreshLevel(int freshLevel) {
+	public void setFreshLevel(String freshLevel) {
 		this.freshLevel = freshLevel;
 	}
 	public String getIrdntCount() {

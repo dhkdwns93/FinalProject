@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.turnup_fridger.exception.DuplicateMyIrdntException;
+import kr.co.turnup_fridger.exception.NoneMyIrdntException;
 import kr.co.turnup_fridger.service.FridgerService;
 import kr.co.turnup_fridger.service.IrdntManageService;
 import kr.co.turnup_fridger.service.MyIrdntService;
@@ -37,18 +39,15 @@ public class MyIrdntController {
 	
 	@RequestMapping(value = "createMyIrdnt", produces="html/text;charset=UTF-8;")
 	@ResponseBody
-	public ModelAndView createMyIrdnt(@ModelAttribute ("myIrdnt") @Valid MyIrdntForm myIrdntForm,BindingResult errors)throws Exception{
+	public ModelAndView createMyIrdnt(@ModelAttribute ("myIrdnt") @Valid MyIrdntForm myIrdntForm,BindingResult errors){
 		
-		System.out.println("++++"+myIrdntForm);
 		if(errors.hasErrors()){
-			
-			System.out.println("발리데이션?");
 			return new ModelAndView("common/member/myIrdnt/myIrdnt_form");
 		}
 		
 		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<FridgerGroup> group = fridgerService.findFridgerAndFridgerGroupByFridgerId(myIrdntForm.getFridgerId()).getFridgerGroupList();
-		boolean validChk = false;
+	/*	boolean validChk = false;
 		for(int i=0; i<group.size();i++){
 			if(member.getMemberId().equals(group.get(i).getGroupMemberId())){
 				//현재회원의 id가 이 냉장고그룹에 속해있는지 하나하나 확인-> 같다.있다.
@@ -57,22 +56,17 @@ public class MyIrdntController {
 			}
 		}
 		if(!validChk){
-			
 			throw new Exception("적합한 사용자가 아닙니다."); 
-		}
+		}*/
 		
 		MyIrdnt myIrdnt = new MyIrdnt();
 		BeanUtils.copyProperties(myIrdntForm, myIrdnt);
 
 		try {
-			System.out.println("서비스 보내기 전");
 			service.createMyIrdnt(myIrdnt);
-			System.out.println("서비스 후 ");
-		} catch (Exception e) {
-			System.out.println("잡혔어?");
-			return new ModelAndView("common/member/myIrdnt/myIrdnt_form","errorMsg",e.getMessage());
+		} catch (DuplicateMyIrdntException e) {
+			return new ModelAndView("common/member/myIrdnt/myIrdnt_form","errorMsg_keyDuplicate",e.getMessage());
 		}
-		
 		return new ModelAndView("common/member/myIrdnt/myIrdntList");
 	}
 	
@@ -81,18 +75,15 @@ public class MyIrdntController {
 	public ModelAndView updateMyIrdnt(@ModelAttribute ("myIrdnt") @Valid MyIrdntForm myIrdntForm,BindingResult errors){
 		
 		if(errors.hasErrors()){
-			System.out.println("발리데이션?");
-			return new ModelAndView("/common/member/myIrdnt/myIrdnt_detail");
+			return new ModelAndView("/common/member/myIrdnt/myIrdnt_update_form");
 		}
 		
 		MyIrdnt myIrdnt = new MyIrdnt();
 		BeanUtils.copyProperties(myIrdntForm, myIrdnt);
 		try {
-			System.out.println("서비스에 보내는 "+myIrdnt);
 			service.updateMyIrdnt(myIrdnt);
-		} catch (Exception e) {
-			System.out.println("서비스에서 입셉션~");
-			return new ModelAndView("common/member/myIrdnt/myIrdnt_detail","errorMsg",e.getMessage());
+		} catch (NoneMyIrdntException e) {
+			return new ModelAndView("common/member/myIrdnt/myIrdnt_detail","errorMsg_keyNull",e.getMessage());
 		}
 		return new ModelAndView("common/member/myIrdnt/myIrdntList");
 		
@@ -101,12 +92,11 @@ public class MyIrdntController {
 	@RequestMapping(value="removeMyIrdnt", produces="html/text;charset=UTF-8;")
 	@ResponseBody
 	public String removeMyIrdnt(@RequestParam List<Integer> irdntKey,@RequestParam int fridgerId){
-		
 		try {
 			for(int i=0;i<irdntKey.size();i++){
 				service.removeMyIrdnt(irdntKey.get(i));
 			}
-		} catch (Exception e) {
+		} catch (NoneMyIrdntException e) {
 			return "삭제안돼앵~"+e.getMessage();
 		}
 		return "삭제완료!";
@@ -141,7 +131,7 @@ public class MyIrdntController {
 	@ResponseBody
 	public ModelAndView findIrdntByKey(@RequestParam int myIrdntKey){
 		MyIrdnt myIrdnt = service.fingMyIrdntBymyIrdntKey(myIrdntKey);
-		return new ModelAndView("common/member/myIrdnt/myIrdnt_detail","myIrdnt",myIrdnt);
+		return new ModelAndView("common/member/myIrdnt/myIrdnt_update_form","myIrdnt",myIrdnt);
 	}
 	
 	

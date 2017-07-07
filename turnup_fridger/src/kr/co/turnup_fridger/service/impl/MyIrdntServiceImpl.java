@@ -1,6 +1,5 @@
 package kr.co.turnup_fridger.service.impl;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import kr.co.turnup_fridger.dao.IrdntManageDao;
 import kr.co.turnup_fridger.dao.MyIrdntDao;
+import kr.co.turnup_fridger.exception.DuplicateMyIrdntException;
+import kr.co.turnup_fridger.exception.NoneMyIrdntException;
 import kr.co.turnup_fridger.service.MyIrdntService;
 import kr.co.turnup_fridger.vo.MyIrdnt;
 
@@ -21,9 +22,9 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 	private IrdntManageDao irdntDao;
 	
 	@Override
-	public void createMyIrdnt(MyIrdnt myIrdnt) throws Exception {
+	public void createMyIrdnt(MyIrdnt myIrdnt) throws DuplicateMyIrdntException {
 		if(dao.selectMyIrdntByKey(myIrdnt.getMyIrdntKey())!=null){
-			throw new Exception("이미 있는 식재료입니다.");
+			throw new DuplicateMyIrdntException("이미 있는 식재료입니다.");
 		}
 		//받아올 값 = 재료id, 보관시작일, 유통기한, 수량메모, 재료id, 냉장고id, 보관시작상태 
 		//수정해서 넣을값 = 식재료key(시퀀스), 신선도(계산), 재료이름(매치해서 넣자)
@@ -41,9 +42,9 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 	}
 
 	@Override
-	public void updateMyIrdnt(MyIrdnt myIrdnt) throws Exception {
+	public void updateMyIrdnt(MyIrdnt myIrdnt) throws NoneMyIrdntException {
 		if(dao.selectMyIrdntByKey(myIrdnt.getMyIrdntKey())==null){
-			throw new Exception("없는 식재료입니다.");
+			throw new NoneMyIrdntException("없는 식재료입니다.");
 		}
 		//재료id를 제외한 다른것들을 수정, 다시 계산해야함
 		System.out.println("신선도 전");
@@ -62,9 +63,9 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 	}
 
 	@Override
-	public void removeMyIrdnt(int irdntKey) throws Exception {
+	public void removeMyIrdnt(int irdntKey) throws NoneMyIrdntException {
 		if (dao.selectMyIrdntByKey(irdntKey) == null) {
-			throw new Exception("없는 식재료입니다.");
+			throw new NoneMyIrdntException("없는 식재료입니다.");
 		}
 		dao.deleteMyIrdnt(irdntKey);
 
