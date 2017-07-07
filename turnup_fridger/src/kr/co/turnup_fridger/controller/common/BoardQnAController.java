@@ -32,12 +32,11 @@ import kr.co.turnup_fridger.vo.BoardNotice;
 import kr.co.turnup_fridger.vo.BoardQnA;
 
 @Controller
-@RequestMapping("/boardqna/")
+@RequestMapping("/common/boardqna/")
 public class BoardQnAController extends HttpServlet {
 	
 		@Autowired
 		private BoardQnAService service;
-		
 			
 		//전체 리스트
 		@RequestMapping("boardQnAList")
@@ -48,7 +47,7 @@ public class BoardQnAController extends HttpServlet {
 	        ModelAndView mav = new ModelAndView();
 		    mav.addObject("list", map.get("list"));
 		    mav.addObject("pageBean", map.get("pageBean"));
-	        mav.setViewName("boardqna/boardqna_list"); // 뷰를 list.jsp로 설정
+	        mav.setViewName("common/boardqna/boardqna_list"); // 뷰를 list.jsp로 설정
 	        return mav; 
 		} 
 	
@@ -65,7 +64,7 @@ public class BoardQnAController extends HttpServlet {
 		    mav.addObject("list", map.get("list"));
 		    mav.addObject("memberId",  map.get("memberId"));
 		    mav.addObject("pageBean", map.get("pageBean"));
-	        mav.setViewName("boardqna/boardqna_list_memberid"); // 뷰를 list.jsp로 설정
+	        mav.setViewName("common/boardqna/boardqna_list_memberid"); // 뷰를 list.jsp로 설정
 
 	        return mav; 
 		}
@@ -73,15 +72,32 @@ public class BoardQnAController extends HttpServlet {
 		//상세보기
 		@RequestMapping("boardQnAView")
 		@ResponseBody
-		public ModelAndView boardQnAView(@RequestParam int boardQnAId)
+		public ModelAndView boardQnAView(@RequestParam int boardQnAId,
+				@RequestParam String member,@RequestParam String admin, 
+				@RequestParam String memberId,@RequestParam(defaultValue="1") int page)
 		{
 			ModelAndView mav = new ModelAndView();
 			
-			mav.setViewName("boardqna/boardqna_view");
+			System.out.println(boardQnAId);
+			System.out.println(member);
+			System.out.println(admin);
+			System.out.println(memberId);
 			
-			mav.addObject("boardQnA", service.findBoardQnAById(boardQnAId));
-		    
-			return mav;
+			
+			if( (member.equals(memberId) && admin.trim().isEmpty()) || !admin.trim().isEmpty())
+			{
+				mav.setViewName("common/boardqna/boardqna_view");
+				
+				mav.addObject("boardQnA", service.findBoardQnAById(boardQnAId));
+				return mav;
+			}
+			
+			Map<String, Object> map = service.findBoardQnAList(page);
+			
+		    mav.addObject("list", map.get("list"));
+		    mav.addObject("pageBean", map.get("pageBean"));
+	        mav.setViewName("common/boardqna/boardqna_list"); 
+	        return mav; 
 		}		
 		
 		//등록
@@ -94,7 +110,7 @@ public class BoardQnAController extends HttpServlet {
 			if(errors.hasErrors()) 
 			{
 				//errors에 오류가 1개라도 등록되 있으면 true 리턴
-				return new ModelAndView("boardqna/boardqna_form"); 
+				return new ModelAndView("common/boardqna/boardqna_form"); 
 			}
 			ModelAndView mav = new ModelAndView();
 			
@@ -102,7 +118,7 @@ public class BoardQnAController extends HttpServlet {
 			
 			mav.addObject("boardQnA",boardQnA);
 			
-			mav.setViewName("boardqna/boardqna_view");
+			mav.setViewName("common/boardqna/boardqna_view");
 			
 			mav.addObject("boardQnA", service.findBoardQnAById(boardQnA.getBoardQnAId()));
 	        
@@ -120,7 +136,7 @@ public class BoardQnAController extends HttpServlet {
 	        ModelAndView mav = new ModelAndView();
 		    mav.addObject("list", map.get("list"));
 		    mav.addObject("pageBean", map.get("pageBean"));
-	        mav.setViewName("boardqna/boardqna_list"); // 뷰를 list.jsp로 설정
+	        mav.setViewName("common/boardqna/boardqna_list"); // 뷰를 list.jsp로 설정
 	        return mav; 
 
 		}	
@@ -131,7 +147,7 @@ public class BoardQnAController extends HttpServlet {
 		{
 			ModelAndView mav = new ModelAndView();
 			
-			mav.setViewName("boardqna/boardqna_upload");
+			mav.setViewName("common/boardqna/boardqna_upload");
 			
 			mav.addObject("boardQnA", service.findBoardQnAById(boardQnAId));
 		    
@@ -148,7 +164,7 @@ public class BoardQnAController extends HttpServlet {
 			if(errors.hasErrors()) 
 			{
 				//errors에 오류가 1개라도 등록되 있으면 true 리턴
-				return new ModelAndView("boardqna/boardqna_form"); 
+				return new ModelAndView("common/boardqna/boardqna_form"); 
 			}
 			ModelAndView mav = new ModelAndView();
 			
@@ -156,7 +172,7 @@ public class BoardQnAController extends HttpServlet {
 			BoardQnA bq = new BoardQnA(0,boardQnA.getBoardQnATitle(),boardQnA.getBoardQnATxt(),boardQnA.getBoardQnAdate(),boardQnA.getMemberId());
 			mav.addObject("boardQnA",bq);
 		    
-			mav.setViewName("boardqna/boardqna_view");
+			mav.setViewName("common/boardqna/boardqna_view");
 			
 			mav.addObject("boardQnA", service.findBoardQnAById(boardQnAId));
 		    

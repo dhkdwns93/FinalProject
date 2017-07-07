@@ -17,10 +17,17 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <!-- 부가적인 테마 -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 $(document).ready(function(){
 	
-	$("#submitBtn").on("click", function(){
+	$(document).on("click","#submitBtn", function(){
+		/* alert($("input#fridgerName").val());
+		 window.opener.name = "parentPage"; // 부모창의 이름 설정
+		    document.fridgerUpdateForm.target = "parentPage"; // 타켓을 부모창으로 설정
+		   document.fridgerUpdateForm.action = "${ initParam.rootPath }/common/member/fridger/update.do";
+		    document.fridgerUpdateForm.submit(); */
+		    //self.close();
+		alert($("input#fridgerName").val());
 		$.ajax({
 			"url":"${ initParam.rootPath }/common/member/fridger/update.do",
 			"type":"post",
@@ -29,15 +36,22 @@ $(document).ready(function(){
 					'memberId': $("input#memberId").val(),
 					'${_csrf.parameterName}':'${_csrf.token}'
 					},
+			"dataType":"text",
 			"beforeSend":function(){	
 				if(confirm("수정하시겠습니까?") != true){
 					return false;
 				}
 			},
-			"success": function(){
-			    window.opener.name = "parentPage"; // 부모창의 이름 설정
-			    document.fridgerUpdateForm.target = "parentPage"; // 타켓을 부모창으로 설정
-			    self.close();
+			"success": function(result){
+				console.log(result);
+				if(result == "success"){
+				window.opener.location.reload;
+				self.close();
+				}
+				location.reload;
+				
+		
+				
 		     },
 	        "error":function(xhr, msg, code){
 				alert("오류발생-" + code);
@@ -45,30 +59,45 @@ $(document).ready(function(){
 			
 		});	//end of ajax
 
-	    document.fridgerUpdateForm.action = "${ initParam.rootPath }/common/member/fridger/update.do";
+	/*     document.fridgerUpdateForm.action = "${ initParam.rootPath }/common/member/fridger/update.do";
 	    document.fridgerUpdateForm.submit();
-
+ */
 	}); 
 })
 
+</script> -->
+
+<script type="text/javascript">
+function closeWin(){
+	document.fridgerUpdateForm.action="${ initParam.rootPath }/common/member/fridger/update.do";
+	window.opener.location.reload();
+
+}
 </script>
 <body>
 	<h2>냉장고 업뎃폼</h2>	
-	<form action="${ initParam.rootPath }/common/member/fridger/update.do" name="fridgerUpdateForm" method="post">
+	<form name="fridgerUpdateForm"  method="post" onsubmit="closeWin()">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		<table>
 			<tr>
 				<th>냉장고 ID</th>
-				<td><input type="text" name="fridgerId" value="${ requestScope.fridger.fridgerId }" readonly="readonly"></td>
+				<td><input type="text" name="fridgerId" id="fridgerId" value="${ requestScope.fridger.fridgerId }" readonly="readonly">
+				<span class="error"><form:errors
+							path="fridger.fridgerId" delimiter="&nbsp;"/>
+							<c:if test="${ requestScope.errorMsg_fridgerId != null }">
+							${ requestScope.errorMsg_fridgerId }
+							</c:if>
+							</span></td>
+			
 			</tr>
 			<tr>
 				<th>냉장고 이름</th>
-				<td><input type="text" name="fridgerName"	
+				<td><input type="text" name="fridgerName" id="fridgerName"
 					value="${ param.fridgerName }" placeholder="${ requestScope.fridger.fridgerName }">
 					<span class="error"><form:errors
 							path="fridger.fridgerName" delimiter="&nbsp;" />
-							<c:if test="${ requestScope.errorMsg != null }">
-							${ requestScope.errorMsg }
+							<c:if test="${ requestScope.errorMsg_fridgerName != null }">
+							${ requestScope.errorMsg_fridgerName }
 							</c:if>
 							</span></td>
 			</tr>
@@ -76,19 +105,19 @@ $(document).ready(function(){
 			<tr>
 				<th>냉장고주인ID</th>
 				<sec:authentication property="principal.memberId" var="memberId"/>
-				<td><input type="text" name="memberId"
-					value="${ param.memberId }">
-					<%-- <span class="error"><form:errors
+				<td><input type="text" name="memberId" id="memberId" 
+					placeholder="${ memberId }">
+					<span class="error"><form:errors
 							path="fridger.memberId" delimiter="&nbsp;" />
-							<c:if test="${ requestScope.errorMsg != null }">
-							${ requestScope.errorMsg }
+							<c:if test="${ requestScope.errorMsg_memberId != null }">
+							${ requestScope.errorMsg_memberId }
 							</c:if>
-							</span> --%>
+							</span>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					<input type="button" id="submitBtn" value="업데이트">
+					<input type="submit" id="submitBtn" value="업데이트">
 					<input type="reset" value="초기화">
 				</td>
 			</tr>

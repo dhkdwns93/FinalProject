@@ -3,11 +3,15 @@ package kr.co.turnup_fridger.vo;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class JoinProcess implements Serializable{
 	private int processNo;
 	private int processFridgerId;
 	private int processState;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date reqDate;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date respDate;
 	private String reqMemberId;
 	private String respMemberId;

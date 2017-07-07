@@ -8,7 +8,7 @@ public class MyIrdnt implements Serializable{
 	private int myIrdntKey;
 	private Date startDate;
 	private Date endDate;
-	private int freshLevel;//동적으로 관리될 식품의 신선도상태
+	private String freshLevel;//동적으로 관리될 식품의 신선도상태
 	private String irdntCount;
 	private int irdntId;
 	private String irdntName;
@@ -25,7 +25,7 @@ public class MyIrdnt implements Serializable{
 
 	
 	
-	public MyIrdnt(int myIrdntKey, Date startDate, Date endDate, int freshLevel, String irdntCount, int irdntId,
+	public MyIrdnt(int myIrdntKey, Date startDate, Date endDate, String freshLevel, String irdntCount, int irdntId,
 			String irdntName, int fridgerId, String startFreshLevel, String storgePlace) {
 		this.myIrdntKey = myIrdntKey;
 		this.startDate = startDate;
@@ -41,7 +41,7 @@ public class MyIrdnt implements Serializable{
 
 
 
-	public MyIrdnt(int myIrdntKey, Date startDate, Date endDate, int freshLevel, String irdntCount, int irdntId,
+	public MyIrdnt(int myIrdntKey, Date startDate, Date endDate, String freshLevel, String irdntCount, int irdntId,
 			String irdntName, int fridgerId, String startFreshLevel, String storgePlace, Fridger fridger,
 			IrdntManage irdntManage) {
 		this.myIrdntKey = myIrdntKey;
@@ -96,13 +96,13 @@ public class MyIrdnt implements Serializable{
 
 
 
-	public int getFreshLevel() {
+	public String getFreshLevel() {
 		return freshLevel;
 	}
 
 
 
-	public void setFreshLevel(int freshLevel) {
+	public void setFreshLevel(String freshLevel) {
 		this.freshLevel = freshLevel;
 	}
 
@@ -219,7 +219,7 @@ public class MyIrdnt implements Serializable{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
-		result = prime * result + freshLevel;
+		result = prime * result + ((freshLevel == null) ? 0 : freshLevel.hashCode());
 		result = prime * result + ((fridger == null) ? 0 : fridger.hashCode());
 		result = prime * result + fridgerId;
 		result = prime * result + ((irdntCount == null) ? 0 : irdntCount.hashCode());
@@ -249,7 +249,10 @@ public class MyIrdnt implements Serializable{
 				return false;
 		} else if (!endDate.equals(other.endDate))
 			return false;
-		if (freshLevel != other.freshLevel)
+		if (freshLevel == null) {
+			if (other.freshLevel != null)
+				return false;
+		} else if (!freshLevel.equals(other.freshLevel))
 			return false;
 		if (fridger == null) {
 			if (other.fridger != null)
@@ -294,14 +297,6 @@ public class MyIrdnt implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
-
-
-
-
-
-
 
 	
 }

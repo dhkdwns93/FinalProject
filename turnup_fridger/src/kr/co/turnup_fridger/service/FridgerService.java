@@ -3,6 +3,7 @@ package kr.co.turnup_fridger.service;
 import java.util.List;
 
 import kr.co.turnup_fridger.exception.DuplicatedFridgerException;
+import kr.co.turnup_fridger.exception.FindFridgerFailException;
 import kr.co.turnup_fridger.exception.FindMemberFailException;
 import kr.co.turnup_fridger.vo.Fridger;
 
@@ -21,14 +22,14 @@ public interface FridgerService {
 	 * @param fridger
 	 * @throws Exception 
 	 */
-	void updateFridger(Fridger fridger) throws Exception;
+	void updateFridger(Fridger fridger) throws FindFridgerFailException, DuplicatedFridgerException, FindMemberFailException ;
 	
 	/**
 	 * 냉장고 삭제 서비스
 	 * @param fridger
 	 * @throws Exception 
 	 */
-	void removeFridger(int fridgerId) throws Exception;
+	void removeFridger(int fridgerId) throws FindFridgerFailException;
 	
 	
 	/**
@@ -100,6 +101,8 @@ public interface FridgerService {
 	 * @return
 	 */
 	List<Fridger> findFridgerAndIrdntByOwnerId(String memberId);
+	
+	
 	
 
 }

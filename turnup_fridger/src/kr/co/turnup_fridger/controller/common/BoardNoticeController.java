@@ -27,7 +27,7 @@ import kr.co.turnup_fridger.validation.BoardNoticeValidator;
 import kr.co.turnup_fridger.vo.BoardNotice;
 
 @Controller
-@RequestMapping("/boardnotice/")
+@RequestMapping
 public class BoardNoticeController extends HttpServlet {
 	
 	@Autowired
@@ -35,9 +35,11 @@ public class BoardNoticeController extends HttpServlet {
 	@Autowired
 	private BoardNoticeDao dao;
 	
+	//이미지 경로
 	private String eclipseDir = "C:\\Java\\eclipse\\workspace_web\\turnup_fridger2\\WebContent\\up_image"; 
 	
 	
+	//카피
 	private void copyToEclipseDir(String newImageName, MultipartFile upImage) throws Exception{
 		File eclipseDest = new File(eclipseDir, newImageName);
 		FileOutputStream fo = new FileOutputStream(eclipseDest);
@@ -54,8 +56,8 @@ public class BoardNoticeController extends HttpServlet {
 	
 	
 	//전체 리스트
-	@RequestMapping("boardNoticeList")
-	public ModelAndView boardNoticeList(@RequestParam(defaultValue="1") int page) throws Exception
+	@RequestMapping("/boardnotice/boardNoticeList")
+	public ModelAndView boardNoticeList(@RequestParam(defaultValue="1") int page)
 	{  
 	    Map<String, Object> map = service.findBoardNoticeList(page);
 	
@@ -71,9 +73,9 @@ public class BoardNoticeController extends HttpServlet {
 	} 
 	
 	//말머리 조회
-	@RequestMapping("boardNoticeByItems")
+	@RequestMapping("boardnotice/boardNoticeByItems")
 	//@ResponseBody
-	public ModelAndView boardNoticeById(@RequestParam String items, @RequestParam(defaultValue="1") int page) throws Exception
+	public ModelAndView boardNoticeById(@RequestParam String items, @RequestParam(defaultValue="1") int page)
 	{
 		/*int p =  Integer.parseInt(page);
 	
@@ -102,9 +104,9 @@ public class BoardNoticeController extends HttpServlet {
 	} 
 	
 	
+	
 	//상세보기
-	@RequestMapping("boardNoticeView")
-	@ResponseBody
+	@RequestMapping("/boardnotice/boardNoticeView")
 	public ModelAndView boardNoticeView(@RequestParam int id)
 	{
 		ModelAndView mav = new ModelAndView();
@@ -118,15 +120,15 @@ public class BoardNoticeController extends HttpServlet {
 	 
 	
 	//등록
-	@RequestMapping(value="boardNoticeAdd", method = RequestMethod.POST)
-	 public ModelAndView insert(@ModelAttribute BoardNotice boardNotice,BindingResult errors, HttpServletRequest request) throws Exception
+	@RequestMapping(value="/common/admin/boardnotice/boardNoticeAdd", method = RequestMethod.POST)
+	 public ModelAndView boardNoticeAdd(@ModelAttribute BoardNotice boardNotice,BindingResult errors, HttpServletRequest request) throws Exception
 	{
 			BoardNoticeValidator validator = new BoardNoticeValidator();
 			validator.validate(boardNotice, errors);
 			if(errors.hasErrors()) 
 			{
 				//errors에 오류가 1개라도 등록되 있으면 true 리턴
-				return new ModelAndView("boardnotice/boardnotice_form"); 
+				return new ModelAndView("common/admin/boardnotice/boardnotice_form"); 
 			}
 			
 			ModelAndView mav = new ModelAndView();
@@ -168,14 +170,14 @@ public class BoardNoticeController extends HttpServlet {
 	
 	
 	
-	//수정 폼
-	@RequestMapping("boardNoticeUploadView")
+	//수정 폼 이동
+	@RequestMapping("/common/admin/boardnotice/boardNoticeUploadView")
 	@ResponseBody
 	public ModelAndView boardNoticeUploadView(@RequestParam int id)
 	{
 		ModelAndView mav = new ModelAndView();
 		
-		mav.setViewName("boardnotice/boardnotice_upload");
+		mav.setViewName("common/admin/boardnotice/boardnotice_upload");
 		
 		mav.addObject("boardNotice", service.findBoardNoticeById(id));
 	    
@@ -183,15 +185,15 @@ public class BoardNoticeController extends HttpServlet {
 	}	
 	
 	//수정
-	@RequestMapping("boardNoticeUploadForm")
-	 public ModelAndView boardNoticeUploadForm(@ModelAttribute BoardNotice boardNotice,BindingResult errors, HttpServletRequest request, ModelMap map) throws Exception
+	@RequestMapping("/common/admin/boardnotice/boardNoticeUploadForm")
+	 public ModelAndView boardNoticeUploadForm(@ModelAttribute BoardNotice boardNotice,BindingResult errors, HttpServletRequest request,@RequestParam int id) throws Exception
 	{
 		BoardNoticeValidator validator = new BoardNoticeValidator();
 		validator.validate(boardNotice, errors);
 		if(errors.hasErrors()) 
 		{
 			//errors에 오류가 1개라도 등록되 있으면 true 리턴
-			return new ModelAndView("boardnotice/boardnotice_form"); 
+			return new ModelAndView("common/admin/boardnotice/boardnotice_upload"); 
 		}
 		
 		ModelAndView mav = new ModelAndView();
@@ -226,8 +228,8 @@ public class BoardNoticeController extends HttpServlet {
 			service.updateBoardNotice(boardNotice);
 		}
 		mav.addObject("boardNotice",boardNotice);
+		mav.addObject("boardNotice", service.findBoardNoticeById(id));
 		mav.setViewName("boardnotice/boardnotice_view");
-		mav.addObject("boardNotice", service.findBoardNoticeById(boardNotice.getId()));
 		return mav;	
 	}
 	
@@ -235,7 +237,7 @@ public class BoardNoticeController extends HttpServlet {
 	
 	
 	//삭제
-	@RequestMapping("boardNoticRemove")
+	@RequestMapping("/common/admin/boardnotice/boardNoticRemove")
 	public ModelAndView boardNoticRemove(@RequestParam int id, @RequestParam(defaultValue="1") int page) throws Exception
 	{
 		service.removeBoardNoticeById(id);

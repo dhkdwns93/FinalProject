@@ -11,7 +11,7 @@
 function insert_event(){
 	if (confirm("등록 하시겠습니까??") == true){    
 		//확인
-		location.href="/turnup_fridger2/boardqna/boardqna_view.do";
+		location.href="/turnup_fridger/common/boardqna/boardqna_view.do";
 	}else{   
 		//취소
 	    return false;
@@ -29,7 +29,8 @@ span.error{
 </style>
 </head>
 <body>
-<form action="${initParam.rootPath}/boardqna/boardQnAAdd.do" method="post">
+<form action="${initParam.rootPath}/common/boardqna/boardQnAUploadForm.do" method="post">
+<input type="hidden" name="boardQnAId" value="${boardQnA.boardQnAId}">
 <table>
 	<tr>
 		<th>작성자</th>
@@ -45,7 +46,7 @@ span.error{
 	</tr>	
 	<tr>
 		<td>
-			<input type="submit" value="등록" onclick="return insert_event();">
+			<input type="submit" value="수정" onclick="goSubmit()">
 		</td>
 	</tr>
 </table>

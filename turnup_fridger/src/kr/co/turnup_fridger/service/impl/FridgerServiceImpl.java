@@ -32,7 +32,7 @@ public class FridgerServiceImpl implements FridgerService{
 	@Override
 	public void createFridger(Fridger fridger) throws DuplicatedFridgerException {
 		System.out.println(fridger.getFridgerName());
-		if(!fDao.selectFridgerByFridgerName(fridger.getFridgerName()).isEmpty()){
+		if(fDao.selectFridgerByFridgerFullName(fridger.getFridgerName())!=null){
 			throw new DuplicatedFridgerException("이미 존재하는 냉장고 애칭입니다!");	
 		}
 		fDao.insertFridger(fridger);
@@ -55,29 +55,31 @@ public class FridgerServiceImpl implements FridgerService{
 		// 냉장고 주인 회원 수정 : 양도
 		Fridger f = fDao.selectFridgerAndFridgerGroupByFridgerId(fridger.getFridgerId());
 		System.out.println(f);
+		boolean validChk = false;
 		for(FridgerGroup fg : f.getFridgerGroupList()){
 			//바꾸려는 회원이 해당 냉장고를 공유하고 있는 그룹 내 없는 회원인지 판별
 			//반복문으로 그룹 회원들을 돌려보면서 아이디가 일치하는지 체크
 			System.out.println(fg);
-			if(fridger.getMemberId() != fg.getGroupMemberId()){
-				// 바꾸려는 아이디와 대상 아이디가 같지 않다면 다음 회원 아이디 체크
-				continue;
-			}else{
-				// 같은 아이디가 그룹내에서 발견되면 수행하고 반복문을 빠져나온다
-				fDao.updateFridger(fridger);
-				System.out.println("------------수정완료");
-				break;
+			if(fridger.getMemberId().equals(fg.getGroupMemberId())){
+				// 바꾸려는 아이디와 대상 아이디가 같으면 true
+				validChk = true;
 			}
 		}
-		// 마지막 반복까지 일치하는 아이디가 나타나지 않는 그룹에 속하지 않는 회원이므로 예외를 던진다
-		throw new FindMemberFailException("그룹에 존재하지 않은 회원 입니다!");
+		if(!validChk){
+			// 해당 아이디가 없으면 
+			throw new FindMemberFailException("그룹에 존재하지 않은 회원 입니다!");
+		}
+		fDao.updateFridger(fridger);
+		System.out.println("------------수정완료");
+		
 	}
 
 	@Override
-	public void removeFridger(int fridgerId) throws Exception {
+	public void removeFridger(int fridgerId) throws FindFridgerFailException {
 		if(fDao.selectFridgerByFridgerId(fridgerId) == null){
-			throw new Exception("찾으시는 냉장고가 없습니다!");	
+			throw new FindFridgerFailException("찾으시는 냉장고가 없습니다!");	
 		}
+		fgDao.deleteFridgerGroupByFridgerId(fridgerId);
 		fDao.deleteFridger(fridgerId);
 		System.out.println("------------삭제완료");
 		

@@ -1,11 +1,10 @@
 package kr.co.turnup_fridger.vo;
 
-import java.util.List;
-
 public class MemberRecipeRecommand {
 	private int recommandKey;
 	private int recipeId;
 	private String memberId;
+	
 	
 	private Member member;
 	private BoardShareRecipe boardShareRecipe;
@@ -14,6 +13,14 @@ public class MemberRecipeRecommand {
 		
 	}
 	
+	
+	public MemberRecipeRecommand(int recipeId, String memberId) {
+		super();
+		this.recipeId = recipeId;
+		this.memberId = memberId;
+	}
+	
+	
 
 	public MemberRecipeRecommand(int recommandKey, int recipeId, String memberId) {
 		super();
@@ -21,7 +28,7 @@ public class MemberRecipeRecommand {
 		this.recipeId = recipeId;
 		this.memberId = memberId;
 	}
-	
+
 
 	public MemberRecipeRecommand(int recommandKey, int recipeId, String memberId, Member member,
 			BoardShareRecipe boardShareRecipe) {
@@ -33,46 +40,38 @@ public class MemberRecipeRecommand {
 		this.boardShareRecipe = boardShareRecipe;
 	}
 
+
+	
 	public int getRecommandKey() {
 		return recommandKey;
 	}
-
 	public void setRecommandKey(int recommandKey) {
 		this.recommandKey = recommandKey;
 	}
-
 	public int getRecipeId() {
 		return recipeId;
 	}
-
 	public void setRecipeId(int recipeId) {
 		this.recipeId = recipeId;
 	}
-
 	public String getMemberId() {
 		return memberId;
 	}
-
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
 	}
-
 	public Member getMember() {
 		return member;
 	}
-
 	public void setMember(Member member) {
 		this.member = member;
 	}
-
 	public BoardShareRecipe getBoardShareRecipe() {
 		return boardShareRecipe;
 	}
-
 	public void setBoardShareRecipe(BoardShareRecipe boardShareRecipe) {
 		this.boardShareRecipe = boardShareRecipe;
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -84,7 +83,6 @@ public class MemberRecipeRecommand {
 		result = prime * result + recommandKey;
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -115,12 +113,14 @@ public class MemberRecipeRecommand {
 			return false;
 		return true;
 	}
-
 	@Override
 	public String toString() {
-		return "MemberRcipeRecommand [recommandKey=" + recommandKey + ", recipeId=" + recipeId + ", memberId="
+		return "MemberRecipeRecommand [recommandKey=" + recommandKey + ", recipeId=" + recipeId + ", memberId="
 				+ memberId + ", member=" + member + ", boardShareRecipe=" + boardShareRecipe + "]";
 	}
+	
+	
+	
 	
 	
 	

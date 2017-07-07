@@ -6,11 +6,15 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class FridgerForm {
 	//자동생성(seq)
 	private int fridgerId;
-	@NotEmpty
+	@NotEmpty(message="냉장고이름은 2자 이상입니다!")
 	@Length(min=2, max=20)
 	private String fridgerName;
 	//컨트롤러 처리(권한)
+	@NotEmpty(message="아이디를 넣으세여!!")
 	private String memberId;
+	
+	
+	
 	public int getFridgerId() {
 		return fridgerId;
 	}

@@ -48,7 +48,7 @@ public interface MyIrdntService {
 	 * @param myirdnt
 	 * @return
 	 */
-	int getFreshLevel(MyIrdnt myirdnt);
+	String getFreshLevel(MyIrdnt myirdnt);
 	
 	/**
 	 * 나의 식재료key로 식재료를 찾기.
@@ -76,7 +76,16 @@ public interface MyIrdntService {
 	 * @param freshLevel
 	 * @return
 	 */
-	List<MyIrdnt> findMyIrdntByFreshLevel(int freshLevel,int fridgerId);
+	List<MyIrdnt> findMyIrdntByFreshLevel(String freshLevel,int fridgerId);
+	
+	//추가 
+	/**
+	 * 신선도와 재료이름을 입력받아서 해당하는 나의 식재료들만 보여주기. 
+	 * @param freshLevle
+	 * @param irdntName
+	 * @return
+	 */
+	List<MyIrdnt> findMyIrdntByFreshLevelAndIrdntName(String freshLevel, String irdntName,int fridgerId);
 	
 	
 }

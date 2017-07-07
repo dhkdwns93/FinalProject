@@ -27,18 +27,22 @@ form{display:inline}
 <a href="${initParam.rootPath}/boardnotice/boardnoticelist.do"><input type="submit" value="공지사항"/></a>
 <sec:csrfInput/>
 </form>
-<form action="${initParam.rootPath}/boardqna/boardQnAList.do" method="post">
-<a href="${initParam.rootPath}/boardqna/boardqna_list.do"><input type="submit" value="QnA"/></a>
+<form action="${initParam.rootPath}/common/boardqna/boardQnAList.do" method="post">
+<a href="${initParam.rootPath}/common/boardqna/boardqna_list.do"><input type="submit" value="QnA"/></a>
 <sec:csrfInput/>
 </form>
+<hr>
+<h3>레시피공유게시판</h3>
+<a href="${initParam.rootPath }/boardRecipe/boardRecipeList.do"><button type="button">목록 시이자악</button></a>
 
 <hr>
 <!-- 은영 -->
 <h4>냉장고관련</h4>
 
-<a href="${initParam.rootPath}/common/member/fridger/list.do"><button type="button">냉장고검색</button></a>
+<a href="${initParam.rootPath}/common/member/fridger/list.do"><button type="button">냉장고리스트(등록/업뎃/가입/초대)</button></a>
+<a href="${initParam.rootPath}/common/member/fridger/my_list.do"><button type="button">내냉장고(삭제/등록)</button></a>
 <a href="${initParam.rootPath}/common/member/fridger/register_form.do"><button type="button">냉장고등록</button></a>
-<a href="${initParam.rootPath}/common/member/fridger/update_form.do"><button type="button">냉장고업뎃</button></a>
+
 <a href="${initParam.rootPath}/common/member/fridger/joinProcess/list.do"><button type="button">냉장고 가입처리</button></a>
 
 

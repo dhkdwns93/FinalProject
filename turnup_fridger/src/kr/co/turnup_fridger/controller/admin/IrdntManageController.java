@@ -64,28 +64,6 @@ public class IrdntManageController {
 		return new ModelAndView("common/admin/irdntManage/irdntList");
 	}
 	
-	
-	/*
-	@RequestMapping("updateIrdnt")
-	@ResponseBody
-	public ModelAndView updateIrdnt(@ModelAttribute IrdntManage irdnt,BindingResult errors) throws Exception{
-		
-		IrdntManageValidator validator= new IrdntManageValidator();
-		validator.validate(irdnt, errors);
-		
-		if(errors.hasErrors()){
-			return new ModelAndView("common/admin/irdntManage/irdnt_form");
-		}
-		
-		service.updateIrdnt(irdnt);
-		
-		List<IrdntManage> list = service.findAllIrdnt();
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/irdntManage/irdntList");
-	    mav.addObject("list", list); 
-		return mav;
-	}
-	*/
 	@RequestMapping(value="removeIrdnt" , produces="html/text;charset=UTF-8;")
 	@ResponseBody
 	public String removeIrdnt(@RequestParam int irdntId){
@@ -120,12 +98,13 @@ public class IrdntManageController {
 		return new ModelAndView("common/admin/irdntManage/irdntList","irdntCategory",list);
 	}
 	
-	@RequestMapping("findIrdntByName")
+	/*@RequestMapping("findIrdntByName" )
 	@ResponseBody
 	public List<IrdntManage> findIrdntByName(@RequestParam String irdntName){
+		System.out.println("받아는오니? ");
 		List<IrdntManage> list = service.findIrdntByName(irdntName);
 		return list;
-	}
+	}*/
 
 	
 }
