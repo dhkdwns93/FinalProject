@@ -117,11 +117,12 @@
 	<mvc:view-controller path="/common/member/fridger/my_list.do" view-name="/common/member/fridger/my_list"/>
 	<!-- 냉장고 등록 페이지 -->
 	<mvc:view-controller path="/common/member/fridger/register_form.do" view-name="common/member/fridger/register_form"/>
+	<mvc:view-controller path="/common/member/fridger/register_form2.do" view-name="common/member/fridger/register_form2"/>
 	<!-- 냉장고 등록 성공페이지 -->
 	<mvc:view-controller path="/common/member/fridger/register_success.do" view-name="common/member/fridger/register_success"/>
 	<!-- 냉장고 수정  페이지 -->
 	<mvc:view-controller path="/common/member/fridger/update_form.do" view-name="common/member/fridger/update_form"/>
-	<!-- 냉장고 수정  페이지 -->
+	<!-- 냉장고 수정 성공페이지 -->
 	<mvc:view-controller path="common/member/fridger/update_success.do" view-name="common/member/fridger/update_success"/>
 	<!-- 냉장고 초대 페이지 -->
 	<mvc:view-controller path="/common/member/fridger/invite_form.do" view-name="common/member/fridger/invite_form"/>

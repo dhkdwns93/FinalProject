@@ -3,12 +3,18 @@ package kr.co.turnup_fridger.vo;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Fridger implements Serializable{
 	
 	
 	private int fridgerId;
 	private String fridgerName;
 	private String memberId;
+	
+	private String fridgerImg;
+	private MultipartFile fridgerImgSrc;
+	
 	private List<FridgerGroup> fridgerGroupList;
 	private List<MyIrdnt> myIrdntList;
 	
@@ -31,6 +37,17 @@ public class Fridger implements Serializable{
 		this.fridgerName = fridgerName;
 		this.memberId = memberId;
 	}
+	
+	
+
+	public Fridger(int fridgerId, String fridgerName, String memberId, String fridgerImg) {
+		this.fridgerId = fridgerId;
+		this.fridgerName = fridgerName;
+		this.memberId = memberId;
+		this.fridgerImg = fridgerImg;
+	}
+
+
 
 	public Fridger(int fridgerId, String fridgerName, String memberId, List<FridgerGroup> fridgerGroupList) {
 		this.fridgerId = fridgerId;
@@ -57,6 +74,20 @@ public class Fridger implements Serializable{
 
 	public void setResultCode(String resultCode) {
 		this.resultCode = resultCode;
+	}
+
+	
+	
+
+
+	public MultipartFile getFridgerImgSrc() {
+		return fridgerImgSrc;
+	}
+
+
+
+	public void setFridgerImgSrc(MultipartFile fridgerImgSrc) {
+		this.fridgerImgSrc = fridgerImgSrc;
 	}
 
 
@@ -91,11 +122,29 @@ public class Fridger implements Serializable{
 	public void setMyIrdntList(List<MyIrdnt> myIrdntList) {
 		this.myIrdntList = myIrdntList;
 	}
+	
+	
+	
+	public String getFridgerImg() {
+		return fridgerImg;
+	}
+
+
+
+	public void setFridgerImg(String fridgerImg) {
+		this.fridgerImg = fridgerImg;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "Fridger [fridgerId=" + fridgerId + ", fridgerName=" + fridgerName + ", memberId=" + memberId
-				+ ", fridgerGroupList=" + fridgerGroupList + ", myIrdntList=" + myIrdntList + "resultCode:"+ resultCode+"]";
+				+ ", fridgerImg=" + fridgerImg + ", fridgerGroupList=" + fridgerGroupList + ", myIrdntList="
+				+ myIrdntList + ", resultCode=" + resultCode + "]";
 	}
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

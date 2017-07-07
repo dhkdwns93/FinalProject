@@ -42,10 +42,10 @@ form{display:inline}
 <a href="${initParam.rootPath}/common/member/fridger/list.do"><button type="button">냉장고리스트(등록/업뎃/가입/초대)</button></a>
 <a href="${initParam.rootPath}/common/member/fridger/my_list.do"><button type="button">내냉장고(삭제/등록)</button></a>
 <a href="${initParam.rootPath}/common/member/fridger/register_form.do"><button type="button">냉장고등록</button></a>
-
+<a href="${initParam.rootPath}/common/member/fridger/register_form2.do"><button type="button">냉장고등록(with IMG)</button></a>
 <a href="${initParam.rootPath}/common/member/fridger/joinProcess/list.do"><button type="button">냉장고 가입처리</button></a>
 
-
+<br>
 <hr>
 <!-- 경혜 -->
 <a href="${initParam.rootPath}/index_kh.do"><button type="button">경혜기능모음</button></a>
