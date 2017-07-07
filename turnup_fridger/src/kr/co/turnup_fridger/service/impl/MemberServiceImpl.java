@@ -101,6 +101,11 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return existMember;
 	}
+	
+	@Override
+	public Member findMemberByEmail(String memberEmail){
+		return memberDao.selectMemberByEmail(memberEmail);
+	}
 
 	@Override
 	public List<Member> inquiryMemberList() {

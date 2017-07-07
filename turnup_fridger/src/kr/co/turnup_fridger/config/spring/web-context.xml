@@ -7,6 +7,7 @@
 170703 (경혜) 회원,관리자 관리와 관련된 view-controller 등록
 170704 (경혜) 회원,관리자 관리와 관련된 view-controller 등록
 170705 (경혜) 관리자 관리와 관련된 view-controller 등록
+170706 (경혜) 재료검색 popup view-controller 등록
  -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -50,6 +51,11 @@
 	<mvc:view-controller path="/boardqna/commentqna_upload.do" view-name="boardqna/commentqna_upload"/>	
 
 	<!-- 경혜 view controller등록-->
+	<!--  공용으로 사용 가능 -->
+	<!-- 기피재료 검색 form으로 이동(popup) -->
+	<mvc:view-controller path="/popup_find_irdnt_form.do" view-name="user/popup_find_irdnt_form"/>
+	
+	
 	<!-- /** -->
 	<!-- 사용자관리 view 모여있는 곳을으로 이동 (나중에 삭제)  -->
 	<mvc:view-controller path="/index_kh.do" view-name="user/index_kh"/>
@@ -59,9 +65,12 @@
 	<mvc:view-controller path="/login_form.do" view-name="user/login_form"/>
 	<!-- 회원가입 -->
 	<mvc:view-controller path="/join_member_form.do" view-name="user/join_member_form"/>
+	<!-- ID 중복검사 폼 -->
+	<mvc:view-controller path="/popup_duplicate_id_form.do" view-name="user/popup_duplicate_id_form"/>
+	<!-- Email 중복검사 폼 -->
+	<mvc:view-controller path="/popup_duplicate_email_form.do" view-name="user/popup_duplicate_email_form"/>
 	<!-- 회원가입성공 -->
 	<mvc:view-controller path="/join_member_success.do" view-name="user/join_member_success"/>
-	
 	<!-- /common/member -->
 	<!-- 마이페이지(개인회원정보조회) -->
 	<mvc:view-controller path="/common/member/member_mypage.do" view-name="common/member/user/member_mypage"/>
