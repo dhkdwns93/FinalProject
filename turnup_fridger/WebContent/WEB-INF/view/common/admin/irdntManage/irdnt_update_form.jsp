@@ -9,7 +9,12 @@
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 function closeWindow(){
-	setTimeout("window.close()",500)
+	window.opener.name= "parentPage";
+	document.updateForm.target= "parentPage";
+	document.updateForm.action="/turnup_fridger/common/admin/irdntManage/updateIrdnt.do";
+	document.updateForm.submit();
+	window.opener.location.reload();
+	self.close();
 	}
 </script>
 </head>
@@ -17,7 +22,7 @@ function closeWindow(){
 
 <h2>재료 수정</h2>
 
-<form id = "form" action="/turnup_fridger/common/admin/irdntManage/updateIrdnt.do" method="post">
+<form id = "form" name="updateForm" method="post" onsubmit="closeWindow()">
 <table>
 	<tr>
 		<th>재료id</th>
@@ -49,7 +54,7 @@ function closeWindow(){
 	</tr>
 	<tr>
 		<td colspan="2">
-			<input type="submit" value="수정하기" onclick="closeWindow()">
+			<input type="submit" value="수정하기" >
 		</td>
 	</tr>
 </table>

@@ -37,14 +37,17 @@ public class MyIrdntController {
 	
 	@RequestMapping(value = "createMyIrdnt", produces="html/text;charset=UTF-8;")
 	@ResponseBody
-	public ModelAndView createMyIrdnt(@ModelAttribute ("myIrdnt") @Valid MyIrdntForm myIrdntForm, @RequestParam int fridgerId, BindingResult errors)throws Exception{
+	public ModelAndView createMyIrdnt(@ModelAttribute ("myIrdnt") @Valid MyIrdntForm myIrdntForm,BindingResult errors)throws Exception{
 		
+		System.out.println("++++"+myIrdntForm);
 		if(errors.hasErrors()){
+			
+			System.out.println("발리데이션?");
 			return new ModelAndView("common/member/myIrdnt/myIrdnt_form");
 		}
 		
 		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<FridgerGroup> group = fridgerService.findFridgerAndFridgerGroupByFridgerId(fridgerId).getFridgerGroupList();
+		List<FridgerGroup> group = fridgerService.findFridgerAndFridgerGroupByFridgerId(myIrdntForm.getFridgerId()).getFridgerGroupList();
 		boolean validChk = false;
 		for(int i=0; i<group.size();i++){
 			if(member.getMemberId().equals(group.get(i).getGroupMemberId())){
@@ -54,56 +57,63 @@ public class MyIrdntController {
 			}
 		}
 		if(!validChk){
+			
 			throw new Exception("적합한 사용자가 아닙니다."); 
 		}
 		
 		MyIrdnt myIrdnt = new MyIrdnt();
 		BeanUtils.copyProperties(myIrdntForm, myIrdnt);
-		
+
 		try {
+			System.out.println("서비스 보내기 전");
 			service.createMyIrdnt(myIrdnt);
+			System.out.println("서비스 후 ");
 		} catch (Exception e) {
+			System.out.println("잡혔어?");
 			return new ModelAndView("common/member/myIrdnt/myIrdnt_form","errorMsg",e.getMessage());
 		}
+		
 		return new ModelAndView("common/member/myIrdnt/myIrdntList");
 	}
 	
 	@RequestMapping(value="updateMyIrdnt", produces="html/text;charset=UTF-8;")
 	@ResponseBody
-	public ModelAndView updateMyIrdnt(@ModelAttribute ("myIrdnt") MyIrdntForm myIrdntForm,BindingResult errors,@RequestParam int fridgerId) throws Exception{
-		
-		/*MyIrdntValidator validator = new MyIrdntValidator();
-		validator.validate(irdnt, errors);*/
+	public ModelAndView updateMyIrdnt(@ModelAttribute ("myIrdnt") @Valid MyIrdntForm myIrdntForm,BindingResult errors){
 		
 		if(errors.hasErrors()){
-			return new ModelAndView("/common/member/myIrdnt/myIrdnt_form");
+			System.out.println("발리데이션?");
+			return new ModelAndView("/common/member/myIrdnt/myIrdnt_detail");
 		}
+		
 		MyIrdnt myIrdnt = new MyIrdnt();
 		BeanUtils.copyProperties(myIrdntForm, myIrdnt);
-		service.updateMyIrdnt(myIrdnt);
+		try {
+			System.out.println("서비스에 보내는 "+myIrdnt);
+			service.updateMyIrdnt(myIrdnt);
+		} catch (Exception e) {
+			System.out.println("서비스에서 입셉션~");
+			return new ModelAndView("common/member/myIrdnt/myIrdnt_detail","errorMsg",e.getMessage());
+		}
+		return new ModelAndView("common/member/myIrdnt/myIrdntList");
 		
-		List<MyIrdnt> list = service.findAllMyIrdntByFridgerId(fridgerId);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/common/member/myIrdnt/myIrdntList");
-	    mav.addObject("list", list); 
-	    return mav;
 	}
 	
 	@RequestMapping(value="removeMyIrdnt", produces="html/text;charset=UTF-8;")
 	@ResponseBody
-	public ModelAndView removeMyIrdnt(@RequestParam int irdntKey,@RequestParam int fridgerId) throws Exception{
-		service.removeMyIrdnt(irdntKey);
+	public String removeMyIrdnt(@RequestParam List<Integer> irdntKey,@RequestParam int fridgerId){
 		
-		List<MyIrdnt> list = service.findAllMyIrdntByFridgerId(fridgerId);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/common/member/myIrdnt/myIrdntList");
-	    mav.addObject("list", list); 
-	    return mav;
-		
-	
+		try {
+			for(int i=0;i<irdntKey.size();i++){
+				service.removeMyIrdnt(irdntKey.get(i));
+			}
+		} catch (Exception e) {
+			return "삭제안돼앵~"+e.getMessage();
+		}
+		return "삭제완료!";
 	}
 	
 	@RequestMapping("allMyIrdntList")
+	@ResponseBody
 	public List<MyIrdnt> allMyIrdntList(@RequestParam int fridgerId){
 		List<MyIrdnt> list = service.findAllMyIrdntByFridgerId(fridgerId);
 		return list;
@@ -112,13 +122,13 @@ public class MyIrdntController {
 	@RequestMapping("findMyIrdntByFreshLevelAndIrdntName")
 	@ResponseBody
 	public List<MyIrdnt> findMyIrdntByFreshLevelAndIrdntName(@RequestParam String freshLevel, @RequestParam String irdntName, @RequestParam int fridgerId){
+		System.out.println(freshLevel +","+irdntName+","+fridgerId);
+		
 		List<MyIrdnt> list = service.findMyIrdntByFreshLevelAndIrdntName(freshLevel, irdntName, fridgerId);
 		return list;
 	}
 	
-	//날짜순 정렬을 만들어야하나?
-	//재료명만으로 검색도 만들어야하나...? 쓸곳이 있나...?
-	
+	//날짜순 정렬을 만들어야하나?	
 	
 	@RequestMapping("findIrdntByName" )
 	@ResponseBody
@@ -127,6 +137,12 @@ public class MyIrdntController {
 		return list;
 	}
 	
+	@RequestMapping("findIrdntByKey")
+	@ResponseBody
+	public ModelAndView findIrdntByKey(@RequestParam int myIrdntKey){
+		MyIrdnt myIrdnt = service.fingMyIrdntBymyIrdntKey(myIrdntKey);
+		return new ModelAndView("common/member/myIrdnt/myIrdnt_detail","myIrdnt",myIrdnt);
+	}
 	
 	
 /*	@RequestMapping("findMyIrdntByKeyword")

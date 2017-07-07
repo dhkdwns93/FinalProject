@@ -1,31 +1,46 @@
+/**
+ (VO)MyDislikeIrdnt
+작성자 :  박연수
+최초 작성일 
+변경이력 
+170706 (경혜) myDislikeIrdntKey없는 생성자 생성-insert용
+*/
 package kr.co.turnup_fridger.vo;
 
 import java.io.Serializable;
 
 public class MyDislikeIrdnt implements Serializable{
 	private int myDislikeIrdntKey;
-	private int irdntId;
 	private String memberId;
+	private int irdntId;
 	private Member member;
 	
 	
 	public MyDislikeIrdnt() {
 	}
 	
-
-
-	public MyDislikeIrdnt(int myDislikeIrdntsKey, int irdntId, String memberId) {
-		this.myDislikeIrdntKey = myDislikeIrdntsKey;
-		this.irdntId = irdntId;
+	//insert용
+	public MyDislikeIrdnt(String memberId, int irdntId) {
+		this.myDislikeIrdntKey=-1;
 		this.memberId = memberId;
+		this.irdntId = irdntId;
+	}
+
+	public MyDislikeIrdnt(int myDislikeIrdntsKey,String memberId, int irdntId) {
+		this.myDislikeIrdntKey = myDislikeIrdntsKey;
+		this.memberId = memberId;
+		this.irdntId = irdntId;
 	}
 
 
 
-	public MyDislikeIrdnt(int myDislikeIrdntsKey, int irdntId, String memberId, Member member) {
+	
+
+
+	public MyDislikeIrdnt(int myDislikeIrdntsKey, String memberId, int irdntId, Member member) {
 		this.myDislikeIrdntKey = myDislikeIrdntsKey;
-		this.irdntId = irdntId;
 		this.memberId = memberId;
+		this.irdntId = irdntId;
 		this.member = member;
 	}
 
@@ -77,19 +92,22 @@ public class MyDislikeIrdnt implements Serializable{
 		this.member = member;
 	}
 
-
+	@Override
+	public String toString() {
+		return "MyDislikeIrdnt [myDislikeIrdntKey=" + myDislikeIrdntKey + ", memberId=" + memberId + ", irdntId="
+				+ irdntId + ", member=" + member + "]";
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + irdntId;
+		result = prime * result + ((member == null) ? 0 : member.hashCode());
 		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
 		result = prime * result + myDislikeIrdntKey;
 		return result;
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -102,6 +120,11 @@ public class MyDislikeIrdnt implements Serializable{
 		MyDislikeIrdnt other = (MyDislikeIrdnt) obj;
 		if (irdntId != other.irdntId)
 			return false;
+		if (member == null) {
+			if (other.member != null)
+				return false;
+		} else if (!member.equals(other.member))
+			return false;
 		if (memberId == null) {
 			if (other.memberId != null)
 				return false;
@@ -111,17 +134,5 @@ public class MyDislikeIrdnt implements Serializable{
 			return false;
 		return true;
 	}
-
-
-
-	@Override
-	public String toString() {
-		return "MyDislikeIrdnt [myDislikeIrdntKey=" + myDislikeIrdntKey + ", irdntId=" + irdntId + ", memberId="
-				+ memberId + ", member=" + member + "]";
-	}
-	
-	
-	
-	
 	
 }

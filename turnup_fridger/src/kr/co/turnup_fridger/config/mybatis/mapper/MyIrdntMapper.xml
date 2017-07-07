@@ -56,7 +56,7 @@
 			irdnt_id=#{irdntId},
 			irdnt_name=#{irdntName},
 			fridger_id=#{fridgerId},
-			start_fresh_level=#{startFreshLevel}
+			start_fresh_level=#{startFreshLevel},
 			storge_place=#{storgePlace}
 		where my_irdnt_key=#{myIrdntKey}
 	</update>
@@ -135,15 +135,13 @@
 		where fridger_id=#{fridgerId}
 		<choose>
 			<when test="freshLevel == '전체'">
-				where irdnt_name like '%'||#{irdntName}||'%' ORDER BY my_irdnt_key
+				and irdnt_name like '%'||#{irdntName}||'%' ORDER BY my_irdnt_key
 			</when>
 			<otherwise>
-				where irdnt_name like '%'||#{irdntName}||'%' and fresh_level=#{freshLevel}
+				and irdnt_name like '%'||#{irdntName}||'%' and fresh_level=#{freshLevel}
 				ORDER BY my_irdnt_key
 			</otherwise>
 		</choose>
-		
-		
 	</select>
 	
 </mapper>

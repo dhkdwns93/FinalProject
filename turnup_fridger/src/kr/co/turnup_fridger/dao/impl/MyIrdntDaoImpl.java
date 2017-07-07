@@ -26,6 +26,7 @@ public class MyIrdntDaoImpl implements MyIrdntDao{
 
 	@Override
 	public int updateMyIrdnt(MyIrdnt irdnt) {
+		System.out.println("mapper가기전"+irdnt);
 		return session.update(makeSql("updateMyIrdnt"),irdnt);
 	}
 

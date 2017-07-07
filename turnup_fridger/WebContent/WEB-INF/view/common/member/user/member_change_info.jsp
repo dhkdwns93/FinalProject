@@ -5,12 +5,25 @@
 작성자 :  김경혜
 최초 작성일 170704
 변경이력 
+170706 (경혜) 기피재료 검색 추가
  -->
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("div#showMyDislikeIrdnt").on("click","button#createMyDislikeIrdnt",function(){
+		window.open("${initParam.rootPath}/popup_find_irdnt_form.do","find_irdnt_form","width=500,height=400,resizable=yes");
+		var inputTextHtml=$("#showMyDislikeIrdnt").prepend('<div id="myDislikeIrdntText"><input type="text" id="myDislikeIrdnt" name="myDislikeIrdntS" class="form-control">&nbsp&nbsp<button type="button" id="removeMyDislikeIrdnt">해당 기피재료 삭제</button><br></div>');
+	});//button#createmyDislikeIrdnt.onclick
+	$("div#showMyDislikeIrdnt").on("click","button#removeMyDislikeIrdnt",function(){
+			var deleteInputTextHtml=$(this).parent().remove();
+		});
+});
+</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/view/user/layout_menu_security.jsp" />
@@ -50,6 +63,12 @@
 	<div class="form-group">
 		성별
 		<input type="text" id="sex" name="memberSex" readonly="readonly" value='<sec:authentication property="principal.memberSex"/>' class="form-control">
+	</div>
+	<div class="form-group">
+		기피재료<br>
+		<div id="showMyDislikeIrdnt">
+			<button type="button" id="createMyDislikeIrdnt">기피재료추가</button><br>
+		</div>
 	</div>
 	<sec:csrfInput/>
 	<button type="submit" class="btn btn-default">수정완료</button>
