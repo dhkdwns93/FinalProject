@@ -20,7 +20,7 @@ import kr.co.turnup_fridger.exception.NoneMyIrdntException;
 import kr.co.turnup_fridger.service.FridgerService;
 import kr.co.turnup_fridger.service.IrdntManageService;
 import kr.co.turnup_fridger.service.MyIrdntService;
-import kr.co.turnup_fridger.validation.MyIrdntForm;
+import kr.co.turnup_fridger.validation.form.MyIrdntForm;
 import kr.co.turnup_fridger.vo.FridgerGroup;
 import kr.co.turnup_fridger.vo.IrdntManage;
 import kr.co.turnup_fridger.vo.Member;

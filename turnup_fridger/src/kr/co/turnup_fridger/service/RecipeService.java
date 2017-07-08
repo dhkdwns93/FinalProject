@@ -57,7 +57,7 @@ public interface RecipeService {
 	 * @param recipeId
 	 * @return
 	 */
-	RecipeInfo ShowDetailOfRecipe(int recipeId);
+	RecipeInfo showDetailOfRecipe(int recipeId);
 	
 	
 	/**
@@ -65,6 +65,7 @@ public interface RecipeService {
 	 * @return
 	 */
 	RecipeInfo changePortion(int portion);
+
 	
 	
 }

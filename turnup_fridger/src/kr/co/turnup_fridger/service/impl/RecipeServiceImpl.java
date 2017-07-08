@@ -24,7 +24,7 @@ public class RecipeServiceImpl implements RecipeService{
 	@Autowired
 	private RecipeIrdntDao irdntDao;
 	
-	
+	//레시피 등록
 	@Override
 	public void createRecipe(RecipeInfo recipe) throws Exception {
 		if(infoDao.selectRecipeInfoById(recipe.getRecipeId())!=null){
@@ -40,6 +40,7 @@ public class RecipeServiceImpl implements RecipeService{
 		}	
 	}
 
+	//레시피 수정
 	@Override
 	public void updateRecipe(RecipeInfo recipe) throws Exception {
 		if(infoDao.selectRecipeInfoById(recipe.getRecipeId())==null){
@@ -54,6 +55,7 @@ public class RecipeServiceImpl implements RecipeService{
 		}	
 	}
 
+	//레시피 삭제
 	@Override
 	public void removeRecipe(int recipeId) throws Exception {
 		if(infoDao.selectRecipeInfoById(recipeId)==null){
@@ -63,6 +65,7 @@ public class RecipeServiceImpl implements RecipeService{
 		infoDao.deleteRecipeInfo(recipeId);
 	}
 
+	//선택재료, 기피재료들 받아서 레시피 목록들 불러오는 것.+ 페이징
 	@Override
 	public Map<String,Object> findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword,int page) {
 		//페이징
@@ -77,6 +80,7 @@ public class RecipeServiceImpl implements RecipeService{
 		return map;
 	}
 
+	//레시피 이름으로 레시피 목록들 불러오는것.
 	@Override
 	public Map<String,Object> findRecipeByRecipeName(String recipeName,String keyword,int page) {
 		HashMap<String,Object> map = new HashMap<>();
@@ -89,6 +93,7 @@ public class RecipeServiceImpl implements RecipeService{
 		return map;
 	}
 
+	//유형분류와 음식분류로 선택해서 레시피 목록들 불러오는것. 
 	@Override
 	public Map<String,Object> findRecipeByCategory(String categoryName, String typeName,String keyword,int page) {
 		//페이징
@@ -102,12 +107,14 @@ public class RecipeServiceImpl implements RecipeService{
 		map.put("list", list);
 		return map;
 	}
-
+	
+	//불러온 목록에서 하나를 선택하여 그 레시피의 상세화면을 가져오는 것.
 	@Override
-	public RecipeInfo ShowDetailOfRecipe(int recipeId) {
+	public RecipeInfo showDetailOfRecipe(int recipeId) {
 		return infoDao.selectThreeOfRecipesById(recipeId);
 	}
 
+	//레시피 상세화면에서 해당 레시피의 단위정보를 변환해 주는것 . 
 	@Override
 	public RecipeInfo changePortion(int portion) {
 		//단위변환

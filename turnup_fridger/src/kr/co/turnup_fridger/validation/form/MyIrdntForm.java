@@ -1,4 +1,4 @@
-package kr.co.turnup_fridger.validation;
+package kr.co.turnup_fridger.validation.form;
 
 import java.util.Date;
 

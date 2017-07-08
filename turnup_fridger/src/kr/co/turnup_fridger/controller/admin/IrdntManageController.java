@@ -25,15 +25,12 @@ public class IrdntManageController {
 	private IrdntManageService service;
 	
 	@RequestMapping(value="createIrdnt", produces="html/text;charset=UTF-8;")
-	@ResponseBody
 	public ModelAndView createIrdnt(@ModelAttribute IrdntManage irdnt,BindingResult errors){
 		
 		IrdntManageValidator validator= new IrdntManageValidator();
 		validator.validate(irdnt, errors);
-		System.out.println(irdnt);
 	
 		if(errors.hasErrors()){
-			System.out.println("haserror");
 			return new ModelAndView("common/admin/irdntManage/irdnt_form");
 		}
 		
@@ -48,7 +45,6 @@ public class IrdntManageController {
 	}
 	
 	@RequestMapping(value="updateIrdnt",produces="html/text;charset=UTF-8;")
-	@ResponseBody
 	public ModelAndView updateIrdnt(@ModelAttribute IrdntManage irdnt,BindingResult errors){
 		
 		IrdntManageValidator validator= new IrdntManageValidator();
@@ -95,7 +91,6 @@ public class IrdntManageController {
 	}
 	
 	@RequestMapping("findAllICategory")
-	
 	public ModelAndView findAllCategory(){
 		List<String> list = service.findAllIrdntCategory();
 		//System.out.println(list);
@@ -103,7 +98,6 @@ public class IrdntManageController {
 	}
 	
 	@RequestMapping("findAllICategory2")
-	@ResponseBody
 	public ModelAndView findAllCategory2(){
 		List<String> list = service.findAllIrdntCategory();
 		return new ModelAndView("common/admin/irdntManage/irdnt_form","irdntCategory",list);

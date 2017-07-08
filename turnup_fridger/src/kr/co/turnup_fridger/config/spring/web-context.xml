@@ -150,6 +150,23 @@
 	<!-- 나의 식재료 재료명 검색 페이지   -->
 	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_search_result.do" view-name="common/member/myIrdnt/myIrdnt_search_result"/>
 	
+	<!--레시피-관리자용  -->
+	<!--레시피 목록불러오기  -->
+	<mvc:view-controller path="/common/admin/recipe_for_admin/recipeList.do" view-name="common/admin/recipe_for_admin/recipeList"/>
+	<!--레시피 등록폼 -->
+	<mvc:view-controller path="/common/admin/recipe_for_admin/create_recipe.do" view-name="common/admin/recipe_for_admin/create_recipe"/>
+	<!--레시피 수정폼  -->
+	<mvc:view-controller path="/common/admin/recipe_for_admin/update_recipe.do" view-name="common/admin/recipe_for_admin/update_recipe"/>
+	
+	<!--레시피 사용자용  -->
+	<!--레시피 상세페이지  -->
+	<mvc:view-controller path="/recipe_for_user/recipe_detail.do" view-name="recipe_for_user/recipe_detail"/>
+	<!--레시피 재료로 검색하는 페이지  -->
+	<mvc:view-controller path="/recipe_for_user/search_by_irdnts.do" view-name="recipe_for_user/search_by_irdnts"/>
+	<!--레시피 요리명으로 검색하는 페이지  -->
+	<mvc:view-controller path="/recipe_for_user/search_by_recipeName.do" view-name="recipe_for_user/search_by_recipeName"/>
+	<!--레시피 카테고리로 검색하는 페이지  -->
+	<mvc:view-controller path="/recipe_for_user/search_by_category.do" view-name="recipe_for_user/search_by_category"/>
 
 	<!-- 메모등록 -->
 	<mvc:view-controller path="/common/member/memo/memo_register_form.do" view-name="common/member/memo/memo_register_form"/>
