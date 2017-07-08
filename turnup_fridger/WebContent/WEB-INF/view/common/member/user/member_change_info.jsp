@@ -16,12 +16,14 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$("div#showMyDislikeIrdnt").on("click","button#createMyDislikeIrdnt",function(){
-		window.open("${initParam.rootPath}/popup_find_irdnt_form.do","find_irdnt_form","width=500,height=400,resizable=yes");
-		var inputTextHtml=$("#showMyDislikeIrdnt").prepend('<div id="myDislikeIrdntText"><input type="text" id="myDislikeIrdnt" name="myDislikeIrdntS" class="form-control">&nbsp&nbsp<button type="button" id="removeMyDislikeIrdnt">해당 기피재료 삭제</button><br></div>');
-	});//button#createmyDislikeIrdnt.onclick
+		window.open("${initParam.rootPath}/popup_find_irdnt_form.do","member_change_info","width=500,height=400,resizable=yes");
+		var inputTextHtml=$("#showMyDislikeIrdnt")
+				.prepend('<div id="myDislikeIrdntText"><input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="${param.irdntId}" class="form-control"><input type="text" id="myDislikeIrdntName" name="myDislikeIrdntName" value="${param.irdntName}" readonly="readonly" class="form-control">&nbsp&nbsp<button type="button" id="removeMyDislikeIrdnt">해당 기피재료 삭제</button><br></div>');
+	});//end of createMyDislikeIrdnt(Btn)
+	
 	$("div#showMyDislikeIrdnt").on("click","button#removeMyDislikeIrdnt",function(){
 			var deleteInputTextHtml=$(this).parent().remove();
-		});
+	});//end of showMyDislikeIRdnt
 });
 </script>
 </head>
@@ -31,7 +33,7 @@ $(document).ready(function(){
 
 
 <h2>회원정보수정</h2>
-<form action="${initParam.rootPath}/common/member/member_change.do" method="post">
+<form action="${initParam.rootPath}/common/member/member_change.do" method="post" name="useIrdntPopup">
 	<div class="form-group">
 		<label for="id">회원 ID</label>
 		<input type="text" id="id" name="memberId" readonly="readonly" value='<sec:authentication property="principal.memberId"/>' class="form-control">
