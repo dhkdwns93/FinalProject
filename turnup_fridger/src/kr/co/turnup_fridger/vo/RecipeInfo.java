@@ -30,6 +30,27 @@ public class RecipeInfo implements Serializable{
 
 	public RecipeInfo(int recipeId, String recipeName, String sumry, int categoryCode, String categoryName,
 			int typeCode, String typeName, String cookingTime, String calorie, String qnt, String recipeLevel,
+			String irdntCode, String price, String imgUrl, String detUrl) {
+		this.recipeId = recipeId;
+		this.recipeName = recipeName;
+		this.sumry = sumry;
+		this.categoryCode = categoryCode;
+		this.categoryName = categoryName;
+		this.typeCode = typeCode;
+		this.typeName = typeName;
+		this.cookingTime = cookingTime;
+		this.calorie = calorie;
+		Qnt = qnt;
+		this.recipeLevel = recipeLevel;
+		this.irdntCode = irdntCode;
+		this.price = price;
+		this.imgUrl = imgUrl;
+		this.detUrl = detUrl;
+	}
+
+
+	public RecipeInfo(int recipeId, String recipeName, String sumry, int categoryCode, String categoryName,
+			int typeCode, String typeName, String cookingTime, String calorie, String qnt, String recipeLevel,
 			String irdntCode, String price, String imgUrl, String detUrl, int recipeHits,
 			List<RecipeIrdnt> recipeIrdnt, List<RecipeCrse> recipeCrse) {
 		this.recipeId = recipeId;

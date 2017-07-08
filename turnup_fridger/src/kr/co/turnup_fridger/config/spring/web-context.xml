@@ -70,7 +70,7 @@
 	<!--  공용으로 사용 가능 -->
 	<!-- 기피재료 검색 form으로 이동(popup) -->
 	<mvc:view-controller path="/popup_find_irdnt_form.do" view-name="user/popup_find_irdnt_form"/>
-	
+
 	
 	<!-- /** -->
 	<!-- 사용자관리 view 모여있는 곳을으로 이동 (나중에 삭제)  -->
@@ -132,42 +132,42 @@
 
 	<!--연수  -->
 	<!-- 재료관리 목록 페이지   -->
-	<mvc:view-controller path="/common/admin/irdntManage/irdntList.do" view-name="common/admin/irdntManage/irdntList"/>
+	<mvc:view-controller path="/common/admin/irdntManage/irdntList.do" view-name="common/admin/irdntManage/irdntList.tiles"/>
 	<!-- 재료관리 등록폼 페이지   -->
-	<mvc:view-controller path="/common/admin/irdntManage/irdnt_form.do" view-name="common/admin/irdntManage/irdnt_form"/>
+	<mvc:view-controller path="/common/admin/irdntManage/irdnt_form.do" view-name="common/admin/irdntManage/irdnt_form.tiles"/>
 	<!-- 재료관리 등록성공 페이지   -->
-	<mvc:view-controller path="/common/admin/irdntManage/register_success.do" view-name="common/admin/irdntManage/register_success"/>
+	<mvc:view-controller path="/common/admin/irdntManage/register_success.do" view-name="common/admin/irdntManage/register_success.tiles"/>
 	<!-- 재료관리 수정폼 페이지   -->
-	<mvc:view-controller path="/common/admin/irdntManage/irdnt_update_form.do" view-name="common/admin/irdntManage/irdnt_update_form"/>
+	<mvc:view-controller path="/common/admin/irdntManage/irdnt_update_form.do" view-name="common/admin/irdntManage/irdnt_update_form.tiles"/>
 	
 	<!-- 나의 식재료 목록 페이지   -->
-	<mvc:view-controller path="/common/member/myIrdnt/myIrdntList.do" view-name="common/member/myIrdnt/myIrdntList"/>
+	<mvc:view-controller path="/common/member/myIrdnt/myIrdntList.do" view-name="common/member/myIrdnt/myIrdntList.tiles"/>
 	<!-- 나의 식재료 등록폼 페이지   -->
-	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_form.do" view-name="common/member/myIrdnt/myIrdnt_form"/>
+	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_form.do" view-name="common/member/myIrdnt/myIrdnt_form.tiles"/>
 	<!-- 나의 식재료 상세정보 페이지   -->
-	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_detail.do" view-name="common/member/myIrdnt/myIrdnt_detail"/>
+	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_detail.do" view-name="common/member/myIrdnt/myIrdnt_detail.tiles"/>
 	<!-- 나의 식재료 수정폼 페이지   -->
-	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_update_form.do" view-name="common/member/myIrdnt/myIrdnt_update_form"/>
+	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_update_form.do" view-name="common/member/myIrdnt/myIrdnt_update_form.tiles"/>
 	<!-- 나의 식재료 재료명 검색 페이지   -->
-	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_search_result.do" view-name="common/member/myIrdnt/myIrdnt_search_result"/>
+	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_search_result.do" view-name="common/member/myIrdnt/myIrdnt_search_result.tiles"/>
 	
 	<!--레시피-관리자용  -->
 	<!--레시피 목록불러오기  -->
-	<mvc:view-controller path="/common/admin/recipe_for_admin/recipeList.do" view-name="common/admin/recipe_for_admin/recipeList"/>
+	<mvc:view-controller path="/common/admin/recipe_for_admin/recipeList.do" view-name="common/admin/recipe_for_admin/recipeList.tiles"/>
 	<!--레시피 등록폼 -->
-	<mvc:view-controller path="/common/admin/recipe_for_admin/create_recipe.do" view-name="common/admin/recipe_for_admin/create_recipe"/>
+	<mvc:view-controller path="/common/admin/recipe_for_admin/create_recipe.do" view-name="common/admin/recipe_for_admin/create_recipe.tiles"/>
 	<!--레시피 수정폼  -->
-	<mvc:view-controller path="/common/admin/recipe_for_admin/update_recipe.do" view-name="common/admin/recipe_for_admin/update_recipe"/>
+	<mvc:view-controller path="/common/admin/recipe_for_admin/update_recipe.do" view-name="common/admin/recipe_for_admin/update_recipe.tiles"/>
 	
 	<!--레시피 사용자용  -->
 	<!--레시피 상세페이지  -->
-	<mvc:view-controller path="/recipe_for_user/recipe_detail.do" view-name="recipe_for_user/recipe_detail"/>
+	<mvc:view-controller path="/recipe_for_user/recipe_detail.do" view-name="recipe_for_user/recipe_detail.tiles"/>
 	<!--레시피 재료로 검색하는 페이지  -->
-	<mvc:view-controller path="/recipe_for_user/search_by_irdnts.do" view-name="recipe_for_user/search_by_irdnts"/>
+	<mvc:view-controller path="/recipe_for_user/search_by_irdnts.do" view-name="recipe_for_user/search_by_irdnts.tiles"/>
 	<!--레시피 요리명으로 검색하는 페이지  -->
-	<mvc:view-controller path="/recipe_for_user/search_by_recipeName.do" view-name="recipe_for_user/search_by_recipeName"/>
+	<mvc:view-controller path="/recipe_for_user/search_by_recipeName.do" view-name="recipe_for_user/search_by_recipeName.tiles"/>
 	<!--레시피 카테고리로 검색하는 페이지  -->
-	<mvc:view-controller path="/recipe_for_user/search_by_category.do" view-name="recipe_for_user/search_by_category"/>
+	<mvc:view-controller path="/recipe_for_user/search_by_category.do" view-name="recipe_for_user/search_by_category.tiles"/>
 
 	<!-- 메모등록 -->
 	<mvc:view-controller path="/common/member/memo/memo_register_form.do" view-name="common/member/memo/memo_register_form"/>
@@ -197,7 +197,8 @@
 			p:order="1"/>
 	<!-- viewResolver가 여러개일 경우 InternalResourceViewResolver는 반드시 마지막 순서로 둬야한다(얘는 무조건 view를 리턴해주기때문에 뒤 순서애들이 의미가 없어짐) -->
 	<bean name="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-			p:prefix="/WEB-INF/view/content/" p:suffix=".jsp"
+			p:prefix="/WEB-INF/view/content/"
+			p:suffix=".jsp"
 			p:order="2"/>	
 		
 	<!-- properties파일 등록 -->

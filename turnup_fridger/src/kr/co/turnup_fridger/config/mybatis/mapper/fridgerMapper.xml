@@ -6,7 +6,8 @@
 <sql id="select-sql">
 	SELECT	fridger_id,
 			fridger_name,
-			member_id
+			member_id,
+			fridger_img
 	FROM	fridger
 </sql>
 
@@ -14,6 +15,7 @@
 	SELECT	f.fridger_id,
 			f.fridger_name,
 			f.member_id,
+			f.fridger_img,
 			i.my_irdnt_key,
 			i.start_date,
 			i.end_date,
@@ -30,6 +32,7 @@
 	SELECT	f.fridger_id,
 			f.fridger_name,
 			f.member_id,
+			f.fridger_img,
 			g.group_key,
 			g.group_join_seq,
 			g.group_member_id,
@@ -83,6 +86,7 @@
 <update id="updateFridger" parameterType="fridger">
 UPDATE	fridger
 SET		fridger_name = #{fridgerName},
+		fridger_img = #{fridger_img},
 		member_id = #{memberId}
 WHERE	fridger_id = #{fridgerId}
 </update>
