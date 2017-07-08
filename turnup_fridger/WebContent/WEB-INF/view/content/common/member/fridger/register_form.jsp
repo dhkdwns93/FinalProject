@@ -4,13 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
 	<h2>냉장고 등록폼</h2>
 	<form action="${ initParam.rootPath }/common/member/fridger/register.do" method="post">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
@@ -48,7 +41,3 @@
 		</table>
 		
 	</form>
-
-
-</body>
-</html>
