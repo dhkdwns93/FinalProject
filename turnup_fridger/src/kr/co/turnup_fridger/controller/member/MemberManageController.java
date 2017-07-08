@@ -44,7 +44,7 @@ public class MemberManageController {
 	 * @throws ChangeMemberInfoFailException 
 	 */
 	@RequestMapping("/member_change")
-	public String changeMemberInfo(@ModelAttribute Member member, @RequestParam String newMemberPw) throws ChangeMemberInfoFailException{
+	public String changeMemberInfo(@ModelAttribute Member member, @RequestParam String newMemberPw, @RequestParam int myDislikeIrdntId) throws ChangeMemberInfoFailException{
 		//1. 요청한 사용자 정보 조회
 		SecurityContext ctx=SecurityContextHolder.getContext();
 		Authentication authentication=ctx.getAuthentication();
@@ -58,6 +58,8 @@ public class MemberManageController {
 			System.out.println("MemberManageController + PW가 다릅니다");
 			throw new RuntimeException("PW가 다릅니다.");
 		}
+		System.out.println(myDislikeIrdntId);
+		
 		
 		//2. Business Logic 호출
 		member.setMemberPw(newMemberPw);

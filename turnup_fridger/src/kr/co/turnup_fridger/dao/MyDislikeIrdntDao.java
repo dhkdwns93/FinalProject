@@ -1,3 +1,12 @@
+/**
+ (DAO)MyDislikeIrdntDao
+작성자 :  박연수
+최초 작성일 
+변경이력 
+170706 (경혜) deleteMyDislikeIrdntByMemberId 메소드 추가
+					deleteMyDislikeIrdntByIrdntId 메소드 추가
+					selectMyDislikeIRdntByMemberIdAndIrdntId 메소드 추가
+*/
 package kr.co.turnup_fridger.dao;
 
 import java.util.List;
@@ -28,11 +37,32 @@ public interface MyDislikeIrdntDao {
 	int deleteMyDislikeIrdnt(int myDislikeIrdntKey);
 	
 	/**
+	 * 기피재료 삭제 - memberId로 삭제
+	 * @param memberId
+	 * @return
+	 */
+	int deleteMyDislikeIrdntByMemberId(String memberId);
+	
+	/**
+	 * 기피재료 삭제 - irdntId로 삭제
+	 * @param irdntId
+	 * @return
+	 */
+	int deleteMyDislikeIrdntByIrdntId(int irdntId);
+	
+	/**
 	 * 회원id로 회원의 기피재료를 모두 불러오기.
 	 * @param memberId
 	 * @return
 	 */
 	List<MyDislikeIrdnt> selectMyDislikeIrdntByMemberId(String memberId);
+	
+	/**
+	 * 회원 ID와 재료 ID로 기피재료 불러오기.
+	 * @param mydislikeIrdnt
+	 * @return
+	 */
+	MyDislikeIrdnt selectMyDislikeIRdntByMemberIdAndIrdntId(MyDislikeIrdnt myDislikeIrdnt);
 	
 	/**
 	 * 기피재료의 pk인 key값으로 기피재료한가지를 불러오기.

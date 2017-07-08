@@ -3,6 +3,8 @@ package kr.co.turnup_fridger.service;
 import java.util.List;
 import java.util.Map;
 
+import kr.co.turnup_fridger.exception.DuplicateRecipeException;
+import kr.co.turnup_fridger.exception.NoneRecipeException;
 import kr.co.turnup_fridger.vo.RecipeInfo;
 
 public interface RecipeService {
@@ -12,21 +14,21 @@ public interface RecipeService {
 	 * @param recipe
 	 * @throws Exception 
 	 */
-	void createRecipe(RecipeInfo recipe) throws Exception;
+	void createRecipe(RecipeInfo recipe) throws DuplicateRecipeException;
 	
 	/**
 	 * 레시피를 수정
 	 * @param recipe
 	 * @throws Exception 
 	 */
-	void updateRecipe(RecipeInfo recipe) throws Exception;
+	void updateRecipe(RecipeInfo recipe) throws NoneRecipeException;
 	
 	/**
 	 * 레시피를 삭제
 	 * @param recipeCode
 	 * @throws Exception d
 	 */
-	void removeRecipe(int recipeId) throws Exception;
+	void removeRecipe(int recipeId) throws NoneRecipeException;
 	
 	/**
 	 * 재료id들로 레시피들을 찾기, (선택재료들 포함, 기피재료 비포함)
@@ -57,7 +59,7 @@ public interface RecipeService {
 	 * @param recipeId
 	 * @return
 	 */
-	RecipeInfo ShowDetailOfRecipe(int recipeId);
+	RecipeInfo showDetailOfRecipe(int recipeId);
 	
 	
 	/**
@@ -65,6 +67,11 @@ public interface RecipeService {
 	 * @return
 	 */
 	RecipeInfo changePortion(int portion);
-	
+
+	/**
+	 * 전체 레시피들 가져오는것.
+	 * @return
+	 */
+	List<RecipeInfo> allRecipeList();
 	
 }

@@ -23,4 +23,5 @@ public class FindIrdntByIrdntName {
 		List<IrdntManage> list = service.findIrdntByName(irdntName);
 		return list;
 	}
+
 }

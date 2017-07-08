@@ -4,13 +4,17 @@
 최초 작성일 170627
 변경이력 
 170701 Authority변수 추가 *member테이블 데이터들의 권한은 모두 "member"
+170706 myDislikeIrdntList 변수 추가 -기피재료 불러올 변수
 */
 package kr.co.turnup_fridger.vo;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Member implements Serializable{
-	private String memberId;
+	//톰캣에 저장시킨 serialVersionUID과 불일치하는 것 방지하기 위해 박아놨어용 by 은영
+	private static final long serialVersionUID = 1L;
+	private String memberId;	
 	private String memberPw;
 	private String memberName;
 	private String memberAddress;
@@ -20,9 +24,10 @@ public class Member implements Serializable{
 	
 	//DB상에는 없음.
 	private String memberAuthority="ROLE_MEMBER";
+	private List<MyDislikeIrdnt> myDislikeIrdntList;
 	
 	public Member(){}
-	//memberAuthority 미포함 생성자
+	//memberAuthority,myDislikeIrdntList 미포함 생성자
 	public Member(String memberId, String memberPw, String memberName, String memberAddress, String memberEmail,
 			String memberTel, String memberSex) {
 		this.memberId = memberId;
@@ -33,6 +38,20 @@ public class Member implements Serializable{
 		this.memberTel = memberTel;
 		this.memberSex = memberSex;
 	}
+	//memberAuthority 미포함 생성자
+	public Member(String memberId, String memberPw, String memberName, String memberAddress, String memberEmail,
+			String memberTel, String memberSex, List<MyDislikeIrdnt> myDislikeIrdntList) {
+		super();
+		this.memberId = memberId;
+		this.memberPw = memberPw;
+		this.memberName = memberName;
+		this.memberAddress = memberAddress;
+		this.memberEmail = memberEmail;
+		this.memberTel = memberTel;
+		this.memberSex = memberSex;
+		this.myDislikeIrdntList = myDislikeIrdntList;
+	}
+	
 	public String getMemberId() {
 		return memberId;
 	}
@@ -81,11 +100,18 @@ public class Member implements Serializable{
 	public void setMemberAuthority(String memberAuthority) {
 		this.memberAuthority = memberAuthority;
 	}
+	public List<MyDislikeIrdnt> getMyDislikeIrdntList() {
+		return myDislikeIrdntList;
+	}
+	public void setMyDislikeIrdntList(List<MyDislikeIrdnt> myDislikeIrdntList) {
+		this.myDislikeIrdntList = myDislikeIrdntList;
+	}
 	@Override
 	public String toString() {
 		return "Member [memberId=" + memberId + ", memberPw=" + memberPw + ", memberName=" + memberName
 				+ ", memberAddress=" + memberAddress + ", memberEmail=" + memberEmail + ", memberTel=" + memberTel
-				+ ", memberSex=" + memberSex + ", memberAuthority=" + memberAuthority + "]";
+				+ ", memberSex=" + memberSex + ", memberAuthority=" + memberAuthority + ", myDislikeIrdntList="
+				+ myDislikeIrdntList + "]";
 	}
 	@Override
 	public int hashCode() {
@@ -99,6 +125,7 @@ public class Member implements Serializable{
 		result = prime * result + ((memberPw == null) ? 0 : memberPw.hashCode());
 		result = prime * result + ((memberSex == null) ? 0 : memberSex.hashCode());
 		result = prime * result + ((memberTel == null) ? 0 : memberTel.hashCode());
+		result = prime * result + ((myDislikeIrdntList == null) ? 0 : myDislikeIrdntList.hashCode());
 		return result;
 	}
 	@Override
@@ -149,6 +176,11 @@ public class Member implements Serializable{
 			if (other.memberTel != null)
 				return false;
 		} else if (!memberTel.equals(other.memberTel))
+			return false;
+		if (myDislikeIrdntList == null) {
+			if (other.myDislikeIrdntList != null)
+				return false;
+		} else if (!myDislikeIrdntList.equals(other.myDislikeIrdntList))
 			return false;
 		return true;
 	}

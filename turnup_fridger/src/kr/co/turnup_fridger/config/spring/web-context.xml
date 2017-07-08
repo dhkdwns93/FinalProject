@@ -7,6 +7,7 @@
 170703 (경혜) 회원,관리자 관리와 관련된 view-controller 등록
 170704 (경혜) 회원,관리자 관리와 관련된 view-controller 등록
 170705 (경혜) 관리자 관리와 관련된 view-controller 등록
+170706 (경혜) 재료검색 popup view-controller 등록
  -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -23,175 +24,183 @@
 	<mvc:annotation-driven/>
 
 	<!-- 단순 링크 등록 -->
-	<mvc:view-controller path="/index.do" view-name="index"/>
+	<mvc:view-controller path="/index.do" view-name="index.tiles"/>
+	<mvc:view-controller path="/main.do" view-name="main.tiles"/>
 	
 		<!-- 장규 view controler등록 -->
 	<!-- 공지사항 목록 페이지 -->
-	<mvc:view-controller path="/boardnotice/boardnotice_list.do" view-name="boardnotice/boardnotice_list"/>
+	<mvc:view-controller path="/boardnotice/boardnotice_list.do" view-name="boardnotice/boardnotice_list.tiles"/>
 	<!-- 공지사항 items 목록 페이지 -->
-	<mvc:view-controller path="/boardnotice/boardnotice_list_items.do" view-name="boardnotice/boardnotice_list"/>
+	<mvc:view-controller path="/boardnotice/boardnotice_list_items.do" view-name="boardnotice/boardnotice_list.tiles"/>
 	<!-- 공지사항 등록 폼 페이지 -->
-	<mvc:view-controller path="/common/admin/boardnotice/boardnotice_form.do" view-name="common/admin/boardnotice/boardnotice_form"/>
+	<mvc:view-controller path="/common/admin/boardnotice/boardnotice_form.do" view-name="common/admin/boardnotice/boardnotice_form.tiles"/>
 	<!-- 공지사항 상세페이지 -->
-	<mvc:view-controller path="/boardnotice/boardnotice_view.do" view-name="boardnotice/boardnotice_view"/>
+	<mvc:view-controller path="/boardnotice/boardnotice_view.do" view-name="boardnotice/boardnotice_view.tiles"/>
 	<!-- 공지사항 수정 폼 페이지 -->
-	<mvc:view-controller path="/common/admin/boardnotice/boardnotice_upload.do" view-name="common/admin/boardnotice/boardnotice_upload"/>	
+	<mvc:view-controller path="/common/admin/boardnotice/boardnotice_upload.do" view-name="common/admin/boardnotice/boardnotice_upload.tiles"/>	
 
 	<!-- QNA 목록 페이지 -->
-	<mvc:view-controller path="/common/boardqna/boardqna_list.do" view-name="common/boardqna/boardqna_list"/>	
+	<mvc:view-controller path="/common/boardqna/boardqna_list.do" view-name="common/boardqna/boardqna_list.tiles"/>	
 	<!-- QNA memberId 목록 페이지 -->
-	<mvc:view-controller path="/common/boardqna/boardqna_list_memberid.do" view-name="common/boardqna/boardqna_list_memberid"/>	
+	<mvc:view-controller path="/common/boardqna/boardqna_list_memberid.do" view-name="common/boardqna/boardqna_list_memberid.tiles"/>	
 	<!-- QNA 상세페이지 -->
-	<mvc:view-controller path="/common/boardqna/boardqna_view.do" view-name="common/boardqna/boardqna_view"/>	
+	<mvc:view-controller path="/common/boardqna/boardqna_view.do" view-name="common/boardqna/boardqna_view.tiles"/>	
 	<!-- QNA 등록 폼 페이지 -->
-	<mvc:view-controller path="/common/boardqna/boardqna_form.do" view-name="common/boardqna/boardqna_form"/>	
+	<mvc:view-controller path="/common/boardqna/boardqna_form.do" view-name="common/boardqna/boardqna_form.tiles"/>	
 	<!-- QNA 수정 폼 페이지 -->
-	<mvc:view-controller path="/common/boardqna/boardqna_upload.do" view-name="common/boardqna/boardqna_upload"/>	
+	<mvc:view-controller path="/common/boardqna/boardqna_upload.do" view-name="common/boardqna/boardqna_upload.tiles"/>	
 	<!-- commentQNA 수정 폼 페이지 -->
-	<mvc:view-controller path="/common/boardqna/commentqna_upload.do" view-name="common/boardqna/commentqna_upload"/>	
+	<mvc:view-controller path="/common/boardqna/commentqna_upload.do" view-name="common/boardqna/commentqna_upload.tiles"/>	
 	<!-- 자유게시판 목록 페이지 -->
-	<mvc:view-controller path="/common/boardfree/boardfree_list.do" view-name="common/boardfree/boardfree_list"/>	
+	<mvc:view-controller path="/common/boardfree/boardfree_list.do" view-name="common/boardfree/boardfree_list.tiles"/>	
 	<!-- 자유게시판 memberId 목록 페이지 -->
-	<mvc:view-controller path="/common/boardfree/boardfree_list_memberid.do" view-name="common/boardfree/boardfree_list_memberid"/>	
+	<mvc:view-controller path="/common/boardfree/boardfree_list_memberid.do" view-name="common/boardfree/boardfree_list_memberid.tiles"/>	
 	<!-- 자유게시판 조회수 목록 페이지 -->
-	<mvc:view-controller path="/common/boardfree/boardfree_list_hit.do" view-name="common/boardfree/boardfree_list_hit"/>	
+	<mvc:view-controller path="/common/boardfree/boardfree_list_hit.do" view-name="common/boardfree/boardfree_list_hit.tiles"/>	
 	<!-- 자유게시판 제목 목록 페이지 -->
-	<mvc:view-controller path="/common/boardfree/boardfree_list_title.do" view-name="common/boardfree/boardfree_list_title"/>	
-	<!-- 자유게시판 null 페이지 -->
-	<mvc:view-controller path="/common/boardfree/boardfree_list_null.do" view-name="common/boardfree/boardfree_list_null"/>		
+	<mvc:view-controller path="/common/boardfree/boardfree_list_title.do" view-name="common/boardfree/boardfree_list_title.tiles"/>	
 	<!-- 자유게시판 상세페이지 -->
-	<mvc:view-controller path="/common/boardfree/boardfree_view.do" view-name="common/boardfree/boardfree_view"/>	
+	<mvc:view-controller path="/common/boardfree/boardfree_view.do" view-name="common/boardfree/boardfree_view.tiles"/>	
 	<!-- 자유게시판 등록 폼 페이지 -->
-	<mvc:view-controller path="/common/boardfree/boardfree_form.do" view-name="common/boardfree/boardfree_form"/>	
+	<mvc:view-controller path="/common/boardfree/boardfree_form.do" view-name="common/boardfree/boardfree_form.tiles"/>	
 	<!-- 자유게시판 수정 폼 페이지 -->
-	<mvc:view-controller path="/common/boardfree/boardfree_upload.do" view-name="common/boardfree/boardfree_upload"/>	
+	<mvc:view-controller path="/common/boardfree/boardfree_upload.do" view-name="common/boardfree/boardfree_upload.tiles"/>	
 	<!-- 후기 목록 페이지 -->
-	<mvc:view-controller path="/boardreview/boardreview_list.do" view-name="boardreview/boardreview_list"/>	
+	<mvc:view-controller path="/boardreview/boardreview_list.do" view-name="boardreview/boardreview_list.tiles"/>	
 	<!-- 후기 아이디 목록 페이지 -->
-	<mvc:view-controller path="/boardreview/boardreview_list_memberid.do" view-name="boardreview/boardreview_list_memberid"/>	
+	<mvc:view-controller path="/boardreview/boardreview_list_memberid.do" view-name="boardreview/boardreview_list_memberid.tiles"/>	
 	<!-- 후기 레시피 목록 페이지 -->
-	<mvc:view-controller path="/boardreview/boardreview_list_recipename.do" view-name="boardreview/boardreview_list_recipename"/>	
-
-
-
-
-
-
-
-
-
-
-
-
+	<mvc:view-controller path="/boardreview/boardreview_list_recipename.do" view-name="boardreview/boardreview_list_recipename.tiles"/>	
 
 
 	<!-- 왕준 view 등록 -->
 	<!-- 전체목록폼 링크 -->
-	<mvc:view-controller path="/boardShare/boardRecipe_list.do" view-name="/boardShare/boardRecipe_list"/>
+	<mvc:view-controller path="/boardShare/boardRecipe_list.do" view-name="/boardShare/boardRecipe_list.tiles"/>
 	<!-- 게시물작성폼 링크 -->
-	<mvc:view-controller path="/boardShare/boardRecipe_write.do" view-name="boardShare/boardRecipe_write"/>
+	<mvc:view-controller path="/boardShare/boardRecipe_write.do" view-name="boardShare/boardRecipe_write.tiles"/>
 	<!-- 게시물 보기  -->
-	<mvc:view-controller path="/boardShare/boardRecipe_view.do" view-name="boardShare/boardRecipe_view"/>
+	<mvc:view-controller path="/boardShare/boardRecipe_view.do" view-name="boardShare/boardRecipe_view.tiles"/>
 	<!-- 게시물 등록 성공 확인폼 링크 -->
-	<mvc:view-controller path="/boardShare/boardRecipe_write.do" view-name="boardShare/boardRecipe_write"/>
+	<mvc:view-controller path="/boardShare/boardRecipe_write.do" view-name="boardShare/boardRecipe_write.tiles"/>
 	<!-- 게시물 수정 폼  -->
-	<mvc:view-controller path="/boardShare/boardRecipe_update.do" view-name="boardShare/boardRecipe_update"/>
+	<mvc:view-controller path="/boardShare/boardRecipe_update.do" view-name="boardShare/boardRecipe_update.tiles"/>
 	<!-- 게시물 삭제 -->
-	<mvc:view-controller path="/boardShare/boardRecipe_delete.do" view-name="boardShare/boardRecipe_delete"/>
+	<mvc:view-controller path="/boardShare/boardRecipe_delete.do" view-name="boardShare/boardRecipe_delete.tiles"/>
 
 	<!-- 경혜 view controller등록-->
+	<!--  공용으로 사용 가능 -->
+	<!-- 기피재료 검색 form으로 이동(popup) -->
+	<mvc:view-controller path="/popup_find_irdnt_form.do" view-name="user/popup_find_irdnt_form"/>
+
+	
 	<!-- /** -->
 	<!-- 사용자관리 view 모여있는 곳을으로 이동 (나중에 삭제)  -->
-	<mvc:view-controller path="/index_kh.do" view-name="user/index_kh"/>
+	<mvc:view-controller path="/index_kh.do" view-name="user/index_kh.tiles"/>
 	<!-- 403 권한 없음 에러 페이지 -->
-	<mvc:view-controller path="/error/access_denied.do" view-name="error/access_denied"/>
+	<mvc:view-controller path="/error/access_denied.do" view-name="error/access_denied.tiles"/>
 	<!-- user(전체사용자) 로그인 -->
-	<mvc:view-controller path="/login_form.do" view-name="user/login_form"/>
+	<mvc:view-controller path="/login_form.do" view-name="user/login_form.tiles"/>
 	<!-- 회원가입 -->
-	<mvc:view-controller path="/join_member_form.do" view-name="user/join_member_form"/>
+	<mvc:view-controller path="/join_member_form.do" view-name="user/join_member_form.tiles"/>
+	<!-- ID 중복검사 폼 -->
+	<mvc:view-controller path="/popup_duplicate_id_form.do" view-name="user/popup_duplicate_id_form"/>
+	<!-- Email 중복검사 폼 -->
+	<mvc:view-controller path="/popup_duplicate_email_form.do" view-name="user/popup_duplicate_email_form"/>
 	<!-- 회원가입성공 -->
-	<mvc:view-controller path="/join_member_success.do" view-name="user/join_member_success"/>
-	
+	<mvc:view-controller path="/join_member_success.do" view-name="user/join_member_success.tiles"/>
 	<!-- /common/member -->
 	<!-- 마이페이지(개인회원정보조회) -->
-	<mvc:view-controller path="/common/member/member_mypage.do" view-name="common/member/user/member_mypage"/>
+	<mvc:view-controller path="/common/member/member_mypage.do" view-name="common/member/user/member_mypage.tiles"/>
 	<!-- 회원정보수정 -->
-	<mvc:view-controller path="/common/member/member_change_info.do" view-name="common/member/user/member_change_info"/>
+	<mvc:view-controller path="/common/member/member_change_info.do" view-name="common/member/user/member_change_info.tiles"/>
 	<!-- 회원탈퇴페이지 -->
-	<mvc:view-controller path="/common/member/member_delete_form.do" view-name="common/member/user/member_delete_form"/>
+	<mvc:view-controller path="/common/member/member_delete_form.do" view-name="common/member/user/member_delete_form.tiles"/>
 
 	<!-- /common/admin -->
 	<!-- 마이페이지(관리자정보조회) -->
-	<mvc:view-controller path="/common/admin/admin_mypage.do" view-name="common/admin/user/admin_mypage"/>
+	<mvc:view-controller path="/common/admin/admin_mypage.do" view-name="common/admin/user/admin_mypage.tiles"/>
 	<!-- 전체관리자등록정보 조회 페이지 -->
-	<mvc:view-controller path="/common/admin/admin_list.do" view-name="common/admin/user/admin_list"/>
+	<mvc:view-controller path="/common/admin/admin_list.do" view-name="common/admin/user/admin_list.tiles"/>
 	<!-- 관리자 개인정보수정 -->
-	<mvc:view-controller path="/common/admin/admin_change_info.do" view-name="common/admin/user/admin_change_info"/>
+	<mvc:view-controller path="/common/admin/admin_change_info.do" view-name="common/admin/user/admin_change_info.tiles"/>
 	<!-- 전체개인회원정보 조회 페이지 -->
-	<mvc:view-controller path="/common/admin/member_list.do" view-name="common/admin/user/member_list"/>
+	<mvc:view-controller path="/common/admin/member_list.do" view-name="common/admin/user/member_list.tiles"/>
 
 	<!-- /common/admin/master -->
 	<!-- 관리자등록 -->
-	<mvc:view-controller path="/common/admin/master/join_admin_form.do" view-name="common/admin/master/user/join_admin_form"/>
+	<mvc:view-controller path="/common/admin/master/join_admin_form.do" view-name="common/admin/master/user/join_admin_form.tiles"/>
 	<!-- 관리자등록성공 -->
-	<mvc:view-controller path="/common/admin/master/join_admin_success.do" view-name="common/admin/master/user/join_admin_success"/>
+	<mvc:view-controller path="/common/admin/master/join_admin_success.do" view-name="common/admin/master/user/join_admin_success.tiles"/>
 	
 	
 	<!-- 냉장고 리스트 페이지 (검색) -->
-	<mvc:view-controller path="/common/member/fridger/list.do" view-name="common/member/fridger/list"/>
+	<mvc:view-controller path="/common/member/fridger/list.do" view-name="common/member/fridger/list.tiles"/>
 	<!--  -->
-	<mvc:view-controller path="/common/member/fridger/my_list.do" view-name="/common/member/fridger/my_list"/>
+	<mvc:view-controller path="/common/member/fridger/my_list.do" view-name="common/member/fridger/my_list.tiles"/>
 	<!-- 냉장고 등록 페이지 -->
-	<mvc:view-controller path="/common/member/fridger/register_form.do" view-name="common/member/fridger/register_form"/>
+	<mvc:view-controller path="/common/member/fridger/register_form.do" view-name="common/member/fridger/register_form.tiles"/>
+	<mvc:view-controller path="/common/member/fridger/register_form2.do" view-name="common/member/fridger/register_form2.tiles"/>
 	<!-- 냉장고 등록 성공페이지 -->
-	<mvc:view-controller path="/common/member/fridger/register_success.do" view-name="common/member/fridger/register_success"/>
+	<mvc:view-controller path="/common/member/fridger/register_success.do" view-name="common/member/fridger/register_success.tiles"/>
 	<!-- 냉장고 수정  페이지 -->
-	<mvc:view-controller path="/common/member/fridger/update_form.do" view-name="common/member/fridger/update_form"/>
-	<!-- 냉장고 수정  페이지 -->
-	<mvc:view-controller path="common/member/fridger/update_success.do" view-name="common/member/fridger/update_success"/>
+	<mvc:view-controller path="/common/member/fridger/update_form.do" view-name="common/member/fridger/update_form.tiles"/>
+	<!-- 냉장고 수정 성공페이지 -->
+	<mvc:view-controller path="common/member/fridger/update_success.do" view-name="common/member/fridger/update_success.tiles"/>
 	<!-- 냉장고 초대 페이지 -->
-	<mvc:view-controller path="/common/member/fridger/invite_form.do" view-name="common/member/fridger/invite_form"/>
+	<mvc:view-controller path="/common/member/fridger/invite_form.do" view-name="common/member/fridger/invite_form.tiles"/>
 	<!-- 냉장고 그룹 가입처리 리스트 (검색) -->
-	<mvc:view-controller path="/common/member/fridger/joinProcess/list.do" view-name="common/member/fridger/joinProcess/list"/>
+	<mvc:view-controller path="/common/member/fridger/joinProcess/list.do" view-name="common/member/fridger/joinProcess/list.tiles"/>
 
 	<!--연수  -->
 	<!-- 재료관리 목록 페이지   -->
-	<mvc:view-controller path="/common/admin/irdntManage/irdntList.do" view-name="common/admin/irdntManage/irdntList"/>
+	<mvc:view-controller path="/common/admin/irdntManage/irdntList.do" view-name="common/admin/irdntManage/irdntList.tiles"/>
 	<!-- 재료관리 등록폼 페이지   -->
-	<mvc:view-controller path="/common/admin/irdntManage/irdnt_form.do" view-name="common/admin/irdntManage/irdnt_form"/>
+	<mvc:view-controller path="/common/admin/irdntManage/irdnt_form.do" view-name="common/admin/irdntManage/irdnt_form.tiles"/>
 	<!-- 재료관리 등록성공 페이지   -->
-	<mvc:view-controller path="/common/admin/irdntManage/register_success.do" view-name="common/admin/irdntManage/register_success"/>
+	<mvc:view-controller path="/common/admin/irdntManage/register_success.do" view-name="common/admin/irdntManage/register_success.tiles"/>
 	<!-- 재료관리 수정폼 페이지   -->
-	<mvc:view-controller path="/common/admin/irdntManage/irdnt_update_form.do" view-name="common/admin/irdntManage/irdnt_update_form"/>
+	<mvc:view-controller path="/common/admin/irdntManage/irdnt_update_form.do" view-name="common/admin/irdntManage/irdnt_update_form.tiles"/>
 	
 	<!-- 나의 식재료 목록 페이지   -->
-	<mvc:view-controller path="/common/member/myIrdnt/myIrdntList.do" view-name="common/member/myIrdnt/myIrdntList"/>
+	<mvc:view-controller path="/common/member/myIrdnt/myIrdntList.do" view-name="common/member/myIrdnt/myIrdntList.tiles"/>
 	<!-- 나의 식재료 등록폼 페이지   -->
-	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_form.do" view-name="common/member/myIrdnt/myIrdnt_form"/>
+	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_form.do" view-name="common/member/myIrdnt/myIrdnt_form.tiles"/>
 	<!-- 나의 식재료 상세정보 페이지   -->
-	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_detail.do" view-name="common/member/myIrdnt/myIrdnt_detail"/>
+	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_detail.do" view-name="common/member/myIrdnt/myIrdnt_detail.tiles"/>
 	<!-- 나의 식재료 수정폼 페이지   -->
-	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_update_form.do" view-name="common/member/myIrdnt/myIrdnt_update_form"/>
+	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_update_form.do" view-name="common/member/myIrdnt/myIrdnt_update_form.tiles"/>
 	<!-- 나의 식재료 재료명 검색 페이지   -->
-	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_search_result.do" view-name="common/member/myIrdnt/myIrdnt_search_result"/>
+	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_search_result.do" view-name="common/member/myIrdnt/myIrdnt_search_result.tiles"/>
 	
+	<!--레시피-관리자용  -->
+	<!--레시피 목록불러오기  -->
+	<mvc:view-controller path="/common/admin/recipe_for_admin/recipeList.do" view-name="common/admin/recipe_for_admin/recipeList.tiles"/>
+	<!--레시피 등록폼 -->
+	<mvc:view-controller path="/common/admin/recipe_for_admin/create_recipe.do" view-name="common/admin/recipe_for_admin/create_recipe.tiles"/>
+	<!--레시피 수정폼  -->
+	<mvc:view-controller path="/common/admin/recipe_for_admin/update_recipe.do" view-name="common/admin/recipe_for_admin/update_recipe.tiles"/>
 	
-	
+	<!--레시피 사용자용  -->
+	<!--레시피 상세페이지  -->
+	<mvc:view-controller path="/recipe_for_user/recipe_detail.do" view-name="recipe_for_user/recipe_detail.tiles"/>
+	<!--레시피 재료로 검색하는 페이지  -->
+	<mvc:view-controller path="/recipe_for_user/search_by_irdnts.do" view-name="recipe_for_user/search_by_irdnts.tiles"/>
+	<!--레시피 요리명으로 검색하는 페이지  -->
+	<mvc:view-controller path="/recipe_for_user/search_by_recipeName.do" view-name="recipe_for_user/search_by_recipeName.tiles"/>
+	<!--레시피 카테고리로 검색하는 페이지  -->
+	<mvc:view-controller path="/recipe_for_user/search_by_category.do" view-name="recipe_for_user/search_by_category.tiles"/>
+
 	<!-- 메모등록 -->
 	<mvc:view-controller path="/common/member/memo/memo_register_form.do" view-name="common/member/memo/memo_register_form"/>
-	<!-- 메모수정 -->
-	<mvc:view-controller path="/common/member/memo/memo_update_form.do" view-name="common/member/memo/memo_update_form"/>
 	<!-- 메모리스트 -->
 	<mvc:view-controller path="/common/member/memo/memoList.do" view-name="common/member/memo/memoList.tiles"/>
 	<!-- 메모상세 -->
-	<mvc:view-controller path="/common/member/memo/memoDetail.do" view-name="common/member/memo/memoDetail"/>
+	<mvc:view-controller path="/common/member/memo/memoDetail.do" view-name="common/member/memo/memoDetail.tiles"/>
 	<!-- 쇼핑몰등록 -->
-	<mvc:view-controller path="/common/shop/shop_register_form.do" view-name="common/shop/shop_register_form"/>
+	<mvc:view-controller path="/common/shop/shop_register_form.do" view-name="common/shop/shop_register_form.tiles"/>
 	<!-- 쇼핑몰리스트 -->
-	<mvc:view-controller path="/common/shop/shopList.do" view-name="common/shop/shopList"/>
-	<!-- 냉장고그룹멤버목록 -->
-	<mvc:view-controller path="/common/member/FridgerGroup/groupMemberList.do" view-name="common/member/FridgerGroup/groupMemberList"/>
-	
+	<mvc:view-controller path="/common/shop/shopList.do" view-name="common/shop/shopList.tiles"/>
+
 	
 	<!-- TilesConfigurer : tiles설정파일을 등록하는 bean -->
 	<bean name="tilesConfig" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
@@ -200,16 +209,16 @@
 				<value>classpath:kr/co/turnup_fridger/config/tiles/tiles-config.xml</value>
 			</list>
 		</property>
-	</bean>
-	
+		</bean>
+
 	<!-- TilesViewResolver : 위에 등록한 설정파일을 가지고 일하는 애 -->
 	<bean name="tilesViewResolver" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver" 
 			p:order="1"/>
 	<!-- viewResolver가 여러개일 경우 InternalResourceViewResolver는 반드시 마지막 순서로 둬야한다(얘는 무조건 view를 리턴해주기때문에 뒤 순서애들이 의미가 없어짐) -->
 	<bean name="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-			p:order="2"
-			p:prefix="/WEB-INF/view/"
-			p:suffix=".jsp"/>	
+			p:prefix="/WEB-INF/view/content/"
+			p:suffix=".jsp"
+			p:order="2"/>	
 		
 	<!-- properties파일 등록 -->
 	<bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"

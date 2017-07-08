@@ -1,0 +1,174 @@
+@CHARSET "utf-8";
+@import url('https://fonts.googleapis.com/css?family=Philosopher');
+
+body,html { /* 전체화면 비율 */
+    width: 100%;
+    height: 100%;
+}
+
+body, h2, h3, h4, h5, h6 {
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 700;
+}
+
+img{ /* 삽입 이미지들 */
+	border-radius: 50em; /* 이미지테두리 둥글게 */
+	width: 500;
+	height: 400;
+} 
+
+.topnav { /* 상단바 부분 */
+    font-size: 14px;
+    font-family: 'Philosopher', sans-serif;
+}
+
+.container.subnav {
+	diplay: block;
+	height: 30px;
+}
+
+.lead { /* 이달의 레시피 소개글*/
+    font-size: 18px;		
+    font-weight: 400;
+    line-height:2em;		/* 줄간격 */
+}
+
+.intro-header { /* 첫 화면 가운데부분  */
+/*     padding-top: 18px;   If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content!
+    padding-bottom: 18px;	 */
+    text-align: center;
+    color: #f8f8f8;
+    background: url(/ttFridger/img/banana.jpg) no-repeat center center;
+    background-size: cover;
+}
+
+.intro-message {	/* 처음화면 가운데부분 글자 */
+    position: relative;
+    padding-top: 20%;
+    padding-bottom: 20%;
+}
+
+.intro-message > h1 { /* turnup-fidger */
+    margin: 0;
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+    font-size: 6.5em;
+    font-family: 'Philosopher', sans-serif;
+    font-weight: 600;
+}
+
+.intro-divider { /* 가운데 글 구분선 */
+    width: 500px;
+    border-top: 2px solid #f8f8f8;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.intro-message > h3 { /* 제목 아래 설명글 */
+    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+}
+
+/* ================= 메뉴드롭다운부분 =================== */
+
+    #submenuLink {  /* 하위 메뉴의 a 태그 */
+        text-decoration:none;               
+        display: block;                     
+        width: 100%;                       
+        font-size: 15px;
+        text-align: center;        
+    }
+
+	#submenuLink {   /* 하위 메뉴의 a 태그 */
+        color: #2d2d2d;
+        -border: solid 1px black;    /* [삭제] 테두리 삭제 */
+        -margin-right: -1px;         /* [삭제] 공백 보정 삭제 */
+    }
+    
+    /* 하위메뉴모음(ul) */
+    .submenu {
+        position: absolute; /* 고정 위치에 표시 */
+		top: 465px; /* 부모 요소로부터 아래로 떨어진거리(부모요소가 상단바) */
+        height: 0px;
+        overflow: hidden;
+        transition: height .3s;		/* 하위메뉴가 서서히 나오게하는 설정 */
+        -webkit-transition: height .2s; 
+        -moz-transition: height .2s; 
+        -o-transition: height .2s; 
+        width: 55%;
+        background-color: #FFFFFF;
+		background: rgba(255, 255, 255, 0.5); /* 하위메뉴박스 배경 투명도 */
+    }
+    .submenu li {/* 하위메뉴들 */
+        display: inline-block; /* 가로로 나열 */
+        padding-right: 20px;
+        padding-left: 10px;
+        padding-top: 11px;
+    }
+    .topMenuLi:hover .submenu { /* 상위메뉴 마우스오버시 하위메뉴들(ul) */
+        height: 45px;
+    }
+    #submenuLink:hover { /* 하위메뉴 마우스오버 */
+        color: white;
+    }
+/* ======================================================== */
+
+@media(max-width:767px) {
+    .intro-message {
+        padding-bottom: 15%;
+    }
+
+    .intro-message > h1 {
+        font-size: 3em;
+    }
+
+    ul.intro-social-buttons > li {
+        display: block;
+        margin-bottom: 20px;
+        padding: 0;
+    }
+
+    ul.intro-social-buttons > li:last-child {
+        margin-bottom: 0;
+    }
+
+    .intro-divider {
+        width: 100%;
+    }
+    
+}
+
+.network-name {
+    text-transform: uppercase; /* 대문자 전환 */
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+.content-section-a {
+    padding: 50px 0;
+    background-color: #f8f8f8;
+}
+
+.content-section-b {
+    padding: 50px 0;
+    border-top: 1px solid #e7e7e7;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.section-heading {
+    margin-bottom: 30px;
+}
+
+.section-heading-spacer {
+    float: left;
+    width: 200px;
+    border-top: 3px solid #e7e7e7;
+}
+
+footer {
+    padding: 50px 0;
+    background-color: #f8f8f8;
+}
+
+p.copyright {
+    margin: 15px 0 0;
+    font-size: 15px; 
+}

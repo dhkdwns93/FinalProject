@@ -19,7 +19,18 @@ public class RecipeIrdnt implements Serializable{
 	}
 
 	public RecipeIrdnt(int irdntNo, String irdntName, String irdntAmount, int irdntTypeCode, String irdntTypeName,
-			int recipeId, int irdntId, IrdntManage irdntManage, kr.co.turnup_fridger.vo.RecipeInfo recipeInfo) {
+			int recipeId, int irdntId) {
+		this.irdntNo = irdntNo;
+		this.irdntName = irdntName;
+		this.irdntAmount = irdntAmount;
+		this.irdntTypeCode = irdntTypeCode;
+		this.irdntTypeName = irdntTypeName;
+		this.recipeId = recipeId;
+		this.irdntId = irdntId;
+	}
+
+	public RecipeIrdnt(int irdntNo, String irdntName, String irdntAmount, int irdntTypeCode, String irdntTypeName,
+			int recipeId, int irdntId, IrdntManage irdntManage,RecipeInfo recipeInfo) {
 		this.irdntNo = irdntNo;
 		this.irdntName = irdntName;
 		this.irdntAmount = irdntAmount;
