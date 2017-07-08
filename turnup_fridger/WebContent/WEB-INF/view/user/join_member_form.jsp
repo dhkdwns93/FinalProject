@@ -32,6 +32,16 @@ $(document).ready(function(){
 		$("span#duplicateEmailAfter").show();
 		$("input#inputEmail").val("");
 	});//end of duplicateEmailBtn
+	
+	$("div#showMyDislikeIrdnt").on("click","button#createMyDislikeIrdnt",function(){
+		window.open("${initParam.rootPath}/popup_find_irdnt_form.do","find_irdnt_form","width=500,height=400,resizable=yes");
+		var inputTextHtml=$("#showMyDislikeIrdnt")
+				.prepend('<div id="myDislikeIrdntText"><input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="${param.irdntId}" class="form-control"><input type="text" id="myDislikeIrdntName" name="myDislikeIrdntName" value="${param.irdntName}" readonly="readonly" class="form-control">&nbsp&nbsp<button type="button" id="removeMyDislikeIrdnt">해당 기피재료 삭제</button><br></div>');
+	});//end of createMyDislikeIrdnt(Btn)
+	
+	$("div#showMyDislikeIrdnt").on("click","button#removeMyDislikeIrdnt",function(){
+			var deleteInputTextHtml=$(this).parent().remove();
+	});//end of showMyDislikeIRdnt
 
 });
 
@@ -44,7 +54,7 @@ $(document).ready(function(){
 
 <h2>회원가입페이지</h2>
 <%-- controller.common패키지 --%>
-<form action="${initParam.rootPath}/join_member.do" method="post" name="join_member_form">
+<form action="${initParam.rootPath}/join_member.do" method="post" name="useIrdntPopup">
 	※모든 사항은 필수기입사항입니다.<br><br>
 	<div id="idCheck" class="form-group">
 		<label for="id">회원 ID</label>
@@ -94,6 +104,12 @@ $(document).ready(function(){
 		성별 <label for="sex_man">남</label><input type="radio" id="sex_man" name="memberSex" value="M" class="form-control">
 			<label for="sex_woman">여</label><input type="radio" id="sex_woman" name="memberSex" value="W" class="form-control">
 		<span class="error"><form:errors path="member.memberSex" delimiter="&nbsp;&nbsp"/></span>
+	</div>
+	<div class="form-group">
+		기피재료<br>
+		<div id="showMyDislikeIrdnt">
+			<button type="button" id="createMyDislikeIrdnt">기피재료추가</button><br>
+		</div>
 	</div>
 	<sec:csrfInput/>
 	<button type="submit" id="submit" class="btn btn-default">가입</button>
