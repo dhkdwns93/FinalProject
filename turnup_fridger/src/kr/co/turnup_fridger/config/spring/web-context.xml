@@ -170,9 +170,7 @@
 	<mvc:view-controller path="/recipe_for_user/search_by_category.do" view-name="recipe_for_user/search_by_category.tiles"/>
 
 	<!-- 메모등록 -->
-	<mvc:view-controller path="/common/member/memo/memo_register_form.do" view-name="common/member/memo/memo_register_form.tiles"/>
-	<!-- 메모수정 -->
-	<mvc:view-controller path="/common/member/memo/memo_update_form.do" view-name="common/member/memo/memo_update_form.tiles"/>
+	<mvc:view-controller path="/common/member/memo/memo_register_form.do" view-name="common/member/memo/memo_register_form"/>
 	<!-- 메모리스트 -->
 	<mvc:view-controller path="/common/member/memo/memoList.do" view-name="common/member/memo/memoList.tiles"/>
 	<!-- 메모상세 -->

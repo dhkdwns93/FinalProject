@@ -60,7 +60,7 @@ form{display:inline}
 <hr>
 <!-- 현화 -->
 <h4>메모 관련</h4>
-<a id="memo" href="#" onClick="window.open('${initParam.rootPath}/common/member/memo/memo_register_form.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=450px, height=430px ,top=10, left=10', bottom=10, right=10)"><button type="button">+메모</button></a>
+<a id="memo" href="#" onClick="window.open('${initParam.rootPath}/WEB-INF/view/memo_register_form.jsp','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=450px, height=430px ,top=10, left=10', bottom=10, right=10)"><button type="button">+메모</button></a>
 <a href="${initParam.rootPath}/common/member/memo/memoList.do"><button type="button">메모목록</button></a>
 <h4>쇼핑몰 관련</h4>
 <a href="${initParam.rootPath}/common/shop/shop_register_form.do"><button type="button">쇼핑몰 등록</button></a>

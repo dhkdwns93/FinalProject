@@ -28,14 +28,14 @@ public class MemoController {
 		MemoValidator val = new MemoValidator();
 		val.validate(mm, err);
 		if(err.hasErrors()){
-			return new ModelAndView("common/member/memo/memo_register_form", "error", err);
+			return new ModelAndView("/WEB-INF/view/memo_register_form.jsp", "error", err);
 		}
 		try {
 			service.insertMemo(mm);
 		} catch (Exception e) {
-			return new ModelAndView("common/member/memo/memo_register_form", "error", e.getMessage());
+			return new ModelAndView("/WEB-INF/view/memo_register_form.jsp", "error", e.getMessage());
 		}
-		return new ModelAndView("common/member/memo/memoDetail", "memo", mm);
+		return new ModelAndView("common/member/memo/memoDetail.tiles", "memo", mm);
 	}
 	
 	// 메모삭제 O
@@ -80,7 +80,7 @@ public class MemoController {
 	public ModelAndView selectOneMemo(String memoId){
 		int memId = Integer.parseInt(memoId);
 		MyMemo mm = service.selectOneMemo(memId);
-		return new ModelAndView("common/member/memo/memoDetail", "memo", mm);
+		return new ModelAndView("common/member/memo/memoDetail.tiles", "memo", mm);
 	}
 	
 	// 내가 쓴 메모개수 - O

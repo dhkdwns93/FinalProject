@@ -57,7 +57,7 @@ public class ShopController {
 		val.validate(shop, errors);
 		
 		if(errors.hasErrors()){
-			return new ModelAndView("common/shop/shop_register_form");
+			return new ModelAndView("common/shop/shop_register_form.tiles");
 		}
 		
 		System.out.println("=== shop controller - 검증 마침 ===");
@@ -86,7 +86,7 @@ public class ShopController {
 		}
 		System.out.println(" 등록 됐지롱");
 		mav.addObject("shop",shop);
-		mav.setViewName("common/shop/shopList");
+		mav.setViewName("common/shop/shopList.tiles");
 		mav.addObject("shop", service.selectShopById(shop.getShopId()));
 		return mav;	
 	}
@@ -110,7 +110,7 @@ public class ShopController {
 	public ModelAndView findShopList(){
 		List<Shop> list = service.selectShopList();
 		System.out.println("=== shop List ===");
-		return new ModelAndView("common/shop/shopList", "list", list);
+		return new ModelAndView("common/shop/shopList.tiles", "list", list);
 	}
 	
 	// 쇼핑몰 총 개수(회원, 관리자) - O
