@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- 
  (jsp)member_mypage
 작성자 :  김경혜
@@ -18,7 +19,7 @@
 
 
 <h2>마이페이지</h2>
-<table border="1">
+<table border="1" width="500">
 	<tr>
 		<th>회원 ID</th>
 		<th><sec:authentication property="principal.memberId"></sec:authentication></th>
@@ -46,6 +47,14 @@
 	<tr>
 		<th>성별</th>
 		<th><sec:authentication property="principal.memberSex"></sec:authentication></th>
+	</tr>
+	<tr>
+		<th>기피재료목록</th>
+		<th>
+			<c:forEach items="${requestScope.myDislikeIrdntNameList }" var="myDislikeIrdntName">
+					<li>${myDislikeIrdntName }</li>
+			</c:forEach> 
+		</th>
 	</tr>
 </table>
 

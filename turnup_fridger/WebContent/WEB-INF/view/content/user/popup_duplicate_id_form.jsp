@@ -37,7 +37,7 @@ $(document).ready(function(){
 	
 	$("button#useIdBtn").on("click",function(){
 		var id=$("input#id").val();
-		opener.document.join_member_form.memberId.value=id;
+		opener.document.usePopup.memberId.value=id;
 		//opener.document.join_member_form._csrf.parameterName.value=_csrf.token;
 		window.close();
 	});

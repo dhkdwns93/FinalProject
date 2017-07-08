@@ -38,18 +38,18 @@ $(document).ready(function(){
 		var irdntId=$(this).parent().parent().children(":first-child").children().val();
 		var irdntName=$(this).parent().parent().children(":nth-child(2)").children().val();
 		
-		//form name= useIrdntPopup로 보내는거야
+		//form name= usePopup로 보내는거야
 		//myDislikeIrdntId
-		if(!opener.document.useIrdntPopup.myDislikeIrdntId.length){
-			opener.document.useIrdntPopup.myDislikeIrdntId.value=irdntId;
+		if(!opener.document.usePopup.myDislikeIrdntId.length){
+			opener.document.usePopup.myDislikeIrdntId.value=irdntId;
 		}else{
-			opener.document.useIrdntPopup.myDislikeIrdntId[0].value=irdntId;
+			opener.document.usePopup.myDislikeIrdntId[0].value=irdntId;
 		}
 		//myDislikeIrdntName
-		if(!opener.document.useIrdntPopup.myDislikeIrdntName.length){
-			opener.document.useIrdntPopup.myDislikeIrdntName.value=irdntName;
+		if(!opener.document.usePopup.myDislikeIrdntName.length){
+			opener.document.usePopup.myDislikeIrdntName.value=irdntName;
 		}else{
-			opener.document.useIrdntPopup.myDislikeIrdntName[0].value=irdntName;
+			opener.document.usePopup.myDislikeIrdntName[0].value=irdntName;
 		}
 		
 		window.close();

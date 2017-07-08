@@ -6,12 +6,17 @@
 작성자 :  김경혜
 최초 작성일 170703
 변경이력 
+170708 ID/PW 찾기 버튼 추가
  -->
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+
+</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
@@ -35,7 +40,7 @@
 		<input type="password" id="password" name="userPw" class="form-control">
 	</div>
 	<button type="submit" class="btn btn-default">LOGIN</button>
-	<button type="reset" class="btn btn-default">다시작성</button>
+	<button type="button" class="btn btn-default">forget ID/Password</button>
 </form>
 </body>
 </html>
