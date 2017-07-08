@@ -38,7 +38,6 @@ public class MyIrdntController {
 	private FridgerService fridgerService;
 	
 	@RequestMapping(value = "createMyIrdnt", produces="html/text;charset=UTF-8;")
-	@ResponseBody
 	public ModelAndView createMyIrdnt(@ModelAttribute ("myIrdnt") @Valid MyIrdntForm myIrdntForm,BindingResult errors){
 		
 		if(errors.hasErrors()){

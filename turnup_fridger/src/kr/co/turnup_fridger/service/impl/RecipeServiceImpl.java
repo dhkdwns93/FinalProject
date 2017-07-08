@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import kr.co.turnup_fridger.dao.RecipeCrseDao;
 import kr.co.turnup_fridger.dao.RecipeInfoDao;
 import kr.co.turnup_fridger.dao.RecipeIrdntDao;
+import kr.co.turnup_fridger.exception.DuplicateRecipeException;
+import kr.co.turnup_fridger.exception.NoneRecipeException;
 import kr.co.turnup_fridger.service.RecipeService;
 import kr.co.turnup_fridger.util.PagingBean;
 import kr.co.turnup_fridger.vo.RecipeInfo;
@@ -26,9 +28,9 @@ public class RecipeServiceImpl implements RecipeService{
 	
 	//레시피 등록
 	@Override
-	public void createRecipe(RecipeInfo recipe) throws Exception {
+	public void createRecipe(RecipeInfo recipe) throws DuplicateRecipeException {
 		if(infoDao.selectRecipeInfoById(recipe.getRecipeId())!=null){
-			throw new Exception("이미 존재하는 레시피입니다.");
+			throw new DuplicateRecipeException("이미 존재하는 레시피입니다.");
 		}
 
 		infoDao.insertRecipeInfo(recipe);
@@ -42,9 +44,9 @@ public class RecipeServiceImpl implements RecipeService{
 
 	//레시피 수정
 	@Override
-	public void updateRecipe(RecipeInfo recipe) throws Exception {
+	public void updateRecipe(RecipeInfo recipe) throws NoneRecipeException {
 		if(infoDao.selectRecipeInfoById(recipe.getRecipeId())==null){
-			throw new Exception("없는 레시피입니다.");
+			throw new NoneRecipeException("없는 레시피입니다.");
 		}
 		infoDao.updateRecipeInfo(recipe);
 		for(int i=0;i<recipe.getrecipeCrse().size();i++){
@@ -57,9 +59,9 @@ public class RecipeServiceImpl implements RecipeService{
 
 	//레시피 삭제
 	@Override
-	public void removeRecipe(int recipeId) throws Exception {
+	public void removeRecipe(int recipeId) throws NoneRecipeException {
 		if(infoDao.selectRecipeInfoById(recipeId)==null){
-			throw new Exception("없는 레시피입니다.");
+			throw new NoneRecipeException("없는 레시피입니다.");
 		}
 		//on delete cascade.
 		infoDao.deleteRecipeInfo(recipeId);
@@ -120,6 +122,13 @@ public class RecipeServiceImpl implements RecipeService{
 		//단위변환
 		return null;
 	}
+
+	//전체 레시피 
+	@Override
+	public List<RecipeInfo> allRecipeList() {
+		return infoDao.selectAllRecipeInfo();
+	}
+	
 
 	
 }
