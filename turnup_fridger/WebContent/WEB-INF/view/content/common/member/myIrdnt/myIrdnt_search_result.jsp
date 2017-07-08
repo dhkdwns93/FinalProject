@@ -37,7 +37,6 @@ $(document).ready(function(){
 		
 		$("#irdntId", parent.opener.document).val(irdntId);
 		$("#irdntName", parent.opener.document).val(irdntName);
-		window.close();
 	})//click
 })//ready	
 </script>

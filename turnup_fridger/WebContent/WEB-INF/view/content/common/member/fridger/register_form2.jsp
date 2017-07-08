@@ -4,19 +4,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
-
 
 
 <body>
 	<h2>냉장고 등록폼</h2>
-	<form id="registerForm" enctype="multipart/form-data" action="${initParam.rootPath }/common/member/fridger/register/imgs.do" method="post" >
+	<form id="registerForm" enctype="multipart/form-data" action="${initParam.rootPath }/common/member/fridger/register.do" method="post" >
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
 		<table>
 			<tr>
@@ -63,7 +55,3 @@
 		</table>
 		
 	</form>
-
-
-</body>
-</html>

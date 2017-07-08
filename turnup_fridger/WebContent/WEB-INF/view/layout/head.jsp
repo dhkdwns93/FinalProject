@@ -1,18 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <div class="navbar-header">
-	<a class="navbar-brand topnav" href="#">Main</a>
+	<a class="navbar-brand topnav" href="/turnup_fridger/">Main</a>
 </div>
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	<ul class="nav navbar-nav navbar-right">
 
 		<!-- 권한, 상태별로 분리하기 -->
+		<sec:authentication property="principal" var="member"/>
 		<sec:authorize access="!isAuthenticated()">
 			<li><a href="#about">login</a></li>
 			<li><a href="#services">join</a></li>
 		</sec:authorize>
 		<sec:authorize access="isAuthenticated()">
-			<li><a>${sessionScope.member.memberName }님 환영합니다</a></li>
+			<li><a>${member.memberName }님 환영합니다</a></li>
 			<li><a href="#about">logout</a></li>
 			<li><a href="#services">myPage</a></li>
 			<li><a id="callMap" href="#"
