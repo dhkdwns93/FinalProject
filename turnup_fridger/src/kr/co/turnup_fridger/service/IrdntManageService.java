@@ -22,7 +22,7 @@ public interface IrdntManageService {
 	 * @return 
 	 * @throws Exception 
 	 */
-	void updateIrdnt(IrdntManage irdnt) throws DuplicateIrdntException,NoneIrdntException;
+	void updateIrdnt(IrdntManage irdnt) throws NoneIrdntException;
 	
 	/**
 	 * 재료삭제

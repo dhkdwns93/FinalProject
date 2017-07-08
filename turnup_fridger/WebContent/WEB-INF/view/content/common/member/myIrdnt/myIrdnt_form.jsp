@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger/scripts/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){		
 		//검색버튼을 누르면,myIrdnt_search_result팝업창을 열고-> 팝업창에서 irdntId가 넘어올예정.
@@ -17,12 +17,20 @@
 		})//searchBtn
 
 	})//ready
+	function closeWindow(){
+		window.opener.name= "parentPage";
+		document.myIrdntForm.target= "parentPage";
+		document.myIrdntForm.action=action="/turnup_fridger/common/member/myIrdnt/createMyIrdnt.do";
+		document.myIrdntForm.submit();
+		window.opener.location.reload();
+		self.close();
+		};
 </script>
 </head>
 <body>
 <h2>나의 식재료 등록</h2>
 
-<form action="/turnup_fridger/common/member/myIrdnt/createMyIrdnt.do" method="post">
+<form name="myIrdntForm" method="post" onsubmit="closeWindow()">
 <table>
 	<tr>
 		<td>

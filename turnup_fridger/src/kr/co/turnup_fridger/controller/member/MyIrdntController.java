@@ -45,8 +45,8 @@ public class MyIrdntController {
 		}
 		
 		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		List<FridgerGroup> group = fridgerService.findFridgerAndFridgerGroupByFridgerId(myIrdntForm.getFridgerId()).getFridgerGroupList();
-	/*	boolean validChk = false;
+	/*	List<FridgerGroup> group = fridgerService.findFridgerAndFridgerGroupByFridgerId(myIrdntForm.getFridgerId()).getFridgerGroupList();
+		boolean validChk = false;
 		for(int i=0; i<group.size();i++){
 			if(member.getMemberId().equals(group.get(i).getGroupMemberId())){
 				//현재회원의 id가 이 냉장고그룹에 속해있는지 하나하나 확인-> 같다.있다.
@@ -66,7 +66,7 @@ public class MyIrdntController {
 		} catch (DuplicateMyIrdntException e) {
 			return new ModelAndView("common/member/myIrdnt/myIrdnt_form","errorMsg_keyDuplicate",e.getMessage());
 		}
-		return new ModelAndView("common/member/myIrdnt/myIrdntList");
+		return new ModelAndView("redirect:myIrdntList.do");
 	}
 	
 	@RequestMapping(value="updateMyIrdnt", produces="html/text;charset=UTF-8;")
@@ -82,9 +82,9 @@ public class MyIrdntController {
 		try {
 			service.updateMyIrdnt(myIrdnt);
 		} catch (NoneMyIrdntException e) {
-			return new ModelAndView("common/member/myIrdnt/myIrdnt_detail","errorMsg_keyNull",e.getMessage());
+			return new ModelAndView("common/member/myIrdnt/myIrdnt_update_form","errorMsg_keyNull",e.getMessage());
 		}
-		return new ModelAndView("common/member/myIrdnt/myIrdntList");
+		return new ModelAndView("common/member/myIrdnt/myIrdntList.tiles");
 		
 	}
 	
@@ -108,6 +108,14 @@ public class MyIrdntController {
 		return list;
 	}
 	
+/*	@RequestMapping("allMyIrdntList")
+	public ModelAndView allMyIrdntList(@RequestParam int fridgerId){
+		List<MyIrdnt> list = service.findAllMyIrdntByFridgerId(fridgerId);
+		return new ModelAndView("common/member/myIrdnt/myIrdntList.tiles","list",list);
+	}
+	*/
+	
+	
 	@RequestMapping("findMyIrdntByFreshLevelAndIrdntName")
 	@ResponseBody
 	public List<MyIrdnt> findMyIrdntByFreshLevelAndIrdntName(@RequestParam String freshLevel, @RequestParam String irdntName, @RequestParam int fridgerId){
@@ -117,8 +125,6 @@ public class MyIrdntController {
 		return list;
 	}
 	
-	//날짜순 정렬을 만들어야하나?	
-	
 	@RequestMapping("findIrdntByName" )
 	@ResponseBody
 	public List<IrdntManage> findIrdntByName(@RequestParam String irdntName){
@@ -127,7 +133,6 @@ public class MyIrdntController {
 	}
 	
 	@RequestMapping("findIrdntByKey")
-	@ResponseBody
 	public ModelAndView findIrdntByKey(@RequestParam int myIrdntKey){
 		MyIrdnt myIrdnt = service.fingMyIrdntBymyIrdntKey(myIrdntKey);
 		return new ModelAndView("common/member/myIrdnt/myIrdnt_update_form","myIrdnt",myIrdnt);

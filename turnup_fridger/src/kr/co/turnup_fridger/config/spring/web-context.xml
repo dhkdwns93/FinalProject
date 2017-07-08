@@ -132,7 +132,7 @@
 
 	<!--연수  -->
 	<!-- 재료관리 목록 페이지   -->
-	<mvc:view-controller path="/common/admin/irdntManage/irdntList.do" view-name="common/admin/irdntManage/irdntList.tiles"/>
+<!-- 	<mvc:view-controller path="/common/admin/irdntManage/irdntList.do" view-name="common/admin/irdntManage/irdntList.tiles"/> -->
 	<!-- 재료관리 등록폼 페이지   -->
 	<mvc:view-controller path="/common/admin/irdntManage/irdnt_form.do" view-name="common/admin/irdntManage/irdnt_form.tiles"/>
 	<!-- 재료관리 등록성공 페이지   -->

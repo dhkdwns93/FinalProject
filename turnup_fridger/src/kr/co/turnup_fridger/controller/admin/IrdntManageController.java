@@ -16,6 +16,7 @@ import kr.co.turnup_fridger.exception.NoneIrdntException;
 import kr.co.turnup_fridger.service.IrdntManageService;
 import kr.co.turnup_fridger.validation.IrdntManageValidator;
 import kr.co.turnup_fridger.vo.IrdntManage;
+import kr.co.turnup_fridger.vo.MyIrdnt;
 
 @Controller
 @RequestMapping("/common/admin/irdntManage/")
@@ -40,27 +41,32 @@ public class IrdntManageController {
 		} catch (DuplicateIrdntException e) {
 			return new ModelAndView("common/admin/irdntManage/irdnt_form", "errorMsg_irdntName", e.getMessage());
 		}		
-		return new ModelAndView("common/admin/irdntManage/create_success");
-
+		return new ModelAndView("redirect:successCreateIrdnt.do");
 	}
+	
+	@RequestMapping("successCreateIrdnt")
+	public ModelAndView successCreateIrdnt(String msg){
+		return new ModelAndView("common/admin/irdntManage/irdntList.tiles","success_msg","등록성공!");
+	}
+	
 	
 	@RequestMapping(value="updateIrdnt",produces="html/text;charset=UTF-8;")
 	public ModelAndView updateIrdnt(@ModelAttribute IrdntManage irdnt,BindingResult errors){
 		
+		System.out.println("받아온거 : " + irdnt);
 		IrdntManageValidator validator= new IrdntManageValidator();
 		validator.validate(irdnt, errors);
 		
 		if(errors.hasErrors()){
+			System.out.println("발리데이터에서 잡힘");
 			return new ModelAndView("common/admin/irdntManage/irdnt_update_form");
 		}
 		try {
-			service.updateIrdnt(irdnt);
-		} catch (DuplicateIrdntException e) {
-			return new ModelAndView("common/admin/irdntManage/irdnt_update_form","errorMsg_irdntName",e.getMessage());			
+			service.updateIrdnt(irdnt);	
 		}catch(NoneIrdntException e){
 			return new ModelAndView("common/admin/irdntManage/irdnt_update_form","errorMsg_irdntId",e.getMessage());
 		}
-		return new ModelAndView("common/admin/irdntManage/irdntList");
+		return new ModelAndView("common/admin/irdntManage/irdntList.tiles");
 	}
 	
 	@RequestMapping(value="removeIrdnt" , produces="html/text;charset=UTF-8;")
@@ -94,7 +100,7 @@ public class IrdntManageController {
 	public ModelAndView findAllCategory(){
 		List<String> list = service.findAllIrdntCategory();
 		//System.out.println(list);
-		return new ModelAndView("common/admin/irdntManage/irdntList","irdntCategory",list);
+		return new ModelAndView("common/admin/irdntManage/irdntList.tiles","irdntCategory",list);
 	}
 	
 	@RequestMapping("findAllICategory2")
@@ -103,6 +109,11 @@ public class IrdntManageController {
 		return new ModelAndView("common/admin/irdntManage/irdnt_form","irdntCategory",list);
 	}
 	
+	@RequestMapping("findIrdntById")
+	public ModelAndView findIrdntByKey(@RequestParam int irdntId){
+		IrdntManage irdnt = service.findIrdntByIrdntId(irdntId);
+		return new ModelAndView("common/admin/irdntManage/irdnt_update_form","irdnt",irdnt);
+	}
 	
 /*	@RequestMapping("findAllICategory")
 	@ResponseBody
