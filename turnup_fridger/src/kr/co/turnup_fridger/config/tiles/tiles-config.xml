@@ -30,5 +30,12 @@
 	<definition name="*/*/*/*.tiles" extends="template">
 		<put-attribute name="content" value="/WEB-INF/view/content/{1}/{2}/{3}/{4}.jsp" />
 	</definition>
+	
+	
+	<!-- admin 또는 member 하위의 각자 폴더 아래의 jsp(가장 하위분류)
+			view - content - common - member - fridger - jsp파일			 -->
+	<definition name="*/*/*/*/*.tiles" extends="template">
+		<put-attribute name="content" value="/WEB-INF/view/content/{1}/{2}/{3}/{4}/{5}.jsp" />
+	</definition>
 
 </tiles-definitions>

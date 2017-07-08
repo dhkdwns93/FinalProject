@@ -1,11 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+
 <h2>초대요청성공</h2>
 No : ${ requestScope.joinProcess.processNo }<br>
 냉장고ID :  ${ requestScope.joinProcess.processFridgerId }<br>
@@ -17,5 +11,3 @@ No : ${ requestScope.joinProcess.processNo }<br>
 응답회원 : ${ requestScope.joinProcess.respMemberId }<br>
 <br>
 <a href="${initParam.rootPath}"><button type="button">index가기</button></a>
-</body>
-</html>

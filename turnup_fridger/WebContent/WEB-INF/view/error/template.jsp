@@ -4,59 +4,46 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+<meta name="description" content="">
+<meta name="author" content="">
 <title>turnup-fridger</title>
-<script src="${ initParam.rootPath }/scripts/jquery.js"></script>
-<script src="${ initParam.rootPath }/scripts/bootstrap.min.js"></script>
-<link href="${ initParam.rootPath }/css/bootstrap.css" rel="stylesheet">
-<link href="${ initParam.rootPath }/css/landing-page.css" rel="stylesheet">
+<script src="scripts/jquery.js"></script>
+<script src="scripts/bootstrap.min.js"></script>
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/landing-page.css" rel="stylesheet">
 </head>
-<body>
-<div id="container">
+
 <!-- Navigation -->
-<nav id="head" class="navbar navbar-default navbar-fixed-top topnav " role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
 	<div class="container topnav">
 		<tiles:insertAttribute name="head" />
 	</div>
 </nav>
 
 <!-- 메뉴바 -->
-<div id ="menu" class="intro-header">
+<div class="container subnav">
+	<tiles:insertAttribute name="menu" />
+</div>
+
+<!-- content -->
+<div class="intro-header">
 	<div class="container">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="intro-message">
-						<tiles:insertAttribute name="menu" />
+						<tiles:insertAttribute name="content" />
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
-
-<!-- content -->
-
-<div id="content" class="container subnav">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="intro-content">
-
-					<tiles:insertAttribute name="content" />
-
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-
 
 <!-- footer -->
 <footer>
@@ -68,7 +55,3 @@
 		</div>
 	</div>
 </footer>
-</div>
-
-</body>
-</html>

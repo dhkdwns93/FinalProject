@@ -47,8 +47,6 @@ public class FridgerController {
 	@Autowired
 	private JoinProcessService joinProcessService;
 	
-	private String eclipseDir = "C:\\Java\\src\\images"; 
-	 
 	
 	List list;
 	Fridger fridger;
@@ -61,7 +59,7 @@ public class FridgerController {
 	
 	
 	//냉장고 생성 handler 
-	@RequestMapping("register")
+	//@RequestMapping("register") //맨 끝에 사진이랑 같이 올리는 것 생성 
 	public ModelAndView registerFridger(@ModelAttribute("fridger") @Valid FridgerForm fridgerForm, BindingResult errors ) {
 		System.out.println(fridgerForm);//log
 		// 요청 파라미터 검증 끝
@@ -85,15 +83,16 @@ public class FridgerController {
 			e.printStackTrace();
 			return new ModelAndView("common/member/fridger/register_form", "errorMsg_fridgerName", e.getMessage());
 		}
-		
+
 		return new ModelAndView("redirect:register/success.do", "fridgerId", fridger.getFridgerId());
 	}
 	
 	@RequestMapping("register/success")
-	public ModelAndView registerSuccess(@RequestParam int fridgerId ) throws Exception{
+	public ModelAndView registerSuccess( int fridgerId ) throws Exception{
+		System.out.println("로그,다");
 		fridger = fridgerService.findFridgerByFridgerId(fridgerId);
 		
-		return new ModelAndView("common/member/fridger/register_success", "fridger", fridger);
+		return new ModelAndView("/common/member/fridger/register_success.do", "fridger", fridger);
 	}
 	
 
@@ -170,7 +169,7 @@ public class FridgerController {
 	}
 	
 	// 냉장고 삭제 관리 handler
-	@RequestMapping("remove/success")
+	@RequestMapping(value="remove/success", produces="text/html;charset=UTF-8")
 	@ResponseBody
 	public String removeSuccess(@RequestParam int fridgerId){
 		System.out.println(fridgerId);
@@ -293,7 +292,7 @@ public class FridgerController {
 		try {
 			joinProcessService.inviteJoinFridgerGroup(joinProcess);
 		} catch (Exception e) {
-			return new ModelAndView("common/member/fridger/invite_form", "errorMsg", e.getMessage());
+			return new ModelAndView("common/member/fridger/invite_form.tiles", "errorMsg", e.getMessage());
 		}
 
 		return new ModelAndView("redirect:invite/success.do", "processNo", joinProcess.getProcessNo());
@@ -303,7 +302,7 @@ public class FridgerController {
 	public ModelAndView inviteSuccess(@RequestParam int processNo){
 		joinProcess = joinProcessService.findJoinProcessByProcessNo(processNo);
 
-		return new ModelAndView("common/member/fridger/invite_success", "joinProcess", joinProcess);
+		return new ModelAndView("common/member/fridger/invite_success.tiles", "joinProcess", joinProcess);
 	}
 	
 	
@@ -430,12 +429,11 @@ public class FridgerController {
 	
 	/*************************업로드 테스트**************************/
 	
-	@RequestMapping(value="/register/imgs", method={RequestMethod.POST} )	// input type="file"으로 전송받는 변수는 MultipartFile 타입으로 선언
+	@RequestMapping(value="register", method={RequestMethod.POST,RequestMethod.GET} )	// input type="file"으로 전송받는 변수는 MultipartFile 타입으로 선언
 	public ModelAndView regisgerFridgerWithImgs(@RequestParam String fridgerName,
 												@RequestParam String memberId,
 									@RequestParam MultipartFile fridgerImgSrc,
-								HttpServletRequest request,
-								ModelMap map) throws IllegalStateException, IOException{
+								HttpServletRequest request) throws IllegalStateException, IOException{
 		fridger = new Fridger(0, fridgerName, memberId);
 		String fileName = null;
 		System.out.println("=========="+fridgerName);
@@ -463,17 +461,17 @@ public class FridgerController {
 		// 1) 빈 냉장고 생성해서  검증된 fridgerForm 넣기
 		fridger.setMemberId(member.getMemberId());
 		fridger.setFridgerImg(fileName);
-		System.out.println("냉장고 등록 로그:"+fridger);	//log
+		
 		
 		try {
 			// 2) 냉장고 DB에 저장(서비스단에서 냉장고 그룹생성 과정 처리)
 			fridgerService.createFridger(fridger);
+			System.out.println("냉장고 등록 로그:"+fridger);	//log
 		} catch (DuplicatedFridgerException e) {	//냉장고 이름중복되면 예외발생
-			e.printStackTrace();
-			return new ModelAndView("common/member/fridger/register_form", "errorMsg_fridgerName", e.getMessage());
+			return new ModelAndView("common/member/fridger/register_form.tiles", "errorMsg_fridgerName", e.getMessage());
 		}
 		
-		return new ModelAndView("redirect:success.do", "fridgerId", fridger.getFridgerId());
+		return new ModelAndView("redirect:register/success.do", "fridgerId", fridger.getFridgerId());
 	}
 	
 	

@@ -1,12 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+
  <script type="text/javascript">
 $(document).ready(function(){
 	 
@@ -30,7 +26,7 @@ $(document).ready(function(){
  
  </script>
 
-<body>
+
 	<h2>냉장고 초대폼</h2>
 	<form action="${ initParam.rootPath }/common/member/fridger/invite.do"
 		method="post">
@@ -45,14 +41,21 @@ $(document).ready(function(){
 			</tr>
 			<tr>
 				<th>초대할 회원ID</th>
-			 	<td><input type="text" name="respMemberId"></td>
+			 	<td><input type="text" name="respMemberId">
+			 	<span class="error"><form:errors
+							path="joinProcess.respMemberId" delimiter="&nbsp;"/>
+							<c:if test="${ requestScope.errorMsg != null }">
+							${ requestScope.errorMsg }
+							</c:if>
+							</span>
+			 	
+			 	</td>
 			<tr>
 				<td colspan="2"><input type="submit"value="초대하기">
+				
+				
 				</td>
 			</tr>
 		</table>
 		<input type="hidden" name="processState" value="20">
 	</form>
-
-</body>
-</html>
