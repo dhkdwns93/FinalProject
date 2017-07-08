@@ -92,7 +92,7 @@ public class FridgerController {
 		System.out.println("로그,다");
 		fridger = fridgerService.findFridgerByFridgerId(fridgerId);
 		
-		return new ModelAndView("register_success.do", "fridger", fridger);
+		return new ModelAndView("/common/member/fridger/register_success", "fridger", fridger);
 	}
 	
 
