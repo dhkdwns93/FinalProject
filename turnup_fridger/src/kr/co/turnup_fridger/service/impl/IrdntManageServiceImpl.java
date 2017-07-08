@@ -31,16 +31,13 @@ public class IrdntManageServiceImpl implements IrdntManageService{
 	}
 
 	@Override
-	public void updateIrdnt(IrdntManage irdnt) throws DuplicateIrdntException,NoneIrdntException{
+	public void updateIrdnt(IrdntManage irdnt) throws NoneIrdntException{
 		
 		//재료id로 검색해서 id가 없으면못한다고 하고, 재료명 이미 있는거 안됨.
 		if(dao.selectIrdntById(irdnt.getIrdntId())==null){			
 			throw new NoneIrdntException("없는 식재료입니다.");
 		}
-		if(!dao.selectIrdntByFullName(irdnt.getIrdntName()).isEmpty()){			
-			throw new DuplicateIrdntException("다른 재료명을 입력해주세요.");
-		}
-	
+
 		dao.updateIrdnt(irdnt);
 		
 		

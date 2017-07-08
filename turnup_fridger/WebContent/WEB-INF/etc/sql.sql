@@ -235,8 +235,9 @@ SELECT IRDNT_ID.NEXTVAL FROM DUAL;
 
 --insert into irdnt_manage values (0,'테스트','가공식품',1,1,1,'테스트야~');
 --select * from IRDNT_MANAGE;
-select distinct irdnt_category from irdnt_manage;
-  
+--select distinct irdnt_category from irdnt_manage;
+--delete from irdnt_manage where irdnt_category is null;
+   
 /* 나의 식재료 */
 DROP TABLE MY_IRDNT;
 DELETE FROM MY_IRDNT;
