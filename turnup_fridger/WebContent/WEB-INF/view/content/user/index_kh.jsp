@@ -13,7 +13,7 @@
 </head>
 <body>
 <script src="${initParam.rootPath}/scripts/jquery.js"></script>
-<jsp:include page="/WEB-INF/view/user/layout_menu_security.jsp" />
+<jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
 <hr>
 
 

@@ -28,7 +28,7 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<jsp:include page="/WEB-INF/view/user/layout_menu_security.jsp" />
+<jsp:include page="${initParam.rootPath }/user/layout_menu_security.jsp" />
 <hr>
 
 

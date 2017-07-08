@@ -69,47 +69,47 @@
 	<!-- 경혜 view controller등록-->
 	<!--  공용으로 사용 가능 -->
 	<!-- 기피재료 검색 form으로 이동(popup) -->
-	<mvc:view-controller path="/popup_find_irdnt_form.do" view-name="user/popup_find_irdnt_form.tiles"/>
-		
+	<mvc:view-controller path="/popup_find_irdnt_form.do" view-name="user/popup_find_irdnt_form"/>
+
 	
 	<!-- /** -->
 	<!-- 사용자관리 view 모여있는 곳을으로 이동 (나중에 삭제)  -->
 	<mvc:view-controller path="/index_kh.do" view-name="user/index_kh.tiles"/>
 	<!-- 403 권한 없음 에러 페이지 -->
-	<mvc:view-controller path="/error/access_denied.do" view-name="error/access_denied"/>
+	<mvc:view-controller path="/error/access_denied.do" view-name="error/access_denied.tiles"/>
 	<!-- user(전체사용자) 로그인 -->
-	<mvc:view-controller path="/login_form.do" view-name="user/login_form"/>
+	<mvc:view-controller path="/login_form.do" view-name="user/login_form.tiles"/>
 	<!-- 회원가입 -->
-	<mvc:view-controller path="/join_member_form.do" view-name="user/join_member_form"/>
+	<mvc:view-controller path="/join_member_form.do" view-name="user/join_member_form.tiles"/>
 	<!-- ID 중복검사 폼 -->
 	<mvc:view-controller path="/popup_duplicate_id_form.do" view-name="user/popup_duplicate_id_form"/>
 	<!-- Email 중복검사 폼 -->
 	<mvc:view-controller path="/popup_duplicate_email_form.do" view-name="user/popup_duplicate_email_form"/>
 	<!-- 회원가입성공 -->
-	<mvc:view-controller path="/join_member_success.do" view-name="user/join_member_success"/>
+	<mvc:view-controller path="/join_member_success.do" view-name="user/join_member_success.tiles"/>
 	<!-- /common/member -->
 	<!-- 마이페이지(개인회원정보조회) -->
-	<mvc:view-controller path="/common/member/member_mypage.do" view-name="common/member/user/member_mypage"/>
+	<mvc:view-controller path="/common/member/member_mypage.do" view-name="common/member/user/member_mypage.tiles"/>
 	<!-- 회원정보수정 -->
-	<mvc:view-controller path="/common/member/member_change_info.do" view-name="common/member/user/member_change_info"/>
+	<mvc:view-controller path="/common/member/member_change_info.do" view-name="common/member/user/member_change_info.tiles"/>
 	<!-- 회원탈퇴페이지 -->
-	<mvc:view-controller path="/common/member/member_delete_form.do" view-name="common/member/user/member_delete_form"/>
+	<mvc:view-controller path="/common/member/member_delete_form.do" view-name="common/member/user/member_delete_form.tiles"/>
 
 	<!-- /common/admin -->
 	<!-- 마이페이지(관리자정보조회) -->
-	<mvc:view-controller path="/common/admin/admin_mypage.do" view-name="common/admin/user/admin_mypage"/>
+	<mvc:view-controller path="/common/admin/admin_mypage.do" view-name="common/admin/user/admin_mypage.tiles"/>
 	<!-- 전체관리자등록정보 조회 페이지 -->
-	<mvc:view-controller path="/common/admin/admin_list.do" view-name="common/admin/user/admin_list"/>
+	<mvc:view-controller path="/common/admin/admin_list.do" view-name="common/admin/user/admin_list.tiles"/>
 	<!-- 관리자 개인정보수정 -->
-	<mvc:view-controller path="/common/admin/admin_change_info.do" view-name="common/admin/user/admin_change_info"/>
+	<mvc:view-controller path="/common/admin/admin_change_info.do" view-name="common/admin/user/admin_change_info.tiles"/>
 	<!-- 전체개인회원정보 조회 페이지 -->
-	<mvc:view-controller path="/common/admin/member_list.do" view-name="common/admin/user/member_list"/>
+	<mvc:view-controller path="/common/admin/member_list.do" view-name="common/admin/user/member_list.tiles"/>
 
 	<!-- /common/admin/master -->
 	<!-- 관리자등록 -->
-	<mvc:view-controller path="/common/admin/master/join_admin_form.do" view-name="common/admin/master/user/join_admin_form"/>
+	<mvc:view-controller path="/common/admin/master/join_admin_form.do" view-name="common/admin/master/user/join_admin_form.tiles"/>
 	<!-- 관리자등록성공 -->
-	<mvc:view-controller path="/common/admin/master/join_admin_success.do" view-name="common/admin/master/user/join_admin_success"/>
+	<mvc:view-controller path="/common/admin/master/join_admin_success.do" view-name="common/admin/master/user/join_admin_success.tiles"/>
 	
 	
 	<!-- 냉장고 리스트 페이지 (검색) -->

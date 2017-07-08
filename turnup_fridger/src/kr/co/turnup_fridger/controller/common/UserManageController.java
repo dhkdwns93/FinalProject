@@ -42,15 +42,16 @@ public class UserManageController {
 	 * @throws SignUpMemberFailException 
 	 */
 	@RequestMapping("/join_member")
-	public ModelAndView signUpMember(@ModelAttribute Member member, BindingResult errors) throws SignUpMemberFailException{
+	public ModelAndView signUpMember(@ModelAttribute Member member,@RequestParam int myDislikeIrdntId, BindingResult errors) throws SignUpMemberFailException{
 		//1.요청파라미터 조회+검증
 		MemberJoinValidator validator=new MemberJoinValidator();
 		validator.validate(member, errors);
 		if(errors.hasErrors()){//errors에 오류가 1개라도 등록되있으면 다시 form으로 돌아가
 			return new ModelAndView("user/join_member_form","member",member);
 		}
+		System.out.println(myDislikeIrdntId);
 		//2.BusinessLogic
-		memberService.signUpMember(member);
+		//memberService.signUpMember(member);
 		
 		//3.응답
 		return new ModelAndView("redirect:/join_member_success.do","memberId",member.getMemberId());

@@ -48,7 +48,7 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<jsp:include page="/WEB-INF/view/user/layout_menu_security.jsp" />
+<jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
 <hr>
 
 
