@@ -15,6 +15,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -47,9 +48,10 @@ public class ShopController {
 		is.close();
 	}
 	
-	// 등록 - 관리자 (등록 성공화면? 바로 리스트?)
+	// 등록(관리자) - O
 	@RequestMapping(value="addShop", method=RequestMethod.POST )
-	public ModelAndView addShop(@ModelAttribute Shop shop, BindingResult errors, HttpServletRequest req) throws Exception{
+	public ModelAndView addShop(@ModelAttribute Shop shop ,BindingResult errors, HttpServletRequest req) throws Exception{
+		System.out.println("=== shop controller - 진입 ===");
 	
 		ShopValidator val = new ShopValidator();
 		val.validate(shop, errors);
@@ -57,7 +59,9 @@ public class ShopController {
 		if(errors.hasErrors()){
 			return new ModelAndView("common/shop/shop_register_form");
 		}
-		System.out.println("=== shop controller ===");
+		
+		System.out.println("=== shop controller - 검증 마침 ===");
+		
 		ModelAndView mav = new ModelAndView();
 		String upImageDir = req.getServletContext().getRealPath("/up_image");
 		MultipartFile upImage = shop.getUpImage();
@@ -80,46 +84,37 @@ public class ShopController {
 			// 저장
 			service.insertShop(shop);
 		}
+		System.out.println(" 등록 됐지롱");
 		mav.addObject("shop",shop);
 		mav.setViewName("common/shop/shopList");
 		mav.addObject("shop", service.selectShopById(shop.getShopId()));
 		return mav;	
 	}
 	
-	// 삭제 - 관리자
+	// 삭제(관리자) - shopId를 이상하게 넘겨줌 
 	@RequestMapping(value="removeShop", produces="text/html;charset=UTF-8")
 	@ResponseBody
-	public ModelAndView removeShop(int shopId, Errors errors){
-		if(errors.hasErrors()){
-			return new ModelAndView("common/shop/shopList");
-		}
+	public String removeShop(String shopId){
+		System.out.println(" === shop 삭제 === ");
+		int sId = Integer.parseInt(shopId);
 		try {
-			service.deleteShop(shopId);
+			service.deleteShop(sId);
 		} catch (Exception e) {
-			return new ModelAndView("common/shop/shopList", "error", errors);
+			return "";
 		}
-		return new ModelAndView("common/shop/shopList");
+		return "삭제완료";
 	}
 	
-	// 쇼핑몰 전체목록(회원, 관리자)
-	@RequestMapping(value="findShopList", produces="application/json;charset=UTF-8")
-	@ResponseBody
-	public List<Shop> findShopList(){
-		System.out.println("=== shop List ===");
-		return service.selectShopList();
-	}
-	
-/*	@RequestMapping(value="findShopList")
+	// 쇼핑몰 전체목록(회원, 관리자) - O
+	@RequestMapping("findShopList")
 	public ModelAndView findShopList(){
+		List<Shop> list = service.selectShopList();
 		System.out.println("=== shop List ===");
-		List<Shop> list =  service.selectShopList();
-		System.out.println(list);
 		return new ModelAndView("common/shop/shopList", "list", list);
-	}*/
+	}
 	
-	
-	// 쇼핑몰 총 개수(회원, 관리자)
-	@RequestMapping(value="findShopCount")
+	// 쇼핑몰 총 개수(회원, 관리자) - O
+	@RequestMapping("findShopCount")
 	@ResponseBody
 	public int findShopCount(){
 		return service.selectShopCount();

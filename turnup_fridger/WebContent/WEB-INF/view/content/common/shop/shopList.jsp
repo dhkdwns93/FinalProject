@@ -1,7 +1,7 @@
 <%@page import="kr.co.turnup_fridger.vo.Shop"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,41 +11,42 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	// 쇼핑몰 목록 불러오기
-	var shopid = 1;
-		$.ajax({
+/* 		$.ajax({
 			"url": "${initParam.rootPath}/shop/findShopList.do",
 			"dataType" : "json",
 			"success" : function(shopList){
 				var list = ""; 
 				$.each(shopList, function(){
-					shopid = this.shopId
-					list += "<tr><td>"+this.shopImg+"</td><td><a href='#' onClick='window.open('"+this.shopAddress+"','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=1000px, height=600px ,top=10, left=10', bottom=10, right=10)'>"+this.shopName+"</a></td><td><button type='button'>삭제</button></td></tr>";
+					list += "<tr><td id='shopid'>"+this.shopId+"</td><td>"+this.upImage+"</td><td><a href='#' onClick='window.open('"+this.shopAddress+"','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=1000px, height=600px ,top=10, left=10', bottom=10, right=10)'>"+this.shopName+"</a></td><td><button type='button' id='delBtn'>삭제</button></td></tr>";
 				});
 				$("#tbody").html(list);
 			},
 			"error":function(xhr, msg, code){
 				alert('error!'+code);
 			}
-		});
+		}); */
+	
 	// 개수 불러오기
 	$.ajax({
-		"url": "${initParam.rootPath}/shop/findShopCount",
+		"url": "${initParam.rootPath}/shop/findShopCount.do",
 		"success":function(num){
-			$("#count").text(num+'개의 쇼핑몰이 있습니다.');
+			$("#count").text('총 '+num+' 개의 쇼핑몰이 있습니다.');
 		}
-		
 	});
 	
-	$("#delBtn").on("click", function(){
+	// 삭제
+	$("tbody").on("click", "#delBtn", function(){
+		alert($(this).parent().parent().children(":first-child").text());
 		if(confirm('정말 삭제하시겠습니까?')){
 			$.ajax({
 				"url":"${initParam.rootPath}/shop/removeShop.do",
-				"data":"shopId="+shopid,
-				"success": function(){
+				"data":"shopId="+$(this).parent().parent().children(":first-child").text(),
+				"success": function(result){
 					alert('삭제되었습니다');
-				}
-			});
-		}
+					window.location.reload();
+				} // success
+			}); // ajax
+		}; // if
 	});
 	
 });
@@ -64,34 +65,27 @@ table{
 #shopCount{
 	text-align: center;
 }
+#name{
+	width: 200px;
+}
 </style>
 </head>
 <body>
 <h2> 쇼핑몰 목록 </h2>
-<div id="shopCount"><span id="count"></span>개의 쇼핑몰이 있습니다</div>
-<table>
-<tbody id="tbody">
+<div id="shopCount"><span id="count"></span></div>
 
-</tbody>
-</table>
-<%-- <table border="1" style="border-collapse:collapse; text-align:center;"  align="center">
-	<tr>
-		<td><img alt="" src="${initParam.rootPath}/img/${requestScope.shop.shopImg}" width="100" height="102"></td>
-		<td>							<!-- location 값 yes로 주면 새탭으로 열기 -->
-			<a href="#" onClick="window.open('${requestScope.shop.shopAddress}','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=1000px, height=600px ,top=10, left=10', bottom=10, right=10)">${requestScope.shop.shopName}</a>
-		</td>
-		<td></td>
-	</tr>
-	<c:forEach items="${requestScope.shopList }" var="shop">
+<table border="1" style="border-collapse:collapse; text-align:center;">
+	<c:forEach items="${requestScope.list }" var="shop">
 		<tr>
+			<td>${shop.shopId }</td>
 			<td><img alt="" src="${initParam.rootPath}/img/${shop.shopImg}" width="100" height="102"></td>
-			<td><a href="#" onClick="window.open('${shop.shopAddress}','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=1000px, height=600px ,top=10, left=10', bottom=10, right=10)">${shop.shopName }</a></td>
+			<td id="name"><a href="#" onClick="window.open('${shop.shopAddress}','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=1000px, height=600px ,top=10, left=10', bottom=10, right=10)">${shop.shopName }</a></td>
 			 <!-- 관리자만 보이는 삭제버튼 -->
 			 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN')">
 				<td><button type="button" id="delBtn">삭제</button></td>
 			</sec:authorize>
 		</tr>
 	</c:forEach>
-</table> --%>
+</table>
 </body>
 </html>

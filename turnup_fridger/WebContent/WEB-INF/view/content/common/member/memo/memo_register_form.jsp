@@ -13,6 +13,13 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="${initParam.rootPath}/scripts/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#submit").on("click", function(){
+		alert('등록되었습니다');
+	});
+});
+</script>
 <style type="text/css">
 @CHARSET "UTF-8";
 
@@ -64,11 +71,9 @@ table {
 			</tr>
 			<tr>
 				<td>
-					<!-- ============ 여기 다시보기 =============== --> 
 					<sec:authentication property="principal.memberId" var="mid" />
 					<input type="hidden" name="memberId" value="${mid}">
-					<input type="hidden" name="registeredDate" value="${requestScope.date }"> 
-					<input type="submit" value="저장">
+					<input type="submit" id="submit" value="저장">
 				</td>
 			</tr>
 		</table>

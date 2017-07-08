@@ -19,8 +19,7 @@ input{
 }
 </style>
 <script type="text/javascript">
-// 등록한 이미지 미리보기
-
+	// 등록한 이미지 미리보기
 	$(function() {
 		$("#shopImg").on('change', function() {
 			readURL(this);
@@ -55,7 +54,7 @@ input{
 	</tr>
 	<tr>
 		<td>url</td>
-		<td><input type="text" name="shopAddress"  class="hide" placeholder="shop url">
+		<td><input type="url" name="shopAddress"  class="hide" placeholder="shop url">
 			<span class="error"><form:errors path="shop.shopAddress" delimiter="&nbsp;"/></span>
 		</td>
 	</tr>

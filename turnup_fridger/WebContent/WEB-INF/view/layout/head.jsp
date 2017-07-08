@@ -6,7 +6,7 @@
 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	<ul class="nav navbar-nav navbar-right">
 
-		<li><sec:authentication property="authorities"/> 권한으로 로그인</li>
+		<li><a><sec:authentication property="authorities"/> 권한으로 로그인</a></li>
 		<!-- 권한, 상태별로 분리하기 -->
 		<sec:authorize access="!isAuthenticated()">
 			<li><a href="#about">login</a></li>

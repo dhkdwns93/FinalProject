@@ -15,7 +15,7 @@
 <script type="text/javascript" src="${initParam.rootPath}/scripts/jquery.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	// 내 메모리스트
+		// 내 메모목록불러오기
 		$.ajax({
 			"url":"${initParam.rootPath}/memo/memoList.do",
 			"data": "memberId="+$("#id").val(),
@@ -28,9 +28,10 @@ $(document).ready(function(){
 				$("#tbody").html(list);
 			},
 			"error":function(xhr, msg, code){
-				alert('error!'+code);
+				alert('error - '+code);
 			}
 		});
+		
 	// 개수 불러오기
 	$.ajax({
 		"url":"${initParam.rootPath}/memo/findMemoCount.do",
@@ -42,8 +43,6 @@ $(document).ready(function(){
 			alert('error!'+code);
 		}
 	});
-	
-	
 });
 </script>
 <style type="text/css">
@@ -66,5 +65,6 @@ $(document).ready(function(){
 
 </tbody>
 </table>
+<a href="javascript:history.back()"><button type="button" id="back" class="one">뒤로가기</button></a>
 </body>
 </html>
