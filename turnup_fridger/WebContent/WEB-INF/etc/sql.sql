@@ -172,15 +172,15 @@ DELETE FROM fridger;
 CREATE TABLE fridger (
    fridger_ID NUMBER PRIMARY KEY, /* 냉장고ID */
    fridger_NAME VARCHAR2(30) NOT NULL, /* 냉장고애칭 */
-   fridger_img VARCHAR2(300), /*7/7_추가한 컬럼*/
    member_id	VARCHAR2(20) NOT NULL,  /* 냉장고 마스터 회원*/
+   fridger_img VARCHAR2(300), /*7/7_추가한 컬럼*/
    CONSTRAINT member_id_fk FOREIGN KEY (member_id) REFERENCES member ON DELETE CASCADE
 );
 DROP SEQUENCE fridger_ID;
 CREATE SEQUENCE fridger_ID INCREMENT BY 1 START WITH 1;  
 --SELECT fridger_ID.NEXTVAL FROM DUAL;
 
-insert into fridger values(1, '215', 'id-1');
+--insert into fridger values(1, '215', 'id-1');
 select * from fridger;
 
 /* 냉장고공용그룹 */

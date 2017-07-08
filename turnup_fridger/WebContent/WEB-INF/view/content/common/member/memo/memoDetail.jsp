@@ -13,17 +13,17 @@
 <script type="text/javascript" src="${initParam.rootPath}/scripts/jquery.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+	// 처음에 확인버튼 숨기기
 	$("#submit").hide();
 	
+	// 수정버튼 클릭 → 수정화면으로 세팅(버튼 전환, readonly 해제)
 	$("#mod").on("click", function(){
-		// .box들 readonly속성 지우기
 		$("#submit").show();
-		$("#mod").hide();
-		$("#del").hide();
-		
+		$(".one").hide();
 		$(".box").prop("readonly", false);
-	}); // 수정버튼클릭 - 수정화면으로 전환
+	}); 
 	
+	// 확인버튼 클릭 → 수정 처리
 	$("#submit").on("click", function(){
 		$.ajax({
 			"url":"${initParam.rootPath}/memo/modMemo.do",
@@ -39,18 +39,15 @@ $(document).ready(function(){
 				$(".box").prop("readonly", true);
 				
 				$("#submit").hide();
-				$("#mod").show();
-				$("#del").show();
+				$(".one").show();
 			},
-			"error":function(){
-				alert('errorㅠ')
+			"error":function(xhr, msg, code){
+				alert('error - '+code)
 			}
-			
-			
 		});
-	}); // 확인버튼클릭 - 수정처리
+	});
 	
-	
+	// 삭제 처리
 	$("#del").on("click", function(){
 		if(confirm('정말 삭제하시겠습니까?')){
 			$.ajax({
@@ -58,14 +55,13 @@ $(document).ready(function(){
 				"data":"memoId=${requestScope.memo.memoId}",
 				"success":function(){
 					alert('삭제되었습니다');
+					// 삭제후 메모목록화면으로 전환
 					location.replace('${initParam.rootPath}/common/member/memo/memoList.do');
-					
 				}
 			});// ajax
 		}
 		return false;
-	}); // 삭제 
-	
+	});
 });
 </script> 
 <style type="text/css">
@@ -113,20 +109,11 @@ table{
 		</tr>
 		<tr>
 			<td>
-				 <button type="button" id="mod">수정</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				 <button type="button" id="del">삭제</button>
+				 <button type="button" id="mod" class="one">수정</button>
+				 <button type="button" id="del" class="one">삭제</button>
 				 <button type="button" id="submit">확인</button>
 			</td>
 		</tr>
 	</table>
-	<%-- <table border="1" style="border-collapse:collapse; text-align:center;" align="center">
-		<tr height="360" width="500"><!-- rows : 세로  cols : 가로 -->
-			<td colspan="2" width="400">${requestScope.memo.memoTxt }</td>
-		</tr>
-		<tr>
-			<td><a href="${initParam.rootPath}/common/member/memo/memo_update_form.do"><button type="button" id="mod">수정</button></a></td>
-			<td><a href="${initParam.rootPath}/memo/delMemo.do?memoId=${requestScope.memo.memoId}"><button type="button" id="del">삭제</button></a></td>
-		</tr>
-</table> --%>
 </body>
 </html>
