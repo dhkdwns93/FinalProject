@@ -29,6 +29,8 @@
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/BoardNoticeMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/BoardQnAMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/CommentQnAMapper.xml"/>
+		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/BoardFreeMapper.xml"/>
+		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/CommentFreeMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/joinProcessMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/MyDislikeIrdntMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/MemberMapper.xml"/>
@@ -38,6 +40,7 @@
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/ShareRecipeIrdntMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/BoardShareRecipeImgMapper.xml"/>
 		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/MemeberRecipeRecommandMapper.xml"/>
+		<mapper resource="kr/co/turnup_fridger/config/mybatis/mapper/BoardReviewMapper.xml"/>
 		
 	</mappers>
 </configuration>

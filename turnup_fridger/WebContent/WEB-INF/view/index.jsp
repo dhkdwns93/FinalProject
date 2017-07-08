@@ -23,14 +23,15 @@ form{display:inline}
 </p>
 <hr>
 <!-- 장규/준 -->
-<form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
-<a href="${initParam.rootPath}/boardnotice/boardnoticelist.do"><input type="submit" value="공지사항"/></a>
-<sec:csrfInput/>
-</form>
-<form action="${initParam.rootPath}/common/boardqna/boardQnAList.do" method="post">
-<a href="${initParam.rootPath}/common/boardqna/boardqna_list.do"><input type="submit" value="QnA"/></a>
-<sec:csrfInput/>
-</form>
+<a href="${initParam.rootPath}/boardnotice/boardNoticeList.do"><button type="button">공지사항</button></a>
+<a href="${initParam.rootPath}/common/boardqna/boardQnAList.do"><button type="button">QnA</button></a>
+<a href="${initParam.rootPath}/common/boardfree/boardFreeList.do"><button type="button">자유게시판</button></a>
+<a href="${initParam.rootPath}/boardreview/boardReviewList.do"><button type="button">후기</button></a>
+<hr>
+
+
+
+
 <hr>
 <h3>레시피공유게시판</h3>
 <a href="${initParam.rootPath }/boardRecipe/boardRecipeList.do"><button type="button">목록 시이자악</button></a>

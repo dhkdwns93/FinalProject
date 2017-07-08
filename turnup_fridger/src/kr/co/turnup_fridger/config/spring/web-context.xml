@@ -25,7 +25,7 @@
 	<!-- 단순 링크 등록 -->
 	<mvc:view-controller path="/index.do" view-name="index"/>
 	
-	<!-- 장규 view controler등록 -->
+		<!-- 장규 view controler등록 -->
 	<!-- 공지사항 목록 페이지 -->
 	<mvc:view-controller path="/boardnotice/boardnotice_list.do" view-name="boardnotice/boardnotice_list"/>
 	<!-- 공지사항 items 목록 페이지 -->
@@ -49,6 +49,41 @@
 	<mvc:view-controller path="/common/boardqna/boardqna_upload.do" view-name="common/boardqna/boardqna_upload"/>	
 	<!-- commentQNA 수정 폼 페이지 -->
 	<mvc:view-controller path="/common/boardqna/commentqna_upload.do" view-name="common/boardqna/commentqna_upload"/>	
+	<!-- 자유게시판 목록 페이지 -->
+	<mvc:view-controller path="/common/boardfree/boardfree_list.do" view-name="common/boardfree/boardfree_list"/>	
+	<!-- 자유게시판 memberId 목록 페이지 -->
+	<mvc:view-controller path="/common/boardfree/boardfree_list_memberid.do" view-name="common/boardfree/boardfree_list_memberid"/>	
+	<!-- 자유게시판 조회수 목록 페이지 -->
+	<mvc:view-controller path="/common/boardfree/boardfree_list_hit.do" view-name="common/boardfree/boardfree_list_hit"/>	
+	<!-- 자유게시판 제목 목록 페이지 -->
+	<mvc:view-controller path="/common/boardfree/boardfree_list_title.do" view-name="common/boardfree/boardfree_list_title"/>	
+	<!-- 자유게시판 null 페이지 -->
+	<mvc:view-controller path="/common/boardfree/boardfree_list_null.do" view-name="common/boardfree/boardfree_list_null"/>		
+	<!-- 자유게시판 상세페이지 -->
+	<mvc:view-controller path="/common/boardfree/boardfree_view.do" view-name="common/boardfree/boardfree_view"/>	
+	<!-- 자유게시판 등록 폼 페이지 -->
+	<mvc:view-controller path="/common/boardfree/boardfree_form.do" view-name="common/boardfree/boardfree_form"/>	
+	<!-- 자유게시판 수정 폼 페이지 -->
+	<mvc:view-controller path="/common/boardfree/boardfree_upload.do" view-name="common/boardfree/boardfree_upload"/>	
+	<!-- 후기 목록 페이지 -->
+	<mvc:view-controller path="/boardreview/boardreview_list.do" view-name="boardreview/boardreview_list"/>	
+	<!-- 후기 아이디 목록 페이지 -->
+	<mvc:view-controller path="/boardreview/boardreview_list_memberid.do" view-name="boardreview/boardreview_list_memberid"/>	
+	<!-- 후기 레시피 목록 페이지 -->
+	<mvc:view-controller path="/boardreview/boardreview_list_recipename.do" view-name="boardreview/boardreview_list_recipename"/>	
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	<!-- 왕준 view 등록 -->
 	<!-- 전체목록폼 링크 -->

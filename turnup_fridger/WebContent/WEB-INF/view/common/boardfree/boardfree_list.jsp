@@ -1,7 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,16 +14,21 @@ form{display:inline}
 </head>
 <body>
 
-
-<form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
-	QnA > ${row.memberId}검색
-	<input type="text" name="memberId" placeholder="아이디를 입력해주세요">
+<form action="${initParam.rootPath}/common/boardfree/boardFreeBySelect.do" method="post">
+자유게시판 > 전체 목록 
+<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+	<select name="select" id="select">
+		<option>:::선택:::</option>
+		<option value="제목">제목</option>
+		<option value="아이디">아이디</option>
+	</select>
+	<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
 	<button>검색</button>
-	<sec:csrfInput/>
 </form>
-<form action="${initParam.rootPath}/common/boardqna/boardQnAList.do" method="post">
-	<button>전체보기</button>
-	<sec:csrfInput/>
+
+<form action="${initParam.rootPath}/common/boardfree/boardFreeByBoardFreeHits.do" method="post">
+<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+	<button>조회수</button>
 </form>
 
 
@@ -33,37 +39,28 @@ form{display:inline}
         <th>제목</th>
         <th>작성일</th>
         <th>작성자</th>
+        <th>조회수</th>
     </tr>
  </thead>
  
 <tbody id="tbody">
 <c:forEach var="row" items="${list}">
     <tr>
-        <td>${row.boardQnAId}</td>
+        <td>${row.boardFreeId}</td>
         <td>
-        	<form action="${initParam.rootPath}/common/boardqna/boardQnAView.do" method="post">
-        	<!-- 회원일때 보여줌 -->
-        	<sec:authorize access="hasRole('ROLE_MEMBER')">
-        		<input type="hidden" name="member" value="<sec:authentication property="principal.memberId"></sec:authentication>"> 
+    		<form action="${initParam.rootPath}/common/boardfree/boardFreeView.do" method="post">
+    		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+        		<input type="hidden" name="member" value=""> 
         		<input type="hidden" name="admin" value="">
         		<input type="hidden" name="memberId" value="${row.memberId}">
-				<button value="${row.boardQnAId}" name="boardQnAId" style="background-color:white;border:0">${row.boardQnATitle}</button>  
-			</sec:authorize>
-        
-     		<!-- 관리자일때 보여줌 -->	
-     		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN')">
-				<input type="hidden" name="admin" value="<sec:authentication property="principal.adminId"></sec:authentication>"> 
-				<input type="hidden" name="member" value="">
-				<input type="hidden" name="memberId" value="${row.memberId}">
-				<button value="${row.boardQnAId}" name="boardQnAId" style="background-color:white;border:0">${row.boardQnATitle}</button>  
-			</sec:authorize>
-			<sec:csrfInput/>
-		</form>
+				<button value="${row.boardFreeId}" name="boardFreeId" style="background-color:white;border:0">${row.boardFreeTitle}</button>
+			</form>    
         </td>
         <td>
-            <fmt:formatDate value="${row.boardQnAdate}" pattern="yyyy-MM-dd"/>
+            <fmt:formatDate value="${row.date}" pattern="yyyy-MM-dd"/>
         </td>
         <td>${row.memberId}</td>
+        <td>${row.boardFreeHits}</td>
     </tr>    
 </c:forEach>
  </tbody>
@@ -73,7 +70,7 @@ form{display:inline}
 														페이징 처리
 			###################################################### --%>
 	<!-- 첫페이지로 이동 -->
-	<a href="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do?page=1&memberId=${requestScope.memberId}">첫페이지</a>
+	<a href="${initParam.rootPath}/common/boardfree/boardFreeList.do?page=1">첫페이지</a>
 
 	<!--
 		이전 페이지 그룹 처리.
@@ -82,7 +79,7 @@ form{display:inline}
 	<c:choose>
 		<c:when test="${requestScope.pageBean.previousPageGroup}">
 			<%-- 이전페이지 그룹이 있디면 : previousPageGroup()--%>
-			<a href="${initParam.rootPath }/common/boardqna/boardQnAByMemberId.do?page=${requestScope.pageBean.beginPage - 1}&memberId=${requestScope.memberId}">☜</a>
+			<a href="${initParam.rootPath }/common/boardfree/boardFreeList.do?page=${requestScope.pageBean.beginPage - 1}">☜</a>
 		</c:when>
 		<c:otherwise>
 				☜	
@@ -97,7 +94,7 @@ form{display:inline}
 		<c:forEach begin="${requestScope.pageBean.beginPage}" end="${requestScope.pageBean.endPage}" var="page">
 			<c:choose>
 				<c:when test="${requestScope.pageBean.page != page}"> <%-- 현재패이지가 아니라면 --%>
-					<a href="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do?page=${page}&memberId=${requestScope.memberId}">&nbsp;${page}&nbsp;</a>
+					<a href="${initParam.rootPath}/common/boardfree/boardFreeList.do?page=${page}">&nbsp;${page}&nbsp;</a>
 				</c:when>
 				<c:otherwise>
 					&nbsp;[${page}]&nbsp;
@@ -112,22 +109,19 @@ form{display:inline}
 	<c:choose>
 		<c:when test="${requestScope.pageBean.nextPageGroup}">
 			<%-- 다음페이지 그룹이 있디면 : nextPageGroup()--%>
-			<a href="${initParam.rootPath }/common/boardqna/boardQnAByMemberId.do?page=${requestScope.pageBean.endPage + 1}&memberId=${requestScope.memberId}">☞</a>
+			<a href="${initParam.rootPath }/common/boardfree/boardFreeList.do?page=${requestScope.pageBean.endPage + 1}">☞</a>
 		</c:when>
 		<c:otherwise>
 				☞		
 		</c:otherwise>
 	</c:choose>			
-	
-
 	<!-- 마지막 페이지로 이동 -->
-	<a href="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do?page=${requestScope.pageBean.totalPage}&memberId=${requestScope.memberId}">마지막페이지</a>
-</p>
+	<a href="${initParam.rootPath}/common/boardfree/boardFreeList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
 
-<!-- 회원만 등록 가능 -->
- <sec:authorize access="hasRole('ROLE_MEMBER')">
- 	<a href="${initParam.rootPath}/common/boardqna/boardqna_form.do"><button>등록</button></a>
- </sec:authorize>
+</p>
+<sec:authorize access="hasRole('ROLE_MEMBER')">
+<a href="${initParam.rootPath}/common/boardfree/boardfree_form.do"><button>등록</button></a>
+</sec:authorize>
 <a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 </body>
 </html>

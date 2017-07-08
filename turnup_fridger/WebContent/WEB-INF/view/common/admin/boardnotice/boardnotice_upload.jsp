@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,8 +29,7 @@ span.error{
 </style>
 </head>
 <body>
-<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadForm.do?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadForm.do?" method="post" enctype="multipart/form-data">
 <table>
 	<tr>
 		<th>제목</th>
@@ -58,8 +58,8 @@ span.error{
 			<input type="submit" value="등록" onclick="return modify_event();">
 		</td>
 	</tr>
-	
 </table>
+<sec:csrfInput/>
 </form>
 </body>
 </html>
