@@ -4,55 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<!-- <script type="text/javascript">
-$(document).ready(function(){
-	
-	$(document).on("click","#submitBtn", function(){
-		/* alert($("input#fridgerName").val());
-		 window.opener.name = "parentPage"; // 부모창의 이름 설정
-		    document.fridgerUpdateForm.target = "parentPage"; // 타켓을 부모창으로 설정
-		   document.fridgerUpdateForm.action = "${ initParam.rootPath }/common/member/fridger/update.do";
-		    document.fridgerUpdateForm.submit(); */
-		    //self.close();
-		alert($("input#fridgerName").val());
-		$.ajax({
-			"url":"${ initParam.rootPath }/common/member/fridger/update.do",
-			"type":"post",
-			"data":{'fridgerId' : $("input#fridgerId").val(),
-					'fridgerName' : $("input#fridgerName").val(),
-					'memberId': $("input#memberId").val(),
-					'${_csrf.parameterName}':'${_csrf.token}'
-					},
-			"dataType":"text",
-			"beforeSend":function(){	
-				if(confirm("수정하시겠습니까?") != true){
-					return false;
-				}
-			},
-			"success": function(result){
-				console.log(result);
-				if(result == "success"){
-				window.opener.location.reload;
-				self.close();
-				}
-				location.reload;
-				
-		
-				
-		     },
-	        "error":function(xhr, msg, code){
-				alert("오류발생-" + code);
-			}
-			
-		});	//end of ajax
-
-	/*     document.fridgerUpdateForm.action = "${ initParam.rootPath }/common/member/fridger/update.do";
-	    document.fridgerUpdateForm.submit();
- */
-	}); 
-})
-
-</script> -->
 
 <script type="text/javascript">
 function closeWin(){

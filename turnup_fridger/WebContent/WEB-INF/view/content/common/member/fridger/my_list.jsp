@@ -118,7 +118,7 @@ $(document).ready(function () {
 <h3>조회</h3>
 	
 <hr>
-<a href="${initParam.rootPath}/common/member/fridger/register_form.do"><button type="button">냉장고등록</button></a>
+<a href="${initParam.rootPath}/common/member/fridger/register_form2.do"><button type="button">냉장고등록</button></a>
 
 <a href="${initParam.rootPath}/common/member/fridger/invite_form.do"><button type="button">초대하러가기</button></a>
 
