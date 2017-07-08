@@ -4,6 +4,8 @@
 body,html { /* 전체화면 비율 */
     width: 100%;
     height: 100%;
+    margin:0;
+    padding:0;;
 }
 
 body, h2, h3, h4, h5, h6 {
@@ -15,7 +17,32 @@ img{ /* 삽입 이미지들 */
 	border-radius: 50em; /* 이미지테두리 둥글게 */
 	width: 500;
 	height: 400;
+}
+#container{
+	min-height: 100%; 
+	position: relative;
+
+	
+}
+#head { 
+	position:relative; 
+	height:50px; 
+	margin: -10px;
 } 
+#menu { 
+	 min-height:10%
+	 margin:-50px 0 -50px 0;
+} 
+
+#content { 
+	/* position:absolute;
+	 min-height:50%;
+	 height:100%;*/
+	 margin: -500px 0 -550px 0;
+	 padding-bottom: 50px;
+
+} 
+
 
 .topnav { /* 상단바 부분 */
     font-size: 14px;
@@ -24,7 +51,8 @@ img{ /* 삽입 이미지들 */
 
 .container.subnav {
 	diplay: block;
-	height: 30px;
+	padding-top:500px;
+	height: 100%;
 }
 
 .lead { /* 이달의 레시피 소개글*/
@@ -38,14 +66,14 @@ img{ /* 삽입 이미지들 */
     padding-bottom: 18px;	 */
     text-align: center;
     color: #f8f8f8;
-    background: url(/ttFridger/img/banana.jpg) no-repeat center center;
+    background: url(/turnup_fridger/img/banana.jpg) no-repeat center center;
     background-size: cover;
 }
 
 .intro-message {	/* 처음화면 가운데부분 글자 */
     position: relative;
     padding-top: 20%;
-    padding-bottom: 20%;
+    padding-bottom: 15%;
 }
 
 .intro-message > h1 { /* turnup-fidger */
@@ -55,6 +83,16 @@ img{ /* 삽입 이미지들 */
     font-family: 'Philosopher', sans-serif;
     font-weight: 600;
 }
+
+.intro-content {
+	
+    position: relative;
+    /* height:100% */
+    padding-top: 5%;
+    padding-bottom: 10%;
+    /* margin-bottom: 10%; */
+}
+
 
 .intro-divider { /* 가운데 글 구분선 */
     width: 500px;
@@ -69,7 +107,7 @@ img{ /* 삽입 이미지들 */
 /* ================= 메뉴드롭다운부분 =================== */
 
     #submenuLink {  /* 하위 메뉴의 a 태그 */
-        text-decoration:none;               
+        text-decoration: none;               
         display: block;                     
         width: 100%;                       
         font-size: 15px;
@@ -84,17 +122,25 @@ img{ /* 삽입 이미지들 */
     
     /* 하위메뉴모음(ul) */
     .submenu {
+
+    display: block;
         position: absolute; /* 고정 위치에 표시 */
-		top: 465px; /* 부모 요소로부터 아래로 떨어진거리(부모요소가 상단바) */
+		top: 10px; /* 부모 요소로부터 아래로 떨어진거리(부모요소가 상단바) */
+		left:20%;
+		right:20%;
+		margin-top: 55%;
+		margin-left: auto;
+  		margin-right: auto;
+  		margin-bottom:10%;
         height: 0px;
         overflow: hidden;
         transition: height .3s;		/* 하위메뉴가 서서히 나오게하는 설정 */
         -webkit-transition: height .2s; 
         -moz-transition: height .2s; 
         -o-transition: height .2s; 
-        width: 55%;
+        width: 60%;
         background-color: #FFFFFF;
-		background: rgba(255, 255, 255, 0.5); /* 하위메뉴박스 배경 투명도 */
+		background: rgba(255, 255, 255, 0.25); /* 하위메뉴박스 배경 투명도 */
     }
     .submenu li {/* 하위메뉴들 */
         display: inline-block; /* 가로로 나열 */
@@ -164,7 +210,12 @@ img{ /* 삽입 이미지들 */
 }
 
 footer {
-    padding: 50px 0;
+	position: absolute;
+	 height: 50px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+    padding-bottom: 50px;
     background-color: #f8f8f8;
 }
 

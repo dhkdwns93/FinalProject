@@ -3,6 +3,8 @@ package kr.co.turnup_fridger.service;
 import java.util.Date;
 import java.util.List;
 
+import kr.co.turnup_fridger.exception.DuplicateMyIrdntException;
+import kr.co.turnup_fridger.exception.NoneMyIrdntException;
 import kr.co.turnup_fridger.vo.MyIrdnt;
 
 public interface MyIrdntService {
@@ -13,20 +15,20 @@ public interface MyIrdntService {
 	 * @param myIrdnt
 	 * @throws Exception 
 	 */
-	void createMyIrdnt(MyIrdnt myIrdnt) throws Exception;
+	void createMyIrdnt(MyIrdnt myIrdnt) throws DuplicateMyIrdntException;
 	
 	/**
 	 * 식재료 수정
 	 * @param myIrdnt
 	 * @throws Exception 
 	 */
-	void updateMyIrdnt(MyIrdnt myIrdnt) throws Exception;
+	void updateMyIrdnt(MyIrdnt myIrdnt) throws NoneMyIrdntException;
 	
 	/**
 	 * 식재료 삭제
 	 * @throws Exception 
 	 */
-	void removeMyIrdnt(int irdntKey) throws Exception;
+	void removeMyIrdnt(int irdntKey) throws NoneMyIrdntException;
 	
 	/**
 	 * 냉장고 id로 모든 식재료 불러오기

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.turnup_fridger.dao.IrdntManageDao;
+import kr.co.turnup_fridger.exception.DuplicateIrdntException;
+import kr.co.turnup_fridger.exception.NoneIrdntException;
 import kr.co.turnup_fridger.service.IrdntManageService;
 import kr.co.turnup_fridger.vo.IrdntManage;
 
@@ -16,43 +18,39 @@ public class IrdntManageServiceImpl implements IrdntManageService{
 	private IrdntManageDao dao;
 	
 	@Override
-	public void createIrdnt(IrdntManage irdnt) throws Exception{
+	public void createIrdnt(IrdntManage irdnt) throws DuplicateIrdntException{
 
 		if (!dao.selectIrdntByFullName(irdnt.getIrdntName()).isEmpty()) {
-			throw new Exception("다른 재료명을 입력해주세요.");
+			throw new DuplicateIrdntException("다른 재료명을 입력해주세요.");
 		}
 		irdnt.setIrdntId(0);
-		try {
-			dao.insertIrdnt(irdnt);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	
+		dao.insertIrdnt(irdnt);
+		
 
 	}
 
 	@Override
-	public void updateIrdnt(IrdntManage irdnt) throws Exception{
+	public void updateIrdnt(IrdntManage irdnt) throws DuplicateIrdntException,NoneIrdntException{
 		
 		//재료id로 검색해서 id가 없으면못한다고 하고, 재료명 이미 있는거 안됨.
 		if(dao.selectIrdntById(irdnt.getIrdntId())==null){			
-			throw new Exception("없는 식재료입니다.");
+			throw new NoneIrdntException("없는 식재료입니다.");
 		}
 		if(!dao.selectIrdntByFullName(irdnt.getIrdntName()).isEmpty()){			
-			throw new Exception("다른 재료명을 입력해주세요.");
+			throw new DuplicateIrdntException("다른 재료명을 입력해주세요.");
 		}
-		try{	
-			dao.updateIrdnt(irdnt);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+	
+		dao.updateIrdnt(irdnt);
+		
 		
 	}
 
 	@Override
-	public void removeIrdnt(int irdntId) throws Exception {
+	public void removeIrdnt(int irdntId) throws NoneIrdntException {
 		//없는id는 삭제못하겠지 
 		if(dao.selectIrdntById(irdntId)==null){
-			throw new Exception("없는 식재료입니다.");
+			throw new NoneIrdntException("없는 식재료입니다.");
 		}
 		dao.deleteIrdnt(irdntId);
 	

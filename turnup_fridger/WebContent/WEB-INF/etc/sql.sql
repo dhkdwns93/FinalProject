@@ -165,12 +165,14 @@ CREATE SEQUENCE MEMBER_RECIPE_RECOMMAND_KEY INCREMENT BY 1 START WITH 1;
 /* 냉장고 */
 DROP TABLE fridger CASCADE CONSTRAINT;
 --ALTER TABLE fridger ADD(member_id VARCHAR2(20));
+--ALTER TABLE fridger ADD(fridger_img VARCHAR2(300));
 --ALTER TABLE fridger DROP CONSTRAINT member_id_fk;
 ALTER TABLE fridger ADD CONSTRAINT member_id_fk FOREIGN KEY (member_id) REFERENCES member ON DELETE CASCADE;
 DELETE FROM fridger;
 CREATE TABLE fridger (
    fridger_ID NUMBER PRIMARY KEY, /* 냉장고ID */
    fridger_NAME VARCHAR2(30) NOT NULL, /* 냉장고애칭 */
+   fridger_img VARCHAR2(300), /*7/7_추가한 컬럼*/
    member_id	VARCHAR2(20) NOT NULL,  /* 냉장고 마스터 회원*/
    CONSTRAINT member_id_fk FOREIGN KEY (member_id) REFERENCES member ON DELETE CASCADE
 );
@@ -220,8 +222,9 @@ CREATE TABLE SHOP (
    SHOP_ID NUMBER PRIMARY KEY, /* 쇼핑몰 번호 */
    SHOP_NAME VARCHAR2(200) NOT NULL, /* 쇼핑몰 이름 */
    SHOP_ADDRESS VARCHAR2(1000) NOT NULL, /* 쇼핑몰 주소 */
-   SHOP_IMG VARCHAR2(500) /* 사진 */
-);
+   SHOP_IMG VARCHAR2(500), /* 사진 */
+   SAVE_IMG VARCHAR2(500)
+   );
 DROP SEQUENCE SHOP_ID;
 CREATE SEQUENCE SHOP_ID INCREMENT BY 1 START WITH 1;  
 --SELECT SHOP_ID.NEXTVAL FROM DUAL;
@@ -239,7 +242,7 @@ CREATE TABLE IRDNT_MANAGE (
    FREEZE_TEM_PERIOD NUMBER, /*냉동보관기간*/
    NOTE VARCHAR2(50)
 );
-select * from irdnt_manage;
+--select distinct irdnt_category from irdnt_manage;
 
 DROP SEQUENCE IRDNT_ID;
 CREATE SEQUENCE IRDNT_ID INCREMENT BY 1000 START WITH 1;  
@@ -247,7 +250,7 @@ SELECT IRDNT_ID.NEXTVAL FROM DUAL;
 
 --insert into irdnt_manage values (0,'테스트','가공식품',1,1,1,'테스트야~');
 --select * from IRDNT_MANAGE;
---select distinct irdnt_category from irdnt_manage;
+select distinct irdnt_category from irdnt_manage;
   
 /* 나의 식재료 */
 DROP TABLE MY_IRDNT;

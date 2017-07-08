@@ -31,7 +31,7 @@ public class FridgerServiceImpl implements FridgerService{
 	
 	@Override
 	public void createFridger(Fridger fridger) throws DuplicatedFridgerException {
-		System.out.println(fridger.getFridgerName());
+		System.out.println("createFridger:"+fridger.getFridgerName());//
 		if(fDao.selectFridgerByFridgerFullName(fridger.getFridgerName())!=null){
 			throw new DuplicatedFridgerException("이미 존재하는 냉장고 애칭입니다!");	
 		}

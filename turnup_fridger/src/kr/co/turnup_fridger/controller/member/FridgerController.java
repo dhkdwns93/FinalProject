@@ -1,20 +1,26 @@
 package kr.co.turnup_fridger.controller.member;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.turnup_fridger.exception.DuplicatedFridgerException;
@@ -41,6 +47,7 @@ public class FridgerController {
 	@Autowired
 	private JoinProcessService joinProcessService;
 	
+	
 	List list;
 	Fridger fridger;
 	FridgerGroup fridgerGroup;
@@ -52,7 +59,7 @@ public class FridgerController {
 	
 	
 	//냉장고 생성 handler 
-	@RequestMapping("register")
+	//@RequestMapping("register") //맨 끝에 사진이랑 같이 올리는 것 생성 
 	public ModelAndView registerFridger(@ModelAttribute("fridger") @Valid FridgerForm fridgerForm, BindingResult errors ) {
 		System.out.println(fridgerForm);//log
 		// 요청 파라미터 검증 끝
@@ -76,15 +83,16 @@ public class FridgerController {
 			e.printStackTrace();
 			return new ModelAndView("common/member/fridger/register_form", "errorMsg_fridgerName", e.getMessage());
 		}
-		
+
 		return new ModelAndView("redirect:register/success.do", "fridgerId", fridger.getFridgerId());
 	}
 	
 	@RequestMapping("register/success")
-	public ModelAndView registerSuccess(@RequestParam int fridgerId ) throws Exception{
+	public ModelAndView registerSuccess( int fridgerId ) throws Exception{
+		System.out.println("로그,다");
 		fridger = fridgerService.findFridgerByFridgerId(fridgerId);
 		
-		return new ModelAndView("common/member/fridger/register_success", "fridger", fridger);
+		return new ModelAndView("/common/member/fridger/register_success.do", "fridger", fridger);
 	}
 	
 
@@ -161,7 +169,7 @@ public class FridgerController {
 	}
 	
 	// 냉장고 삭제 관리 handler
-	@RequestMapping("remove/success")
+	@RequestMapping(value="remove/success", produces="text/html;charset=UTF-8")
 	@ResponseBody
 	public String removeSuccess(@RequestParam int fridgerId){
 		System.out.println(fridgerId);
@@ -284,7 +292,7 @@ public class FridgerController {
 		try {
 			joinProcessService.inviteJoinFridgerGroup(joinProcess);
 		} catch (Exception e) {
-			return new ModelAndView("common/member/fridger/invite_form", "errorMsg", e.getMessage());
+			return new ModelAndView("common/member/fridger/invite_form.tiles", "errorMsg", e.getMessage());
 		}
 
 		return new ModelAndView("redirect:invite/success.do", "processNo", joinProcess.getProcessNo());
@@ -294,7 +302,7 @@ public class FridgerController {
 	public ModelAndView inviteSuccess(@RequestParam int processNo){
 		joinProcess = joinProcessService.findJoinProcessByProcessNo(processNo);
 
-		return new ModelAndView("common/member/fridger/invite_success", "joinProcess", joinProcess);
+		return new ModelAndView("common/member/fridger/invite_success.tiles", "joinProcess", joinProcess);
 	}
 	
 	
@@ -415,5 +423,56 @@ public class FridgerController {
 
 		return result + "이 거절되었습니다!";
 	}
+	
+	
+	
+	
+	/*************************업로드 테스트**************************/
+	
+	@RequestMapping(value="register", method={RequestMethod.POST,RequestMethod.GET} )	// input type="file"으로 전송받는 변수는 MultipartFile 타입으로 선언
+	public ModelAndView regisgerFridgerWithImgs(@RequestParam String fridgerName,
+												@RequestParam String memberId,
+									@RequestParam MultipartFile fridgerImgSrc,
+								HttpServletRequest request) throws IllegalStateException, IOException{
+		fridger = new Fridger(0, fridgerName, memberId);
+		String fileName = null;
+		System.out.println("=========="+fridgerName);
+		long fileSize= 0;		//업로드된 파일은 임시 경로에 있음 -> 최종 저장 디렉터리에 옮기는 작업
+		if(fridgerImgSrc != null && !fridgerImgSrc.isEmpty()){
+			fileName = fridgerImgSrc.getOriginalFilename();
+			fileSize= fridgerImgSrc.getSize();
+			System.out.printf("파일명 :%s, 파일크기 :%d%n", fileName, fileSize);
+			
+			//이동 : request.getServletContext().getRealPath("하위 경로") - Application의 Root경로의 실제 파일경로로 리턴
+			System.out.println("request.getServletContext().getRealPath() : "+ request.getServletContext().getRealPath("/images") );
+			File dest = new File(request.getServletContext().getRealPath("/images"), fileName);
+			
+			fridgerImgSrc.transferTo(dest);	// Exception 던짐
+			
+		}
+		// 요청 파라미터 검증 
+		
+		
+			
+		
+		// 비즈니스 로직 처리
+		// 0) 권한 ID 체크(지금 로그인한 회원)
+		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		// 1) 빈 냉장고 생성해서  검증된 fridgerForm 넣기
+		fridger.setMemberId(member.getMemberId());
+		fridger.setFridgerImg(fileName);
+		
+		
+		try {
+			// 2) 냉장고 DB에 저장(서비스단에서 냉장고 그룹생성 과정 처리)
+			fridgerService.createFridger(fridger);
+			System.out.println("냉장고 등록 로그:"+fridger);	//log
+		} catch (DuplicatedFridgerException e) {	//냉장고 이름중복되면 예외발생
+			return new ModelAndView("common/member/fridger/register_form.tiles", "errorMsg_fridgerName", e.getMessage());
+		}
+		
+		return new ModelAndView("redirect:register/success.do", "fridgerId", fridger.getFridgerId());
+	}
+	
 	
 }

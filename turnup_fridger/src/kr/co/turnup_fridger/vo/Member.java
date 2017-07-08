@@ -12,7 +12,9 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Member implements Serializable{
-	private String memberId;
+	//톰캣에 저장시킨 serialVersionUID과 불일치하는 것 방지하기 위해 박아놨어용 by 은영
+	private static final long serialVersionUID = 1L;
+	private String memberId;	
 	private String memberPw;
 	private String memberName;
 	private String memberAddress;
