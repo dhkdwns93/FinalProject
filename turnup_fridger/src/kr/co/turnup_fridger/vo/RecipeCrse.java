@@ -14,6 +14,14 @@ public class RecipeCrse implements Serializable{
 	public RecipeCrse(){
 		
 	}
+	
+	public RecipeCrse(int recipeId, int cookingNo, String cookingDc, String stepImageUrl, String stepTip) {
+		this.recipeId = recipeId;
+		this.cookingNo = cookingNo;
+		this.cookingDc = cookingDc;
+		this.stepImageUrl = stepImageUrl;
+		this.stepTip = stepTip;
+	}
 
 	public RecipeCrse(int recipeId, int cookingNo, String cookingDc, String stepImageUrl, String stepTip,
 			RecipeInfo recipeInfo) {
