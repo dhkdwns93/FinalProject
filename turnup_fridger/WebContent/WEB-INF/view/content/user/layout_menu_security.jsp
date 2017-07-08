@@ -32,7 +32,7 @@
  <%--회원 메뉴 /member로 시작 --%>
  <sec:authorize access="hasRole('ROLE_MEMBER')">
  회원 메뉴(회원만)
- 	<a href="${initParam.rootPath}/common/member/member_mypage.do"><button type="button">MyPage(회원용)</button></a>
+ 	<a href="${initParam.rootPath}/common/member/member_mypage_event.do"><button type="button">MyPage(회원용)</button></a>
  </sec:authorize>
  <hr>
  <%--관리자 메뉴 /admin으로 시작--%>

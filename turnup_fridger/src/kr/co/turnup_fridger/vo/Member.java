@@ -5,10 +5,12 @@
 변경이력 
 170701 Authority변수 추가 *member테이블 데이터들의 권한은 모두 "member"
 170706 myDislikeIrdntList 변수 추가 -기피재료 불러올 변수
+170708 변수 추가 myDislikeIrdntNameList - 기피재료명 불러올 변수
 */
 package kr.co.turnup_fridger.vo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Member implements Serializable{
@@ -25,6 +27,7 @@ public class Member implements Serializable{
 	//DB상에는 없음.
 	private String memberAuthority="ROLE_MEMBER";
 	private List<MyDislikeIrdnt> myDislikeIrdntList;
+
 	
 	public Member(){}
 	//memberAuthority,myDislikeIrdntList 미포함 생성자
@@ -184,6 +187,7 @@ public class Member implements Serializable{
 			return false;
 		return true;
 	}
+	
 	
 }
 
