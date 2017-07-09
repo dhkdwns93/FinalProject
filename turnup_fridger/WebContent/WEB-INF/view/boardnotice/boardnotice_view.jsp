@@ -53,7 +53,7 @@ form{display:inline}
 </table>
 <!-- 관리자만 수정 가능 -->
  <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadView.do?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data">
+<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadView.do?" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<input type="hidden" name="id" id="id" value="${boardNotice.id}">
 	<button>수정하기</button>

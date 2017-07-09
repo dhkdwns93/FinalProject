@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.co.turnup_fridger.config.mybatis.mapper.CommentFreeMapper">
+	
+	
+		<!-- 
+			CommentFree 테이블 관련 mapper
+			+ CommentFree 등록
+			+ CommentFree 수정
+			+ CommentFree 삭제
+			+ CommentFree 조회
+	    -->
+	 <sql id="all-column">
+		 COMMENT_FREE_ID, COMMENT_FREE_TXT, COMMENT_FREE_DATE, BOARD_FREE_ID, MEMBER_ID
+	</sql> 
+	  
+	 <!-- CommentQnA 기본 조회 sql -->
+	 <sql id="commentFree-select-sql">
+	 	SELECT COMMENT_FREE_ID, COMMENT_FREE_TXT, COMMENT_FREE_DATE, BOARD_FREE_ID, MEMBER_ID
+	 	FROM COMMENT_FREE
+	 </sql>	
+	
+	<!-- ResultMap CommentFree 등록 -->
+	<resultMap id="commentFree-resultmap" type="commentFree">
+		<id column="COMMENT_FREE_ID" property="commentFreeId"/>
+		<result column="COMMENT_FREE_TXT" property="commentFreeTxt"/>
+		<result column="COMMENT_FREE_DATE" property="commentFreedate"/>
+		<result column="BOARD_FREE_ID" property="boardFreeId"/>
+		<result column="MEMBER_ID" property="memberId"/>
+	</resultMap>
+	
+	<!-- 등록 SQL -->
+	<insert id="insertCommentFree" parameterType="commentFree">
+		<selectKey resultType="int" keyProperty="commentFreeId" order="BEFORE">
+			select COMMENT_FREE_ID.nextval from dual
+		</selectKey>
+		INSERT INTO COMMENT_FREE 
+		VALUES(
+				#{commentFreeId},
+				#{commentFreeTxt},
+				SYSDATE,
+				#{boardFreeId},
+				#{memberId}
+		  	  )
+	</insert>	
+	
+	<!-- 업데이트 SQL -->
+	<update id="updateCommentFree" parameterType="commentFree">
+		UPDATE 	COMMENT_FREE 
+		SET		COMMENT_FREE_TXT = #{commentFreeTxt},
+				COMMENT_FREE_DATE = SYSDATE,
+				BOARD_FREE_ID = #{boardFreeId},
+				MEMBER_ID = #{memberId}
+		WHERE	COMMENT_FREE_ID = #{commentFreeId}
+	</update>
+	
+	
+	<!-- 삭세 SQL-->
+	<delete id="deleteCommentFree" parameterType="_int">
+		DELETE FROM COMMENT_FREE WHERE COMMENT_FREE_ID = #{commentFreeId}
+	</delete>	
+	
+	
+		<!-- CommentFree boardFreeId 카운트  -->
+	<select id = "selectCommentFreeCount" parameterType="map" resultType="_int">
+		SELECT COUNT(*) FROM COMMENT_FREE
+		WHERE BOARD_FREE_ID LIKE #{boardFreeId}
+	</select>
+	
+	
+	<!-- LIST CommentFreeId 조회 SQL -->
+	<select id="selectCommentFreeListbyId" resultMap="commentFree-resultmap">
+		SELECT <include refid="all-column"/>
+		FROM(
+			SELECT ROWNUM RNUM, <include refid="all-column"/>
+			FROM(		
+					<include refid="commentFree-select-sql"></include>
+					WHERE BOARD_FREE_ID = #{boardFreeId}
+					ORDER BY COMMENT_FREE_DATE DESC
+				)
+			WHERE ROWNUM &lt;=#{endIndex}	
+			)
+		WHERE RNUM>=#{startIndex}
+	</select> 
+	
+</mapper>

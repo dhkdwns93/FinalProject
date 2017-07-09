@@ -22,15 +22,12 @@ form{display:inline}
 프로젝트 Turn Up the Fridger 인덱스 페이지에용. 여기서 각자 부분 jsp 등등 링크 걸어서 하세용.
 </p>
 <hr>
+
 <!-- 장규/준 -->
-<form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
-<a href="${initParam.rootPath}/boardnotice/boardnoticelist.do"><input type="submit" value="공지사항"/></a>
-<sec:csrfInput/>
-</form>
-<form action="${initParam.rootPath}/common/boardqna/boardQnAList.do" method="post">
-<a href="${initParam.rootPath}/common/boardqna/boardqna_list.do"><input type="submit" value="QnA"/></a>
-<sec:csrfInput/>
-</form>
+<a href="${initParam.rootPath}/boardnotice/boardNoticeList.do"><button type="button">공지사항</button></a>
+<a href="${initParam.rootPath}/common/boardqna/boardQnAList.do"><button type="button">QnA</button></a>
+<a href="${initParam.rootPath}/common/boardfree/boardFreeList.do"><button type="button">자유게시판</button></a>
+<a href="${initParam.rootPath}/boardreview/boardReviewList.do"><button type="button">후기</button></a>
 <hr>
 <h3>레시피공유게시판</h3>
 <a href="${initParam.rootPath }/boardRecipe/boardRecipeList.do"><button type="button">목록 시이자악</button></a>

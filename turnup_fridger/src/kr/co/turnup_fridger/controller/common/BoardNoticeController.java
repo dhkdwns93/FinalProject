@@ -57,6 +57,7 @@ public class BoardNoticeController extends HttpServlet {
 	
 	//전체 리스트
 	@RequestMapping("/boardnotice/boardNoticeList")
+	@ResponseBody
 	public ModelAndView boardNoticeList(@RequestParam(defaultValue="1") int page)
 	{  
 	    Map<String, Object> map = service.findBoardNoticeList(page);
@@ -74,7 +75,7 @@ public class BoardNoticeController extends HttpServlet {
 	
 	//말머리 조회
 	@RequestMapping("boardnotice/boardNoticeByItems")
-	//@ResponseBody
+	@ResponseBody
 	public ModelAndView boardNoticeById(@RequestParam String items, @RequestParam(defaultValue="1") int page)
 	{
 		/*int p =  Integer.parseInt(page);
@@ -107,6 +108,7 @@ public class BoardNoticeController extends HttpServlet {
 	
 	//상세보기
 	@RequestMapping("/boardnotice/boardNoticeView")
+	@ResponseBody
 	public ModelAndView boardNoticeView(@RequestParam int id)
 	{
 		ModelAndView mav = new ModelAndView();
@@ -120,7 +122,8 @@ public class BoardNoticeController extends HttpServlet {
 	 
 	
 	//등록
-	@RequestMapping(value="/common/admin/boardnotice/boardNoticeAdd", method = RequestMethod.POST)
+	@RequestMapping("/common/admin/boardnotice/boardNoticeAdd")
+	@ResponseBody
 	 public ModelAndView boardNoticeAdd(@ModelAttribute BoardNotice boardNotice,BindingResult errors, HttpServletRequest request) throws Exception
 	{
 			BoardNoticeValidator validator = new BoardNoticeValidator();
@@ -186,6 +189,7 @@ public class BoardNoticeController extends HttpServlet {
 	
 	//수정
 	@RequestMapping("/common/admin/boardnotice/boardNoticeUploadForm")
+	@ResponseBody
 	 public ModelAndView boardNoticeUploadForm(@ModelAttribute BoardNotice boardNotice,BindingResult errors, HttpServletRequest request,@RequestParam int id) throws Exception
 	{
 		BoardNoticeValidator validator = new BoardNoticeValidator();
@@ -238,6 +242,7 @@ public class BoardNoticeController extends HttpServlet {
 	
 	//삭제
 	@RequestMapping("/common/admin/boardnotice/boardNoticRemove")
+	@ResponseBody
 	public ModelAndView boardNoticRemove(@RequestParam int id, @RequestParam(defaultValue="1") int page) throws Exception
 	{
 		service.removeBoardNoticeById(id);

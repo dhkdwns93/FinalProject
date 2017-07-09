@@ -40,6 +40,7 @@ public class BoardQnAController extends HttpServlet {
 			
 		//전체 리스트
 		@RequestMapping("boardQnAList")
+		@ResponseBody
 		public ModelAndView boardNoticeList(@RequestParam(defaultValue="1") int page)
 		{  
 			Map<String, Object> map = service.findBoardQnAList(page);
@@ -55,6 +56,7 @@ public class BoardQnAController extends HttpServlet {
 		
 		//아이디 조회
 		@RequestMapping("boardQnAByMemberId")
+		@ResponseBody
 		public ModelAndView boardQnAByMemberId(@RequestParam String memberId,@RequestParam(defaultValue="1") int page)
 		{
 			ModelAndView mav = new ModelAndView();	
@@ -102,6 +104,7 @@ public class BoardQnAController extends HttpServlet {
 		
 		//등록
 		@RequestMapping("boardQnAAdd")
+		@ResponseBody
 		 public ModelAndView insert(@ModelAttribute BoardQnA boardQnA,BindingResult errors)
 		{
 			BoardQnAValidator validator = new BoardQnAValidator();
@@ -127,6 +130,7 @@ public class BoardQnAController extends HttpServlet {
 		
 		//삭제
 		@RequestMapping("boardQnARemove")
+		@ResponseBody
 		public ModelAndView boardQnARemove(@RequestParam int boardQnAId,@RequestParam(defaultValue="1") int page)
 		{
 			service.removeBoardQnA(boardQnAId);
@@ -143,6 +147,7 @@ public class BoardQnAController extends HttpServlet {
 		
 		//수정 폼
 		@RequestMapping("boardQnAUploadView")
+		@ResponseBody
 		public ModelAndView boardQnAUploadView(@RequestParam int boardQnAId)
 		{
 			ModelAndView mav = new ModelAndView();
@@ -156,6 +161,7 @@ public class BoardQnAController extends HttpServlet {
 		
 		//수정
 		@RequestMapping("boardQnAUploadForm")
+		@ResponseBody
 		 public ModelAndView boardQnAUploadForm(@ModelAttribute BoardQnA boardQnA,@RequestParam int boardQnAId, BindingResult errors)
 		{
 			BoardQnAValidator validator = new BoardQnAValidator();

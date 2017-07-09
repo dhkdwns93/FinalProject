@@ -127,5 +127,6 @@
 		 FROM BOARD_QNA b, COMMENT_QNA c
 		 WHERE b.BOARD_QNA_ID =c.BOARD_QNA_ID(+)
 		 AND b.BOARD_QNA_ID = #{value}
+		 ORDER BY c.COMMENT_QNA_DATE DESC
 	</select>
 </mapper>
