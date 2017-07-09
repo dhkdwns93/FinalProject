@@ -62,6 +62,7 @@ public class UserManageController {
 		validator.validate(member, errors);
 		if(errors.hasErrors()){//errors에 오류가 1개라도 등록되있으면 다시 form으로 돌아가
 			//return new ModelAndView("user/join_member_form","member",member);
+			//System.out.println(errors);
 			return "user/join_member_form";
 		}
 		
@@ -127,9 +128,10 @@ public class UserManageController {
 	@ResponseBody
 	public String duplicateEmail(String inputEmail){
 		//1.요청파라미터 조회+검증
+		Member findMember=memberService.findMemberByEmail(inputEmail);//해당 이메일 사용하는 유저 조회
 		//2.BusinessLogic
 		if(memberService.findMemberByEmail(inputEmail)!=null){
-			//System.out.println("ID있음");
+			//System.out.println("Email있음");
 			return "duplicateEmailError";
 		}
 		return inputEmail;

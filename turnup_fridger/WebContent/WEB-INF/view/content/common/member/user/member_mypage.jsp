@@ -25,10 +25,6 @@
 		<th><sec:authentication property="principal.memberId"></sec:authentication></th>
 	</tr>
 	<tr>
-		<th>회원 PW</th>
-		<th><sec:authentication property="principal.memberPw"></sec:authentication></th>
-	</tr>
-	<tr>
 		<th>이름</th>
 		<th><sec:authentication property="principal.memberName"></sec:authentication></th>
 	</tr>

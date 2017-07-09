@@ -98,9 +98,9 @@ public class AdminManageController {
 		Authentication authentication=ctx.getAuthentication();
 		
 		//PW체크
-		String adminPw=((Admin)authentication.getPrincipal()).getAdminPw();
-		//if(!passwordEncoder.matches(adminPw,admin.getAdminPw())){
-		if(!adminPw.equals(admin.getAdminPw())){
+		String originalAdminPw=((Admin)authentication.getPrincipal()).getAdminPw();
+		if(!passwordEncoder.matches(originalAdminPw,admin.getAdminPw())){
+//		if(!adminPw.equals(admin.getAdminPw())){
 			System.out.println("AdminManageController + PW가 다릅니다.");
 			throw new RuntimeException("PW가 다릅니다.");
 		}
