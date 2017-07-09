@@ -30,6 +30,13 @@ public interface JoinProcessDao {
 	int deleteJoinProcessByProcessNo(ArrayList<Integer> processNoList);
 	
 	/**
+	 * 특정냉장고에대한 처리목록 delete
+	 * @param fridgerId
+	 * @return
+	 */
+	int deleteJoinProcessByFridgerId(int fridgerId);
+	
+	/**
 	 * 승인대기상태로 14일이 경과한 건 delete 
 	 * @return
 	 */

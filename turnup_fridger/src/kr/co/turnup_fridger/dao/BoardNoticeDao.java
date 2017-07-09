@@ -23,6 +23,11 @@ public interface BoardNoticeDao
 	 */
 	int updateBoardNotice(BoardNotice boardNotice);
 	
+	
+	int updateImageNull(BoardNotice boardNotice);	
+	
+	
+	
 	/**
 	 * BoardNotice 정보를 delete 하는 메소드 - 관리자
 	 * @param id

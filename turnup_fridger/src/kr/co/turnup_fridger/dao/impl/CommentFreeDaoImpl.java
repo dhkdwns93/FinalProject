@@ -54,6 +54,13 @@ public class CommentFreeDaoImpl implements CommentFreeDao {
 		input.put("endIndex",endIndex);
 		return session.selectList(makeSqlId("selectCommentFreeListbyId"),input);
 	}
+
+
+	@Override
+	public CommentFree selectCommentFreeById(int commentFreeId) {
+		// TODO Auto-generated method stub
+		return session.selectOne(makeSqlId("selectCommentFreeById"),commentFreeId);
+	}
 	
 	
 }

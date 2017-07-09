@@ -30,6 +30,7 @@ import kr.co.turnup_fridger.vo.RecipeInfo;
 import kr.co.turnup_fridger.vo.RecipeIrdnt;
 
 @Controller
+@RequestMapping("/common/")
 public class RecipeController {
 	
 	@Autowired
@@ -41,12 +42,16 @@ public class RecipeController {
 	
 	
 	
-	@RequestMapping(value="createRecipe",produces="html/text;charset=UTF-8;")
+	
+	/***************************************************************
+	 * 관리자를 위한  Recipe Handler : 등록, 삭제
+	 ****************************************************************/
+	@RequestMapping(value="admin/recipe/register",produces="html/text;charset=UTF-8;")
 	public ModelAndView createRecipe(@ModelAttribute("recipeInfo") @Valid RecipeInfoForm recipeInfoForm, BindingResult errors){
-		
+		System.out.println("createRecipe로그");
 		//발리데이션은 한번에 거쳐서 들어오면, 그걸 나눠서 타입바꿔주는 작업을 하자.
 		if(errors.hasErrors()){
-			return new ModelAndView("레시피등록폼");
+			return new ModelAndView("common/admin/recipe/register_form");
 		}
 
 		List<RecipeCrseForm> formCrses = recipeInfoForm.getRecipeCrseForm();		
@@ -69,9 +74,15 @@ public class RecipeController {
 		try {
 			service.createRecipe(recipeInfo);
 		} catch (DuplicateRecipeException e) {
-			return new ModelAndView("레시피 등록폼","errorMsg_duplicateId",e.getMessage());
+			return new ModelAndView("common/admin/recipe/register_form","errorMsg_duplicateId",e.getMessage());
 		}
-		return new ModelAndView("레시피목록","successMsg_create","등록성공!");
+		return new ModelAndView("redirect:register/success.do","successMsg_create","등록성공!");
+	}
+	
+	@RequestMapping("admin/recipe/register/success")
+	public ModelAndView registerSuccess( int fridgerId ) throws Exception{
+		System.out.println("로그,다");
+		return new ModelAndView("common/admin/recipe/register_success.tiles","successMsg_create","등록성공!");
 	}
 	
 	@RequestMapping("updateRecipe")

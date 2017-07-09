@@ -38,6 +38,14 @@ public class BoardReviewDaoImpl implements BoardReviewDao {
 		return session.update(makeSqlId("updateBoardReview"),boardReview);
 	}
 
+	//이미지 null
+	@Override
+	public int updateImageNull(BoardReview boardReview) {
+		return session.update(makeSqlId("updateImageNull"),boardReview);
+	}
+	
+	
+	
 	/**
 	 * QnA 삭제(댓글과 함께 삭제)
 	 * 작성자 - 김장규
@@ -69,6 +77,14 @@ public class BoardReviewDaoImpl implements BoardReviewDao {
 	public List<BoardReview> selectBoardReviewByRecipeNameList(String recipeName) {
 		// TODO Auto-generated method stub
 		return session.selectList(makeSqlId("selectBoardReviewByRecipeNameList"), recipeName);
+	}
+
+
+
+	@Override
+	public BoardReview selecetBoardReviewByBoardReviewId(int boardReviewId) {
+		// TODO Auto-generated method stub
+		return session.selectOne(makeSqlId("selectBoardReviewByBoardReviewId"), boardReviewId);
 	}
 	
 	

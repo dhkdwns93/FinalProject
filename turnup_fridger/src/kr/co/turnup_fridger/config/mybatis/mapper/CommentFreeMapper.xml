@@ -84,4 +84,10 @@
 		WHERE RNUM>=#{startIndex}
 	</select> 
 	
+	
+		<!-- id 조회 SQL -->
+	<select id="selectCommentFreeById" resultMap="commentFree-resultmap">
+		<include refid="commentFree-select-sql"></include>
+		WHERE COMMENT_FREE_ID = #{commentfreeId}
+	</select> 
 </mapper>

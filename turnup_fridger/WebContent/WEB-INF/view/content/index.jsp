@@ -33,6 +33,12 @@ form{display:inline}
 <a href="${initParam.rootPath }/boardRecipe/boardRecipeList.do"><button type="button">목록 시이자악</button></a>
 
 <hr>
+
+
+<h4>레시피관련</h4>
+<a href="${initParam.rootPath}/common/admin/recipe/register_form.do"><button type="button">레시피등록</button></a>
+<a href="${initParam.rootPath}/common/admin/recipe/recipeList.do"><button type="button">레시피목록</button></a>
+
 <!-- 은영 -->
 <h4>냉장고관련</h4>
 

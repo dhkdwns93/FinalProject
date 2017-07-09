@@ -39,6 +39,9 @@
 	<!-- 공지사항 수정 폼 페이지 -->
 	<mvc:view-controller path="/common/admin/boardnotice/boardnotice_upload.do" view-name="common/admin/boardnotice/boardnotice_upload.tiles"/>	
 
+
+
+
 	<!-- QNA 목록 페이지 -->
 	<mvc:view-controller path="/common/boardqna/boardqna_list.do" view-name="common/boardqna/boardqna_list.tiles"/>	
 	<!-- QNA memberId 목록 페이지 -->
@@ -51,6 +54,8 @@
 	<mvc:view-controller path="/common/boardqna/boardqna_upload.do" view-name="common/boardqna/boardqna_upload.tiles"/>	
 	<!-- commentQNA 수정 폼 페이지 -->
 	<mvc:view-controller path="/common/boardqna/commentqna_upload.do" view-name="common/boardqna/commentqna_upload.tiles"/>	
+	
+	
 	<!-- 자유게시판 목록 페이지 -->
 	<mvc:view-controller path="/common/boardfree/boardfree_list.do" view-name="common/boardfree/boardfree_list.tiles"/>	
 	<!-- 자유게시판 memberId 목록 페이지 -->
@@ -65,12 +70,21 @@
 	<mvc:view-controller path="/common/boardfree/boardfree_form.do" view-name="common/boardfree/boardfree_form.tiles"/>	
 	<!-- 자유게시판 수정 폼 페이지 -->
 	<mvc:view-controller path="/common/boardfree/boardfree_upload.do" view-name="common/boardfree/boardfree_upload.tiles"/>	
+	<!-- commentFree 수정 폼 페이지 -->
+	<mvc:view-controller path="/common/boardfree/commentfree_upload.do" view-name="common/boardfree/commentfree_upload.tiles"/>
+	
+	
 	<!-- 후기 목록 페이지 -->
 	<mvc:view-controller path="/boardreview/boardreview_list.do" view-name="boardreview/boardreview_list.tiles"/>	
 	<!-- 후기 아이디 목록 페이지 -->
 	<mvc:view-controller path="/boardreview/boardreview_list_memberid.do" view-name="boardreview/boardreview_list_memberid.tiles"/>	
 	<!-- 후기 레시피 목록 페이지 -->
 	<mvc:view-controller path="/boardreview/boardreview_list_recipename.do" view-name="boardreview/boardreview_list_recipename.tiles"/>	
+	<!-- 후기 레시피 득록 페이지 -->
+	<mvc:view-controller path="/boardreview/boardreview_form.do" view-name="/boardreview/boardreview_form.tiles"/>	
+	<!-- 후기 레시피 수정 페이지 -->
+	<mvc:view-controller path="/boardreview/boardreview_upload.do" view-name="/boardreview/boardreview_upload.tiles"/>	
+
 
 
 	<!-- 왕준 view 등록 -->
@@ -141,7 +155,6 @@
 	<mvc:view-controller path="/common/member/fridger/register_form.do" view-name="common/member/fridger/register_form.tiles"/>
 	<mvc:view-controller path="/common/member/fridger/register_form2.do" view-name="common/member/fridger/register_form2.tiles"/>
 	<!-- 냉장고 등록 성공페이지 -->
-	<mvc:view-controller path="/common/member/fridger/register_success.do" view-name="common/member/fridger/register_success.tiles"/>
 	<!-- 냉장고 수정  페이지 -->
 	<mvc:view-controller path="/common/member/fridger/update_form.do" view-name="common/member/fridger/update_form.tiles"/>
 	<!-- 냉장고 수정 성공페이지 -->
@@ -174,11 +187,11 @@
 	
 	<!--레시피-관리자용  -->
 	<!--레시피 목록불러오기  -->
-	<mvc:view-controller path="/common/admin/recipe_for_admin/recipeList.do" view-name="common/admin/recipe_for_admin/recipeList.tiles"/>
+	<mvc:view-controller path="/common/admin/recipe/recipeList.do" view-name="common/admin/recipe_for_admin/recipeList.tiles"/>
 	<!--레시피 등록폼 -->
-	<mvc:view-controller path="/common/admin/recipe_for_admin/create_recipe.do" view-name="common/admin/recipe_for_admin/create_recipe.tiles"/>
+	<mvc:view-controller path="/common/admin/recipe/register_form.do" view-name="common/admin/recipe_for_admin/register_form.tiles"/>
 	<!--레시피 수정폼  -->
-	<mvc:view-controller path="/common/admin/recipe_for_admin/update_recipe.do" view-name="common/admin/recipe_for_admin/update_recipe.tiles"/>
+	<mvc:view-controller path="/common/admin/recipe/update_recipe.do" view-name="common/admin/recipe_for_admin/update_recipe.tiles"/>
 	
 	<!--레시피 사용자용  -->
 	<!--레시피 상세페이지  -->
