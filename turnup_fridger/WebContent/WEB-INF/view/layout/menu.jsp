@@ -9,9 +9,9 @@
 		class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i>
 			<span class="network-name">레시피 검색</span></a>
 		<ul class="submenu">
-			<li><a href="#" id="submenuLink">재료명 검색</a></li>
-			<li><a href="#" id="submenuLink">카테고리별 검색</a></li>
-			<li><a href="#" id="submenuLink">레시피로 검색</a></li>
+			<li><a href="${initParam.rootPath}/recipe_for_user/search_by_irdnts.do" id="submenuLink">재료명 검색</a></li>
+			<li><a href="${initParam.rootPath}/recipe_for_user/search_by_category.do" id="submenuLink">카테고리별 검색</a></li>
+			<li><a href="${initParam.rootPath}/recipe_for_user/search_by_recipeName.do" id="submenuLink">레시피로 검색</a></li>
 		</ul></li>
 	<li class="topMenuLi"><a href="#fridger"
 		class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i>

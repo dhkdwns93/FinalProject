@@ -30,11 +30,11 @@ public interface ShareRecipeIrdntService {
 	 * @param irdntId
 	 * @return
 	 */
-	ShareRecipeIrdnt selectShareRecipeIrdntByIrdntId(int irdntId);
+	List<ShareRecipeIrdnt> selectShareRecipeIrdntByIrdntId(int irdntId);
 	/**
 	 * recipeId로 조회
 	 * @param recipeId
 	 * @return
 	 */
-	ShareRecipeIrdnt selectShareRecipeIrdntByRecipeId(int recipeId);
+	List<ShareRecipeIrdnt> selectShareRecipeIrdntByRecipeId(int recipeId);
 }

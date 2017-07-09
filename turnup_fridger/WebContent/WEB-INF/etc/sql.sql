@@ -359,6 +359,7 @@ CREATE TABLE RECIPE_INFO (
 
 --select * from RECIPE_INFO
 --select distinct category_name from RECIPE_INFO
+--select distinct type_name from recipe_info
 --select category_name, type_name from RECIPE_INFO where category_name ='퓨전' group by category_name, type_name 
 --select distinct recipe_level from RECIPE_INFO 
 

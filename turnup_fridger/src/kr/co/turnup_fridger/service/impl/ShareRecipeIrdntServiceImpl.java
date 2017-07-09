@@ -39,16 +39,17 @@ public class ShareRecipeIrdntServiceImpl implements ShareRecipeIrdntService{
 		return dao.selectShareRecipeIrdntAll();
 	}
 	
+	
 	@Override
-	public ShareRecipeIrdnt selectShareRecipeIrdntByIrdntId(int irdntId) {
+	public List<ShareRecipeIrdnt> selectShareRecipeIrdntByIrdntId(int irdntId) {
 		// TODO Auto-generated method stub
 		return dao.selectShareRecipeIrdntByIrdntId(irdntId);
 	}
 	
 	@Override
-	public ShareRecipeIrdnt selectShareRecipeIrdntByRecipeId(int recipeId) {
+	public List<ShareRecipeIrdnt> selectShareRecipeIrdntByRecipeId(int recipeId) {
 		// TODO Auto-generated method stub
-		return dao.selectShareRecipeIrdntJoinByRecipeId(recipeId);
+		return dao.selectShareRecipeIrdntByRecipeId(recipeId);
 	}
 	
 }

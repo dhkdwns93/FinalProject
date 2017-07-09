@@ -18,10 +18,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.turnup_fridger.exception.DuplicateRecipeException;
 import kr.co.turnup_fridger.exception.NoneRecipeException;
+import kr.co.turnup_fridger.service.BoardShareRecipeService;
 import kr.co.turnup_fridger.service.RecipeService;
+import kr.co.turnup_fridger.service.ShareRecipeIrdntService;
 import kr.co.turnup_fridger.validation.form.RecipeCrseForm;
 import kr.co.turnup_fridger.validation.form.RecipeInfoForm;
 import kr.co.turnup_fridger.validation.form.RecipeIrdntForm;
+import kr.co.turnup_fridger.vo.BoardShareRecipe;
 import kr.co.turnup_fridger.vo.RecipeCrse;
 import kr.co.turnup_fridger.vo.RecipeInfo;
 import kr.co.turnup_fridger.vo.RecipeIrdnt;
@@ -31,6 +34,12 @@ public class RecipeController {
 	
 	@Autowired
 	private RecipeService service;
+	@Autowired
+	private BoardShareRecipeService shareService;
+	@Autowired
+	private ShareRecipeIrdntService sIrdntService;
+	
+	
 	
 	@RequestMapping(value="createRecipe",produces="html/text;charset=UTF-8;")
 	public ModelAndView createRecipe(@ModelAttribute("recipeInfo") @Valid RecipeInfoForm recipeInfoForm, BindingResult errors){
@@ -118,52 +127,58 @@ public class RecipeController {
 	}
 	
 	@RequestMapping("findRecipeByRecipeName")
-	public ModelAndView findRecipeByRecipeName(@RequestParam String recipeName, @RequestParam String keyword, @RequestParam(defaultValue="1") int page){
-
-		Map<String, Object> map = service.findRecipeByRecipeName(recipeName, keyword, page);
-
+	public ModelAndView findRecipeByRecipeName(@RequestParam String recipeName, @RequestParam String keyword){
+		System.out.println("핸들러 : " + recipeName);
+		List<RecipeInfo> apiList = service.findRecipeByRecipeName(recipeName, keyword);
+		List<BoardShareRecipe> userList = shareService.selectBoardShareRecipeByTitle(recipeName);
+		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", map.get("list"));
-		mav.addObject("pageBean", map.get("pageBean"));
+		mav.addObject("apiList", apiList);
+		mav.addObject("userList", userList);
 		mav.setViewName("레시피명검색화면");
 		return mav;
 	}
 	
 	@RequestMapping("findRecipeByCategory")
-	public ModelAndView findRecipeByCategory(@RequestParam String categoryName, @RequestParam String typeName, @RequestParam String keyword, @RequestParam int page){
+	public ModelAndView findRecipeByCategory(@RequestParam String categoryName, @RequestParam String typeName, @RequestParam String keyword){
 
-		Map<String,Object> map = service.findRecipeByCategory(categoryName, typeName, keyword, page);
+		List<RecipeInfo> list = service.findRecipeByCategory(categoryName, typeName, keyword);
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", map.get("list"));
-		mav.addObject("pageBean", map.get("pageBean"));
+		mav.addObject("list", list);
 		mav.setViewName("카테고리 검색화면");
 		return mav;
 	}
 	
 	@RequestMapping("findRecipeByIrdntId")
-	public ModelAndView findRecipeByIrdntId(@RequestParam List<Integer> irdntIds, @RequestParam List<Integer> hateIrdntIds, @RequestParam String keyword, @RequestParam int page){
+	public ModelAndView findRecipeByIrdntId(@RequestParam List<Integer> irdntIds, @RequestParam List<Integer> hateIrdntIds, @RequestParam String keyword){
 
-		Map<String,Object> map = service.findRecipeByIrdntId(irdntIds, hateIrdntIds, keyword, page);
+		List<RecipeInfo> apiList = service.findRecipeByIrdntId(irdntIds, hateIrdntIds, keyword);
+		List<BoardShareRecipe> userList = shareService.findUserRecipeByIds(irdntIds, hateIrdntIds);
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", map.get("list"));
-		mav.addObject("pageBean", map.get("pageBean"));
+		mav.addObject("apiList", apiList);
+		mav.addObject("userList", userList);	
 		mav.setViewName("재료 검색화면");
 		return mav;
 	}
 	
 	@RequestMapping("showDetailOfRecipe")
-	@ResponseBody
 	public ModelAndView showDetailOfRecipe(@RequestParam int recipeId){
 		RecipeInfo recipe = service.showDetailOfRecipe(recipeId);
 		return new ModelAndView("상세페이지화면","recipeDetail",recipe);
 	}
 	
 	@RequestMapping("changePortion")
-	@ResponseBody
 	public ModelAndView changePortion(){
 		return new ModelAndView("상세페이지 + 변환된 자료가 들어오겠찌");
+	}
+	
+	@RequestMapping("getTypeNameCategory")
+	@ResponseBody
+	public List<String> getTypeNameCategory(@RequestParam String categoryName){
+		
+		return null;
 	}
 	
 }

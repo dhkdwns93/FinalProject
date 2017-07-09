@@ -42,7 +42,8 @@
 		<td>
 			<input type="text" name ="irdntName" id="irdntName"><button type="button" id="searchBtn">검색</button>
 			<!-- 검색클릭하면 재료명으로 검색해서 id만 골라오는거 하기. 여기에 id저장. --> 
-			<input type="hidden" name="irdntId" id="irdntId" value="${param.irdntId}"><span class="error"><form:errors path="myIrdnt.irdntId" delimiter="&nbsp;&nbsp;"/>
+			<input type="hidden" name="irdntId" id="irdntId" value="${param.irdntId}">
+			<span class="error"><form:errors path="myIrdnt.irdntId" delimiter="&nbsp;&nbsp;"/>
 			</span></td>
 	</tr>
 	<tr>

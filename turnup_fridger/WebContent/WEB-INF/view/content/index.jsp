@@ -52,7 +52,15 @@ form{display:inline}
 <h4>재료관리 관련</h4>
 <a href="${initParam.rootPath}/common/admin/irdntManage/findAllICategory.do" ><button type="button">재료관리</button></a><br>
 <h4>나의 식재료 관련</h4>
-<a href="${initParam.rootPath}/common/member/myIrdnt/myIrdntList.do"><button type="button">나의 식재료</button></a><br>
+<a href="${initParam.rootPath}/common/member/myIrdnt/myIrdntList.do"><button type="button">나의 식재료</button></a><br><hr>
+<h4>레시피관리</h4>
+<a href="${initParam.rootPath}/common/admin/recipe_for_admin/recipeList.do"><button type="button">레시피 관리</button></a><br><hr>
+<h4>레시피 재료검색</h4>
+<a href="${initParam.rootPath}/recipe_for_user/search_by_irdnts.do"><button type="button">레시피 재료검색</button></a><br>
+<h4>레시피 요리명검색</h4>
+<a href="${initParam.rootPath}/recipe_for_user/search_by_recipeName.do"><button type="button">레시피 요리명검색</button></a><br>
+<h4>레시피 카테고리검색</h4>
+<a href="${initParam.rootPath}/recipe_for_user/search_by_category.do"><button type="button">레시피 카테고리검색</button></a><br>
 
 <hr>
 <!-- 현화 -->

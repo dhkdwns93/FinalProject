@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>레시피 by 재료</title>
-<script type="text/javascript" src="/turnup_fridger/scripts/jquery-3.2.1.min.js"/>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"/>
 <script type="text/javascript">
 
 </script>

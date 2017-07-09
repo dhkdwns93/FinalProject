@@ -15,7 +15,8 @@ function closeWindow(){
 	document.updateForm.submit();
 	window.opener.location.reload();
 	self.close();
-	}
+	};
+	
 </script>
 </head>
 <body>
@@ -36,7 +37,7 @@ function closeWindow(){
 	</tr>
 	<tr>
 		<th>카테고리</th>
-		<td><input id = "irdntCategory"type="text" name="irdntCategory" value="${requestScope.irdnt.irdntCategory}">
+		<td><input id = "irdntCategory"type="text" name="irdntCategory" value="${requestScope.irdnt.irdntCategory}">		
 		<span class="error"><form:errors path="irdntManage.irdntCategory" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr>

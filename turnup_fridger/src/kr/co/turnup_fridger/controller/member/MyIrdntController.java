@@ -41,11 +41,12 @@ public class MyIrdntController {
 	public ModelAndView createMyIrdnt(@ModelAttribute ("myIrdnt") @Valid MyIrdntForm myIrdntForm,BindingResult errors){
 		
 		if(errors.hasErrors()){
+			//여기서 새페이지 열리지않고, 팝업창내에서 나왔으면 좋겠다.
 			return new ModelAndView("common/member/myIrdnt/myIrdnt_form");
 		}
 		
-		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	/*	List<FridgerGroup> group = fridgerService.findFridgerAndFridgerGroupByFridgerId(myIrdntForm.getFridgerId()).getFridgerGroupList();
+		/*	Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<FridgerGroup> group = fridgerService.findFridgerAndFridgerGroupByFridgerId(myIrdntForm.getFridgerId()).getFridgerGroupList();
 		boolean validChk = false;
 		for(int i=0; i<group.size();i++){
 			if(member.getMemberId().equals(group.get(i).getGroupMemberId())){

@@ -164,5 +164,10 @@ public interface BoardShareRecipeDao {
 		 */
 		List<String> selectBoardShareRecipeImg(int recipeId);
 		
-		
+		/**
+		 * 레시피 id들로 여러개의 글객체들 불러오기 
+		 * @param recipeIds
+		 * @return
+		 */
+		List<BoardShareRecipe> selectBoardShareRecipeById(List<Integer> recipeIds);
 }
