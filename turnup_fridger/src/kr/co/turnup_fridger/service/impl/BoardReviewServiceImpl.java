@@ -27,6 +27,11 @@ public class BoardReviewServiceImpl implements BoardReviewService{
 		dao.insertBoardReview(boardReview);
 		
 	}
+	
+	@Override
+	public void updateImageNull(BoardReview boardReview) {
+		dao.updateImageNull(boardReview);
+	}
 
 	@Override
 	public void updateBoardReview(BoardReview boardReview) {
@@ -64,6 +69,12 @@ public class BoardReviewServiceImpl implements BoardReviewService{
 		return dao.selectBoardReviewByRecipeNameList(recipeName);
 	}
 
+	@Override
+	public BoardReview selecetBoardReviewByBoardReviewId(int boardReviewId) {
+		// TODO Auto-generated method stub
+		return dao.selecetBoardReviewByBoardReviewId(boardReviewId);
+	}
+
 	public static void main(String[] args) {
 		//ApplicationContext 객체 생성
 		ApplicationContext container = new ClassPathXmlApplicationContext("kr/co/turnup_fridger/config/spring/model-context.xml");
@@ -72,7 +83,8 @@ public class BoardReviewServiceImpl implements BoardReviewService{
 		//service.addBoardReview(new BoardReview(4, "맛없어요", "별로임.", new Date(2017-1900,01,02),null,null,3,"id-3",1));
 		
 		//service.updateBoardReview(new BoardReview(2, "맛없어요", "별로임.", new Date(2017-1900,01,02),null,null,3,"id-3",1));
-	
+		service.updateImageNull(new BoardReview(57, "맛없어요", "별로임.", new Date(2017-1900,01,02),null,null,3,"id-3",1));
+		
 		int delId = 2;
 		//service.removeBoardReview(delId);
 		

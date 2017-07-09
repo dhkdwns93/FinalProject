@@ -53,6 +53,13 @@ public class CommentFreeServiceImpl implements CommentFreeService{
 	}
 
 
+	@Override
+	public CommentFree selectCommentFreeById(int commentFreeId) {
+		// TODO Auto-generated method stub
+		return dao.selectCommentFreeById(commentFreeId);
+	}
+
+	
 
 	
 	

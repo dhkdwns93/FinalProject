@@ -39,6 +39,9 @@
 	<!-- 공지사항 수정 폼 페이지 -->
 	<mvc:view-controller path="/common/admin/boardnotice/boardnotice_upload.do" view-name="common/admin/boardnotice/boardnotice_upload.tiles"/>	
 
+
+
+
 	<!-- QNA 목록 페이지 -->
 	<mvc:view-controller path="/common/boardqna/boardqna_list.do" view-name="common/boardqna/boardqna_list.tiles"/>	
 	<!-- QNA memberId 목록 페이지 -->
@@ -51,6 +54,8 @@
 	<mvc:view-controller path="/common/boardqna/boardqna_upload.do" view-name="common/boardqna/boardqna_upload.tiles"/>	
 	<!-- commentQNA 수정 폼 페이지 -->
 	<mvc:view-controller path="/common/boardqna/commentqna_upload.do" view-name="common/boardqna/commentqna_upload.tiles"/>	
+	
+	
 	<!-- 자유게시판 목록 페이지 -->
 	<mvc:view-controller path="/common/boardfree/boardfree_list.do" view-name="common/boardfree/boardfree_list.tiles"/>	
 	<!-- 자유게시판 memberId 목록 페이지 -->
@@ -65,12 +70,21 @@
 	<mvc:view-controller path="/common/boardfree/boardfree_form.do" view-name="common/boardfree/boardfree_form.tiles"/>	
 	<!-- 자유게시판 수정 폼 페이지 -->
 	<mvc:view-controller path="/common/boardfree/boardfree_upload.do" view-name="common/boardfree/boardfree_upload.tiles"/>	
+	<!-- commentFree 수정 폼 페이지 -->
+	<mvc:view-controller path="/common/boardfree/commentfree_upload.do" view-name="common/boardfree/commentfree_upload.tiles"/>
+	
+	
 	<!-- 후기 목록 페이지 -->
 	<mvc:view-controller path="/boardreview/boardreview_list.do" view-name="boardreview/boardreview_list.tiles"/>	
 	<!-- 후기 아이디 목록 페이지 -->
 	<mvc:view-controller path="/boardreview/boardreview_list_memberid.do" view-name="boardreview/boardreview_list_memberid.tiles"/>	
 	<!-- 후기 레시피 목록 페이지 -->
 	<mvc:view-controller path="/boardreview/boardreview_list_recipename.do" view-name="boardreview/boardreview_list_recipename.tiles"/>	
+	<!-- 후기 레시피 득록 페이지 -->
+	<mvc:view-controller path="/boardreview/boardreview_form.do" view-name="/boardreview/boardreview_form.tiles"/>	
+	<!-- 후기 레시피 수정 페이지 -->
+	<mvc:view-controller path="/boardreview/boardreview_upload.do" view-name="/boardreview/boardreview_upload.tiles"/>	
+
 
 
 	<!-- 왕준 view 등록 -->

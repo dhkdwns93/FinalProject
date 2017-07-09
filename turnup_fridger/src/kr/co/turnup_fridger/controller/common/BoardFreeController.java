@@ -43,7 +43,7 @@ public class BoardFreeController extends HttpServlet {
 	 
 			mav.addObject("list", map.get("list"));
 			mav.addObject("pageBean", map.get("pageBean"));
-	        mav.setViewName("common/boardfree/boardfree_list");
+	        mav.setViewName("common/boardfree/boardfree_list.tiles");
 	        return mav; 
 		} 
 	
@@ -58,7 +58,7 @@ public class BoardFreeController extends HttpServlet {
 
 			mav.addObject("list", map.get("list"));
 			mav.addObject("pageBean", map.get("pageBean"));
-	        mav.setViewName("common/boardfree/boardfree_list_hit");
+	        mav.setViewName("common/boardfree/boardfree_list_hit.tiles");
 	        return mav; 
 		}	
 		
@@ -76,7 +76,7 @@ public class BoardFreeController extends HttpServlet {
 			mav.addObject("list", map.get("list"));
 		    mav.addObject("memberId",  map.get("memberId"));
 		    mav.addObject("pageBean", map.get("pageBean"));
-	        mav.setViewName("common/boardfree/boardfree_list_memberid"); 
+	        mav.setViewName("common/boardfree/boardfree_list_memberid.tiles"); 
 
 	        return mav; 
 		}
@@ -93,7 +93,7 @@ public class BoardFreeController extends HttpServlet {
 			mav.addObject("list", map.get("list"));
 		    mav.addObject("boardFreeTitle", map.get("boardFreeTitle"));
 		    mav.addObject("pageBean", map.get("pageBean"));
-	        mav.setViewName("common/boardfree/boardfree_list_title"); 
+	        mav.setViewName("common/boardfree/boardfree_list_title.tiles"); 
 
 	        return mav; 
 		}		
@@ -116,7 +116,7 @@ public class BoardFreeController extends HttpServlet {
 				mav.addObject("list", map.get("list"));
 			    mav.addObject("memberId",  map.get("memberId"));
 			    mav.addObject("pageBean", map.get("pageBean"));
-		        mav.setViewName("common/boardfree/boardfree_list_memberid"); 
+		        mav.setViewName("common/boardfree/boardfree_list_memberid.tiles"); 
 		        
 		        return mav;
 			}			
@@ -125,15 +125,15 @@ public class BoardFreeController extends HttpServlet {
 				map = service.selectBoardFreeByTitle(keyword, page);
 				System.out.println(map);
 				mav.addObject("list", map.get("list"));
-				mav.addObject("boardFreeTitle",  map.get("boardFreeTitle"));
+				mav.addObject("boardFreeTitle",  map.get("boardFreeTitle.tiles"));
 			    mav.addObject("pageBean", map.get("pageBean"));
-		        mav.setViewName("common/boardfree/boardfree_list_title");
+		        mav.setViewName("common/boardfree/boardfree_list_title.tiles");
 		        return mav; 
 			}
 			map = service.selectBoardFreeList(page);
 			mav.addObject("list", map.get("list"));
 			mav.addObject("pageBean", map.get("pageBean"));
-	        mav.setViewName("common/boardfree/boardfree_list");
+	        mav.setViewName("common/boardfree/boardfree_list.tiles");
 	        return mav; 
 		}		
 	
@@ -157,7 +157,7 @@ public class BoardFreeController extends HttpServlet {
 		    mav.addObject("pageBean", map.get("pageBean"));
 		    
 			
-			mav.setViewName("common/boardfree/boardfree_view");
+			mav.setViewName("common/boardfree/boardfree_view.tiles");
 			
 			return mav;
 		}		
@@ -171,12 +171,12 @@ public class BoardFreeController extends HttpServlet {
 			validator.validate(boradFree, errors);
 			if(errors.hasErrors())
 			{
-				return new ModelAndView("common/boardfree/boardfree_form"); //errors에 오류가 1개라도 등록되 있으면 true 리턴
+				return new ModelAndView("common/boardfree/boardfree_form.tiles"); //errors에 오류가 1개라도 등록되 있으면 true 리턴
 			}
 			ModelAndView mav = new ModelAndView();
 			service.addBoardFree(boradFree);//등록
 			mav.addObject("boardFree",service.selectBoardFreeByboardFreeId(boradFree.getBoardFreeId()));//상세페이지 필요 정보
-			mav.setViewName("common/boardfree/boardfree_view");
+			mav.setViewName("common/boardfree/boardfree_view.tiles");
 			return mav;
 		}
 			
@@ -193,7 +193,7 @@ public class BoardFreeController extends HttpServlet {
 				Map<String, Object> map = service.selectBoardFreeList(page);//리스트 값 불러오기
 			    mav.addObject("list", map.get("list"));//리스트 값 저장
 			    mav.addObject("pageBean", map.get("pageBean"));
-		        mav.setViewName("common/boardfree/boardfree_list"); 
+		        mav.setViewName("common/boardfree/boardfree_list.tiles"); 
 		        return mav; 
 	        }
 			
@@ -206,7 +206,7 @@ public class BoardFreeController extends HttpServlet {
 		    mav.addObject("pageBean", map.get("pageBean"));
 		    
 			
-			mav.setViewName("common/boardfree/boardfree_view");
+			mav.setViewName("common/boardfree/boardfree_view.tiles");
 			
 			return mav;	        
 
@@ -222,7 +222,7 @@ public class BoardFreeController extends HttpServlet {
 			if(writer.equals(memberId))
 			{
 				mav.addObject("boardFree", service.selectBoardFreeByboardFreeId(boardFreeId));//해당 수정 정보 불러서 저장
-				mav.setViewName("common/boardfree/boardfree_upload");
+				mav.setViewName("common/boardfree/boardfree_upload.tiles");
 				return mav;
 			}	
 			
@@ -235,7 +235,7 @@ public class BoardFreeController extends HttpServlet {
 		    mav.addObject("pageBean", map.get("pageBean"));
 		    
 			
-			mav.setViewName("common/boardfree/boardfree_view");
+			mav.setViewName("common/boardfree/boardfree_view.tiles");
 			
 			return mav;
 		}	
@@ -250,7 +250,7 @@ public class BoardFreeController extends HttpServlet {
 			if(errors.hasErrors()) 
 			{
 				//errors에 오류가 1개라도 등록되 있으면 true 리턴
-				return new ModelAndView("common/boardfree/boardfree_upload"); 
+				return new ModelAndView("common/boardfree/boardfree_upload.tiles"); 
 			}
 			ModelAndView mav = new ModelAndView();
 			
@@ -264,7 +264,7 @@ public class BoardFreeController extends HttpServlet {
 		    mav.addObject("boardFreeId",  map.get("boardFreeId"));
 		    mav.addObject("pageBean", map.get("pageBean"));
 		    
-		    mav.setViewName("common/boardfree/boardfree_view"); 
+		    mav.setViewName("common/boardfree/boardfree_view.tiles"); 
 		    
 			return mav;
 

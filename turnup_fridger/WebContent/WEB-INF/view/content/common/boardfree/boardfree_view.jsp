@@ -48,6 +48,13 @@ function insert_event(){
 	}
 };
 
+
+function popup(frm){
+	window.name="opener";
+	window.open("/turnup_fridger/common/boardfree/commentfree_upload.do","commentupload","width=500, height=400");
+
+}
+
 </script>
 <style type="text/css">
  form{display:inline}
@@ -145,7 +152,6 @@ function insert_event(){
 </c:if>
 <c:if test="${!empty commentFree}">
 <c:forEach var="list" items="${commentFree}">
-</table>
 <table border="1" style="text-align:center">
 <thead id="thead">
     <tr>
@@ -168,13 +174,14 @@ function insert_event(){
 		</td>
 		<td>
 			<sec:authorize access="hasRole('ROLE_MEMBER')">
-		     	<form action="${initParam.rootPath}/common/commentfree/commentFreeUploadView.do" method="post">
+		     	<form name="commentFreeUpload" method="post">
 		     	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 					<input type="hidden" name="commentFreeId" id="commentFreeId" value="${list.commentFreeId}">
 					<input type="hidden" name="commentFreeTxt" id="commentFreeTxt" value="${list.commentFreeTxt}">
 					<input type="hidden" name="writer" id="writer" value="${list.memberId}">
 					<input type="hidden" name="memberId" id="memberId" value="<sec:authentication property="principal.memberId"></sec:authentication>">
-					<input type="button" value="수정하기">
+					<input type="hidden" name="boardFreeId" id="boardFreeId" value="${list.boardFreeId}">
+					<a href="javascript:popup();"><input type="button" value="수정하기"></a>
 				</form>	
 			</sec:authorize>
 		</td>
@@ -266,6 +273,9 @@ function insert_event(){
 	<a href="${initParam.rootPath}/common/boardfree/boardFreeView.do?page=${requestScope.pageBean.totalPage}&boardFreeId=${requestScope.boardFreeId}">마지막페이지</a>
 </p>
 </c:if>
+
+
+
  <sec:authorize access="hasRole('ROLE_MEMBER')">
 <hr>
 댓글작성

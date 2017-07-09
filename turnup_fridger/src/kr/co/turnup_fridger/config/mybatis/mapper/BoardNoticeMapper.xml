@@ -66,6 +66,21 @@
 		WHERE	BOARD_NOTICE_ID = #{id}
 	</update>
 	
+	<!-- 사진 삭제 SQL -->
+	<update id="updateImageNull" parameterType="boardNotice">
+		UPDATE 	BOARD_NOTICE 
+		SET		BOARE_NOTICE_ITEMS = #{items},
+				BOARD_NOTICE_TITLE = #{title},
+				BOARD_NOTICE_TXT = #{txt},
+				BOARD_NOTICE_IMG = null,
+				BOARD_NOTICE_SAVE_IMG = null,
+				BOARD_NOTICE_DATE = SYSDATE
+		WHERE	BOARD_NOTICE_ID = #{id}
+	</update>	
+	
+	
+	
+	
 	<!-- 삭세 SQL-->
 	<delete id="deleteBoardNotice" parameterType="_int">
 		DELETE FROM BOARD_NOTICE WHERE BOARD_NOTICE_ID = #{id}

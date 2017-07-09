@@ -11,4 +11,5 @@ public interface CommentFreeService  {
 	void updateCommentFree(CommentFree commentFree);
 	void removeCommentFree(int id);
 	Map<String, Object> selectCommentFreeListbyId(int id,int page);
+	CommentFree selectCommentFreeById(int commentFreeId);
 }

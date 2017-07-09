@@ -20,6 +20,11 @@ public interface BoardReviewService {
 	 */
 	void updateBoardReview(BoardReview boardReview);
 	
+	
+	//이미지 삭제
+	void updateImageNull(BoardReview boardReview);
+	
+	
 	/**
 	 * 매개변수로 받은 ID로 저장된 BoardReview 정보를 삭제하는 메소드
 	 * @param boardReviewId
@@ -27,13 +32,15 @@ public interface BoardReviewService {
 	 */
 	void removeBoardReview(int boardReviewId);
 	
-	
+	//전체 조회
 	List<BoardReview> selectBoardReviewList();
 	
-	//별점순
+	//별점순 조회
 	List<BoardReview> selectBoardReviewByStarList();
 	//아이디로 조회
 	List<BoardReview> selectBoardReviewByMemberIdList(String memberId);
 	//레시피 이름으로 조회
 	List<BoardReview> selectBoardReviewByRecipeNameList(String recipeName);
+	//상세정보
+	BoardReview selecetBoardReviewByBoardReviewId(int boardReviewId);
 }

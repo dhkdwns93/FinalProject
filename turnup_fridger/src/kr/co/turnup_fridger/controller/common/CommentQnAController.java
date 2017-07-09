@@ -40,10 +40,9 @@ public class CommentQnAController extends HttpServlet {
 			if(errors.hasErrors()) 
 			{
 				//errors에 오류가 1개라도 등록되 있으면 true 리턴
-				mav.setViewName("common/boardqna/boardqna_view");
 				mav.addObject("commentQnA",commentQnA);
 				mav.addObject("boardQnA", service2.findBoardQnAById(boardQnAId));
-				
+				mav.setViewName("common/boardqna/boardqna_view.tiles");
 				return mav; 
 			}
 			
@@ -51,7 +50,7 @@ public class CommentQnAController extends HttpServlet {
 			
 			mav.addObject("commentQnA",commentQnA);
 			mav.addObject("boardQnA", service2.findBoardQnAById(boardQnAId));
-			mav.setViewName("common/boardqna/boardqna_view");
+			mav.setViewName("common/boardqna/boardqna_view.tiles");
 			return mav;
 		}
 
@@ -66,7 +65,7 @@ public class CommentQnAController extends HttpServlet {
 			
 			BoardQnA boardQnA = service2.findBoardQnAById(boardQnAId);
 			mav.addObject("boardQnA", boardQnA);
-			mav.setViewName("common/boardqna/boardqna_view");
+			mav.setViewName("common/boardqna/boardqna_view.tiles");
 	        return mav; 
 
 		}	
@@ -78,7 +77,7 @@ public class CommentQnAController extends HttpServlet {
 		{
 			ModelAndView mav = new ModelAndView();
 			
-			mav.setViewName("common/boardqna/commentqna_upload");
+			mav.setViewName("common/boardqna/commentqna_upload.tiles");
 			
 			mav.addObject("commentQnA", service.selectCommentQnAById(commentQnAId));
 		    
@@ -86,9 +85,9 @@ public class CommentQnAController extends HttpServlet {
 		}	
 		
 		//수정
-		@RequestMapping("boardQnAUploadForm")
+		@RequestMapping("commentQnAUploadForm")
 		@ResponseBody
-		 public ModelAndView boardQnAUploadForm(@ModelAttribute CommentQnA commentQnA,@RequestParam int commentQnAId,@RequestParam int boardQnAId, BindingResult errors)
+		 public ModelAndView commentQnAUploadForm(@ModelAttribute CommentQnA commentQnA,@RequestParam int commentQnAId,@RequestParam int boardQnAId, BindingResult errors)
 		{
 				ModelAndView mav = new ModelAndView();
 			
@@ -96,7 +95,7 @@ public class CommentQnAController extends HttpServlet {
 				
 				mav.addObject("commentQnA",commentQnA);
 				mav.addObject("boardQnA", service2.findBoardQnAById(boardQnAId));
-				mav.setViewName("common/boardqna/boardqna_view");
+				mav.setViewName("common/boardqna/boardqna_view.tiles");
 		    
 			return mav;
 

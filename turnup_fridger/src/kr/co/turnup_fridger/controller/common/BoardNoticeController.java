@@ -3,6 +3,7 @@ package kr.co.turnup_fridger.controller.common;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -25,6 +26,7 @@ import kr.co.turnup_fridger.dao.BoardNoticeDao;
 import kr.co.turnup_fridger.service.BoardNoticeService;
 import kr.co.turnup_fridger.validation.BoardNoticeValidator;
 import kr.co.turnup_fridger.vo.BoardNotice;
+import kr.co.turnup_fridger.vo.BoardReview;
 
 @Controller
 @RequestMapping
@@ -68,13 +70,13 @@ public class BoardNoticeController extends HttpServlet {
 	    
 	    mav.addObject("list", map.get("list"));
 	    mav.addObject("pageBean", map.get("pageBean"));
-	    mav.setViewName("boardnotice/boardnotice_list"); 
+	    mav.setViewName("boardnotice/boardnotice_list.tiles"); 
 	    
 	    return mav;
 	} 
 	
 	//말머리 조회
-	@RequestMapping("boardnotice/boardNoticeByItems")
+	@RequestMapping("/boardnotice/boardNoticeByItems")
 	@ResponseBody
 	public ModelAndView boardNoticeById(@RequestParam String items, @RequestParam(defaultValue="1") int page)
 	{
@@ -92,14 +94,14 @@ public class BoardNoticeController extends HttpServlet {
  
 			 mav.addObject("list", map.get("list"));
 			 mav.addObject("pageBean", map.get("pageBean"));
-			 mav.setViewName("boardnotice/boardnotice_list"); 
+			 mav.setViewName("boardnotice/boardnotice_list.tiles"); 
 			    
 			return mav;
 		}
 	    mav.addObject("list", map.get("list"));
 	    mav.addObject("items",  map.get("items"));
 	    mav.addObject("pageBean", map.get("pageBean"));
-	    mav.setViewName("boardnotice/boardnotice_list_items");
+	    mav.setViewName("boardnotice/boardnotice_list_items.tiles");
 		
 	    return mav;
 	} 
@@ -113,7 +115,7 @@ public class BoardNoticeController extends HttpServlet {
 	{
 		ModelAndView mav = new ModelAndView();
 		
-		mav.setViewName("boardnotice/boardnotice_view");
+		mav.setViewName("boardnotice/boardnotice_view.tiles");
 		
 		mav.addObject("boardNotice", service.findBoardNoticeById(id));
 	    
@@ -131,7 +133,7 @@ public class BoardNoticeController extends HttpServlet {
 			if(errors.hasErrors()) 
 			{
 				//errors에 오류가 1개라도 등록되 있으면 true 리턴
-				return new ModelAndView("common/admin/boardnotice/boardnotice_form"); 
+				return new ModelAndView("common/admin/boardnotice/boardnotice_form.tiles"); 
 			}
 			
 			ModelAndView mav = new ModelAndView();
@@ -166,7 +168,7 @@ public class BoardNoticeController extends HttpServlet {
 				service.addBoardNotice(boardNotice);
 			}
 			mav.addObject("boardNotice",boardNotice);
-			mav.setViewName("boardnotice/boardnotice_view");
+			mav.setViewName("boardnotice/boardnotice_view.tiles");
 			mav.addObject("boardNotice", service.findBoardNoticeById(boardNotice.getId()));
 			return mav;	
 	}
@@ -180,28 +182,52 @@ public class BoardNoticeController extends HttpServlet {
 	{
 		ModelAndView mav = new ModelAndView();
 		
-		mav.setViewName("common/admin/boardnotice/boardnotice_upload");
+		mav.setViewName("common/admin/boardnotice/boardnotice_upload.tiles");
 		
 		mav.addObject("boardNotice", service.findBoardNoticeById(id));
 	    
 		return mav;
 	}	
+
+	//사진삭제
+	@RequestMapping("/common/admin/boardnotice/boardNoticeImageDelete")
+	@ResponseBody
+	 public ModelAndView boardNoticeImageDelete(@ModelAttribute BoardNotice boardNotice,BindingResult errors)
+	{
+		ModelAndView mav = new ModelAndView();
+		
+		service.updateImageNull(boardNotice);
+		
+		mav.addObject("boardNotice", service.findBoardNoticeById(boardNotice.getId()));
+		mav.setViewName("common/admin/boardnotice/boardnotice_upload.tiles");
+		return mav;
+	}
+
 	
 	//수정
 	@RequestMapping("/common/admin/boardnotice/boardNoticeUploadForm")
 	@ResponseBody
 	 public ModelAndView boardNoticeUploadForm(@ModelAttribute BoardNotice boardNotice,BindingResult errors, HttpServletRequest request,@RequestParam int id) throws Exception
 	{
+		ModelAndView mav = new ModelAndView();
+		
 		BoardNoticeValidator validator = new BoardNoticeValidator();
 		validator.validate(boardNotice, errors);
 		if(errors.hasErrors()) 
 		{
 			//errors에 오류가 1개라도 등록되 있으면 true 리턴
-			return new ModelAndView("common/admin/boardnotice/boardnotice_upload"); 
+			return new ModelAndView("common/admin/boardnotice/boardnotice_upload.tiles"); 
 		}
 		
-		ModelAndView mav = new ModelAndView();
-		
+		if(boardNotice.getImg() != null)
+		{
+			service.updateBoardNotice(boardNotice);
+			mav.addObject("boardNotice",boardNotice);
+			mav.addObject("boardNotice", service.findBoardNoticeById(id));
+			mav.setViewName("boardnotice/boardnotice_view.tiles");
+			return mav;	
+		}
+
 		String upImageDir = request.getServletContext().getRealPath("/up_image");
 		MultipartFile upImage = boardNotice.getUpImage();
 		
@@ -233,7 +259,7 @@ public class BoardNoticeController extends HttpServlet {
 		}
 		mav.addObject("boardNotice",boardNotice);
 		mav.addObject("boardNotice", service.findBoardNoticeById(id));
-		mav.setViewName("boardnotice/boardnotice_view");
+		mav.setViewName("boardnotice/boardnotice_view.tiles");
 		return mav;	
 	}
 	
@@ -253,7 +279,7 @@ public class BoardNoticeController extends HttpServlet {
 	    
 	    mav.addObject("list", map.get("list"));
 	    mav.addObject("pageBean", map.get("pageBean"));
-	    mav.setViewName("boardnotice/boardnotice_list"); 
+	    mav.setViewName("boardnotice/boardnotice_list.tiles"); 
 	    
 	    return mav;
 

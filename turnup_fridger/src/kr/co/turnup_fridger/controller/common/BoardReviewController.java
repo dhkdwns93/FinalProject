@@ -32,7 +32,7 @@ public class BoardReviewController extends HttpServlet {
 		private BoardReviewService service;
 		
 		//이미지 경로
-		private String eclipseDir = "C:\\Java\\eclipse\\workspace_web\\turnup_fridger2\\WebContent\\up_image"; 
+		private String eclipseDir = "C:\\Java\\eclipse\\workspace_web\\turnup_fridger2\\WebContent\\up_image";
 		
 		
 		//카피
@@ -60,7 +60,7 @@ public class BoardReviewController extends HttpServlet {
 			List<BoardReview> list = service.selectBoardReviewList();
 	 
 			mav.addObject("list", list);
-	        mav.setViewName("boardreview/boardreview_list");
+	        mav.setViewName("boardreview/boardreview_list.tiles");
 	        return mav; 
 		} 
 		
@@ -74,7 +74,7 @@ public class BoardReviewController extends HttpServlet {
 			List<BoardReview> list = service.selectBoardReviewByStarList();
 	 
 			mav.addObject("list", list);
-	        mav.setViewName("boardreview/boardreview_list_star");
+	        mav.setViewName("boardreview/boardreview_list_star.tiles");
 	        return mav; 
 		} 		
 		
@@ -92,7 +92,7 @@ public class BoardReviewController extends HttpServlet {
 			
 			mav.addObject("list", list);
 		    mav.addObject("memberId",  memberId);
-		    mav.setViewName("boardreview/boardreview_list_memberid");
+		    mav.setViewName("boardreview/boardreview_list_memberid.tiles");
 
 	        return mav; 
 		}
@@ -108,7 +108,7 @@ public class BoardReviewController extends HttpServlet {
 			
 			mav.addObject("list", list);
 		    mav.addObject("recipeName", recipeName);
-		    mav.setViewName("boardreview/boardreview_list_recipename"); 
+		    mav.setViewName("boardreview/boardreview_list_recipename.tiles"); 
 
 	        return mav; 
 		}	
@@ -131,7 +131,7 @@ public class BoardReviewController extends HttpServlet {
 			{
 				list  = service.selectBoardReviewByMemberIdList(keyword);
 				mav.addObject("list", list);
-			    mav.setViewName("boardreview/boardreview_list_memberid");
+			    mav.setViewName("boardreview/boardreview_list_memberid.tiles");
 		        
 		        return mav;
 			}			
@@ -139,13 +139,13 @@ public class BoardReviewController extends HttpServlet {
 			{
 				list = service.selectBoardReviewByRecipeNameList(keyword);
 				mav.addObject("list", list);
-			    mav.setViewName("boardreview/boardreview_list_recipename"); 
+			    mav.setViewName("boardreview/boardreview_list_recipename.tiles"); 
 		        return mav; 
 			}
 			list = service.selectBoardReviewList();
 			 
 			mav.addObject("list", list);
-	        mav.setViewName("boardreview/boardreview_list");
+	        mav.setViewName("boardreview/boardreview_list.tiles");
 	        return mav; 
 		}		
 	
@@ -160,11 +160,7 @@ public class BoardReviewController extends HttpServlet {
 			validator.validate(boardReview, errors);
 			if(errors.hasErrors()) 
 			{
-				//errors에 오류가 1개라도 등록되 있으면 true 리턴
-				List<BoardReview> list = service.selectBoardReviewList();
-				mav.addObject("list", list);
-		        mav.setViewName("boardreview/boardreview_list");
-		        return mav;  
+				return new ModelAndView("boardreview/boardreview_form.tiles"); 
 			}
 			
 			String upImageDir = request.getServletContext().getRealPath("/up_image");
@@ -200,7 +196,7 @@ public class BoardReviewController extends HttpServlet {
 			List<BoardReview> list = service.selectBoardReviewList();
 			 
 			mav.addObject("list", list);
-	        mav.setViewName("boardreview/boardreview_list");
+	        mav.setViewName("boardreview/boardreview_list.tiles");
 	        return mav; 
 		}
 			
@@ -211,80 +207,119 @@ public class BoardReviewController extends HttpServlet {
 				@RequestParam String writer,@RequestParam String memberId,@RequestParam String adminId)
 		{
 			
-		System.out.printf("%d,%s,%s,%s",boardReviewId,writer,memberId,adminId);
 	        ModelAndView mav = new ModelAndView();
 	        if((writer.equals(memberId) && adminId.trim().isEmpty()) || !adminId.trim().isEmpty())
 	        {
 	        	service.removeBoardReview(boardReviewId);//정보삭제 
 				List<BoardReview> list = service.selectBoardReviewList();
 				mav.addObject("list", list);
-		        mav.setViewName("boardreview/boardreview_list");
+		        mav.setViewName("boardreview/boardreview_list.tiles");
 		        return mav; 
 	        }
 			
 			List<BoardReview> list = service.selectBoardReviewList();
 			mav.addObject("list", list);
-	        mav.setViewName("boardreview/boardreview_list");
+	        mav.setViewName("boardreview/boardreview_list.tiles");
 	        return mav; 
         
 
 		}	
-/*			
+		
 		//수정 폼 이동
-		@RequestMapping("boardFreeUploadView")
+		@RequestMapping("boardReviewUploadView")
 		@ResponseBody
-		public ModelAndView boardFreeUploadView(@RequestParam int boardFreeId,@RequestParam String writer,@RequestParam String memberId,@RequestParam(defaultValue="1") int page)
+		public ModelAndView boardReviewUploadView(@RequestParam int boardReviewId, @RequestParam String writer,@RequestParam String memberId)
 		{
 			ModelAndView mav = new ModelAndView();
 			
 			if(writer.equals(memberId))
 			{
-				mav.addObject("boardFree", service.selectBoardFreeByboardFreeId(boardFreeId));//해당 수정 정보 불러서 저장
-				mav.setViewName("common/boardfree/boardfree_upload");
+				mav.addObject("boardReview", service.selecetBoardReviewByBoardReviewId(boardReviewId));//해당 수정 정보 불러서 저장
+				mav.setViewName("boardreview/boardreview_upload.tiles");
 				return mav;
 			}	
 			
-			BoardFree boradFree = service.selectBoardFreeByboardFreeId(boardFreeId);
-			mav.addObject("boardFree",boradFree);
-			
-			Map<String, Object> map = commentFree.selectCommentFreeListbyId(boardFreeId,page);
-			mav.addObject("commentFree", map.get("list"));
-			mav.addObject("boardFreeId",  map.get("boardFreeId"));
-		    mav.addObject("pageBean", map.get("pageBean"));
-		    
-			
-			mav.setViewName("common/boardfree/boardfree_view");
-			
-			return mav;
-		}	
-	
-		//수정
-		@RequestMapping("boardFreeUploadForm")
+			List<BoardReview> list = service.selectBoardReviewList();
+			 
+			mav.addObject("list", list);
+	        mav.setViewName("boardreview/boardreview_list.tiles");
+	        return mav;
+		}
+		
+		//이지지 삭제
+		@RequestMapping("boardReviewImageDelete")
 		@ResponseBody
-		 public ModelAndView boardFreeUploadForm(@ModelAttribute BoardFree boardFree,@RequestParam int boardFreeId, BindingResult errors,@RequestParam(defaultValue="1") int page)
+		public ModelAndView boardReviewImageDelete(@ModelAttribute BoardReview boardReview,BindingResult errors,@RequestParam int boardReviewId)
 		{
-			BoardFreeValidator validator = new BoardFreeValidator();
-			validator.validate(boardFree, errors);
-			if(errors.hasErrors()) 
-			{
-				//errors에 오류가 1개라도 등록되 있으면 true 리턴
-				return new ModelAndView("common/boardfree/boardfree_upload"); 
-			}
 			ModelAndView mav = new ModelAndView();
 			
-			service.updateBoardFree(boardFree);//수정
+			service.updateImageNull(boardReview);
 			
-			boardFree = service.selectBoardFreeByboardFreeId(boardFreeId);
-			mav.addObject("boardFree", boardFree);//게시물 상세 정보
-			
-			Map<String, Object> map = commentFree.selectCommentFreeListbyId(boardFreeId,page);
-			mav.addObject("commentFree",map.get("list"));//해당게시물 댓글 정보
-		    mav.addObject("boardFreeId",  map.get("boardFreeId"));
-		    mav.addObject("pageBean", map.get("pageBean"));
-		    
-		    mav.setViewName("common/boardfree/boardfree_view"); 
-		    
+			mav.addObject("boardReview", service.selecetBoardReviewByBoardReviewId(boardReview.getBoardReviewId()));//해당 수정 정보 불러서 저장
+			mav.setViewName("boardreview/boardreview_upload.tiles");
 			return mav;
+		}		
+			
+		//수정
+		@RequestMapping("boardReviewUploadForm")
+		@ResponseBody
+		 public ModelAndView boardReviewUploadForm(@ModelAttribute BoardReview boardReview,@RequestParam int boardReviewId, BindingResult errors,HttpServletRequest request) throws Exception
+		{
+			ModelAndView mav = new ModelAndView();
+			
+			BoardReviewValidator validator = new BoardReviewValidator();
+			validator.validate(boardReview, errors);
+			if(errors.hasErrors()) 
+			{
+				return new ModelAndView("boardreview/boardreview_upload.tiles"); 
+			}
+			
+			if(boardReview.getImageName() != null)
+			{
+				service.updateBoardReview(boardReview);
+				System.out.println(boardReview);
+				List<BoardReview> list = service.selectBoardReviewList();
+				 
+				mav.addObject("list", list);
+		        mav.setViewName("boardreview/boardreview_list.tiles");
+		        return mav; 
+				
+			}
+			String upImageDir = request.getServletContext().getRealPath("/up_image");
+			MultipartFile upImage = boardReview.getUpImage();
+			
+			String fname = upImage.getOriginalFilename();
 
-		}	*/
+			if (fname.equals("")) 
+			{
+				boardReview.setImageSaveName(null);
+				service.updateBoardReview(boardReview);
+		    } 
+			else if(upImage!=null && !upImage.isEmpty())
+			{
+				boardReview.setImageName(upImage.getOriginalFilename());
+				String newImageName = UUID.randomUUID().toString();
+				boardReview.setImageSaveName(newImageName);
+				File dest = new File(upImageDir);
+				//파일 이동
+				/************************************
+				 * 이클립스 경로로 카피
+				 *************************************/
+				copyToEclipseDir(newImageName,upImage);
+				/************************************
+				 * 이클립스 경로로 카피
+				 *************************************/
+				//파일 이동시키기
+				upImage.transferTo(dest);
+				//저장
+				service.addBoardReview(boardReview);
+			}
+			
+			List<BoardReview> list = service.selectBoardReviewList();
+			 
+			mav.addObject("list", list);
+	        mav.setViewName("boardreview/boardreview_list.tiles");
+	        return mav; 
+
+		}
 }

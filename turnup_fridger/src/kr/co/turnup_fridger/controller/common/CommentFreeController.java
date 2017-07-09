@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,7 +51,7 @@ public class CommentFreeController extends HttpServlet {
 				mav.addObject("commentFree", map.get("list"));
 				mav.addObject("boardFreeId",  map.get("boardFreeId"));
 			    mav.addObject("pageBean", map.get("pageBean"));
-				mav.setViewName("common/boardfree/boardfree_view");
+				mav.setViewName("common/boardfree/boardfree_view.tiles");
 				return mav; 
 			}
 			
@@ -67,7 +68,7 @@ public class CommentFreeController extends HttpServlet {
 		    mav.addObject("pageBean", map.get("pageBean"));
 		    
 		    
-			mav.setViewName("common/boardfree/boardfree_view");
+			mav.setViewName("common/boardfree/boardfree_view.tiles");
 			
 			return mav;
 		}
@@ -95,37 +96,43 @@ public class CommentFreeController extends HttpServlet {
 			mav.addObject("commentFree", map.get("list"));
 			mav.addObject("boardFreeId",  map.get("boardFreeId"));
 		    mav.addObject("pageBean", map.get("pageBean"));
-			mav.setViewName("common/boardfree/boardfree_view");
+			mav.setViewName("common/boardfree/boardfree_view.tiles");
 	        return mav;
 		}	
 		
-/*
+
 		//댓글 수정폼 이동
-		@RequestMapping("commentQnAUploadView")
-		public ModelAndView commentQnAUploadView(@RequestParam int commentQnAId)
+		@RequestMapping("commentFreeUploadView")
+		public ModelAndView commentFreeUploadView(@RequestParam int commentFreeId)
 		{
 			ModelAndView mav = new ModelAndView();
 			
-			mav.setViewName("boardqna/commentqna_upload");
+			mav.setViewName("common/boardfree/commentfree_upload.tiles");
 			
-			mav.addObject("commentQnA", service.selectCommentQnAById(commentQnAId));
+			mav.addObject("commentfree", service.selectCommentFreeById(commentFreeId));
 		    
 			return mav;
 		}	
 		
 		//수정
-		@RequestMapping("boardQnAUploadForm")
-		 public ModelAndView boardQnAUploadForm(@ModelAttribute CommentQnA commentQnA,@RequestParam int commentQnAId,@RequestParam int boardQnAId, BindingResult errors)
+		@RequestMapping("commentFreeUploadForm")
+		 public ModelAndView commentFreeUploadForm(@ModelAttribute CommentFree commentFree,@RequestParam int commentFreeId,@RequestParam int boardFreeId, BindingResult errors,@RequestParam(defaultValue="1") int page)
 		{
 				ModelAndView mav = new ModelAndView();
 			
-				service.updateCommentQnA(commentQnA);
+				service.updateCommentFree(commentFree);
 				
-				mav.addObject("commentQnA",commentQnA);
-				mav.addObject("boardQnA", service2.findBoardQnAById(boardQnAId));
-				mav.setViewName("boardqna/boardqna_view");
-		    
-			return mav;
+				//자유게시판 상세 정보
+				BoardFree boardFree = board.selectBoardFreeByboardFreeId(boardFreeId);
+				mav.addObject("boardFree", boardFree);
+				
+				//해당 댓글 LIST
+				Map<String, Object> map = service.selectCommentFreeListbyId(boardFreeId,page);
+				mav.addObject("commentFree", map.get("list"));
+				mav.addObject("boardFreeId",  map.get("boardFreeId"));
+			    mav.addObject("pageBean", map.get("pageBean"));
+				mav.setViewName("common/boardfree/boardfree_view.tiles");
+		        return mav;
 
-		}		*/
+		}
 }

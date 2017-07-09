@@ -76,7 +76,7 @@
 	</insert>
 	
 	<!-- 업데이트 SQL -->
-	<update id="updateBoardReview" parameterType="boardNotice">
+	<update id="updateBoardReview" parameterType="boardReview">
 		UPDATE 	BOARD_REVIEW 
 		SET		BOARD_REVIEW_TITLE = #{boardReviewTitle},
 				BOARD_REVIEW_TXT = #{boardReviewTxt},
@@ -89,6 +89,21 @@
 		WHERE	BOARD_REVIEW_ID = #{boardReviewId}
 	</update>
 	
+	<!-- 이미지 null로 수정하는 SQL -->
+	<update id="updateImageNull" parameterType="boardReview">
+		UPDATE 	BOARD_REVIEW 
+		SET		BOARD_REVIEW_TITLE = #{boardReviewTitle},
+				BOARD_REVIEW_TXT = #{boardReviewTxt},
+				BOARD_REVIEW_DATE = SYSDATE,
+				BOARD_REVIEW_IMAGE_NAME = null,
+				BOARD_REVIEW_IMAGE_SAVE_NAME = null,
+				BOARD_REVIEW_STAR = #{boardReviewStar},
+				MEMBER_ID = #{memberId},
+				RECIPE_ID = #{recipeId}
+		WHERE	BOARD_REVIEW_ID = #{boardReviewId}
+	</update>	
+	
+
 	<!-- 삭세 SQL-->
 	<delete id="deleteBoardReview" parameterType="_int">
 		DELETE FROM BOARD_REVIEW WHERE BOARD_REVIEW_ID = #{boardReviewId}
@@ -137,6 +152,13 @@
 		<include refid="boardReview-select-sql"/>
 		 and r.RECIPE_NAME LIKE '%'||#{recipeName}||'%'
 		 ORDER BY b.BOARD_REVIEW_DATE DESC
+	</select>	
+	
+	
+	<!-- reviewId로 조회하는 SQL-->	
+		<select id="selectBoardReviewByBoardReviewId" parameterType="int" resultMap="boardReview-recipeInfo-resultmap">
+		<include refid="boardReview-select-sql"/>
+		 and b.BOARD_REVIEW_ID = #{boardReviewId}
 	</select>	
 	
 </mapper>

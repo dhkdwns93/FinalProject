@@ -50,62 +50,7 @@ span.error{
 <body>
 <sec:authorize access="hasRole('ROLE_MEMBER')">
 후기 작성
-<form action="${initParam.rootPath}/boardreview/boardReviewAdd.do" method="post" enctype="multipart/form-data">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-<table border="1" style="text-align:center" >
-	<tr>
-		<td>작성자</td>
-		<td>
-			<input type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>">
-		</td>
-	</tr>
-	<tr>
-		<td>제목</td>
-		<td>
-			<input type="text" name="boardReviewTitle" value="${boardReview.boardReviewTitle}">
-			<span class="error"><form:errors path="boardReview.boardReviewTitle" delimiter="&nbsp;"/>		
-		</td>
-	</tr>
-</table>
-<table border="1" style="text-align:center">	
-	<tr>
-    	<td>레시피</td>
-    	<td><!-- <input type="button" value="레시피 찾기"> --><input type="text" name="recipeId"></td>
-    	<td>별점주기</td>
-    	<td>			
-  				<span class="input">
-					<input type="radio" name="boardReviewStar" id="p1" value="1"><label for="p1">1</label>
-					<input type="radio" name="boardReviewStar" id="p2" value="2"><label for="p2">2</label>
-					<input type="radio" name="boardReviewStar" id="p3" value="3"><label for="p3">3</label>
-					<input type="radio" name="boardReviewStar" id="p4" value="4"><label for="p4">4</label>
-					<input type="radio" name="boardReviewStar" id="p5" value="5" checked><label for="p5">5</label>
-					<input type="radio" name="boardReviewStar" id="p6" value="6"><label for="p6">6</label>
-					<input type="radio" name="boardReviewStar" id="p7" value="7"><label for="p7">7</label>
-					<input type="radio" name="boardReviewStar" id="p8" value="8"><label for="p8">8</label>
-					<input type="radio" name="boardReviewStar" id="p9" value="9"><label for="p9">9</label>
-					<input type="radio" name="boardReviewStar" id="p10" value="10"><label for="p10">10</label>
-				</span>
-			<span class="error"><form:errors path="boardReview.boardReviewStar" delimiter="&nbsp;"/>	
-		</td>
-    </tr>
-</table>
-<table border="1">	
-	<tr>
-		<td>사진</td>
-		<td>
-			<input type="file" name="upImage">
-		</td>
-	</tr>
-	<tr>
-		<td>내용</td>
-		<td>
-			<textarea name="boardReviewTxt" row="120" cols="70" placeholder="내용을 입력해주세요">${boardReview.boardReviewTxt}</textarea>
-			<span class="error"><form:errors path="boardReview.boardReviewTxt" delimiter="&nbsp;"/>
-		</td>
-	</tr>
-</table>
-<input type="submit" value="등록하기" onclick="insert_event();">
-</form>
+	<a href="${initParam.rootPath}/boardreview/boardreview_form.do"><button>후기 작성</button></a>
 </sec:authorize>
 
 <hr>
@@ -129,7 +74,7 @@ span.error{
 
 
 <c:forEach var="row" items="${list}">
-<table border="1" style="text-align:center">
+<table border="1" width="600px" style="text-align:center"> 
 <thead>
     <tr>
         <td>
@@ -142,7 +87,41 @@ span.error{
 </thead>
  <tbody>   
     <tr>
-    	<td>별점 : ${row.boardReviewStar}</td>
+    	<td>별점 : 
+    		<c:if test="${row.boardReviewStar == 0}">
+    			<img width="100px" src="${initParam.rootPath}/starimage/rating0.png">
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 1}">
+    			<img width="100px" src="${initParam.rootPath}/starimage/rating01.png">    		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 2}">
+    			<img width="100px" src="${initParam.rootPath}/starimage/rating02.png">    		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 3}">
+    			<img width="100px" src="${initParam.rootPath}/starimage/rating03.png">    		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 4}">
+    			<img width="100px" src="${initParam.rootPath}/starimage/rating04.png">    		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 5}">
+    			<img width="100px"  src="${initParam.rootPath}/starimage/rating05.png">    		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 6}">
+    			<img width="100px" src="${initParam.rootPath}/starimage/rating06.png">    		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 7}">
+     			<img width="100px"  src="${initParam.rootPath}/starimage/rating07.png">   		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 8}">
+     			<img width="100px"  src="${initParam.rootPath}/starimage/rating08.png">   		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 9}">
+     			<img width="100px"  src="${initParam.rootPath}/starimage/rating09.png">   		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 10}">
+      			<img width="100px" src="${initParam.rootPath}/starimage/rating10.png">  		
+    		</c:if>
+    	</td>
     </tr>
     <tr>
    		<td>

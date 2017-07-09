@@ -56,7 +56,12 @@ a:hover{
     <tr>
         <td>${row.id}</td>
         <td>${row.items}</td>
-        <td><a href="${initParam.rootPath}/boardnotice/boardNoticeView.do?id=${row.id}">${row.title}</td>
+        <td>
+        	<form action="${initParam.rootPath}/boardnotice/boardNoticeView.do" method="post">
+    			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+				<button value="${row.id}" name="id" style="background-color:white;border:0">${row.title}</button>
+			</form>    
+        </td>
         <td>
             <fmt:formatDate value="${row.date}" pattern="yyyy-MM-dd"/>
         </td>

@@ -22,6 +22,10 @@ public interface BoardReviewDao {
 	 */
 	int updateBoardReview(BoardReview boardReview);
 	
+	
+	//이미지 삭제
+	int updateImageNull(BoardReview boardReview);
+	
 	/**
 	 * BoardReview 정보를 delete 하는 메소드
 	 * @param id
@@ -39,6 +43,7 @@ public interface BoardReviewDao {
 	List<BoardReview> selectBoardReviewByMemberIdList(String memberId);
 	//레시피 이름으로 조회
 	List<BoardReview> selectBoardReviewByRecipeNameList(String recipeName);
-	
+	//Id로 조회
+	BoardReview selecetBoardReviewByBoardReviewId(int boardReviewId);
 	
 }

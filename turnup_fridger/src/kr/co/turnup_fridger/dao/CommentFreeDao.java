@@ -17,4 +17,5 @@ public interface CommentFreeDao {
 	int selectCommentFreeCount(int boardFreeId);
 	//댓글 페이징
 	List<CommentFree> selectCommentFreeListbyId(int boardFreeId, int startIndex, int endIndex);
+	CommentFree selectCommentFreeById(int commentFreeId);
 }

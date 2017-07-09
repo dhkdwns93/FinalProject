@@ -17,9 +17,9 @@ $(document).ready(function(){
 
 window.onload = function(){
 	document.getElementById('memberId').value = opener.document.getElementById('memberId').value;
-	document.getElementById('commentQnATxt').value = opener.document.getElementById('commentQnATxt').value;
-	document.getElementById('boardQnAId').value = opener.document.getElementById('boardQnAId').value;
-	document.getElementById('commentQnAId').value = opener.document.getElementById('commentQnAId').value;
+	document.getElementById('commentFreeId').value = opener.document.getElementById('commentFreeId').value;
+	document.getElementById('commentFreeTxt').value = opener.document.getElementById('commentFreeTxt').value;
+	document.getElementById('boardFreeId').value = opener.document.getElementById('boardFreeId').value;
 	};
 
 
@@ -29,7 +29,7 @@ function closeWindow(){
 		
 	window.opener.name = "opener";
 	form.target = "opener";
-	form.action = "/turnup_fridger/common/commentqna/commentQnAUploadForm.do";
+	form.action = "/turnup_fridger/common/commentfree/commentFreeUploadForm.do";
 	form.submit();
 	window.opener.location.reload();
 	self.close();
@@ -37,17 +37,17 @@ function closeWindow(){
 </script>
 </head>
 <body>
-<form id="upload" method="post" action="${initParam.rootPath}/common/commentqna/commentQnAUploadForm.do" onsubmit="closeWindow()">
+<form id="upload" method="post" action="${initParam.rootPath}/common/commentfree/commentFreeUploadForm.do" onsubmit="closeWindow()">
 	<table border="1">
 		<tr>
 			<td>
 				<input type="text" name="memberId" id="memberId"><br>
-				<textarea name="commentQnATxt" id="commentQnATxt" row="120"cols="70"></textarea>
+				<textarea name="commentFreeTxt" id="commentFreeTxt" row="120"cols="70"></textarea>
 			</td>
 		</tr>
 	</table>
-		<input type="hidden" name="commentQnAId" id="commentQnAId">
-		<input type="hidden" name="boardQnAId" id="boardQnAId">
+		<input type="hidden" name="commentFreeId" id="commentFreeId">
+		<input type="hidden" name="boardFreeId" id="boardFreeId">
 		<input id="submit" type="submit" value="수정">
 <sec:csrfInput/>
 </form>
