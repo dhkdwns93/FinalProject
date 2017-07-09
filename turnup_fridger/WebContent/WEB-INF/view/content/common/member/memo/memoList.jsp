@@ -35,7 +35,7 @@ $(document).ready(function(){
 	// 개수 불러오기
 	$.ajax({
 		"url":"${initParam.rootPath}/memo/findMemoCount.do",
-		"data": "memberId=qqq",
+		"data": "memberId="+$("#id").val(),
 		"success" : function(count){
 			$("#count").text(count);
 		},

@@ -1,6 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-
-☆ Welcome! ☆
 <h1>Turnup-Fridger</h1>
 <h3>효율적인 식재료 관리를 위한 냉장고 털어먹기</h3>
 <hr class="intro-divider">
