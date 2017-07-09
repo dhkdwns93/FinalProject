@@ -131,5 +131,13 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.8.9</version>
 		</dependency>
+
+	<!-- mail API 등록 -->
+	<dependency>
+		<groupId>javax.mail</groupId>
+		<artifactId>mail</artifactId>
+		<version>1.4.7</version>
+	</dependency>
+		
 	</dependencies>
 </project>

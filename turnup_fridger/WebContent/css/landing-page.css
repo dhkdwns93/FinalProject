@@ -122,13 +122,12 @@ img{ /* 삽입 이미지들 */
     
     /* 하위메뉴모음(ul) */
     .submenu {
-
-    display: block;
+	    display: block;
         position: absolute; /* 고정 위치에 표시 */
 		top: 10px; /* 부모 요소로부터 아래로 떨어진거리(부모요소가 상단바) */
 		left:20%;
 		right:20%;
-		margin-top: 55%;
+		margin-top: 40%;
 		margin-left: auto;
   		margin-right: auto;
   		margin-bottom:10%;
@@ -138,14 +137,14 @@ img{ /* 삽입 이미지들 */
         -webkit-transition: height .2s; 
         -moz-transition: height .2s; 
         -o-transition: height .2s; 
-        width: 60%;
+        width: 52%;
         background-color: #FFFFFF;
 		background: rgba(255, 255, 255, 0.25); /* 하위메뉴박스 배경 투명도 */
     }
     .submenu li {/* 하위메뉴들 */
         display: inline-block; /* 가로로 나열 */
-        padding-right: 20px;
-        padding-left: 10px;
+        padding-right: 50px;
+        padding-left: 20px;
         padding-top: 11px;
     }
     .topMenuLi:hover .submenu { /* 상위메뉴 마우스오버시 하위메뉴들(ul) */

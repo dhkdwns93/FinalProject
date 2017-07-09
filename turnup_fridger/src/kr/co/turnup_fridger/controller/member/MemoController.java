@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,18 +24,21 @@ public class MemoController {
 	private MyMemoService service;
 	
 	// 메모등록 - O
-	@RequestMapping(value="addMemo") 
+	@RequestMapping(value="addMemo", method=RequestMethod.POST) 
 	public ModelAndView addMemo(@ModelAttribute MyMemo mm, BindingResult err) {
 		MemoValidator val = new MemoValidator();
 		val.validate(mm, err);
+		System.out.println(" == 검증 종료 ==");
 		if(err.hasErrors()){
-			return new ModelAndView("/WEB-INF/view/memo_register_form.jsp", "error", err);
+			return new ModelAndView("/memo_register_form.jsp", "error", err);
 		}
+		System.out.println(" == 에러 없음 ==");
 		try {
 			service.insertMemo(mm);
 		} catch (Exception e) {
-			return new ModelAndView("/WEB-INF/view/memo_register_form.jsp", "error", e.getMessage());
+			return new ModelAndView("/memo_register_form.jsp", "error", e.getMessage());
 		}
+		System.out.println(" == 완료 ==");
 		return new ModelAndView("common/member/memo/memoDetail.tiles", "memo", mm);
 	}
 	

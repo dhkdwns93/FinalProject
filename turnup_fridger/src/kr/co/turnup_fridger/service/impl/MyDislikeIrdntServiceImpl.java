@@ -45,7 +45,7 @@ public class MyDislikeIrdntServiceImpl implements MyDislikeIrdntService{
 			throw new Exception("등록되지 않은 기피재료 입니다.");
 		}
 		dao.deleteMyDislikeIrdnt(myDislikeIrdntKey);
-		System.out.println("삭제완료");
+//		System.out.println("삭제완료");
 	}
 
 	@Override
@@ -54,13 +54,13 @@ public class MyDislikeIrdntServiceImpl implements MyDislikeIrdntService{
 			throw new Exception("해당 ID의 기피재료가 없습니다. 입니다.");
 		}*/
 		dao.deleteMyDislikeIrdntByMemberId(memberId);
-		System.out.println("삭제완료-회원ID로 조회");
+		//System.out.println("삭제완료-회원ID로 조회");
 	}
 
 	@Override
 	public void removeMyDislikeIrdntByIrdntId(int irdntId) throws Exception {
 		dao.deleteMyDislikeIrdntByIrdntId(irdntId);
-		System.out.println("삭제완료-재료ID로 조회");
+//		System.out.println("삭제완료-재료ID로 조회");
 	}
 
 	@Override
