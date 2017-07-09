@@ -37,6 +37,12 @@ public class JoinProcessDaoImpl implements JoinProcessDao{
 		return session.delete(makeSql("deleteJoinProcessByProcessNo"), processNoList);
 	}
 
+
+	@Override
+	public int deleteJoinProcessByFridgerId(int fridgerId) {
+		return session.delete(makeSql("deleteJoinProcessByFridgerId"), fridgerId);
+	}
+	
 	@Override
 	public int deleteJoinProcessNotProcessedIn14Days() {
 		return session.delete(makeSql("deleteJoinProcessNotProcessedIn14Days"));
@@ -97,6 +103,7 @@ public class JoinProcessDaoImpl implements JoinProcessDao{
 	public List<JoinProcess> selectJoinProcessByResponseDate(Date responseDate) {
 		return session.selectList(makeSql("selectJoinProcessByResponseDate"), responseDate);
 	}
+
 
 	
 }

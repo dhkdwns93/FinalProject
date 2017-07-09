@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger2/scripts/jquery.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 /* $(document).ready(function(){
 	$("#items").on("change",function(){
@@ -53,14 +53,13 @@ a:hover{
 <body>
 
 <form action="${initParam.rootPath}/boardnotice/boardNoticeByItems.do" method="post">
+<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 <select name="items" id="items" value="${requestScope.items}">
-	 <!-- 검색조건을 검색처리후 결과화면에 보여주기위해  c:out 출력태그 사용, 삼항연산자 -->
 	<option value="전체보기">전체보기</option>
 	<option value="공지사항" >공지사항</option>
 	<option value="뉴스" >뉴스</option>
-	<input type="submit" value="검색"/>
 </select>
-<sec:csrfInput/>
+<input type="submit" value="검색"/>
 </form>
 <table border="1" width="600px">
 <thead id="thead">
@@ -161,6 +160,10 @@ a:hover{
 
 
 </p>
-<a href="${initParam.rootPath}/boardnotice/boardnotice_form.do"><button>등록</button></a>
+<!-- 관리자만 등록 가능 -->
+ <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+ 	<a href="${initParam.rootPath}/common/admin/boardnotice/boardnotice_form.do"><button>등록</button></a>
+ </sec:authorize>
+<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 </body>
 </html>

@@ -42,8 +42,8 @@
 	</resultMap>
 	
 	<resultMap type="RecipeInfo" id="recipeInfo-recipeCrse-recipeIrdnt-resultmap" extends="RecipeInfo-resultmap">
-		<collection property="recipeCrse" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeCrseMapper.RecipeCrse-resultmap"/>
-		<collection property="recipeIrdnt" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeIrdntMapper.RecipeIrdnt-resultmap"/>
+		<collection property="recipeCrseList" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeCrseMapper.RecipeCrse-resultmap"/>
+		<collection property="recipeIrdntList" ofType="recipeCrse" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeIrdntMapper.RecipeIrdnt-resultmap"/>
 	</resultMap>
 	
 	<insert id="insertRecipeInfo" parameterType="RecipeInfo">
@@ -306,6 +306,27 @@
 				and recipe_level='어려움'
 			</when>			
 		</choose>
+	</select>
+	
+	
+	<!-- (7/9) 카테고리 목록 검색  -->
+	<select id="selectRecipeCategory" resultType="java.util.ArrayList">
+	SELECT DISTINCT category_CODE, category_name 
+	FROM RECIPE_INFO 
+	ORDER BY category_CODE
+	</select>
+	
+	<select id="selectRecipeType" resultType="java.util.ArrayList">
+	SELECT DISTINCT type_CODE, type_name 
+	FROM RECIPE_INFO 
+	ORDER BY type_CODE
+	</select>
+	
+	<!-- (7/9) 난이도 목록 검색  -->
+	<select id="selectRecipeLevel" resultType="java.util.ArrayList">
+	SELECT DISTINCT recipe_LEVEL 
+	FROM RECIPE_INFO 
+	ORDER BY category_CODE
 	</select>
 	
 </mapper>

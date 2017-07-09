@@ -91,7 +91,6 @@ public class Fridger implements Serializable{
 	}
 
 
-
 	public int getFridgerId() {
 		return fridgerId;
 	}
@@ -122,14 +121,10 @@ public class Fridger implements Serializable{
 	public void setMyIrdntList(List<MyIrdnt> myIrdntList) {
 		this.myIrdntList = myIrdntList;
 	}
-	
-	
-	
+		
 	public String getFridgerImg() {
 		return fridgerImg;
 	}
-
-
 
 	public void setFridgerImg(String fridgerImg) {
 		this.fridgerImg = fridgerImg;

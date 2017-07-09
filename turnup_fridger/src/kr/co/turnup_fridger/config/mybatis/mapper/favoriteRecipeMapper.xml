@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.co.turnup_fridger.config.mybatis.mapper.favoriteRecipeMapper">
+	
+	<sql id="all-column">
+		favorite_recipe_key,
+		member_id,
+		recipe_id
+	</sql>
+	
+	<resultMap type="FavoriteRecipe" id="FavoriteRecipe-resultmap">
+		<id column="favorite_recipe_key" property = "favoriteRecipeKey"/>
+		<result column="member_id" property="memberId"/>
+		<result column="recipe_id" property="recipeId"/>
+	</resultMap>
+	
+	<insert id="insertFavoriteRecipe" parameterType="FavoriteRecipe">
+		insert into FAVORITE_RECIPE
+		values (#{favoriteRecipeKey},#{memberId},#{recipeId})
+	</insert>
+	
+	
+	<update id="updateFavoriteRecipe" parameterType="FavoriteRecipe">
+		update FAVORITE_RECIPE
+		set favorite_recipe_key=#{favoriteRecipeKey},
+			member_id=#{memberId},
+			recipe_id=#{recipeId}
+		where favorite_recipe_key=#{favoriteRecipeKey}
+	</update>
+	
+	<delete id="deleteRecipeIrdnt" parameterType="_int">
+		delete from FAVORITE_RECIPE
+		where favorite_recipe_key=#{favoriteRecipeKey}
+	</delete>
+	
+	<select id="selectAllFavoriteRecipe" resultMap="FavoriteRecipe-resultmap">
+		SELECT
+		<include refid="all-column" />
+		FROM FAVORITE_RECIPE
+	</select>
+	
+	<select id="selectFavoriteRecipeByMemberId" resultMap="FavoriteRecipe-resultmap" parameterType="java.lang.String">
+		SELECT
+		<include refid="all-column" />
+		FROM FAVORITE_RECIPE
+		WHERE member_id = #{value}
+	</select>
+	
+	<select id="selectFavoriteRecipeByRecipeId" resultMap="FavoriteRecipe-resultmap" parameterType="_int">
+		SELECT
+		<include refid="all-column" />
+		FROM FAVORITE_RECIPE
+		WHERE recipe_id=#{value}
+	</select>
+	
+	<select id="selectFavoriteRecipeByIds" resultMap="FavoriteRecipe-resultmap" parameterType="java.util.HashMap">
+		SELECT
+		<include refid="all-column" />
+		FROM FAVORITE_RECIPE
+		WHERE recipe_id=#{recipeId} and member_id=#{memberId}
+	</select>
+
+	<select id="selectFavoriteRecipeByKey" resultMap="FavoriteRecipe-resultmap" parameterType="_int">
+		SELECT
+		<include refid="all-column" />
+		FROM FAVORITE_RECIPE
+		WHERE favorite_recipe_key=#{favoriteRecipeKey}
+	</select>	
+</mapper>

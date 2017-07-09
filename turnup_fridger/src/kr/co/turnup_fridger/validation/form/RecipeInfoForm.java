@@ -3,6 +3,8 @@ package kr.co.turnup_fridger.validation.form;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -17,11 +19,11 @@ public class RecipeInfoForm {
 	private String recipeName;
 	@NotEmpty(message="간략한 요리설명을 입력하세요.")
 	private String sumry;
-	@NotEmpty(message="유형분류코드를 입력하세요.")
+	@NotNull(message="유형분류코드를 입력하세요.")
 	private int categoryCode;
 	@NotEmpty(message="유형분류명을 입력하세요.")
 	private String categoryName;
-	@NotEmpty(message="음식분류코드를 입력하세요.")
+	@NotNull(message="음식분류코드를 입력하세요.")
 	private int typeCode;
 	@NotEmpty(message="음식분류명을 입력하세요.")
 	private String typeName;
@@ -41,10 +43,10 @@ public class RecipeInfoForm {
 	private String detUrl;
 	//조회수
 	private int recipeHits;
-	@NotEmpty(message="요리에 쓰인 재료들을 입력해주세요.")
+	@Size(min=1, message="재료는 1개 이상 선택해주세요.")
 	@Valid
 	private List<RecipeIrdntForm> recipeIrdntForm;
-	@NotEmpty(message="요리의 상세과정들을 입력해주세요.")
+	@Size(min=1, message="과정은 1개 이상 입력해주세요.")
 	@Valid
 	private List<RecipeCrseForm> recipeCrseForm;
 	public int getRecipeId() {

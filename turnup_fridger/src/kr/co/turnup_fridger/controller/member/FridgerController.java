@@ -92,7 +92,7 @@ public class FridgerController {
 		System.out.println("로그,다");
 		fridger = fridgerService.findFridgerByFridgerId(fridgerId);
 		
-		return new ModelAndView("/common/member/fridger/register_success", "fridger", fridger);
+		return new ModelAndView("/common/member/fridger/register_success.tiles", "fridger", fridger);
 	}
 	
 
@@ -157,6 +157,7 @@ public class FridgerController {
 	public ModelAndView removeFridger(@RequestParam int fridgerId) {
 		ModelAndView mv = new ModelAndView();
 		try {
+	
 			fridgerService.removeFridger(fridgerId);
 		} catch (FindFridgerFailException e) {
 //			e.printStackTrace();//

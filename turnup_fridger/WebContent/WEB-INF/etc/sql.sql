@@ -361,6 +361,7 @@ CREATE TABLE RECIPE_INFO (
 --select distinct category_name from RECIPE_INFO
 --select category_name, type_name from RECIPE_INFO where category_name ='퓨전' group by category_name, type_name 
 --select distinct recipe_level from RECIPE_INFO 
+--select distinct category_CODE, category_name from RECIPE_INFO order by category_CODE;
 
 /* 레시피 과정정보 */
 DROP TABLE RECIPE_CRSE;
@@ -389,10 +390,10 @@ CREATE TABLE RECIPE_IRDNT (
    CONSTRAINT VTRI_RECIPE_ID_FK FOREIGN KEY(RECIPE_ID) REFERENCES RECIPE_INFO on delete cascade,
    CONSTRAINT VTRI_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE 
 );
-select distinct irdnt_name from RECIPE_IRDNT order by irdnt_name;
-select count(*) from recipe_crse;
-select count(*) from recipe_info;
-select count(*) from recipe_irdnt;
+--select distinct irdnt_name from RECIPE_IRDNT order by irdnt_name;
+--select count(*) from recipe_crse;
+--select count(*) from recipe_info;
+--select count(*) from recipe_irdnt;
 
 /* 즐겨찾기 */
 DROP TABLE FAVORITE_RECIPE;
@@ -407,7 +408,7 @@ CREATE TABLE FAVORITE_RECIPE (
 DROP SEQUENCE FAVORITE_RECIPE_KEY;
 CREATE SEQUENCE FAVORITE_RECIPE_KEY INCREMENT BY 1 START WITH 1;  
 --SELECT FAVORITE_RECIPE_KEY.NEXTVAL FROM DUAL;
-
+--select * from FAVORITE_RECIPE
 
 
 
