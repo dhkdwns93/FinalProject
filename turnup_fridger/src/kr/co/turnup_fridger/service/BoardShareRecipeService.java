@@ -52,10 +52,16 @@ public interface BoardShareRecipeService {
 	
 	List<String> selectBoardShareRecipeImg(int recipeId);
 
-	
-	
-	
 
-
+	
+	/**
+	 * 레시피 공유게시판의 글번호들로 글객체들을 담는 리스트.
+	 * @param irdntIds
+	 * @param hareIrdntsIds
+	 * @return
+	 */
+	List<BoardShareRecipe> findUserRecipeByIds(List<Integer> irdntIds, List<Integer> hateIrdntsIds);
+	
+	
 	
 }

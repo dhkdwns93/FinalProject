@@ -54,7 +54,7 @@ $(document).ready(function(){
 
 <h2>회원가입페이지</h2>
 <%-- controller.common패키지 --%>
-<form action="${initParam.rootPath}/join_member.do" method="post" name="useIrdntPopup">
+<form action="${initParam.rootPath}/join_member.do" method="post" name="usePopup">
 	※모든 사항은 필수기입사항입니다.<br><br>
 	<div id="idCheck" class="form-group">
 		<label for="id">회원 ID</label>
@@ -108,6 +108,7 @@ $(document).ready(function(){
 	<div class="form-group">
 		기피재료<br>
 		<div id="showMyDislikeIrdnt">
+			<input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="-1" class="form-control">
 			<button type="button" id="createMyDislikeIrdnt">기피재료추가</button><br>
 		</div>
 	</div>

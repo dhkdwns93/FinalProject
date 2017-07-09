@@ -7,8 +7,11 @@
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
+		<config>src/kr/co/turnup_fridger/config/spring/web-context.xml</config>
 	</configs>
 	<autoconfigs>
+		<config>src/kr/co/turnup_fridger/config/spring/model-context.xml</config>
+		<config>src/kr/co/turnup_fridger/config/spring/security-context.xml</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>

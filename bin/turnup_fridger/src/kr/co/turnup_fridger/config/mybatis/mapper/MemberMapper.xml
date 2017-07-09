@@ -4,6 +4,7 @@
 작성자 :  김경혜
 최초 작성일 170627
 변경이력 
+170705 selectMemberList()에 ORDER BY member_id 추가
 */ -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MemberMapper">
@@ -53,7 +54,8 @@
 	<!-- 	List<Member> selectMemberList(); -->
 	<!-- 전체개인회원정보 조회하기 -->
 	<select id="selectMemberList" resultMap="member-resultmap">
-		<include refid="select-member-sql"/>
+		<include refid="select-member-sql"/> 
+		ORDER BY member_id
 	</select>
 	
 

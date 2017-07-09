@@ -73,6 +73,12 @@
 		</where>
 	</delete>
 	
+	<!-- delete : 번호로 삭제 (동적쿼리) 선택된 갯수가 1개 이상일 때-->
+	<delete id="deleteJoinProcessByFridgerId" parameterType="_int">
+		DELETE FROM	join_process
+		WHERE		process_fridger_id = #{value}
+	</delete>
+	
 	
 	<!-- delete : 승인대기인 것들은 일정 시간안에 진행이 안되면 삭제됨(관리자? spring 스케줄링?) -->
 	<!-- DATA_ADD(DATE, interval 기본값)

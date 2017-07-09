@@ -21,6 +21,10 @@ public interface BoardNoticeService
 	 */
 	void updateBoardNotice(BoardNotice boardNotice);
 	
+	
+	void updateImageNull(BoardNotice boardNotice);
+	
+	
 	/**
 	 * 매개변수로 받은 ID로 저장된 공지사항 삭제하는 메소드
 	 * 작성자 - 김장규

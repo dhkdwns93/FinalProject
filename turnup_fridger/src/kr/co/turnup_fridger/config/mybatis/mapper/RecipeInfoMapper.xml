@@ -42,8 +42,8 @@
 	</resultMap>
 	
 	<resultMap type="RecipeInfo" id="recipeInfo-recipeCrse-recipeIrdnt-resultmap" extends="RecipeInfo-resultmap">
-		<collection property="recipeCrse" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeCrseMapper.RecipeCrse-resultmap"/>
-		<collection property="recipeIrdnt" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeIrdntMapper.RecipeIrdnt-resultmap"/>
+		<collection property="recipeCrseList" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeCrseMapper.RecipeCrse-resultmap"/>
+		<collection property="recipeIrdntList" ofType="recipeCrse" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeIrdntMapper.RecipeIrdnt-resultmap"/>
 	</resultMap>
 	
 	<insert id="insertRecipeInfo" parameterType="RecipeInfo">
@@ -117,15 +117,9 @@
 	</select>
 	
 	
-	<!--레시피명으로 조회한거 페이징  -->
+	<!--레시피명으로 조회-->
 	<select id="selectRecipeInfoByName" resultMap="RecipeInfo-resultmap" parameterType="java.util.HashMap">
-	select recipe_id,recipe_name,sumry,category_code,category_name,type_code,type_name,cooking_time,calorie,
-			qnt,recipe_level,irdnt_code,price,img_url,det_url,recipe_hits
-	from(	
-		select rownum rnum,recipe_id,recipe_name,sumry,category_code,category_name,type_code,type_name,cooking_time,calorie,
-				qnt,recipe_level,irdnt_code,price,img_url,det_url,recipe_hits
-		from(
-			SELECT <include refid="all-column" />
+		SELECT <include refid="all-column" />
 			FROM RecipeInfo
 			where recipe_name like '%'||#{recipeName}||'%'
 			<choose>
@@ -150,9 +144,7 @@
 			<when test="keyword == '어려움'">
 				and recipe_level='어려움'
 			</when>			
-		</choose> )
-		where rownum &lt;=#{endIndex})
-	where rnum >=#{startIndex}
+		</choose>
 	</select>
 	
 	<!--레시피명 카운트  -->
@@ -185,7 +177,7 @@
 		</choose>
 	</select>
 	
-	<!--카테고리페이징  -->
+	<!--카테고리  -->
 	<select id="selectRecipeInfoByCategoryAndType" resultMap="RecipeInfo-resultmap" parameterType="java.util.HashMap">
 		SELECT
 		<include refid="all-column" />
@@ -246,12 +238,23 @@
 		</choose>
 	</select>	
 		
-	<!--recipe_id들로 조회한거 페이징  -->
+	<!--recipe_id들로 조회  -->
 	<select id="selectRecipesInfoByIds" resultMap="RecipeInfo-resultmap" parameterType="java.util.List">
 		SELECT
 		<include refid="all-column" />
 		FROM RecipeInfo
-		where recipe_id in (#{recipeId})
+		<where>
+			<choose>
+				<when test="list !=null and list.size()>0 ">
+					recipe_id in
+					<foreach collection ="list" open="(" close=")" separator="," item="recipeId" >
+						#{recipeId}
+					</foreach>
+				</when>
+				<otherwise>
+				1=-1
+				</otherwise>
+			</choose>
 			<choose>
 			<when test="keyword=='recipeHitsDesc'">
 				order by recipeHits desc
@@ -275,7 +278,7 @@
 				and recipe_level='어려움'
 			</when>			
 		</choose>
-		<!--이게 되는 구문인가...? foreach로 하나하나 빼서 in()처리? -->
+		</where>
 	</select>
 	
 	<!--id로 카운트  -->
@@ -306,6 +309,27 @@
 				and recipe_level='어려움'
 			</when>			
 		</choose>
+	</select>
+	
+	
+	<!-- (7/9) 카테고리 목록 검색  -->
+	<select id="selectRecipeCategory" resultType="java.util.ArrayList">
+	SELECT DISTINCT category_CODE, category_name 
+	FROM RECIPE_INFO 
+	ORDER BY category_CODE
+	</select>
+	
+	<select id="selectRecipeType" resultType="java.util.ArrayList">
+	SELECT DISTINCT type_CODE, type_name 
+	FROM RECIPE_INFO 
+	ORDER BY type_CODE
+	</select>
+	
+	<!-- (7/9) 난이도 목록 검색  -->
+	<select id="selectRecipeLevel" resultType="java.util.ArrayList">
+	SELECT DISTINCT recipe_LEVEL 
+	FROM RECIPE_INFO 
+	ORDER BY category_CODE
 	</select>
 	
 </mapper>

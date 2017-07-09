@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="kr.co.turnup_fridger.config.mybatis.mapper.BoardFreeMapper">
+	
+		<!-- 
+			BoardFree 테이블 관련 mapper
+			+ BoardFree 등록
+			+ BoardFree 수정
+			+ BoardFree 삭제
+			+ BoardFree 조회
+	 	-->
+	 	
+	<sql id="all-column">
+		BOARD_FREE_ID, BOARD_FREE_TITLE, BOARD_FREE_TXT, BOARD_FREE_DATE, BOARD_FREE_HITS, MEMBER_ID
+	</sql> 	 	
+	 		
+	<!-- BoardFree 기본 조회 sql -->
+	 <sql id="boardFree-select-sql"> 
+	 	SELECT BOARD_FREE_ID, BOARD_FREE_TITLE, BOARD_FREE_TXT, BOARD_FREE_DATE, BOARD_FREE_HITS, MEMBER_ID
+	 	FROM BOARD_FREE
+	 </sql>
+	
+	<!-- ResultMap BoardFree 등록 -->
+	<resultMap id="boardFree-resultmap" type="boardFree">
+		<id column="BOARD_FREE_ID" property="boardFreeId"/>
+		<result column="BOARD_FREE_TITLE" property="boardFreeTitle"/>
+		<result column="BOARD_FREE_TXT" property="boardFreeTxt"/>
+		<result column="BOARD_FREE_DATE" property="date"/>
+		<result column="BOARD_FREE_HITS" property="boardFreeHits"/>
+		<result column="MEMBER_ID" property="memberId"/>
+
+	</resultMap>
+	
+		<!-- 등록 SQL -->
+	<insert id="insertBoardFree" parameterType="boardFree">
+		<selectKey resultType="int" keyProperty="boardFreeId" order="BEFORE">
+			select BOARD_FREE_ID.nextval from dual
+		</selectKey>
+		INSERT INTO BOARD_FREE 
+		VALUES(
+				#{boardFreeId},
+				#{boardFreeTitle},
+				#{boardFreeTxt},
+				SYSDATE,
+				#{boardFreeHits},
+				#{memberId}
+
+		  	  )
+	</insert>
+	
+ 	<!-- 게시글 조회수 증가처리 -->
+    <update id="increaseViewcnt" parameterType="int">
+        UPDATE BOARD_FREE 
+        SET BOARD_FREE_HITS = BOARD_FREE_HITS + 1 
+        WHERE BOARD_FREE_ID = #{boardFreeId}
+    </update>
+	
+	<!-- 업데이트 SQL -->
+	<update id="updateBoardFree" parameterType="boardFree">
+		UPDATE 	BOARD_FREE 
+		SET		BOARD_FREE_TITLE = #{boardFreeTitle},
+				BOARD_FREE_TXT = #{boardFreeTxt},
+				BOARD_FREE_DATE = SYSDATE,
+				BOARD_FREE_HITS = #{boardFreeHits},
+				MEMBER_ID = #{memberId}
+		WHERE	BOARD_FREE_ID = #{boardFreeId}
+	</update>
+	
+		<!-- 삭세 SQL-->
+	<delete id="deleteBoardFree" parameterType="_int">
+		DELETE FROM BOARD_FREE WHERE BOARD_FREE_ID = #{boardFreeId}
+	</delete>	
+	
+	<!-- 조회 SQL -->
+	
+	
+	<!-- 전체 조회 카운트  -->
+	<select id = "selectBoardFreeCount" resultType="_int">
+		SELECT COUNT(*) FROM BOARD_FREE
+	</select>	
+	
+	<!-- LIST 전체 조회 SQL -->
+	<select id="selectBoardFreeList" resultMap="boardFree-resultmap">
+		SELECT <include refid="all-column"/>
+		FROM(
+			SELECT ROWNUM RNUM, <include refid="all-column"/>
+			FROM( 		
+			 		<include refid="boardFree-select-sql"></include>
+			 		ORDER BY BOARD_FREE_DATE DESC
+				)
+			WHERE ROWNUM &lt;=#{endIndex}	
+			)
+		WHERE RNUM>=#{startIndex}		
+   	</select>
+   	
+   	<!-- LIST 중에서 조회수로 조회하는 SQL -->
+	<select id="selectBoardFreeByBoardFreeHits" resultMap="boardFree-resultmap">
+		SELECT <include refid="all-column"/>
+		FROM(
+			SELECT ROWNUM RNUM, <include refid="all-column"/>
+			FROM( 		
+					<include refid="boardFree-select-sql"></include>
+					ORDER BY BOARD_FREE_HITS DESC
+				)
+			WHERE ROWNUM &lt;=#{endIndex}	
+			)
+		WHERE RNUM>=#{startIndex}	
+	</select>  	
+   	
+   	
+   	
+	<!-- LIST 중에서 MEMBERID로 조회하는 카운트 SQL  -->
+	<select id="selectBoardFreeByMemberIdCount" parameterType="map" resultType="int" >
+		SELECT COUNT(*)
+		FROM BOARD_FREE
+		WHERE MEMBER_ID LIKE #{memberId}
+	</select>	  	
+   	
+
+   	<!-- LIST 중에서 memberId로 조회하는 SQL -->
+	<select id="selectBoardFreeByMemberId" parameterType="map"  resultMap="boardFree-resultmap">
+		SELECT <include refid="all-column"/>
+		FROM(
+			SELECT ROWNUM RNUM, <include refid="all-column"/>
+			FROM(	
+					<include refid="boardFree-select-sql"></include>
+					 WHERE MEMBER_ID = #{memberId}
+					 ORDER BY BOARD_FREE_DATE DESC
+				)
+			WHERE ROWNUM &lt;=#{endIndex}	
+			)
+		WHERE RNUM>=#{startIndex}		 
+	</select>
+	
+	
+	
+	<!-- LIST 중에서 TITLE 카운트 하는 SQL  -->
+	<select id="selectBoardFreeByTitleCount" parameterType="map" resultType="int" >
+		SELECT COUNT(*)
+		FROM BOARD_FREE
+		WHERE BOARD_FREE_TITLE LIKE '%'||#{boardFreeTitle}||'%'
+	</select>	  	
+   	
+
+   	<!-- LIST 중에서 title로 조회하는 SQL -->
+	<select id="selectBoardFreeByTitle" parameterType="map"  resultMap="boardFree-resultmap">
+		SELECT <include refid="all-column"/>
+		FROM(
+			SELECT ROWNUM RNUM, <include refid="all-column"/>
+			FROM(	
+					<include refid="boardFree-select-sql"></include>
+					 WHERE BOARD_FREE_TITLE LIKE '%'||#{boardFreeTitle}||'%'
+					 ORDER BY BOARD_FREE_DATE DESC 
+				)
+			WHERE ROWNUM &lt;=#{endIndex}	
+			)
+		WHERE RNUM>=#{startIndex}		 
+	</select>
+	
+	<!-- 상세페이지 SQL -->
+	<select id="selectBoardFreeById" parameterType="int" resultMap="boardFree-resultmap">
+		<include refid="boardFree-select-sql"></include>
+		 WHERE BOARD_FREE_ID = #{boardFreeId}
+		 ORDER BY BOARD_FREE_DATE DESC
+	</select>	
+	
+   	
+</mapper>

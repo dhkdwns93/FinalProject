@@ -64,12 +64,14 @@
 	<!-- LIST 전체 조회 SQL -->
 	<select id="selectCommentQnAList" resultMap="commentQnA-resultmap">
 		<include refid="commentQnA-select-sql"></include>
+		ORDER BY COMMENT_QNA_DATE DESC
 	</select> 
 
 	<!-- id 조회 SQL -->
 	<select id="selectCommentQnAById" resultMap="commentQnA-resultmap">
 		<include refid="commentQnA-select-sql"></include>
 		WHERE COMMENT_QNA_ID = #{commentQnAId}
+		ORDER BY COMMENT_QNA_DATE DESC
 	</select> 
 
 

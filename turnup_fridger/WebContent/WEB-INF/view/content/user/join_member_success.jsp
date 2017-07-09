@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- 
  (jsp)join_member_success
 작성자 :  김경혜
@@ -44,6 +45,14 @@
 <div class="row">
 	<div>성별</div>
 	<div>${requestScope.member.memberSex }</div>
+</div>
+<div class="row">
+	<div>기피재료목록</div>
+	<div>
+		<c:forEach items="${requestScope.myDislikeIrdntNameList }" var="myDislikeIrdntName">
+					<li>${myDislikeIrdntName }</li>
+		</c:forEach> 
+	</div>
 </div>
 
 <a href="${initParam.rootPath}/login_form.do"><button type="button">LOGIN</button></a>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.turnup_fridger.dao.FridgerDao;
 import kr.co.turnup_fridger.dao.FridgerGroupDao;
+import kr.co.turnup_fridger.dao.JoinProcessDao;
 import kr.co.turnup_fridger.exception.DuplicatedFridgerException;
 import kr.co.turnup_fridger.exception.FindFridgerFailException;
 import kr.co.turnup_fridger.exception.FindMemberFailException;
@@ -22,6 +23,9 @@ public class FridgerServiceImpl implements FridgerService{
 
 	@Autowired
 	private FridgerGroupDao fgDao;
+	
+	@Autowired
+	private JoinProcessDao jpDao;
 	
 	/*
 	 * Exception 따로 만들어주기! 현재는 Exception으로 임의 처리
@@ -79,8 +83,9 @@ public class FridgerServiceImpl implements FridgerService{
 		if(fDao.selectFridgerByFridgerId(fridgerId) == null){
 			throw new FindFridgerFailException("찾으시는 냉장고가 없습니다!");	
 		}
-		fgDao.deleteFridgerGroupByFridgerId(fridgerId);
-		fDao.deleteFridger(fridgerId);
+		jpDao.deleteJoinProcessByFridgerId(fridgerId);	//냉장고 처리목록 없에고
+		fgDao.deleteFridgerGroupByFridgerId(fridgerId); //냉장고 그룹없애고
+		fDao.deleteFridger(fridgerId);	//냉장고 없앤다
 		System.out.println("------------삭제완료");
 		
 	}

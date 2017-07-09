@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.turnup_fridger.service.BoardQnAService;
@@ -28,6 +29,7 @@ public class CommentQnAController extends HttpServlet {
 	
 		//등록
 		@RequestMapping("commentQnAAdd")
+		@ResponseBody
 		 public ModelAndView commentQnAAdd(@ModelAttribute CommentQnA commentQnA, BindingResult errors,@RequestParam int boardQnAId)
 		{
 
@@ -38,10 +40,9 @@ public class CommentQnAController extends HttpServlet {
 			if(errors.hasErrors()) 
 			{
 				//errors에 오류가 1개라도 등록되 있으면 true 리턴
-				mav.setViewName("common/boardqna/boardqna_view");
 				mav.addObject("commentQnA",commentQnA);
 				mav.addObject("boardQnA", service2.findBoardQnAById(boardQnAId));
-				
+				mav.setViewName("common/boardqna/boardqna_view.tiles");
 				return mav; 
 			}
 			
@@ -49,12 +50,13 @@ public class CommentQnAController extends HttpServlet {
 			
 			mav.addObject("commentQnA",commentQnA);
 			mav.addObject("boardQnA", service2.findBoardQnAById(boardQnAId));
-			mav.setViewName("common/boardqna/boardqna_view");
+			mav.setViewName("common/boardqna/boardqna_view.tiles");
 			return mav;
 		}
 
 		//삭제
 		@RequestMapping("commentQnARemove")
+		@ResponseBody
 		public ModelAndView commentQnARemove(@RequestParam int commentQnAId,@RequestParam int boardQnAId)
 		{
 			service.removeCommentQnA(commentQnAId);
@@ -63,18 +65,19 @@ public class CommentQnAController extends HttpServlet {
 			
 			BoardQnA boardQnA = service2.findBoardQnAById(boardQnAId);
 			mav.addObject("boardQnA", boardQnA);
-			mav.setViewName("common/boardqna/boardqna_view");
+			mav.setViewName("common/boardqna/boardqna_view.tiles");
 	        return mav; 
 
 		}	
 
 		//댓글 수정폼 이동
 		@RequestMapping("commentQnAUploadView")
+		@ResponseBody
 		public ModelAndView commentQnAUploadView(@RequestParam int commentQnAId)
 		{
 			ModelAndView mav = new ModelAndView();
 			
-			mav.setViewName("common/boardqna/commentqna_upload");
+			mav.setViewName("common/boardqna/commentqna_upload.tiles");
 			
 			mav.addObject("commentQnA", service.selectCommentQnAById(commentQnAId));
 		    
@@ -82,8 +85,9 @@ public class CommentQnAController extends HttpServlet {
 		}	
 		
 		//수정
-		@RequestMapping("boardQnAUploadForm")
-		 public ModelAndView boardQnAUploadForm(@ModelAttribute CommentQnA commentQnA,@RequestParam int commentQnAId,@RequestParam int boardQnAId, BindingResult errors)
+		@RequestMapping("commentQnAUploadForm")
+		@ResponseBody
+		 public ModelAndView commentQnAUploadForm(@ModelAttribute CommentQnA commentQnA,@RequestParam int commentQnAId,@RequestParam int boardQnAId, BindingResult errors)
 		{
 				ModelAndView mav = new ModelAndView();
 			
@@ -91,7 +95,7 @@ public class CommentQnAController extends HttpServlet {
 				
 				mav.addObject("commentQnA",commentQnA);
 				mav.addObject("boardQnA", service2.findBoardQnAById(boardQnAId));
-				mav.setViewName("common/boardqna/boardqna_view");
+				mav.setViewName("common/boardqna/boardqna_view.tiles");
 		    
 			return mav;
 

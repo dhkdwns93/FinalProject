@@ -29,17 +29,25 @@ public interface ShareRecipeIrdntDao {
 	 * @param irdntId
 	 * @return
 	 */
-	ShareRecipeIrdnt selectShareRecipeIrdntByIrdntId(int irdntId);
+	List<ShareRecipeIrdnt> selectShareRecipeIrdntByIrdntId(int irdntId);
 	/**
 	 * recipeId로 공유레시피재료 조회
 	 * @param recipeId
 	 * @return
 	 */
-	ShareRecipeIrdnt selectShareRecipeIrdntJoinByRecipeId(int recipeId);
+	List<ShareRecipeIrdnt> selectShareRecipeIrdntByRecipeId(int recipeId);
 	/**
 	 * 전체조회
 	 * @return
 	 */
 	List<ShareRecipeIrdnt> selectShareRecipeIrdntAll();
+	
+	/**
+	 * 입력받은 재료id들로 해당 레시피공유게시판글id들만 골라내는 작업. 
+	 * @param irdntIds
+	 * @param hateIrdntIds
+	 * @return
+	 */
+	List<Integer> getRecipeBoardIdByIrdntIds(List<Integer> irdntIds, List<Integer> hateIrdntIds);
 	
 }

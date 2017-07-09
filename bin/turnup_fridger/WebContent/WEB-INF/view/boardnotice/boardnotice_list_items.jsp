@@ -7,30 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger2/scripts/jquery.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
-/* $(document).ready(function(){
-	$("#items").on("change",function(){
-		$.ajax
-		({
-			"url":"/turnup_fridger2/boardnotice/boardNoticeByItems.do",
-			"type":"POST",
-			"data":{"items":$("#items").val()},
-			"dataType":"json",
-			"success":function(obj)
-			{
-				$("#tbody").empty();
-				var txt = "";
-				$.each(obj, function()
-				{
-					txt = txt+"<tr><td>"+this.id+"</td><td>"+this.items+"</td><td><a href=/turnup_fridger2/boardnotice/boardNoticeView.do?id="+this.id+">"+this.title+"</td><td>"+this.date+"</td><td>관리자</td>";
-					$("#tbody").html(txt);
-				});
-			}
-		});
-		
-	});
-}); */
+
 </script>
 <style type="text/css">
 a:link{
@@ -53,14 +32,13 @@ a:hover{
 <body>
 
 <form action="${initParam.rootPath}/boardnotice/boardNoticeByItems.do" method="post">
+<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 <select name="items" id="items" value="${requestScope.items}">
-	 <!-- 검색조건을 검색처리후 결과화면에 보여주기위해  c:out 출력태그 사용, 삼항연산자 -->
 	<option value="전체보기">전체보기</option>
 	<option value="공지사항">공지사항</option>
 	<option value="뉴스">뉴스</option>
-	<input type="submit" value="검색"/>
 </select>
-<sec:csrfInput/>
+<input type="submit" value="검색"/>
 </form>
 <table border="1" width="600px">
 <thead id="thead">
@@ -87,11 +65,6 @@ a:hover{
 </c:forEach>
  </tbody>
 </table>
-
-
-
-
-
 
 <p>
 	<%-- ######################################################
@@ -130,9 +103,6 @@ a:hover{
 			</c:choose>
 		</c:forEach>
 	
-
-	
-	
 	<!-- 
 		다음페이지 그룹으로 이동
 		만약에 다음페이지 그룹이 있으면 링크 처리 없으면 화살표만 나오도록 처리
@@ -147,20 +117,14 @@ a:hover{
 		</c:otherwise>
 	</c:choose>			
 	
-	
-	
-	
-	
-	
-	
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/boardnotice/boardNoticeByItems.do?page=${requestScope.pageBean.totalPage}&items=${requestScope.items}">마지막페이지</a>
 
-
-
-
-
 </p>
-<a href="${initParam.rootPath}/boardnotice/boardnotice_form.do"><button>등록</button></a>
+<!-- 관리자만 등록 가능 -->
+ <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+ 	<a href="${initParam.rootPath}/common/admin/boardnotice/boardnotice_form.do"><button>등록</button></a>
+ </sec:authorize>
+<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 </body>
 </html>

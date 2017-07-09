@@ -44,6 +44,15 @@ public class BoardNoticeDaoImpl implements BoardNoticeDao
 		return session.update(makeSqlId("updateBoardNotice"), boardNotice);
 	}
 
+	
+	
+	@Override
+	public int updateImageNull(BoardNotice boardNotice) {
+		// TODO Auto-generated method stub
+		return session.update(makeSqlId("updateImageNull"), boardNotice);
+	}
+
+
 	/**
 	 * 공지사항 삭제
 	 * 작성자 - 김장규

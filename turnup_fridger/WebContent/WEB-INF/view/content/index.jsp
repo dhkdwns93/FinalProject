@@ -22,20 +22,23 @@ form{display:inline}
 프로젝트 Turn Up the Fridger 인덱스 페이지에용. 여기서 각자 부분 jsp 등등 링크 걸어서 하세용.
 </p>
 <hr>
+
 <!-- 장규/준 -->
-<form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
-<a href="${initParam.rootPath}/boardnotice/boardnoticelist.do"><input type="submit" value="공지사항"/></a>
-<sec:csrfInput/>
-</form>
-<form action="${initParam.rootPath}/common/boardqna/boardQnAList.do" method="post">
-<a href="${initParam.rootPath}/common/boardqna/boardqna_list.do"><input type="submit" value="QnA"/></a>
-<sec:csrfInput/>
-</form>
+<a href="${initParam.rootPath}/boardnotice/boardNoticeList.do"><button type="button">공지사항</button></a>
+<a href="${initParam.rootPath}/common/boardqna/boardQnAList.do"><button type="button">QnA</button></a>
+<a href="${initParam.rootPath}/common/boardfree/boardFreeList.do"><button type="button">자유게시판</button></a>
+<a href="${initParam.rootPath}/boardreview/boardReviewList.do"><button type="button">후기</button></a>
 <hr>
 <h3>레시피공유게시판</h3>
 <a href="${initParam.rootPath }/boardRecipe/boardRecipeList.do"><button type="button">목록 시이자악</button></a>
 
 <hr>
+
+
+<h4>레시피관련</h4>
+<a href="${initParam.rootPath}/common/admin/recipe/register_form.do"><button type="button">레시피등록</button></a>
+<a href="${initParam.rootPath}/common/admin/recipe/recipeList.do"><button type="button">레시피목록</button></a>
+
 <!-- 은영 -->
 <h4>냉장고관련</h4>
 
@@ -55,7 +58,15 @@ form{display:inline}
 <h4>재료관리 관련</h4>
 <a href="${initParam.rootPath}/common/admin/irdntManage/findAllICategory.do" ><button type="button">재료관리</button></a><br>
 <h4>나의 식재료 관련</h4>
-<a href="${initParam.rootPath}/common/member/myIrdnt/myIrdntList.do"><button type="button">나의 식재료</button></a><br>
+<a href="${initParam.rootPath}/common/member/myIrdnt/myIrdntList.do"><button type="button">나의 식재료</button></a><br><hr>
+<h4>레시피관리</h4>
+<a href="${initParam.rootPath}/common/admin/recipe_for_admin/recipeList.do"><button type="button">레시피 관리</button></a><br><hr>
+<h4>레시피 재료검색</h4>
+<a href="${initParam.rootPath}/recipe_for_user/search_by_irdnts.do"><button type="button">레시피 재료검색</button></a><br>
+<h4>레시피 요리명검색</h4>
+<a href="${initParam.rootPath}/recipe_for_user/search_by_recipeName.do"><button type="button">레시피 요리명검색</button></a><br>
+<h4>레시피 카테고리검색</h4>
+<a href="${initParam.rootPath}/recipe_for_user/search_by_category.do"><button type="button">레시피 카테고리검색</button></a><br>
 
 <hr>
 <!-- 현화 -->

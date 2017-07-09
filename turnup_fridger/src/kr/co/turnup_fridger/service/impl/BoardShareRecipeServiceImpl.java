@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.turnup_fridger.dao.BoardShareRecipeDao;
+import kr.co.turnup_fridger.dao.ShareRecipeIrdntDao;
 import kr.co.turnup_fridger.service.BoardShareRecipeService;
 import kr.co.turnup_fridger.util.PagingBean;
 import kr.co.turnup_fridger.vo.BoardShareRecipe;
@@ -19,9 +20,9 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 	
 	@Autowired
 	private BoardShareRecipeDao dao;
+	@Autowired
+	private ShareRecipeIrdntDao shareDao;
 
-	
-	
 	@Override
 	public void insertBoardShareRecipe(BoardShareRecipe boardShareRecipe) {
 		
@@ -217,5 +218,16 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 	
 		return dao.selectBoardShareRecipeImg(recipeId);
 	}
+
+
+
+	@Override
+	public List<BoardShareRecipe> findUserRecipeByIds(List<Integer> irdntIds, List<Integer> hateIrdntsIds) {
+		List<Integer> ids = shareDao.getRecipeBoardIdByIrdntIds(irdntIds, hateIrdntsIds);
+		List<BoardShareRecipe> list = dao.selectBoardShareRecipeById(ids);
+	
+		return list;
+	}
+	
 	
 }
