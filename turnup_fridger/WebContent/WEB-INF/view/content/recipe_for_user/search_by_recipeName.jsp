@@ -8,7 +8,10 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	
+	//테이블정렬기준 숨김.
+	
 	$("#searchBtn").on("click",function(){
+		//숨긴것 나타나게
 		$.ajax({
 			"url":"/turnup_fridger/findRecipeByRecipeName.do",
 			"type":"POST",
@@ -22,13 +25,16 @@ $(document).ready(function(){
 				
 				$("#userThead").append($("<tr>").prop("id","userRecipe_col").append($("<th>").append("레시피id")).append($("<th>").append("제목")).append($("<th>").append("작성자")).append($("<th>").append("작성일"))
 						.append($("<th>").append("조회수")).append($("<th>").append("추천수")));
-					
+				
+				$("#apiTbody").empty();	
 				$.each(map.apiList, function(){
 					$("#apiTbody").append($("<tr>").prop("id","apiRecipe_col").append($("<td>").append("레시피id")).append($("<td>").append("이름")).append($("<td>").append("간략소개")).append($("<td>").append("유형분류"))
 							.append($("<td>").append("음식분류")).append($("<td>").append("조리시간")).append($("<td>").append("칼로리")).append($("<td>").append("난이도")).append($("<td>").append("대표이미지"))
 							.append($("<td>").append("조회수")));
 				 });//each	 
-				$.each(map.userList, function(){
+				 
+				 $("#userTbody").empty();
+				 $.each(map.userList, function(){
 					$("#userTbody").append($("<tr>").prop("id","userRecipe_col").append($("<td>").append("레시피id")).append($("<td>").append("제목")).append($("<td>").append("작성자")).append($("<td>").append("작성일"))
 							.append($("<td>").append("조회수")).append($("<td>").append("추천수")));
 				 });//each			
@@ -71,7 +77,17 @@ $(document).ready(function(){
 	<input type="text" name ="recipeName" id="recipeName">
 	<button type="button" id="searchBtn">검색</button><br>
 	
-	<!--테이블 나타나면 정렬종류 선택 : 최다조회순,칼로리순,난이도순...  -->
+	<button type="button" id="hitsDesc">최다조회순</button>
+	<button type="button" id="hitsAsc">최저조회순</button>
+	<button type="button" id="calrorieDesc">고칼로리순</button>
+	<button type="button" id="calrorieAsc">저칼로리순</button>
+	<select name="recipeLevel" id="recipeLevel">
+		<option value="전체">전체</option>
+		<option value="초보환영">초보</option>
+		<option value="보통">보통</option>
+		<option value="어려움">어려움</option>
+	</select>
+	
 	<div id="apiResult">
 		<table>
 			<thead id="apiThead"></thead>

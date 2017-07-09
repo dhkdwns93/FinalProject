@@ -1,6 +1,7 @@
 package kr.co.turnup_fridger.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -138,31 +139,31 @@ public class RecipeController {
 	}
 	
 	@RequestMapping("findRecipeByRecipeName")
-	public ModelAndView findRecipeByRecipeName(@RequestParam String recipeName, @RequestParam String keyword){
+	public Map<String,Object> findRecipeByRecipeName(@RequestParam String recipeName, @RequestParam String keyword){
 		System.out.println("핸들러 : " + recipeName);
 		List<RecipeInfo> apiList = service.findRecipeByRecipeName(recipeName, keyword);
 		List<BoardShareRecipe> userList = shareService.selectBoardShareRecipeByTitle(recipeName);
 		
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("apiList", apiList);
-		mav.addObject("userList", userList);
-		mav.setViewName("레시피명검색화면");
-		return mav;
+		HashMap map = new HashMap();
+		map.put("apiList", apiList);
+		map.put("userList", userList);
+		return map;
 	}
 	
 	@RequestMapping("findRecipeByCategory")
-	public ModelAndView findRecipeByCategory(@RequestParam String categoryName, @RequestParam String typeName, @RequestParam String keyword){
+	public Map<String,Object> findRecipeByCategory(@RequestParam String categoryName, @RequestParam String typeName, @RequestParam String keyword){
 
 		List<RecipeInfo> list = service.findRecipeByCategory(categoryName, typeName, keyword);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);
 		mav.setViewName("카테고리 검색화면");
-		return mav;
+		return null;
+		//return mav;
 	}
 	
 	@RequestMapping("findRecipeByIrdntId")
-	public ModelAndView findRecipeByIrdntId(@RequestParam List<Integer> irdntIds, @RequestParam List<Integer> hateIrdntIds, @RequestParam String keyword){
+	public Map<String,Object> findRecipeByIrdntId(@RequestParam List<Integer> irdntIds, @RequestParam List<Integer> hateIrdntIds, @RequestParam String keyword){
 
 		List<RecipeInfo> apiList = service.findRecipeByIrdntId(irdntIds, hateIrdntIds, keyword);
 		List<BoardShareRecipe> userList = shareService.findUserRecipeByIds(irdntIds, hateIrdntIds);
@@ -171,7 +172,8 @@ public class RecipeController {
 		mav.addObject("apiList", apiList);
 		mav.addObject("userList", userList);	
 		mav.setViewName("재료 검색화면");
-		return mav;
+		return null;
+		//return mav;
 	}
 	
 	@RequestMapping("showDetailOfRecipe")
@@ -188,8 +190,8 @@ public class RecipeController {
 	@RequestMapping("getTypeNameCategory")
 	@ResponseBody
 	public List<String> getTypeNameCategory(@RequestParam String categoryName){
-		
-		return null;
+		System.out.println("넘어는오니?");
+		return service.getTypeNameByCategoryName(categoryName);
 	}
 	
 }

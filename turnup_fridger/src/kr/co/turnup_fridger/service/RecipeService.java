@@ -78,4 +78,11 @@ public interface RecipeService {
 	 */
 	List<RecipeInfo> allRecipeList();
 	
+	/**
+	 * 카테고리 이름을 받아서 음식분류명 리스트를 받아오는것
+	 * @param categoryName
+	 * @return
+	 */
+	List<String> getTypeNameByCategoryName(String categoryName);
+	
 }
