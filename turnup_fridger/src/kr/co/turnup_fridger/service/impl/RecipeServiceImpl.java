@@ -122,6 +122,11 @@ public class RecipeServiceImpl implements RecipeService{
 	public List<RecipeInfo> allRecipeList() {
 		return infoDao.selectAllRecipeInfo();
 	}
+
+	@Override
+	public List<String> getTypeNameByCategoryName(String categoryName) {
+		return infoDao.selectTypeNameByCategoryName(categoryName);
+	}
 	
 
 	

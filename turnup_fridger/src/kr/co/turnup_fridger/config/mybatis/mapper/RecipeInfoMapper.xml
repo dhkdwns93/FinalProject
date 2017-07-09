@@ -332,4 +332,12 @@
 	ORDER BY category_CODE
 	</select>
 	
+	<!--카테고리명 받아서 음식분류명 동적으로 가져오기  -->
+	<select id="selectTypeNameByCategoryName" parameterType ="java.lang.String" resultType="java.util.ArrayList">
+	SELECT DISTINCT type_name 
+	FROM RECIPE_INFO 
+	where category_name=#{value}
+	</select>
+	
+	
 </mapper>

@@ -104,6 +104,11 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 		return session.selectOne(makeSql("selectRecipesInfoByIdsCount"),map);
 	}
 
+	@Override
+	public List<String> selectTypeNameByCategoryName(String categoryName) {
+		return session.selectList(makeSql("selectTypeNameByCategoryName"),categoryName);
+	}
+
 	
 	
 }

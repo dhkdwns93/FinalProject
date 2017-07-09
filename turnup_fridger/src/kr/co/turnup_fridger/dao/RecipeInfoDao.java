@@ -101,4 +101,11 @@ public interface RecipeInfoDao {
 	 * @return
 	 */
 	int selectRecipeInfoByCategoryAndTypeCount(String categoryName,String typeName,String keyword);
+	
+	/**
+	 * 카테고리 이름을 받아서 음식분류명들을 받아옴
+	 * @param categoryName
+	 * @return
+	 */
+	List<String> selectTypeNameByCategoryName(String categoryName);
 }
