@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,6 @@ import kr.co.turnup_fridger.exception.NoneIrdntException;
 import kr.co.turnup_fridger.service.IrdntManageService;
 import kr.co.turnup_fridger.validation.IrdntManageValidator;
 import kr.co.turnup_fridger.vo.IrdntManage;
-import kr.co.turnup_fridger.vo.MyIrdnt;
 
 @Controller
 @RequestMapping("/common/admin/irdntManage/")
@@ -32,6 +32,9 @@ public class IrdntManageController {
 		validator.validate(irdnt, errors);
 	
 		if(errors.hasErrors()){
+			System.out.println("발리데이션");
+			
+			//여기서 새페이지 열리네... 그냥 그 팝업창에서 처리하고싶다. 
 			return new ModelAndView("common/admin/irdntManage/irdnt_form");
 		}
 		
@@ -112,7 +115,11 @@ public class IrdntManageController {
 	@RequestMapping("findIrdntById")
 	public ModelAndView findIrdntByKey(@RequestParam int irdntId){
 		IrdntManage irdnt = service.findIrdntByIrdntId(irdntId);
-		return new ModelAndView("common/admin/irdntManage/irdnt_update_form","irdnt",irdnt);
+		ModelMap map = new ModelMap();
+		List<String> list = service.findAllIrdntCategory();
+		map.addAttribute("list", list);
+		map.addAttribute("irdnt", irdnt);
+		return new ModelAndView("common/admin/irdntManage/irdnt_update_form",map);
 	}
 	
 /*	@RequestMapping("findAllICategory")

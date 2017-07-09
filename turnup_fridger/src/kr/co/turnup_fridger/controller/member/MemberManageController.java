@@ -7,7 +7,9 @@
 package kr.co.turnup_fridger.controller.member;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +29,8 @@ import kr.co.turnup_fridger.exception.ChangeMemberInfoFailException;
 import kr.co.turnup_fridger.service.IrdntManageService;
 import kr.co.turnup_fridger.service.MemberService;
 import kr.co.turnup_fridger.service.MyDislikeIrdntService;
+import kr.co.turnup_fridger.validation.MemberChangeInfoValidator;
+import kr.co.turnup_fridger.validation.form.MemberChangeForm;
 import kr.co.turnup_fridger.vo.Member;
 import kr.co.turnup_fridger.vo.MyDislikeIrdnt;
 
@@ -47,6 +52,7 @@ public class MemberManageController {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
 	
 	@RequestMapping("/member_mypage_event")
 	public ModelAndView memberMyPage(){
@@ -82,19 +88,38 @@ public class MemberManageController {
 	 * @throws Exception 
 	 */
 	@RequestMapping("/member_change")
-	public String changeMemberInfo(@ModelAttribute Member member, @RequestParam String newMemberPw, @RequestParam List<Integer> myDislikeIrdntId, ModelMap map) throws Exception{
+	public String changeMemberInfo(@ModelAttribute MemberChangeForm memberChangeForm,@RequestParam String oldMemberPw, @RequestParam List<Integer> myDislikeIrdntId, ModelMap map, BindingResult errors) throws Exception{
 		//1. 요청한 사용자 정보 조회
 		SecurityContext ctx=SecurityContextHolder.getContext();
 		Authentication authentication=ctx.getAuthentication();
-		//System.out.println(authentication);
-		//System.out.println(member);
-		//System.out.println("기존의 비밀번호" + member.getMemberPw());
 		//ID 체크
 		String memberId=((Member)authentication.getPrincipal()).getMemberId();
 		//PW 체크
-		String memberPw=((Member)authentication.getPrincipal()).getMemberPw();
-		//if(!passwordEncoder.matches(memberPw,member.getMemberPw())){
-		if(!memberPw.equals(member.getMemberPw())){
+		String originalMemberPw=((Member)authentication.getPrincipal()).getMemberPw();
+		//바꾸려는 비밀번호
+		String memberPw=memberChangeForm.getMemberPw();
+		
+/*		System.out.println(originalMemberPw);
+		System.out.println("입력한 기존비밀번호 " + oldMemberPw);
+		System.out.println("새비번" + memberPw);*/
+		//member객체 생성(같이 보내)
+		Member member=new Member(memberChangeForm.getMemberId(),memberChangeForm.getMemberPw(),memberChangeForm.getMemberName(),memberChangeForm.getMemberAddress(),memberChangeForm.getMemberEmail(),memberChangeForm.getMemberTel(),memberChangeForm.getMemberSex(),memberChangeForm.getMyDislikeIrdntList());
+		
+		//validator
+		memberChangeForm.setOriginalMemberPw(originalMemberPw);
+		MemberChangeInfoValidator validator=new MemberChangeInfoValidator();
+		validator.validate(memberChangeForm,errors);
+		if(errors.hasErrors()){
+			map.addAttribute("member",member);
+//			System.out.println("member" + member);
+//			map.addAttribute(BindingResult.class.getName()+".memberChangeForm", errors);
+/*			System.out.println(errors);
+			System.out.println("ModelMap = " + map);*/
+			return "common/member/user/member_change_info";
+		}
+		
+		if(!passwordEncoder.matches(oldMemberPw,originalMemberPw)){
+//		if(!oldMemberPw.equals(member.getMemberPw())){
 			System.out.println("MemberManageController + PW가 다릅니다");
 			throw new RuntimeException("PW가 다릅니다.");
 		}
@@ -103,17 +128,25 @@ public class MemberManageController {
 		
 		//2. Business Logic 호출
 		//System.out.println("MemberManage"+newMemberPw);
-		member.setMemberPw(newMemberPw);
+		member.setMemberPw(memberPw);
 		myDislikeIrdntService.removeMyDislikeIrdntByMemberId(member.getMemberId());
-		List<MyDislikeIrdnt> myDislikeIrdntList=new ArrayList<>();
+		Set<MyDislikeIrdnt> myDislikeIrdntSet=new HashSet<>();//중복으로 등록신청할경우 하나만 넘어옴.
 		List<String> myDislikeIrdntNameList=new ArrayList<>();
 		for(int irdntId:myDislikeIrdntId){
 			if(irdntId!=-1){
-				myDislikeIrdntList.add(new MyDislikeIrdnt(member.getMemberId(),irdntId));
-				myDislikeIrdntService.createMyDislikeIrdnt(new MyDislikeIrdnt(member.getMemberId(),irdntId));
-				myDislikeIrdntNameList.add(irdntManageService.findIrdntByIrdntId(irdntId).getIrdntName());
+				myDislikeIrdntSet.add(new MyDislikeIrdnt(member.getMemberId(),irdntId));
+				//myDislikeIrdntService.createMyDislikeIrdnt(new MyDislikeIrdnt(member.getMemberId(),irdntId));
+				//myDislikeIrdntNameList.add(irdntManageService.findIrdntByIrdntId(irdntId).getIrdntName());		
 			}
 		}
+//		System.out.println(myDislikeIrdntSet);
+		List<MyDislikeIrdnt> myDislikeIrdntList=new ArrayList<>();
+		for(MyDislikeIrdnt nonDuplicateIrdnt:myDislikeIrdntSet){
+			myDislikeIrdntList.add(nonDuplicateIrdnt);
+			myDislikeIrdntService.createMyDislikeIrdnt(nonDuplicateIrdnt);
+			myDislikeIrdntNameList.add(irdntManageService.findIrdntByIrdntId(nonDuplicateIrdnt.getIrdntId()).getIrdntName());
+		}
+		
 		if(myDislikeIrdntNameList.size()==0){//등록된 기피재료가 하나도 없으면 //id default값 하나 등록되있음.
 			myDislikeIrdntNameList.add("등록된 기피재료가 없습니다");
 		}
@@ -133,6 +166,7 @@ public class MemberManageController {
 		}	*/	
 		ctx.setAuthentication(new UsernamePasswordAuthenticationToken(member, null, authentication.getAuthorities()));
 		//3. 응답
+		map.addAttribute("member",member);
 		map.addAttribute("myDislikeIrdntNameList", myDislikeIrdntNameList);
 		return "redirect:/common/member/member_change_success.do";
 	}
@@ -140,6 +174,82 @@ public class MemberManageController {
 	public ModelAndView successChangeMember(@RequestParam List<String> myDislikeIrdntNameList){
 		return new ModelAndView("common/member/user/member_mypage","myDislikeIrdntNameList",myDislikeIrdntNameList);
 	}
+	/*@RequestMapping("/member_change")
+	public String changeMemberInfo(@ModelAttribute Member member,@RequestParam String oldMemberPw, @RequestParam List<Integer> myDislikeIrdntId, ModelMap map, BindingResult errors) throws Exception{
+		//1. 요청한 사용자 정보 조회
+		SecurityContext ctx=SecurityContextHolder.getContext();
+		Authentication authentication=ctx.getAuthentication();
+		//ID 체크
+		String memberId=((Member)authentication.getPrincipal()).getMemberId();
+		//PW 체크
+		String originalMemberPw=((Member)authentication.getPrincipal()).getMemberPw();
+		//바꾸려는 비밀번호
+		String memberPw=member.getMemberPw();
+		
+		System.out.println(originalMemberPw);
+		System.out.println("입력한 기존비밀번호 " + oldMemberPw);
+		System.out.println("새비번" + memberPw);
+		
+		//validator
+		MemberChangeForm memberChangeForm=new MemberChangeForm(originalMemberPw,member.getMemberId(),oldMemberPw,member.getMemberPw(),member.getMemberName(),member.getMemberAddress(),member.getMemberEmail(),member.getMemberTel(),member.getMemberSex(),member.getMemberAuthority(),member.getMyDislikeIrdntList());
+		System.out.println("controller"+ memberChangeForm);
+		
+		
+//		MemberChangeInfoValidator validator=new MemberChangeInfoValidator();
+		validator.validate(memberChangeForm,errors);
+		if(errors.hasErrors()){
+			map.addAttribute("memberChangeForm",memberChangeForm);
+			map.addAttribute(BindingResult.class.getName()+".memberChangeForm", errors);
+			return "common/member/user/member_change_info";
+		}
+		
+		if(!passwordEncoder.matches(oldMemberPw,originalMemberPw)){
+//		if(!oldMemberPw.equals(member.getMemberPw())){
+			System.out.println("MemberManageController + PW가 다릅니다");
+			throw new RuntimeException("PW가 다릅니다.");
+		}
+//		System.out.println("MemberManage"+myDislikeIrdntId);
+		
+		
+		//2. Business Logic 호출
+		//System.out.println("MemberManage"+newMemberPw);
+		member.setMemberPw(memberPw);
+		myDislikeIrdntService.removeMyDislikeIrdntByMemberId(member.getMemberId());
+		List<MyDislikeIrdnt> myDislikeIrdntList=new ArrayList<>();
+		List<String> myDislikeIrdntNameList=new ArrayList<>();
+		for(int irdntId:myDislikeIrdntId){
+			if(irdntId!=-1){
+				myDislikeIrdntList.add(new MyDislikeIrdnt(member.getMemberId(),irdntId));
+				myDislikeIrdntService.createMyDislikeIrdnt(new MyDislikeIrdnt(member.getMemberId(),irdntId));
+				myDislikeIrdntNameList.add(irdntManageService.findIrdntByIrdntId(irdntId).getIrdntName());
+			}
+		}
+		if(myDislikeIrdntNameList.size()==0){//등록된 기피재료가 하나도 없으면 //id default값 하나 등록되있음.
+			myDislikeIrdntNameList.add("등록된 기피재료가 없습니다");
+		}
+		member.setMyDislikeIrdntList(myDislikeIrdntList);//member객체에 set
+		memberService.changeMemberInfo(member);
+//		System.out.println("MemberManage"+myDislikeIrdntNameList);List<String> myDislikeIrdntNameList=new ArrayList<>();
+		
+		//membervo에서 찾아서 올거야?
+		List<MyDislikeIrdnt> memberDislikeIrdntList=myDislikeIrdntService.findMyDislikeIrdntByMemberId(memberId);
+		List<String> myDislikeIrdntNameList=new ArrayList<>();
+		if(myDislikeIrdntId.size()==1){//등록된 기피재료가 하나도 없으면 //id default값 하나 등록되있음.
+			myDislikeIrdntNameList.add("등록된 기피재료가 없습니다");
+		}else{
+			for(MyDislikeIrdnt irdnt : memberDislikeIrdntList){
+				myDislikeIrdntNameList.add(irdntManageService.findIrdntByIrdntId(irdnt.getIrdntId()).getIrdntName());
+			}
+		}		
+		ctx.setAuthentication(new UsernamePasswordAuthenticationToken(member, null, authentication.getAuthorities()));
+		//3. 응답
+		map.addAttribute("myDislikeIrdntNameList", myDislikeIrdntNameList);
+		return "redirect:/common/member/member_change_success.do";
+	}
+	@RequestMapping("/member_change_success")
+	public ModelAndView successChangeMember(@RequestParam List<String> myDislikeIrdntNameList){
+		return new ModelAndView("common/member/user/member_mypage","myDislikeIrdntNameList",myDislikeIrdntNameList);
+	}*/
 	
 	
 	/**
@@ -158,13 +268,14 @@ public class MemberManageController {
 		Authentication authentication=ctx.getAuthentication();
 		//PW 체크
 		String memberPw=((Member)authentication.getPrincipal()).getMemberPw();
-		//if(!passwordEncoder.matches(oldMemberPassword,((Member)authentication.getPrincipal()).getMemberPw())){
-		if(!memberPw.equals(inputPw)){
+		if(!passwordEncoder.matches(inputPw,memberPw)){
+//		if(!memberPw.equals(inputPw)){
 			System.out.println("MemberManageController(deleteMember메소드) + PW가 다릅니다");
 			throw new RuntimeException("PW가 다릅니다.");
 		}
 		
 		//2.Business Logic 호출
+		myDislikeIrdntService.removeMyDislikeIrdntByMemberId(memberId); //회원기피재료 삭제
 		//System.out.println("회원탈퇴메소드 확인"+memberId);
 		memberService.deleteMember(memberId);
 		

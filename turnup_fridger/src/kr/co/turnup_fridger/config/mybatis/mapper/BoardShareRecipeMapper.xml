@@ -105,8 +105,7 @@
 	</update>
 	
 	<!-- SELECT : 제목으로 조회 O -->
-	<select id="selectBoardShareRecipeByTitle" parameterType="string"
-	resultMap="boardShareRecipe-resultmap">
+	<select id="selectBoardShareRecipeByTitle" parameterType="java.lang.String" resultMap="boardShareRecipe-resultmap">
 	<include refid="select-boardShareRecipe"/>
 	WHERE BOARD_SHARE_RECIPE_TITLE LIKE '%'||#{title}||'%'
 	</select>
@@ -253,6 +252,27 @@
 	<select id="boardRead" parameterType="int" resultMap="boardShareRecipe-resultmap">
 	SELECT * FROM BOARD_SHARE_RECIPE
 	WHERE BOARD_SHARE_RECIPE_ID = #{recipeId}
+	</select>
+	
+	<!--*************************************************  -->
+	<!--레시피 공유게시판 id들로 조회한거-->
+	<select id="selectUserRecipesInfoByIds" resultMap="boardShareRecipe-resultmap" parameterType="java.util.List">
+		SELECT
+		<include refid="all-column" />
+		FROM BOARD_SHARE_RECIPE
+		<where>
+			<choose>
+				<when test="list != null and list.size() > 0">
+					BOARD_SHARE_RECIPE_ID in
+					<foreach collection="list" open="(" close=")" separator="," item="recipeId">
+						#{recipeId}
+					</foreach>
+				</when>
+				<otherwise>
+				1=-1
+				</otherwise>
+			</choose>
+		</where>
 	</select>
 	
 </mapper>

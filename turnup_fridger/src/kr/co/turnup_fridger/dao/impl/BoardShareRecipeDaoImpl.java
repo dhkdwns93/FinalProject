@@ -161,5 +161,13 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 		return session.selectList(sql("selectBoardShareRecipeImg"), recipeId);
 	}
 	
+	@Override
+	public List<BoardShareRecipe> selectBoardShareRecipeById(List<Integer> recipeIds) {
+		
+		return session.selectList(sql("selectBoardShareRecipeById"),recipeIds);
+	}
+	
+	
+	
 	
 }

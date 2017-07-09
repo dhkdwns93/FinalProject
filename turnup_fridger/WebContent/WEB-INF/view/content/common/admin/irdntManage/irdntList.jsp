@@ -61,8 +61,8 @@
 				"data":{'irdntId':irdntId,'${_csrf.parameterName}':'${_csrf.token}'},
 				"dataType":"text",
 				"success":function(TEXT){
-					alert(TEXT)
-					//삭제가 되긴하는데, 다음화면이 자동으로 새로고침되면 좋겠는데....
+					alert(TEXT);
+					document.location.reload();
 				},
 				"error":function(errorMsg){
 					alert("오류다!")
@@ -99,8 +99,6 @@ td {
 
 	<h2>재료 목록</h2>
 	<hr>
-
-	<!-- <a href="/turnup_fridger/common/admin/irdntManage/irdnt_form.do">재료추가</a><br><br> -->
 	<button type="button" id="insertBtn">재료추가</button><br>
 
 	카테고리 :

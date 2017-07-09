@@ -27,7 +27,7 @@ public class AdminServiceImpl implements AdminService {
 	private AdminDao adminDao;
 	@Autowired
 	private AuthorityDao authorityDao;
-	//@Autowired
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	@Override
@@ -39,15 +39,15 @@ public class AdminServiceImpl implements AdminService {
 	@Transactional
 	public void changeAdminInfo(Admin admin) {
 		//패스워드 암호화 처리 
-	//	admin.setAdminPw(passwordEncoder.encode(admin.getAdminPw()));
+		admin.setAdminPw(passwordEncoder.encode(admin.getAdminPw()));
 		//Admin 테이블 해당 관리자 update
 		adminDao.updateAdmin(admin);
 		//비밀번호가 바꼈을 경우 Authority 테이블 해당 관리자 update
 		Authority existAuthority=authorityDao.selectAuthorityById(admin.getAdminId());
-		if(!existAuthority.getLoginPw().equals(admin.getAdminPw())){
-			//**권한은 바꾸지 않음.
-			authorityDao.updateAuthority(new Authority(admin.getAdminId(),admin.getAdminPw(),existAuthority.getLoginAuthority()));
-		}
+		authorityDao.updateAuthority(new Authority(admin.getAdminId(),admin.getAdminPw(),existAuthority.getLoginAuthority()));
+//		if(!existAuthority.getLoginPw().equals(admin.getAdminPw())){
+//			//**권한은 바꾸지 않음.
+//		}
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class AdminServiceImpl implements AdminService {
 			throw new RegisterAdminFailException("이미 등록된 ID입니다.");
 		}
 		//패스워드 암호화 처리
-	//	admin.setAdminPw(passwordEncoder.encode(admin.getAdminPw()));
+		admin.setAdminPw(passwordEncoder.encode(admin.getAdminPw()));
 		//Authority 테이블 insert //처음 등록할때는 자동으로 권한 = (일반관리자)"admin"(VO에서 처리)
 		authorityDao.insertAuthority(new Authority(admin.getAdminId(),admin.getAdminPw(),admin.getAdminAuthority()));
 		//Admin 테이블 insert

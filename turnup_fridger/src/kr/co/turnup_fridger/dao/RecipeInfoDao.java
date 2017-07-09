@@ -53,7 +53,10 @@ public interface RecipeInfoDao {
 	 * @param recipeId
 	 * @return
 	 */
-	List<RecipeInfo> selectRecipesInfoByIds(List<Integer> recipeIds,String keyword,int startIndex,int endIndex);
+	//List<RecipeInfo> selectRecipesInfoByIds(List<Integer> recipeIds,String keyword,int startIndex,int endIndex);
+	
+	
+	List<RecipeInfo> selectRecipesInfoByIds(List<Integer> recipeIds,String keyword);
 	
 	/**
 	 * 재료id를 통해 걸러낸 레시피id들로 찾은 레시피들의 수
@@ -68,7 +71,9 @@ public interface RecipeInfoDao {
 	 * keyword는 정렬키워드 (난이도, 최다조회순, 칼로리순...)
 	 * @return
 	 */
-	List<RecipeInfo> selectRecipeInfoByName(String recipeName,String keyword,int startIndex,int endIndex);
+	//List<RecipeInfo> selectRecipeInfoByName(String recipeName,String keyword,int startIndex,int endIndex);
+	
+	List<RecipeInfo> selectRecipeInfoByName(String recipeName,String keyword);
 	
 	/**
 	 * 레시피 이름으로 검색한 레시피들의 수
@@ -84,8 +89,10 @@ public interface RecipeInfoDao {
 	 * @param typeName
 	 * @return
 	 */
-	List<RecipeInfo> selectRecipeInfoByCategoryAndType(String categoryName,String typeName,String keyword,int startIndex,int endIndex);
-		
+	//List<RecipeInfo> selectRecipeInfoByCategoryAndType(String categoryName,String typeName,String keyword,int startIndex,int endIndex);
+	
+	List<RecipeInfo> selectRecipeInfoByCategoryAndType(String categoryName,String typeName,String keyword);
+	
 	/**
 	 * 카테고리를 받아서 찾은 레시피들의 수 
 	 * @param categoryName
@@ -94,4 +101,11 @@ public interface RecipeInfoDao {
 	 * @return
 	 */
 	int selectRecipeInfoByCategoryAndTypeCount(String categoryName,String typeName,String keyword);
+	
+	/**
+	 * 카테고리 이름을 받아서 음식분류명들을 받아옴
+	 * @param categoryName
+	 * @return
+	 */
+	List<String> selectTypeNameByCategoryName(String categoryName);
 }

@@ -23,10 +23,6 @@
 	<div>${requestScope.member.memberId}</div>
 </div>
 <div class="row">
-	<div>회원 PW</div>
-	<div>${requestScope.member.memberPw }</div>
-</div>
-<div class="row">
 	<div>이름</div>
 	<div>${requestScope.member.memberName }</div>
 </div>

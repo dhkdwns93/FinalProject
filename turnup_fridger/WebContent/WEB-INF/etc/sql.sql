@@ -1,3 +1,6 @@
+--headMaster한명 input(테이블 생성후 넣으세용)
+insert into authority values('headAdmin1','headAdmin1','ROLE_HEADMASTERADMIN');
+insert into admin values('headAdmin1','headAdmin1','HeadMasterAdmin','01012345678','headadmin@kosta.or.kr','ROLE_HEADMASTERADMIN');
 
 
 /*전체 사용자(회원, 관리자) 권한관리_로그인용*/
@@ -5,7 +8,7 @@ DROP TABLE AUTHORITY CASCADE CONSTRAINT;
 DELETE FROM AUTHORITY;
 CREATE TABLE AUTHORITY(
 	LOGIN_ID VARCHAR2(20) PRIMARY KEY,
-	LOGIN_PW VARCHAR2(20) NOT NULL,
+	LOGIN_PW VARCHAR2(80) NOT NULL,
 	LOGIN_AUTHORITY VARCHAR2(50) NOT NULL
 );
 --관리자권한줄때 반드시 ROLE_**** 이런식으로 대문자!!
@@ -22,7 +25,7 @@ DROP TABLE MEMBER CASCADE CONSTRAINT;
 DELETE FROM MEMBER;
 CREATE TABLE MEMBER (
    MEMBER_ID VARCHAR2(20) PRIMARY KEY, /* 회원ID */
-   MEMBER_PW VARCHAR2(20) NOT NULL, /* 패스워드 */
+   MEMBER_PW VARCHAR2(80) NOT NULL, /* 패스워드 */
    MEMBER_NAME VARCHAR2(30) NOT NULL, /* 이름 */
    MEMBER_ADDRESS VARCHAR2(100) NOT NULL, /* 주소 */
    MEMBER_EMAIL VARCHAR2(100) UNIQUE NOT NULL, /* 이메일 */
@@ -303,7 +306,7 @@ DROP TABLE ADMIN;
 DELETE FROM ADMIN;
 CREATE TABLE ADMIN (
    ADMIN_ID VARCHAR2(20) PRIMARY KEY, /* 관리자 ID */
-   ADMIN_PW VARCHAR2(20) NOT NULL, /* 비밀번호 */
+   ADMIN_PW VARCHAR2(80) NOT NULL, /* 비밀번호 */
    ADMIN_NAME VARCHAR2(30) NOT NULL, /* 이름 */
    ADMIN_TEL VARCHAR2(20) NOT NULL, /* 핸드폰번호 */
    ADMIN_EMAIL VARCHAR2(100) NOT NULL, /* 이메일 */
@@ -313,7 +316,6 @@ CREATE TABLE ADMIN (
 --관리자권한줄때 반드시 ROLE_**** 이런식으로 대문자!!
 --SELECT * FROM ADMIN;
 --DELETE FROM ADMIN WHERE ADMIN_ID='admin1';
---insert into admin values('admin1','1111','관리자1','01097029900','kite_90@naver.com','ROLE_ADMIN');
 
 /* Q&A 댓글 */
 DROP TABLE COMMENT_QNA;
@@ -359,6 +361,7 @@ CREATE TABLE RECIPE_INFO (
 
 --select * from RECIPE_INFO
 --select distinct category_name from RECIPE_INFO
+--select distinct type_name from recipe_info
 --select category_name, type_name from RECIPE_INFO where category_name ='퓨전' group by category_name, type_name 
 --select distinct recipe_level from RECIPE_INFO 
 --select distinct category_CODE, category_name from RECIPE_INFO order by category_CODE;

@@ -3,19 +3,44 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>레시피 by 레시피명</title>
+<title>레시피 by 재료</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	
 	//테이블정렬기준 숨김.
 	
-	$("#searchBtn").on("click",function(){
-		//숨긴것 나타나게
+	$.ajax(function(){
+		
+		//나의식재료랑, 재료관리에서 식재료들 리스트로 받아오기.
+		//나의식재료 - 재료명,신선도?, 체크박스
+		//재료관리 - 재료명, 체크박스	
+		
+	});//ajax
+	
+	$(document).on("click",("#dislikeBtn"),function(){
+		//체크박스로 선택된 재료들 기피재료테이블로 옮기기
+	});//기피재료버튼
+	
+	$(document).on("click",("#likeBtn"),function(){
+		//체크박스로 선택된 재료들 선택재료테이블로 옮기기
+	});//선택재료버튼
+	
+	$(document).on("click",("선택재료,기피재료 컬럼"),function(){
+		//테이블에서 삭제처리 
+	});//컬럼클릭
+	
+	$(document).on("click",("#searchBtn"),function(){
+		//숨김되었던것 나타나게 
+		
+		//선택재료, 기피재료 리스트에 넣어서 핸들러로 보내기 
+		
+		//var dislikes = 
+		//var likes = 
 		$.ajax({
-			"url":"/turnup_fridger/findRecipeByRecipeName.do",
+			"url":"/turnup_fridger/findRecipeByIrdntId.do",
 			"type":"POST",
-			"data":{'recipeName' : $("#recipeName").val(),'${_csrf.parameterName}':'${_csrf.token}'},
+			"data":{'irdntIds' : $("#recipeName").val(),'hateIrdntIds' : $("#recipeName").val(),'keyword' : $("#recipeName").val(),'${_csrf.parameterName}':'${_csrf.token}'},
 			"dataType":"json",
 			"success":function(obj){
 				
@@ -43,40 +68,74 @@ $(document).ready(function(){
 				alert("오류발생-" +msg+ ":" +code);
 			}
 		})
-	})//searchBtn	
-	/* 
-	$.ajax(function(){
-		//top4가져오기
-		"url":"/turnup_fridger/common/admin/irdntManage/allIrdntList.do",
-		"dataType":"json", 
-		"success":function(list){
-			$.each(list, function(){
-				$("#tbody").append($("<tr>").prop("id","irdnt_col").append($("<td>").append(this.irdntId)).append($("<td>").append(this.irdntName)).append($("<td>").append(this.irdntCategory))
-				.append($("<td>").append(this.roomTemPeriod)).append($("<td>").append(this.coldTemPeriod)).append($("<td>").append(this.freezeTemPeriod)).append($("<td>").append(this.note))
-				.append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").append("수정")))
-				.append($("<td>").append($("<button>").prop("type","button").prop("id","deleteBtn").append("삭제"))));
-			 	});//each
-		},//success
-		"error":function(errorMsg){
-			alert("오류다!");
-		} 	
-	})//ajax */
+	});//검색
+	
+	$(document).on("click",("#hitsDesc"),function(){
+		
+	});//최다조회순
+	
+	$(document).on("click",("#hitsAsc"),function(){
+	
+	});//최저조회순
+	
+	$(document).on("click",("#calrorieDesc"),function(){
+	
+	});//고칼로리순
+	
+	$(document).on("click",("#calrorieAsc"),function(){
+	
+	});//저칼로리순
+	
+	$(document).on("change",("#recipeLevel"),function(){
+
+	});//난이도
 	
 })//ready
 </script>
 </head>
 <body>
-<h2>요리이름으로 레시피 찾기</h2>
+<h2>재료로 레시피 찾기</h2>
 
-<!--레시피명입력받는창-> 검색 -> 레시피info들(페이징) and 레시피공유게시판목록들(페이징)  -->
-<!--검색 전 화면이 비어있을테니, top4들 불러오는작업? 여기서는 레시피공유게시판to4  -->
-
-	<!--레시피공유게시판 top4 가져올까?  -->
-
-	레시피명검색
-	<input type="text" name ="recipeName" id="recipeName">
-	<button type="button" id="searchBtn">검색</button><br>
+<!--나의식재료 / 재료관리  ->  나의 기피재료/나의 선택재료 -> 검색버튼 -> 레시피info들(페이징) and 레시피공유게시판목록들(페이징)-->
 	
+	나의 식재료 : 
+	<div id="myIrdnt">
+		<table>
+			<thead id="myIrdntThead"></thead>
+			<tbody id="myIrdntTbody"></tbody>
+		</table>
+	</div>
+	기타 재료 : 
+	<div id="irdntManage">
+		<table>
+			<thead id="irdntManageThead"></thead>
+			<tbody id="irdntManageTbody"></tbody>
+		</table>
+	</div>
+	<!--체크박스 골라서 버튼누르면 이동 다중선택가능하지만, 4개이하 -->
+	<button type="button" id="likeBtn">선택재료</button><br>
+	<button type="button" id="dislikeBtn">기피재료</button><br>
+
+	<!--컬럼누르면 테이블에서 삭제  -->
+	기피재료 : 
+	<div id="dislikeResult">
+		<table>
+			<thead id="dislikeThead"></thead>
+			<tbody id="dislikeTbody"></tbody>
+		</table>
+	</div>
+	선택재료 : 
+	<div id="likeResult">
+		<table>
+			<thead id="likeThead"></thead>
+			<tbody id="likeTbody"></tbody>
+		</table>
+	</div>
+	
+	<!--위의 재료들을 리스트에 담아서 재료로 검색하는 핸들러로 보낸다. -->
+	<button type="button" id="searchBtn">레시피검색</button><br>
+
+
 	<button type="button" id="hitsDesc">최다조회순</button>
 	<button type="button" id="hitsAsc">최저조회순</button>
 	<button type="button" id="calrorieDesc">고칼로리순</button>
@@ -100,6 +159,5 @@ $(document).ready(function(){
 			<tbody id="userTbody"></tbody>
 		</table>
 	</div>
-	
 </body>
 </html>

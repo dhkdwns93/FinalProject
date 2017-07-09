@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.co.turnup_fridger.dao.BoardShareRecipeDao;
 import kr.co.turnup_fridger.dao.RecipeCrseDao;
 import kr.co.turnup_fridger.dao.RecipeInfoDao;
 import kr.co.turnup_fridger.dao.RecipeIrdntDao;
@@ -14,6 +15,7 @@ import kr.co.turnup_fridger.exception.DuplicateRecipeException;
 import kr.co.turnup_fridger.exception.NoneRecipeException;
 import kr.co.turnup_fridger.service.RecipeService;
 import kr.co.turnup_fridger.util.PagingBean;
+import kr.co.turnup_fridger.vo.BoardShareRecipe;
 import kr.co.turnup_fridger.vo.RecipeInfo;
 
 @Service
@@ -25,6 +27,8 @@ public class RecipeServiceImpl implements RecipeService{
 	private RecipeCrseDao crseDao;
 	@Autowired
 	private RecipeIrdntDao irdntDao;
+	@Autowired
+	private BoardShareRecipeDao shareDao;
 	
 	//레시피 등록
 	@Override
@@ -69,45 +73,35 @@ public class RecipeServiceImpl implements RecipeService{
 
 	//선택재료, 기피재료들 받아서 레시피 목록들 불러오는 것.+ 페이징
 	@Override
-	public Map<String,Object> findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword,int page) {
+	public List<RecipeInfo> findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword) {
 		//페이징
-		List<Integer> recipeIds = irdntDao.getRecipeCodeByIrdntIds(irdntIds, hateIrdntIds);
+		List<Integer> recipeIds = irdntDao.getRecipeCodeByIrdntIds(irdntIds, hateIrdntIds);		
 		
-		HashMap<String,Object> map = new HashMap<>();
-		int totalCount= infoDao.selectRecipesInfoByIdsCount(recipeIds, keyword);
-		PagingBean pageBean = new PagingBean(totalCount,page);
-		List<RecipeInfo> list = infoDao.selectRecipesInfoByIds(recipeIds, keyword, pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
-		map.put("pageBean", pageBean);
-		map.put("list", list);
-		return map;
+		
+	
+		List<RecipeInfo> apiList = infoDao.selectRecipesInfoByIds(recipeIds, keyword);
+		
+		return null;
 	}
 
 	//레시피 이름으로 레시피 목록들 불러오는것.
 	@Override
-	public Map<String,Object> findRecipeByRecipeName(String recipeName,String keyword,int page) {
-		HashMap<String,Object> map = new HashMap<>();
-		int totalCount=infoDao.selectRecipeInfoByNameCount(recipeName,keyword);
-		PagingBean pageBean = new PagingBean(totalCount,page);
+	public List<RecipeInfo> findRecipeByRecipeName(String recipeName,String keyword) {
 		
-		List<RecipeInfo> list = infoDao.selectRecipeInfoByName(recipeName,keyword,pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
-		map.put("pageBean", pageBean);
-		map.put("list", list);
-		return map;
+		List<RecipeInfo> list = infoDao.selectRecipeInfoByName(recipeName,keyword);
+		
+		return null;
 	}
 
 	//유형분류와 음식분류로 선택해서 레시피 목록들 불러오는것. 
 	@Override
-	public Map<String,Object> findRecipeByCategory(String categoryName, String typeName,String keyword,int page) {
+	public List<RecipeInfo> findRecipeByCategory(String categoryName, String typeName,String keyword) {
 		//페이징
 		//infoDao.selectRecipeInfoByCategoryAndType(categoryName, typeName, keyword);
-		HashMap<String,Object> map = new HashMap<>();
-		int totalCount=infoDao.selectRecipeInfoByCategoryAndTypeCount(categoryName, typeName, keyword);
-		PagingBean pageBean = new PagingBean(totalCount,page);
 		
-		List<RecipeInfo> list = infoDao.selectRecipeInfoByCategoryAndType(categoryName, typeName, keyword, pageBean.getBeginItemInPage(), pageBean.getEndPage());
-		map.put("pageBean", pageBean);
-		map.put("list", list);
-		return map;
+		List<RecipeInfo> list = infoDao.selectRecipeInfoByCategoryAndType(categoryName, typeName, keyword);
+		
+		return null;
 	}
 	
 	//불러온 목록에서 하나를 선택하여 그 레시피의 상세화면을 가져오는 것.
@@ -127,6 +121,11 @@ public class RecipeServiceImpl implements RecipeService{
 	@Override
 	public List<RecipeInfo> allRecipeList() {
 		return infoDao.selectAllRecipeInfo();
+	}
+
+	@Override
+	public List<String> getTypeNameByCategoryName(String categoryName) {
+		return infoDao.selectTypeNameByCategoryName(categoryName);
 	}
 	
 

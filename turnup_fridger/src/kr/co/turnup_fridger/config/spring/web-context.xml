@@ -115,6 +115,8 @@
 	<mvc:view-controller path="/error/access_denied.do" view-name="error/access_denied.tiles"/>
 	<!-- user(전체사용자) 로그인 -->
 	<mvc:view-controller path="/login_form.do" view-name="user/login_form.tiles"/>
+	<!-- 아이디/패스워드 찾기 폼 -->
+	<mvc:view-controller path="/popup_find_IdPw_form.do" view-name="user/popup_find_IdPw_form"/>
 	<!-- 회원가입 -->
 	<mvc:view-controller path="/join_member_form.do" view-name="user/join_member_form.tiles"/>
 	<!-- ID 중복검사 폼 -->
