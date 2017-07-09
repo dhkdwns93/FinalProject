@@ -53,17 +53,16 @@
 						username-parameter="userId"
 						password-parameter="userPw"
 						authentication-failure-handler-ref="loginFailHandler"
-						default-target-url="/index_kh.do"/> <!-- 로그인성공하면 index.do로 이동 -->
+						default-target-url="/index.do"/> <!-- 로그인성공하면 index.do로 이동 -->
 		
 		<!-- 로그아웃관련설정 -->			
-		<logout logout-url="/common/logout.do" logout-success-url="/index_kh.do"/> <!-- 로그아웃하면 /user/index.kh.do로 이동 -->
-	
+		<logout logout-url="/common/logout.do" logout-success-url="/index.do"/> <!-- 로그아웃하면 /user/index.kh.do로 이동 -->
 		<!-- 사용자가 권한이 없는 요청을 한 경우 이동할 url등록, 등록하지 않으면 403에러페이지 -->
 		<access-denied-handler error-page="/error/access_denied.do"/>
 		
 		<!-- 중복로그인 방지 (/login_duplicate아직 안만듦) -->
 		<session-management>
-			<concurrency-control max-sessions="1" expired-url="/login_duplicate"/>
+			<concurrency-control max-sessions="1" expired-url="/login_duplicate.do"/>
 		</session-management>
 		
 	</http>

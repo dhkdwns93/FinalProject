@@ -3,6 +3,8 @@ package kr.co.turnup_fridger.vo;
 import java.io.Serializable;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class RecipeInfo implements Serializable{
 
 	private int recipeId;
@@ -21,9 +23,14 @@ public class RecipeInfo implements Serializable{
 	private String imgUrl;
 	private String detUrl;
 	private int recipeHits;
-	private List<RecipeIrdnt> recipeIrdnt;
-	private List<RecipeCrse> recipeCrse;
+	
+	private List<RecipeIrdnt> recipeIrdntList;
+	private List<RecipeCrse> recipeCrseList;
  	
+	private MultipartFile imgUrlSrc;
+	
+	
+	
 	public RecipeInfo(){
 		
 	}
@@ -69,8 +76,8 @@ public class RecipeInfo implements Serializable{
 		this.imgUrl = imgUrl;
 		this.detUrl = detUrl;
 		this.recipeHits = recipeHits;
-		this.recipeIrdnt = recipeIrdnt;
-		this.recipeCrse = recipeCrse;
+		this.recipeIrdntList = recipeIrdnt;
+		this.recipeCrseList = recipeCrse;
 	}
 
 	public int getRecipeId() {
@@ -202,20 +209,48 @@ public class RecipeInfo implements Serializable{
 	}
 
 	public List<RecipeIrdnt> getrecipeIrdnt() {
-		return recipeIrdnt;
+		return recipeIrdntList;
 	}
 
 	public void setrecipeIrdnt(List<RecipeIrdnt> recipeIrdnt) {
-		this.recipeIrdnt = recipeIrdnt;
+		this.recipeIrdntList = recipeIrdnt;
 	}
 
 	public List<RecipeCrse> getrecipeCrse() {
-		return recipeCrse;
+		return recipeCrseList;
 	}
 
 	public void setrecipeCrse(List<RecipeCrse> recipeCrse) {
-		this.recipeCrse = recipeCrse;
+		this.recipeCrseList = recipeCrse;
 	}
+	
+
+	public MultipartFile getImgUrlSrc() {
+		return imgUrlSrc;
+	}
+
+	public void setImgUrlSrc(MultipartFile imgUrlSrc) {
+		this.imgUrlSrc = imgUrlSrc;
+	}
+
+	
+	public List<RecipeIrdnt> getRecipeIrdntList() {
+		return recipeIrdntList;
+	}
+
+	public void setRecipeIrdntList(List<RecipeIrdnt> recipeIrdntList) {
+		this.recipeIrdntList = recipeIrdntList;
+	}
+
+	public List<RecipeCrse> getRecipeCrseList() {
+		return recipeCrseList;
+	}
+
+	public void setRecipeCrse(List<RecipeCrse> recipeCrseList) {
+		this.recipeCrseList = recipeCrseList;
+	}
+
+	
 
 	@Override
 	public String toString() {
@@ -223,8 +258,8 @@ public class RecipeInfo implements Serializable{
 				+ ", categoryCode=" + categoryCode + ", categoryName=" + categoryName + ", typeCode=" + typeCode
 				+ ", typeName=" + typeName + ", cookingTime=" + cookingTime + ", calorie=" + calorie + ", Qnt=" + Qnt
 				+ ", recipeLevel=" + recipeLevel + ", irdntCode=" + irdntCode + ", price=" + price + ", imgUrl="
-				+ imgUrl + ", detUrl=" + detUrl + ", recipeHits=" + recipeHits + ", recipeIrdnt=" + recipeIrdnt
-				+ ", recipeCrse=" + recipeCrse + "]";
+				+ imgUrl + ", detUrl=" + detUrl + ", recipeHits=" + recipeHits + ", recipeIrdntList=" + recipeIrdntList
+				+ ", recipeCrseList=" + recipeCrseList + ", imgUrlSrc=" + imgUrlSrc + "]";
 	}
 
 	@Override
@@ -240,10 +275,10 @@ public class RecipeInfo implements Serializable{
 		result = prime * result + ((imgUrl == null) ? 0 : imgUrl.hashCode());
 		result = prime * result + ((irdntCode == null) ? 0 : irdntCode.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
-		result = prime * result + ((recipeCrse == null) ? 0 : recipeCrse.hashCode());
+		result = prime * result + ((recipeCrseList == null) ? 0 : recipeCrseList.hashCode());
 		result = prime * result + recipeHits;
 		result = prime * result + recipeId;
-		result = prime * result + ((recipeIrdnt == null) ? 0 : recipeIrdnt.hashCode());
+		result = prime * result + ((recipeIrdntList == null) ? 0 : recipeIrdntList.hashCode());
 		result = prime * result + ((recipeLevel == null) ? 0 : recipeLevel.hashCode());
 		result = prime * result + ((recipeName == null) ? 0 : recipeName.hashCode());
 		result = prime * result + ((sumry == null) ? 0 : sumry.hashCode());
@@ -303,19 +338,19 @@ public class RecipeInfo implements Serializable{
 				return false;
 		} else if (!price.equals(other.price))
 			return false;
-		if (recipeCrse == null) {
-			if (other.recipeCrse != null)
+		if (recipeCrseList == null) {
+			if (other.recipeCrseList != null)
 				return false;
-		} else if (!recipeCrse.equals(other.recipeCrse))
+		} else if (!recipeCrseList.equals(other.recipeCrseList))
 			return false;
 		if (recipeHits != other.recipeHits)
 			return false;
 		if (recipeId != other.recipeId)
 			return false;
-		if (recipeIrdnt == null) {
-			if (other.recipeIrdnt != null)
+		if (recipeIrdntList == null) {
+			if (other.recipeIrdntList != null)
 				return false;
-		} else if (!recipeIrdnt.equals(other.recipeIrdnt))
+		} else if (!recipeIrdntList.equals(other.recipeIrdntList))
 			return false;
 		if (recipeLevel == null) {
 			if (other.recipeLevel != null)
