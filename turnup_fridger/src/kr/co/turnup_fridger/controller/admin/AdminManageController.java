@@ -101,11 +101,17 @@ public class AdminManageController {
 		String originalAdminPw=((Admin)authentication.getPrincipal()).getAdminPw();
 		if(!passwordEncoder.matches(originalAdminPw,admin.getAdminPw())){
 //		if(!adminPw.equals(admin.getAdminPw())){
+			System.out.println("originalPW="+originalAdminPw);
+			System.out.println("입력한 PW="+ admin.getAdminPw());
 			System.out.println("AdminManageController + PW가 다릅니다.");
 			throw new RuntimeException("PW가 다릅니다.");
 		}
 		
 		//2.BusinessLogic호출
+		if((adminService.inquiryAdminInfo(admin.getAdminId()).getAdminAuthority()).equals("ROLE_HEADMASTERADMIN")){
+			System.out.println("Head Master는 수정이 불가합니다.");
+			throw new RuntimeException("Head Master는 수정이 불가합니다.");
+		}
 		admin.setAdminPw(newAdminPw);
 		adminService.changeAdminInfo(admin);
 		

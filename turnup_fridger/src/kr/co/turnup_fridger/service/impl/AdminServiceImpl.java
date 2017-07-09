@@ -44,10 +44,10 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.updateAdmin(admin);
 		//비밀번호가 바꼈을 경우 Authority 테이블 해당 관리자 update
 		Authority existAuthority=authorityDao.selectAuthorityById(admin.getAdminId());
-		if(!existAuthority.getLoginPw().equals(admin.getAdminPw())){
-			//**권한은 바꾸지 않음.
-			authorityDao.updateAuthority(new Authority(admin.getAdminId(),admin.getAdminPw(),existAuthority.getLoginAuthority()));
-		}
+		authorityDao.updateAuthority(new Authority(admin.getAdminId(),admin.getAdminPw(),existAuthority.getLoginAuthority()));
+//		if(!existAuthority.getLoginPw().equals(admin.getAdminPw())){
+//			//**권한은 바꾸지 않음.
+//		}
 	}
 
 	@Override
