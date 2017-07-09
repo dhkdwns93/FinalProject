@@ -15,6 +15,7 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
+var checkNumCreateMyDislikeIrdnt=0;//기피재료 4개까지 입력받음
 $(document).ready(function(){
 	$("button#duplicateEmailBtn").on("click",function(){
 		var memberId=$("input#id").val();
@@ -28,8 +29,13 @@ $(document).ready(function(){
 	});//end of duplicateEmailBtn
 	
 	$("div#showMyDislikeIrdnt").on("click","button#createMyDislikeIrdnt",function(){
-		window.open("${initParam.rootPath}/popup_find_irdnt_form.do","find_irdnt_form","width=500,height=400,resizable=yes");
-		var inputTextHtml=$("#showMyDislikeIrdnt").prepend('<div id="myDislikeIrdntText"><input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="${param.irdntId}" class="form-control"><input type="text" id="myDislikeIrdntName" name="myDislikeIrdntName" value="${param.irdntName}" readonly="readonly" class="form-control">&nbsp&nbsp<button type="button" id="removeMyDislikeIrdnt">해당 기피재료 삭제</button><br></div>');
+		if(checkNumCreateMyDislikeIrdnt<4){
+			window.open("${initParam.rootPath}/popup_find_irdnt_form.do","find_irdnt_form","width=500,height=400,resizable=yes");
+			var inputTextHtml=$("#showMyDislikeIrdnt").prepend('<div id="myDislikeIrdntText"><input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="${param.irdntId}" class="form-control"><input type="text" id="myDislikeIrdntName" name="myDislikeIrdntName" value="${param.irdntName}" readonly="readonly" class="form-control">&nbsp&nbsp<button type="button" id="removeMyDislikeIrdnt">해당 기피재료 삭제</button><br></div>');
+			checkNumCreateMyDislikeIrdnt=checkNumCreateMyDislikeIrdnt+1;
+		}else{
+			$("span#tooMuchIrdnt").text("*기피재료는 4개까지만 설정할 수 있습니다.");
+		} 
 	});//button#createmyDislikeIrdnt.onclick
 	$("div#showMyDislikeIrdnt").on("click","button#removeMyDislikeIrdnt",function(){
 			var deleteInputTextHtml=$(this).parent().remove();
@@ -97,6 +103,7 @@ $(document).ready(function(){
 		<div id="showMyDislikeIrdnt">
 			<input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="-1" class="form-control">
 			<button type="button" id="createMyDislikeIrdnt">기피재료추가</button><br>
+			<span class="error" id="tooMuchIrdnt"></span>
 		</div>
 	</div>
 	<sec:csrfInput/>

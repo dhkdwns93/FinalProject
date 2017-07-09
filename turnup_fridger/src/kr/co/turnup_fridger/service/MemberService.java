@@ -54,7 +54,7 @@ public interface MemberService {
 	 * @param name
 	 * @param memberEmail
 	 */
-	Member findMember(String name, String memberEmail) throws FindMemberFailException;
+	Member findMember(String name, String memberEmail);
 	
 	/**
 	 * 해당 이메일 사용하는 사용자 조회 -중복검사

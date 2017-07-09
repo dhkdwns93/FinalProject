@@ -30,7 +30,7 @@ public class MemberChangeInfoValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		MemberChangeForm memberChangeForm=(MemberChangeForm)target;
-		System.out.println("validator" + memberChangeForm);
+//		System.out.println("validator" + memberChangeForm);
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberId", "requiredChange");
 		/*if(!passwordEncoder.matches(memberChangeForm.getOldMemberPw(),memberChangeForm.getOriginalMemberPw())){
 			errors.rejectValue("oldMemberPw", "synchronizeFail","*비밀번호가 일치하지 않습니다.");

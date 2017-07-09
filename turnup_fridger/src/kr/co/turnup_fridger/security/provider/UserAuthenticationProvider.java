@@ -62,10 +62,13 @@ public class UserAuthenticationProvider implements AuthenticationProvider{
 		
 		//권한 조회
 		Authority user=authorityDao.selectAuthorityById(loginId);
+//		System.out.println("user"+user);
+		if(user==null){
+			throw new UsernameNotFoundException("등록되어 않은 계정입니다.");
+		}
 		String userAuthority = user.getLoginAuthority();
-		if (user==null) {
 //		if (userAuthority == null || userAuthority.trim().isEmpty()) {
-//		if (!userAuthority.equals("ROLE_MEMBER")||!userAuthority.equals("ROLE_ADMIN")||!userAuthority.equals("ROLE_MASTERADMIN")||!userAuthority.equals("ROLE_HEADMASTERADMIN")) {
+		if (!userAuthority.equals("ROLE_MEMBER")&&!userAuthority.equals("ROLE_ADMIN")&&!userAuthority.equals("ROLE_MASTERADMIN")&&!userAuthority.equals("ROLE_HEADMASTERADMIN")) {
 
 			throw new UsernameNotFoundException("권한 입력에 오류가 있는 사용자 입니다.");
 		}

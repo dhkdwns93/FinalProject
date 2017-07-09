@@ -40,7 +40,7 @@ $(document).ready(function(){
 		opener.document.usePopup.memberId.value=id;
 		//opener.document.join_member_form._csrf.parameterName.value=_csrf.token;
 		window.close();
-	});
+	});//end of useIdBtn
 });
 </script>
 </head>
