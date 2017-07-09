@@ -42,8 +42,8 @@ public class ShareRecipeIrdntTest {
 		
 		//recipeId로 조회
 		int recipeId = 2;
-		 ShareRecipeIrdnt share = service.selectShareRecipeIrdntByRecipeId(recipeId);
+		// ShareRecipeIrdnt share = service.selectShareRecipeIrdntByRecipeId(recipeId);
 		 
-		 System.out.println(share);
+	//	 System.out.println(share);
 	}
 }

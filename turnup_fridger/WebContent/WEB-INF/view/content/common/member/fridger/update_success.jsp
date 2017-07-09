@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-
+<script type="text/javascript" src="${ initParam.rootPath }/scripts/jquery.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	console.log(window.opener.location);	

@@ -1,17 +1,13 @@
 package kr.co.turnup_fridger.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import kr.co.turnup_fridger.dao.ShareRecipeIrdntDao;
-import kr.co.turnup_fridger.vo.IrdntManage;
 import kr.co.turnup_fridger.vo.ShareRecipeIrdnt;
 @Repository
 public class ShareRecipeIrdntDaoImpl implements ShareRecipeIrdntDao{
@@ -49,15 +45,23 @@ public class ShareRecipeIrdntDaoImpl implements ShareRecipeIrdntDao{
 	}
 	
 	@Override
-	public ShareRecipeIrdnt selectShareRecipeIrdntByIrdntId(int irdntId) {
+	public List<ShareRecipeIrdnt> selectShareRecipeIrdntByIrdntId(int irdntId) {
 		// TODO Auto-generated method stub
-		return session.selectOne(sql("selectShareRecipeIrdntByIrdntId"), irdntId);
+		return session.selectList(sql("selectShareRecipeIrdntByIrdntId"), irdntId);
 	}
 	
 	@Override
-	public ShareRecipeIrdnt selectShareRecipeIrdntJoinByRecipeId(int recipeId) {
-		// TODO Auto-generated method stub
-		return session.selectOne(sql("selectShareRecipeIrdntJoinByRecipeId"), recipeId);
+	public List<ShareRecipeIrdnt> selectShareRecipeIrdntByRecipeId(int recipeId) {
+		return session.selectList(sql("selectShareRecipeIrdntByRecipeId"), recipeId);
+	}
+
+	@Override
+	public List<Integer> getRecipeBoardIdByIrdntIds(List<Integer> irdntIds, List<Integer> hateIrdntIds) {
+		HashMap map = new HashMap();
+		map.put("irdntIds",irdntIds);
+		map.put("hateIrdntIds",hateIrdntIds);
+		
+		return session.selectList(sql("getRecipeBoardIdByIrdntIds"),map);
 	}
 	
 	

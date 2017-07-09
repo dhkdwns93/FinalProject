@@ -10,6 +10,10 @@
 			+ BoardQnA 삭제
 			+ BoardQnA 조회
 	 -->
+	 <sql id="all-column">
+		BOARD_QNA_ID, BOARD_QNA_TITLE, BOARD_QNA_TXT, BOARD_QNA_DATE, MEMBER_ID
+	</sql> 
+	 
 	 <!-- BoardQnA 기본 조회 sql -->
 	 <sql id="boardQnA-select-sql">
 	 	SELECT BOARD_QNA_ID, BOARD_QNA_TITLE, BOARD_QNA_TXT, BOARD_QNA_DATE, MEMBER_ID
@@ -22,9 +26,8 @@
 		<result column="BOARD_QNA_TITLE" property="boardQnATitle"/>
 		<result column="BOARD_QNA_TXT" property="boardQnATxt"/>
 		<result column="BOARD_QNA_DATE" property="boardQnAdate"/>
-		<result column="MEMBER_ID" property="memberId"/>
+		<result column="MEMBER_ID" property="memberId"/>	
 	</resultMap>
-	
 	
 	<!-- ResultMap BoardQnA-CommentQnA 등록 -->
 	<resultMap id="boardQnA-commentQnA-resultmap" type="boardQnA" extends="boardQnA-resultmap">
@@ -34,12 +37,15 @@
 	
 	<!-- 등록 SQL -->
 	<insert id="insertBoardQnA" parameterType="boardQnA">
+		<selectKey resultType="int" keyProperty="boardQnAId" order="BEFORE">
+			select BOARD_QNA_ID.nextval from dual
+		</selectKey>
 		INSERT INTO BOARD_QNA 
 		VALUES(
 				#{boardQnAId},
 				#{boardQnATitle},
 				#{boardQnATxt},
-				#{boardQnAdate},
+				sysdate,
 				#{memberId}
 		  	  )
 	</insert>
@@ -50,7 +56,7 @@
 		UPDATE 	BOARD_QNA 
 		SET		BOARD_QNA_TITLE = #{boardQnATitle},
 				BOARD_QNA_TXT = #{boardQnATxt},
-				BOARD_QNA_DATE = #{boardQnAdate},
+				BOARD_QNA_DATE = sysdate,
 				MEMBER_ID = #{memberId}
 		WHERE	BOARD_QNA_ID = #{boardQnAId}
 	</update>
@@ -62,31 +68,65 @@
 	
 	<!-- 조회 SQL -->
 	
-	
+	<!-- BOARD_QNA 카운트  -->
+	<select id = "selectBoardQnACount" resultType="_int">
+		SELECT COUNT(*) FROM BOARD_QNA
+	</select>
+
+
+ 	
 	<!-- LIST 전체 조회 SQL -->
-	<select id="selectBoardQnAList" resultMap="boardQnA-commentQnA-resultmap">
-		 SELECT b.BOARD_QNA_ID, b.BOARD_QNA_TITLE, b.BOARD_QNA_TXT, b.BOARD_QNA_DATE, b.MEMBER_ID,
-		 		c.COMMENT_QNA_ID, c.COMMENT_QNA_TXT, c.COMMENT_QNA_DATE, c.ADMIN_ID
-		 FROM BOARD_QNA b, COMMENT_QNA c
-		 WHERE b.BOARD_QNA_ID =c.BOARD_QNA_ID(+)
+	<select id="selectBoardQnAList" resultMap="boardQnA-resultmap">
+		SELECT <include refid="all-column"/>
+		FROM(
+			SELECT ROWNUM RNUM, <include refid="all-column"/>
+			FROM(
+				<include refid="boardQnA-select-sql"></include>
+				ORDER BY BOARD_QNA_DATE DESC
+				)
+			WHERE ROWNUM &lt;=#{endIndex}	
+			)
+		WHERE RNUM>=#{startIndex}		
 	</select> 	
 	
-	<!-- LIST 중에서 memberId로 조회하는 SQL -->
-	<select id="selectBoardQnAByMemberId" parameterType="string" resultMap="boardQnA-commentQnA-resultmap">
-		 SELECT b.BOARD_QNA_ID, b.BOARD_QNA_TITLE, b.BOARD_QNA_TXT, b.BOARD_QNA_DATE, b.MEMBER_ID,
-		 		c.COMMENT_QNA_ID, c.COMMENT_QNA_TXT, c.COMMENT_QNA_DATE, c.ADMIN_ID
-		 FROM BOARD_QNA b, COMMENT_QNA c
-		 WHERE b.BOARD_QNA_ID =c.BOARD_QNA_ID(+)
-		 AND b.MEMBER_ID = #{value}
-	</select>
 	
-		<!-- LIST 중에서 ID로 조회하는 SQL -->
+	
+	<!-- LIST 중에서 MEMBERID로 조회하는 SQL  -->
+	<select id="selectBoardQnAByMemberIdCount" parameterType="map" resultType="int" >
+		SELECT COUNT(*)
+		FROM BOARD_QNA
+		WHERE MEMBER_ID LIKE #{memberId}
+	</select>	
+	
+	
+	
+	<!-- memberId로 LIST 전체 조회 SQL -->
+	<select id="selectBoardQnAByMemberId" resultMap="boardQnA-resultmap">
+		SELECT <include refid="all-column"/>
+		FROM(
+			SELECT ROWNUM RNUM, <include refid="all-column"/>
+			FROM(
+						<include refid="boardQnA-select-sql"></include>
+						WHERE MEMBER_ID LIKE '%'||#{memberId}||'%'
+						ORDER BY BOARD_QNA_DATE DESC
+				)
+			WHERE ROWNUM &lt;=#{endIndex}	
+			)
+		WHERE RNUM>=#{startIndex}	
+	</select> 	
+
+	
+	
+	
+	
+	
+	<!-- LIST 중에서 ID로 조회하는 SQL-->
 	<select id="selectBoardQnAById" parameterType="_int" resultMap="boardQnA-commentQnA-resultmap">
 		 SELECT b.BOARD_QNA_ID, b.BOARD_QNA_TITLE, b.BOARD_QNA_TXT, b.BOARD_QNA_DATE, b.MEMBER_ID,
 		 		c.COMMENT_QNA_ID, c.COMMENT_QNA_TXT, c.COMMENT_QNA_DATE, c.ADMIN_ID
 		 FROM BOARD_QNA b, COMMENT_QNA c
 		 WHERE b.BOARD_QNA_ID =c.BOARD_QNA_ID(+)
 		 AND b.BOARD_QNA_ID = #{value}
+		 ORDER BY c.COMMENT_QNA_DATE DESC
 	</select>
-
 </mapper>

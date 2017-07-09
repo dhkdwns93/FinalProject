@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger2/scripts/jquery.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 
 //QnA 삭제
@@ -45,6 +45,13 @@ function insert_event(){
 	}
 };
 
+
+function popup(frm){
+	window.name="opener";
+	window.open("/turnup_fridger/common/boardqna/commentqna_upload.do","commentupload","width=500, height=400");
+
+}
+
 </script>
 <style type="text/css">
  form{display:inline}
@@ -66,7 +73,7 @@ function insert_event(){
 <table border="1" style="text-align:center">
 	<tr>
 		<td>제목</td>
-		<td>${boardQnA.boardQnATitle}</td>
+		<td>${requestScope.boardQnA.boardQnATitle}</td>
 	</tr>
 	<tr>
 		<td>작성날짜</td>
@@ -114,7 +121,7 @@ function insert_event(){
 </c:if>
 <c:if test="${list.commentQnAId != 0}">
 
-<table border="1" >
+<table border="1" >	
 <tbody id="commentqna_info_layer">
 </tbody>
 </table>
@@ -146,24 +153,24 @@ function insert_event(){
 			
 		</td>
 		<td>
-	     	<form action="${initParam.rootPath}/common/commentqna/commentQnAUploadView.do" method="post">
+		
+	     	<form name="commentQnAUpload" method="post">
 						<input type="hidden" name="commentQnAId" id="commentQnAId" value="${list.commentQnAId}">
 						<input type="hidden" name="commentQnATxt" id="commentQnATxt" value="${list.commentQnATxt}">
 						<input type="hidden" name="memberId" id="memberId" value="${list.memberId}">
 						<input type="hidden" name="boardQnAId" id="boardQnAId" value="${list.boardQnAId}">
 						
-						
 				<!-- 작성자가 관리자이면 관리자 댓글 수정가능 -->
 				<c:if test="${list.adminId != null}">		
 					 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN')">
-							<input type="button" value="수정하기">
+							<a href="javascript:popup();"><input type="button" value="수정하기"></a>
 					 </sec:authorize>
 				</c:if>
 				
 				<!-- 작성자가 사용자이면 사용자 댓글 수정 -->
 				<c:if test="${list.adminId == null}">
 					 <sec:authorize access="hasRole('ROLE_MEMBER')">
-					 	<input type="button" value="수정하기">
+					 	<a href="javascript:popup();"><input type="button" value="수정하기"></a>
 					 </sec:authorize>
 				</c:if>
 				

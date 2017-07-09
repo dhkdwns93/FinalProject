@@ -38,7 +38,7 @@ QnA > 전체 목록
     <tr>
         <td>${row.boardQnAId}</td>
         <td>
-        <form action="${initParam.rootPath}/common/boardqna/boardQnAView.do" method="get">
+        <form action="${initParam.rootPath}/common/boardqna/boardQnAView.do" method="post">
         	<!-- 회원일때 보여줌 -->
         	<sec:authorize access="hasRole('ROLE_MEMBER')">
         		<input type="hidden" name="member" value="<sec:authentication property="principal.memberId"></sec:authentication>"> 

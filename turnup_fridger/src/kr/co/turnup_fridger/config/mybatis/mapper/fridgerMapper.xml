@@ -86,7 +86,7 @@
 <update id="updateFridger" parameterType="fridger">
 UPDATE	fridger
 SET		fridger_name = #{fridgerName},
-		fridger_img = #{fridger_img},
+		fridger_img = #{fridgerImg},
 		member_id = #{memberId}
 WHERE	fridger_id = #{fridgerId}
 </update>

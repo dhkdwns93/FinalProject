@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript"
-	src="/turnup_fridger/scripts/jquery-3.2.1.min.js"></script>
+	src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$.ajax({
@@ -49,17 +49,9 @@
 
 		$(document).on("click","#updateBtn",function(){
 			var irdntId = $(this).parent().parent().children(":first-child").text();
-			var irdntName=$(this).parent().parent().children(":nth-child(2)").text();
-			var irdntCategory=$(this).parent().parent().children(":nth-child(3)").text();
-			var roomTemPeriod=$(this).parent().parent().children(":nth-child(4)").text();
-			var coldTemPeriod=$(this).parent().parent().children(":nth-child(5)").text();
-			var freezeTemPeriod=$(this).parent().parent().children(":nth-child(6)").text();
-			var note=$(this).parent().parent().children(":nth-child(7)").text();
-			
-			window.open("/turnup_fridger/common/admin/irdntManage/irdnt_update_form.do?irdntId="+irdntId+"&irdntName="+irdntName+"&irdntCategory="+
-					irdntCategory+"&roomTemPeriod="+roomTemPeriod+"&coldTemPeriod="+coldTemPeriod+"&freezeTemPeriod="+freezeTemPeriod+"&note="+note
-					,"updateForm","width=500, height=400");				
-		});//update
+			window.open("/turnup_fridger/common/admin/irdntManage/findIrdntById.do?irdntId="+irdntId,"updateIrdnt","width=500, height=400");
+
+		});
 
 		$(document).on("click","#deleteBtn",function(){
 			var irdntId = $(this).parent().parent().children(":first-child").text();	
@@ -69,14 +61,18 @@
 				"data":{'irdntId':irdntId,'${_csrf.parameterName}':'${_csrf.token}'},
 				"dataType":"text",
 				"success":function(TEXT){
-					alert(TEXT)
-					//삭제가 되긴하는데, 다음화면이 자동으로 새로고침되면 좋겠는데....
+					alert(TEXT);
+					document.location.reload();
 				},
 				"error":function(errorMsg){
 					alert("오류다!")
 				}
 			})
 		});//deleteBtn
+		
+		$("#insertBtn").on("click",function(){
+			window.open("/turnup_fridger/common/admin/irdntManage/irdnt_form.do","insertIrdnt","width=500, height=400");
+		})//insertBtn
 	})
 
 </script>
@@ -103,8 +99,7 @@ td {
 
 	<h2>재료 목록</h2>
 	<hr>
-
-	<a href="/turnup_fridger/common/admin/irdntManage/irdnt_form.do">재료추가</a><br><br>
+	<button type="button" id="insertBtn">재료추가</button><br>
 
 	카테고리 :
 	<select name="irdntCategory" id="irdntCategory">

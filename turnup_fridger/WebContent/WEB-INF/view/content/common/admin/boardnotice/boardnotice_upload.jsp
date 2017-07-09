@@ -1,5 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,8 +30,7 @@ span.error{
 </style>
 </head>
 <body>
-<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadForm.do?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadForm.do?" method="post" enctype="multipart/form-data">
 <table>
 	<tr>
 		<th>제목</th>
@@ -45,8 +46,19 @@ span.error{
 		</td>
 	</tr>
 	<tr>	
-		<th>사진</th>
-		<td><input type="file" name="upImage" value="/up_image/${boardNotice.img}"></td>
+		<c:if test="${boardNotice.saveImg == null}">
+			<th>사진</th>
+			<td>
+				<input type="file" name="upImage">
+			</td>
+		</c:if>
+		<c:if test="${boardNotice.saveImg != null}">
+			<th>사진</th>
+			<td>
+				<img width="320px" alt="${boardNotice.img}" src="${initParam.rootPath}/up_image/${boardNotice.saveImg}"><br>
+			</td>
+
+		</c:if>
 	</tr>
 	<tr>
 		<th>내용</th>
@@ -58,8 +70,20 @@ span.error{
 			<input type="submit" value="등록" onclick="return modify_event();">
 		</td>
 	</tr>
-	
 </table>
+<sec:csrfInput/>
 </form>
+<c:if test="${boardNotice.saveImg != null}">
+<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeImageDelete.do?" method="post">
+		<input type="hidden" name="id" value="${boardNotice.id}">
+		<input type="hidden" name="items" value="${boardNotice.items}">
+		<input type="hidden" name="title" value="${boardNotice.title}">
+		<input type="hidden" name="txt" value="${boardNotice.txt}">
+		<input type="hidden" name="img" value="${boardNotice.img}">
+		<input type="hidden" name="saveImg" value="${boardNotice.saveImg}">
+		<input type="submit" value="이미지 삭제">
+	<sec:csrfInput/>
+</form>
+</c:if>
 </body>
 </html>

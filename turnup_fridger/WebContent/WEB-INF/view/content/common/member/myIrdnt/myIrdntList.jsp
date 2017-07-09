@@ -98,8 +98,13 @@
 					alert("오류발생-" +msg+ ":" +code);
 				} 
 			});
-		});
-	})
+		});//searchBtn
+		
+		$("#addIrdnt").on("click",function(){
+			window.open("/turnup_fridger/common/member/myIrdnt/myIrdnt_form.do","insertIrdnt","width=500, height=400");
+		});//재료추가
+		
+	})//ready
 
 </script>
 <style type="text/css">
@@ -125,7 +130,7 @@ td {
 
 
 <h2>나의 식재료 목록</h2><hr>
-<a href = "/turnup_fridger/common/member/myIrdnt/myIrdnt_form.do"><button type="button">재료추가</button></a>
+<button type="button" id="addIrdnt">재료추가</button>
 <button type="button" id="deleteOnSelect">선택삭제</button><br><br>
 
 신선도 :

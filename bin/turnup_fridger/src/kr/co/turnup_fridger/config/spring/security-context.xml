@@ -5,6 +5,7 @@
 최초 작성일 
 변경이력 
 170703 (경혜) 회원,관리자 관리와 관련 설정
+170705 (경혜) headMasterAdmin 관련설정 추가 -조회는 master와 같음. 
  -->
 <beans:beans xmlns="http://www.springframework.org/schema/security"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -39,8 +40,8 @@
 
 				<!-- 관리자권한줄때 반드시 ROLE_**** 이런식으로 대문자!!  -->
 	<http>
-		<intercept-url pattern="/common/admin/master/**" access="hasRole('ROLE_MASTERADMIN')"/><!-- master만 -->
-		<intercept-url pattern="/common/admin/**" access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN')"/><!-- master, 관리자 -->
+		<intercept-url pattern="/common/admin/master/**" access="hasAnyRole('ROLE_MASTERADMIN', 'ROLE_HEADMASTERADMIN')"/><!-- master만 -->
+		<intercept-url pattern="/common/admin/**" access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')"/><!-- master, 관리자 -->
 		<intercept-url pattern="/common/member/**" access="hasRole('ROLE_MEMBER')"/><!-- member만 -->
 		<intercept-url pattern="/common/**" access="isAuthenticated()"/><!-- 로그인한 사람들 모두 : member, master, 관리자 -->
 		<intercept-url pattern="/**" access="permitAll"/><!-- 전체 -->
@@ -72,6 +73,12 @@
 		<authentication-provider ref="userAuthenticationProvider"/>
 	</authentication-manager>
 	
+	<!-- 스프링 시큐리티에서 multipart/form-data 처리하기 위해 MultipartResolver를 등록 => apache 라이브러리 필요 -->	
+<beans:bean id="filterMultipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <beans:property name="maxUploadSize" value="100000000" />
+        <beans:property name="defaultEncoding" value="UTF-8" />
+</beans:bean>
+
 
 	
 </beans:beans>

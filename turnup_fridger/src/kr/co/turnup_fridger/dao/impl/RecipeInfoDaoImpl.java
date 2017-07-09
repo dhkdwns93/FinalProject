@@ -53,13 +53,11 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 	
 	//페이징
 	@Override
-	public List<RecipeInfo> selectRecipeInfoByName(String recipeName, String keyword,int startIndex,int endIndex) {
+	public List<RecipeInfo> selectRecipeInfoByName(String recipeName, String keyword) {
 		
 		Map<String,String> input= new HashMap<String,String>();
-		input.put("startIndex",String.valueOf(startIndex));
-		input.put("endIndex",String.valueOf(endIndex));
 		input.put("recipeName", recipeName);
-		
+		input.put("keyword",keyword);	
 		return session.selectList(makeSql("selectRecipeInfoByName"),input);
 	}
 	@Override
@@ -72,10 +70,11 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 
 	//페이징
 	@Override
-	public List<RecipeInfo> selectRecipeInfoByCategoryAndType(String categoryName, String typeName,String keyword,int startIndex,int endIndex) {
+	public List<RecipeInfo> selectRecipeInfoByCategoryAndType(String categoryName, String typeName,String keyword) {
 		HashMap map = new HashMap();
 		map.put("categoryName", categoryName);
 		map.put("typeName", typeName);
+		map.put("keyword",keyword);		
 		return session.selectList(makeSql("selectRecipeInfoByCategoryAndType"),map);
 	}
 	@Override
@@ -90,8 +89,11 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 	
 	//페이징
 	@Override
-	public List<RecipeInfo> selectRecipesInfoByIds(List<Integer> recipeId,String keyword,int startIndex,int endIndex) {
-		return session.selectList(makeSql("selectRecipesInfoByIds"),recipeId);
+	public List<RecipeInfo> selectRecipesInfoByIds(List<Integer> recipeIds,String keyword) {
+		HashMap map = new HashMap();
+		map.put("recipeIds", recipeIds);
+		map.put("keyword",keyword);	
+		return session.selectList(makeSql("selectRecipesInfoByIds"),map);
 	}
 
 	@Override

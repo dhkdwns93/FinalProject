@@ -30,8 +30,5 @@
 			p:dataSource-ref="dataSource"/>
 	<tx:annotation-driven transaction-manager="transactionManager"/>			
 
-		
-	<!-- multipartResolver 등록  -->
-	<bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
 
 </beans>
