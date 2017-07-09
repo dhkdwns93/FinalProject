@@ -52,7 +52,11 @@ var starRating = function(){
     }
   });
 };
-starRating();
+//starRating();
+	function popupRecipeName()
+	{
+		 window.open("/turnup_fridger/boardreview/recipenamesearch.do","recpieName","width=500,height=400")
+	}
 </script>
 <style type="text/css">
  form{display:inline}
@@ -167,7 +171,7 @@ span.error{
 </head>
 <body>
 
-<form action="${initParam.rootPath}/boardreview/boardReviewUploadForm.do" method="post" enctype="multipart/form-data">
+<form name="review"action="${initParam.rootPath}/boardreview/boardReviewUploadForm.do" method="post" enctype="multipart/form-data">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 <table border="1" width="600px"> 
 	<tr>
@@ -187,9 +191,10 @@ span.error{
 <table border="1" width="600px"> 	
 	<tr>
     	<td>레시피</td>
-    	<td><!-- <input type="button" value="레시피 찾기"> -->
-    		<input type="text" name="recipeId" value="${boardReview.recipeId}">
-    		<input type="text" value="${boardReview.recipeInfo.recipeName}">
+    	<td>
+    		<input type="text" id="recipeId" name="recipeId" readonly value="${boardReview.recipeId}"><br>
+	    	<input type="text" id="recipeName" name="recipeName" readonly value="${boardReview.recipeInfo.recipeName}">
+	    	<input id="recipeName" type="button" value="레시피 검색" onclick="popupRecipeName()">
     	</td>
     	<td>별점주기</td>
     	<td>			

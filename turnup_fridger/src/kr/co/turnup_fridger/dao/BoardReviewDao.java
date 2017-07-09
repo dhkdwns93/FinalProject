@@ -3,6 +3,7 @@ package kr.co.turnup_fridger.dao;
 import java.util.List;
 
 import kr.co.turnup_fridger.vo.BoardReview;
+import kr.co.turnup_fridger.vo.RecipeInfo;
 
 public interface BoardReviewDao {
 
@@ -45,5 +46,6 @@ public interface BoardReviewDao {
 	List<BoardReview> selectBoardReviewByRecipeNameList(String recipeName);
 	//Id로 조회
 	BoardReview selecetBoardReviewByBoardReviewId(int boardReviewId);
-	
+	//레시피 이름
+	List<RecipeInfo> selectRecipeName(String recipeName);
 }

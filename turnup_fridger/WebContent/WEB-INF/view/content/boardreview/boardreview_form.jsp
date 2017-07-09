@@ -10,59 +10,66 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
-//후기 삭제
-function delete_event(){
-	if (confirm("정말 삭제하시겠습니까??") == true){    
-		//확인
-		location.href="/turnup_fridger/boardreview/boardreview_list.do";
-	}else{   
-		//취소
-	    return false;
-	}
-};
+	//후기 삭제
+	function delete_event(){
+		if (confirm("정말 삭제하시겠습니까??") == true){    
+			//확인
+			location.href="/turnup_fridger/boardreview/boardreview_list.do";
+		}else{   
+			//취소
+		    return false;
+		}
+	};
 
-//후기 등록
-function insert_event(){
-	if (confirm("등록 하시겠습니까??") == true){    
-		//확인
-		location.href="/turnup_fridger/boardreview/boardreview_list.do";
-	}else{   
-		//취소
-	    return false;
+	//후기 등록
+	function insert_event(){
+		if (confirm("등록 하시겠습니까??") == true){    
+			//확인
+			location.href="/turnup_fridger/boardreview/boardreview_list.do";
+		}else{   
+			//취소
+		    return false;
+		}
+	};
+	//별점
+	var starRating = function(){
+	  var $star = $(".boardReviewStar"),
+	      $result = $star.find("output>b");
+	  $(document)
+	    .on("focusin", ".boardReviewStar>.input", function(){
+	    $(this).addClass("focus");
+	  })
+	    .on("focusout", ".boardReviewStar>.input", function(){
+	    var $this = $(this);
+	    setTimeout(function(){
+	      if($this.find(":focus").length === 0){
+	        $this.removeClass("focus");
+	      }
+	    }, 100);
+	  })
+	    .on("change", ".boardReviewStar :radio", function(){
+	    $result.text($(this).next().text());
+	  })
+	    .on("mouseover", ".boardReviewStar label", function(){
+	    $result.text($(this).text());
+	  })
+	    .on("mouseleave", ".boardReviewStar>.input", function(){
+	    var $checked = $star.find(":checked");
+	    if($checked.length === 0){
+	      $result.text("0");
+	    } else {
+	      $result.text($checked.next().text());
+	    }
+	  });
+	};
+	
+	function popupRecipeName()
+	{
+		 window.open("/turnup_fridger/boardreview/recipenamesearch.do","recpieName","width=500,height=400")
 	}
-};
-//별점
-var starRating = function(){
-  var $star = $(".boardReviewStar"),
-      $result = $star.find("output>b");
-  $(document)
-    .on("focusin", ".boardReviewStar>.input", function(){
-    $(this).addClass("focus");
-  })
-    .on("focusout", ".boardReviewStar>.input", function(){
-    var $this = $(this);
-    setTimeout(function(){
-      if($this.find(":focus").length === 0){
-        $this.removeClass("focus");
-      }
-    }, 100);
-  })
-    .on("change", ".boardReviewStar :radio", function(){
-    $result.text($(this).next().text());
-  })
-    .on("mouseover", ".boardReviewStar label", function(){
-    $result.text($(this).text());
-  })
-    .on("mouseleave", ".boardReviewStar>.input", function(){
-    var $checked = $star.find(":checked");
-    if($checked.length === 0){
-      $result.text("0");
-    } else {
-      $result.text($checked.next().text());
-    }
-  });
-};
-starRating();
+	
+	
+//starRating();
 </script>
 <style type="text/css">
  form{display:inline}
@@ -177,7 +184,7 @@ span.error{
 </head>
 <body>
 
-<form action="${initParam.rootPath}/boardreview/boardReviewAdd.do" method="post" enctype="multipart/form-data">
+<form name="review" action="${initParam.rootPath}/boardreview/boardReviewAdd.do" method="post" enctype="multipart/form-data">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 <table border="1" width="600px"> 
 	<tr>
@@ -194,10 +201,14 @@ span.error{
 		</td>
 	</tr>
 </table>
-<table border="1" width="600px"> 	
+<table border="1" width="600px" id="list"> 	
 	<tr>
     	<td>레시피</td>
-    	<td><!-- <input type="button" value="레시피 찾기"> --><input type="text" name="recipeId"></td>
+    	<td>
+	    	<input type="text" id="recipeId" name="recipeId" readonly><br>
+	    	<input type="text" id="recipeName" name="recipeName" readonly>
+	    	<input id="recipeName" type="button" value="레시피 검색" onclick="popupRecipeName()">
+	    </td>
     	<td>별점주기</td>
     	<td>			
 				<span class="boardReviewStar">
@@ -217,6 +228,9 @@ span.error{
 				</span>
 		</td>
     </tr>
+</table>
+<table border="1" width="600px" id="list">
+	<tbody id="tbody"></tbody>
 </table>
 <table border="1" width="600px"> 
 	<tr>
