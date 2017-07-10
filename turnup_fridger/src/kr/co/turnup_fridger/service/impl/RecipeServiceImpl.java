@@ -32,7 +32,7 @@ public class RecipeServiceImpl implements RecipeService{
 	//레시피 등록
 		@Override
 		public void createRecipe(RecipeInfo recipe) throws DuplicateRecipeException {
-			
+			System.out.println("레시피서비스createRecipe 실행:"+recipe.getRecipeName());
 			if(infoDao.selectRecipeInfoByFullName(recipe.getRecipeName())!=null){
 				throw new DuplicateRecipeException("이미 존재하는 레시피명입니다.");
 			}

@@ -198,6 +198,8 @@
 	<!-- 레시피 등록을 위한 재료검색 팝업 -->
 	<mvc:view-controller path="/irdntList_pop.do" view-name="irdntList_pop"/>
 	
+	<!--  -->
+	
 	<!--레시피 사용자용  -->
 	<!--레시피 상세페이지  -->
 	<mvc:view-controller path="/recipe_for_user/recipe_detail.do" view-name="recipe_for_user/recipe_detail.tiles"/>

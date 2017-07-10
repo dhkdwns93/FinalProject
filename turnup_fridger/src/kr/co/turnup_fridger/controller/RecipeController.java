@@ -136,7 +136,7 @@ public class RecipeController {
 		@RequestMapping("common/admin/recipe/register/success")
 		public ModelAndView registerRecipeSuccess( int recipeId ) throws Exception{
 			System.out.println("로그,다");
-			return new ModelAndView("common/admin/recipe/recipeList.tiles","successMsg_create","등록성공!");
+			return new ModelAndView("common/admin/recipe_for_admin/recipeList.tiles","successMsg_create","등록성공!");
 		}
 	
 		//수정
@@ -281,7 +281,7 @@ public class RecipeController {
 		//return mav;
 	}
 	
-	@RequestMapping("showDetailOfRecipe")
+	@RequestMapping("recipe/show/detail")
 	public ModelAndView showDetailOfRecipe(@RequestParam int recipeId){
 		RecipeInfo recipe = recipeService.showDetailOfRecipe(recipeId);
 		return new ModelAndView("상세페이지화면","recipeDetail",recipe);

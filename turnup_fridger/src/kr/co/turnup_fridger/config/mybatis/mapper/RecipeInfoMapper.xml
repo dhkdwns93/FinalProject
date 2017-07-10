@@ -42,11 +42,14 @@
 	</resultMap>
 	
 	<resultMap type="RecipeInfo" id="recipeInfo-recipeCrse-recipeIrdnt-resultmap" extends="RecipeInfo-resultmap">
-		<collection property="recipeCrseList" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeCrseMapper.RecipeCrse-resultmap"/>
-		<collection property="recipeIrdntList" ofType="recipeCrse" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeIrdntMapper.RecipeIrdnt-resultmap"/>
+		<collection property="recipeCrseList" ofType="recipeCrse" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeCrseMapper.RecipeCrse-resultmap"/>
+		<collection property="recipeIrdntList" ofType="recipeIrdnt" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeIrdntMapper.RecipeIrdnt-resultmap"/>
 	</resultMap>
 	
 	<insert id="insertRecipeInfo" parameterType="RecipeInfo">
+	<selectKey order="BEFORE" keyProperty="recipeId" resultType="int">
+				SELECT RECIPE_ID_seq.nextval FROM dual
+	</selectKey>
 		insert into Recipe_Info
 		values (#{recipeId},
 				#{recipeName},
@@ -56,6 +59,7 @@
 				#{typeCode},
 				#{typeName},
 				#{cookingTime},
+				#{calorie},
 				#{qnt},
 				#{recipeLevel},
 				#{irdntCode},
@@ -116,6 +120,14 @@
 		where i.recipe_id = c.recipe_id(+) and i.recipe_id = d.recipe_id(+) 
 	</select>
 	
+	
+	<!-- (7/9) 카테고리 목록 검색  -->
+	<select id="selectRecipeInfoByFullName" parameterType="java.lang.String" resultType="recipeInfo">
+		SELECT
+		<include refid="all-column" />
+		FROM RECIPE_INFO
+		WHERE recipe_name=#{recipeName}
+	</select>
 	
 	<!--레시피명으로 조회-->
 	<select id="selectRecipeInfoByName" resultMap="RecipeInfo-resultmap" parameterType="java.util.HashMap">

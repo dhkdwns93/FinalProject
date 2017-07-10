@@ -18,7 +18,7 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 	private SqlSessionTemplate session;
 	private String makeSql(String id){
 		return "kr.co.turnup_fridger.config.mybatis.mapper.RecipeInfoMapper."+id;
-	}
+	}	
 	
 	@Override
 	public int insertRecipeInfo(RecipeInfo recipeInfo) {
