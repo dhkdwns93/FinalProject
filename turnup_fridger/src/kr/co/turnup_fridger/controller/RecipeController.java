@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +22,7 @@ import kr.co.turnup_fridger.exception.DuplicateRecipeException;
 import kr.co.turnup_fridger.exception.NoneRecipeException;
 import kr.co.turnup_fridger.service.BoardShareRecipeService;
 import kr.co.turnup_fridger.service.IrdntManageService;
+import kr.co.turnup_fridger.service.MyDislikeIrdntService;
 import kr.co.turnup_fridger.service.MyIrdntService;
 import kr.co.turnup_fridger.service.RecipeService;
 import kr.co.turnup_fridger.service.ShareRecipeIrdntService;
@@ -28,6 +30,10 @@ import kr.co.turnup_fridger.validation.form.RecipeCrseForm;
 import kr.co.turnup_fridger.validation.form.RecipeInfoForm;
 import kr.co.turnup_fridger.validation.form.RecipeIrdntForm;
 import kr.co.turnup_fridger.vo.BoardShareRecipe;
+import kr.co.turnup_fridger.vo.IrdntManage;
+import kr.co.turnup_fridger.vo.Member;
+import kr.co.turnup_fridger.vo.MyDislikeIrdnt;
+import kr.co.turnup_fridger.vo.MyIrdnt;
 import kr.co.turnup_fridger.vo.RecipeCrse;
 import kr.co.turnup_fridger.vo.RecipeInfo;
 import kr.co.turnup_fridger.vo.RecipeIrdnt;
@@ -46,8 +52,8 @@ public class RecipeController {
 	private IrdntManageService imService;
 	@Autowired
 	private MyIrdntService myService;
-	
-	
+	@Autowired
+	private MyDislikeIrdntService disService;
 	
 	
 	/***************************************************************
@@ -178,6 +184,7 @@ public class RecipeController {
 	@ResponseBody
 	public Map<String,Object> findRecipeByIrdntId(@RequestParam List<Integer> irdntIds, @RequestParam List<Integer> hateIrdntIds, @RequestParam String keyword){
 
+		System.out.println("아이디핸들러 : "+ irdntIds + "% ㄴㄴ:"+ hateIrdntIds);
 		List<RecipeInfo> apiList = service.findRecipeByIrdntId(irdntIds, hateIrdntIds, keyword);
 		List<BoardShareRecipe> userList = shareService.findUserRecipeByIds(irdntIds, hateIrdntIds);
 		
@@ -186,6 +193,7 @@ public class RecipeController {
 		map.put("apiList", apiList);
 		map.put("userList", userList);	
 		//map.setViewName("재료 검색화면");
+		System.out.println(map);
 		return map;
 		//return mav;
 	}
@@ -214,5 +222,36 @@ public class RecipeController {
 		//List<myIrdnt> = 
 		
 		return map;
+	}
+	
+	@RequestMapping("getIrdntList")
+	@ResponseBody
+	public List<IrdntManage> allIrdntList(){
+		List<IrdntManage> list = imService.findAllIrdnt();
+		return list;
+	}
+	
+	@RequestMapping("getMyIrdntList")
+	@ResponseBody
+	public List<MyIrdnt> allMyIrdntList(@RequestParam int fridgerId){
+		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(member==null){
+			//비회원
+			return null;
+		}
+		List<MyIrdnt> list = myService.findAllMyIrdntByFridgerId(fridgerId);
+		return list;
+	}
+
+	@RequestMapping("getMyDislikeIrdnt")
+	@ResponseBody
+	public List<MyDislikeIrdnt> getMyDislikeIrdnt(){
+		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(member==null){
+			//비회원
+			return null;
+		}
+		List<MyDislikeIrdnt> irdnt = disService.findMyDislikeIrdntByMemberId(member.getMemberId());
+		return irdnt;
 	}
 }
