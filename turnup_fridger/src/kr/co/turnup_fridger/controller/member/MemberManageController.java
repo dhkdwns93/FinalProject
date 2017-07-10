@@ -7,7 +7,9 @@
 package kr.co.turnup_fridger.controller.member;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -128,15 +130,23 @@ public class MemberManageController {
 		//System.out.println("MemberManage"+newMemberPw);
 		member.setMemberPw(memberPw);
 		myDislikeIrdntService.removeMyDislikeIrdntByMemberId(member.getMemberId());
-		List<MyDislikeIrdnt> myDislikeIrdntList=new ArrayList<>();
+		Set<MyDislikeIrdnt> myDislikeIrdntSet=new HashSet<>();//중복으로 등록신청할경우 하나만 넘어옴.
 		List<String> myDislikeIrdntNameList=new ArrayList<>();
 		for(int irdntId:myDislikeIrdntId){
 			if(irdntId!=-1){
-				myDislikeIrdntList.add(new MyDislikeIrdnt(member.getMemberId(),irdntId));
-				myDislikeIrdntService.createMyDislikeIrdnt(new MyDislikeIrdnt(member.getMemberId(),irdntId));
-				myDislikeIrdntNameList.add(irdntManageService.findIrdntByIrdntId(irdntId).getIrdntName());
+				myDislikeIrdntSet.add(new MyDislikeIrdnt(member.getMemberId(),irdntId));
+				//myDislikeIrdntService.createMyDislikeIrdnt(new MyDislikeIrdnt(member.getMemberId(),irdntId));
+				//myDislikeIrdntNameList.add(irdntManageService.findIrdntByIrdntId(irdntId).getIrdntName());		
 			}
 		}
+//		System.out.println(myDislikeIrdntSet);
+		List<MyDislikeIrdnt> myDislikeIrdntList=new ArrayList<>();
+		for(MyDislikeIrdnt nonDuplicateIrdnt:myDislikeIrdntSet){
+			myDislikeIrdntList.add(nonDuplicateIrdnt);
+			myDislikeIrdntService.createMyDislikeIrdnt(nonDuplicateIrdnt);
+			myDislikeIrdntNameList.add(irdntManageService.findIrdntByIrdntId(nonDuplicateIrdnt.getIrdntId()).getIrdntName());
+		}
+		
 		if(myDislikeIrdntNameList.size()==0){//등록된 기피재료가 하나도 없으면 //id default값 하나 등록되있음.
 			myDislikeIrdntNameList.add("등록된 기피재료가 없습니다");
 		}

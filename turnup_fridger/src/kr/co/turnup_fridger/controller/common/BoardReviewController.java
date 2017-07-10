@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.co.turnup_fridger.service.BoardReviewService;
 import kr.co.turnup_fridger.validation.BoardReviewValidator;
 import kr.co.turnup_fridger.vo.BoardReview;
+import kr.co.turnup_fridger.vo.RecipeInfo;
 
 @Controller
 @RequestMapping("/boardreview/")
@@ -322,4 +323,15 @@ public class BoardReviewController extends HttpServlet {
 	        return mav; 
 
 		}
+		
+		//레시피 이름 리스트
+		@RequestMapping("reviewRecipeName") 
+		@ResponseBody
+		public List reviewRecipeName(@RequestParam String recipeName)
+		{  
+			List<RecipeInfo> list = service.selectRecipeName(recipeName);
+	 
+	        return list; 
+		} 
+		
 }

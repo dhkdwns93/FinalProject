@@ -13,6 +13,7 @@ import kr.co.turnup_fridger.service.BoardQnAService;
 import kr.co.turnup_fridger.service.BoardReviewService;
 import kr.co.turnup_fridger.vo.BoardQnA;
 import kr.co.turnup_fridger.vo.BoardReview;
+import kr.co.turnup_fridger.vo.RecipeInfo;
 
 @Service
 public class BoardReviewServiceImpl implements BoardReviewService{
@@ -74,6 +75,14 @@ public class BoardReviewServiceImpl implements BoardReviewService{
 		// TODO Auto-generated method stub
 		return dao.selecetBoardReviewByBoardReviewId(boardReviewId);
 	}
+	
+	
+
+	@Override
+	public List<RecipeInfo> selectRecipeName(String recipeName) {
+		// TODO Auto-generated method stub
+		return dao.selectRecipeName(recipeName);
+	}
 
 	public static void main(String[] args) {
 		//ApplicationContext 객체 생성
@@ -83,7 +92,7 @@ public class BoardReviewServiceImpl implements BoardReviewService{
 		//service.addBoardReview(new BoardReview(4, "맛없어요", "별로임.", new Date(2017-1900,01,02),null,null,3,"id-3",1));
 		
 		//service.updateBoardReview(new BoardReview(2, "맛없어요", "별로임.", new Date(2017-1900,01,02),null,null,3,"id-3",1));
-		service.updateImageNull(new BoardReview(57, "맛없어요", "별로임.", new Date(2017-1900,01,02),null,null,3,"id-3",1));
+		//service.updateImageNull(new BoardReview(57, "맛없어요", "별로임.", new Date(2017-1900,01,02),null,null,3,"id-3",1));
 		
 		int delId = 2;
 		//service.removeBoardReview(delId);
@@ -101,7 +110,10 @@ public class BoardReviewServiceImpl implements BoardReviewService{
 		//System.out.println(list);
 		
 		list = service.selectBoardReviewByRecipeNameList("요리");
-		System.out.println(list);
+		//System.out.println(list);
 		
+		List<RecipeInfo> list2 = null;
+		list2 = service.selectRecipeName("돼지고기");
+		System.out.println(list2);
 	}
 }

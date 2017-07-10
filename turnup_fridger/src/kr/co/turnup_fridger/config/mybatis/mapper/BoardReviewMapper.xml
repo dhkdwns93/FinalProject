@@ -11,6 +11,26 @@
 			+ boardReview 조회
 		 -->
 	
+	<sql id="recipe-column">
+		recipe_id,
+		recipe_name,
+		sumry,
+		category_code,
+		category_name,
+		type_code,
+		type_name,
+		cooking_time,
+		calorie,
+		qnt,
+		recipe_level,
+		irdnt_code,
+		price,
+		img_url,
+		det_url,
+		recipe_hits
+	</sql>
+	
+	
 	<sql id="all-column">
 		BOARD_REVIEW_ID, BOARD_REVIEW_TITLE, BOARD_REVIEW_TXT, 
 		BOARD_REVIEW_DATE, BOARD_REVIEW_IMAGE_NAME, BOARD_REVIEW_IMAGE_SAVE_NAME, BOARD_REVIEW_STAR, MEMBER_ID, RECIPE_ID
@@ -109,6 +129,15 @@
 		DELETE FROM BOARD_REVIEW WHERE BOARD_REVIEW_ID = #{boardReviewId}
 	</delete>
 	
+	
+	<select id="selectRecipeName" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeInfoMapper.RecipeInfo-resultmap" parameterType="String">
+		SELECT
+		<include refid="recipe-column" />
+		FROM RECIPE_INFO
+		WHERE RECIPE_NAME LIKE '%'||#{recipeName}||'%'
+	</select>
+	
+	
 	<!-- BOARD_Review 카운트  -->
 	<select id = "selectBoardReviewCount" resultType="_int">
 		SELECT COUNT(*) FROM BOARD_REVIEW
@@ -144,7 +173,7 @@
 	<!-- BOARD_Review 레시피 이름 카운트  -->
 	<select id = "selectBoardReviewRecipeNameCount" resultType="_int">
 		SELECT COUNT(*) FROM RECIPE_INFO
-		AND RECIPE_NAME LIKE '%'||#{recipeName}||'%'
+		WHERE RECIPE_NAME LIKE '%'||#{recipeName}||'%'
 	</select>
 
 	<!-- LIST 레시피 이름  조회하는 SQL-->

@@ -90,15 +90,8 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Member findMember(String name, String memberEmail) throws FindMemberFailException {
+	public Member findMember(String name, String memberEmail){
 		Member existMember=memberDao.selectMemberByEmail(memberEmail);
-		//이메일, 이름 모두 일치하지 않으면 이용불가.
-		if(existMember==null){
-			throw new FindMemberFailException("해당 이메일의 회원이 존재하지 않습니다.");
-		}
-		if(!existMember.getMemberName().equals(name)){
-			throw new FindMemberFailException("이름과 이메일이 일치하지 않습니다.");
-		}
 		return existMember;
 	}
 	
