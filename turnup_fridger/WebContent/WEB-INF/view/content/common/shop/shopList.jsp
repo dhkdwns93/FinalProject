@@ -36,7 +36,6 @@ $(document).ready(function(){
 	
 	// 삭제
 	$("tbody").on("click", "#delBtn", function(){
-		alert($(this).parent().parent().children(":first-child").text());
 		if(confirm('정말 삭제하시겠습니까?')){
 			$.ajax({
 				"url":"${initParam.rootPath}/shop/removeShop.do",
@@ -74,14 +73,14 @@ table{
 <h2> 쇼핑몰 목록 </h2>
 <div id="shopCount"><span id="count"></span></div>
 
-<table border="1" style="border-collapse:collapse; text-align:center;">
+<table class="table" border="1" style="border-collapse:collapse; text-align:center;">
 	<c:forEach items="${requestScope.list }" var="shop">
 		<tr>
 			<td>${shop.shopId }</td>
 			<td><img alt="" src="${initParam.rootPath}/img/${shop.shopImg}" width="100" height="102"></td>
 			<td id="name"><a href="#" onClick="window.open('${shop.shopAddress}','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=1000px, height=600px ,top=10, left=10', bottom=10, right=10)">${shop.shopName }</a></td>
 			 <!-- 관리자만 보이는 삭제버튼 -->
-			 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN')">
+			 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 				<td><button type="button" id="delBtn">삭제</button></td>
 			</sec:authorize>
 		</tr>
