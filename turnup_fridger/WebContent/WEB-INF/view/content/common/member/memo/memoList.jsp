@@ -16,7 +16,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 		// 내 메모목록불러오기
-		$.ajax({
+ 		$.ajax({
 			"url":"${initParam.rootPath}/memo/memoList.do",
 			"data": "memberId="+$("#id").val(),
 			"dataType" : "json",
@@ -54,7 +54,7 @@ $(document).ready(function(){
 <body>
 <input type="hidden" id="id" value="<sec:authentication property="principal.memberId"/>">
 <div id="memoNum">현재 <span id="count"></span> 개의 메모가 있습니다</div>
-<table border="1" style="border-collapse:collapse; text-align:center;" align="center" width="350">
+<table class="table" border="1" style="border-collapse:collapse; text-align:center;" align="center" width="350">
 <thead>
 <tr>
 	<td>제목</td>
@@ -64,7 +64,17 @@ $(document).ready(function(){
 <tbody id="tbody">
 
 </tbody>
+<%-- <tr>
+	<td>제목</td>
+	<td>작성일</td>
+</tr>
+<c:forEach items="${requestScope.list }" var="memo">
+<tr>
+	<td><fmt:formatDate value="${memo.registeredDate}"/></td>
+	<td><a href="#" onClick="window.open('${initParam.rootPath}/memo/memoDetail.do?memoId=${memo.memoId}','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=450px, height=430px ,top=10, left=10', bottom=10, right=10)">${memo.memoName}</a></td>
+</tr>
+</c:forEach> --%>
 </table>
-<a href="javascript:history.back()"><button type="button" id="back" class="one">뒤로가기</button></a>
+<a href="${initParam.rootPath}/"><button type="button" id="back" class="one">뒤로가기</button></a>
 </body>
 </html>

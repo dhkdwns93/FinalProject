@@ -24,12 +24,15 @@
 	</resultMap>
 	
 	<insert id="insertRecipeIrdnt" parameterType="RecipeIrdnt">
-		insert into RecipeIrdnt 
+	<selectKey order="BEFORE" keyProperty="irdntNo" resultType="int">
+				SELECT IRDNT_NO_seq.nextval FROM dual
+	</selectKey>
+		insert into RECIPE_IRDNT 
 		values (#{irdntNo},#{irdntName},#{irdntAmount},#{irdntTypeCode},#{irdntTypeName},#{recipeId},#{irdntId})
 	</insert>
 	
 	<update id="updateRecipeIrdnt" parameterType="RecipeIrdnt">
-		update RecipeIrdnt
+		update RECIPE_IRDNT
 		set irdnt_no=#{irdntNo},
 			irdnt_name=#{irdntName},
 			irdnt_amount=#{irdntAmount},
@@ -41,40 +44,40 @@
 	</update>
 	
 	<delete id="deleteRecipeIrdnt" parameterType="_int">
-		delete from RecipeIrdnt
+		delete from RECIPE_IRDNT
 		where irdnt_no=#{irdntNo}
 	</delete>
 	
 	<select id="selectAllRecipeIrdnt" resultMap="RecipeIrdnt-resultmap">
 		SELECT
 		<include refid="all-column" />
-		FROM RecipeIrdnt
+		FROM RECIPE_IRDNT
 	</select>
 	
 	<select id="selectRecipeIrdntById" resultMap="RecipeIrdnt-resultmap" parameterType="_int">
 		SELECT
 		<include refid="all-column" />
-		FROM RecipeIrdnt
+		FROM RECIPE_IRDNT
 		where recipe_no = #{recipeNo}
 	</select>
 	
 	<select id="selectRecipeIrdntByNo" resultMap="RecipeIrdnt-resultmap" parameterType="_int">
 		SELECT
 		<include refid="all-column" />
-		FROM RecipeIrdnt
+		FROM RECIPE_IRDNT
 		where irdnt_no=#{irdntNo}
 	</select>
 	
 	<select id="selectRecipeIrdntByName" resultMap="RecipeIrdnt-resultmap" parameterType="java.lang.String">
 		SELECT
 		<include refid="all-column" />
-		FROM RecipeIrdnt
+		FROM RECIPE_IRDNT
 		where irdnt_name like '%'||#{irdntName}||'%'
 	</select>
 	
 	<select id="getRecipeCodeByIrdntIds" resultType="_int" parameterType="java.util.HashMap">
 		SELECT COUNT(*), recipe_id recipe_id
-		FROM recipe_irdnt
+		FROM RECIPE_IRDNT
 		WHERE recipe_id NOT IN (
 				SELECT recipe_id
 				FROM recipe_irdnt

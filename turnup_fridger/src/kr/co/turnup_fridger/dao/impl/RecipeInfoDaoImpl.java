@@ -18,7 +18,7 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 	private SqlSessionTemplate session;
 	private String makeSql(String id){
 		return "kr.co.turnup_fridger.config.mybatis.mapper.RecipeInfoMapper."+id;
-	}
+	}	
 	
 	@Override
 	public int insertRecipeInfo(RecipeInfo recipeInfo) {
@@ -49,6 +49,12 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 	@Override
 	public RecipeInfo selectThreeOfRecipesById(int recipeId) {
 		return session.selectOne(makeSql("selectThreeOfRecipesById"),recipeId);
+	}
+	
+	@Override
+	public RecipeInfo selectRecipeInfoByFullName(String recipeName){
+		return session.selectOne(makeSql("selectRecipeInfoByFullName"), recipeName);
+		
 	}
 	
 	//페이징

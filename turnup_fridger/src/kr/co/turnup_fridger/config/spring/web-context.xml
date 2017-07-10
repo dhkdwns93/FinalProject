@@ -194,7 +194,11 @@
 	<!--레시피 등록폼 -->
 	<mvc:view-controller path="/common/admin/recipe/register_form.do" view-name="common/admin/recipe_for_admin/register_form.tiles"/>
 	<!--레시피 수정폼  -->
-	<mvc:view-controller path="/common/admin/recipe/update_recipe.do" view-name="common/admin/recipe_for_admin/update_recipe.tiles"/>
+	<mvc:view-controller path="/common/admin/recipe/update_form.do" view-name="common/admin/recipe_for_admin/update_form.tiles"/>
+	<!-- 레시피 등록을 위한 재료검색 팝업 -->
+	<mvc:view-controller path="/irdntList_pop.do" view-name="irdntList_pop"/>
+	
+	<!--  -->
 	
 	<!--레시피 사용자용  -->
 	<!--레시피 상세페이지  -->

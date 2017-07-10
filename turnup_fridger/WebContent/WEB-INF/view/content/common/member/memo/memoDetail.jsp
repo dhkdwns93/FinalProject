@@ -68,36 +68,33 @@ $(document).ready(function(){
 @CHARSET "UTF-8";
 @import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 
-div{
+ #memoDate{
 	font-size: 30px;
-	text-align: right;
+	text-align: center;
 	font-family: 'Nanum Pen Script', serif;
-	color: white;
 }
 
-body{
+/*body{
 	background: url('${initParam.rootPath}/img/note.jpg') no-repeat center;
 	background-size: cover;
 }
-
-#title{
-	font-size: 30px;
-	text-align: right;
-	font-family: 'Nanum Pen Script', serif;
-	color: white;
-	}
+ */
 	
-table{
+#detail{
 	align: center;
 	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	/* background: url('${initParam.rootPath}/img/note.jpg') no-repeat center;
+	background-size: cover; */
 }
 </style>
 </head>
 <body>
-	<div>
+	<div id="memoDate">
 		<fmt:formatDate value="${requestScope.memo.registeredDate }" pattern="yyyy년 MM월 dd일" />의 메모
 	</div>
-	<table align="center">
+	<table id="detail">
 		<tr>
 			<td><span class="error"><form:errors path="myMemo.memoName" /></span><br>
 			<input type="text" id="name" class="box" name="memoName" size="50" value="${requestScope.memo.memoName}" readonly style="background-color: transparent"></td>
@@ -108,7 +105,7 @@ table{
 			<textarea id="txt" rows="21" cols="51" class="box" name="memoTxt" readonly style="background-color: transparent">${requestScope.memo.memoTxt }</textarea></td>
 		</tr>
 		<tr>
-			<td>
+			<td><a href="${initParam.rootPath}/common/member/memo/memoList.do"><button type="button" id="back" class="one">목록보기</button></a>
 				 <button type="button" id="mod" class="one">수정</button>
 				 <button type="button" id="del" class="one">삭제</button>
 				 <button type="button" id="submit">확인</button>
