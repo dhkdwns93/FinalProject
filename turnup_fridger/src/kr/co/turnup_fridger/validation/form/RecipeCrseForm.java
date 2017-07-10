@@ -1,8 +1,7 @@
 package kr.co.turnup_fridger.validation.form;
 
 import org.hibernate.validator.constraints.NotEmpty;
-
-import kr.co.turnup_fridger.vo.RecipeInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 public class RecipeCrseForm {
 
@@ -14,7 +13,8 @@ public class RecipeCrseForm {
 	private String cookingDc;
 	private String stepImageUrl;
 	private String stepTip;
-	private RecipeInfo recipeInfo;
+	private MultipartFile stepImageUrlSrc;
+	
 	public int getRecipeId() {
 		return recipeId;
 	}
@@ -45,11 +45,12 @@ public class RecipeCrseForm {
 	public void setStepTip(String stepTip) {
 		this.stepTip = stepTip;
 	}
-	public RecipeInfo getRecipeInfo() {
-		return recipeInfo;
+
+	public MultipartFile getStepImageUrlSrc() {
+		return stepImageUrlSrc;
 	}
-	public void setRecipeInfo(RecipeInfo recipeInfo) {
-		this.recipeInfo = recipeInfo;
+	public void setStepImageUrlSrc(MultipartFile stepImageUrlSrc) {
+		this.stepImageUrlSrc = stepImageUrlSrc;
 	}
 	
 	

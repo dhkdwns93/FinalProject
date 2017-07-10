@@ -47,7 +47,7 @@ public class RecipeInfo implements Serializable{
 		this.typeName = typeName;
 		this.cookingTime = cookingTime;
 		this.calorie = calorie;
-		qnt = qnt;
+		this.qnt = qnt;
 		this.recipeLevel = recipeLevel;
 		this.irdntCode = irdntCode;
 		this.price = price;
@@ -55,6 +55,8 @@ public class RecipeInfo implements Serializable{
 		this.detUrl = detUrl;
 	}
 
+	
+	
 
 	public RecipeInfo(int recipeId, String recipeName, String sumry, int categoryCode, String categoryName,
 			int typeCode, String typeName, String cookingTime, String calorie, String qnt, String recipeLevel,
@@ -152,12 +154,12 @@ public class RecipeInfo implements Serializable{
 		this.calorie = calorie;
 	}
 
-	public String getqnt() {
+	public String getQnt() {
 		return qnt;
 	}
 
-	public void setqnt(String qnt) {
-		qnt = qnt;
+	public void setQnt(String qnt) {
+		this.qnt = qnt;
 	}
 
 	public String getRecipeLevel() {
@@ -208,21 +210,6 @@ public class RecipeInfo implements Serializable{
 		this.recipeHits = recipeHits;
 	}
 
-	public List<RecipeIrdnt> getrecipeIrdnt() {
-		return recipeIrdntList;
-	}
-
-	public void setrecipeIrdnt(List<RecipeIrdnt> recipeIrdnt) {
-		this.recipeIrdntList = recipeIrdnt;
-	}
-
-	public List<RecipeCrse> getrecipeCrse() {
-		return recipeCrseList;
-	}
-
-	public void setrecipeCrse(List<RecipeCrse> recipeCrse) {
-		this.recipeCrseList = recipeCrse;
-	}
 	
 
 	public MultipartFile getImgUrlSrc() {
@@ -246,9 +233,12 @@ public class RecipeInfo implements Serializable{
 		return recipeCrseList;
 	}
 
-	public void setRecipeCrse(List<RecipeCrse> recipeCrseList) {
+	public void setRecipeCrseList(List<RecipeCrse> recipeCrseList) {
 		this.recipeCrseList = recipeCrseList;
 	}
+
+	
+	
 
 	
 

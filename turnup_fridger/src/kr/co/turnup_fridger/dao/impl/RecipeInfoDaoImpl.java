@@ -51,6 +51,12 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 		return session.selectOne(makeSql("selectThreeOfRecipesById"),recipeId);
 	}
 	
+	@Override
+	public RecipeInfo selectRecipeInfoByFullName(String recipeName){
+		return session.selectOne(makeSql("selectRecipeInfoByFullName"), recipeName);
+		
+	}
+	
 	//페이징
 	@Override
 	public List<RecipeInfo> selectRecipeInfoByName(String recipeName, String keyword) {

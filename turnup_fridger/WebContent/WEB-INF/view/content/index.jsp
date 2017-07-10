@@ -48,6 +48,9 @@ form{display:inline}
 <a href="${initParam.rootPath}/common/member/fridger/register_form2.do"><button type="button">냉장고등록(with IMG)</button></a>
 <a href="${initParam.rootPath}/common/member/fridger/joinProcess/list.do"><button type="button">냉장고 가입처리</button></a>
 
+
+<br>
+<hr>
 <br>
 <hr>
 <!-- 경혜 -->

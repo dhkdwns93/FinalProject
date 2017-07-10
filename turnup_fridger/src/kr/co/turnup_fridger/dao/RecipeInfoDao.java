@@ -46,6 +46,14 @@ public interface RecipeInfoDao {
 	 * @return
 	 */
 	RecipeInfo selectThreeOfRecipesById(int recipeId);
+
+	/**
+	 * 풀네임으로
+	 * @param recipeName
+	 * @return
+	 */
+	RecipeInfo selectRecipeInfoByFullName(String recipeName);
+	
 	
 	/**
 	 * 레시피id들로 찾은 레시피들을 모두 담은 리스트.(페이징)

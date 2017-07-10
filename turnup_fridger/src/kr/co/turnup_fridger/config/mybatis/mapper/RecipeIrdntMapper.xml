@@ -24,6 +24,9 @@
 	</resultMap>
 	
 	<insert id="insertRecipeIrdnt" parameterType="RecipeIrdnt">
+	<selectKey order="BEFORE" keyProperty="irdntNo" resultType="int">
+				SELECT IRDNT_NO_seq.nextval FROM dual
+	</selectKey>
 		insert into RecipeIrdnt 
 		values (#{irdntNo},#{irdntName},#{irdntAmount},#{irdntTypeCode},#{irdntTypeName},#{recipeId},#{irdntId})
 	</insert>
