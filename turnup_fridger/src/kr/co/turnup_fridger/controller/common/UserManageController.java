@@ -8,7 +8,9 @@
 package kr.co.turnup_fridger.controller.common;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,9 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
-import kr.co.turnup_fridger.exception.SignUpMemberFailException;
 import kr.co.turnup_fridger.service.AuthorityService;
 import kr.co.turnup_fridger.service.IrdntManageService;
 import kr.co.turnup_fridger.service.MemberService;
@@ -62,20 +62,29 @@ public class UserManageController {
 		validator.validate(member, errors);
 		if(errors.hasErrors()){//errors에 오류가 1개라도 등록되있으면 다시 form으로 돌아가
 			//return new ModelAndView("user/join_member_form","member",member);
+			//System.out.println(errors);
 			return "user/join_member_form";
 		}
 		
 		//2.BusinessLogic
 		memberService.signUpMember(member);
-		List<MyDislikeIrdnt> myDislikeIrdntList=new ArrayList<>();
+		Set<MyDislikeIrdnt> myDislikeIrdntSet=new HashSet<>();//중복으로 등록신청할경우 하나만 넘어옴.
 		List<String> myDislikeIrdntNameList=new ArrayList<>();
 		for(int irdntId:myDislikeIrdntId){
 			if(irdntId!=-1){
-				myDislikeIrdntList.add(new MyDislikeIrdnt(member.getMemberId(),irdntId));
-				myDislikeIrdntService.createMyDislikeIrdnt(new MyDislikeIrdnt(member.getMemberId(),irdntId));
-				myDislikeIrdntNameList.add(irdntManageService.findIrdntByIrdntId(irdntId).getIrdntName());
+				myDislikeIrdntSet.add(new MyDislikeIrdnt(member.getMemberId(),irdntId));
+				//myDislikeIrdntService.createMyDislikeIrdnt(new MyDislikeIrdnt(member.getMemberId(),irdntId));
+				//myDislikeIrdntNameList.add(irdntManageService.findIrdntByIrdntId(irdntId).getIrdntName());		
 			}
 		}
+//		System.out.println(myDislikeIrdntSet);
+		List<MyDislikeIrdnt> myDislikeIrdntList=new ArrayList<>();
+		for(MyDislikeIrdnt nonDuplicateIrdnt:myDislikeIrdntSet){
+			myDislikeIrdntList.add(nonDuplicateIrdnt);
+			myDislikeIrdntService.createMyDislikeIrdnt(nonDuplicateIrdnt);
+			myDislikeIrdntNameList.add(irdntManageService.findIrdntByIrdntId(nonDuplicateIrdnt.getIrdntId()).getIrdntName());
+		}
+		
 		if(myDislikeIrdntNameList.size()==0){//등록된 기피재료가 하나도 없으면 //id default값 하나 등록되있음.
 			myDislikeIrdntNameList.add("등록된 기피재료가 없습니다");
 		}
@@ -86,6 +95,13 @@ public class UserManageController {
 		map.addAttribute("myDislikeIrdntNameList", myDislikeIrdntNameList);
 		//return new ModelAndView("redirect:/join_member_success.do","memberId",member.getMemberId());
 		return "redirect:/join_member_success.do";
+	}
+	
+	@RequestMapping("/send_find_IdPw_email")
+	public String sendEmail(@RequestParam String inputName, @RequestParam String inputEmail){
+		
+		
+		return "redirect:/popup_find_IdPw_form.do";
 	}
 	
 	@RequestMapping("/join_member_success")
@@ -129,10 +145,29 @@ public class UserManageController {
 		//1.요청파라미터 조회+검증
 		//2.BusinessLogic
 		if(memberService.findMemberByEmail(inputEmail)!=null){
-			//System.out.println("ID있음");
+			//System.out.println("Email있음");
 			return "duplicateEmailError";
 		}
 		return inputEmail;
 	}
+
+	/**
+	 * ID/PW찾기 -Ajax처리
+	 * @param inputName
+	 * @param inputEmail
+	 * @return
+	 */
+	@RequestMapping(value="/popup_find_IdPw", produces="text/html;charset=UTF-8")
+	@ResponseBody
+	public String findIdPw(String inputName,String inputEmail){
+		//1.요청파라미터 조회+검증
+		//2.BusinessLogic
+		if(memberService.findMember(inputName, inputEmail)==null){
+			//System.out.println("Email있음");
+			return "nonExistMember";
+		}
+		return inputEmail;
+	}
+	
 
 }

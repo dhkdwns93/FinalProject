@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.turnup_fridger.dao.BoardReviewDao;
 import kr.co.turnup_fridger.vo.BoardReview;
+import kr.co.turnup_fridger.vo.RecipeInfo;
 
 @Repository
 public class BoardReviewDaoImpl implements BoardReviewDao {
@@ -85,6 +86,12 @@ public class BoardReviewDaoImpl implements BoardReviewDao {
 	public BoardReview selecetBoardReviewByBoardReviewId(int boardReviewId) {
 		// TODO Auto-generated method stub
 		return session.selectOne(makeSqlId("selectBoardReviewByBoardReviewId"), boardReviewId);
+	}
+
+	@Override
+	public List<RecipeInfo> selectRecipeName(String recipeName) {
+		// TODO Auto-generated method stub
+		return session.selectList(makeSqlId("selectRecipeName"), recipeName);
 	}
 	
 	

@@ -16,7 +16,7 @@ public class RecipeIrdntDaoImpl implements RecipeIrdntDao{
 	@Autowired
 	private SqlSessionTemplate session;
 	private String makeSql(String id){
-		return "kr.co.turnup_fridger.config.mybatis.mapper.RecipeIrdnt."+id;
+		return "kr.co.turnup_fridger.config.mybatis.mapper.RecipeIrdntMapper."+id;
 	}
 	
 	@Override

@@ -12,7 +12,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="${initParam.rootPath}/scripts/jquery.js"></script>
+<script type="text/javascript" src="${initParam.rootPath}/scripts/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#submit").on("click", function(){
@@ -58,7 +58,7 @@ table {
 	</div>
 	<span id="error"><c:if test="${requestScope.error != null }">${requestScope.error }</c:if></span>
 	<form action="${initParam.rootPath}/memo/addMemo.do" method="post">
-	
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 		<table>
 			<tr>
 				<td><span class="error"><form:errors path="myMemo.memoName" /></span><br>
@@ -77,7 +77,6 @@ table {
 				</td>
 			</tr>
 		</table>
-		<sec:csrfInput/>
 	</form>
 </body>
 </html>

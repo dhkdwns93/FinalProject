@@ -3,6 +3,7 @@ package kr.co.turnup_fridger.service;
 import java.util.List;
 
 import kr.co.turnup_fridger.vo.BoardReview;
+import kr.co.turnup_fridger.vo.RecipeInfo;
 
 public interface BoardReviewService {
 
@@ -43,4 +44,6 @@ public interface BoardReviewService {
 	List<BoardReview> selectBoardReviewByRecipeNameList(String recipeName);
 	//상세정보
 	BoardReview selecetBoardReviewByBoardReviewId(int boardReviewId);
+	//레시피이름조회
+	 List<RecipeInfo> selectRecipeName(String recipeName);
 }

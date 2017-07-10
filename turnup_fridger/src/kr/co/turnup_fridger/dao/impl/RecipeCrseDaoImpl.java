@@ -16,7 +16,7 @@ public class RecipeCrseDaoImpl implements RecipeCrseDao {
 	@Autowired
 	private SqlSessionTemplate session;
 	private String makeSql(String id){
-		return "kr.co.turnup_fridger.config.mybatis.mapper.RecipeCrse."+id;
+		return "kr.co.turnup_fridger.config.mybatis.mapper.RecipeCrseMapper."+id;
 	}
 	
 	@Override

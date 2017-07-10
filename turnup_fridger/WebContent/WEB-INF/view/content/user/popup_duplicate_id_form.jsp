@@ -11,7 +11,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger/scripts/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("button#duplicateIdBtn").on("click",function(){
@@ -40,7 +40,7 @@ $(document).ready(function(){
 		opener.document.usePopup.memberId.value=id;
 		//opener.document.join_member_form._csrf.parameterName.value=_csrf.token;
 		window.close();
-	});
+	});//end of useIdBtn
 });
 </script>
 </head>

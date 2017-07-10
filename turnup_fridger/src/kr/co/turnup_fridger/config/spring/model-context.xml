@@ -9,7 +9,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
-	<context:component-scan base-package="kr.co.turnup_fridger.service.impl, kr.co.turnup_fridger.dao.impl"/>
+	<context:component-scan base-package="kr.co.turnup_fridger.service.impl, kr.co.turnup_fridger.dao.impl, kr.co.turnup_fridger.validation"/>
 	
 	<!-- mybatis 설정 -->
 	<bean name="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"

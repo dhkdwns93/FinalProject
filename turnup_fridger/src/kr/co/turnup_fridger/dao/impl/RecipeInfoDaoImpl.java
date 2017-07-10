@@ -17,7 +17,7 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 	@Autowired
 	private SqlSessionTemplate session;
 	private String makeSql(String id){
-		return "kr.co.turnup_fridger.config.mybatis.mapper.RecipeInfo."+id;
+		return "kr.co.turnup_fridger.config.mybatis.mapper.RecipeInfoMapper."+id;
 	}
 	
 	@Override
@@ -54,10 +54,11 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 	//페이징
 	@Override
 	public List<RecipeInfo> selectRecipeInfoByName(String recipeName, String keyword) {
-		
+		System.out.println("dao"+recipeName+keyword);
 		Map<String,String> input= new HashMap<String,String>();
 		input.put("recipeName", recipeName);
 		input.put("keyword",keyword);	
+		System.out.println(input);
 		return session.selectList(makeSql("selectRecipeInfoByName"),input);
 	}
 	@Override
@@ -102,6 +103,11 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 		map.put("recipeIds", recipeIds);
 		map.put("keyword",keyword);		
 		return session.selectOne(makeSql("selectRecipesInfoByIdsCount"),map);
+	}
+
+	@Override
+	public List<String> selectTypeNameByCategoryName(String categoryName) { 
+		return session.selectList(makeSql("selectTypeNameByCategoryName"),categoryName);
 	}
 
 	

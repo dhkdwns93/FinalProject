@@ -13,9 +13,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger/scripts/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
-
+	$(document).ready(function(){
+		$("button#findIdPwBtn").on("click",function(){
+			window.open("${initParam.rootPath}/popup_find_IdPw_form.do","find_IdPw_form","width=500,height=400,resizable=yes");
+		});//end of findIdPwBtn
+		
+	});
 </script>
 </head>
 <body>
@@ -23,7 +28,7 @@
 <hr>
 
 
-<h2>로그인form페이지</h2>
+<h2>Login</h2>
 <c:if test="${not empty param.errorMessage }">
 	<div class="well text-danger">
 		${param.errorMessage }
@@ -40,7 +45,7 @@
 		<input type="password" id="password" name="userPw" class="form-control">
 	</div>
 	<button type="submit" class="btn btn-default">LOGIN</button>
-	<button type="button" class="btn btn-default">forget ID/Password</button>
+	<button type="button" id="findIdPwBtn" class="btn btn-default">forget ID/Password</button>
 </form>
 </body>
 </html>
