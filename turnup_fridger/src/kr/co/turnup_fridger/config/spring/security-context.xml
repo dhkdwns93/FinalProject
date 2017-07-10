@@ -21,7 +21,6 @@
 <!--패스워드 자동으로 암호화해주는 Bean  -->
 <beans:bean name="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 
-
 <!--http 태그 : 웹 인증처리를 위한 설정을 하는 태그.  
 		- 하위태그 : intercept-url : 어떤 url경로요청은 어떤권한이 있어야 하는지 설정(경로-권한 매칭)
 									하위 url경로부터 잡아야한다. 
