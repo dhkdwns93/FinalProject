@@ -47,7 +47,7 @@
 	</resultMap>
 	
 	<insert id="insertRecipeInfo" parameterType="RecipeInfo">
-		insert into RecipeInfo 
+		insert into Recipe_Info
 		values (#{recipeId},
 				#{recipeName},
 				#{sumry},
@@ -67,7 +67,7 @@
 	</insert>
 	
 	<update id="updateRecipeInfo" parameterType="RecipeInfo">
-		update RecipeInfo
+		update Recipe_Info
 		set recipe_id=#{recipeId},
 			recipe_name=#{recipeName},
 			sumry=#{sumry},
@@ -87,20 +87,20 @@
 	</update>
 	
 	<delete id="deleteRecipeInfo" parameterType="_int">
-		delete from RecipeInfo
+		delete from Recipe_Info
 		where recipe_id=#{recipeId}
 	</delete>
 	
 	<select id="selectAllRecipeInfo" resultMap="RecipeInfo-resultmap">
 		SELECT
 		<include refid="all-column" />
-		FROM RecipeInfo
+		FROM Recipe_Info
 	</select>
 	
 	<select id="selectRecipeInfoById" resultMap="RecipeInfo-resultmap" parameterType="_int">
 		SELECT
 		<include refid="all-column" />
-		FROM RecipeInfo
+		FROM Recipe_Info
 		where recipe_id=#{recipeId}
 	</select>
 
@@ -120,20 +120,20 @@
 	<!--레시피명으로 조회-->
 	<select id="selectRecipeInfoByName" resultMap="RecipeInfo-resultmap" parameterType="java.util.HashMap">
 		SELECT <include refid="all-column" />
-			FROM RecipeInfo
+			FROM Recipe_Info
 			where recipe_name like '%'||#{recipeName}||'%'
 			<choose>
 			<when test="keyword=='recipeHitsDesc'">
-				order by recipeHits desc
+				order by recipe_hits desc
 			</when>
 			<when test="keyword=='recipeHitsAsc'">
-				order by recipeHits asc
+				order by recipe_hits asc
 			</when>
 			<when test="keyword =='calorieDesc'">
-				order by calrorie desc
+				order by calorie desc
 			</when>
 			<when test="keyword =='calorieAsc'">
-				order by calrorie asc
+				order by calorie asc
 			</when>
 			<when test="keyword == '초보환영'">
 				and recipe_level='초보환영'
@@ -150,7 +150,7 @@
 	<!--레시피명 카운트  -->
 	<select id="selectRecipeInfoByNameCount" resultType="_int" parameterType="java.util.HashMap">
 		SELECT count(*)
-		FROM RecipeInfo
+		FROM Recipe_Info
 		where recipe_name like '%'||#{recipeName}||'%' 
 		<choose>
 			<when test="keyword=='recipeHitsDesc'">
@@ -181,7 +181,7 @@
 	<select id="selectRecipeInfoByCategoryAndType" resultMap="RecipeInfo-resultmap" parameterType="java.util.HashMap">
 		SELECT
 		<include refid="all-column" />
-		FROM RecipeInfo
+		FROM Recipe_Info
 		where category_name like '%'||#{categoryName}||'%' and type_name like '%'||#{typeName}||'%'
 			<choose>
 			<when test="keyword=='recipeHitsDesc'">
@@ -211,7 +211,7 @@
 	<!--카테고리 카운트  -->
 	<select id="selectRecipeInfoByCategoryAndTypeCount" resultType="_int" parameterType="java.util.HashMap">
 		SELECT count(*)
-		FROM RecipeInfo
+		FROM Recipe_Info
 		where category_name like '%'||#{categoryName}||'%' and type_name like '%'||#{typeName}||'%'
 				<choose>
 			<when test="keyword=='recipeHitsDesc'">
@@ -242,7 +242,7 @@
 	<select id="selectRecipesInfoByIds" resultMap="RecipeInfo-resultmap" parameterType="java.util.List">
 		SELECT
 		<include refid="all-column" />
-		FROM RecipeInfo
+		FROM Recipe_Info
 		<where>
 			<choose>
 				<when test="list !=null and list.size()>0 ">
@@ -284,7 +284,7 @@
 	<!--id로 카운트  -->
 	<select id="selectRecipesInfoByIdsCount" resultType="_int" parameterType="java.util.HashMap">
 		SELECT count(*)
-		FROM RecipeInfo
+		FROM Recipe_Info
 		where recipe_id = #{recipeId}
 			<choose>
 			<when test="keyword=='recipeHitsDesc'">
@@ -333,11 +333,13 @@
 	</select>
 	
 	<!--카테고리명 받아서 음식분류명 동적으로 가져오기  -->
-	<select id="selectTypeNameByCategoryName" parameterType ="java.lang.String" resultType="java.util.ArrayList">
+	<select id="selectTypeNameByCategoryName" parameterType ="java.lang.String" resultType="string">
 	SELECT DISTINCT type_name 
 	FROM RECIPE_INFO 
 	where category_name=#{value}
 	</select>
+	
+
 	
 	
 </mapper>

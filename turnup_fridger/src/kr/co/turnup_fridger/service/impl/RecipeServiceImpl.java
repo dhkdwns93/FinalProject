@@ -76,9 +76,6 @@ public class RecipeServiceImpl implements RecipeService{
 	public List<RecipeInfo> findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword) {
 		//페이징
 		List<Integer> recipeIds = irdntDao.getRecipeCodeByIrdntIds(irdntIds, hateIrdntIds);		
-		
-		
-	
 		List<RecipeInfo> apiList = infoDao.selectRecipesInfoByIds(recipeIds, keyword);
 		
 		return null;
@@ -88,9 +85,10 @@ public class RecipeServiceImpl implements RecipeService{
 	@Override
 	public List<RecipeInfo> findRecipeByRecipeName(String recipeName,String keyword) {
 		
+		System.out.println("레시피서비스임플"+recipeName+keyword);
 		List<RecipeInfo> list = infoDao.selectRecipeInfoByName(recipeName,keyword);
-		
-		return null;
+		System.out.println("레시피서비스임플"+list);
+		return list;
 	}
 
 	//유형분류와 음식분류로 선택해서 레시피 목록들 불러오는것. 
@@ -101,7 +99,7 @@ public class RecipeServiceImpl implements RecipeService{
 		
 		List<RecipeInfo> list = infoDao.selectRecipeInfoByCategoryAndType(categoryName, typeName, keyword);
 		
-		return null;
+		return list;
 	}
 	
 	//불러온 목록에서 하나를 선택하여 그 레시피의 상세화면을 가져오는 것.

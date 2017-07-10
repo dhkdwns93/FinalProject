@@ -9,17 +9,57 @@
 $(document).ready(function(){
 	
 	//테이블정렬기준 숨김.
+	$("#sortKeyword").hide();
 	
 	$.ajax(function(){
-		
-		//나의식재료랑, 재료관리에서 식재료들 리스트로 받아오기.
-		//나의식재료 - 재료명,신선도?, 체크박스
+		//재료관리에서 식재료들 리스트로 받아오기.
 		//재료관리 - 재료명, 체크박스	
-		
-	});//ajax
+		"url":"/turnup_fridger/common/admin/irdntManage/allIrdntList.do",
+		"type":"POST",
+		"dataType":"json",
+		"success":function(list){
+			$("#irdntManageThead").empty();	
+			$("#irdntManageThead").append($("<tr>").prop("id","irdntManage_col").append($("<th>").append("레시피id")
+			$("#irdntManageTbody").empty();	
+			$.each(list, function(){
+				$("#irdntManageTbody").append($("<tr>").prop("id","apiRecipe_col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)).append($("<td>").append(this.sumry)).append($("<td>").append(this.categoryName))
+					.append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel)).append($("<td>").append(this.imgUrl))
+					.append($("<td>").append(this.recipeHits)));
+				 });//each	 		 
+			},//success
+			"error":function(xhr, msg, code){
+				alert("오류발생-" +msg+ ":" +code);
+			}//error
+	});
+	$.ajax(function(){
+		//나의식재료랑에서 식재료들 리스트로 받아오기.
+		//나의식재료 - 재료명,신선도?, 체크박스
+		"url":"/turnup_fridger/common/member/myIrdnt/allMyIrdntList.do",
+		"type":"POST",
+		"dataType":"json", 
+		"success":function(list){
+			$("#myIrdntThead").empty();	
+			$("#myIrdntThead").append($("<tr>").prop("id","apiRecipe_col").append($("<th>").append("레시피id")).append($("<th>").append("이름"))pend($("<th>").append("유형분류"))
+				.append($("<th>").append("음식분류")).append($("<th>").append("조리시간")).append($("<th>").append("칼로리")).append($("<th>").append("난이도")).append($("<th>").append("대표이미지"))
+				.append($("<th>").append("조회수")));
+			$("#myIrdntTbody").empty();	
+			$.each(list, function(){
+				$("#myIrdntTbody").append($("<tr>").prop("id","apiRecipe_col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)).append($("<td>").append(this.sumry)).append($("<td>").append(this.categoryName))
+					.append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel)).append($("<td>").append(this.imgUrl))
+					.append($("<td>").append(this.recipeHits)));
+				 });//each	 		 
+			},//success
+			"error":function(xhr, msg, code){
+				alert("오류발생-" +msg+ ":" +code);
+			}//error	
+	});//ajax2
+	
 	
 	$(document).on("click",("#dislikeBtn"),function(){
 		//체크박스로 선택된 재료들 기피재료테이블로 옮기기
+		var irdntId = $(this).parent().children(":first-child").text();
+		window.open("/turnup_fridger/common/member/myIrdnt/findIrdntByKey.do?myIrdntKey="+myIrdntKey,"detail","width=500, height=400");
+	
 	});//기피재료버튼
 	
 	$(document).on("click",("#likeBtn"),function(){
@@ -70,7 +110,7 @@ $(document).ready(function(){
 		})
 	});//검색
 	
-	$(document).on("click",("#hitsDesc"),function(){
+	/* $(document).on("click",("#hitsDesc"),function(){
 		
 	});//최다조회순
 	
@@ -88,7 +128,7 @@ $(document).ready(function(){
 	
 	$(document).on("change",("#recipeLevel"),function(){
 
-	});//난이도
+	});//난이도 */
 	
 })//ready
 </script>
@@ -135,7 +175,7 @@ $(document).ready(function(){
 	<!--위의 재료들을 리스트에 담아서 재료로 검색하는 핸들러로 보낸다. -->
 	<button type="button" id="searchBtn">레시피검색</button><br>
 
-
+	<div id="sortKeyword">
 	<button type="button" id="hitsDesc">최다조회순</button>
 	<button type="button" id="hitsAsc">최저조회순</button>
 	<button type="button" id="calrorieDesc">고칼로리순</button>
@@ -146,7 +186,7 @@ $(document).ready(function(){
 		<option value="보통">보통</option>
 		<option value="어려움">어려움</option>
 	</select>
-	
+	</div>
 	<div id="apiResult">
 		<table>
 			<thead id="apiThead"></thead>

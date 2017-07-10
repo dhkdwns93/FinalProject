@@ -20,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.co.turnup_fridger.exception.DuplicateRecipeException;
 import kr.co.turnup_fridger.exception.NoneRecipeException;
 import kr.co.turnup_fridger.service.BoardShareRecipeService;
+import kr.co.turnup_fridger.service.IrdntManageService;
+import kr.co.turnup_fridger.service.MyIrdntService;
 import kr.co.turnup_fridger.service.RecipeService;
 import kr.co.turnup_fridger.service.ShareRecipeIrdntService;
 import kr.co.turnup_fridger.validation.form.RecipeCrseForm;
@@ -31,7 +33,7 @@ import kr.co.turnup_fridger.vo.RecipeInfo;
 import kr.co.turnup_fridger.vo.RecipeIrdnt;
 
 @Controller
-@RequestMapping("/common/")
+@RequestMapping("/")
 public class RecipeController {
 	
 	@Autowired
@@ -40,6 +42,10 @@ public class RecipeController {
 	private BoardShareRecipeService shareService;
 	@Autowired
 	private ShareRecipeIrdntService sIrdntService;
+	@Autowired
+	private IrdntManageService imService;
+	@Autowired
+	private MyIrdntService myService;
 	
 	
 	
@@ -47,7 +53,7 @@ public class RecipeController {
 	/***************************************************************
 	 * 관리자를 위한  Recipe Handler : 등록, 삭제
 	 ****************************************************************/
-	@RequestMapping(value="admin/recipe/register",produces="html/text;charset=UTF-8;")
+	@RequestMapping(value="/common/admin/recipe/register",produces="html/text;charset=UTF-8;")
 	public ModelAndView createRecipe(@ModelAttribute("recipeInfo") @Valid RecipeInfoForm recipeInfoForm, BindingResult errors){
 		System.out.println("createRecipe로그");
 		//발리데이션은 한번에 거쳐서 들어오면, 그걸 나눠서 타입바꿔주는 작업을 하자.
@@ -138,41 +144,49 @@ public class RecipeController {
 		return list;
 	}
 	
-	@RequestMapping("findRecipeByRecipeName")
-	public Map<String,Object> findRecipeByRecipeName(@RequestParam String recipeName, @RequestParam String keyword){
-		System.out.println("핸들러 : " + recipeName);
+	@RequestMapping(value="findRecipeByRecipeName")
+	@ResponseBody
+	public Map findRecipeByRecipeName(@RequestParam String recipeName, @RequestParam String keyword){
+		
+		System.out.println("핸들러 : "+recipeName+keyword);
 		List<RecipeInfo> apiList = service.findRecipeByRecipeName(recipeName, keyword);
 		List<BoardShareRecipe> userList = shareService.selectBoardShareRecipeByTitle(recipeName);
-		
 		HashMap map = new HashMap();
 		map.put("apiList", apiList);
 		map.put("userList", userList);
+		System.out.println("-----------Map : "+map);
 		return map;
 	}
 	
-	@RequestMapping("findRecipeByCategory")
-	public Map<String,Object> findRecipeByCategory(@RequestParam String categoryName, @RequestParam String typeName, @RequestParam String keyword){
+	@RequestMapping(value="findRecipeByCategory")
+	@ResponseBody
+	public List<RecipeInfo> findRecipeByCategory(@RequestParam String categoryName, @RequestParam String typeName, @RequestParam String keyword){
 
+		System.out.println(categoryName+typeName+keyword);
 		List<RecipeInfo> list = service.findRecipeByCategory(categoryName, typeName, keyword);
-		
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("list", list);
-		mav.setViewName("카테고리 검색화면");
-		return null;
+		System.out.println(list);
+		return list;
+		//ModelAndView mav = new ModelAndView();
+		//HashMap map = new HashMap();
+		//map.put("list", list);
+		//map.setViewName("카테고리 검색화면");
+		//return map;
 		//return mav;
 	}
 	
-	@RequestMapping("findRecipeByIrdntId")
+	@RequestMapping(value="findRecipeByIrdntId")
+	@ResponseBody
 	public Map<String,Object> findRecipeByIrdntId(@RequestParam List<Integer> irdntIds, @RequestParam List<Integer> hateIrdntIds, @RequestParam String keyword){
 
 		List<RecipeInfo> apiList = service.findRecipeByIrdntId(irdntIds, hateIrdntIds, keyword);
 		List<BoardShareRecipe> userList = shareService.findUserRecipeByIds(irdntIds, hateIrdntIds);
 		
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("apiList", apiList);
-		mav.addObject("userList", userList);	
-		mav.setViewName("재료 검색화면");
-		return null;
+		//ModelAndView mav = new ModelAndView();
+		HashMap map = new HashMap();
+		map.put("apiList", apiList);
+		map.put("userList", userList);	
+		//map.setViewName("재료 검색화면");
+		return map;
 		//return mav;
 	}
 	
@@ -190,8 +204,15 @@ public class RecipeController {
 	@RequestMapping("getTypeNameCategory")
 	@ResponseBody
 	public List<String> getTypeNameCategory(@RequestParam String categoryName){
-		System.out.println("넘어는오니?");
 		return service.getTypeNameByCategoryName(categoryName);
 	}
 	
+	@RequestMapping("getIrdntTable")
+	@ResponseBody
+	public Map getIrdntTable(){
+		HashMap map = new HashMap();
+		//List<myIrdnt> = 
+		
+		return map;
+	}
 }
