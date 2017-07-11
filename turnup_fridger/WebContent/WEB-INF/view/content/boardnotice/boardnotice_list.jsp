@@ -27,7 +27,7 @@ a:hover{
 </style>
 </head>
 <body>
-
+<h1>공지사항</h1><br>
 <form action="${initParam.rootPath}/boardnotice/boardNoticeByItems.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 <select name="items" id="items" value="${requestScope.items}">
@@ -129,8 +129,6 @@ a:hover{
 	
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/boardnotice/boardNoticeList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
-
-
 
 
 

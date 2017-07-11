@@ -94,6 +94,10 @@ public class MyIrdntDaoImpl implements MyIrdntDao{
 		map.put("fridgerId", fridgerId);
 		return session.selectList(makeSql("selectMyIrdntByFreshLevelAndIrdntName"),map);
 	}
+	@Override
+	public List<MyIrdnt> selectMyIrdntBymemberId(String memberId) {
+		return session.selectList(makeSql("selectMyIrdntBymemberId"),memberId);
+	}
 
 	
 	

@@ -3,9 +3,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>레시피 수정폼</title>
+<title>Insert title here</title>
 </head>
 <body>
-<h2>레시피 수정</h2>
+${requestScope.boardQnA }
 </body>
 </html>

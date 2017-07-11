@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.turnup_fridger.vo.RecipeCrse;
 import kr.co.turnup_fridger.vo.RecipeIrdnt;
@@ -37,18 +38,25 @@ public class RecipeInfoForm {
 	private String recipeLevel;
 	private String irdntCode;
 	private String price;
-	@NotEmpty(message="대표사진을 입력하세요.")
+
 	private String imgUrl;
 	@NotEmpty(message="상세사진을 입력하세요.")
 	private String detUrl;
 	//조회수
 	private int recipeHits;
+	
+	@Valid
+	@NotNull
 	@Size(min=1, message="재료는 1개 이상 선택해주세요.")
+	private List<RecipeIrdntForm> recipeIrdntList;
+
 	@Valid
-	private List<RecipeIrdntForm> recipeIrdntForm;
+	@NotNull
 	@Size(min=1, message="과정은 1개 이상 입력해주세요.")
-	@Valid
-	private List<RecipeCrseForm> recipeCrseForm;
+	private List<RecipeCrseForm> recipeCrseList;
+	@NotNull(message="대표사진을 입력하세요.")
+	private MultipartFile imgUrlSrc;
+	
 	public int getRecipeId() {
 		return recipeId;
 	}
@@ -145,18 +153,25 @@ public class RecipeInfoForm {
 	public void setRecipeHits(int recipeHits) {
 		this.recipeHits = recipeHits;
 	}
-	public List<RecipeIrdntForm> getRecipeIrdntForm() {
-		return recipeIrdntForm;
+	public List<RecipeIrdntForm> getRecipeIrdntList() {
+		return recipeIrdntList;
 	}
-	public void setRecipeIrdntForm(List<RecipeIrdntForm> recipeIrdntForm) {
-		this.recipeIrdntForm = recipeIrdntForm;
+	public void setRecipeIrdntList(List<RecipeIrdntForm> recipeIrdntList) {
+		this.recipeIrdntList = recipeIrdntList;
 	}
-	public List<RecipeCrseForm> getRecipeCrseForm() {
-		return recipeCrseForm;
+	public List<RecipeCrseForm> getRecipeCrseList() {
+		return recipeCrseList;
 	}
-	public void setRecipeCrseForm(List<RecipeCrseForm> recipeCrseForm) {
-		this.recipeCrseForm = recipeCrseForm;
+	public void setRecipeCrseList(List<RecipeCrseForm> recipeCrseList) {
+		this.recipeCrseList = recipeCrseList;
 	}
+	public MultipartFile getImgUrlSrc() {
+		return imgUrlSrc;
+	}
+	public void setImgUrlSrc(MultipartFile imgUrlSrc) {
+		this.imgUrlSrc = imgUrlSrc;
+	}
+	
 	
 	
  	

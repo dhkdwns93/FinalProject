@@ -144,4 +144,10 @@
 		</choose>
 	</select>
 	
+	<select id="selectMyIrdntBymemberId" resultMap="MyIrdnt-resultmap" parameterType="java.lang.String">
+		select 
+		<include refid="all-column"/>
+		from my_irdnt
+		where member_id=#{value}
+	</select>
 </mapper>

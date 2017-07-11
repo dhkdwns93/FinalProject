@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+
 <ul class="list-inline">
 	<li><a href="#">Home</a></li>
 	<li class="footer-menu-divider">&sdot;</li>
@@ -13,3 +14,4 @@
 	670&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	대표전화&nbsp;&nbsp;&nbsp;&nbsp;070-5039-5803<br> Copyright &copy;
 	Turnup-Fridger 2017. All Rights Reserved
+		

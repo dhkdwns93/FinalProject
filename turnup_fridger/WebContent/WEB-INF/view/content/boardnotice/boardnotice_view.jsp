@@ -24,6 +24,7 @@ form{display:inline}
 </style>
 </head>
 <body>
+<h1>공지사항 > ${boardNotice.items}</h1><br>
 <table border="1" style="text-align:center">
 	<tr>
 		<td>말머리</td>

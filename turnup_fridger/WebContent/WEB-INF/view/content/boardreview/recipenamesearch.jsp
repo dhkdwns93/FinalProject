@@ -24,9 +24,17 @@ $(document).ready(function(){
 			},
 			"success":function(list)
 			{
+				
+				if(!list.length)
+				{
+					alert("해당 레시피가 업습니다.");
+					return false;
+				}
 				var txt = "";
+				$("#tbody").empty();
 				$.each(list, function()
 				{
+					
 					$("#tbody").append($("<tr>").prop("id","col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)));
 
 				});
@@ -63,7 +71,8 @@ td{
 </style>
 </head>
 <body>
-레시피 검색
+<h1>레시피 검색</h1><br>
+<hr>
 
 <input type="text" id="recipeName">
 <button type="button" id="textBtn">검색</button>

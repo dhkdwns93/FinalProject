@@ -1,17 +1,19 @@
 <%@page import="kr.co.turnup_fridger.vo.Member"%>
 <%@page import="org.springframework.web.context.annotation.SessionScope"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
-<% 
-session.setAttribute("member", new Member("qms1109", "shh", "서현화", "창원시 합성동", "qms1109@hanmail.net", "010-4184-1109", "F")); 
-%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="${initParam.rootPath}/scripts/jquery.js"></script>
 </head>
 <body>
 <div id="map" style="width:750px;height:500px;"></div>
+<sec:authentication property="principal.memberAddress" var="ma"/>
+<input type="hidden" id="address" value="${ma}">
 
 <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=a48481878cc565128cd84abd9fda8053&libraries=services"></script>
 <script>
@@ -31,7 +33,7 @@ var map = new daum.maps.Map(mapContainer, mapOption);
 var ps = new daum.maps.services.Places(); 
 
 // 키워드로 장소 검색 - 세션에 저장된 회원의 주소이용
-ps.keywordSearch('${sessionScope.member.memberAddress}'+'편의점' , placesSearchCB); 
+ps.keywordSearch($("#address").val()+'편의점' , placesSearchCB); 
 
 // 키워드 검색 완료 시 호출되는 콜백함수
 function placesSearchCB (status, data, pagination) {

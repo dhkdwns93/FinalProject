@@ -33,24 +33,14 @@
 	
 	<sql id="all-column">
 		BOARD_REVIEW_ID, BOARD_REVIEW_TITLE, BOARD_REVIEW_TXT, 
-		BOARD_REVIEW_DATE, BOARD_REVIEW_IMAGE_NAME, BOARD_REVIEW_IMAGE_SAVE_NAME, BOARD_REVIEW_STAR, MEMBER_ID, RECIPE_ID
+		BOARD_REVIEW_DATE, BOARD_REVIEW_IMAGE_NAME, BOARD_REVIEW_IMAGE_SAVE_NAME, BOARD_REVIEW_STAR, RECIPE_NAME, MEMBER_ID, RECIPE_ID
 	</sql> 	
 	
-	<!-- boardReview 기본 조회 sql -->
-	<sql id="boardReview-select-sql">
-		 SELECT b.BOARD_REVIEW_ID, b.BOARD_REVIEW_TITLE, b.BOARD_REVIEW_TXT, 
-				b.BOARD_REVIEW_DATE, b.BOARD_REVIEW_IMAGE_NAME, b.BOARD_REVIEW_IMAGE_SAVE_NAME, b.BOARD_REVIEW_STAR, b.MEMBER_ID, b.RECIPE_ID,
-				r.recipe_id, r.recipe_name, r.sumry, r.category_code, r.category_name, r.type_code,
-				r.type_name, r.cooking_time, r.calorie, r.qnt, r.recipe_level,
-				r.irdnt_code, r.price, r.img_url, r.det_url, r.recipe_hits
-		 FROM BOARD_REVIEW b, RECIPE_INFO r
-		 WHERE b.RECIPE_ID = r.RECIPE_ID
-	</sql>
 	
-		<!-- boardReviewJoin 기본 조회 sql -->
-	<sql id="boardReviewJoin-select-sql">
+		<!-- boardReview 기본 조회 sql -->
+	<sql id="boardReview-select-sql">
 		SELECT BOARD_REVIEW_ID, BOARD_REVIEW_TITLE, BOARD_REVIEW_TXT, 
-			   BOARD_REVIEW_DATE, BOARD_REVIEW_IMAGE_NAME, BOARD_REVIEW_IMAGE_SAVE_NAME, BOARD_REVIEW_STAR, MEMBER_ID, RECIPE_ID
+			   BOARD_REVIEW_DATE, BOARD_REVIEW_IMAGE_NAME, BOARD_REVIEW_IMAGE_SAVE_NAME, BOARD_REVIEW_STAR, RECIPE_NAME, MEMBER_ID, RECIPE_ID
 		FROM BOARD_REVIEW
 	</sql>
 	
@@ -66,17 +56,14 @@
 		<result column="BOARD_REVIEW_IMAGE_NAME" property="imageName"/>
 		<result column="BOARD_REVIEW_IMAGE_SAVE_NAME" property="imageSaveName"/>
 		<result column="BOARD_REVIEW_STAR" property="boardReviewStar"/>
+		<result column="RECIPE_NAME" property="recipeName"/>
 		<result column="MEMBER_ID" property="memberId"/>
 		<result column="RECIPE_ID" property="recipeId"/>	
 	</resultMap>
 	
 	
-	<!-- ResultMap boardReview-recipeInfo 등록 -->
-	<resultMap id="boardReview-recipeInfo-resultmap" type="boardReview" extends="boardReview-resultmap">
-		<association property="recipeInfo" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeInfoMapper.RecipeInfo-resultmap"/>
-	</resultMap>
 	
-		<!-- 등록 SQL -->	
+	<!-- 등록 SQL -->	
 	<insert id="insertBoardReview" parameterType="boardReview">
 		<selectKey resultType="_int" keyProperty="boardReviewId" order="BEFORE">
 			select BOARD_REVIEW_ID.nextval from dual
@@ -90,6 +77,7 @@
 				#{imageName},
 				#{imageSaveName},
 				#{boardReviewStar},
+				#{recipeName},
 				#{memberId},
 				#{recipeId}
 			   )	
@@ -104,6 +92,7 @@
 				BOARD_REVIEW_IMAGE_NAME = #{imageName},
 				BOARD_REVIEW_IMAGE_SAVE_NAME = #{imageSaveName},
 				BOARD_REVIEW_STAR = #{boardReviewStar},
+				RECIPE_NAME = #{recipeName},
 				MEMBER_ID = #{memberId},
 				RECIPE_ID = #{recipeId}
 		WHERE	BOARD_REVIEW_ID = #{boardReviewId}
@@ -118,6 +107,7 @@
 				BOARD_REVIEW_IMAGE_NAME = null,
 				BOARD_REVIEW_IMAGE_SAVE_NAME = null,
 				BOARD_REVIEW_STAR = #{boardReviewStar},
+				RECIPE_NAME = #{recipeName},
 				MEMBER_ID = #{memberId},
 				RECIPE_ID = #{recipeId}
 		WHERE	BOARD_REVIEW_ID = #{boardReviewId}
@@ -132,9 +122,9 @@
 	
 	<select id="selectRecipeName" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeInfoMapper.RecipeInfo-resultmap" parameterType="String">
 		SELECT
-		<include refid="recipe-column" />
+		<include refid="recipe-column"/>
 		FROM RECIPE_INFO
-		WHERE RECIPE_NAME LIKE '%'||#{recipeName}||'%'
+		WHERE RECIPE_NAME LIKE '%'||#{value}||'%'
 	</select>
 	
 	
@@ -145,49 +135,93 @@
 	
 
 	<!-- LIST 조회하는 SQL-->
-	<select id="selectBoardReviewList" resultMap="boardReview-recipeInfo-resultmap">
-		<include refid="boardReview-select-sql"/>
-		 ORDER BY b.BOARD_REVIEW_DATE DESC
+	<select id="selectBoardReviewList" resultMap="boardReview-resultmap">
+		SELECT <include refid="all-column"/>
+		FROM(
+			SELECT ROWNUM RNUM, <include refid="all-column"/>
+			FROM( 			
+					<include refid="boardReview-select-sql"/>
+					 ORDER BY BOARD_REVIEW_DATE DESC
+				)
+			WHERE ROWNUM &lt;=#{endIndex}	
+			)
+		WHERE RNUM>=#{startIndex}		 
 	</select>
 	
+	
+	
 	<!-- LIST 별점순  조회하는 SQL-->
-	<select id="selectBoardReviewByStarList" resultMap="boardReview-recipeInfo-resultmap">
-		<include refid="boardReview-select-sql"/>
-		 ORDER BY b.BOARD_REVIEW_STAR DESC
+	<select id="selectBoardReviewByStarList" resultMap="boardReview-resultmap">
+		SELECT <include refid="all-column"/>
+		FROM(
+			SELECT ROWNUM RNUM, <include refid="all-column"/>
+			FROM( 	
+					<include refid="boardReview-select-sql"/>
+					 ORDER BY BOARD_REVIEW_STAR DESC
+				)
+			WHERE ROWNUM &lt;=#{endIndex}	
+			)
+		WHERE RNUM>=#{startIndex}		 
 	</select>		
+	
+	
+	 
+	
 	
 
 	<!-- BOARD_Review memberId 카운트  -->
 	<select id = "selectBoardReviewMemberIdCount" resultType="_int">
-		SELECT COUNT(*) FROM BOARD_REVIEW
-		AND MEMBER_ID LIKE #{memberId}
+		SELECT COUNT(*) 
+		FROM BOARD_REVIEW
+		WHERE MEMBER_ID LIKE #{memberId}
 	</select>
 	
 	<!-- LIST 아이디 조회하는 SQL-->
-	<select id="selectBoardReviewByMemberIdList" parameterType="string" resultMap="boardReview-recipeInfo-resultmap">
-		<include refid="boardReview-select-sql"/>
-		 AND b.MEMBER_ID = #{memberId}
-		 ORDER BY b.BOARD_REVIEW_DATE DESC
+	<select id="selectBoardReviewByMemberIdList" parameterType="map" resultMap="boardReview-resultmap">
+		SELECT <include refid="all-column"/>
+		FROM(
+			SELECT ROWNUM RNUM, <include refid="all-column"/>
+			FROM(		
+					<include refid="boardReview-select-sql"/>
+					 WHERE MEMBER_ID = #{memberId}
+					 ORDER BY BOARD_REVIEW_DATE DESC
+				)
+			WHERE ROWNUM &lt;=#{endIndex}	
+			)
+		WHERE RNUM>=#{startIndex}	
 	</select>	
+	
+	
 	
 	<!-- BOARD_Review 레시피 이름 카운트  -->
 	<select id = "selectBoardReviewRecipeNameCount" resultType="_int">
-		SELECT COUNT(*) FROM RECIPE_INFO
+		SELECT COUNT(*) FROM BOARD_REVIEW
 		WHERE RECIPE_NAME LIKE '%'||#{recipeName}||'%'
 	</select>
 
 	<!-- LIST 레시피 이름  조회하는 SQL-->
-	<select id="selectBoardReviewByRecipeNameList" parameterType="string" resultMap="boardReview-recipeInfo-resultmap">
-		<include refid="boardReview-select-sql"/>
-		 and r.RECIPE_NAME LIKE '%'||#{recipeName}||'%'
-		 ORDER BY b.BOARD_REVIEW_DATE DESC
+	<select id="selectBoardReviewByRecipeNameList" parameterType="map" resultMap="boardReview-resultmap">
+		SELECT <include refid="all-column"/>
+		FROM(
+			SELECT ROWNUM RNUM, <include refid="all-column"/>
+			FROM( 	
+					<include refid="boardReview-select-sql"/>
+					 WHERE RECIPE_NAME LIKE '%'||#{recipeName}||'%'
+					 ORDER BY BOARD_REVIEW_DATE DESC
+				)
+			WHERE ROWNUM &lt;=#{endIndex}	
+			)
+		WHERE RNUM>=#{startIndex}		
 	</select>	
 	
 	
+	
+	
+	
 	<!-- reviewId로 조회하는 SQL-->	
-		<select id="selectBoardReviewByBoardReviewId" parameterType="int" resultMap="boardReview-recipeInfo-resultmap">
+		<select id="selectBoardReviewByBoardReviewId" parameterType="int" resultMap="boardReview-resultmap">
 		<include refid="boardReview-select-sql"/>
-		 and b.BOARD_REVIEW_ID = #{boardReviewId}
+		 WHERE BOARD_REVIEW_ID = #{boardReviewId}
 	</select>	
 	
 </mapper>

@@ -81,7 +81,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 
 
 </script>
-<h2>레시피 등록</h2>
+<h2>레시피 업데이트</h2>
 
 <form id="recipe_register_form" 
 	action="${ initParam.rootPath }/common/admin/recipe/register.do" 
@@ -97,7 +97,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				<tr>
 					<th>레시피 이름</th>
 					<td><input type="text" name="recipeName" id="recipeName"
-						value="${ param.recipeName }"> <span class="error"><form:errors
+						value="${ requestScope.recipeName }"> <span class="error"><form:errors
 								path="recipeInfo.recipeName" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_duplicateId != null }">
 							${ requestScope.errorMsg_duplicateId }
@@ -106,7 +106,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				<tr>
 					<th>레시피설명</th>
 					<td><input type="text" name="sumry" id="sumry"
-						value="${ param.sumry }"> <span class="error"><form:errors
+						value="${ requestScope.sumry }"> <span class="error"><form:errors
 								path="recipeInfo.sumry" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
 							${ requestScope.errorMsg_fridgerImgSrc }
@@ -115,7 +115,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				<tr>
 					<th>레시피사진</th>
 					<td><input type="file" id="imgUrlSrc" name="imgUrlSrc"
-						value="${ param.imgUrlSrc }">
+						value="${ requestScope.imgUrlSrc }">
 						
 						<span class="error"><form:errors
 								path="recipeInfo.imgUrl" delimiter="&nbsp;" /> <c:if
@@ -193,7 +193,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				<tr>
 					<th>소요시간</th>
 					<td><input type="number" id="cookingTime" name="cookingTime"
-						value="${ param.cookingTime }"> 분 <span class="error"><form:errors
+						value="${ requestScope.cookingTime }"> 분 <span class="error"><form:errors
 								path="recipeInfo.cookingTime" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
 							${ requestScope.errorMsg_fridgerImgSrc }
@@ -202,7 +202,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				<tr>
 					<th>칼로리</th>
 					<td><input type="number" id="calorie" name="calorie"
-						value="${ param.calorie }"> kcal <span class="error"><form:errors
+						value="${ requestScope.calorie }"> kcal <span class="error"><form:errors
 								path="recipeInfo.calorie" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
 							${ requestScope.errorMsg_fridgerImgSrc }
@@ -211,7 +211,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				<tr>
 					<th>기준인분수</th>
 					<td><input type="number" id="qnt" name="qnt"
-						value="${ param.qnt }"> 인분 <span class="error"><form:errors
+						value="${ requestScope.qnt }"> 인분 <span class="error"><form:errors
 								path="recipeInfo.qnt" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
 							${ requestScope.errorMsg_fridgerImgSrc }
@@ -229,7 +229,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				<tr>
 					<th>참조페이지</th>
 					<td><input type="text" id="detUrl" name="detUrl"
-						value="${ param.detUrl }"> <span class="error"><form:errors
+						value="${ requestScope.detUrl }"> <span class="error"><form:errors
 								path="recipeInfo.detUrl" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
 							${ requestScope.errorMsg_fridgerImgSrc }

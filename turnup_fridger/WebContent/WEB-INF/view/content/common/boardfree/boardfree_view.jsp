@@ -14,7 +14,7 @@
 </script>
 <script type="text/javascript">
 
-//QnA 삭제
+//게시물 삭제
 function delete_event(){
 	if (confirm("정말 삭제하시겠습니까??") == true){    
 		//확인
@@ -48,13 +48,13 @@ function insert_event(){
 	}
 };
 
-
+/* 
 function popup(frm){
 	window.name="opener";
 	window.open("/turnup_fridger/common/boardfree/commentfree_upload.do","commentupload","width=500, height=400");
 
 }
-
+ */
 </script>
 <style type="text/css">
  form{display:inline}
@@ -69,9 +69,8 @@ function popup(frm){
 
 </head>
 <body>
-
-<!-- BOARDFREE 상세보기 -->
-
+<h1>자유 게시판 > ${boardFree.memberId}님의 글</h1><br>
+<hr>
 <table border="1" style="text-align:center">
 	<tr>
 		<td>제목</td>
@@ -173,7 +172,7 @@ function popup(frm){
 			${list.memberId}
 		</td>
 		<td>
-			<sec:authorize access="hasRole('ROLE_MEMBER')">
+<%-- 			<sec:authorize access="hasRole('ROLE_MEMBER')">
 		     	<form name="commentFreeUpload" method="post">
 		     	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 					<input type="hidden" name="commentFreeId" id="commentFreeId" value="${list.commentFreeId}">
@@ -183,7 +182,19 @@ function popup(frm){
 					<input type="hidden" name="boardFreeId" id="boardFreeId" value="${list.boardFreeId}">
 					<a href="javascript:popup();"><input type="button" value="수정하기"></a>
 				</form>	
-			</sec:authorize>
+			</sec:authorize> --%>
+			<sec:authorize access="hasRole('ROLE_MEMBER')">
+		     	<form  action="${initParam.rootPath}/common/commentfree/commentFreeUploadView.do" method="post">
+		     	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+					<input type="hidden" name="commentFreeId" id="commentFreeId" value="${list.commentFreeId}">
+					<input type="hidden" name="commentFreeTxt" id="commentFreeTxt" value="${list.commentFreeTxt}">
+					<input type="hidden" name="writer" id="writer" value="${list.memberId}">
+					<input type="hidden" name="memberId" id="memberId" value="<sec:authentication property="principal.memberId"></sec:authentication>">
+					<input type="hidden" name="boardFreeId" id="boardFreeId" value="${list.boardFreeId}">
+					<input type="submit" value="수정하기"></a>
+				</form>	
+			</sec:authorize> 
+			
 		</td>
 		
 		<td>

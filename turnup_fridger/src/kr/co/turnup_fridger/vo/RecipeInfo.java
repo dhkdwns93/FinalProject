@@ -16,7 +16,7 @@ public class RecipeInfo implements Serializable{
 	private String typeName;
 	private String cookingTime;
 	private String calorie;
-	private String Qnt;
+	private String qnt;
 	private String recipeLevel;
 	private String irdntCode;
 	private String price;
@@ -47,7 +47,7 @@ public class RecipeInfo implements Serializable{
 		this.typeName = typeName;
 		this.cookingTime = cookingTime;
 		this.calorie = calorie;
-		Qnt = qnt;
+		this.qnt = qnt;
 		this.recipeLevel = recipeLevel;
 		this.irdntCode = irdntCode;
 		this.price = price;
@@ -55,11 +55,13 @@ public class RecipeInfo implements Serializable{
 		this.detUrl = detUrl;
 	}
 
+	
+	
 
 	public RecipeInfo(int recipeId, String recipeName, String sumry, int categoryCode, String categoryName,
 			int typeCode, String typeName, String cookingTime, String calorie, String qnt, String recipeLevel,
 			String irdntCode, String price, String imgUrl, String detUrl, int recipeHits,
-			List<RecipeIrdnt> recipeIrdnt, List<RecipeCrse> recipeCrse) {
+			List<RecipeIrdnt> recipeIrdntList, List<RecipeCrse> recipeCrseList) {
 		this.recipeId = recipeId;
 		this.recipeName = recipeName;
 		this.sumry = sumry;
@@ -69,15 +71,15 @@ public class RecipeInfo implements Serializable{
 		this.typeName = typeName;
 		this.cookingTime = cookingTime;
 		this.calorie = calorie;
-		Qnt = qnt;
+		qnt = qnt;
 		this.recipeLevel = recipeLevel;
 		this.irdntCode = irdntCode;
 		this.price = price;
 		this.imgUrl = imgUrl;
 		this.detUrl = detUrl;
 		this.recipeHits = recipeHits;
-		this.recipeIrdntList = recipeIrdnt;
-		this.recipeCrseList = recipeCrse;
+		this.recipeIrdntList = recipeIrdntList;
+		this.recipeCrseList = recipeCrseList;
 	}
 
 	public int getRecipeId() {
@@ -153,11 +155,11 @@ public class RecipeInfo implements Serializable{
 	}
 
 	public String getQnt() {
-		return Qnt;
+		return qnt;
 	}
 
 	public void setQnt(String qnt) {
-		Qnt = qnt;
+		this.qnt = qnt;
 	}
 
 	public String getRecipeLevel() {
@@ -208,21 +210,6 @@ public class RecipeInfo implements Serializable{
 		this.recipeHits = recipeHits;
 	}
 
-	public List<RecipeIrdnt> getrecipeIrdnt() {
-		return recipeIrdntList;
-	}
-
-	public void setrecipeIrdnt(List<RecipeIrdnt> recipeIrdnt) {
-		this.recipeIrdntList = recipeIrdnt;
-	}
-
-	public List<RecipeCrse> getrecipeCrse() {
-		return recipeCrseList;
-	}
-
-	public void setrecipeCrse(List<RecipeCrse> recipeCrse) {
-		this.recipeCrseList = recipeCrse;
-	}
 	
 
 	public MultipartFile getImgUrlSrc() {
@@ -246,9 +233,12 @@ public class RecipeInfo implements Serializable{
 		return recipeCrseList;
 	}
 
-	public void setRecipeCrse(List<RecipeCrse> recipeCrseList) {
+	public void setRecipeCrseList(List<RecipeCrse> recipeCrseList) {
 		this.recipeCrseList = recipeCrseList;
 	}
+
+	
+	
 
 	
 
@@ -256,7 +246,7 @@ public class RecipeInfo implements Serializable{
 	public String toString() {
 		return "RecipeInfo [recipeId=" + recipeId + ", recipeName=" + recipeName + ", sumry=" + sumry
 				+ ", categoryCode=" + categoryCode + ", categoryName=" + categoryName + ", typeCode=" + typeCode
-				+ ", typeName=" + typeName + ", cookingTime=" + cookingTime + ", calorie=" + calorie + ", Qnt=" + Qnt
+				+ ", typeName=" + typeName + ", cookingTime=" + cookingTime + ", calorie=" + calorie + ", qnt=" + qnt
 				+ ", recipeLevel=" + recipeLevel + ", irdntCode=" + irdntCode + ", price=" + price + ", imgUrl="
 				+ imgUrl + ", detUrl=" + detUrl + ", recipeHits=" + recipeHits + ", recipeIrdntList=" + recipeIrdntList
 				+ ", recipeCrseList=" + recipeCrseList + ", imgUrlSrc=" + imgUrlSrc + "]";
@@ -266,15 +256,16 @@ public class RecipeInfo implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((Qnt == null) ? 0 : Qnt.hashCode());
 		result = prime * result + ((calorie == null) ? 0 : calorie.hashCode());
 		result = prime * result + categoryCode;
 		result = prime * result + ((categoryName == null) ? 0 : categoryName.hashCode());
 		result = prime * result + ((cookingTime == null) ? 0 : cookingTime.hashCode());
 		result = prime * result + ((detUrl == null) ? 0 : detUrl.hashCode());
 		result = prime * result + ((imgUrl == null) ? 0 : imgUrl.hashCode());
+		result = prime * result + ((imgUrlSrc == null) ? 0 : imgUrlSrc.hashCode());
 		result = prime * result + ((irdntCode == null) ? 0 : irdntCode.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((qnt == null) ? 0 : qnt.hashCode());
 		result = prime * result + ((recipeCrseList == null) ? 0 : recipeCrseList.hashCode());
 		result = prime * result + recipeHits;
 		result = prime * result + recipeId;
@@ -296,11 +287,6 @@ public class RecipeInfo implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		RecipeInfo other = (RecipeInfo) obj;
-		if (Qnt == null) {
-			if (other.Qnt != null)
-				return false;
-		} else if (!Qnt.equals(other.Qnt))
-			return false;
 		if (calorie == null) {
 			if (other.calorie != null)
 				return false;
@@ -328,6 +314,11 @@ public class RecipeInfo implements Serializable{
 				return false;
 		} else if (!imgUrl.equals(other.imgUrl))
 			return false;
+		if (imgUrlSrc == null) {
+			if (other.imgUrlSrc != null)
+				return false;
+		} else if (!imgUrlSrc.equals(other.imgUrlSrc))
+			return false;
 		if (irdntCode == null) {
 			if (other.irdntCode != null)
 				return false;
@@ -337,6 +328,11 @@ public class RecipeInfo implements Serializable{
 			if (other.price != null)
 				return false;
 		} else if (!price.equals(other.price))
+			return false;
+		if (qnt == null) {
+			if (other.qnt != null)
+				return false;
+		} else if (!qnt.equals(other.qnt))
 			return false;
 		if (recipeCrseList == null) {
 			if (other.recipeCrseList != null)
@@ -376,6 +372,8 @@ public class RecipeInfo implements Serializable{
 			return false;
 		return true;
 	}
+
+
 	
 	
 }

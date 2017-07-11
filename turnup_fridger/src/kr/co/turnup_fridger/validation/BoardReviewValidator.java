@@ -25,8 +25,10 @@ public class BoardReviewValidator implements Validator {
 		//게시판 내용
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "boardReviewTxt", "required");
 		
-		//게시판 별점
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "boardReviewStar", "required");
+		//레시피 
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "recipeId", "required");
+		
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "recipeName", "required");
 	}
 
 		

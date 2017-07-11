@@ -1,7 +1,26 @@
+	SELECT recipe_id,
+		recipe_name,
+		sumry,
+		category_code,
+		category_name,
+		type_code,
+		type_name,
+		cooking_time,
+		calorie,
+		qnt,
+		recipe_level,
+		irdnt_code,
+		price,
+		img_url,
+		det_url,
+		recipe_hits
+			FROM Recipe_Info
+			where recipe_name like '%'||'안'||'%' and recipe_level='보통'
 --headMaster한명 input(테이블 생성후 넣으세용)
 insert into authority values('headAdmin1','headAdmin1','ROLE_HEADMASTERADMIN');
 insert into admin values('headAdmin1','headAdmin1','HeadMasterAdmin','01012345678','headadmin@kosta.or.kr','ROLE_HEADMASTERADMIN');
-
+--select distinct category_name, category_code, type_code, type_name from Recipe_Info order by category_code
+--select distinct irdnt_Code from Recipe_Info 
 
 /*전체 사용자(회원, 관리자) 권한관리_로그인용*/
 DROP TABLE AUTHORITY CASCADE CONSTRAINT;
@@ -302,7 +321,7 @@ select * from my_dislike_irdnt where  member_id='id-1' and  irdnt_id=2;
 
 
 /* 관리자  */
-DROP TABLE ADMIN;
+DROP TABLE ADMIN CASCADE CONSTRAINT;
 DELETE FROM ADMIN;
 CREATE TABLE ADMIN (
    ADMIN_ID VARCHAR2(20) PRIMARY KEY, /* 관리자 ID */
@@ -379,6 +398,8 @@ CREATE TABLE RECIPE_CRSE (
    CONSTRAINT VTRC_RECIPE_ID_FK FOREIGN KEY(RECIPE_ID) REFERENCES RECIPE_INFO on delete cascade
 );
 
+--select * from recipe_crse;
+
 /* 레시피 재료정보 */
 DROP TABLE RECIPE_IRDNT CASCADE CONSTRAINT;
 DELETE FROM RECIPE_IRDNT;
@@ -397,6 +418,7 @@ CREATE TABLE RECIPE_IRDNT (
 --select count(*) from recipe_crse;
 --select count(*) from recipe_info;
 --select count(*) from recipe_irdnt;
+--select * from recipe_irdnt;
 
 /* 즐겨찾기 */
 DROP TABLE FAVORITE_RECIPE;
@@ -467,6 +489,7 @@ CREATE TABLE BOARD_REVIEW(
    BOARD_REVIEW_IMAGE_NAME VARCHAR2(500), /* 원본이미지 이름 */
    BOARD_REVIEW_IMAGE_SAVE_NAME VARCHAR2(500), /* 저장 이미지 이름 */
    BOARD_REVIEW_STAR NUMBER NOT NULL,/* 별점 */
+   RECIPE_NAME VARCHAR2(50) NOT NULL,/* 레시피 이름 */
    MEMBER_ID VARCHAR2(20) NOT NULL, /* 회원ID */
    RECIPE_ID NUMBER NOT NULL,/* 기본 레시피ID */
    CONSTRAINT REVIEW_MEMBER_ID_FK FOREIGN KEY(MEMBER_ID) REFERENCES MEMBER ON DELETE CASCADE,
@@ -475,3 +498,5 @@ CREATE TABLE BOARD_REVIEW(
 DROP SEQUENCE BOARD_REVIEW_ID;
 CREATE SEQUENCE BOARD_REVIEW_ID INCREMENT BY 1 START WITH 1; 
 --SELECT BOARD_FREE_ID.NEXTVAL FROM DUAL;
+
+

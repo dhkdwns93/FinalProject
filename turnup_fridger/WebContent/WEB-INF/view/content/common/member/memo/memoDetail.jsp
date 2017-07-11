@@ -12,6 +12,7 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="${initParam.rootPath}/scripts/jquery.js"></script>
 <script type="text/javascript">
+
 $(document).ready(function(){
 	// 처음에 확인버튼 숨기기
 	$("#submit").hide();
@@ -40,6 +41,8 @@ $(document).ready(function(){
 				
 				$("#submit").hide();
 				$(".one").show();
+				
+				opener.location.reload(); // 수정처리 완료 후 부모창(메모목록) 새로고침
 			},
 			"error":function(xhr, msg, code){
 				alert('error - '+code)
@@ -55,8 +58,8 @@ $(document).ready(function(){
 				"data":"memoId=${requestScope.memo.memoId}",
 				"success":function(){
 					alert('삭제되었습니다');
-					// 삭제후 메모목록화면으로 전환
-					location.replace('${initParam.rootPath}/common/member/memo/memoList.do');
+					window.close();	// 삭제후 팝업창 닫기
+					opener.parent.location.reload(); // 닫으면서 부모창 새로고침
 				}
 			});// ajax
 		}
@@ -68,36 +71,30 @@ $(document).ready(function(){
 @CHARSET "UTF-8";
 @import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 
-div{
+ #memoDate{
+	color: white;
 	font-size: 30px;
 	text-align: right;
 	font-family: 'Nanum Pen Script', serif;
-	color: white;
+}
+
+#detail{
+	margin-left: auto;
+	margin-right: auto;
 }
 
 body{
+	text-align: center;
 	background: url('${initParam.rootPath}/img/note.jpg') no-repeat center;
 	background-size: cover;
-}
-
-#title{
-	font-size: 30px;
-	text-align: right;
-	font-family: 'Nanum Pen Script', serif;
-	color: white;
-	}
-	
-table{
-	align: center;
-	text-align: center;
 }
 </style>
 </head>
 <body>
-	<div>
-		<fmt:formatDate value="${requestScope.memo.registeredDate }" pattern="yyyy년 MM월 dd일" />의 메모
+	<div id="memoDate">
+		<fmt:formatDate value="${requestScope.memo.registeredDate }" pattern="yyyy년 MM월 dd일" />의 장바구니 메모
 	</div>
-	<table align="center">
+	<table id="detail">
 		<tr>
 			<td><span class="error"><form:errors path="myMemo.memoName" /></span><br>
 			<input type="text" id="name" class="box" name="memoName" size="50" value="${requestScope.memo.memoName}" readonly style="background-color: transparent"></td>

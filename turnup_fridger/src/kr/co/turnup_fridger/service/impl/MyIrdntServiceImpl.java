@@ -173,6 +173,11 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 		return dao.selectMyIrdntByFreshLevelAndIrdntName(freshLevel, irdntName, fridgerId);
 	}
 
+	@Override
+	public List<MyIrdnt> findMyIrdntByMemberId(String memberId) {
+		return dao.selectMyIrdntBymemberId(memberId);
+	}
+
 	
 	
 	
