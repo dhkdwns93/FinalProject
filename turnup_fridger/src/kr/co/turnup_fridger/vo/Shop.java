@@ -15,8 +15,15 @@ public class Shop implements Serializable{
 	
 	public Shop(){}
 	
-	
-	
+	public Shop(int shopId, String shopName, String shopAddress) {
+		super();
+		this.shopId = shopId;
+		this.shopName = shopName;
+		this.shopAddress = shopAddress;
+	}
+
+
+
 	public Shop(String shopName, String shopAddress, MultipartFile upImage) {
 		super();
 		this.shopName = shopName;

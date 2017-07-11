@@ -31,10 +31,10 @@
 			<li><a href="javascript:logout()">logout</a></li>
 			<li><a href="${initParam.rootPath}/common/member/member_mypage.do">myPage</a></li>
 			<li><a id="callMap" href="#"
-				onClick="window.open('${initParam.rootPath}/map.jsp','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)">근처마트보기</a>
+				onClick="window.open('${initParam.rootPath}/memo/map.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)">근처마트보기</a>
 			</li>
 			<li><a id="memo" href="#"
-				onClick="window.open('${initParam.rootPath}/memo_register_form.jsp','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=450px, height=430px ,top=10, left=10', bottom=10, right=10)">+메모</a>
+				onClick="window.open('${initParam.rootPath}/memo/memoPopup.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=450px, height=430px ,top=10, left=10', bottom=10, right=10)">+메모</a>
 			</li>
 		</sec:authorize>
 		
@@ -45,7 +45,7 @@
 			<li><a href="javascript:logout()">logout</a></li>
 			<li><a href="${initParam.rootPath}/common/admin/admin_mypage.do">myPage</a></li>
 			<li><a id="callMap" href="#"
-				onClick="window.open('${initParam.rootPath}/map.jsp','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)">근처마트보기</a>
+				onClick="window.open('${initParam.rootPath}/memo/map.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)">근처마트보기</a>
 			</li>
 		</sec:authorize>
 
