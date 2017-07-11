@@ -21,6 +21,7 @@ public class BoardReview implements Serializable{
 	private String imageName;
 	private String imageSaveName;
 	private int boardReviewStar;
+	private String recipeName;
 	
 	private MultipartFile upImage;
 	
@@ -33,7 +34,9 @@ public class BoardReview implements Serializable{
 	public BoardReview(){}
 
 	public BoardReview(int boardReviewId, String boardReviewTitle, String boardReviewTxt, Date boardReviewDate,
-			String imageName, String imageSaveName, int boardReviewStar, String memberId, int recipeId) {
+			String imageName, String imageSaveName, int boardReviewStar, String recipeName, MultipartFile upImage,
+			String memberId, int recipeId) {
+		super();
 		this.boardReviewId = boardReviewId;
 		this.boardReviewTitle = boardReviewTitle;
 		this.boardReviewTxt = boardReviewTxt;
@@ -41,6 +44,8 @@ public class BoardReview implements Serializable{
 		this.imageName = imageName;
 		this.imageSaveName = imageSaveName;
 		this.boardReviewStar = boardReviewStar;
+		this.recipeName = recipeName;
+		this.upImage = upImage;
 		this.memberId = memberId;
 		this.recipeId = recipeId;
 	}
@@ -101,6 +106,14 @@ public class BoardReview implements Serializable{
 		this.boardReviewStar = boardReviewStar;
 	}
 
+	public String getRecipeName() {
+		return recipeName;
+	}
+
+	public void setRecipeName(String recipeName) {
+		this.recipeName = recipeName;
+	}
+
 	public MultipartFile getUpImage() {
 		return upImage;
 	}
@@ -145,9 +158,9 @@ public class BoardReview implements Serializable{
 	public String toString() {
 		return "BoardReview [boardReviewId=" + boardReviewId + ", boardReviewTitle=" + boardReviewTitle
 				+ ", boardReviewTxt=" + boardReviewTxt + ", boardReviewDate=" + boardReviewDate + ", imageName="
-				+ imageName + ", imageSaveName=" + imageSaveName + ", boardReviewStar=" + boardReviewStar + ", upImage="
-				+ upImage + ", memberId=" + memberId + ", member=" + member + ", recipeId=" + recipeId + ", recipeInfo="
-				+ recipeInfo + "]";
+				+ imageName + ", imageSaveName=" + imageSaveName + ", boardReviewStar=" + boardReviewStar
+				+ ", recipeName=" + recipeName + ", upImage=" + upImage + ", memberId=" + memberId + ", member="
+				+ member + ", recipeId=" + recipeId + ", recipeInfo=" + recipeInfo + "]";
 	}
 
 	@Override
@@ -165,6 +178,7 @@ public class BoardReview implements Serializable{
 		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
 		result = prime * result + recipeId;
 		result = prime * result + ((recipeInfo == null) ? 0 : recipeInfo.hashCode());
+		result = prime * result + ((recipeName == null) ? 0 : recipeName.hashCode());
 		result = prime * result + ((upImage == null) ? 0 : upImage.hashCode());
 		return result;
 	}
@@ -224,6 +238,11 @@ public class BoardReview implements Serializable{
 				return false;
 		} else if (!recipeInfo.equals(other.recipeInfo))
 			return false;
+		if (recipeName == null) {
+			if (other.recipeName != null)
+				return false;
+		} else if (!recipeName.equals(other.recipeName))
+			return false;
 		if (upImage == null) {
 			if (other.upImage != null)
 				return false;
@@ -231,4 +250,8 @@ public class BoardReview implements Serializable{
 			return false;
 		return true;
 	}
+	
+	
+
+	
 }

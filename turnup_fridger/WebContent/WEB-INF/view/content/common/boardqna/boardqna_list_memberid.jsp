@@ -12,8 +12,8 @@ form{display:inline}
 </style>
 </head>
 <body>
-
-
+<h1>QnA 게시판 </h1><br>
+<hr>
 <form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
 	QnA > ${row.memberId}검색
 	<input type="text" name="memberId" placeholder="아이디를 입력해주세요">
@@ -23,9 +23,11 @@ form{display:inline}
 <form action="${initParam.rootPath}/common/boardqna/boardQnAList.do" method="post">
 	<button>전체보기</button>
 	<sec:csrfInput/>
-</form>
-
-
+</form><br>
+<c:if test="${empty list}">
+	검색한 아이디가 없습니다.
+</c:if>
+<c:if test="${!empty list}">
 <table border="1" width="600px">
 <thead id="thead">
     <tr>
@@ -51,7 +53,7 @@ form{display:inline}
 			</sec:authorize>
         
      		<!-- 관리자일때 보여줌 -->	
-     		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN')">
+     		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 				<input type="hidden" name="admin" value="<sec:authentication property="principal.adminId"></sec:authentication>"> 
 				<input type="hidden" name="member" value="">
 				<input type="hidden" name="memberId" value="${row.memberId}">
@@ -123,7 +125,7 @@ form{display:inline}
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do?page=${requestScope.pageBean.totalPage}&memberId=${requestScope.memberId}">마지막페이지</a>
 </p>
-
+</c:if><br>
 <!-- 회원만 등록 가능 -->
  <sec:authorize access="hasRole('ROLE_MEMBER')">
  	<a href="${initParam.rootPath}/common/boardqna/boardqna_form.do"><button>등록</button></a>

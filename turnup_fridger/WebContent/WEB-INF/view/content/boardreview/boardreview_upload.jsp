@@ -55,12 +55,13 @@ var starRating = function(){
 //starRating();
 	function popupRecipeName()
 	{
-		 window.open("/turnup_fridger/boardreview/recipenamesearch.do","recpieName","width=500,height=400")
+		 window.open("/turnup_fridger/recipenamesearch.jsp","recpieName","width=500,height=400")
 	}
 </script>
 <style type="text/css">
  form{display:inline}
 </style>
+
 <style type="text/css">
 span, td, th{
 	padding: 5px; 
@@ -170,7 +171,7 @@ span.error{
 </style>
 </head>
 <body>
-
+<h1>후기 수정</h1><br>
 <form name="review"action="${initParam.rootPath}/boardreview/boardReviewUploadForm.do" method="post" enctype="multipart/form-data">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 <table border="1" width="600px"> 
@@ -184,7 +185,7 @@ span.error{
 		<td>제목</td>
 		<td>
 			<input type="text" name="boardReviewTitle" value="${boardReview.boardReviewTitle}">
-			<span class="error"><form:errors path="boardReview.boardReviewTitle" delimiter="&nbsp;"/>		
+			<span class="error"><form:errors path="boardReview.boardReviewTitle" delimiter="&nbsp;"/></span>	
 		</td>
 	</tr>
 </table>
@@ -192,10 +193,12 @@ span.error{
 	<tr>
     	<td>레시피</td>
     	<td>
-    		<input type="text" id="recipeId" name="recipeId" readonly value="${boardReview.recipeId}"><br>
-	    	<input type="text" id="recipeName" name="recipeName" readonly value="${boardReview.recipeInfo.recipeName}">
+    		<input type="text" id="recipeId" name="recipeId" readonly value="${boardReview.recipeId}"><span class="error"><form:errors path="boardReview.recipeId" delimiter="&nbsp;"/></span><br>
+	    	<input type="text" id="recipeName" name="recipeName" readonly value="${boardReview.recipeName}"><span class="error"><form:errors path="boardReview.recipeName" delimiter="&nbsp;"/></span>
 	    	<input id="recipeName" type="button" value="레시피 검색" onclick="popupRecipeName()">
     	</td>
+    
+    	
     	<td>별점주기</td>
     	<td>			
 				<span class="boardReviewStar">
@@ -235,7 +238,7 @@ span.error{
 		<td>내용</td>
 		<td>
 			<textarea name="boardReviewTxt" row="120" cols="70" placeholder="내용을 입력해주세요">${boardReview.boardReviewTxt}</textarea>
-			<span class="error"><form:errors path="boardReview.boardReviewTxt" delimiter="&nbsp;"/>
+			<span class="error"><form:errors path="boardReview.boardReviewTxt" delimiter="&nbsp;"/></span>
 		</td>
 	</tr>
 </table>
@@ -250,6 +253,7 @@ span.error{
 		<input type="hidden" name="boardReviewStar" value="${boardReview.boardReviewStar}">
 		<input type="hidden" name="boardReviewTitle" value="${boardReview.boardReviewTitle}">
 		<input type="hidden" name="boardReviewTxt" value="${boardReview.boardReviewTxt}">
+		<input type="hidden" name="recipeName" value="${boardReview.recipeName}">
 		<input type="hidden" name="recipeId" value="${boardReview.recipeId}">
 		<input type="hidden" name="imageName" value="${boardReview.imageName}">
 		<input type="hidden" name="imageSaveName" value="${boardReview.imageSaveName}">

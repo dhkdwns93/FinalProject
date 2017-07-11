@@ -25,8 +25,10 @@ $(document).ready(function(){
 			"success":function(list)
 			{
 				var txt = "";
+				$("#tbody").empty();
 				$.each(list, function()
 				{
+					
 					$("#tbody").append($("<tr>").prop("id","col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)));
 
 				});
@@ -63,7 +65,8 @@ td{
 </style>
 </head>
 <body>
-레시피 검색
+<h1>레시피 검색</h1><br>
+<hr>
 
 <input type="text" id="recipeName">
 <button type="button" id="textBtn">검색</button>

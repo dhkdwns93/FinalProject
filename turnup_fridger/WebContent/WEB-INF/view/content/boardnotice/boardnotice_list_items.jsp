@@ -30,7 +30,7 @@ a:hover{
 </style>
 </head>
 <body>
-
+<h1>공지사항</h1><br>
 <form action="${initParam.rootPath}/boardnotice/boardNoticeByItems.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 <select name="items" id="items" value="${requestScope.items}">

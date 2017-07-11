@@ -15,14 +15,13 @@ form{display:inline}
 </style>
 </head>
 <body>
+<h1>QnA 게시판 </h1><br>
+<hr>
 <form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
-QnA > 전체 목록 
 	<input type="text" name="memberId" placeholder="아이디를 입력해주세요">
 	<button>검색</button>
 	<sec:csrfInput/>
 </form>
-
-
 <table border="1" width="600px">
 <thead id="thead">
     <tr>
@@ -48,7 +47,7 @@ QnA > 전체 목록
 			</sec:authorize>
         
      		<!-- 관리자일때 보여줌 -->	
-     		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN')">
+     		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 				<input type="hidden" name="admin" value="<sec:authentication property="principal.adminId"></sec:authentication>"> 
 				<input type="hidden" name="member" value="">
 				<input type="hidden" name="memberId" value="${row.memberId}">

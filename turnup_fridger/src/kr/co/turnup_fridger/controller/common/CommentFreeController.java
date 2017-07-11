@@ -87,30 +87,51 @@ public class CommentFreeController extends HttpServlet {
 			{
 				service.removeCommentFree(commentFreeId);
 			}
-			//자유게시판 상세 정보
-			BoardFree boardFree = board.selectBoardFreeByboardFreeId(boardFreeId);
-			mav.addObject("boardFree", boardFree);
 			
-			//해당 댓글 LIST
+			
+			BoardFree boradFree = board.selectBoardFreeByboardFreeId(boardFreeId);
+			mav.addObject("boardFree",boradFree);
+			
 			Map<String, Object> map = service.selectCommentFreeListbyId(boardFreeId,page);
 			mav.addObject("commentFree", map.get("list"));
 			mav.addObject("boardFreeId",  map.get("boardFreeId"));
 		    mav.addObject("pageBean", map.get("pageBean"));
+		    
+			
 			mav.setViewName("common/boardfree/boardfree_view.tiles");
-	        return mav;
+			
+			return mav;
 		}	
 		
 
 		//댓글 수정폼 이동
 		@RequestMapping("commentFreeUploadView")
-		public ModelAndView commentFreeUploadView(@RequestParam int commentFreeId)
+		public ModelAndView commentFreeUploadView(@RequestParam int commentFreeId,@RequestParam String writer,
+				@RequestParam String memberId,@RequestParam int boardFreeId,@RequestParam(defaultValue="1") int page)
 		{
 			ModelAndView mav = new ModelAndView();
 			
-			mav.setViewName("common/boardfree/commentfree_upload.tiles");
 			
-			mav.addObject("commentfree", service.selectCommentFreeById(commentFreeId));
+			if(writer.equals(memberId))
+			{
+				mav.setViewName("common/boardfree/commentfree_upload.tiles");
+				
+				mav.addObject("commentFree", service.selectCommentFreeById(commentFreeId));
+			    
+				return mav;
+			}
+			
+			BoardFree boradFree = board.selectBoardFreeByboardFreeId(boardFreeId);
+			mav.addObject("boardFree",boradFree);
+			
+			Map<String, Object> map = service.selectCommentFreeListbyId(boardFreeId,page);
+			mav.addObject("commentFree", map.get("list"));
+			mav.addObject("boardFreeId",  map.get("boardFreeId"));
+		    mav.addObject("pageBean", map.get("pageBean"));
 		    
+			
+			mav.setViewName("common/boardfree/boardfree_view.tiles");
+			
 			return mav;
 		}	
 		
@@ -120,6 +141,17 @@ public class CommentFreeController extends HttpServlet {
 		{
 				ModelAndView mav = new ModelAndView();
 			
+				CommentFreeValidator validator = new CommentFreeValidator();
+				validator.validate(commentFree, errors);
+				if(errors.hasErrors()) 
+				{
+					mav.setViewName("common/boardfree/commentfree_upload.tiles");
+					
+					mav.addObject("commentFree", service.selectCommentFreeById(commentFreeId));
+				    
+					return mav;
+				}
+
 				service.updateCommentFree(commentFree);
 				
 				//자유게시판 상세 정보

@@ -1,5 +1,7 @@
 package kr.co.turnup_fridger.controller.common;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServlet;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +52,7 @@ public class CommentQnAController extends HttpServlet {
 			
 			mav.addObject("commentQnA",commentQnA);
 			mav.addObject("boardQnA", service2.findBoardQnAById(boardQnAId));
-			mav.setViewName("common/boardqna/boardqna_view.tiles");
+			mav.setViewName("redirect:/common/boardqna/success.do");
 			return mav;
 		}
 
@@ -91,6 +93,17 @@ public class CommentQnAController extends HttpServlet {
 		{
 				ModelAndView mav = new ModelAndView();
 			
+				CommentQnAValidator validator = new CommentQnAValidator();
+				validator.validate(commentQnA, errors);
+				if(errors.hasErrors()) 
+				{
+					mav.setViewName("common/boardqna/commentqna_upload.tiles");
+					
+					mav.addObject("commentQnA", service.selectCommentQnAById(commentQnAId));
+				    
+					return mav;
+				}
+				
 				service.updateCommentQnA(commentQnA);
 				
 				mav.addObject("commentQnA",commentQnA);

@@ -31,6 +31,8 @@ form{display:inline}
 </style>
 </head>
 <body>
+<h1>자유 게시판</h1><br>
+<hr>
 <form action="${initParam.rootPath}/common/boardfree/boardFreeAdd.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 <table>
