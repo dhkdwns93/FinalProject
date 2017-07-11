@@ -51,7 +51,7 @@ public class RecipeController {
 	@Autowired
 	private BoardShareRecipeService shareService;
 	@Autowired
-	private ShareRecipeIrdntService sIrdntService;
+	private ShareRecipeIrdntService IrdntService;
 	@Autowired
 	private IrdntManageService imService;
 	@Autowired
@@ -218,7 +218,7 @@ public class RecipeController {
 		@RequestMapping("common/admin/recipe/update/success")
 		public ModelAndView updateRecipeSuccess( int recipeId ) throws Exception{
 			System.out.println("로그,다");
-			return new ModelAndView("common/admin/recipe/recipeList.tiles","successMsg_create","등록성공!");
+			return new ModelAndView("common/admin/recipe/recipeList","successMsg_create","등록성공!");
 		}
 		
 	//레시피삭제
@@ -292,10 +292,12 @@ public class RecipeController {
 		//return mav;
 	}
 	
+	//상세화면 handler
 	@RequestMapping("recipe/show/detail")
 	public ModelAndView showDetailOfRecipe(@RequestParam int recipeId){
 		RecipeInfo recipe = recipeService.showDetailOfRecipe(recipeId);
-		return new ModelAndView("상세페이지화면","recipeDetail",recipe);
+		System.out.println(recipe);
+		return new ModelAndView("common/admin/recipe_for_admin/recipe_detail.tiles","recipe",recipe);
 	}
 	
 	@RequestMapping("changePortion")

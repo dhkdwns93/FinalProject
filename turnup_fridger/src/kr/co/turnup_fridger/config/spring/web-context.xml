@@ -197,6 +197,9 @@
 	<mvc:view-controller path="/common/admin/recipe/update_form.do" view-name="common/admin/recipe_for_admin/update_form.tiles"/>
 	<!-- 레시피 등록을 위한 재료검색 팝업 -->
 	<mvc:view-controller path="/irdntList_pop.do" view-name="irdntList_pop"/>
+	<!--레시피 상세  -->
+	<mvc:view-controller path="/common/admin/recipe/recipe_detail.do" view-name="common/admin/recipe_for_admin/recipe_detail.tiles"/>
+	
 	
 	<!--  -->
 	

@@ -42,8 +42,20 @@
 	</resultMap>
 	
 	<resultMap type="RecipeInfo" id="recipeInfo-recipeCrse-recipeIrdnt-resultmap" extends="RecipeInfo-resultmap">
-		<collection property="recipeCrseList" ofType="recipeCrse" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeCrseMapper.RecipeCrse-resultmap"/>
-		<collection property="recipeIrdntList" ofType="recipeIrdnt" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.RecipeIrdntMapper.RecipeIrdnt-resultmap"/>
+		<collection property="recipeCrseList" ofType="RecipeCrse">
+			<result column="cooking_no" property="cookingNo"/>
+			<result column="cooking_dc" property="cookingDc"/>
+			<result column="step_image_url" property="stepImageUrl"/>
+			<result column="step_tip" property="stepTip"/>
+		</collection>
+		<collection property="recipeIrdntList" ofType="RecipeIrdnt">
+			<result column="irdnt_name" property="irdntName"/>
+			<result column="irdnt_amount" property="irdntAmount"/>
+			<result column="irdnt_type_code" property="irdntTypeCode"/>
+			<result column="irdnt_type_name" property="irdntTypeName"/>
+			<result column="recipe_id" property="recipeId"/>
+			<result column="irdnt_id" property="irdntId"/>
+		</collection>
 	</resultMap>
 	
 	<insert id="insertRecipeInfo" parameterType="RecipeInfo">
@@ -111,13 +123,36 @@
 	
 	<!--조인  -->
 	<select id="selectThreeOfRecipesById" resultMap="recipeInfo-recipeCrse-recipeIrdnt-resultmap" parameterType="_int">
-		select 
-		i.recipe_id,i.recipe_name,i.sumry,i.category_code,i.category_name,i.type_code,i.type_name,i.cooking_time,
-		i.calorie,i.qnt,i.recipe_level,i.irdnt_code,i.price,i.img_url,i.det_url,i.recipe_hits,
-		d.irdnt_no, d.irdnt_name, d.irdnt_amount, d.irdnt_type_code, d.irdnt_type_name, d.recipe_id, d.irdnt_id,
-		c.cooking_no, c.cooking_dc, c.step_image_url, c.step_tip, c.recipe_id
-		from recipe_info i,recipe_crse c,recipe_irdnt d
-		where i.recipe_id = c.recipe_id(+) and i.recipe_id = d.recipe_id(+) 
+		SELECT	i.recipe_id,i.recipe_name,
+				i.sumry,
+				i.category_code,
+				i.category_name,
+				i.type_code,
+				i.type_name,
+				i.cooking_time,
+				i.calorie,
+				i.qnt,
+				i.recipe_level,
+				i.irdnt_code,
+				i.price,
+				i.img_url,
+				i.det_url,
+				i.recipe_hits,
+				d.irdnt_no, 
+				d.irdnt_name, 
+				d.irdnt_amount, 
+				d.irdnt_type_code, 
+				d.irdnt_type_name, 
+				d.recipe_id, d.irdnt_id,
+				c.cooking_no,
+				c.cooking_dc, 
+				c.step_image_url, 
+				c.step_tip, 
+				c.recipe_id
+		FROM 	recipe_info i, recipe_crse c, recipe_irdnt d
+		WHERE 	i.recipe_id = c.recipe_id(+) and i.recipe_id = d.recipe_id(+)
+		AND 	i.recipe_id = #{value}
+		ORDER BY i.recipe_id, d.irdnt_id, c.cooking_no
 	</select>
 	
 	
