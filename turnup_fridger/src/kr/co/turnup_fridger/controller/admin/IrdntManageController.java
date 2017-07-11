@@ -122,6 +122,18 @@ public class IrdntManageController {
 		return new ModelAndView("common/admin/irdntManage/irdnt_update_form",map);
 	}
 	
+	//레시피 등록/수정시 필요!
+	@RequestMapping("findIrdntByName")
+	@ResponseBody
+	public List<IrdntManage> findIrdntByName(@RequestParam String irdntName){
+//		System.out.println("findIrdntByName 핸들러: irdntName:"+irdntName);//받아옴
+		List<IrdntManage> list = service.findIrdntByName(irdntName);
+		System.out.println(list);
+		return list;
+	}
+	
+	
+	
 /*	@RequestMapping("findAllICategory")
 	@ResponseBody
 	public List<String> findAllCategory(){
@@ -131,13 +143,7 @@ public class IrdntManageController {
 	*/
 	
 	
-	/*@RequestMapping("findIrdntByName" )
-	@ResponseBody
-	public List<IrdntManage> findIrdntByName(@RequestParam String irdntName){
-		System.out.println("받아는오니? ");
-		List<IrdntManage> list = service.findIrdntByName(irdntName);
-		return list;
-	}*/
+	
 
 	
 }

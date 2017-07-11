@@ -92,6 +92,11 @@ public interface MyIrdntDao {
 	 */
 	List<MyIrdnt> selectMyIrdntByFreshLevelAndIrdntName(String freshLevel, String irdntName,int fridgerId);
 	
-	
+	/**
+	 * 회원이 가진 개인식재료들을 모두 불러오기
+	 * @param memberId
+	 * @return
+	 */
+	List<MyIrdnt> selectMyIrdntBymemberId(String memberId);
 	
 }

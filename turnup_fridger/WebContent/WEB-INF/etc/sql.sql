@@ -1,3 +1,21 @@
+	SELECT recipe_id,
+		recipe_name,
+		sumry,
+		category_code,
+		category_name,
+		type_code,
+		type_name,
+		cooking_time,
+		calorie,
+		qnt,
+		recipe_level,
+		irdnt_code,
+		price,
+		img_url,
+		det_url,
+		recipe_hits
+			FROM Recipe_Info
+			where recipe_name like '%'||'안'||'%' and recipe_level='보통'
 --headMaster한명 input(테이블 생성후 넣으세용)
 insert into authority values('headAdmin1','headAdmin1','ROLE_HEADMASTERADMIN');
 insert into admin values('headAdmin1','headAdmin1','HeadMasterAdmin','01012345678','headadmin@kosta.or.kr','ROLE_HEADMASTERADMIN');
@@ -302,7 +320,7 @@ select * from my_dislike_irdnt where  member_id='id-1' and  irdnt_id=2;
 
 
 /* 관리자  */
-DROP TABLE ADMIN;
+DROP TABLE ADMIN CASCADE CONSTRAINT;
 DELETE FROM ADMIN;
 CREATE TABLE ADMIN (
    ADMIN_ID VARCHAR2(20) PRIMARY KEY, /* 관리자 ID */
@@ -379,6 +397,8 @@ CREATE TABLE RECIPE_CRSE (
    CONSTRAINT VTRC_RECIPE_ID_FK FOREIGN KEY(RECIPE_ID) REFERENCES RECIPE_INFO on delete cascade
 );
 
+--select * from recipe_crse;
+
 /* 레시피 재료정보 */
 DROP TABLE RECIPE_IRDNT CASCADE CONSTRAINT;
 DELETE FROM RECIPE_IRDNT;
@@ -397,6 +417,7 @@ CREATE TABLE RECIPE_IRDNT (
 --select count(*) from recipe_crse;
 --select count(*) from recipe_info;
 --select count(*) from recipe_irdnt;
+--select * from recipe_irdnt;
 
 /* 즐겨찾기 */
 DROP TABLE FAVORITE_RECIPE;

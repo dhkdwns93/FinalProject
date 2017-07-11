@@ -20,12 +20,12 @@
 	</resultMap>
 	
 	<insert id="insertRecipeCrse" parameterType="RecipeCrse">
-		insert into RecipeCrse 
+		insert into RECIPE_CRSE 
 		values (#{recipeId},#{cookingNo},#{cookingDc},#{stepImageUrl},#{stepTip})
 	</insert>
 	
 	<update id="updateRecipeCrse" parameterType="RecipeCrse">
-		update RecipeCrse
+		update RECIPE_CRSE
 		set recipe_id=#{recipeId},
 			cooking_no=#{cookingNo},
 			cooking_dc=#{cookingDc},
@@ -35,27 +35,27 @@
 	</update>
 	
 	<delete id="deleteRecipeCrse" parameterType="java.util.HashMap">
-		delete from RecipeCrse
+		delete from RECIPE_CRSE
 		where recipe_id=#{recipeId.recipeId} and cooking_no=#{cookingNo.cookingNo}
 	</delete>
 	
 	<select id="selectAllRecipeCrse" resultMap="RecipeCrse-resultmap">
 		SELECT
 		<include refid="all-column" />
-		FROM RecipeCrse
+		FROM RECIPE_CRSE
 	</select>
 	
 	<select id="selectRecipeCrseById" resultMap="RecipeCrse-resultmap" parameterType="_int">
 		SELECT
 		<include refid="all-column" />
-		FROM RecipeCrse
+		FROM RECIPE_CRSE
 		where recipe_id=#{recipeId}
 	</select>
 	
 	<select id="selectRecipeCrseByIdAndNo" resultMap="RecipeCrse-resultmap" parameterType="java.util.HashMap">
 		SELECT
 		<include refid="all-column" />
-		FROM RecipeCrse
+		FROM RECIPE_CRSE
 		where recipe_id=#{recipeId.recipeId} and cooking_no=#{cookingNo.cookingNo}
 	</select>
 	

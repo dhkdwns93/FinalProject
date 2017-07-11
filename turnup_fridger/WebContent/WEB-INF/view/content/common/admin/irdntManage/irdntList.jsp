@@ -80,16 +80,13 @@
 table, td {
 	border: 1px solid black;
 }
-
 table {
 	width: 1000px;
 	border-collapse: collapse;
 }
-
 td {
 	padding: 5px;
 }
-
 #tbody {
 	cursor: pointer;
 }
@@ -139,7 +136,5 @@ td {
 			<tbody id="tbody"></tbody>
 		</table>
 	</div>
-
-
 </body>
 </html>

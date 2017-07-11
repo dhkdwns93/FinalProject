@@ -89,7 +89,12 @@ public interface MyIrdntService {
 	 */
 	List<MyIrdnt> findMyIrdntByFreshLevelAndIrdntName(String freshLevel, String irdntName,int fridgerId);
 	
-	
+	/**
+	 * 회원의 개인식재료들을 전부다 받아오는 것.
+	 * @param memberId
+	 * @return
+	 */
+	List<MyIrdnt> findMyIrdntByMemberId(String memberId);
 }
 
 

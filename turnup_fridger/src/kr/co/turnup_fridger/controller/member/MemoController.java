@@ -1,5 +1,7 @@
 package kr.co.turnup_fridger.controller.member;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,11 +75,18 @@ public class MemoController {
 	}
 	
 	// 내가 쓴 메모목록 - O 					 ajax사용시 produces해줘야 한글 깨지지않음!
-	@RequestMapping(value="memoList", produces="application/json;charset=UTF-8")
+	@RequestMapping(value="memoList")
 	@ResponseBody
 	public List<MyMemo> selectMemoByMember(String memberId){
 		return service.selectMemoList(memberId);
 	}
+	
+/*	@RequestMapping(value="memoList")
+	public ModelAndView selectMemoByMember(String memberId){
+		List<MyMemo>list = service.selectMemoList(memberId);
+		return new ModelAndView("common/member/memo/memoList.tiles", "list", list);
+		
+	}*/
 	
 	// 메모하나 상세보기 - O
 	@RequestMapping("findOneMemo")

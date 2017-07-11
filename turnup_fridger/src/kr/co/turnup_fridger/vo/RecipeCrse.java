@@ -2,6 +2,8 @@ package kr.co.turnup_fridger.vo;
 
 import java.io.Serializable;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class RecipeCrse implements Serializable{
 
 	private int recipeId;
@@ -11,6 +13,8 @@ public class RecipeCrse implements Serializable{
 	private String stepTip;
 	private RecipeInfo recipeInfo;
 	
+	
+	private MultipartFile stepImageUrlSrc;
 	public RecipeCrse(){
 		
 	}
@@ -79,6 +83,15 @@ public class RecipeCrse implements Serializable{
 
 	public void setRecipeInfo(RecipeInfo recipeInfo) {
 		this.recipeInfo = recipeInfo;
+	}
+
+	
+	public MultipartFile getStepImageUrlSrc() {
+		return stepImageUrlSrc;
+	}
+
+	public void setStepImageUrlSrc(MultipartFile stepImageUrlSrc) {
+		this.stepImageUrlSrc = stepImageUrlSrc;
 	}
 
 	@Override
