@@ -47,17 +47,9 @@ public interface MemberService {
 	 * @param memberId
 	 */
 	void deleteMember(String memberId);
-	
+		
 	/**
-	 * 개인회원 이메일계정으로 아이디/비번 찾기 -이름도 입력 받음. 이름-이메일 일치하지 않으면 아이디/비번 찾기 불가
-	 * -해당 이메일로 아이디/비밀번호를 보내준다.
-	 * @param name
-	 * @param memberEmail
-	 */
-	Member findMember(String name, String memberEmail);
-	
-	/**
-	 * 해당 이메일 사용하는 사용자 조회 -중복검사
+	 * 해당 이메일 사용하는 사용자 조회 -중복검사,개인회원 이메일계정으로 아이디/비번 찾기
 	 * @param memberEmail
 	 * @return
 	 */

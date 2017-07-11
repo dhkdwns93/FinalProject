@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.co.turnup_fridger.exception.RegisterAdminFailException;
 import kr.co.turnup_fridger.service.AdminService;
 import kr.co.turnup_fridger.service.MemberService;
+import kr.co.turnup_fridger.service.MyDislikeIrdntService;
 import kr.co.turnup_fridger.vo.Admin;
 import kr.co.turnup_fridger.vo.Member;
 
@@ -38,6 +39,9 @@ public class AdminManageController {
 	
 	@Autowired
 	private AdminService adminService;
+	
+	@Autowired
+	private MyDislikeIrdntService myDislikeIrdntService;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -92,17 +96,19 @@ public class AdminManageController {
 	 * @return
 	 */
 	@RequestMapping("/admin_change")
-	public String changeAdminInfo(@ModelAttribute Admin admin, @RequestParam String newAdminPw){
+	public String changeAdminInfo(@ModelAttribute Admin admin, @RequestParam String oldAdminPw){
 		//1. 요청한 사용자 정보 조회
 		SecurityContext ctx=SecurityContextHolder.getContext();
 		Authentication authentication=ctx.getAuthentication();
 		
 		//PW체크
 		String originalAdminPw=((Admin)authentication.getPrincipal()).getAdminPw();
-		if(!passwordEncoder.matches(originalAdminPw,admin.getAdminPw())){
+		//바꾸려는 비밀번호
+		String adminPw=admin.getAdminPw();
+		if(!passwordEncoder.matches(oldAdminPw,originalAdminPw)){
 //		if(!adminPw.equals(admin.getAdminPw())){
 			System.out.println("originalPW="+originalAdminPw);
-			System.out.println("입력한 PW="+ admin.getAdminPw());
+			System.out.println("입력한 PW="+ oldAdminPw);
 			System.out.println("AdminManageController + PW가 다릅니다.");
 			throw new RuntimeException("PW가 다릅니다.");
 		}
@@ -112,7 +118,6 @@ public class AdminManageController {
 			System.out.println("Head Master는 수정이 불가합니다.");
 			throw new RuntimeException("Head Master는 수정이 불가합니다.");
 		}
-		admin.setAdminPw(newAdminPw);
 		adminService.changeAdminInfo(admin);
 		
 		//3.응답
@@ -198,14 +203,21 @@ public class AdminManageController {
 		return "redirect:/common/admin/admin_list.do";
 	}
 	
+	/**
+	 * 개인회원 강제탈퇴 처리
+	 * @param memberId
+	 * @return
+	 */
 	@RequestMapping("/member_delete")
 	public String deleteMember(@RequestParam String memberId){
 		//1.요청한 사용자 정보 조회
 
 		//2.Business Logic
 		//System.out.println(memberId + "탈퇴");	
+		myDislikeIrdntService.removeMyDislikeIrdntByMemberId(memberId);
 		memberService.deleteMember(memberId);
 		//3.응답
 		return "redirect:/common/admin/member_list.do";
 	}
+
 }

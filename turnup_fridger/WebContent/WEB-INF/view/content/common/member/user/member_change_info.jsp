@@ -7,6 +7,7 @@
 최초 작성일 170704
 변경이력 
 170706 (경혜) 기피재료 검색 추가
+170711 (경혜) 주소검색 API 추가
  -->
 <!DOCTYPE html>
 <html>
@@ -28,10 +29,18 @@ $(document).ready(function(){
 		$("input#memberEmail").val("${param.email}");
 	});//end of duplicateEmailBtn
 	
+	$("button#findAddressBtn").on("click",function(){
+		window.open("${initParam.rootPath}/popup_find_address_form.do","find_address_form","width=500,height=500,resizable=yes");
+	});//end of findAddressBtn
+	
 	$("div#showMyDislikeIrdnt").on("click","button#createMyDislikeIrdnt",function(){
 		if(checkNumCreateMyDislikeIrdnt<4){
-			window.open("${initParam.rootPath}/popup_find_irdnt_form.do","find_irdnt_form","width=500,height=400,resizable=yes");
-			var inputTextHtml=$("#showMyDislikeIrdnt").prepend('<div id="myDislikeIrdntText"><input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="${param.irdntId}" class="form-control"><input type="text" id="myDislikeIrdntName" name="myDislikeIrdntName" value="${param.irdntName}" readonly="readonly" class="form-control">&nbsp&nbsp<button type="button" id="removeMyDislikeIrdnt">해당 기피재료 삭제</button><br></div>');
+			window.open("${initParam.rootPath}/popup_find_irdnt_form.do","find_irdnt_form","width=500,height=300,resizable=yes");
+			var inputTextHtml=$("#showMyDislikeIrdnt").prepend('<div id="myDislikeIrdntText"><input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="-1" class="form-control"><input type="text" id="myDislikeIrdntName" name="myDislikeIrdntName" value="${param.irdntName}" readonly="readonly" class="form-control">&nbsp&nbsp<button type="button" id="removeMyDislikeIrdnt">해당 기피재료 삭제</button><br></div>');
+			var irdntId="${param.irdntId}";
+			if(irdntId!=("")){
+				var inputTextHtml=$("#showMyDislikeIrdnt").prepend('<div id="myDislikeIrdntText"><input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="${param.irdntId}" class="form-control"><input type="text" id="myDislikeIrdntName" name="myDislikeIrdntName" value="${param.irdntName}" readonly="readonly" class="form-control">&nbsp&nbsp<button type="button" id="removeMyDislikeIrdnt">해당 기피재료 삭제</button><br></div>');
+			}
 			checkNumCreateMyDislikeIrdnt=checkNumCreateMyDislikeIrdnt+1;
 		}else{
 			$("span#tooMuchIrdnt").text("*기피재료는 4개까지만 설정할 수 있습니다.");
@@ -72,8 +81,8 @@ $(document).ready(function(){
 		<span class="error"><form:errors path="memberChangeForm.memberName" delimiter="&nbsp;&nbsp"/></span>
 	</div>
 	<div class="form-group">
-		<label for="address">주소</label>
-		<input type="text" id="address" name="memberAddress" value='<sec:authentication property="principal.memberAddress"/>' class="form-control">
+		<label for="address">주소</label><button type="button" id="findAddressBtn" class="btn btn-default">주소검색</button><br>
+		<input type="text" id="address" name="memberAddress" value='<sec:authentication property="principal.memberAddress"/>' readonly="readonly" class="form-control">
 		<span class="error"><form:errors path="memberChangeForm.memberAddress" delimiter="&nbsp;&nbsp"/></span>
 	</div>
 	<div class="form-group">
