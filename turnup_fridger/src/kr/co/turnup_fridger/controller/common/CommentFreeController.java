@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServlet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,6 +19,7 @@ import kr.co.turnup_fridger.service.BoardFreeService;
 import kr.co.turnup_fridger.service.CommentFreeService;
 import kr.co.turnup_fridger.validation.CommentFreeValidator;
 import kr.co.turnup_fridger.vo.BoardFree;
+import kr.co.turnup_fridger.vo.BoardQnA;
 import kr.co.turnup_fridger.vo.CommentFree;
 
 @Controller
@@ -33,7 +35,7 @@ public class CommentFreeController extends HttpServlet {
 		//등록
 		@RequestMapping("commentFreeAdd")
 		@ResponseBody
-		 public ModelAndView commentFreeAdd(@ModelAttribute CommentFree commentFree, BindingResult errors,@RequestParam int boardFreeId, @RequestParam(defaultValue="1") int page)
+		 public ModelAndView commentFreeAdd(@ModelAttribute CommentFree commentFree, BindingResult errors,@RequestParam int boardFreeId, @RequestParam(defaultValue="1") int page,ModelMap map)
 		{
 
 			ModelAndView mav = new ModelAndView();
@@ -47,32 +49,51 @@ public class CommentFreeController extends HttpServlet {
 				mav.addObject("boardFree", boardFree);
 				
 				//해당 댓글 LIST
-				Map<String, Object> map = service.selectCommentFreeListbyId(boardFreeId,page);
-				mav.addObject("commentFree", map.get("list"));
-				mav.addObject("boardFreeId",  map.get("boardFreeId"));
-			    mav.addObject("pageBean", map.get("pageBean"));
+				Map<String, Object> list = service.selectCommentFreeListbyId(boardFreeId,page);
+				mav.addObject("commentFree", list.get("list"));
+				mav.addObject("boardFreeId",  list.get("boardFreeId"));
+			    mav.addObject("pageBean", list.get("pageBean"));
 				mav.setViewName("common/boardfree/boardfree_view.tiles");
 				return mav; 
 			}
 			
-			
-			
 			service.addCommentFree(commentFree);
 			
 			BoardFree boardFree = board.selectBoardFreeByboardFreeId(boardFreeId);
-			mav.addObject("boardFree", boardFree);//게시물 상세 정보
-			
-			Map<String, Object> map = service.selectCommentFreeListbyId(commentFree.getBoardFreeId(),page);
-			mav.addObject("commentFree",map.get("list"));//해당게시물 댓글 정보
+			Map<String, Object> list = service.selectCommentFreeListbyId(commentFree.getBoardFreeId(),page);
+			/*mav.addObject("boardFree", boardFree);//게시물 상세 정보*/			
+			/*mav.addObject("commentFree",map.get("list"));//해당게시물 댓글 정보
 		    mav.addObject("boardFreeId",  map.get("boardFreeId"));
-		    mav.addObject("pageBean", map.get("pageBean"));
-		    
-		    
-			mav.setViewName("common/boardfree/boardfree_view.tiles");
+		    mav.addObject("pageBean", map.get("pageBean"));*/
 			
-			return mav;
+			map.addAttribute("commentFreeId",commentFree.getBoardFreeId());//댓글 아이디
+		    map.addAttribute("commentFree",list.get("list"));//댓글 리스트
+		    map.addAttribute("boardFree",boardFree);//댓글 리스트
+		    map.addAttribute("boardFreeId",boardFree.getBoardFreeId());//게시판 아이디
+		    map.addAttribute("pageBean", list.get("pageBean"));//페이징
+		    
+			return new ModelAndView("redirect:/common/commentfree/success.do");
 		}
-	
+		
+		@RequestMapping("success")
+		@ResponseBody
+		public ModelAndView registerSuccess(@RequestParam int boardFreeId, @RequestParam int commentFreeId,@RequestParam(defaultValue="1") int page)
+		{
+			ModelAndView mav = new ModelAndView();
+			
+			BoardFree boardFree = board.selectBoardFreeByboardFreeId(boardFreeId);
+			Map<String, Object> map = service.selectCommentFreeListbyId(boardFreeId,page);
+			
+			mav.addObject("boardFree", boardFree);//게시판 정보
+			mav.addObject("commentFree",map.get("list"));//댓글 정보
+		    mav.addObject("boardFreeId", boardFree.getBoardFreeId());//게시판 아이디
+		    mav.addObject("pageBean", map.get("pageBean"));//페이징
+			
+			mav.setViewName("common/boardfree/boardfree_view.tiles");
+	        return mav; 
+		}
+		
+		
 
 		//삭제
 		@RequestMapping("commentFreeRemove")
@@ -106,6 +127,7 @@ public class CommentFreeController extends HttpServlet {
 
 		//댓글 수정폼 이동
 		@RequestMapping("commentFreeUploadView")
+		@ResponseBody
 		public ModelAndView commentFreeUploadView(@RequestParam int commentFreeId,@RequestParam String writer,
 				@RequestParam String memberId,@RequestParam int boardFreeId,@RequestParam(defaultValue="1") int page)
 		{
@@ -137,6 +159,7 @@ public class CommentFreeController extends HttpServlet {
 		
 		//수정
 		@RequestMapping("commentFreeUploadForm")
+		@ResponseBody
 		 public ModelAndView commentFreeUploadForm(@ModelAttribute CommentFree commentFree,@RequestParam int commentFreeId,@RequestParam int boardFreeId, BindingResult errors,@RequestParam(defaultValue="1") int page)
 		{
 				ModelAndView mav = new ModelAndView();

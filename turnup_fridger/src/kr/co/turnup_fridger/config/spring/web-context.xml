@@ -82,10 +82,14 @@
 	<mvc:view-controller path="/boardreview/boardreview_list_recipename.do" view-name="boardreview/boardreview_list_recipename.tiles"/>	
 	<!-- 후기 레시피 등록 페이지 -->
 	<mvc:view-controller path="/boardreview/boardreview_form.do" view-name="boardreview/boardreview_form.tiles"/>	
+	<!-- 후기 레시피 등록 성공 페이지 -->
+	<mvc:view-controller path="/boardreview/form_success.do" view-name="boardreview/form_success.tiles"/>	
 	<!-- 후기 레시피 수정 페이지 -->
 	<mvc:view-controller path="/boardreview/boardreview_upload.do" view-name="boardreview/boardreview_upload.tiles"/>	
 	<!-- 후기 레시피 이름 조회 페이지 -->
-	<mvc:view-controller path="/boardreview/recipenamesearch.do" view-name="boardreview/recipenamesearch.tiles"/>	
+	<mvc:view-controller path="/boardreview/recipenamesearch.do" view-name="boardreview/recipenamesearch"/>	
+
+
 
 
 	<!-- 왕준 view 등록 -->

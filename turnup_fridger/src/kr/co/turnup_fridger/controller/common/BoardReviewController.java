@@ -208,7 +208,7 @@ public class BoardReviewController extends HttpServlet {
 			 
 			mav.addObject("list", map.get("list"));
 			mav.addObject("pageBean", map.get("pageBean"));
-	        mav.setViewName("boardreview/boardreview_list.tiles");
+	        mav.setViewName("boardreview/form_success.tiles");
 	        return mav; 
 		}
 			

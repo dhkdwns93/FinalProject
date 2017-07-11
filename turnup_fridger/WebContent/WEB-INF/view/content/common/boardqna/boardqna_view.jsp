@@ -68,7 +68,7 @@ function popup(frm){
 </head>
 <body>
 
-<h1>QnA 게시판 > ${boardQnA.memberId}님의 질문 </h1><br>
+<h1>QnA 게시판 > ${requestScope.boardQnA.memberId}님의 질문 </h1><br>
 <hr>
 
 <table border="1" style="text-align:center">
@@ -78,21 +78,21 @@ function popup(frm){
 	</tr>
 	<tr>
 		<td>작성날짜</td>
-		<td><fmt:formatDate value="${boardQnA.boardQnAdate}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
+		<td><fmt:formatDate value="${requestScope.boardQnA.boardQnAdate}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
 	</tr>
 	<tr>
 		<td>작성자</td>
-		<td>${boardQnA.memberId}</td>
+		<td>${requestScope.boardQnA.memberId}</td>
 	</tr>	
 	<tr>
 		<td>내용</td>
 		<td>
-			${boardQnA.boardQnATxt}
+			${requestScope.boardQnA.boardQnATxt}
 		</td>
 	</tr>
 </table>
 <form action="${initParam.rootPath}/common/boardqna/boardQnAUploadView.do" method="post">
-	<input type="hidden" name="boardQnAId" id="boardQnAId" value="${boardQnA.boardQnAId}">
+	<input type="hidden" name="boardQnAId" id="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
 		<!-- 회원만 수정 가능  -->
 		<sec:authorize access="hasRole('ROLE_MEMBER')">
 			<button>수정하기</button>
@@ -101,7 +101,7 @@ function popup(frm){
 </form>
 
 <form action="${initParam.rootPath}/common/boardqna/boardQnARemove.do" method="post">
-	<input type="hidden" name="boardQnAId" value="${boardQnA.boardQnAId}">
+	<input type="hidden" name="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
 	<input type="submit" value="삭제하기" onclick="return delete_event();">
 	<sec:csrfInput/>
 </form>
@@ -116,7 +116,7 @@ function popup(frm){
 
 <!-- 댓글 목록 -->
 댓글 목록<br>
-<c:forEach var="list" items="${boardQnA.commentQnAList}">
+<c:forEach var="list" items="${requestScope.boardQnA.commentQnAList}">
 <c:if test="${list.commentQnAId == 0}">
 댓글이 없습니다.
 </c:if>
@@ -252,7 +252,7 @@ function popup(frm){
 	 </tbody>
 	</table>
 	<input type="hidden" name="adminId" value="">
-	<input type="hidden" name="boardQnAId" value="${boardQnA.boardQnAId}">
+	<input type="hidden" name="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
 	<input type="submit" value="등록하기" onclick="insert_event();">
 </sec:authorize>
 
@@ -276,7 +276,7 @@ function popup(frm){
 	 </tbody>
 	</table>
 	<input type="hidden" name="memberId" value="">
-	<input type="hidden" name="boardQnAId" value="${boardQnA.boardQnAId}">
+	<input type="hidden" name="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
 	<input type="submit" value="등록하기" onclick="insert_event();">
 </sec:authorize>
 <sec:csrfInput/>
