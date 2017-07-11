@@ -9,6 +9,11 @@ $(document).ready(function(){
 	$("div#recipe_irdnt").hide();
 	$("div#recipe_crse").hide();
 	var crse_idx = -1;
+
+
+	$("input:radio").find("[value=${ requestScope.recipe.recipeLevel}]").prop("checked","checked");
+	$("#categoryCode>option").find("[value=${ requestScope.recipe.categoryCode}]").prop("selected", "selected");
+
 	
 	//카테고리를 선택했을때 카테고리별 음식분류명 불러오기
 	$("#categoryCode").on("change",function(){
@@ -59,6 +64,13 @@ $(document).ready(function(){
 	$(document).on("click", ".deleteIrdntBtn", function(){
 		$(this).parent().parent().remove();	
 	})
+	
+	
+	
+	
+	
+
+	
 });
 
 function openPopup(url){
@@ -78,13 +90,27 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 								  					.append($("<td>").append($("<input>").prop("type", "text").prop("name", "recipeIrdntList["+irdnt_idx+"].irdntAmount").prop("value",irdntAmount).prop("readonly", "readonly")))
 								  					.append($("<td>").append($("<button>").prop("type", "button").prop("class","deleteIrdntBtn").append("삭제"))));
 }
-
-
 </script>
+
+<style>
+.image{
+position:relative;
+}
+
+.image_button{
+position: absolute;
+top:5px;
+right:5px;
+}
+
+</style>
+
+
+
 <h2>레시피 업데이트</h2>
 
 <form id="recipe_register_form" 
-	action="${ initParam.rootPath }/common/admin/recipe/register.do" 
+	action="${ initParam.rootPath }/common/admin/recipe/update.do" 
 	enctype="multipart/form-data" method="post">
 
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
@@ -97,7 +123,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				<tr>
 					<th>레시피 이름</th>
 					<td><input type="text" name="recipeName" id="recipeName"
-						value="${ requestScope.recipeName }"> <span class="error"><form:errors
+						value="${ requestScope.recipe.recipeName }"> <span class="error"><form:errors
 								path="recipeInfo.recipeName" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_duplicateId != null }">
 							${ requestScope.errorMsg_duplicateId }
@@ -106,7 +132,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				<tr>
 					<th>레시피설명</th>
 					<td><input type="text" name="sumry" id="sumry"
-						value="${ requestScope.sumry }"> <span class="error"><form:errors
+						value="${ requestScope.recipe.sumry }"> <span class="error"><form:errors
 								path="recipeInfo.sumry" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
 							${ requestScope.errorMsg_fridgerImgSrc }
@@ -114,8 +140,17 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				</tr>
 				<tr>
 					<th>레시피사진</th>
-					<td><input type="file" id="imgUrlSrc" name="imgUrlSrc"
-						value="${ requestScope.imgUrlSrc }">
+					<td>현재사진
+						<div class="image">
+							
+						<img src="${ initParam.rootPath }/images/${ requestScope.recipe.imgUrl }" width="150px" height="150px">
+						<div class="image_button">
+						<button type="button" id="deleteImgBtn">삭제</button>
+						</div>
+					</div>
+					
+					<input type="file" id="imgUrlSrc" name="imgUrlSrc"
+						value="${ requestScope.recipe.imgUrl }">
 						
 						<span class="error"><form:errors
 								path="recipeInfo.imgUrl" delimiter="&nbsp;" /> <c:if
@@ -183,7 +218,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				<tr>
 					<th>난이도</th>
 					<td><label for="recipeLevel_1">초보환영<input type="radio"
-							name="recipeLevel" id="recipeLevel_1" value="초보환영" checked></label>
+							name="recipeLevel" id="recipeLevel_1" value="초보환영"></label>
 						&nbsp; &nbsp;<label for="recipeLevel_2">보통<input
 							type="radio" name="recipeLevel" id="recipeLevel_2" value="보통"></label>
 						&nbsp; &nbsp;<label for="recipeLevel_3">어려움<input
@@ -192,17 +227,16 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				</tr>
 				<tr>
 					<th>소요시간</th>
-					<td><input type="number" id="cookingTime" name="cookingTime"
-						value="${ requestScope.cookingTime }"> 분 <span class="error"><form:errors
-								path="recipeInfo.cookingTime" delimiter="&nbsp;" /> <c:if
+					<td>${ requestScope.recipe.cookingTime } -> <input type="number" id="cookingTime" name="cookingTime"> 분
+							 <span class="error"><form:errors
+								path="recipeInfo.cookingTime" delimiter="&nbsp;"/> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
 							${ requestScope.errorMsg_fridgerImgSrc }
 							</c:if> </span></td>
 				</tr>
 				<tr>
 					<th>칼로리</th>
-					<td><input type="number" id="calorie" name="calorie"
-						value="${ requestScope.calorie }"> kcal <span class="error"><form:errors
+					<td>${ requestScope.recipe.calorie } -> <input type="number" id="calorie" name="calorie"> kcal <span class="error"><form:errors
 								path="recipeInfo.calorie" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
 							${ requestScope.errorMsg_fridgerImgSrc }
@@ -210,8 +244,8 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				</tr>
 				<tr>
 					<th>기준인분수</th>
-					<td><input type="number" id="qnt" name="qnt"
-						value="${ requestScope.qnt }"> 인분 <span class="error"><form:errors
+					<td>${ requestScope.recipe.qnt } -> <input type="number" id="qnt" name="qnt"> 인분 
+							<span class="error"><form:errors
 								path="recipeInfo.qnt" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
 							${ requestScope.errorMsg_fridgerImgSrc }
@@ -219,8 +253,8 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				</tr>
 				<tr>
 					<th>가격정보</th>
-					<td><input type="number" id="price" name="price"
-						value="${ param.price }"> 원 <span class="error"><form:errors
+					<td>${ requestScope.recipe.price } -> <input type="number" id="price" name="price"> 원
+							 <span class="error"><form:errors
 								path="recipeInfo.price" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
 							${ requestScope.errorMsg_fridgerImgSrc }
@@ -229,7 +263,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				<tr>
 					<th>참조페이지</th>
 					<td><input type="text" id="detUrl" name="detUrl"
-						value="${ requestScope.detUrl }"> <span class="error"><form:errors
+						value="${ requestScope.recipe.detUrl }"> <span class="error"><form:errors
 								path="recipeInfo.detUrl" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
 							${ requestScope.errorMsg_fridgerImgSrc }
@@ -259,6 +293,15 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 					<td><!-- 재료명 --></td>
 					<td><!-- 중량 --></td>
 				</tr>
+				<tr>
+				<!-- recipeIrdntList를 forEach로 돌림 -->
+					<td><input type="hidden" name="recipeIrdntList[0].irdntId" value="${requestScope.recipe.recipeIrdntList[0].irdntId}"></td>
+					<td><input type="text" name="recipeIrdntList[0].irdntName" readonly></td>
+					<td><input type="hidden" name="recipeIrdntList[0].irdntTypeCode" value="${requestScope.recipe.recipeIrdntList[0].irdntTypeCode}"></td>
+					<td><input type="text" name="recipeIrdntList[0].irdntTypeName" readonly></td>
+					<td><input type="text" name="recipeIrdntList[0].irdntAmount" readonly></td>
+					<td><button type="button" class="deleteIrdntBtn">삭제</button></td>
+				</tr>
 			</tbody>
 		</table>
 		<button type="button" class="nextBtn" >NEXT >></button>
@@ -278,12 +321,28 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 	<button type="button" id="crseBtn">+과정추가</button>
 		<table id="recipe_crse_table" style="margin-bottom: 10px">
 			<tbody>
+			<tr>
+				<td>
+				<input type="hidden" name="recipeCrseList[0].cookingNo" value="0">
+				과정#1
+				<textarea cols="50" rows="3" name="recipeCrseList[0].cookingDc"></textarea>
+				</td>
+				<td>
+				<img src="recipeCrseList[0].stepImageUrlSrc">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					팁
+					<input type="text" name="recipeCrseList[0].stepTip">
+				</td>
+			</tr>
 			</tbody>
 			
 		</table>
 	</div>
 	</div>
-	<input type="submit" id="registerBtn" value="등록">
+	<input type="submit" id="updateBtn" value="업데이트">
 	<input type="reset" value="초기화">
 	
 </form>

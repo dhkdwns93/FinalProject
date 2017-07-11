@@ -141,16 +141,24 @@ public class RecipeController {
 		
 		@RequestMapping("common/admin/recipe/register/success")
 		public ModelAndView registerRecipeSuccess( int recipeId ) throws Exception{
-			System.out.println("로그,다");
 			return new ModelAndView("common/admin/recipe_for_admin/recipeList.tiles","successMsg_create","등록성공!");
 		}
 	
-		//수정
+		
+		
+		//레시피 정보 수정전 체크
+		@RequestMapping("common/admin/recipe/update_chk")
+		public ModelAndView moveToUpdateForm(@RequestParam int recipeId){
+			RecipeInfo ri = recipeService.findRecipeInfoByRecipeId(recipeId);
+			return new ModelAndView("common/admin/recipe_for_admin/update_form", "recipe", ri);
+			
+		}
+		
 		@RequestMapping("common/admin/recipe/update")
 		public ModelAndView updateRecipe(@ModelAttribute("recipeInfo") @Valid RecipeInfoForm recipeInfoForm, BindingResult errors, HttpServletRequest request)
 				 throws IllegalStateException, IOException{
 			if(errors.hasErrors()){
-				return new ModelAndView("common/admin/recipe_for_admin/register_form.tiles");
+				return new ModelAndView("common/admin/recipe_for_admin/update_form.tiles");
 			}
 			// 1. recipeInfo객체에 검증된 recipeInfoForm 자료 넣기
 			RecipeInfo recipeInfo = new RecipeInfo();
@@ -210,9 +218,9 @@ public class RecipeController {
 			try {
 				recipeService.createRecipe(recipeInfo);
 			} catch (DuplicateRecipeException e) {
-				return new ModelAndView("common/admin/recipe_for_admin/register_form.tiles","errorMsg_duplicateId",e.getMessage());
+				return new ModelAndView("common/admin/recipe_for_admin/update_form.tiles","errorMsg_duplicateId",e.getMessage());
 			}
-			return new ModelAndView("redirect:register/success.do","recipeId",recipeInfo.getRecipeId());
+			return new ModelAndView("redirect:update/success.do","recipeId",recipeInfo.getRecipeId());
 		}
 		
 		@RequestMapping("common/admin/recipe/update/success")

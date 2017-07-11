@@ -134,6 +134,11 @@ public class RecipeServiceImpl implements RecipeService{
 		public List<String> getTypeNameByCategoryName(String categoryName) {
 			return infoDao.selectTypeNameByCategoryName(categoryName);
 		}
+
+		@Override
+		public RecipeInfo findRecipeInfoByRecipeId(int recipeId) {
+			return infoDao.selectRecipeInfoById(recipeId);
+		}
 		
 
 	

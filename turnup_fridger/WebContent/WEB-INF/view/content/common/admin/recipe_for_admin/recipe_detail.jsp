@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <html>
 <title>레시피 상세화면</title>
 
@@ -7,25 +8,8 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#updateBtn").on("click", function(){
-		$.ajax({
-			"url":"/turnup_fridger/common/admin/recipe/update.do",
-			"type":"POST",
-			"data":{'recipeId' : $("#categoryName").val(),'${_csrf.parameterName}':'${_csrf.token}'},
-			"dataType":"json",
-			"success":function(list){
-				$("#typeName").empty();
-				$.each(list, function(){
-					$("#typeName").append($("<option>").prop("value",this).append(this))
-				});//each
-			},
-			"error":function(xhr, msg, code){
-				alert("오류발생-" +msg+ ":" +code);
-			}
-			
-		})
-		
 		window.open(
-				"${ initParam.rootPath }/common/member/fridger/update_chk.do?fridgerId="+$(this).val(),
+				"${ initParam.rootPath }/common/admin/recipe/update_chk.do?recipeId=${requestScope.recipe.recipeId}",
 				"_blank",
 				"fullscreen=yes, height=700, width=500, resizable=no, scrollbars=no, location=no, toolbar=no, directories=no, menubar=no"
 				);
@@ -189,8 +173,11 @@ top: 650px;
 	</div>
 </div>
 <div style="margin-right: 50px;  width: auto;  right:0; position: absolute;">
+
+<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 <button type="button" id="updateBtn" onclick="('/turnup_fridger/common/admin/recipe/update.do?recipeId=')">수정</button> 
 <button type="button" id="deletBtn">삭제</button> 
+</sec:authorize>
 <button type="button" onclick="window.history.back()">뒤로가기</button>
 </div>
 
