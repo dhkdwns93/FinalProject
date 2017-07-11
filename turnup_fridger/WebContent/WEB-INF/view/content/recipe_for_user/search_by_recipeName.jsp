@@ -12,36 +12,33 @@ $(document).ready(function(){
 	$("#sortKeyword").hide();
 	
 	$("#searchBtn").on("click",function(){
-		//숨긴것 나타나게
 		$("#sortKeyword").show();
-		alert($("#recipeName").val());
-		
 		$.ajax({
 			"url":"/turnup_fridger/findRecipeByRecipeName.do",
 			"type":"POST",
-			"data":{'recipeName' : $("#recipeName").val(),'keyword' : '보통','${_csrf.parameterName}':'${_csrf.token}'},
+			"data":{'recipeName' : $("#recipeName").val(),'keyword' : '','${_csrf.parameterName}':'${_csrf.token}'},
 			"dataType":"json",
 			"success":function(map){
 				$("#apiThead").empty();	
-				$("#apiThead").empty();	
-				$("#apiThead").append($("<tr>").prop("id","apiRecipe_col").append($("<th>").append("레시피id")).append($("<th>").append("이름")).append($("<th>").append("간략소개")).append($("<th>").append("유형분류"))
+				$("#userThead").empty();	
+				$("#apiThead").append($("<tr>").append($("<th>").append("레시피id")).append($("<th>").append("이름")).append($("<th>").append("간략소개")).append($("<th>").append("유형분류"))
 						.append($("<th>").append("음식분류")).append($("<th>").append("조리시간")).append($("<th>").append("칼로리")).append($("<th>").append("난이도")).append($("<th>").append("대표이미지"))
 						.append($("<th>").append("조회수")));
 				
-				$("#userThead").append($("<tr>").prop("id","userRecipe_col").append($("<th>").append("레시피id")).append($("<th>").append("제목")).append($("<th>").append("작성자")).append($("<th>").append("작성일"))
+				$("#userThead").append($("<tr>").append($("<th>").append("레시피id")).append($("<th>").append("제목")).append($("<th>").append("작성자")).append($("<th>").append("작성일"))
 						.append($("<th>").append("조회수")).append($("<th>").append("추천수")));
 				
 				$("#apiTbody").empty();	
 				$.each(map.apiList, function(){
-					$("#apiTbody").append($("<tr>").prop("id","apiRecipe_col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)).append($("<td>").append(this.sumry)).append($("<td>").append(this.categoryName))
+					$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)).append($("<td>").append(this.sumry)).append($("<td>").append(this.categoryName))
 							.append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel)).append($("<td>").append(this.imgUrl))
 							.append($("<td>").append(this.recipeHits)));
 				 });//each	 
 				 
 				 $("#userTbody").empty();
 				 $.each(map.userList, function(){
-					$("#userTbody").append($("<tr>").prop("id","userRecipe_col").append($("<td>").append(this.boardShareRecipeId)).append($("<td>").append(this.boardShareRecipeTitle)).append($("<td>").append(this.memberId))
-							.append($("<td>").append(this.boardShareRecipeDate)).append($("<td>").append(this.boardShaerRecipeHits)).append($("<td>").append(this.boardShareRecipeRecommand)));
+					$("#userTbody").append($("<tr>").prop("class","userRecipe_col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.title)).append($("<td>").append(this.memberId))
+							.append($("<td>").append(this.date)).append($("<td>").append(this.hits)).append($("<td>").append(this.recommand)));
 				 });//each			 
 			},//success
 			"error":function(xhr, msg, code){
@@ -66,6 +63,187 @@ $(document).ready(function(){
 			alert("오류다!");
 		} 	
 	})//ajax */
+	
+	/* $(document).on("click",".apiRecipe_col",function(){
+		//검색해온 레시피들의 컬럼을 클릭했을때.-> 상세페이지로 이동처리.
+		//벌써했나 혹시?	
+	}) */
+	
+	$(document).on("click",("#hitsDesc"),function(){
+		$.ajax({		 
+			"url":"/turnup_fridger/findRecipeByRecipeName.do",
+			"type":"POST",
+			"data":{'recipeName' : $("#recipeName").val(),'keyword' : 'recipeHitsDesc','${_csrf.parameterName}':'${_csrf.token}'},
+			"dataType":"json",
+			"success":function(map){
+				$("#apiThead").empty();	
+				$("#userThead").empty();	
+				$("#apiThead").append($("<tr>").append($("<th>").append("레시피id")).append($("<th>").append("이름")).append($("<th>").append("간략소개")).append($("<th>").append("유형분류"))
+						.append($("<th>").append("음식분류")).append($("<th>").append("조리시간")).append($("<th>").append("칼로리")).append($("<th>").append("난이도")).append($("<th>").append("대표이미지"))
+						.append($("<th>").append("조회수")));
+				
+				$("#userThead").append($("<tr>").append($("<th>").append("레시피id")).append($("<th>").append("제목")).append($("<th>").append("작성자")).append($("<th>").append("작성일"))
+						.append($("<th>").append("조회수")).append($("<th>").append("추천수")));
+				
+				$("#apiTbody").empty();	
+				$.each(map.apiList, function(){
+					$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)).append($("<td>").append(this.sumry)).append($("<td>").append(this.categoryName))
+							.append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel)).append($("<td>").append(this.imgUrl))
+							.append($("<td>").append(this.recipeHits)));
+				 });//each	 
+				 
+				 $("#userTbody").empty();
+				 $.each(map.userList, function(){
+						$("#userTbody").append($("<tr>").prop("class","userRecipe_col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.title)).append($("<td>").append(this.memberId))
+								.append($("<td>").append(this.date)).append($("<td>").append(this.hits)).append($("<td>").append(this.recommand)));
+				 });//each			 
+			},//success
+			"error":function(xhr, msg, code){
+				alert("오류발생-" +msg+ ":" +code);
+			}
+		})
+	});//최다조회순
+
+	$(document).on("click",("#hitsAsc"),function(){
+	$.ajax({		 
+		"url":"/turnup_fridger/findRecipeByRecipeName.do",
+		"type":"POST",
+		"data":{'recipeName' : $("#recipeName").val(),'keyword' : 'recipeHitsAsc','${_csrf.parameterName}':'${_csrf.token}'},
+		"dataType":"json",
+		"success":function(map){
+			$("#apiThead").empty();	
+			$("#userThead").empty();	
+			$("#apiThead").append($("<tr>").append($("<th>").append("레시피id")).append($("<th>").append("이름")).append($("<th>").append("간략소개")).append($("<th>").append("유형분류"))
+					.append($("<th>").append("음식분류")).append($("<th>").append("조리시간")).append($("<th>").append("칼로리")).append($("<th>").append("난이도")).append($("<th>").append("대표이미지"))
+					.append($("<th>").append("조회수")));
+			
+			$("#userThead").append($("<tr>").append($("<th>").append("레시피id")).append($("<th>").append("제목")).append($("<th>").append("작성자")).append($("<th>").append("작성일"))
+					.append($("<th>").append("조회수")).append($("<th>").append("추천수")));
+			
+			$("#apiTbody").empty();	
+			$.each(map.apiList, function(){
+				$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)).append($("<td>").append(this.sumry)).append($("<td>").append(this.categoryName))
+						.append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel)).append($("<td>").append(this.imgUrl))
+						.append($("<td>").append(this.recipeHits)));
+			 });//each	 
+			 
+			 $("#userTbody").empty();
+			 $.each(map.userList, function(){
+					$("#userTbody").append($("<tr>").prop("class","userRecipe_col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.title)).append($("<td>").append(this.memberId))
+							.append($("<td>").append(this.date)).append($("<td>").append(this.hits)).append($("<td>").append(this.recommand)));
+			 });//each			 
+		},//success
+		"error":function(xhr, msg, code){
+			alert("오류발생-" +msg+ ":" +code);
+		}
+	})
+	});//최저조회순
+
+	$(document).on("click",("#calrorieDesc"),function(){
+	$.ajax({		 
+		"url":"/turnup_fridger/findRecipeByRecipeName.do",
+		"type":"POST",
+		"data":{'recipeName' : $("#recipeName").val(),'keyword' : 'calorieDesc','${_csrf.parameterName}':'${_csrf.token}'},
+		"dataType":"json",
+		"success":function(map){
+			$("#apiThead").empty();	
+			$("#userThead").empty();	
+			$("#apiThead").append($("<tr>").append($("<th>").append("레시피id")).append($("<th>").append("이름")).append($("<th>").append("간략소개")).append($("<th>").append("유형분류"))
+					.append($("<th>").append("음식분류")).append($("<th>").append("조리시간")).append($("<th>").append("칼로리")).append($("<th>").append("난이도")).append($("<th>").append("대표이미지"))
+					.append($("<th>").append("조회수")));
+			
+			$("#userThead").append($("<tr>").append($("<th>").append("레시피id")).append($("<th>").append("제목")).append($("<th>").append("작성자")).append($("<th>").append("작성일"))
+					.append($("<th>").append("조회수")).append($("<th>").append("추천수")));
+			
+			$("#apiTbody").empty();	
+			$.each(map.apiList, function(){
+				$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)).append($("<td>").append(this.sumry)).append($("<td>").append(this.categoryName))
+						.append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel)).append($("<td>").append(this.imgUrl))
+						.append($("<td>").append(this.recipeHits)));
+			 });//each	 
+			 
+			 $("#userTbody").empty();
+			 $.each(map.userList, function(){
+					$("#userTbody").append($("<tr>").prop("class","userRecipe_col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.title)).append($("<td>").append(this.memberId))
+							.append($("<td>").append(this.date)).append($("<td>").append(this.hits)).append($("<td>").append(this.recommand)));
+			 });//each			 
+		},//success
+		"error":function(xhr, msg, code){
+			alert("오류발생-" +msg+ ":" +code);
+		}
+	})
+	});//고칼로리순
+
+	$(document).on("click",("#calrorieAsc"),function(){
+	$.ajax({		 
+		"url":"/turnup_fridger/findRecipeByRecipeName.do",
+		"type":"POST",
+		"data":{'recipeName' : $("#recipeName").val(),'keyword' : 'calorieAsc','${_csrf.parameterName}':'${_csrf.token}'},
+		"dataType":"json",
+		"success":function(map){
+			$("#apiThead").empty();	
+			$("#userThead").empty();	
+			$("#apiThead").append($("<tr>").append($("<th>").append("레시피id")).append($("<th>").append("이름")).append($("<th>").append("간략소개")).append($("<th>").append("유형분류"))
+					.append($("<th>").append("음식분류")).append($("<th>").append("조리시간")).append($("<th>").append("칼로리")).append($("<th>").append("난이도")).append($("<th>").append("대표이미지"))
+					.append($("<th>").append("조회수")));
+			
+			$("#userThead").append($("<tr>").append($("<th>").append("레시피id")).append($("<th>").append("제목")).append($("<th>").append("작성자")).append($("<th>").append("작성일"))
+					.append($("<th>").append("조회수")).append($("<th>").append("추천수")));
+			
+			$("#apiTbody").empty();	
+			$.each(map.apiList, function(){
+				$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)).append($("<td>").append(this.sumry)).append($("<td>").append(this.categoryName))
+						.append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel)).append($("<td>").append(this.imgUrl))
+						.append($("<td>").append(this.recipeHits)));
+			 });//each	 
+			 
+			 $("#userTbody").empty();
+			 $.each(map.userList, function(){
+					$("#userTbody").append($("<tr>").prop("class","userRecipe_col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.title)).append($("<td>").append(this.memberId))
+							.append($("<td>").append(this.date)).append($("<td>").append(this.hits)).append($("<td>").append(this.recommand)));
+			 });//each			 
+		},//success
+		"error":function(xhr, msg, code){
+			alert("오류발생-" +msg+ ":" +code);
+		}
+	})
+	});//저칼로리순
+
+	$(document).on("change",("#recipeLevel"),function(){
+	
+	$.ajax({		 
+		"url":"/turnup_fridger/findRecipeByRecipeName.do",
+		"type":"POST",
+		"data":{'recipeName' : $("#recipeName").val(),'keyword' : $("#recipeLevel").val(),'${_csrf.parameterName}':'${_csrf.token}'},
+		"dataType":"json",
+		"success":function(map){
+			$("#apiThead").empty();	
+			$("#userThead").empty();	
+			$("#apiThead").append($("<tr>").append($("<th>").append("레시피id")).append($("<th>").append("이름")).append($("<th>").append("간략소개")).append($("<th>").append("유형분류"))
+					.append($("<th>").append("음식분류")).append($("<th>").append("조리시간")).append($("<th>").append("칼로리")).append($("<th>").append("난이도")).append($("<th>").append("대표이미지"))
+					.append($("<th>").append("조회수")));
+			
+			$("#userThead").append($("<tr>").append($("<th>").append("레시피id")).append($("<th>").append("제목")).append($("<th>").append("작성자")).append($("<th>").append("작성일"))
+					.append($("<th>").append("조회수")).append($("<th>").append("추천수")));
+			
+			$("#apiTbody").empty();	
+			$.each(map.apiList, function(){
+				$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)).append($("<td>").append(this.sumry)).append($("<td>").append(this.categoryName))
+						.append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel)).append($("<td>").append(this.imgUrl))
+						.append($("<td>").append(this.recipeHits)));
+			 });//each	 
+			 
+			 $("#userTbody").empty();
+			 $.each(map.userList, function(){
+					$("#userTbody").append($("<tr>").prop("class","userRecipe_col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.title)).append($("<td>").append(this.memberId))
+							.append($("<td>").append(this.date)).append($("<td>").append(this.hits)).append($("<td>").append(this.recommand)));
+			 });//each			 
+		},//success
+		"error":function(xhr, msg, code){
+			alert("오류발생-" +msg+ ":" +code);
+		}
+	})
+	});//난이도 
 	
 })//ready
 </script>

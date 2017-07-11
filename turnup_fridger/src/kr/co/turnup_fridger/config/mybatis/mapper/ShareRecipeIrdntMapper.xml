@@ -17,6 +17,11 @@
 		<result column="IRDNT_ID" property="irdntId"/>
 	</resultMap>
 	
+	<resultMap type="java.util.HashMap" id="searchResult">
+		<id column="count" property="count"/>
+		<result column="BOARD_SHARE_RECIPE_ID" property="BOARD_SHARE_RECIPE_ID"/>
+	</resultMap>
+	
 	<insert id="insertShareRecipeIrdnt" parameterType="shareRecipeIrdnt">
 		<selectKey keyProperty="irdntKey" resultType="int" order="BEFORE">
 		SELECT SHARE_RECIPE_IRDNT_KEY.NEXTVAL FROM DUAL
@@ -53,17 +58,39 @@
 		WHERE BOARD_SHARE_RECIPE_ID = #{recipeId}
 	</select>
 	
-	<select id="getRecipeBoardIdByIrdntIds" resultType="_int" parameterType="java.util.HashMap">
-		SELECT COUNT(*), BOARD_SHARE_RECIPE_ID BOARD_SHARE_RECIPE_ID
+	<select id="getRecipeBoardIdByIrdntIds" resultMap="searchResult" parameterType="java.util.HashMap">
+		SELECT COUNT(*) count, BOARD_SHARE_RECIPE_ID BOARD_SHARE_RECIPE_ID
 		FROM SHARE_RECIPE_IRDNT
-		WHERE recipe_id NOT IN (
+		WHERE BOARD_SHARE_RECIPE_ID NOT IN (
 				SELECT BOARD_SHARE_RECIPE_ID
 				FROM SHARE_RECIPE_IRDNT
-				WHERE irdnt_id IN ( #{hateIrdntIds} ))
-		AND irdnt_id IN ( #{irdntIds} )
+				<where>
+					<choose>
+						<when test="hateIrdntIds !=null and hateIrdntIds.size()>0">
+							irdnt_id IN 
+							<foreach collection="hateIrdntIds" open="(" close=")" separator="," item="hateIrdntId">
+								#{hateIrdntId}
+							</foreach>
+						</when>
+						<otherwise>
+						1=-1
+						</otherwise>
+					</choose>
+				</where>)and
+				<choose>
+						<when test="irdntIds !=null and irdntIds.size()>0">
+							irdnt_id IN
+							<foreach collection="irdntIds" open="(" close=")" separator="," item="irdntId">
+								#{irdntId}
+							</foreach>
+						</when>
+						<otherwise>
+						1=-1
+						</otherwise>
+					</choose>
 		GROUP BY BOARD_SHARE_RECIPE_ID
-		HAVING COUNT(*) >= 2
-		ORDER BY COUNT(*) DESC,BOARD_SHARE_RECIPE_ID;
+		HAVING COUNT(*) >= 1
+		ORDER BY COUNT(*) DESC,BOARD_SHARE_RECIPE_ID
 	</select>
 	
 	

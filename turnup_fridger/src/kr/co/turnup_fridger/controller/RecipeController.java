@@ -245,13 +245,11 @@ public class RecipeController {
 	@ResponseBody
 	public Map findRecipeByRecipeName(@RequestParam String recipeName, @RequestParam String keyword){
 		
-		System.out.println("핸들러 : "+recipeName+keyword);
 		List<RecipeInfo> apiList = recipeService.findRecipeByRecipeName(recipeName, keyword);
 		List<BoardShareRecipe> userList = shareService.selectBoardShareRecipeByTitle(recipeName);
 		HashMap map = new HashMap();
 		map.put("apiList", apiList);
 		map.put("userList", userList);
-		System.out.println("-----------Map : "+map);
 		return map;
 	}
 	
@@ -259,37 +257,23 @@ public class RecipeController {
 	@ResponseBody
 	public List<RecipeInfo> findRecipeByCategory(@RequestParam String categoryName, @RequestParam String typeName, @RequestParam String keyword){
 
-		System.out.println(categoryName+typeName+keyword);
+		
 		List<RecipeInfo> list = recipeService.findRecipeByCategory(categoryName, typeName, keyword);
-		System.out.println(list);
+
 		return list;
-		//ModelAndView mav = new ModelAndView();
-		//HashMap map = new HashMap();
-		//map.put("list", list);
-		//map.setViewName("카테고리 검색화면");
-		//return map;
-		//return mav;
 	}
 	
 	@RequestMapping(value="findRecipeByIrdntId")
 	@ResponseBody
 	public Map<String,Object> findRecipeByIrdntId(@RequestParam List<Integer> irdntIds, @RequestParam List<Integer> hateIrdntIds, @RequestParam String keyword){
 
-
-		System.out.println("아이디핸들러 : "+ irdntIds + "% ㄴㄴ:"+ hateIrdntIds);
-
-		List<RecipeInfo> apiList = recipeService.findRecipeByIrdntId(irdntIds, hateIrdntIds, keyword);
-
-		List<BoardShareRecipe> userList = shareService.findUserRecipeByIds(irdntIds, hateIrdntIds);
-		
-		//ModelAndView mav = new ModelAndView();
+		Map apiMap = recipeService.findRecipeByIrdntId(irdntIds, hateIrdntIds, keyword);
+		Map userMap = shareService.findUserRecipeByIds(irdntIds, hateIrdntIds);
+	
 		HashMap map = new HashMap();
-		map.put("apiList", apiList);
-		map.put("userList", userList);	
-		//map.setViewName("재료 검색화면");
-		System.out.println(map);
+		map.put("apiMap", apiMap);
+		map.put("userMap", userMap);
 		return map;
-		//return mav;
 	}
 	
 	@RequestMapping("recipe/show/detail")
@@ -339,13 +323,27 @@ public class RecipeController {
 
 	@RequestMapping("getMyDislikeIrdnt")
 	@ResponseBody
-	public List<MyDislikeIrdnt> getMyDislikeIrdnt(){
+	public Map getMyDislikeIrdnt(){
 		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if(member==null){
 			//비회원
 			return null;
 		}
-		List<MyDislikeIrdnt> irdnt = disService.findMyDislikeIrdntByMemberId(member.getMemberId());
-		return irdnt;
+		List<MyDislikeIrdnt> dislikeIrdnt = disService.findMyDislikeIrdntByMemberId(member.getMemberId());
+		
+		HashMap map = new HashMap();
+		HashMap irdntMap = new HashMap();
+		List irdntList = new ArrayList();
+		
+		for(int i=0; i<dislikeIrdnt.size();i++){
+			String irdntName = imService.findIrdntByIrdntId(dislikeIrdnt.get(i).getIrdntId()).getIrdntName();
+			irdntMap.put("irdntName", irdntName);
+			irdntMap.put("irdntId",dislikeIrdnt.get(i).getIrdntId());
+			irdntList.add(irdntMap);
+		}
+		map.put("dislikeIrdnt", dislikeIrdnt);
+		map.put("irdntList", irdntList);
+		
+		return map;
 	}
 }

@@ -55,8 +55,9 @@ public class RecipeIrdntDaoImpl implements RecipeIrdntDao{
 	}
 
 	@Override
-	public List<Integer> getRecipeCodeByIrdntIds(List<Integer> irdntIds, List<Integer> hateIrdntIds) {
+	public List getRecipeCodeByIrdntIds(List<Integer> irdntIds, List<Integer> hateIrdntIds) {
 		HashMap map = new HashMap();
+		
 		map.put("irdntIds",irdntIds);
 		map.put("hateIrdntIds",hateIrdntIds);
 		

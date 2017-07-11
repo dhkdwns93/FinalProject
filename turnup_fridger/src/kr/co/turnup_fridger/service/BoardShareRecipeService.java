@@ -60,7 +60,7 @@ public interface BoardShareRecipeService {
 	 * @param hareIrdntsIds
 	 * @return
 	 */
-	List<BoardShareRecipe> findUserRecipeByIds(List<Integer> irdntIds, List<Integer> hateIrdntsIds);
+	Map findUserRecipeByIds(List<Integer> irdntIds, List<Integer> hateIrdntsIds);
 	
 	
 	

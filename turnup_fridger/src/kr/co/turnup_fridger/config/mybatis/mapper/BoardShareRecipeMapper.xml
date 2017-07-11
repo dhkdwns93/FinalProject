@@ -256,15 +256,15 @@
 	
 	<!--*************************************************  -->
 	<!--레시피 공유게시판 id들로 조회한거-->
-	<select id="selectUserRecipesInfoByIds" resultMap="boardShareRecipe-resultmap" parameterType="java.util.List">
+	<select id="selectBoardShareRecipeById" resultMap="boardShareRecipe-resultmap" parameterType="java.util.HashMap">
 		SELECT
 		<include refid="all-column" />
 		FROM BOARD_SHARE_RECIPE
 		<where>
 			<choose>
-				<when test="list != null and list.size() > 0">
+				<when test="recipeIds != null and recipeIds.size() > 0">
 					BOARD_SHARE_RECIPE_ID in
-					<foreach collection="list" open="(" close=")" separator="," item="recipeId">
+					<foreach collection="recipeIds" open="(" close=")" separator="," item="recipeId">
 						#{recipeId}
 					</foreach>
 				</when>
