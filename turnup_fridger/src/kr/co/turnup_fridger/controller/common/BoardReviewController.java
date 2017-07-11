@@ -3,8 +3,9 @@ package kr.co.turnup_fridger.controller.common;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServlet;
@@ -54,13 +55,14 @@ public class BoardReviewController extends HttpServlet {
 		//전체 리스트
 		@RequestMapping("boardReviewList") 
 		@ResponseBody
-		public ModelAndView boardReviewList()
+		public ModelAndView boardReviewList(@RequestParam(defaultValue="1") int page)
 		{  
 			ModelAndView mav = new ModelAndView();
 			
-			List<BoardReview> list = service.selectBoardReviewList();
+			Map<String, Object> map = service.selectBoardReviewList(page);
 	 
-			mav.addObject("list", list);
+			mav.addObject("list", map.get("list"));
+			mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("boardreview/boardreview_list.tiles");
 	        return mav; 
 		} 
@@ -68,54 +70,54 @@ public class BoardReviewController extends HttpServlet {
 		//별점순 조회
 		@RequestMapping("boardReviewStarList") 
 		@ResponseBody
-		public ModelAndView boardReviewStarList()
+		public ModelAndView boardReviewStarList(@RequestParam(defaultValue="1") int page)
 		{  
 			ModelAndView mav = new ModelAndView();
 			
-			List<BoardReview> list = service.selectBoardReviewByStarList();
+			Map<String, Object> map = service.selectBoardReviewByStarList(page);
 	 
-			mav.addObject("list", list);
+			mav.addObject("list", map.get("list"));
+			mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("boardreview/boardreview_list_star.tiles");
 	        return mav; 
-		} 		
+		} 	
 		
-		
-
-		//아이디 조회
-		@RequestMapping("boardReviewByMemberId")
-		@ResponseBody
-		public ModelAndView boardReviewByMemberId(@RequestParam String memberId)
-		{
-			ModelAndView mav = new ModelAndView();	
-			
-		
-			List<BoardReview> list  = service.selectBoardReviewByMemberIdList(memberId);
-			
-			mav.addObject("list", list);
-		    mav.addObject("memberId",  memberId);
-		    mav.setViewName("boardreview/boardreview_list_memberid.tiles");
-
-	        return mav; 
-		}
 		
 		//레시피 조회
 		@RequestMapping("boardReviewByRecipeName")
 		@ResponseBody
-		public ModelAndView boardReviewByRecipeName(@RequestParam String recipeName)
+		public ModelAndView boardReviewByRecipeName(@RequestParam String recipeName,@RequestParam(defaultValue="1") int page)
 		{
 			ModelAndView mav = new ModelAndView();	
 			
-			List<BoardReview> list  = service.selectBoardReviewByRecipeNameList(recipeName);
+			Map<String, Object> map  = service.selectBoardReviewByRecipeNameList(recipeName,page);
 			
-			mav.addObject("list", list);
-		    mav.addObject("recipeName", recipeName);
+			mav.addObject("list", map.get("list"));
+		    mav.addObject("recipeName",  map.get("recipeName"));
+		    mav.addObject("pageBean", map.get("pageBean"));
 		    mav.setViewName("boardreview/boardreview_list_recipename.tiles"); 
 
 	        return mav; 
 		}	
 		
+	
+		//아이디 조회
+		@RequestMapping("boardReviewByMemberId")
+		@ResponseBody
+		public ModelAndView boardReviewByMemberId(@RequestParam String memberId,@RequestParam(defaultValue="1") int page)
+		{
+			ModelAndView mav = new ModelAndView();	
+			
 		
-		
+			Map<String, Object> map  = service.selectBoardReviewByMemberIdList(memberId,page);
+			
+			mav.addObject("list", map.get("list"));
+		    mav.addObject("memberId",  map.get("memberId"));
+		    mav.addObject("pageBean", map.get("pageBean"));
+		    mav.setViewName("boardreview/boardreview_list_memberid.tiles");
+
+	        return mav; 
+		}
 			
 		//선택 조회
 		@RequestMapping("boardReviewBySelect")
@@ -123,29 +125,37 @@ public class BoardReviewController extends HttpServlet {
 		public ModelAndView boardReviewBySelect(@RequestParam String select, @RequestParam String keyword,@RequestParam(defaultValue="1") int page)
 		{
 			ModelAndView mav = new ModelAndView();	
-			List<BoardReview> list = new ArrayList<>();
+			Map<String, Object> map = new HashMap<>();
 			
 			String id = "아이디";
 			String name = "레시피";
 			
 			if(select.equals(id))
 			{
-				list  = service.selectBoardReviewByMemberIdList(keyword);
-				mav.addObject("list", list);
+				map  = service.selectBoardReviewByMemberIdList(keyword,page);
+				
+				mav.addObject("list", map.get("list"));
+			    mav.addObject("memberId",  keyword);
+			    mav.addObject("pageBean", map.get("pageBean"));
 			    mav.setViewName("boardreview/boardreview_list_memberid.tiles");
-		        
+
 		        return mav;
 			}			
 			else if(select.equals(name))
 			{
-				list = service.selectBoardReviewByRecipeNameList(keyword);
-				mav.addObject("list", list);
+				map  = service.selectBoardReviewByRecipeNameList(keyword,page);
+				
+				mav.addObject("list", map.get("list"));
+			    mav.addObject("recipeName",  map.get("recipeName"));
+			    mav.addObject("pageBean", map.get("pageBean"));
 			    mav.setViewName("boardreview/boardreview_list_recipename.tiles"); 
-		        return mav; 
+
+		        return mav;  
 			}
-			list = service.selectBoardReviewList();
-			 
-			mav.addObject("list", list);
+			
+			map = service.selectBoardReviewList(page);
+			mav.addObject("list", map.get("list"));
+			mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("boardreview/boardreview_list.tiles");
 	        return mav; 
 		}		
@@ -153,7 +163,7 @@ public class BoardReviewController extends HttpServlet {
 		//등록
 		@RequestMapping("boardReviewAdd")
 		@ResponseBody
-		 public ModelAndView boardReviewAdd(@ModelAttribute BoardReview boardReview,BindingResult errors, HttpServletRequest request) throws Exception
+		 public ModelAndView boardReviewAdd(@ModelAttribute BoardReview boardReview,BindingResult errors, HttpServletRequest request,@RequestParam(defaultValue="1") int page) throws Exception
 		{
 			ModelAndView mav = new ModelAndView();
 			
@@ -194,10 +204,11 @@ public class BoardReviewController extends HttpServlet {
 				service.addBoardReview(boardReview);
 			}
 			
-			List<BoardReview> list = service.selectBoardReviewList();
+			Map<String, Object> map = service.selectBoardReviewList(page);
 			 
-			mav.addObject("list", list);
-	        mav.setViewName("boardreview/boardreview_list.tiles");
+			mav.addObject("list", map.get("list"));
+			mav.addObject("pageBean", map.get("pageBean"));
+	        mav.setViewName("boardreview/form_success.tiles");
 	        return mav; 
 		}
 			
@@ -205,21 +216,25 @@ public class BoardReviewController extends HttpServlet {
 		@RequestMapping("boardReviewRemove")
 		@ResponseBody
 		public ModelAndView boardReviewRemove(@RequestParam int boardReviewId,
-				@RequestParam String writer,@RequestParam String memberId,@RequestParam String adminId)
+				@RequestParam String writer,@RequestParam String memberId,@RequestParam String adminId,@RequestParam(defaultValue="1") int page)
 		{
 			
 	        ModelAndView mav = new ModelAndView();
 	        if((writer.equals(memberId) && adminId.trim().isEmpty()) || !adminId.trim().isEmpty())
 	        {
 	        	service.removeBoardReview(boardReviewId);//정보삭제 
-				List<BoardReview> list = service.selectBoardReviewList();
-				mav.addObject("list", list);
+				Map<String, Object> map = service.selectBoardReviewList(page);
+				 
+				mav.addObject("list", map.get("list"));
+				mav.addObject("pageBean", map.get("pageBean"));
 		        mav.setViewName("boardreview/boardreview_list.tiles");
 		        return mav; 
 	        }
 			
-			List<BoardReview> list = service.selectBoardReviewList();
-			mav.addObject("list", list);
+			Map<String, Object> map = service.selectBoardReviewList(page);
+			 
+			mav.addObject("list", map.get("list"));
+			mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("boardreview/boardreview_list.tiles");
 	        return mav; 
         
@@ -229,7 +244,7 @@ public class BoardReviewController extends HttpServlet {
 		//수정 폼 이동
 		@RequestMapping("boardReviewUploadView")
 		@ResponseBody
-		public ModelAndView boardReviewUploadView(@RequestParam int boardReviewId, @RequestParam String writer,@RequestParam String memberId)
+		public ModelAndView boardReviewUploadView(@RequestParam int boardReviewId, @RequestParam String writer,@RequestParam String memberId,@RequestParam(defaultValue="1") int page)
 		{
 			ModelAndView mav = new ModelAndView();
 			
@@ -240,11 +255,12 @@ public class BoardReviewController extends HttpServlet {
 				return mav;
 			}	
 			
-			List<BoardReview> list = service.selectBoardReviewList();
+			Map<String, Object> map = service.selectBoardReviewList(page);
 			 
-			mav.addObject("list", list);
+			mav.addObject("list", map.get("list"));
+			mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("boardreview/boardreview_list.tiles");
-	        return mav;
+	        return mav; 
 		}
 		
 		//이지지 삭제
@@ -264,7 +280,7 @@ public class BoardReviewController extends HttpServlet {
 		//수정
 		@RequestMapping("boardReviewUploadForm")
 		@ResponseBody
-		 public ModelAndView boardReviewUploadForm(@ModelAttribute BoardReview boardReview,@RequestParam int boardReviewId, BindingResult errors,HttpServletRequest request) throws Exception
+		 public ModelAndView boardReviewUploadForm(@ModelAttribute BoardReview boardReview,@RequestParam int boardReviewId, BindingResult errors,HttpServletRequest request,@RequestParam(defaultValue="1") int page) throws Exception
 		{
 			ModelAndView mav = new ModelAndView();
 			
@@ -278,12 +294,12 @@ public class BoardReviewController extends HttpServlet {
 			if(boardReview.getImageName() != null)
 			{
 				service.updateBoardReview(boardReview);
-				System.out.println(boardReview);
-				List<BoardReview> list = service.selectBoardReviewList();
+				Map<String, Object> map = service.selectBoardReviewList(page);
 				 
-				mav.addObject("list", list);
+				mav.addObject("list", map.get("list"));
+				mav.addObject("pageBean", map.get("pageBean"));
 		        mav.setViewName("boardreview/boardreview_list.tiles");
-		        return mav; 
+		        return mav;  
 				
 			}
 			String upImageDir = request.getServletContext().getRealPath("/up_image");
@@ -316,9 +332,10 @@ public class BoardReviewController extends HttpServlet {
 				service.addBoardReview(boardReview);
 			}
 			
-			List<BoardReview> list = service.selectBoardReviewList();
+			Map<String, Object> map = service.selectBoardReviewList(page);
 			 
-			mav.addObject("list", list);
+			mav.addObject("list", map.get("list"));
+			mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("boardreview/boardreview_list.tiles");
 	        return mav; 
 
@@ -330,7 +347,7 @@ public class BoardReviewController extends HttpServlet {
 		public List reviewRecipeName(@RequestParam String recipeName)
 		{  
 			List<RecipeInfo> list = service.selectRecipeName(recipeName);
-	 
+			System.out.println(list);
 	        return list; 
 		} 
 		

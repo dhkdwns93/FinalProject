@@ -80,12 +80,6 @@ public class BoardQnAController extends HttpServlet {
 		{
 			ModelAndView mav = new ModelAndView();
 			
-			System.out.println(boardQnAId);
-			System.out.println(member);
-			System.out.println(admin);
-			System.out.println(memberId);
-			
-			
 			if( (member.equals(memberId) && admin.trim().isEmpty()) || !admin.trim().isEmpty())
 			{
 				mav.setViewName("common/boardqna/boardqna_view.tiles");

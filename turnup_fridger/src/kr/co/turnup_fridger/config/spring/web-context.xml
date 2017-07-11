@@ -26,6 +26,7 @@
 	<!-- 단순 링크 등록 -->
 	<mvc:view-controller path="/index.do" view-name="index.tiles"/>
 	<mvc:view-controller path="/main.do" view-name="main.tiles"/>
+	<mvc:view-controller path="/map.do" view-name="map.jsp"/>
 	
 		<!-- 장규 view controler등록 -->
 	<!-- 공지사항 목록 페이지 -->
@@ -80,12 +81,16 @@
 	<mvc:view-controller path="/boardreview/boardreview_list_memberid.do" view-name="boardreview/boardreview_list_memberid.tiles"/>	
 	<!-- 후기 레시피 목록 페이지 -->
 	<mvc:view-controller path="/boardreview/boardreview_list_recipename.do" view-name="boardreview/boardreview_list_recipename.tiles"/>	
-	<!-- 후기 레시피 득록 페이지 -->
+	<!-- 후기 레시피 등록 페이지 -->
 	<mvc:view-controller path="/boardreview/boardreview_form.do" view-name="boardreview/boardreview_form.tiles"/>	
+	<!-- 후기 레시피 등록 성공 페이지 -->
+	<mvc:view-controller path="/boardreview/form_success.do" view-name="boardreview/form_success.tiles"/>	
 	<!-- 후기 레시피 수정 페이지 -->
 	<mvc:view-controller path="/boardreview/boardreview_upload.do" view-name="boardreview/boardreview_upload.tiles"/>	
-	<!-- 후기 레시피 수정 페이지 -->
-	<mvc:view-controller path="/boardreview/recipenamesearch.do" view-name="boardreview/recipenamesearch.tiles"/>	
+	<!-- 후기 레시피 이름 조회 페이지 -->
+	<mvc:view-controller path="/boardreview/recipenamesearch.do" view-name="boardreview/recipenamesearch"/>	
+
+
 
 
 	<!-- 왕준 view 등록 -->
@@ -213,12 +218,12 @@
 	<!--레시피 카테고리로 검색하는 페이지  -->
 	<mvc:view-controller path="/recipe_for_user/search_by_category.do" view-name="recipe_for_user/search_by_category.tiles"/>
 
-	<!-- 메모등록 -->
-	<mvc:view-controller path="/common/member/memo/memo_register_form.do" view-name="common/member/memo/memo_register_form"/>
+	<!-- 메모등록 (no-tiles/popup) -->
+	<mvc:view-controller path="/common/member/memo/memo_register_form.do" view-name="common/member/memo/memo_register_form.jsp"/>
 	<!-- 메모리스트 -->
 	<mvc:view-controller path="/common/member/memo/memoList.do" view-name="common/member/memo/memoList.tiles"/>
-	<!-- 메모상세 -->
-	<mvc:view-controller path="/common/member/memo/memoDetail.do" view-name="common/member/memo/memoDetail.tiles"/>
+	<!-- 메모상세 (no-tiles/popup) -->
+	<mvc:view-controller path="/common/member/memo/memoDetail.do" view-name="common/member/memo/memoDetail.jsp"/>
 	<!-- 쇼핑몰등록 -->
 	<mvc:view-controller path="/common/shop/shop_register_form.do" view-name="common/shop/shop_register_form.tiles"/>
 	<!-- 쇼핑몰리스트 -->

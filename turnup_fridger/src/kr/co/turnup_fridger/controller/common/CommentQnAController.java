@@ -1,9 +1,12 @@
 package kr.co.turnup_fridger.controller.common;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServlet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +30,13 @@ public class CommentQnAController extends HttpServlet {
 		@Autowired
 		private BoardQnAService service2;
 	
+
+		
 		//등록
 		@RequestMapping("commentQnAAdd")
 		@ResponseBody
-		 public ModelAndView commentQnAAdd(@ModelAttribute CommentQnA commentQnA, BindingResult errors,@RequestParam int boardQnAId)
+		 public ModelAndView commentQnAAdd(@ModelAttribute CommentQnA commentQnA, BindingResult errors,
+				 @RequestParam int boardQnAId,ModelMap map)
 		{
 
 			ModelAndView mav = new ModelAndView();
@@ -45,14 +51,31 @@ public class CommentQnAController extends HttpServlet {
 				mav.setViewName("common/boardqna/boardqna_view.tiles");
 				return mav; 
 			}
+				
 			
 			service.addCommentQnA(commentQnA);
+			BoardQnA boardQnA = service2.findBoardQnAById(boardQnAId);
 			
-			mav.addObject("commentQnA",commentQnA);
+			map.addAttribute("commentQnA", commentQnA);
+			map.addAttribute("boardQnAId", boardQnA.getBoardQnAId());
+			
+/*			mav.addObject("commentQnA",commentQnA);
 			mav.addObject("boardQnA", service2.findBoardQnAById(boardQnAId));
-			mav.setViewName("common/boardqna/boardqna_view.tiles");
-			return mav;
+			mav.setViewName("redirect:/boardqna/boardqna_view.tiles");*/
+			return new ModelAndView("redirect:/common/commentqna/success.do");
 		}
+		
+		@RequestMapping("success")
+		public ModelAndView registerSuccess(@RequestParam int boardQnAId,ModelMap map)
+		{
+			ModelAndView mav = new ModelAndView();
+			
+			BoardQnA boardQnA = service2.findBoardQnAById(boardQnAId);
+			mav.addObject("boardQnA", boardQnA);
+			mav.setViewName("common/boardqna/boardqna_view.tiles");
+	        return mav; 
+		}
+		
 
 		//삭제
 		@RequestMapping("commentQnARemove")
@@ -91,6 +114,17 @@ public class CommentQnAController extends HttpServlet {
 		{
 				ModelAndView mav = new ModelAndView();
 			
+				CommentQnAValidator validator = new CommentQnAValidator();
+				validator.validate(commentQnA, errors);
+				if(errors.hasErrors()) 
+				{
+					mav.setViewName("common/boardqna/commentqna_upload.tiles");
+					
+					mav.addObject("commentQnA", service.selectCommentQnAById(commentQnAId));
+				    
+					return mav;
+				}
+				
 				service.updateCommentQnA(commentQnA);
 				
 				mav.addObject("commentQnA",commentQnA);

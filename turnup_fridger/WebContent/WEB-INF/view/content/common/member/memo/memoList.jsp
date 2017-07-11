@@ -16,22 +16,32 @@
 <script type="text/javascript">
 $(document).ready(function(){
 		// 내 메모목록불러오기
- 		$.ajax({
+/*  		$.ajax({
 			"url":"${initParam.rootPath}/memo/memoList.do",
 			"data": "memberId="+$("#id").val(),
 			"dataType" : "json",
 			"success" : function(memoList){
 				var list = ""; 
 				$.each(memoList, function(){
-					list += "<tr><td><a href='${initParam.rootPath}/memo/findOneMemo.do?memoId="+this.memoId+"'>"+this.memoName+"</a></td><td>"+this.registeredDate+"</td></tr>";
+					list += "<tr><td>"+this.memoId+"</td><td><a href='#' onClick='window.open(${initParam.rootPath}/memo/memoDetail.do?)'>"+this.memoName+"</a></td><td>"+this.registeredDate+"</td></tr>";
 				});
 				$("#tbody").html(list);
 			},
 			"error":function(xhr, msg, code){
 				alert('error - '+code);
 			}
-		});
+		}); */
 		
+ 	// 메모상세보기 팝업
+/*  		$(document).on("click","#memoDetailPopup", function(){
+ 			alert($(this).val());
+ 			window.open(
+ 					"${ initParam.rootPath }/memo/findOneMemo.do?memoId="+$(this).val(),
+ 					"_blank",
+ 					"fullscreen=yes, height=430, width=450, resizable=no, scrollbars=no, location=no, toolbar=no, directories=no, menubar=no"
+ 					);
+ 		}); */
+ 		
 	// 개수 불러오기
 	$.ajax({
 		"url":"${initParam.rootPath}/memo/findMemoCount.do",
@@ -43,38 +53,39 @@ $(document).ready(function(){
 			alert('error!'+code);
 		}
 	});
+	
 });
 </script>
 <style type="text/css">
-#memoNum{
+p{
 	text-align: center;
+}
+#memoListT{
+	width:100%; 
+	height:300px; 
+	overflow:auto;
 }
 </style>
 </head>
 <body>
-<input type="hidden" id="id" value="<sec:authentication property="principal.memberId"/>">
-<div id="memoNum">현재 <span id="count"></span> 개의 메모가 있습니다</div>
-<table class="table" border="1" style="border-collapse:collapse; text-align:center;" align="center" width="350">
-<thead>
-<tr>
-	<td>제목</td>
-	<td>작성일</td>
-</tr>
-</thead>
-<tbody id="tbody">
-
-</tbody>
-<%-- <tr>
-	<td>제목</td>
-	<td>작성일</td>
-</tr>
-<c:forEach items="${requestScope.list }" var="memo">
-<tr>
-	<td><fmt:formatDate value="${memo.registeredDate}"/></td>
-	<td><a href="#" onClick="window.open('${initParam.rootPath}/memo/memoDetail.do?memoId=${memo.memoId}','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=450px, height=430px ,top=10, left=10', bottom=10, right=10)">${memo.memoName}</a></td>
-</tr>
-</c:forEach> --%>
+<input type="hidden" id="id" value="<sec:authentication property='principal.memberId'/>">
+<p id="memoNum">현재 <span id="count"></span> 개의 메모가 있습니다</p>
+<div id="memoListT">
+<table id="tt" class="table table-hover">
+	<tr>
+		<td>NO</td>
+		<td>제목</td>
+		<td>작성일</td>
+	</tr>
+	<c:forEach items="${requestScope.list }" var="memo">
+		<tr>
+			<td>${memo.memoId}</td>
+			<td><a href="#" onClick="window.open('${initParam.rootPath}/memo/memoDetailPopup.do?memoId=${memo.memoId}','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=450px, height=430px ,top=10, left=10', bottom=10, right=10)">${memo.memoName}</a></td>
+			<td><fmt:formatDate value="${memo.registeredDate}" pattern="yyyy년 MM월 dd일"/></td>
+		</tr>
+	</c:forEach>
 </table>
+</div>
 <a href="${initParam.rootPath}/"><button type="button" id="back" class="one">뒤로가기</button></a>
 </body>
 </html>

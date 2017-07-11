@@ -52,6 +52,7 @@
 	<!-- shop 전체조회 -->
 	<select id="selectShopList" resultMap="shop-resultmap">
 		<include refid="select"/>
+		ORDER BY shop_id
 	</select>
 
 	<!-- shop 총 개수 조회 -->

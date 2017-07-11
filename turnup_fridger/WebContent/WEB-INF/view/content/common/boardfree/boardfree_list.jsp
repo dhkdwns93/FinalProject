@@ -13,12 +13,12 @@ form{display:inline}
 </style>
 </head>
 <body>
-
+<h1>자유 게시판</h1><br>
+<hr>
 <form action="${initParam.rootPath}/common/boardfree/boardFreeBySelect.do" method="post">
-자유게시판 > 전체 목록 
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<select name="select" id="select">
-		<option>:::선택:::</option>
+		<option>전체보기</option>
 		<option value="제목">제목</option>
 		<option value="아이디">아이디</option>
 	</select>

@@ -7,9 +7,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="${initParam.rootPath}/scripts/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="${initParam.rootPath}/scripts/jquery.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+	/* setTimeout("location.reload()",1000); // 일정시간마다 새로고침*/
+	
 	// 쇼핑몰 목록 불러오기
 /* 		$.ajax({
 			"url": "${initParam.rootPath}/shop/findShopList.do",
@@ -42,7 +44,7 @@ $(document).ready(function(){
 				"data":"shopId="+$(this).parent().parent().children(":first-child").text(),
 				"success": function(result){
 					alert('삭제되었습니다');
-					window.location.reload();
+					window.location.reload(); // 삭제 후 목록 새로고침
 				} // success
 			}); // ajax
 		}; // if
@@ -51,9 +53,6 @@ $(document).ready(function(){
 });
 </script>
 <style type="text/css">
-h2{
-	text-align: center;
-}
 table{
 	border:1;
 	border-collapse:collapse;
@@ -61,24 +60,25 @@ table{
 	align: center;
 	margin:auto;
 }
-#shopCount{
+p{
 	text-align: center;
 }
-#name{
-	width: 200px;
-}
+
 </style>
 </head>
 <body>
-<h2> 쇼핑몰 목록 </h2>
-<div id="shopCount"><span id="count"></span></div>
-
-<table class="table" border="1" style="border-collapse:collapse; text-align:center;">
+<p id="shopCount"><span id="count"></span></p>
+<div style="width:100%; height:500px; overflow:auto">
+<table class="table table-hover">
+	<tr> 
+		<td>NO</td>
+		<td colspan="3">Shop</td>
+	</tr>
 	<c:forEach items="${requestScope.list }" var="shop">
 		<tr>
 			<td>${shop.shopId }</td>
-			<td><img alt="" src="${initParam.rootPath}/img/${shop.shopImg}" width="100" height="102"></td>
-			<td id="name"><a href="#" onClick="window.open('${shop.shopAddress}','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=1000px, height=600px ,top=10, left=10', bottom=10, right=10)">${shop.shopName }</a></td>
+			<td><img alt="${shop.shopImg }" src="${initParam.rootPath}/up_image/${shop.saveImg}" width="100" height="102"></td>
+			<td><a href="#" onClick="window.open('${shop.shopAddress}','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=1000px, height=600px ,top=10, left=10', bottom=10, right=10)">${shop.shopName }</a></td>
 			 <!-- 관리자만 보이는 삭제버튼 -->
 			 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 				<td><button type="button" id="delBtn">삭제</button></td>
@@ -86,5 +86,6 @@ table{
 		</tr>
 	</c:forEach>
 </table>
+</div>
 </body>
 </html>

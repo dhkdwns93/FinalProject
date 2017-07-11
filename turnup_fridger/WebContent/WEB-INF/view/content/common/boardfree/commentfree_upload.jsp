@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
-$(document).ready(function(){
+/* $(document).ready(function(){
 	$("#submit").on("click", function(){
 		alert('수정되었습니다');
 	});
@@ -33,23 +33,40 @@ function closeWindow(){
 	form.submit();
 	window.opener.location.reload();
 	self.close();
-};
+}; */
 </script>
+<style type="text/css">
+ span, td, th{
+	padding: 5px; 
+ }
+ span.error{
+	font-size:small;
+	color: red;
+ }
+</style>
 </head>
 <body>
-<form id="upload" method="post" action="${initParam.rootPath}/common/commentfree/commentFreeUploadForm.do" onsubmit="closeWindow()">
-	<table border="1">
-		<tr>
-			<td>
-				<input type="text" name="memberId" id="memberId"><br>
-				<textarea name="commentFreeTxt" id="commentFreeTxt" row="120"cols="70"></textarea>
-			</td>
-		</tr>
-	</table>
-		<input type="hidden" name="commentFreeId" id="commentFreeId">
-		<input type="hidden" name="boardFreeId" id="boardFreeId">
+<h1>자유 게시판 > 댓글 수정</h1><br>
+<hr>
+<form id="upload" method="post" action="${initParam.rootPath}/common/commentfree/commentFreeUploadForm.do"<%--  onsubmit="closeWindow()" --%>>
+<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+
+<table>
+	<tr>
+		<th>작성자</th>
+		<td><input type="text" name="memberId" id="memberId" readonly value="${commentFree.memberId }"><br></td>
+	</tr>
+	<tr>
+		<th>내용</th>
+		<td>
+			<textarea name="commentFreeTxt" id="commentFreeTxt" row="120"cols="70">${commentFree.commentFreeTxt}</textarea>
+			<span class="error"><form:errors path="commentFree.commentFreeTxt" delimiter="&nbsp;"/>
+		</td>
+	</tr>
+</table>
+		<input type="hidden" name="commentFreeId" id="commentFreeId" value="${commentFree.commentFreeId}">
+		<input type="hidden" name="boardFreeId" id="boardFreeId" value="${commentFree.boardFreeId}">
 		<input id="submit" type="submit" value="수정">
-<sec:csrfInput/>
 </form>
 </body>
 </html>

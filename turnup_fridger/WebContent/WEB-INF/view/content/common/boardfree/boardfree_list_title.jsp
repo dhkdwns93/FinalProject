@@ -13,22 +13,27 @@ form{display:inline}
 </style>
 </head>
 <body>
+<h1>자유 게시판</h1><br>
+<hr>
 <form action="${initParam.rootPath}/common/boardfree/boardFreeBySelect.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<select name="select" id="select">
-		<option>:::선택:::</option>
+		<option>전체보기</option>
 		<option value="제목">제목</option>
 		<option value="아이디">아이디</option>
 	</select>
 	<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
 	<button>검색</button>
 </form>
-<form action="${initParam.rootPath}/common/boardfree/boardFreeList.do" method="post">
+<%-- <form action="${initParam.rootPath}/common/boardfree/boardFreeList.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 <a href="${initParam.rootPath}/common/boardfree/boardfree_list.do"><input type="submit" value="전체보기"/></a>
-</form>
-
-
+</form> --%>
+<br>
+<c:if test="${empty list}">
+	검색한 제목이 없습니다.
+</c:if>
+<c:if test="${!empty list}">
 <table border="1" width="600px">
 <thead id="thead">
     <tr>
@@ -114,6 +119,8 @@ form{display:inline}
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/common/boardfree/boardFreeByTitle.do?page=${requestScope.pageBean.totalPage}&boardFreeTitle=${requestScope.boardFreeTitle}">마지막페이지</a>
 </p>
+</c:if>
+<br>
 <sec:authorize access="hasRole('ROLE_MEMBER')">
 <a href="${initParam.rootPath}/common/boardfree/boardfree_form.do"><button>등록</button></a>
 </sec:authorize>

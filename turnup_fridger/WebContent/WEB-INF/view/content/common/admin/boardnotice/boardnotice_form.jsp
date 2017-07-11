@@ -30,6 +30,8 @@ span.error {
 </style>
 </head>
 <body>
+<h1>공시사항 등록</h1><br>
+<hr>
 	<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeAdd.do?" method="post" enctype="multipart/form-data">
 		<table>
 			<tr>

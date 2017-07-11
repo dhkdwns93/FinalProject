@@ -36,16 +36,28 @@ public interface BoardReviewDao {
 	int deleteBoardReview(int boardReviewId);
 	
 	
+	//전체 카운트
+	int selectBoardReviewCount();
 	//전체리스트
-	List<BoardReview> selectBoardReviewList();
+	List<BoardReview> selectBoardReviewList(int startIndex, int endIndex);
 	//별점순
-	List<BoardReview> selectBoardReviewByStarList();
-	//아이디로 조회
-	List<BoardReview> selectBoardReviewByMemberIdList(String memberId);
+	List<BoardReview> selectBoardReviewByStarList(int startIndex, int endIndex);
+	
+	//레시피 이름 카운트
+	int selectBoardReviewByRecipeNameCount(String recipeName);
 	//레시피 이름으로 조회
-	List<BoardReview> selectBoardReviewByRecipeNameList(String recipeName);
-	//Id로 조회
+	List<BoardReview> selectBoardReviewByRecipeNameList(String recipeName,int startIndex, int endIndex);
+	
+	//아이디 카운트
+	int selectBoardReviewByMemberIdCount(String memberId);
+	//아이디로 조회
+	List<BoardReview> selectBoardReviewByMemberIdList(String memberId,int startIndex,int endIndex);
+
+	
+	//Id로 상세 정보 조회
 	BoardReview selecetBoardReviewByBoardReviewId(int boardReviewId);
-	//레시피 이름
+	
+	
+	//레시피 이름 검색 
 	List<RecipeInfo> selectRecipeName(String recipeName);
 }

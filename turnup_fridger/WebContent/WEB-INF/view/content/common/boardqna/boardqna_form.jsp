@@ -29,6 +29,8 @@ span.error{
 </style>
 </head>
 <body>
+<h1>QnA 게시판 > 질문 등록</h1><br>
+<hr>
 <form action="${initParam.rootPath}/common/boardqna/boardQnAAdd.do" method="POST">
 <table>
 	<tr>
