@@ -10,6 +10,28 @@ $(document).ready(function(){
 	$("div#recipe_crse").hide();
 	var crse_idx = -1;
 	
+	//카테고리를 선택했을때 카테고리별 음식분류명 불러오기
+	$("#categoryCode").on("change",function(){
+		alert($(this).find(":selected").text())
+		$.ajax({
+			"url":"/turnup_fridger/getTypeNameCategory.do",
+			"type":"POST",
+			"data":{'categoryName' : $(this).find(":selected").text(),'${_csrf.parameterName}':'${_csrf.token}'},
+			"dataType":"json",
+			"success":function(list){
+				$("#typeCode").empty().append($("<option>").append("선택하세요"))
+				
+				$.each(list, function(){
+					$("#typeCode").append($("<option>").prop("value",this).append(this));
+				});//each
+			},
+			"error":function(xhr, msg, code){
+				alert("오류발생-" +msg+ ":" +code);
+			}
+		})		
+	});//categoryName
+	
+	
 	$(document).on("click", ".nextBtn", function(){
 		$(this).parent().next().show();
 	})
@@ -24,13 +46,11 @@ $(document).ready(function(){
 	});
 	
 	$(document).on("change", "#typeCode", function(){
-		alert($(this).find(":selected").text());
 		var row = $("<input>").prop("type", "hidden").prop("name", "typeName" ).prop("value", $(this).find(":selected").text());
 		row.appendTo($("form"));
 	});
 	
 	$(document).on("change", "#categoryCode", function(){
-		alert($(this).find(":selected").text());
 		var row = $("<input>").prop("type", "hidden").prop("name", "CategoryName" ).prop("value", $(this).find(":selected").text());
 		row.appendTo($("form"));
 	});
@@ -106,29 +126,26 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				<tr>
 					<th>유형분류</th>
 					<td><select name="categoryCode" id="categoryCode">
-							<!-- ajax처리로 불러와서 뿌려줌 -->
-							<option value="categoryCode">categoryName</option>
+							<option>선택하세요</option>
 							<option value="3020001">한식</option>
-							<option value="3020009">퓨전</option>
 							<option value="3020002">서양</option>
 							<option value="3020003">일본</option>
+							<option value="3020004">중국</option>
+							<option value="3020005">동남아시아</option>
 							<option value="3020006">이탈리아</option>
+							<option value="3020009">퓨전</option>
+						
 					</select>
 					<span class="error"><form:errors
 								path="recipeInfo.categoryName" delimiter="&nbsp;" /> <c:if
-								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
-							${ requestScope.errorMsg_fridgerImgSrc }
+								test="${ requestScope.errorMsg_categoryCode != null }">
+							${ requestScope.errorMsg_categoryCode }
 							</c:if> </span></td>
 				</tr>
 				<tr>
 					<th>음식분류</th>
 					<td><select name="typeCode" id="typeCode">
-							<!-- ajax처리로 불러와서 뿌려줌 -->
-							<option value="typeCode">typeName</option>
-							<option value="3010018">부침</option>
-							<option value="3010007">나물/생채/샐러드</option>
-							<option value="3010006">찜</option>
-							<option value="3010008">밑반찬/김치</option>
+							<option>---------</option>
 					</select>
 					
 					<span class="error"><form:errors
@@ -140,13 +157,22 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				<tr>
 					<th>재료별 분류</th>
 					<td><select name="irdntCode" id="irdntCode">
-							<!-- ajax처리로 불러와서 뿌려줌 -->
-							<option value="irdntCode">irdntCode</option>
-							<option value="밀가루">밀가루</option>
-							<option value="어류/패류">어류/패류</option>
-							<option value="콩류">콩류</option>
-							<option value="채소류">채소류</option>
-							<option value="닭고기류">닭고기류</option>
+							<option>선택하세요</option>
+							<option>가공식품류</option>
+							<option>견과류</option>
+							<option>곡류</option>
+							<option>과일류</option>
+							<option>기타</option>
+							<option>닭고기류</option>
+							<option>돼지고기류</option>
+							<option>밀가루</option>
+							<option>버섯류</option>
+							<option>쇠고기류</option>
+							<option>알류</option>
+							<option>어류/패류</option>
+							<option>채소류</option>
+							<option>콩류</option>
+							<option>해조류</option>	
 					</select>
 					<span class="error"><form:errors
 								path="recipeInfo.irdntCode" delimiter="&nbsp;" /> <c:if
@@ -185,7 +211,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				<tr>
 					<th>기준인분수</th>
 					<td><input type="number" id="qnt" name="qnt"
-						value="${ param.Qnt }"> 인분 <span class="error"><form:errors
+						value="${ param.qnt }"> 인분 <span class="error"><form:errors
 								path="recipeInfo.qnt" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
 							${ requestScope.errorMsg_fridgerImgSrc }

@@ -12,6 +12,7 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="${initParam.rootPath}/scripts/jquery.js"></script>
 <script type="text/javascript">
+
 $(document).ready(function(){
 	// 처음에 확인버튼 숨기기
 	$("#submit").hide();
@@ -40,6 +41,8 @@ $(document).ready(function(){
 				
 				$("#submit").hide();
 				$(".one").show();
+				
+				opener.location.reload(); // 수정처리 완료 후 부모창(메모목록) 새로고침
 			},
 			"error":function(xhr, msg, code){
 				alert('error - '+code)
@@ -55,8 +58,8 @@ $(document).ready(function(){
 				"data":"memoId=${requestScope.memo.memoId}",
 				"success":function(){
 					alert('삭제되었습니다');
-					// 삭제후 메모목록화면으로 전환
-					location.replace('${initParam.rootPath}/common/member/memo/memoList.do');
+					window.close();	// 삭제후 팝업창 닫기
+					opener.parent.location.reload(); // 닫으면서 부모창 새로고침
 				}
 			});// ajax
 		}
@@ -69,30 +72,27 @@ $(document).ready(function(){
 @import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 
  #memoDate{
+	color: white;
 	font-size: 30px;
-	text-align: center;
+	text-align: right;
 	font-family: 'Nanum Pen Script', serif;
 }
 
-/*body{
-	background: url('${initParam.rootPath}/img/note.jpg') no-repeat center;
-	background-size: cover;
-}
- */
-	
 #detail{
-	align: center;
-	text-align: center;
 	margin-left: auto;
 	margin-right: auto;
-	/* background: url('${initParam.rootPath}/img/note.jpg') no-repeat center;
-	background-size: cover; */
+}
+
+body{
+	text-align: center;
+	background: url('${initParam.rootPath}/img/note.jpg') no-repeat center;
+	background-size: cover;
 }
 </style>
 </head>
 <body>
 	<div id="memoDate">
-		<fmt:formatDate value="${requestScope.memo.registeredDate }" pattern="yyyy년 MM월 dd일" />의 메모
+		<fmt:formatDate value="${requestScope.memo.registeredDate }" pattern="yyyy년 MM월 dd일" />의 장바구니 메모
 	</div>
 	<table id="detail">
 		<tr>
@@ -105,7 +105,7 @@ $(document).ready(function(){
 			<textarea id="txt" rows="21" cols="51" class="box" name="memoTxt" readonly style="background-color: transparent">${requestScope.memo.memoTxt }</textarea></td>
 		</tr>
 		<tr>
-			<td><a href="${initParam.rootPath}/common/member/memo/memoList.do"><button type="button" id="back" class="one">목록보기</button></a>
+			<td>
 				 <button type="button" id="mod" class="one">수정</button>
 				 <button type="button" id="del" class="one">삭제</button>
 				 <button type="button" id="submit">확인</button>

@@ -12,13 +12,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="${initParam.rootPath}/scripts/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="${initParam.rootPath}/scripts/jquery.js"></script>
 <script type="text/javascript">
-$(document).ready(function(){
-	$("#submit").on("click", function(){
-		alert('등록되었습니다');
-	});
-});
+
 </script>
 <style type="text/css">
 @CHARSET "UTF-8";
@@ -41,6 +37,8 @@ div {
 table {
 	align: center;
 	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .error{
@@ -56,9 +54,8 @@ table {
 	<div>
 		<fmt:formatDate value="${requestScope.date }" pattern="yyyy년 MM월 dd일" />자 장바구니 메모
 	</div>
-	<span id="error"><c:if test="${requestScope.error != null }">${requestScope.error }</c:if></span>
 	<form action="${initParam.rootPath}/memo/addMemo.do" method="post">
-	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+		<sec:csrfInput/>
 		<table>
 			<tr>
 				<td><span class="error"><form:errors path="myMemo.memoName" /></span><br>

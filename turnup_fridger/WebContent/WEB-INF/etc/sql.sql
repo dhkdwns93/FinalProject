@@ -6,7 +6,8 @@
 --headMaster한명 input(테이블 생성후 넣으세용)
 insert into authority values('headAdmin1','headAdmin1','ROLE_HEADMASTERADMIN');
 insert into admin values('headAdmin1','headAdmin1','HeadMasterAdmin','01012345678','headadmin@kosta.or.kr','ROLE_HEADMASTERADMIN');
-
+--select distinct category_name, category_code, type_code, type_name from Recipe_Info order by category_code
+--select distinct irdnt_Code from Recipe_Info 
 
 /*전체 사용자(회원, 관리자) 권한관리_로그인용*/
 DROP TABLE AUTHORITY CASCADE CONSTRAINT;
@@ -493,8 +494,6 @@ CREATE TABLE BOARD_REVIEW(
 DROP SEQUENCE BOARD_REVIEW_ID;
 CREATE SEQUENCE BOARD_REVIEW_ID INCREMENT BY 1 START WITH 1; 
 --SELECT BOARD_FREE_ID.NEXTVAL FROM DUAL;
-
-
 
 
 DELETE FROM RECIPE_IRDNT

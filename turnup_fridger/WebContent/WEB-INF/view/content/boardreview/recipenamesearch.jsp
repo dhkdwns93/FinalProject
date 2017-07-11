@@ -24,6 +24,12 @@ $(document).ready(function(){
 			},
 			"success":function(list)
 			{
+				
+				if(!list.length)
+				{
+					alert("해당 레시피가 업습니다.");
+					return false;
+				}
 				var txt = "";
 				$("#tbody").empty();
 				$.each(list, function()

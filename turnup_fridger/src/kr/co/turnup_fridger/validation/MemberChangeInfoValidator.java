@@ -29,12 +29,13 @@ public class MemberChangeInfoValidator implements Validator {
 
 	@Override
 	public void validate(Object target, Errors errors) {
+		//System.out.println(passwordEncoder);
 		MemberChangeForm memberChangeForm=(MemberChangeForm)target;
 //		System.out.println("validator" + memberChangeForm);
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberId", "requiredChange");
-		/*if(!passwordEncoder.matches(memberChangeForm.getOldMemberPw(),memberChangeForm.getOriginalMemberPw())){
+		if(!passwordEncoder.matches(memberChangeForm.getOldMemberPw(),memberChangeForm.getOriginalMemberPw())){
 			errors.rejectValue("oldMemberPw", "synchronizeFail","*비밀번호가 일치하지 않습니다.");
-		}*/
+		}
 		if(memberChangeForm.getMemberPw().length()<6||memberChangeForm.getMemberPw().length()>15){
 			errors.rejectValue("memberPw", "length","*패스워드는 글자수 6~15자 내로 설정해주십시오.");
 		}

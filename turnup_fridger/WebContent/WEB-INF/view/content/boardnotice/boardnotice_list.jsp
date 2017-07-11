@@ -132,8 +132,6 @@ a:hover{
 
 
 
-
-
 </p>
 <!-- 관리자만 등록 가능 -->
  <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
