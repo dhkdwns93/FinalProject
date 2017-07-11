@@ -183,7 +183,7 @@ span.error{
 </style>
 </head>
 <body>
-
+<h1>후기 작성</h1><br>
 <form name="review" action="${initParam.rootPath}/boardreview/boardReviewAdd.do" method="post" enctype="multipart/form-data">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 <table border="1" width="600px"> 
@@ -197,7 +197,7 @@ span.error{
 		<td>제목</td>
 		<td>
 			<input type="text" name="boardReviewTitle" value="${boardReview.boardReviewTitle}">
-			<span class="error"><form:errors path="boardReview.boardReviewTitle" delimiter="&nbsp;"/>		
+			<span class="error"><form:errors path="boardReview.boardReviewTitle" delimiter="&nbsp;"/></span>	
 		</td>
 	</tr>
 </table>
@@ -205,8 +205,8 @@ span.error{
 	<tr>
     	<td>레시피</td>
     	<td>
-	    	<input type="text" id="recipeId" name="recipeId" readonly><br>
-	    	<input type="text" id="recipeName" name="recipeName" readonly>
+	    	<input type="text" id="recipeId" name="recipeId" readonly value="${boardReview.recipeId}"><span class="error"><form:errors path="boardReview.recipeId" delimiter="&nbsp;"/></span><br>
+	    	<input type="text" id="recipeName" name="recipeName" readonly value="${boardReview.recipeName}"><span class="error"><form:errors path="boardReview.recipeName" delimiter="&nbsp;"/></span>
 	    	<input id="recipeName" type="button" value="레시피 검색" onclick="popupRecipeName()">
 	    </td>
     	<td>별점주기</td>
@@ -249,7 +249,6 @@ span.error{
 </table>
 <input type="submit" value="등록하기" onclick="insert_event();">
 </form>
-
-
+<a href="${initParam.rootPath}/boardreview/boardReviewList.do"><button type="button">목록으로</button></a>
 </body>
 </html>

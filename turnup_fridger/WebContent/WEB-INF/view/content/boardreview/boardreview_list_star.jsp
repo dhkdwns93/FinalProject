@@ -45,28 +45,22 @@ function insert_event(){
 </style>
 </head>
 <body>
+<h1>후기 게시판</h1><br>
+<hr>
 <sec:authorize access="hasRole('ROLE_MEMBER')">
 후기 작성
-	<a href="${initParam.rootPath}/boardreview/boardreview_form.do"><button>후기 작성</button></a>
+<a href="${initParam.rootPath}/boardreview/boardreview_form.do"><button>후기 작성</button></a>
 </sec:authorize>
-
 <hr>
-
 <form action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
-자유게시판<br>
-
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<select name="select" id="select">
-		<option>:::선택:::</option>
+		<option>전체보기</option>
 		<option value="레시피">레시피</option>
 		<option value="아이디">아이디</option>
 	</select>
 	<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
 	<button>검색</button>
-</form>
-<form action="${initParam.rootPath}/boardreview/boardReviewStarList.do" method="post">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-<button>별점순</button>
 </form>
 
 <c:forEach var="row" items="${list}">
@@ -74,7 +68,7 @@ function insert_event(){
 <thead>
     <tr>
         <td>
-        	레시피 : ${row.recipeInfo.recipeName} |
+        	레시피 : ${row.recipeName} |
         	제목 : ${row.boardReviewTitle} |
         	작성자 : ${row.memberId} |
         	작성일 : <fmt:formatDate value="${row.boardReviewDate}" pattern="yyyy-MM-dd"/>
@@ -173,7 +167,62 @@ function insert_event(){
 </tbody>
 </table>
 </c:forEach>
+<p>
+	<%-- ######################################################
+														페이징 처리
+			###################################################### --%>
+	<!-- 첫페이지로 이동 -->
+	<a href="${initParam.rootPath}/boardreview/boardReviewStarList.do?page=1">첫페이지</a>
 
+	<!--
+		이전 페이지 그룹 처리.
+		만약에 이전페이지 그룹이 있으면 링크처리하고 없으면 화살표만 나오도록 처리.
+	 -->
+	<c:choose>
+		<c:when test="${requestScope.pageBean.previousPageGroup}">
+			<%-- 이전페이지 그룹이 있디면 : previousPageGroup()--%>
+			<a href="${initParam.rootPath }/boardreview/boardReviewStarList.do?page=${requestScope.pageBean.beginPage - 1}">☜</a>
+		</c:when>
+		<c:otherwise>
+				☜	
+		</c:otherwise>
+	</c:choose>
+	
+	<!-- 
+		현재 page가 속한 page 그룹내의 페이지들 링크.
+		현재 pageGroup의 시작page ~ 끝 page
+	 -->
+	 <!-- 만약에 page가 현재페이지면 링크처리를 하지 않고 page가 현재페이지가 아니라면 링크처리. -->
+		<c:forEach begin="${requestScope.pageBean.beginPage}" end="${requestScope.pageBean.endPage}" var="page">
+			<c:choose>
+				<c:when test="${requestScope.pageBean.page != page}"> <%-- 현재패이지가 아니라면 --%>
+					<a href="${initParam.rootPath}/boardreview/boardReviewStarList.do?page=${page}">&nbsp;${page}&nbsp;</a>
+				</c:when>
+				<c:otherwise>
+					&nbsp;[${page}]&nbsp;
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+	
+
+	<!-- 
+		다음페이지 그룹으로 이동
+		만약에 다음페이지 그룹이 있으면 링크 처리 없으면 화살표만 나오도록 처리
+	 -->
+	<c:choose>
+		<c:when test="${requestScope.pageBean.nextPageGroup}">
+			<%-- 다음페이지 그룹이 있디면 : nextPageGroup()--%>
+			<a href="${initParam.rootPath }/boardreview/boardReviewStarList.do?page=${requestScope.pageBean.endPage + 1}">☞</a>
+		</c:when>
+		<c:otherwise>
+				☞		
+		</c:otherwise>
+	</c:choose>			
+	
+	<!-- 마지막 페이지로 이동 -->
+	<a href="${initParam.rootPath}/boardreview/boardReviewStarList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
+
+</p>
 
 <hr>
 

@@ -11,7 +11,7 @@
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 
-//QnA 삭제
+//게시물 삭제
 function delete_event(){
 	if (confirm("정말 삭제하시겠습니까??") == true){    
 		//확인
@@ -45,12 +45,12 @@ function insert_event(){
 	}
 };
 
-
+/* 
 function popup(frm){
-	window.name="opener";
+	window.name="parentPage";
 	window.open("/turnup_fridger/common/boardqna/commentqna_upload.do","commentupload","width=500, height=400");
 
-}
+} */
 
 </script>
 <style type="text/css">
@@ -68,7 +68,8 @@ function popup(frm){
 </head>
 <body>
 
-<!-- QNA 상세보기 -->
+<h1>QnA 게시판 > ${requestScope.boardQnA.memberId}님의 질문 </h1><br>
+<hr>
 
 <table border="1" style="text-align:center">
 	<tr>
@@ -77,21 +78,21 @@ function popup(frm){
 	</tr>
 	<tr>
 		<td>작성날짜</td>
-		<td><fmt:formatDate value="${boardQnA.boardQnAdate}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
+		<td><fmt:formatDate value="${requestScope.boardQnA.boardQnAdate}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
 	</tr>
 	<tr>
 		<td>작성자</td>
-		<td>${boardQnA.memberId}</td>
+		<td>${requestScope.boardQnA.memberId}</td>
 	</tr>	
 	<tr>
 		<td>내용</td>
 		<td>
-			${boardQnA.boardQnATxt}
+			${requestScope.boardQnA.boardQnATxt}
 		</td>
 	</tr>
 </table>
 <form action="${initParam.rootPath}/common/boardqna/boardQnAUploadView.do" method="post">
-	<input type="hidden" name="boardQnAId" id="boardQnAId" value="${boardQnA.boardQnAId}">
+	<input type="hidden" name="boardQnAId" id="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
 		<!-- 회원만 수정 가능  -->
 		<sec:authorize access="hasRole('ROLE_MEMBER')">
 			<button>수정하기</button>
@@ -100,7 +101,7 @@ function popup(frm){
 </form>
 
 <form action="${initParam.rootPath}/common/boardqna/boardQnARemove.do" method="post">
-	<input type="hidden" name="boardQnAId" value="${boardQnA.boardQnAId}">
+	<input type="hidden" name="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
 	<input type="submit" value="삭제하기" onclick="return delete_event();">
 	<sec:csrfInput/>
 </form>
@@ -115,7 +116,7 @@ function popup(frm){
 
 <!-- 댓글 목록 -->
 댓글 목록<br>
-<c:forEach var="list" items="${boardQnA.commentQnAList}">
+<c:forEach var="list" items="${requestScope.boardQnA.commentQnAList}">
 <c:if test="${list.commentQnAId == 0}">
 댓글이 없습니다.
 </c:if>
@@ -128,19 +129,15 @@ function popup(frm){
 <table border="1" style="text-align:center">
 <thead id="thead">
     <tr>
-        <th>번호</th>
+        <th>작성자</th>
         <th>내용</th>
         <th>작성일</th>
-        <th>작성자</th>
         <th>수정</th>
         <th>삭제</th>
     </tr>
  </thead>
 <tbody id="commentQnA">
 	<tr>
-		<td>${list.commentQnAId}</td>
-		<td>${list.commentQnATxt}</td>
-		<td><fmt:formatDate value="${list.commentQnADate}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
 		<td>
 			<!-- 사용자 등록일 경우  -->
 			<c:if test="${list.adminId == null}">
@@ -148,13 +145,14 @@ function popup(frm){
 			</c:if>
 			<!-- 관리자 등록일 경우 -->
 			<c:if test="${list.adminId != null}">
-				${list.adminId}
-			</c:if>
-			
+				관리자(${list.adminId})
+			</c:if>	
 		</td>
+		<td>${list.commentQnATxt}</td>
+		<td><fmt:formatDate value="${list.commentQnADate}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
 		<td>
-		
-	     	<form name="commentQnAUpload" method="post">
+<%-- 		
+	     	<form name="commentQnAUpload" method="post" >
 						<input type="hidden" name="commentQnAId" id="commentQnAId" value="${list.commentQnAId}">
 						<input type="hidden" name="commentQnATxt" id="commentQnATxt" value="${list.commentQnATxt}">
 						<input type="hidden" name="memberId" id="memberId" value="${list.memberId}">
@@ -163,20 +161,43 @@ function popup(frm){
 				<!-- 작성자가 관리자이면 관리자 댓글 수정가능 -->
 				<c:if test="${list.adminId != null}">		
 					 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN')">
-							<a href="javascript:popup();"><input type="button" value="수정하기"></a>
+							<a href="javascript:popup();"><input type="button" id="button" value="수정하기"></a>
 					 </sec:authorize>
 				</c:if>
 				
 				<!-- 작성자가 사용자이면 사용자 댓글 수정 -->
 				<c:if test="${list.adminId == null}">
 					 <sec:authorize access="hasRole('ROLE_MEMBER')">
-					 	<a href="javascript:popup();"><input type="button" value="수정하기"></a>
+					 	<input type="hidden" name="memberId" id="memberId" value="${boardQnA.memberId}">
+						<input type="hidden" name="loginId" id="loginId" value="<sec:authentication property="principal.memberId"/>">
+					 	<!-- <a href="javascript:popup();"><input type="button" value="수정하기"></a> -->
+					 	<button onclick="popup();">수정</button>
 					 </sec:authorize>
 				</c:if>
 				
 				
 			<sec:csrfInput/>
+			</form>		 --%>
+			<form action="${initParam.rootPath}/common/commentqna/commentQnAUploadView.do" method="post">
+						<input type="hidden" name="commentQnAId" id="commentQnAId" value="${list.commentQnAId}">
+						<input type="hidden" name="commentQnATxt" id="commentQnATxt" value="${list.commentQnATxt}">
+						<input type="hidden" name="memberId" id="memberId" value="${list.memberId}">
+						<input type="hidden" name="boardQnAId" id="boardQnAId" value="${list.boardQnAId}">	
+				<!-- 작성자가 관리자이면 관리자 댓글 수정가능 -->
+				<c:if test="${list.adminId != null}">		
+					 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+							<input type="submit" value="수정하기">
+					 </sec:authorize>
+				</c:if>
+				<!-- 작성자가 사용자이면 사용자 댓글 수정 -->
+				<c:if test="${list.adminId == null}">
+					 <sec:authorize access="hasRole('ROLE_MEMBER')">
+					 	<input type="submit" value="수정하기">
+					 </sec:authorize>
+				</c:if>
+			<sec:csrfInput/>
 			</form>		
+
 		</td>
 		<td>
 		     <form action="${initParam.rootPath}/common/commentqna/commentQnARemove.do" method="post">
@@ -185,7 +206,7 @@ function popup(frm){
 				
 				<!-- 작성자가 관리자이면 관리자/사용자 댓글 삭제 가능 -->
 				<c:if test="${list.adminId != null}">		
-					 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN')">
+					 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 							<input type="submit" value="삭제하기" onclick="return delete_event2();">
 					 </sec:authorize>
 				</c:if>
@@ -231,7 +252,7 @@ function popup(frm){
 	 </tbody>
 	</table>
 	<input type="hidden" name="adminId" value="">
-	<input type="hidden" name="boardQnAId" value="${boardQnA.boardQnAId}">
+	<input type="hidden" name="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
 	<input type="submit" value="등록하기" onclick="insert_event();">
 </sec:authorize>
 
@@ -239,7 +260,7 @@ function popup(frm){
 
 
 <!-- 관리자 등록  -->
-<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN')">
+<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 	<table border="1" style="text-align:center">
 	<thead id="thead">
 	    <tr>
@@ -255,7 +276,7 @@ function popup(frm){
 	 </tbody>
 	</table>
 	<input type="hidden" name="memberId" value="">
-	<input type="hidden" name="boardQnAId" value="${boardQnA.boardQnAId}">
+	<input type="hidden" name="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
 	<input type="submit" value="등록하기" onclick="insert_event();">
 </sec:authorize>
 <sec:csrfInput/>

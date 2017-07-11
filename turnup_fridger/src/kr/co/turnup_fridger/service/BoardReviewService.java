@@ -1,6 +1,7 @@
 package kr.co.turnup_fridger.service;
 
 import java.util.List;
+import java.util.Map;
 
 import kr.co.turnup_fridger.vo.BoardReview;
 import kr.co.turnup_fridger.vo.RecipeInfo;
@@ -34,16 +35,19 @@ public interface BoardReviewService {
 	void removeBoardReview(int boardReviewId);
 	
 	//전체 조회
-	List<BoardReview> selectBoardReviewList();
+	Map<String, Object>  selectBoardReviewList(int page);
 	
 	//별점순 조회
-	List<BoardReview> selectBoardReviewByStarList();
-	//아이디로 조회
-	List<BoardReview> selectBoardReviewByMemberIdList(String memberId);
+	Map<String, Object> selectBoardReviewByStarList(int page);
+	
 	//레시피 이름으로 조회
-	List<BoardReview> selectBoardReviewByRecipeNameList(String recipeName);
+	Map<String, Object> selectBoardReviewByRecipeNameList(String recipeName,int page);
+	
+	//아이디로 조회
+	Map<String, Object> selectBoardReviewByMemberIdList(String memberId,int page);
+
 	//상세정보
 	BoardReview selecetBoardReviewByBoardReviewId(int boardReviewId);
 	//레시피이름조회
-	 List<RecipeInfo> selectRecipeName(String recipeName);
+	List<RecipeInfo> selectRecipeName(String recipeName);
 }

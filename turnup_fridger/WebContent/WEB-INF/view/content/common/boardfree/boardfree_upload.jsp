@@ -31,6 +31,8 @@ form{display:inline}
 </style>
 </head>
 <body>
+<h1>게시물 수정</h1><br>
+<hr>
 <form action="${initParam.rootPath}/common/boardfree/boardFreeUploadForm.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 

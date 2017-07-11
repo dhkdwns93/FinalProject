@@ -27,19 +27,6 @@ public class BoardQnAServiceImpl implements BoardQnAService {
 	 */
 	@Override
 	public void addBoardQnA(BoardQnA boardQnA) {
-        String title = boardQnA.getBoardQnATitle();
-        String txt = boardQnA.getBoardQnATxt();
-        // *태그문자 처리 (< ==> &lt; > ==> &gt;)
-        // replace(A, B) A를 B로 변경
-        title = title.replace("<", "&lt;");
-        title = title.replace("<", "&gt;");
-        // *공백문자 처리
-        title = title.replace("  ",    "&nbsp;&nbsp;");
-        // *줄바꿈 문자처리
-        txt = txt.replace("\n", "<br>");
-        boardQnA.setBoardQnATitle(title);
-        boardQnA.setBoardQnATitle(txt);
-  
 		dao.insertBoardQnA(boardQnA);
 	}
 
