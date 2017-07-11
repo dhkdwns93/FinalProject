@@ -6,12 +6,53 @@
 작성자 :  김경혜
 최초 작성일 170705
 변경이력 
+170711 관리자 탈퇴처리 한번더확인, 관리자 권한처리 한번더확인
  -->
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	var loginId=$("input#loginId").val();
+	var loginAuthority=$("input#loginAuthority").val();
+	$("button#changeAdminAuthorityBtn").on("click",function(){
+		var adminIdChange=$(this).parent().children(":nth-child(1)").val();
+		var originalAuthorityChange=$(this).parent().children(":nth-child(2)").val();
+		//headMaster는 권한수정이 불가
+		if(originalAuthorityChange==("ROLE_HEADMASTERADMIN")){
+			alert("HeadMaster관리자는 권한수정이 불가합니다.");
+			return false;
+		}
+		//로그인한 관리자는 권한수정이 불가
+		if(adminIdChange==loginId){
+			alert("Login한 관리자는 권한수정이 불가합니다.");
+			return false;
+		}
+		return window.confirm("정말 이 관리자의 권한을 수정 하시겠습니까?");
+	});//end of changeAdminAuthorityBtn
+	
+	$("button#deleteAdminBtn").on("click",function(){
+		var originalAuthorityChange=$(this).parent().children(":nth-child(2)").val();
+		//headMaster는 탈퇴처리 불가
+		if(originalAuthorityChange==("ROLE_HEADMASTERADMIN")){
+			alert("HeadMaster관리자는 탈퇴처리가 불가합니다.");
+			return false;
+		}
+
+		//Master관리자는 headMaster만 탈퇴처리 할 수 있음.
+		if(originalAuthorityChange==("ROLE_MASTERADMIN")){
+			if(loginAuthority!=("[ROLE_HEADMASTERADMIN]")){
+				alert("Master관리자는 HeadMaster관리자만 탈퇴처리 할 수 있습니다.");
+				return false;
+			}
+		}
+		return window.confirm("정말 이 관리자를 탈퇴처리 하시겠습니까?");
+	});//end of deleteAdminBtn
+});
+</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
@@ -19,6 +60,8 @@
 
 
 <h2>전체관리자등록정보 -paging처리 할것</h2>
+<input type="hidden" id="loginId" value='<sec:authentication property="principal.adminId"/>'>
+<input type="hidden" id="loginAuthority" value='<sec:authentication property="authorities"/>'>
 <table border="1" width="1000px">
 <thead id="thead">
 	<tr>
@@ -32,9 +75,9 @@
 	</tr>	
 </thead>
 <tbody>
-<c:forEach var="admin" items="${requestScope.adminList}">
-	<tr>
-		<td>페이징 목록 번호</td>
+<c:forEach var="admin" items="${requestScope.adminList}" varStatus="loop">
+ 	<tr>
+		<td>${(loop.index)+1}</td>
 		<td>${admin.adminId }</td>
 		<td>${admin.adminName }</td>
 		<td>${admin.adminTel }</td>
@@ -50,21 +93,23 @@
 			<sec:authorize access="hasAnyRole('ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 				<!-- 관리자권한수정 -->
 				<form action="${initParam.rootPath }/common/admin/master/admin_change_authority.do" method="post">
-					<input type="hidden" name="adminId" value="${admin.adminId }">
+					<input type="hidden" id="adminId" name="adminId" value="${admin.adminId }">
+					<input type="hidden" id="originalAuthority" name="originalAuthority" value="${admin.adminAuthority }">
 					<select name="adminAuthority" value="${admin.adminAuthority}">
 						<option value="${admin.adminAuthority}">--권한선택--</option>
 						<option value="ROLE_ADMIN">일반 Admin</option>
 						<option value="ROLE_MASTERADMIN">MasterAdmin</option>
 					</select>
 					<sec:csrfInput/>
-					<button type="submit">권한수정</button>
+					<button type="submit" id="changeAdminAuthorityBtn">권한수정</button>
 				</form>
-				
+				 
 				<!-- 관리자탈퇴처리 -->
 				<form action="${initParam.rootPath}/common/admin/master/admin_delete.do" method="post">
-					<input type="hidden" name="adminId" value="${admin.adminId}">
+					<input type="hidden" id="adminId" name="adminId" value="${admin.adminId}">
+					<input type="hidden" id="originalAuthority" name="originalAuthority" value="${admin.adminAuthority }">
 					<sec:csrfInput/>
-					<button type="submit">탈퇴</button>
+					<button type="submit" id="deleteAdminBtn">탈퇴</button>
 				</form>
 			</sec:authorize>
 		</td>

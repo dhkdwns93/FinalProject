@@ -25,11 +25,11 @@
 	</div>
 	<div class="form-group">
 		<label for="password">기존 PW</label>
-		<input type="password" id="password" name="adminPw"  class="form-control">
+		<input type="password" id="password" name="oldAdminPw"  class="form-control">
 	</div>
 	<div class="form-group">
 		<label for="newPassword">변경할 PW</label>
-		<input type="password" id="newPassword" name="newAdminPw"  class="form-control">
+		<input type="password" id="newPassword" name="adminPw"  class="form-control">
 	</div>
 	<div class="form-group">
 		<label for="name">이름</label>

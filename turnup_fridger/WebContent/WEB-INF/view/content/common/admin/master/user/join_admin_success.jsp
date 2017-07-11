@@ -22,10 +22,6 @@
 	<div>${requestScope.admin.adminId}</div>
 </div>
 <div class="row">
-	<div>관리자 PW</div>
-	<div>${requestScope.admin.adminPw }</div>
-</div>
-<div class="row">
 	<div>관리자 이름</div>
 	<div>${requestScope.admin.adminName }</div>
 </div>

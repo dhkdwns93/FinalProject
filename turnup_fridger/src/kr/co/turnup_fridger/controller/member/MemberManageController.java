@@ -23,6 +23,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.turnup_fridger.exception.ChangeMemberInfoFailException;
@@ -49,6 +50,9 @@ public class MemberManageController {
 	
 	@Autowired
 	private IrdntManageService irdntManageService;
+	
+	@Autowired
+	private MemberChangeInfoValidator validator;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -107,7 +111,7 @@ public class MemberManageController {
 		
 		//validator
 		memberChangeForm.setOriginalMemberPw(originalMemberPw);
-		MemberChangeInfoValidator validator=new MemberChangeInfoValidator();
+//		MemberChangeInfoValidator validator=new MemberChangeInfoValidator();
 		validator.validate(memberChangeForm,errors);
 		if(errors.hasErrors()){
 			map.addAttribute("member",member);
@@ -129,6 +133,7 @@ public class MemberManageController {
 		//2. Business Logic 호출
 		//System.out.println("MemberManage"+newMemberPw);
 		member.setMemberPw(memberPw);
+		System.out.println(myDislikeIrdntId);
 		myDislikeIrdntService.removeMyDislikeIrdntByMemberId(member.getMemberId());
 		Set<MyDislikeIrdnt> myDislikeIrdntSet=new HashSet<>();//중복으로 등록신청할경우 하나만 넘어옴.
 		List<String> myDislikeIrdntNameList=new ArrayList<>();
@@ -262,14 +267,14 @@ public class MemberManageController {
 	 * @throws ChangeMemberInfoFailException 
 	 */
 	@RequestMapping("/member_delete")
-	public String leaveMember(@RequestParam String memberId, @RequestParam String inputPw){
+	public String leaveMember(@RequestParam String memberId, @RequestParam String inputMemberPw){
 		//1. 요청한 사용자 정보 조회
 		SecurityContext ctx=SecurityContextHolder.getContext();
 		Authentication authentication=ctx.getAuthentication();
 		//PW 체크
 		String memberPw=((Member)authentication.getPrincipal()).getMemberPw();
-		if(!passwordEncoder.matches(inputPw,memberPw)){
-//		if(!memberPw.equals(inputPw)){
+		if(!passwordEncoder.matches(inputMemberPw,memberPw)){
+//		if(!memberPw.equals(inputMemberPw)){
 			System.out.println("MemberManageController(deleteMember메소드) + PW가 다릅니다");
 			throw new RuntimeException("PW가 다릅니다.");
 		}
@@ -283,6 +288,21 @@ public class MemberManageController {
 		ctx.setAuthentication(null);//로그아웃처리
 
 		return "redirect:../../index_kh.do";
+	}
+	
+	/**
+	 * 탈퇴시 회원 PW확인하기-Ajax처리
+	 * @param originalMemberPw
+	 * @param inputPw
+	 * @return
+	 */
+	@RequestMapping(value="/checkPw",produces="text/hrml;charset=UTF-8")
+	@ResponseBody
+	public String checkPw(String originalMemberPw, String inputMemberPw){
+		if(!passwordEncoder.matches(inputMemberPw,originalMemberPw)){
+			return "checkPwError";
+		}
+		return "checkPwOK";
 	}
 
 }
