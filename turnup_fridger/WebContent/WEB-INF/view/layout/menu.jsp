@@ -74,7 +74,9 @@
 	<li class="topMenuLi"><a href="#" class="btn btn-default btn-lg"><span
 			class="network-name">마이페이지</span></a>
 		<ul class="submenu">
-			<%-- <sec:authentication property='principal.memberId' var='memberId'/> --%>
+			<sec:authorize access="isAuthenticated()">
+				<sec:authentication property='principal.memberId' var='memberId'/>
+			</sec:authorize>
 			<li><a href="${initParam.rootPath}/memo/memoList.do?memberId=${memberId}" id="submenuLink">내 메모보기</a></li>
 			<li><a href="#"
 				onClick="window.open('${initParam.rootPath}/memo/map.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)" id="submenuLink">주변 마트보기</a></li>
