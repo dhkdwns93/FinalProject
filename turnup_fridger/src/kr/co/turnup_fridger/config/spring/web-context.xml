@@ -229,9 +229,10 @@
 	<mvc:view-controller path="/common/member/memo/memoDetail.do" view-name="common/member/memo/memoDetail.jsp"/>
 	<!-- 쇼핑몰등록 -->
 	<mvc:view-controller path="/common/shop/shop_register_form.do" view-name="common/shop/shop_register_form.tiles"/>
-	<!-- 쇼핑몰리스트 -->
+	<!-- 쇼핑몰리스트(회원) -->
 	<mvc:view-controller path="/common/shop/shopList.do" view-name="common/shop/shopList.tiles"/>
-
+	<!-- 쇼핑몰리스트(관리자) -->
+	<mvc:view-controller path="/common/shop/shopList_for_admin.do" view-name="common/shop/shopList_for_admin.tiles"/>
 	
 	<!-- TilesConfigurer : tiles설정파일을 등록하는 bean -->
 	<bean name="tilesConfig" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">

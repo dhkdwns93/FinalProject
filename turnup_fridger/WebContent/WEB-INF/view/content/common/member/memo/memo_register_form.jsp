@@ -22,7 +22,7 @@
 @import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 
 body {
-	background: url('${initParam.rootPath}/img/note.jpg') no-repeat center;
+	background: url('${initParam.rootPath}/img/note-new.jpg') no-repeat center;
 	background-size: cover;
 	color: white;
 }
@@ -59,11 +59,11 @@ table {
 		<table>
 			<tr>
 				<td><span class="error"><form:errors path="myMemo.memoName" /></span><br>
-				<input type="text" name="memoName" size="50" style="background-color: transparent"></td>
+				<input type="text" name="memoName" value="${param.memoName}" size="50" style="background-color: transparent"></td>
 			</tr>
 			<tr>
 				<td><span class="error"><form:errors path="myMemo.memoTxt" /></span><br>
-				<textarea rows="21" cols="51" name="memoTxt" style="background-color: transparent"></textarea>
+				<textarea rows="21" cols="51" name="memoTxt" style="background-color: transparent">${param.memoTxt}</textarea>
 				</td>
 			</tr>
 			<tr>
