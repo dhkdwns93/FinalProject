@@ -199,17 +199,18 @@
 	<mvc:view-controller path="/common/admin/recipe/recipeList.do" view-name="common/admin/recipe_for_admin/recipeList.tiles"/>
 	<!--레시피 등록폼 -->
 	<mvc:view-controller path="/common/admin/recipe/register_form.do" view-name="common/admin/recipe_for_admin/register_form.tiles"/>
-	<!--레시피 수정폼  -->
-	<mvc:view-controller path="/common/admin/recipe/update_form.do" view-name="common/admin/recipe_for_admin/update_form.tiles"/>
 	<!-- 레시피 등록을 위한 재료검색 팝업 -->
 	<mvc:view-controller path="/irdntList_pop.do" view-name="irdntList_pop"/>
 	<!--레시피 상세  -->
 	<mvc:view-controller path="/recipe_for_user/recipe_detail.do" view-name="recipe_for_user/recipe_detail.tiles"/>
-	<mvc:view-controller path="/common/admin/recipe/update_form.do" view-name="common/admin/recipe_for_admin/update_form.tiles"/>
+	<!-- 레피시 업데이트를 위한 폼 -->
+	<mvc:view-controller path="/common/admin/recipe/info/update_form.do" view-name="common/admin/recipe_for_admin/info_update_form.tiles"/>
+	<mvc:view-controller path="/common/admin/recipe/irdnt/update_form.do" view-name="common/admin/recipe_for_admin/irdnt_update_form.tiles"/>
+	<mvc:view-controller path="/common/admin/recipe/crse/update_form.do" view-name="common/admin/recipe_for_admin/crse_update_form.tiles"/>
 	
 	
 	
-	<!--  -->
+	
 	
 	<!--레시피 사용자용  -->
 	<!--레시피 상세페이지  -->

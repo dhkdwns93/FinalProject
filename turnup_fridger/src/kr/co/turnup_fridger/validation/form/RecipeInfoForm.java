@@ -40,21 +40,16 @@ public class RecipeInfoForm {
 	private String price;
 
 	private String imgUrl;
-	@NotEmpty(message="상세사진을 입력하세요.")
+
 	private String detUrl;
 	//조회수
 	private int recipeHits;
-	
-	@Valid
-	@NotNull
-	@Size(min=1, message="재료는 1개 이상 선택해주세요.")
+
 	private List<RecipeIrdntForm> recipeIrdntList;
 
-	@Valid
-	@NotNull
-	@Size(min=1, message="과정은 1개 이상 입력해주세요.")
+
 	private List<RecipeCrseForm> recipeCrseList;
-	@NotNull(message="대표사진을 입력하세요.")
+//	@NotNull(message="대표사진을 입력하세요.")
 	private MultipartFile imgUrlSrc;
 	
 	public int getRecipeId() {

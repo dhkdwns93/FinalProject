@@ -538,3 +538,8 @@ WHERE recipe_id NOT IN (
 		GROUP BY recipe_id
 		HAVING COUNT(*) >= 2
 		ORDER BY COUNT(*) DESC, recipe_id
+		
+	SELECT DISTINCT type_code, type_name 
+	FROM RECIPE_INFO 
+	where category_name='한식'
+	order by type_code
