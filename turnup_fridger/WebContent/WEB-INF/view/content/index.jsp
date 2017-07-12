@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- 
  (jsp)index
 작성자 : 
@@ -75,7 +76,9 @@ form{display:inline}
 <!-- 현화 -->
 <h4>메모 관련</h4>
 <a id="memo" href="#" onClick="window.open('${initParam.rootPath}/memo/memoPopup.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=450px, height=430px ,top=10, left=10', bottom=10, right=10)"><button type="button">+메모</button></a>
-<%-- <sec:authentication property='principal.memberId' var='memberId'/> --%>
+<sec:authorize access="hasRole('ROLE_MEMBER')">
+	<sec:authentication property='principal.memberId' var='memberId'/>
+</sec:authorize>
 <a href="${initParam.rootPath}/memo/memoList.do?memberId=${memberId}"><button type="button">메모목록</button></a>
 
 <h4>쇼핑몰 관련</h4>

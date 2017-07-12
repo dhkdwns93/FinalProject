@@ -289,7 +289,7 @@ public class RecipeController {
 	public ModelAndView showDetailOfRecipe(@RequestParam int recipeId){
 		RecipeInfo recipe = recipeService.showDetailOfRecipe(recipeId);
 		System.out.println(recipe);
-		return new ModelAndView("common/admin/recipe_for_admin/recipe_detail.tiles","recipe",recipe);
+		return new ModelAndView("recipe_for_user/recipe_detail.tiles","recipe",recipe);
 	}
 	
 	@RequestMapping("changePortion")
