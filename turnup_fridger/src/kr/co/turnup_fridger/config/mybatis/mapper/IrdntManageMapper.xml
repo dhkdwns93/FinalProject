@@ -55,7 +55,7 @@
       ORDER BY irdnt_id
    </select>
    
-   <select id="selectIrdntByName" resultMap="irdntManage-resultmap" parameterType="String">
+   <select id="selectIrdntByName" resultMap="irdntManage-resultmap" parameterType="java.lang.String">
       SELECT
       <include refid="all-column" />
       FROM Irdnt_Manage
@@ -63,7 +63,7 @@
       ORDER BY irdnt_id 
    </select>
    
-   <select id="selectIrdntByFullName" resultMap="irdntManage-resultmap" parameterType="String">
+   <select id="selectIrdntByFullName" resultMap="irdntManage-resultmap" parameterType="java.lang.String">
       SELECT
       <include refid="all-column" />
       FROM Irdnt_Manage
@@ -80,7 +80,7 @@
       ORDER BY irdnt_id
    </select>
    
-   <select id="selectIrdntByCategory" resultMap="irdntManage-resultmap" parameterType="String">
+   <select id="selectIrdntByCategory" resultMap="irdntManage-resultmap" parameterType="java.lang.String">
       SELECT
       <include refid="all-column" />
       FROM Irdnt_Manage

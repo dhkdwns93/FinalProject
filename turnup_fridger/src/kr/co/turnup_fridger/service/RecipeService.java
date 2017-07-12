@@ -31,14 +31,14 @@ public interface RecipeService {
 	 * @param recipe
 	 * @throws Exception 
 	 */
-	void updateRecipeIrdnt(Map<String, ArrayList> recipeIrdnt) throws NoneRecipeException;
+	void updateRecipeIrdnt(Map<String, List> recipeIrdnt) throws NoneRecipeException;
 	
 	/**
 	 * 레시피를 수정
 	 * @param recipe
 	 * @throws Exception 
 	 */
-	void updateRecipeCrse(Map<String, ArrayList> recipeCrse) throws NoneRecipeException;
+	void updateRecipeCrse(Map<String, List> recipeCrse) throws NoneRecipeException;
 	
 	
 	/**

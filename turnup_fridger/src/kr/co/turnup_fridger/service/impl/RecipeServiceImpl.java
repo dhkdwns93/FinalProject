@@ -70,31 +70,42 @@ public class RecipeServiceImpl implements RecipeService{
 
 		
 		@Override
-		public void updateRecipeIrdnt(Map<String, ArrayList> recipeIrdnt) throws NoneRecipeException {
+		public void updateRecipeIrdnt(Map<String, List> recipeIrdnt) throws NoneRecipeException {
 			
 			//재료
-			ArrayList<Integer> removeIrdntList = recipeIrdnt.get("removeIrdntList");	//삭제할 재료
+			List<Integer> removeIrdntList = recipeIrdnt.get("removeIrdntList");	//삭제할 재료
+			if(removeIrdntList != null || !removeIrdntList.isEmpty()){
 			for(int i=0;i<removeIrdntList.size();i++){
+				if(removeIrdntList.get(i) != null )
 				irdntDao.deleteRecipeIrdnt(removeIrdntList.get(i));
 			}
-			ArrayList<RecipeIrdnt> addIrdntList = recipeIrdnt.get("addIrdntList");	//추가할 재료
+			}
+			List<RecipeIrdnt> addIrdntList = recipeIrdnt.get("addIrdntList");	//추가할 재료
+			if(addIrdntList != null || !addIrdntList.isEmpty()){
 			for(int i=0;i<addIrdntList.size();i++){
+				if(removeIrdntList.get(i) != null )
 				irdntDao.insertRecipeIrdnt(addIrdntList.get(i));
+			}
 			}
 		}
 
 		@Override
-		public void updateRecipeCrse(Map<String, ArrayList> recipeCrse) throws NoneRecipeException {
+		public void updateRecipeCrse(Map<String, List> recipeCrse) throws NoneRecipeException {
 
 			//과정
-			ArrayList<Map> removeCrseList = recipeCrse.get("removeCrseList");	//삭제할 과정(recipeId-cookingNo)
+			List<Map> removeCrseList = recipeCrse.get("removeCrseList");	//삭제할 과정(recipeId-cookingNo)
+			if(removeCrseList != null || !removeCrseList.isEmpty()){
 			for(int i=0;i<removeCrseList.size();i++){
 				crseDao.deleteRecipeCrse((int)(removeCrseList.get(i).get("recipeId")), (int)(removeCrseList.get(i).get("cookingNo")));
 			}
-			ArrayList<RecipeCrse> addCrseList = recipeCrse.get("addCrseList");	//추가할 과정
+			}
+			
+			List<RecipeCrse> addCrseList = recipeCrse.get("addCrseList");	//추가할 과정
+			if(addCrseList != null || !addCrseList.isEmpty()){
 			for(int i=0; i<addCrseList.size();i++){
 				crseDao.insertRecipeCrse(addCrseList.get(i));
-			}	
+			}
+			}
 		}
 	
 		
@@ -191,6 +202,5 @@ public class RecipeServiceImpl implements RecipeService{
 		}
 
 	
-
 	
 }

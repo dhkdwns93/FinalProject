@@ -9,23 +9,25 @@ $(document).ready(function(){
 	$("div.image_none").hide();
 	
 	$("#categoryCode").on("change",function(){
-		alert($(this).find(":selected").text())
 		$.ajax({
-			"url":"/turnup_fridger/getTypeNameCategory.do",
+			"url":"/turnup_fridger/getTypeCodeAndName.do",
 			"type":"POST",
-			"data":{'categoryName' : $(this).find(":selected").text(),'${_csrf.parameterName}':'${_csrf.token}'},
+			"data":{'categoryCode' : $(this).find(":selected").val(),'${_csrf.parameterName}':'${_csrf.token}'},
 			"dataType":"json",
 			"success":function(list){
 				$("#typeCode").empty().append($("<option>").append("선택하세요"))
 				
 				$.each(list, function(){
-					$("#typeCode").append($("<option>").prop("value",this).append(this));
+					$("#typeCode").append($("<option>").prop("value",this.typeCode).append(this.typeName));
 				});//each
+				//선택된 음식분류 표시
+				$("#typeCode").find("[value=${requestScope.recipe.typeCode}]").prop("selected", "selected")
+			
 			},
 			"error":function(xhr, msg, code){
 				alert("오류발생-" +msg+ ":" +code);
 			}
-		})		
+		})
 	});//categoryName
 	
 	
@@ -62,6 +64,7 @@ $(document).ready(function(){
 	})
 
 	$(document).on("change", "#typeCode", function(){
+		alert($(this).find(":selected").text())
 		var row = $("<input>").prop("type", "hidden").prop("name", "typeName" ).prop("value", $(this).find(":selected").text());
 		row.appendTo($("form"));
 	});
@@ -114,6 +117,7 @@ left:5px;
 	enctype="multipart/form-data" method="post">
 
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
+	<input type="hidden" name="recipeId" value="${requestScope.recipe.recipeId}"> 
 		<!-- 레시피 기본정보 -->
 	<div id="innerFrom">
 	<div id="recipe_info" style="padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 10px;  background-color: lightgray; margin-bottom: 20px">
@@ -278,5 +282,5 @@ left:5px;
 
 	<input type="submit" id="updateBtn" value="업데이트">
 	<input type="reset" value="초기화">
-	
+	</div>
 </form>

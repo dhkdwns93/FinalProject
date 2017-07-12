@@ -49,11 +49,11 @@
 			<result column="step_tip" property="stepTip"/>
 		</collection>
 		<collection property="recipeIrdntList" ofType="RecipeIrdnt">
+			<id column="irdnt_no" property="irdntNo"/>
 			<result column="irdnt_name" property="irdntName"/>
 			<result column="irdnt_amount" property="irdntAmount"/>
 			<result column="irdnt_type_code" property="irdntTypeCode"/>
 			<result column="irdnt_type_name" property="irdntTypeName"/>
-			<result column="recipe_id" property="recipeId"/>
 			<result column="irdnt_id" property="irdntId"/>
 		</collection>
 	</resultMap>
@@ -82,22 +82,24 @@
 				)
 	</insert>
 	
+	<!-- id랑 hit빼고 업뎃 -->
 	<update id="updateRecipeInfo" parameterType="RecipeInfo">
-		update Recipe_Info
-		set recipe_name=#{recipeName},
-			sumry=#{sumry},
-			category_code=#{categoryCode},
-			category_name#{categoryName},
-			type_code=#{typeCode},
-			type_name=#{typeName},
-			cooking_time=#{cookingTime},
-			qnt=#{qnt},
-			recipe_level=#{recipeLevel},
-			irdnt_code=#{irdntCode},
-			price=#{price},
-			img_url=#{imgUrl},
-			det_url=#{detUrl}
-		where recipe_id=#{recipeId}
+		update 	Recipe_Info
+		set	 	recipe_name=#{recipeName},
+				sumry=#{sumry},
+				category_code=#{categoryCode},
+				category_name=#{categoryName},
+				type_code=#{typeCode},
+				type_name=#{typeName},
+				cooking_time=#{cookingTime},
+				qnt=#{qnt},
+				calorie=#{calorie},
+				recipe_level=#{recipeLevel},
+				irdnt_code=#{irdntCode},
+				price=#{price},
+				img_url=#{imgUrl},
+				det_url=#{detUrl}
+		where 	recipe_id=#{recipeId}
 	</update>
 	
 	<delete id="deleteRecipeInfo" parameterType="_int">

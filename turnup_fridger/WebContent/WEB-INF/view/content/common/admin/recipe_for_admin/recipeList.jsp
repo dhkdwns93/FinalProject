@@ -31,7 +31,7 @@ $(document).ready(function(){
 					$("#apiTbody").append($("<tr>").prop("id","apiRecipe_col").append($("<td>").append(this.recipeId)).append($("<td>").prop("id", "title").append($("<a>").prop("href", "${initParam.rootPath}/recipe/show/detail.do?recipeId="+this.recipeId).append(this.recipeName))).append($("<td>").append(this.sumry)).append($("<td>").append(this.categoryName))
 							.append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel)).append($("<td>").append(this.imgUrl))
 							.append($("<td>").append(this.recipeHits))
-							.append($("<th>").append($("<button>").prop("type", "button").prop("id", "deleteBtn").append("삭제"))));
+							.append($("<td>").append($("<button>").prop("type", "button").prop("id", "deleteBtn").append("삭제"))));
 				 });//each	
 				 
 
@@ -61,32 +61,33 @@ $(document).ready(function(){
 			}
 		})		
 	});//categoryName
-	
-	/* $(document).on("click",("#hitsDesc"),function(){
-		 $("#keyword").val()=recipeHitsDesc;
-		 
-	});//최다조회순
-	
-	$(document).on("click",("#hitsAsc"),function(){
-	
-	});//최저조회순
-	
-	$(document).on("click",("#calrorieDesc"),function(){
-	
-	});//고칼로리순
-	
-	$(document).on("click",("#calrorieAsc"),function(){
-	
-	});//저칼로리순
-	
-	$(document).on("change",("#recipeLevel"),function(){
 
-	});//난이도 */
-	
-	
-	
-	
-	
+
+	$(document).on("click" ,"#deleteBtn", function(){
+		console.log($(this).parent().parent().children(":first-child").text())
+		$.ajax({
+			"url":"/turnup_fridger/common/admin/recipe/remove.do",
+			"type":"POST",		
+			"data":{'recipeId' : $(this).parent().parent().children(":first-child").text(),'${_csrf.parameterName}':'${_csrf.token}'},
+			"dataType":"text",
+			"beforeSend":function(){
+				if(confirm("레시피를 삭제하시겠습니까?") != true){
+					return false;
+				}
+			},
+			"success":function(text){
+				if(text == 1){
+					alert("삭제가 완료되었습니다.");
+				}
+				window.location.reload()
+			},
+			"error":function(xhr, msg, code){
+				alert("오류발생-" +msg+ ":" +code);
+			}
+		});
+			
+		
+	})
 	
 })//ready
 

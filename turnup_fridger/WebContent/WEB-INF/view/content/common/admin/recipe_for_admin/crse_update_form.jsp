@@ -110,7 +110,7 @@ $(document).ready(function(){
 	});
 
 
-	$(document).on("click", ".deleteOldIrdntBtn", function(){
+	$(document).on("click", ".deleteIrdntBtn", function(){
 		$(this).parent().parent().children(":first-child").children(":first-child").prop("name", "removeIrdntList" )
 		$(this).parent().parent().hide();	
 	})
