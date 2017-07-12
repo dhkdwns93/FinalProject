@@ -56,7 +56,11 @@ $(document).ready(function(){
 				})
 			},//success
 			"error":function(xhr, msg, code){ 
-				alert("오류발생-" +msg+ ":" +code);
+				if(msg.equals("error") && code.equals("Internal Server Error")){
+					alert("비회원이므로 나의 식재료를 불러오지 못합니다.")
+				}else{
+					alert("오류발생-" +msg+ ":" +code);	
+				}
 			}//error	
 	});//ajax2
 	
@@ -77,7 +81,11 @@ $(document).ready(function(){
 				})	
 			},//success
 			"error":function(xhr, msg, code){ 
-				alert("오류발생-" +msg+ ":" +code);
+				if(msg.equals("error") && code.equals("Internal Server Error")){
+					alert("비회원이므로 나의 식재료를 불러오지 못합니다.")
+				}else{
+					alert("오류발생-" +msg+ ":" +code);	
+				}
 			}//error	
 	});//ajax3
 	

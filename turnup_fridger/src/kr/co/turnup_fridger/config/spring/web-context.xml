@@ -178,7 +178,7 @@
 	<!-- 재료관리 목록 페이지   -->
 <!-- 	<mvc:view-controller path="/common/admin/irdntManage/irdntList.do" view-name="common/admin/irdntManage/irdntList.tiles"/> -->
 	<!-- 재료관리 등록폼 페이지   -->
-	<mvc:view-controller path="/common/admin/irdntManage/irdnt_form.do" view-name="common/admin/irdntManage/irdnt_form.tiles"/>
+	<mvc:view-controller path="/common/admin/irdntManage/irdnt_form.do" view-name="common/admin/irdntManage/irdnt_form"/>
 	<!-- 재료관리 등록성공 페이지   -->
 	<mvc:view-controller path="/common/admin/irdntManage/register_success.do" view-name="common/admin/irdntManage/register_success.tiles"/>
 	<!-- 재료관리 수정폼 페이지   -->
@@ -187,7 +187,7 @@
 	<!-- 나의 식재료 목록 페이지   -->
 	<mvc:view-controller path="/common/member/myIrdnt/myIrdntList.do" view-name="common/member/myIrdnt/myIrdntList.tiles"/>
 	<!-- 나의 식재료 등록폼 페이지   -->
-	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_form.do" view-name="common/member/myIrdnt/myIrdnt_form.tiles"/>
+	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_form.do" view-name="common/member/myIrdnt/myIrdnt_form"/>
 	<!-- 나의 식재료 상세정보 페이지   -->
 	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_detail.do" view-name="common/member/myIrdnt/myIrdnt_detail.tiles"/>
 	<!-- 나의 식재료 수정폼 페이지   -->
@@ -205,7 +205,7 @@
 	<!-- 레시피 등록을 위한 재료검색 팝업 -->
 	<mvc:view-controller path="/irdntList_pop.do" view-name="irdntList_pop"/>
 	<!--레시피 상세  -->
-	<mvc:view-controller path="/common/admin/recipe/recipe_detail.do" view-name="common/admin/recipe_for_admin/recipe_detail.tiles"/>
+	<mvc:view-controller path="/recipe_for_user/recipe_detail.do" view-name="recipe_for_user/recipe_detail.tiles"/>
 	<mvc:view-controller path="/common/admin/recipe/update_form.do" view-name="common/admin/recipe_for_admin/update_form.tiles"/>
 	
 	
