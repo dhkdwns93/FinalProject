@@ -19,6 +19,7 @@ function insert_event(){
 };
 </script>
 <style type="text/css">
+form{display:inline}
 span, td, th{
 	padding: 5px; 
 }
@@ -48,11 +49,21 @@ span.error{
 	</tr>	
 	<tr>
 		<td>
-			<input type="submit" value="수정" onclick="goSubmit()">
+			<input type="submit" value="수정" onclick="return insert_event();">
 		</td>
 	</tr>
 </table>
 <sec:csrfInput/>
 </form>
+        <form name="form" action="${initParam.rootPath}/common/boardqna/boardQnAView.do" method="post">
+        	<sec:authorize access="hasRole('ROLE_MEMBER')">
+        		<input type="hidden" id="member" name="member" value="<sec:authentication property="principal.memberId"></sec:authentication>"> 
+        		<input type="hidden"  name="admin" value="">
+        		<input type="hidden" id="memberId" name="memberId" value="${boardQnA.memberId}">
+        		<input type="hidden" id="boardQnAId" name="boardQnAId" value="${boardQnA.boardQnAId}">
+				<input type="submit" value="뒤로가기">
+			</sec:authorize>
+			<sec:csrfInput/>
+		</form>
 </body>
 </html>

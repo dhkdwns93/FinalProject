@@ -19,6 +19,7 @@ function insert_event(){
 };
 </script>
 <style type="text/css">
+form{display:inline}
 span, td, th {
 	padding: 5px;
 }
@@ -61,5 +62,9 @@ span.error {
 		</table>
 		<sec:csrfInput/>
 	</form>
+	<form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
+			<input type="submit" value="뒤로가기">
+			<sec:csrfInput/>
+	</form>  
 </body>
 </html>

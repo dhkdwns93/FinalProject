@@ -2,13 +2,16 @@ package kr.co.turnup_fridger.controller.common;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -76,7 +79,8 @@ public class BoardQnAController extends HttpServlet {
 		@ResponseBody
 		public ModelAndView boardQnAView(@RequestParam int boardQnAId,
 				@RequestParam String member,@RequestParam String admin, 
-				@RequestParam String memberId,@RequestParam(defaultValue="1") int page)
+				@RequestParam String memberId,@RequestParam(defaultValue="1") int page,
+				HttpServletRequest request, HttpServletResponse response) throws IOException
 		{
 			ModelAndView mav = new ModelAndView();
 			
@@ -93,6 +97,11 @@ public class BoardQnAController extends HttpServlet {
 		    mav.addObject("list", map.get("list"));
 		    mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("common/boardqna/boardqna_list.tiles"); 
+	        
+	        response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('권한이 없습니다.');</script>");
+            out.flush();
 	        return mav; 
 		}		
 		

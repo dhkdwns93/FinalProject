@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
-//후기 삭제
+/* //후기 삭제
 function delete_event(){
 	if (confirm("정말 삭제하시겠습니까??") == true){    
 		//확인
@@ -31,7 +31,7 @@ function insert_event(){
 	    return false;
 	}
 };
-
+ */
 </script>
 <style type="text/css">
  form{display:inline}
@@ -49,8 +49,12 @@ function insert_event(){
 <hr>
 <sec:authorize access="hasRole('ROLE_MEMBER')">
 후기 작성
-	<a href="${initParam.rootPath}/boardreview/boardreview_form.do"><button>후기 작성</button></a>
+<a href="${initParam.rootPath}/boardreview/boardreview_form.do"><button>후기 작성</button></a>
+<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 </sec:authorize>
+ <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+ 	<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
+ </sec:authorize>
 <hr>
 <form action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
@@ -228,8 +232,5 @@ function insert_event(){
 </p>
 </c:if>
 <br>
-<hr>
-
-<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 </body>
 </html>

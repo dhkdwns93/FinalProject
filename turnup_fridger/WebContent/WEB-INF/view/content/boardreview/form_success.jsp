@@ -74,6 +74,8 @@
 		</td>
 	</tr>
 </table>
-<a href="${initParam.rootPath}/boardreview/boardReviewList.do"><button type="button">목록으로</button></a>
+<form action="${initParam.rootPath}/boardreview/boardReviewList.do" method="post">
+	<input type="submint" value="목록으로">
+</form>
 </body>
 </html>
