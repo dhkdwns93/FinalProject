@@ -84,8 +84,7 @@
 	
 	<update id="updateRecipeInfo" parameterType="RecipeInfo">
 		update Recipe_Info
-		set recipe_id=#{recipeId},
-			recipe_name=#{recipeName},
+		set recipe_name=#{recipeName},
 			sumry=#{sumry},
 			category_code=#{categoryCode},
 			category_name#{categoryName},
@@ -97,8 +96,7 @@
 			irdnt_code=#{irdntCode},
 			price=#{price},
 			img_url=#{imgUrl},
-			det_url=#{detUrl},
-			recipe_hits=#{recipeHits}
+			det_url=#{detUrl}
 		where recipe_id=#{recipeId}
 	</update>
 	
@@ -398,6 +396,13 @@
 	where category_name=#{value}
 	</select>
 	
+	<!--카테고리 코드 받아서 음식분류코드 , 일름 동적으로 가져오기  -->
+	<select id="selectTypeCodeAndNameByCategoryCode" parameterType ="_int" resultMap="RecipeInfo-resultmap">
+	SELECT DISTINCT type_code, type_name 
+	FROM RECIPE_INFO 
+	where category_Code=#{value}
+	order by type_code
+	</select>
 
 	
 	

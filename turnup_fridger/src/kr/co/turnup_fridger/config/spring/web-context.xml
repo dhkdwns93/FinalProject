@@ -200,17 +200,18 @@
 	<mvc:view-controller path="/common/admin/recipe/recipeList.do" view-name="common/admin/recipe_for_admin/recipeList.tiles"/>
 	<!--레시피 등록폼 -->
 	<mvc:view-controller path="/common/admin/recipe/register_form.do" view-name="common/admin/recipe_for_admin/register_form.tiles"/>
-	<!--레시피 수정폼  -->
-	<mvc:view-controller path="/common/admin/recipe/update_form.do" view-name="common/admin/recipe_for_admin/update_form.tiles"/>
 	<!-- 레시피 등록을 위한 재료검색 팝업 -->
 	<mvc:view-controller path="/irdntList_pop.do" view-name="irdntList_pop"/>
 	<!--레시피 상세  -->
 	<mvc:view-controller path="/recipe_for_user/recipe_detail.do" view-name="recipe_for_user/recipe_detail.tiles"/>
-	<mvc:view-controller path="/common/admin/recipe/update_form.do" view-name="common/admin/recipe_for_admin/update_form.tiles"/>
+	<!-- 레피시 업데이트를 위한 폼 -->
+	<mvc:view-controller path="/common/admin/recipe/info/update_form.do" view-name="common/admin/recipe_for_admin/info_update_form.tiles"/>
+	<mvc:view-controller path="/common/admin/recipe/irdnt/update_form.do" view-name="common/admin/recipe_for_admin/irdnt_update_form.tiles"/>
+	<mvc:view-controller path="/common/admin/recipe/crse/update_form.do" view-name="common/admin/recipe_for_admin/crse_update_form.tiles"/>
 	
 	
 	
-	<!--  -->
+	
 	
 	<!--레시피 사용자용  -->
 	<!--레시피 상세페이지  -->
@@ -230,9 +231,10 @@
 	<mvc:view-controller path="/common/member/memo/memoDetail.do" view-name="common/member/memo/memoDetail.jsp"/>
 	<!-- 쇼핑몰등록 -->
 	<mvc:view-controller path="/common/shop/shop_register_form.do" view-name="common/shop/shop_register_form.tiles"/>
-	<!-- 쇼핑몰리스트 -->
+	<!-- 쇼핑몰리스트(회원) -->
 	<mvc:view-controller path="/common/shop/shopList.do" view-name="common/shop/shopList.tiles"/>
-
+	<!-- 쇼핑몰리스트(관리자) -->
+	<mvc:view-controller path="/common/shop/shopList_for_admin.do" view-name="common/shop/shopList_for_admin.tiles"/>
 	
 	<!-- TilesConfigurer : tiles설정파일을 등록하는 bean -->
 	<bean name="tilesConfig" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">

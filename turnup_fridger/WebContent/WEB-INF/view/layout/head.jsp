@@ -44,9 +44,6 @@
  			<li><a>${admin.adminName}님 환영합니다</a></li>
 			<li><a href="javascript:logout()">logout</a></li>
 			<li><a href="${initParam.rootPath}/common/admin/admin_mypage.do">myPage</a></li>
-			<li><a id="callMap" href="#"
-				onClick="window.open('${initParam.rootPath}/memo/map.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)">근처마트보기</a>
-			</li>
 		</sec:authorize>
 
 	</ul>

@@ -9,29 +9,26 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
-/* $(document).ready(function(){
-	$("#Btn").on("click", function(){
-		
-		var value = $('#memberId').val();
-		
-		alert(value);
-	
-	});
-}); */
 </script>
 <style type="text/css">
 form{display:inline}
+input:focus {
+  outline: none;
+}
 </style>
 </head>
 <body>
 <h1>QnA 게시판 </h1><br>
 <hr>
+<div>
 <form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
 	<input type="text" name="memberId" placeholder="아이디를 입력해주세요">
 	<button>검색</button>
 	<sec:csrfInput/>
 </form>
-<table border="1" width="600px">
+</div>
+<div id="table" style="width:800px;">
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">
 <thead id="thead">
     <tr>
         <th>글번호</th>
@@ -40,8 +37,6 @@ form{display:inline}
         <th>작성자</th>
     </tr>
  </thead>
- 
-<tbody id="tbody">
 <c:forEach var="row" items="${list}">
     <tr>
         <td>${row.boardQnAId}</td>
@@ -52,7 +47,8 @@ form{display:inline}
         		<input type="hidden" id="member" name="member" value="<sec:authentication property="principal.memberId"></sec:authentication>"> 
         		<input type="hidden"  name="admin" value="">
         		<input type="hidden" id="memberId" name="memberId" value="${row.memberId}">
-				<button id="Btn" value="${row.boardQnAId}" name="boardQnAId" style="background-color:white;border:0">${row.boardQnATitle}</button>  
+        		<input type="hidden" id="boardQnAId" name="boardQnAId" value="${row.boardQnAId}">
+        		<input type="submit" value="${row.boardQnATitle}" style="background-color:white;border:0;WIDTH: 400pt; HEIGHT: 15pt"> 
 			</sec:authorize>
         
      		<!-- 관리자일때 보여줌 -->	
@@ -60,7 +56,8 @@ form{display:inline}
 				<input type="hidden" name="admin" value="<sec:authentication property="principal.adminId"></sec:authentication>"> 
 				<input type="hidden" name="member" value="">
 				<input type="hidden" name="memberId" value="${row.memberId}">
-				<button value="${row.boardQnAId}" name="boardQnAId" style="background-color:white;border:0">${row.boardQnATitle}</button>  
+				<input type="hidden" id="boardQnAId" name="boardQnAId" value="${row.boardQnAId}">
+        		<input type="submit" value="${row.boardQnATitle}" style="background-color:white;border:0;WIDTH: 400pt; HEIGHT: 15pt"> 
 			</sec:authorize>
 			<sec:csrfInput/>
 		</form>
@@ -75,7 +72,8 @@ form{display:inline}
 </c:forEach>
  </tbody>
 </table>
-
+</div>
+<div>
 <p>
 	<%-- ######################################################
 														페이징 처리
@@ -130,16 +128,17 @@ form{display:inline}
 	
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/common/boardqna/boardQnAList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
-
-
 </p>
+</div>
 
+<div>
 <!-- 회원만 등록 가능 -->
- <sec:authorize access="hasRole('ROLE_MEMBER')">
+<sec:authorize access="hasRole('ROLE_MEMBER')">
  	<a href="${initParam.rootPath}/common/boardqna/boardqna_form.do"><button>등록</button></a>
- </sec:authorize>
-
-
+</sec:authorize>
+</div>
+<div>
 <a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
+</div>
 </body>
 </html>

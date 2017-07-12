@@ -4068,7 +4068,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   padding-right: 15px;
   padding-left: 15px;
   overflow-x: visible;
-  -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch; /* 가속도기반 스크롤 */
   border-top: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
           box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
@@ -4140,7 +4140,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   position: fixed;
   right: 0;
   left: 0;
-  z-index: 1030;
+  z-index: 1030; /* 배치순서 지정(숫자클수록 우선순위) - position속성이 선행되어야만 사용가능 */
 }
 @media (min-width: 768px) {
   .navbar-fixed-top,

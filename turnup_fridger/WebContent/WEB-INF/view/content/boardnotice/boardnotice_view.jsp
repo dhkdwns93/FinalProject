@@ -25,7 +25,8 @@ form{display:inline}
 </head>
 <body>
 <h1>공지사항 > ${boardNotice.items}</h1><br>
-<table border="1" style="text-align:center">
+<div id="table" style="width:800px;">
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
 	<tr>
 		<td>말머리</td>
 		<td>${boardNotice.items}</td>
@@ -46,12 +47,13 @@ form{display:inline}
 		<td>내용</td>
 		<td>
 			<c:if test="${boardNotice.img != null}">
-				<img width="320px" alt="${boardNotice.img}" src="${initParam.rootPath}/up_image/${boardNotice.saveImg}"><br>
+				<img width="320px" alt="${boardNotice.img}" src="${initParam.rootPath}/img/${boardNotice.saveImg}"><br>
 			</c:if>
 				${boardNotice.txt}
 		</td>
 	</tr>
 </table>
+</div>
 <!-- 관리자만 수정 가능 -->
  <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 <form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadView.do?" method="post" enctype="multipart/form-data">

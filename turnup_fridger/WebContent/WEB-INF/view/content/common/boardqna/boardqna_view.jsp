@@ -71,7 +71,8 @@ function popup(frm){
 <h1>QnA 게시판 > ${requestScope.boardQnA.memberId}님의 질문 </h1><br>
 <hr>
 
-<table border="1" style="text-align:center">
+<div id="table" style="width:800px;">
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">
 	<tr>
 		<td>제목</td>
 		<td>${requestScope.boardQnA.boardQnATitle}</td>
@@ -91,6 +92,7 @@ function popup(frm){
 		</td>
 	</tr>
 </table>
+</div>
 <form action="${initParam.rootPath}/common/boardqna/boardQnAUploadView.do" method="post">
 	<input type="hidden" name="boardQnAId" id="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
 		<!-- 회원만 수정 가능  -->
@@ -122,12 +124,9 @@ function popup(frm){
 </c:if>
 <c:if test="${list.commentQnAId != 0}">
 
-<table border="1" >	
-<tbody id="commentqna_info_layer">
-</tbody>
-</table>
-<table border="1" style="text-align:center">
-<thead id="thead">
+<div id="table" style="width:800px;">
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">	
+<thead>
     <tr>
         <th>작성자</th>
         <th>내용</th>
@@ -136,7 +135,7 @@ function popup(frm){
         <th>삭제</th>
     </tr>
  </thead>
-<tbody id="commentQnA">
+<tbody>
 	<tr>
 		<td>
 			<!-- 사용자 등록일 경우  -->
@@ -224,7 +223,8 @@ function popup(frm){
 		</td>
 	</tr>   
  </tbody>
-</table>	
+</table>
+</div>	
 </c:if>
 </c:forEach>
 

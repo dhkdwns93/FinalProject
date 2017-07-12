@@ -65,6 +65,19 @@ $(document).ready(function(){
 		}
 		return false;
 	});
+	
+	// 문자전송
+	$("#send").on("click", function(){
+		$.ajax({
+			"url" : "${initParam.rootPath}/sms/sendSMS.do",
+			"type" : "post",
+			"data" : {'memoName' :$("#name").val(), 'memoTxt' : $("#txt").val(), 'memberTel' : $("#memberTel").val(), '${_csrf.parameterName}' : '${_csrf.token}'},
+			"success" : function(result){
+				alert(result);
+			}
+		});
+	});
+	
 });
 </script> 
 <style type="text/css">
@@ -85,7 +98,7 @@ $(document).ready(function(){
 
 body{
 	text-align: center;
-	background: url('${initParam.rootPath}/img/note.jpg') no-repeat center;
+	background: url('${initParam.rootPath}/img/note-new.jpg') no-repeat center;
 	background-size: cover;
 }
 </style>
@@ -94,6 +107,8 @@ body{
 	<div id="memoDate">
 		<fmt:formatDate value="${requestScope.memo.registeredDate }" pattern="yyyy년 MM월 dd일" />의 장바구니 메모
 	</div>
+	<sec:authentication property='principal.memberTel' var='tel'/>
+	<input type="hidden" id="memberTel" value="${tel}">
 	<table id="detail">
 		<tr>
 			<td><span class="error"><form:errors path="myMemo.memoName" /></span><br>
@@ -108,6 +123,7 @@ body{
 			<td>
 				 <button type="button" id="mod" class="one">수정</button>
 				 <button type="button" id="del" class="one">삭제</button>
+				 <button type="button" id="send" class="one">문자전송</button>
 				 <button type="button" id="submit">확인</button>
 			</td>
 		</tr>

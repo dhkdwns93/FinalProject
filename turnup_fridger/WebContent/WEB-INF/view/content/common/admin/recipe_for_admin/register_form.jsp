@@ -12,24 +12,24 @@ $(document).ready(function(){
 	
 	//카테고리를 선택했을때 카테고리별 음식분류명 불러오기
 	$("#categoryCode").on("change",function(){
-		alert($(this).find(":selected").text())
+		alert( $(this).find(":selected").val())
 		$.ajax({
-			"url":"/turnup_fridger/getTypeNameCategory.do",
+			"url":"/turnup_fridger/getTypeCodeAndName.do",
 			"type":"POST",
-			"data":{'categoryName' : $(this).find(":selected").text(),'${_csrf.parameterName}':'${_csrf.token}'},
+			"data":{'categoryCode' : $(this).find(":selected").val(),'${_csrf.parameterName}':'${_csrf.token}'},
 			"dataType":"json",
 			"success":function(list){
 				$("#typeCode").empty().append($("<option>").append("선택하세요"))
 				
 				$.each(list, function(){
-					$("#typeCode").append($("<option>").prop("value",this).append(this));
+					$("#typeCode").append($("<option>").prop("value",this.typeCode).append(this.typeName));
 				});//each
 			},
 			"error":function(xhr, msg, code){
 				alert("오류발생-" +msg+ ":" +code);
 			}
 		})		
-	});//categoryName
+	});//categoryCode
 	
 	
 	$(document).on("click", ".nextBtn", function(){
