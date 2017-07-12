@@ -250,7 +250,9 @@ span.error{
 <input type="submit" value="등록하기" onclick="insert_event();">
 </form>
 <form action="${initParam.rootPath}/boardreview/boardReviewList.do" method="post">
-	<input type="submint" value="뒤로가기">
+<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+	<input type="submit" value="뒤로가기">
+	
 </form>
 </body>
 </html>

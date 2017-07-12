@@ -68,14 +68,15 @@
  				${boardReview.boardReviewTxt}
  			</c:if>
    			<c:if test="${boardReview.imageName != null}">
-   				<img width="320px" alt="${boardReview.imageName}" src="${initParam.rootPath}/up_image/${boardReview.imageSaveName}"><br>
+   				<img width="320px" alt="${boardReview.imageName}" src="${initParam.rootPath}/img/${boardReview.imageSaveName}"><br>
    				${boardReview.boardReviewTxt}
    			</c:if>
 		</td>
 	</tr>
 </table>
 <form action="${initParam.rootPath}/boardreview/boardReviewList.do" method="post">
-	<input type="submint" value="목록으로">
+<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+	<input type="submit" value="목록으로">
 </form>
 </body>
 </html>
