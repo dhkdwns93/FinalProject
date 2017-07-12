@@ -20,6 +20,7 @@ function modify_event(){
 };
 </script>
 <style type="text/css">
+form{display:inline}
 span, td, th{
 	padding: 5px; 
 }
@@ -32,6 +33,17 @@ span.error{
 <body>
 <h1>공지사항 수정</h1><br>
 <hr>
+<c:if test="${boardNotice.saveImg != null}">
+<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeImageDelete.do?" method="post">
+		<input type="hidden" name="id" value="${boardNotice.id}">
+		<input type="hidden" name="items" value="${boardNotice.items}">
+		<input type="hidden" name="title" value="${boardNotice.title}">
+		<input type="hidden" name="txt" value="${boardNotice.txt}">
+		<input type="hidden" name="img" value="${boardNotice.img}">
+		<input type="hidden" name="saveImg" value="${boardNotice.saveImg}">
+		<input type="submit" value="이미지 삭제">
+<sec:csrfInput/>
+</form>
 <form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadForm.do?" method="post" enctype="multipart/form-data">
 <table>
 	<tr>
@@ -75,17 +87,12 @@ span.error{
 </table>
 <sec:csrfInput/>
 </form>
-<c:if test="${boardNotice.saveImg != null}">
-<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeImageDelete.do?" method="post">
-		<input type="hidden" name="id" value="${boardNotice.id}">
-		<input type="hidden" name="items" value="${boardNotice.items}">
-		<input type="hidden" name="title" value="${boardNotice.title}">
-		<input type="hidden" name="txt" value="${boardNotice.txt}">
-		<input type="hidden" name="img" value="${boardNotice.img}">
-		<input type="hidden" name="saveImg" value="${boardNotice.saveImg}">
-		<input type="submit" value="이미지 삭제">
-	<sec:csrfInput/>
-</form>
+	<form action="${initParam.rootPath}/boardnotice/boardNoticeView.do" method="post">
+    		<input type="hidden" name="id" value="${boardNotice.id}">
+			<input type="submit" value="뒤로가기">
+			<sec:csrfInput/>
+	</form>
+
 </c:if>
 </body>
 </html>

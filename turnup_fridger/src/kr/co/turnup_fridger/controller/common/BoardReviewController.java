@@ -2,7 +2,9 @@ package kr.co.turnup_fridger.controller.common;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +12,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -216,7 +219,8 @@ public class BoardReviewController extends HttpServlet {
 		@RequestMapping("boardReviewRemove")
 		@ResponseBody
 		public ModelAndView boardReviewRemove(@RequestParam int boardReviewId,
-				@RequestParam String writer,@RequestParam String memberId,@RequestParam String adminId,@RequestParam(defaultValue="1") int page)
+				@RequestParam String writer,@RequestParam String memberId,@RequestParam String adminId,@RequestParam(defaultValue="1") int page,
+				HttpServletRequest request, HttpServletResponse response) throws IOException
 		{
 			
 	        ModelAndView mav = new ModelAndView();
@@ -236,6 +240,10 @@ public class BoardReviewController extends HttpServlet {
 			mav.addObject("list", map.get("list"));
 			mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("boardreview/boardreview_list.tiles");
+	        response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('권한이 없습니다.');</script>");
+            out.flush();
 	        return mav; 
         
 
@@ -244,7 +252,8 @@ public class BoardReviewController extends HttpServlet {
 		//수정 폼 이동
 		@RequestMapping("boardReviewUploadView")
 		@ResponseBody
-		public ModelAndView boardReviewUploadView(@RequestParam int boardReviewId, @RequestParam String writer,@RequestParam String memberId,@RequestParam(defaultValue="1") int page)
+		public ModelAndView boardReviewUploadView(@RequestParam int boardReviewId, @RequestParam String writer,@RequestParam String memberId,
+				@RequestParam(defaultValue="1") int page,HttpServletRequest request, HttpServletResponse response) throws IOException
 		{
 			ModelAndView mav = new ModelAndView();
 			
@@ -260,6 +269,10 @@ public class BoardReviewController extends HttpServlet {
 			mav.addObject("list", map.get("list"));
 			mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("boardreview/boardreview_list.tiles");
+	        response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('권한이 없습니다.');</script>");
+            out.flush();
 	        return mav; 
 		}
 		

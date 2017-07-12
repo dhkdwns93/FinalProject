@@ -23,12 +23,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.turnup_fridger.service.AuthorityService;
 import kr.co.turnup_fridger.service.IrdntManageService;
 import kr.co.turnup_fridger.service.MemberService;
 import kr.co.turnup_fridger.service.MyDislikeIrdntService;
 import kr.co.turnup_fridger.validation.MemberJoinValidator;
+import kr.co.turnup_fridger.vo.Admin;
 import kr.co.turnup_fridger.vo.Member;
 import kr.co.turnup_fridger.vo.MyDislikeIrdnt;
 
@@ -69,9 +71,7 @@ public class UserManageController {
 		MemberJoinValidator validator=new MemberJoinValidator();
 		validator.validate(member, errors);
 		if(errors.hasErrors()){//errors에 오류가 1개라도 등록되있으면 다시 form으로 돌아가
-			//return new ModelAndView("user/join_member_form","member",member);
-			//System.out.println(errors);
-			return "user/join_member_form";
+			return "user/join_member_form.tiles";
 		}
 		
 		//2.BusinessLogic
@@ -81,9 +81,7 @@ public class UserManageController {
 		List<String> myDislikeIrdntNameList=new ArrayList<>();
 		for(int irdntId:myDislikeIrdntId){
 			if(irdntId!=-1){
-				myDislikeIrdntSet.add(new MyDislikeIrdnt(member.getMemberId(),irdntId));
-				//myDislikeIrdntService.createMyDislikeIrdnt(new MyDislikeIrdnt(member.getMemberId(),irdntId));
-				//myDislikeIrdntNameList.add(irdntManageService.findIrdntByIrdntId(irdntId).getIrdntName());		
+				myDislikeIrdntSet.add(new MyDislikeIrdnt(member.getMemberId(),irdntId));		
 			}
 		}
 //		System.out.println(myDislikeIrdntSet);
@@ -106,7 +104,15 @@ public class UserManageController {
 		//return new ModelAndView("redirect:/join_member_success.do","memberId",member.getMemberId());
 		return "redirect:/join_member_success.do";
 	}
-	
+	@RequestMapping("/join_member_success")
+	public String signUpSuccessMember(@RequestParam String memberId,@RequestParam List<String> myDislikeIrdntNameList, ModelMap map){
+		Member member=memberService.inquiryMemberInfo(memberId);
+		map.addAttribute("member",member);
+		map.addAttribute("memberId",memberId);
+		map.addAttribute("myDislikeIrdntNameList", myDislikeIrdntNameList);
+		return "user/join_member_success.tiles";
+	}
+
 	/**
 	 * ID/PW찾기 이메일보내기.
 	 * @param inputName
@@ -161,15 +167,7 @@ public class UserManageController {
 		//2.응답
 		return "redirect:/popup_find_IdPw_form.do";
 	}
-	
-	@RequestMapping("/join_member_success")
-	public String signUpSuccessMember(@RequestParam String memberId,@RequestParam List<String> myDislikeIrdntNameList,ModelMap map){
-		Member member=memberService.inquiryMemberInfo(memberId);
-		map.addAttribute("member",member);
-		map.addAttribute("myDislikeIrdntNameList", myDislikeIrdntNameList);
-		//return new ModelAndView("user/join_member_success","member",member);
-		return "user/join_member_success";
-	}
+
 	
 	/**
 	 * 회원등록시 아이디 중복조회-Ajax처리

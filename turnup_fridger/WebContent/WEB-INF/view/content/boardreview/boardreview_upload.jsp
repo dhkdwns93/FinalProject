@@ -172,6 +172,21 @@ span.error{
 </head>
 <body>
 <h1>후기 수정</h1><br>
+<c:if test="${boardReview.imageName != null}">
+<form action="${initParam.rootPath}/boardreview/boardReviewImageDelete.do" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+	    <input type="hidden" name="boardReviewId" value="${boardReview.boardReviewId}">
+		<input type="hidden" name="memberId" value="${boardReview.memberId}">
+		<input type="hidden" name="boardReviewStar" value="${boardReview.boardReviewStar}">
+		<input type="hidden" name="boardReviewTitle" value="${boardReview.boardReviewTitle}">
+		<input type="hidden" name="boardReviewTxt" value="${boardReview.boardReviewTxt}">
+		<input type="hidden" name="recipeName" value="${boardReview.recipeName}">
+		<input type="hidden" name="recipeId" value="${boardReview.recipeId}">
+		<input type="hidden" name="imageName" value="${boardReview.imageName}">
+		<input type="hidden" name="imageSaveName" value="${boardReview.imageSaveName}">
+		<input type="submit" value="이미지 삭제">
+</form>
+</c:if>
 <form name="review"action="${initParam.rootPath}/boardreview/boardReviewUploadForm.do" method="post" enctype="multipart/form-data">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 <table border="1" width="600px"> 
@@ -245,20 +260,8 @@ span.error{
 <input type="hidden" name="boardReviewId" value="${boardReview.boardReviewId}">
 <input type="submit" value="수정하기" onclick="insert_event();">
 </form>
-<c:if test="${boardReview.imageName != null}">
-<form action="${initParam.rootPath}/boardreview/boardReviewImageDelete.do" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	    <input type="hidden" name="boardReviewId" value="${boardReview.boardReviewId}">
-		<input type="hidden" name="memberId" value="${boardReview.memberId}">
-		<input type="hidden" name="boardReviewStar" value="${boardReview.boardReviewStar}">
-		<input type="hidden" name="boardReviewTitle" value="${boardReview.boardReviewTitle}">
-		<input type="hidden" name="boardReviewTxt" value="${boardReview.boardReviewTxt}">
-		<input type="hidden" name="recipeName" value="${boardReview.recipeName}">
-		<input type="hidden" name="recipeId" value="${boardReview.recipeId}">
-		<input type="hidden" name="imageName" value="${boardReview.imageName}">
-		<input type="hidden" name="imageSaveName" value="${boardReview.imageSaveName}">
-		<input type="submit" value="이미지 삭제">
+<form action="${initParam.rootPath}/boardreview/boardReviewList.do" method="post">
+	<input type="submint" value="목록으로">
 </form>
-</c:if>
 </body>
 </html>

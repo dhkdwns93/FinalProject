@@ -8,10 +8,19 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<script type="text/javascript">
+/* $(document).ready(function(){
+	$("#Btn").on("click", function(){
+		
+		var value = $('#memberId').val();
+		
+		alert(value);
+	
+	});
+}); */
+</script>
 <style type="text/css">
-
 form{display:inline}
-
 </style>
 </head>
 <body>
@@ -37,13 +46,13 @@ form{display:inline}
     <tr>
         <td>${row.boardQnAId}</td>
         <td>
-        <form action="${initParam.rootPath}/common/boardqna/boardQnAView.do" method="post">
+        <form name="form" action="${initParam.rootPath}/common/boardqna/boardQnAView.do" method="post">
         	<!-- 회원일때 보여줌 -->
         	<sec:authorize access="hasRole('ROLE_MEMBER')">
-        		<input type="hidden" name="member" value="<sec:authentication property="principal.memberId"></sec:authentication>"> 
-        		<input type="hidden" name="admin" value="">
-        		<input type="hidden" name="memberId" value="${row.memberId}">
-				<button value="${row.boardQnAId}" name="boardQnAId" style="background-color:white;border:0">${row.boardQnATitle}</button>  
+        		<input type="hidden" id="member" name="member" value="<sec:authentication property="principal.memberId"></sec:authentication>"> 
+        		<input type="hidden"  name="admin" value="">
+        		<input type="hidden" id="memberId" name="memberId" value="${row.memberId}">
+				<button id="Btn" value="${row.boardQnAId}" name="boardQnAId" style="background-color:white;border:0">${row.boardQnATitle}</button>  
 			</sec:authorize>
         
      		<!-- 관리자일때 보여줌 -->	

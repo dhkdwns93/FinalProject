@@ -25,10 +25,6 @@ form{display:inline}
 	<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
 	<button>검색</button>
 </form>
-<form action="${initParam.rootPath}/common/boardfree/boardFreeByBoardFreeHits.do" method="post">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<button>조회수</button>
-</form>
 <form action="${initParam.rootPath}/common/boardfree/boardFreeList.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 <a href="${initParam.rootPath}/common/boardfree/boardfree_list.do"><input type="submit" value="전체보기"/></a>

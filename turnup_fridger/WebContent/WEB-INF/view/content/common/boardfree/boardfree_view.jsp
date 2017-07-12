@@ -13,10 +13,34 @@
 <script type="text/javascript">
 </script>
 <script type="text/javascript">
+//게시물 수정
+function update_event(){
+	
+	var memberId = $('input[name=memberId]').val();
+	var writer = $('input[name=writer]').val();
 
-//게시물 삭제
+	if(writer != memberId)
+	{
+		alert("권한이 없습니다.");
+		return false;
+	}
+
+	
+	return location.href="/turnup_fridger/common/boardfree/boardfree_view.do";
+	
+};
+//게시물 삭제(회원)
 function delete_event(){
-	if (confirm("정말 삭제하시겠습니까??") == true){    
+	
+	var memberId = $('input[name=memberId]').val();
+	var writer = $('input[name=writer]').val();
+	if(writer != memberId)
+	{
+		alert("권한이 없습니다.");
+		return false;
+	}
+	
+	if(confirm("정말 삭제하시겠습니까??") == true){    
 		//확인
 		location.href="/turnup_fridger/common/boardfree/boardfree_list.do";
 	}else{   
@@ -25,17 +49,16 @@ function delete_event(){
 	}
 };
 
-//댓글 삭제
+//게시물 삭제(관리자)
 function delete_event2(){
-	if (confirm("정말 삭제하시겠습니까??") == true){    
+	if(confirm("정말 삭제하시겠습니까??") == true){    
 		//확인
-		location.href="/turnup_fridger/common/boardfree/boardfree_view.do";
+		location.href="/turnup_fridger/common/boardfree/boardfree_list.do";
 	}else{   
 		//취소
 	    return false;
 	}
 };
-
 
 //댓글 등록
 function insert_event(){
@@ -47,6 +70,54 @@ function insert_event(){
 	    return false;
 	}
 };
+/* 
+//댓글 수정
+function comment_upload_event(){
+	
+
+	
+ 	var memberId = $('input[name=memberId]').val();
+	var writer = $('input[name=writer]').val();
+	if(writer != memberId)
+	{
+		alert("권한이 없습니다.");
+		return false;
+	}
+
+	return	location.href="/turnup_fridger/common/boardfree/commentfree_upload.do";
+};
+ */
+/* //댓글 삭제(회원)
+function comment_delete_event(){
+	
+	var memberId = $('input[name=memberId]').val();
+	var writer = $('input[name=writer]').val();
+	if(writer != memberId)
+	{
+		alert("권한이 없습니다.");
+		return false;
+	}
+	
+	if(confirm("정말 삭제하시겠습니까??") == true){    
+		//확인
+		location.href="/turnup_fridger/common/boardfree/boardfree_view.do";
+	}else{   
+		//취소
+	    return false;
+	}
+};
+
+//댓글 삭제(관리자)
+function comment_delete_event2(){
+	
+	if (confirm("삭제 하시겠습니까??") == true){    
+		//확인
+		location.href="/turnup_fridger/common/boardfree/boardfree_view.do";
+	}else{   
+		//취소
+	    return false;
+	}
+}; */
 
 /* 
 function popup(frm){
@@ -105,7 +176,8 @@ function popup(frm){
 		<input type="hidden" name="boardFreeId" id="boardFreeId" value="${boardFree.boardFreeId}">
 		<input type="hidden" name="memberId" value="<sec:authentication property="principal.memberId"></sec:authentication>">
 		<input type="hidden" name="writer" value="${boardFree.memberId}">
-		<button>수정하기</button>
+		<input type="hidden" name="adminId" value="">
+		<input type="submit" value="수정하기" onclick="return update_event();">
 	</form>
 </sec:authorize>
 
@@ -131,11 +203,9 @@ function popup(frm){
 	<input type="hidden" name="writer" value="${boardFree.memberId}">
 	<input type="hidden" name="adminId" value="<sec:authentication property="principal.adminId"></sec:authentication>">
 	<input type="hidden" name="memberId" value="">
-	<input type="submit" value="삭제하기" onclick="return delete_event();">
+	<input type="submit" value="삭제하기" onclick="return delete_event2();">
 </form>
 </sec:authorize>
-
-
 
 
 <form action="${initParam.rootPath}/common/boardfree/boardFreeList.do" method="post">
@@ -191,7 +261,7 @@ function popup(frm){
 					<input type="hidden" name="writer" id="writer" value="${list.memberId}">
 					<input type="hidden" name="memberId" id="memberId" value="<sec:authentication property="principal.memberId"></sec:authentication>">
 					<input type="hidden" name="boardFreeId" id="boardFreeId" value="${list.boardFreeId}">
-					<input type="submit" value="수정하기"></a>
+					<input type="submit" value="수정하기" onclick="return comment_upload_event();">
 				</form>	
 			</sec:authorize> 
 			
@@ -207,7 +277,7 @@ function popup(frm){
 				<input type="hidden" name="writer" value="${list.memberId}">
 				<input type="hidden" name="memberId" value="<sec:authentication property="principal.memberId"/>">
 				<input type="hidden" name="adminId" value="">
-				<input type="submit" value="삭제하기" onclick="return delete_event2();">
+				<input type="submit" value="삭제하기" onclick="return comment_delete_event();">
 			 </form>
 			 </sec:authorize>
 			
@@ -220,7 +290,7 @@ function popup(frm){
 				<input type="hidden" name="writer" value="${list.memberId}">
 				<input type="hidden" name="memberId" value="">
 				<input type="hidden" name="adminId" value="<sec:authentication property="principal.adminId"/>">
-				<input type="submit" value="삭제하기" onclick="return delete_event2();">
+				<input type="submit" value="삭제하기" onclick="return comment_delete_event2();">
 			 </form>			
 			</sec:authorize>
 		</td>
