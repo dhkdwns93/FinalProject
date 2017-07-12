@@ -127,7 +127,7 @@ function insert_event(){
  				${row.boardReviewTxt}
  			</c:if>
    			<c:if test="${row.imageName != null}">
-   				<img width="320px" alt="${row.imageName}" src="${initParam.rootPath}/up_image/${row.imageSaveName}"><br>
+   				<img width="320px" alt="${row.imageName}" src="${initParam.rootPath}/img/${row.imageSaveName}"><br>
    				${row.boardReviewTxt}
    			</c:if>
    		</td>

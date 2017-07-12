@@ -38,7 +38,7 @@ public class BoardNoticeController extends HttpServlet {
 	private BoardNoticeDao dao;
 	
 	//이미지 경로
-	private String eclipseDir = "C:\\Java\\eclipse\\workspace_web\\turnup_fridger2\\WebContent\\up_image"; 
+	private String eclipseDir = "C:\\Java\\apache-tomcat-8.0.43\\webapps\\turnup_fridger\\img"; 
 	
 	
 	//카피
@@ -113,10 +113,12 @@ public class BoardNoticeController extends HttpServlet {
 	@ResponseBody
 	public ModelAndView boardNoticeView(@RequestParam int id)
 	{
+		
+		System.out.println(id);
 		ModelAndView mav = new ModelAndView();
 		
 		mav.setViewName("boardnotice/boardnotice_view.tiles");
-		
+				
 		mav.addObject("boardNotice", service.findBoardNoticeById(id));
 	    
 		return mav;
@@ -138,7 +140,7 @@ public class BoardNoticeController extends HttpServlet {
 			
 			ModelAndView mav = new ModelAndView();
 			
-			String upImageDir = request.getServletContext().getRealPath("/up_image");
+			String upImageDir = request.getServletContext().getRealPath("/img");
 			MultipartFile upImage = boardNotice.getUpImage();
 			
 			String fname = upImage.getOriginalFilename();
@@ -153,7 +155,7 @@ public class BoardNoticeController extends HttpServlet {
 				boardNotice.setImg(upImage.getOriginalFilename());
 				String newImageName = UUID.randomUUID().toString();
 				boardNotice.setSaveImg(newImageName);
-				File dest = new File(upImageDir);
+				File dest = new File(upImageDir,newImageName);
 				//파일 이동
 				/************************************
 				 * 이클립스 경로로 카피
