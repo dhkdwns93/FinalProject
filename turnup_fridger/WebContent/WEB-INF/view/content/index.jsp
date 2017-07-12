@@ -76,7 +76,7 @@ form{display:inline}
 <!-- 현화 -->
 <h4>메모 관련</h4>
 <a id="memo" href="#" onClick="window.open('${initParam.rootPath}/memo/memoPopup.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=450px, height=430px ,top=10, left=10', bottom=10, right=10)"><button type="button">+메모</button></a>
-<sec:authorize access="isAuthenticated()">
+<sec:authorize access="hasRole('ROLE_MEMBER')">
 	<sec:authentication property='principal.memberId' var='memberId'/>
 </sec:authorize>
 <a href="${initParam.rootPath}/memo/memoList.do?memberId=${memberId}"><button type="button">메모목록</button></a>
