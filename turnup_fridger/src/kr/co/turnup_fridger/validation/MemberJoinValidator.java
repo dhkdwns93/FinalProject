@@ -1,5 +1,5 @@
 /**
- (Validator)MebmerJoinValidator
+ (Validator)MemberJoinValidator
 작성자 :  김경혜
 최초 작성일 170704
 변경이력
@@ -29,8 +29,6 @@ public class MemberJoinValidator implements Validator {
 		if(member.getMemberPw().length()<6||member.getMemberPw().length()>15){
 			errors.rejectValue("memberPw", "length","*패스워드는 글자수 6~15자 내로 설정해주십시오.");
 		}
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberId", "requiredJoin");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberPw", "requiredJoin");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberName", "requiredJoin");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberAddress", "requiredJoin");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberEmail", "requiredJoin");
