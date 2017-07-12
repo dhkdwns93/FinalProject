@@ -100,6 +100,7 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 		HashMap map = new HashMap();
 		map.put("recipeIds", recipeIds);
 		map.put("keyword",keyword);	
+		//System.out.println("레시피인포dao : "+recipeIds +"/"+keyword);
 		return session.selectList(makeSql("selectRecipesInfoByIds"),map);
 	}
 

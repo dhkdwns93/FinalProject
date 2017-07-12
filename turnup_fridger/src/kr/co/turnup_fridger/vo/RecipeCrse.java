@@ -36,6 +36,8 @@ public class RecipeCrse implements Serializable{
 		this.stepTip = stepTip;
 		this.recipeInfo = recipeInfo;
 	}
+	
+	
 
 	public int getRecipeId() {
 		return recipeId;
@@ -93,6 +95,8 @@ public class RecipeCrse implements Serializable{
 	public void setStepImageUrlSrc(MultipartFile stepImageUrlSrc) {
 		this.stepImageUrlSrc = stepImageUrlSrc;
 	}
+	
+	
 
 	@Override
 	public String toString() {

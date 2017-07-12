@@ -1,5 +1,6 @@
 package kr.co.turnup_fridger.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -222,11 +223,34 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 
 
 	@Override
-	public List<BoardShareRecipe> findUserRecipeByIds(List<Integer> irdntIds, List<Integer> hateIrdntsIds) {
-		List<Integer> ids = shareDao.getRecipeBoardIdByIrdntIds(irdntIds, hateIrdntsIds);
-		List<BoardShareRecipe> list = dao.selectBoardShareRecipeById(ids);
-	
-		return list;
+	public Map findUserRecipeByIds(List<Integer> irdntIds, List<Integer> hateIrdntsIds) {
+		//나중에 페이징...?
+		
+		System.out.println("게시판 : "+irdntIds+"/"+hateIrdntsIds);
+		//재료id들을 줘서 recipeid들과 count수의 map을 받은 list.
+		List recipeMap = shareDao.getRecipeBoardIdByIrdntIds(irdntIds, hateIrdntsIds);
+		
+		System.out.println("dao다녀온 : "+recipeMap);
+		
+		List recipeIds = new ArrayList();
+		List countList = new ArrayList();
+		HashMap userMap = new HashMap();
+		
+		for(int i =0;i<recipeMap.size();i++){
+			HashMap map = (HashMap) recipeMap.get(i);
+			System.out.println("게시판  map"+ map);
+			recipeIds.add(map.get("BOARD_SHARE_RECIPE_ID"));
+			countList.add(map);
+		}
+		
+		List<BoardShareRecipe> userList = dao.selectBoardShareRecipeById(recipeIds);
+		System.out.println("받아온 게시판들 : "+userList);
+		System.out.println("받아온 countList : " +countList);
+		
+		userMap.put("userList", userList);
+		userMap.put("countList", countList);
+		
+		return userMap;
 	}
 	
 	

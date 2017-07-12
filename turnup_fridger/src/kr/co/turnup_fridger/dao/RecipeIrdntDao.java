@@ -59,7 +59,7 @@ public interface RecipeIrdntDao {
 	 * @param irdntId
 	 * @return
 	 */
-	List<Integer> getRecipeCodeByIrdntIds(List<Integer> irdntIds, List<Integer> hateIrdntIds);
+	List getRecipeCodeByIrdntIds(List<Integer> irdntIds, List<Integer> hateIrdntIds);
 	
 	
 }

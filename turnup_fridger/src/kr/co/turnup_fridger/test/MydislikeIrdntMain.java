@@ -15,10 +15,10 @@ public class MydislikeIrdntMain {
 				"kr/co/turnup_fridger/config/spring/model-context.xml");
 		MyDislikeIrdntService service = (MyDislikeIrdntService) context.getBean("MyDislikeIrdntService");
 
-		service.createMyDislikeIrdnt(new MyDislikeIrdnt("id-1",1));
-		service.createMyDislikeIrdnt(new MyDislikeIrdnt("id-1",2));
-		service.createMyDislikeIrdnt(new MyDislikeIrdnt("id-2",1));
-		service.createMyDislikeIrdnt(new MyDislikeIrdnt("id-3",1));
+		//service.createMyDislikeIrdnt(new MyDislikeIrdnt("id-1",1));
+		//service.createMyDislikeIrdnt(new MyDislikeIrdnt("id-1",2));
+		//service.createMyDislikeIrdnt(new MyDislikeIrdnt("id-2",1));
+		//service.createMyDislikeIrdnt(new MyDislikeIrdnt("id-3",1));
 		//System.out.println(service.findMyDislikeIrdntByMemberId("id-1"));
 		//service.removeMyDislikeIrdntByIrdntId(1);
 //		service.removeMyDislikeIrdntByMemberId("id-1");

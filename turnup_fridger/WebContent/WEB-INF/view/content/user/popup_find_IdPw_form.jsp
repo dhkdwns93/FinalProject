@@ -23,6 +23,7 @@ $(document).ready(function(){
 			dataType:"text",
 			success:function(responseText){
 				if(responseText==("nonExistMember")){
+					$("div#sendEmail").hide();
 					$("div#findResult").text("*입력하신 정보와 일치하는 계정이 존재하지 않습니다.");
 				}else{
 					$("div#sendEmail").show();
@@ -31,6 +32,9 @@ $(document).ready(function(){
 			}
 		});//end of ajax
 	});//end of findIdPwBtn
+	$("button#sendEmailBtn").on("click",function(){
+		alert("*해당 이메일로 ID/Password 전송이 완료되었습니다");
+	});
 	
 });
 </script>
@@ -48,7 +52,7 @@ Email <input type="text" id="inputEmail" name="inputEmail">
 <button type="button" id="findIdPwBtn">아이디/비밀번호 찾기</button>
 <div id="findResult"></div>
 <div id="sendEmail" style="display:none">
-	<button type="submit" id="sendEmailBtn">전송</button></a>
+	<button type="submit" id="sendEmailBtn">전송</button>
 </div>
 <hr>
 <div class="row">

@@ -51,7 +51,7 @@ public class RecipeController {
 	@Autowired
 	private BoardShareRecipeService shareService;
 	@Autowired
-	private ShareRecipeIrdntService sIrdntService;
+	private ShareRecipeIrdntService IrdntService;
 	@Autowired
 	private IrdntManageService imService;
 	@Autowired
@@ -141,16 +141,24 @@ public class RecipeController {
 		
 		@RequestMapping("common/admin/recipe/register/success")
 		public ModelAndView registerRecipeSuccess( int recipeId ) throws Exception{
-			System.out.println("로그,다");
 			return new ModelAndView("common/admin/recipe_for_admin/recipeList.tiles","successMsg_create","등록성공!");
 		}
 	
-		//수정
+		
+		
+		//레시피 정보 수정전 체크
+		@RequestMapping("common/admin/recipe/update_chk")
+		public ModelAndView moveToUpdateForm(@RequestParam int recipeId){
+			RecipeInfo ri = recipeService.findRecipeInfoByRecipeId(recipeId);
+			return new ModelAndView("common/admin/recipe_for_admin/update_form", "recipe", ri);
+			
+		}
+		
 		@RequestMapping("common/admin/recipe/update")
 		public ModelAndView updateRecipe(@ModelAttribute("recipeInfo") @Valid RecipeInfoForm recipeInfoForm, BindingResult errors, HttpServletRequest request)
 				 throws IllegalStateException, IOException{
 			if(errors.hasErrors()){
-				return new ModelAndView("common/admin/recipe_for_admin/register_form.tiles");
+				return new ModelAndView("common/admin/recipe_for_admin/update_form.tiles");
 			}
 			// 1. recipeInfo객체에 검증된 recipeInfoForm 자료 넣기
 			RecipeInfo recipeInfo = new RecipeInfo();
@@ -210,15 +218,15 @@ public class RecipeController {
 			try {
 				recipeService.createRecipe(recipeInfo);
 			} catch (DuplicateRecipeException e) {
-				return new ModelAndView("common/admin/recipe_for_admin/register_form.tiles","errorMsg_duplicateId",e.getMessage());
+				return new ModelAndView("common/admin/recipe_for_admin/update_form.tiles","errorMsg_duplicateId",e.getMessage());
 			}
-			return new ModelAndView("redirect:register/success.do","recipeId",recipeInfo.getRecipeId());
+			return new ModelAndView("redirect:update/success.do","recipeId",recipeInfo.getRecipeId());
 		}
 		
 		@RequestMapping("common/admin/recipe/update/success")
 		public ModelAndView updateRecipeSuccess( int recipeId ) throws Exception{
 			System.out.println("로그,다");
-			return new ModelAndView("common/admin/recipe/recipeList.tiles","successMsg_create","등록성공!");
+			return new ModelAndView("common/admin/recipe/recipeList","successMsg_create","등록성공!");
 		}
 		
 	//레시피삭제
@@ -245,13 +253,11 @@ public class RecipeController {
 	@ResponseBody
 	public Map findRecipeByRecipeName(@RequestParam String recipeName, @RequestParam String keyword){
 		
-		System.out.println("핸들러 : "+recipeName+keyword);
 		List<RecipeInfo> apiList = recipeService.findRecipeByRecipeName(recipeName, keyword);
 		List<BoardShareRecipe> userList = shareService.selectBoardShareRecipeByTitle(recipeName);
 		HashMap map = new HashMap();
 		map.put("apiList", apiList);
 		map.put("userList", userList);
-		System.out.println("-----------Map : "+map);
 		return map;
 	}
 	
@@ -259,43 +265,31 @@ public class RecipeController {
 	@ResponseBody
 	public List<RecipeInfo> findRecipeByCategory(@RequestParam String categoryName, @RequestParam String typeName, @RequestParam String keyword){
 
-		System.out.println(categoryName+typeName+keyword);
+		
 		List<RecipeInfo> list = recipeService.findRecipeByCategory(categoryName, typeName, keyword);
-		System.out.println(list);
+
 		return list;
-		//ModelAndView mav = new ModelAndView();
-		//HashMap map = new HashMap();
-		//map.put("list", list);
-		//map.setViewName("카테고리 검색화면");
-		//return map;
-		//return mav;
 	}
 	
 	@RequestMapping(value="findRecipeByIrdntId")
 	@ResponseBody
 	public Map<String,Object> findRecipeByIrdntId(@RequestParam List<Integer> irdntIds, @RequestParam List<Integer> hateIrdntIds, @RequestParam String keyword){
 
-
-		System.out.println("아이디핸들러 : "+ irdntIds + "% ㄴㄴ:"+ hateIrdntIds);
-
-		List<RecipeInfo> apiList = recipeService.findRecipeByIrdntId(irdntIds, hateIrdntIds, keyword);
-
-		List<BoardShareRecipe> userList = shareService.findUserRecipeByIds(irdntIds, hateIrdntIds);
-		
-		//ModelAndView mav = new ModelAndView();
+		Map apiMap = recipeService.findRecipeByIrdntId(irdntIds, hateIrdntIds, keyword);
+		Map userMap = shareService.findUserRecipeByIds(irdntIds, hateIrdntIds);
+	
 		HashMap map = new HashMap();
-		map.put("apiList", apiList);
-		map.put("userList", userList);	
-		//map.setViewName("재료 검색화면");
-		System.out.println(map);
+		map.put("apiMap", apiMap);
+		map.put("userMap", userMap);
 		return map;
-		//return mav;
 	}
 	
+	//상세화면 handler
 	@RequestMapping("recipe/show/detail")
 	public ModelAndView showDetailOfRecipe(@RequestParam int recipeId){
 		RecipeInfo recipe = recipeService.showDetailOfRecipe(recipeId);
-		return new ModelAndView("상세페이지화면","recipeDetail",recipe);
+		System.out.println(recipe);
+		return new ModelAndView("common/admin/recipe_for_admin/recipe_detail.tiles","recipe",recipe);
 	}
 	
 	@RequestMapping("changePortion")
@@ -339,13 +333,27 @@ public class RecipeController {
 
 	@RequestMapping("getMyDislikeIrdnt")
 	@ResponseBody
-	public List<MyDislikeIrdnt> getMyDislikeIrdnt(){
+	public Map getMyDislikeIrdnt(){
 		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if(member==null){
 			//비회원
 			return null;
 		}
-		List<MyDislikeIrdnt> irdnt = disService.findMyDislikeIrdntByMemberId(member.getMemberId());
-		return irdnt;
+		List<MyDislikeIrdnt> dislikeIrdnt = disService.findMyDislikeIrdntByMemberId(member.getMemberId());
+		
+		HashMap map = new HashMap();
+		HashMap irdntMap = new HashMap();
+		List irdntList = new ArrayList();
+		
+		for(int i=0; i<dislikeIrdnt.size();i++){
+			String irdntName = imService.findIrdntByIrdntId(dislikeIrdnt.get(i).getIrdntId()).getIrdntName();
+			irdntMap.put("irdntName", irdntName);
+			irdntMap.put("irdntId",dislikeIrdnt.get(i).getIrdntId());
+			irdntList.add(irdntMap);
+		}
+		map.put("dislikeIrdnt", dislikeIrdnt);
+		map.put("irdntList", irdntList);
+		
+		return map;
 	}
 }

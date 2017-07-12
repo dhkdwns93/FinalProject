@@ -39,7 +39,15 @@ public interface RecipeService {
 	 */
 	//Map<String,Object> findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword,int page);
 	
-	List<RecipeInfo> findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword);
+	Map findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword);
+	
+	/**
+	 * 레시피 id로 레시피 찾기 
+	 * @param recipeId
+	 * @return
+	 */
+	RecipeInfo findRecipeInfoByRecipeId(int recipeId);
+	
 	
 	/**
 	 * 레시피 이름으로 레시피들을 찾기(페이징)

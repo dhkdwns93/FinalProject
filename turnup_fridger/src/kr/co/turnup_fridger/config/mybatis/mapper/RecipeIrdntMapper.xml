@@ -23,6 +23,11 @@
 		<result column="irdnt_id" property="irdntId"/>
 	</resultMap>
 	
+	<resultMap type="java.util.HashMap" id="searchResult">
+		<id column="count" property="count"/>
+		<result column="recipe_id" property="recipe_id"/>
+	</resultMap>
+	
 	<insert id="insertRecipeIrdnt" parameterType="RecipeIrdnt">
 	<selectKey order="BEFORE" keyProperty="irdntNo" resultType="int">
 				SELECT IRDNT_NO_seq.nextval FROM dual
@@ -75,17 +80,39 @@
 		where irdnt_name like '%'||#{irdntName}||'%'
 	</select>
 	
-	<select id="getRecipeCodeByIrdntIds" resultType="_int" parameterType="java.util.HashMap">
-		SELECT COUNT(*), recipe_id recipe_id
+	<select id="getRecipeCodeByIrdntIds" resultMap="searchResult" parameterType="java.util.HashMap">
+		SELECT recipe_id recipe_id,COUNT(*) count 
 		FROM RECIPE_IRDNT
 		WHERE recipe_id NOT IN (
 				SELECT recipe_id
 				FROM recipe_irdnt
-				WHERE irdnt_id IN ( #{hateIrdntIds} ))
-		AND irdnt_id IN ( #{irdntIds} )
+				<where>
+					<choose>
+						<when test="hateIrdntIds !=null and hateIrdntIds.size()>0">
+							irdnt_id IN 
+							<foreach collection="hateIrdntIds" open="(" close=")" separator="," item="hateIrdntId">
+								#{hateIrdntId}
+							</foreach>
+						</when>
+						<otherwise>
+						1=-1
+						</otherwise>
+					</choose>
+				</where>)and 
+					<choose>
+						<when test="irdntIds !=null and irdntIds.size()>0">
+							irdnt_id IN
+							<foreach collection="irdntIds" open="(" close=")" separator="," item="irdntId">
+								#{irdntId}
+							</foreach>
+						</when>
+						<otherwise>
+						1=-1
+						</otherwise>
+					</choose>
 		GROUP BY recipe_id
-		HAVING COUNT(*) >= 2
-		ORDER BY COUNT(*) DESC, recipe_id;
+		HAVING COUNT(*) >= 1
+		ORDER BY COUNT(*) DESC, recipe_id
 	</select>
 	
 </mapper>

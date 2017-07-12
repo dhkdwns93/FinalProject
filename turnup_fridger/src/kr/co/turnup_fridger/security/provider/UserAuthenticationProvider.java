@@ -64,7 +64,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider{
 		Authority user=authorityDao.selectAuthorityById(loginId);
 //		System.out.println("user"+user);
 		if(user==null){
-			throw new UsernameNotFoundException("등록되어 않은 계정입니다.");
+			throw new UsernameNotFoundException("등록되지 않은 계정입니다.");
 		}
 		String userAuthority = user.getLoginAuthority();
 //		if (userAuthority == null || userAuthority.trim().isEmpty()) {

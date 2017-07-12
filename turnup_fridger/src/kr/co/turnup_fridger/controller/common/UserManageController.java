@@ -10,9 +10,12 @@ package kr.co.turnup_fridger.controller.common;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -31,6 +34,7 @@ import kr.co.turnup_fridger.vo.MyDislikeIrdnt;
 
 /**
  * 인증이 필요없는 작업처리 -사용자 관리
+ * @param 
  */
 @Controller
 public class UserManageController {
@@ -46,6 +50,10 @@ public class UserManageController {
 	
 	@Autowired
 	private AuthorityService authorityService;
+	
+	//메일
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	/**
 	 * 회원 등록
@@ -68,6 +76,7 @@ public class UserManageController {
 		
 		//2.BusinessLogic
 		memberService.signUpMember(member);
+		
 		Set<MyDislikeIrdnt> myDislikeIrdntSet=new HashSet<>();//중복으로 등록신청할경우 하나만 넘어옴.
 		List<String> myDislikeIrdntNameList=new ArrayList<>();
 		for(int irdntId:myDislikeIrdntId){
@@ -90,6 +99,7 @@ public class UserManageController {
 		}
 		member.setMyDislikeIrdntList(myDislikeIrdntList);//member객체에 set
 		
+		
 		//3.응답
 		map.addAttribute("memberId",member.getMemberId());
 		map.addAttribute("myDislikeIrdntNameList", myDislikeIrdntNameList);
@@ -97,10 +107,58 @@ public class UserManageController {
 		return "redirect:/join_member_success.do";
 	}
 	
+	/**
+	 * ID/PW찾기 이메일보내기.
+	 * @param inputName
+	 * @param inputEmail
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("/send_find_IdPw_email")
-	public String sendEmail(@RequestParam String inputName, @RequestParam String inputEmail){
+	public String sendEmail(@RequestParam String inputName, @RequestParam String inputEmail) throws Exception{
+		//1.요청파라미터 조회
+		Member member=memberService.findMemberByEmail(inputEmail);
+		
+		//2.BusinessLogic
+		//임시 비밀번호 생성(10자리수)
+		StringBuffer randString=new StringBuffer();
+		Random rnd=new Random();
+		for(int i=0;i<10;i++){
+			int rIndex=rnd.nextInt(3);//0-2까지 난수 생성
+			switch(rIndex){
+			case 0: //a-z(ASCII code이용)
+				randString.append((char)((int)(rnd.nextInt(26))+97));
+				break;
+			case 1: //A-Z
+				randString.append((char)((int)(rnd.nextInt(26))+65));
+				break;
+			case 2: //0-9
+				randString.append((rnd.nextInt(10)));
+				break;
+			}
+		}
+		
+		//메일로 보낼 사용자의 ID와 새로운 비밀번호
+		String memberId=member.getMemberId();
+		String newMemberPw=randString.toString();
+		
+		//새롭게 생성된 비밀번호를 해당 사용자의 DB에 저장
+		member.setMemberPw(newMemberPw);
+		memberService.changeMemberInfo(member);
+		
+		SimpleMailMessage simpleMailMessage=new SimpleMailMessage();
+		simpleMailMessage.setFrom("kosta156_2@naver.com");
+		simpleMailMessage.setTo(inputEmail);//이메일 inputEmail입력
+		simpleMailMessage.setSubject(inputName+"님께서 Turnup-Fridger에서 문의하신 ID/Password를 알려드립니다.");
+		simpleMailMessage.setText("Turnup-Fridger에서 ["+inputName+"]님의 아이디와 비밀번호를 알려드립니다.\n"
+				+ "ID :"+memberId+"\n"
+						+ "Password : "+newMemberPw+"\n\n"
+								+ "*로그인 하신후 비밀번호를 재설정해주세요.");
+		
+		mailSender.send(simpleMailMessage);
 		
 		
+		//2.응답
 		return "redirect:/popup_find_IdPw_form.do";
 	}
 	
@@ -162,8 +220,11 @@ public class UserManageController {
 	public String findIdPw(String inputName,String inputEmail){
 		//1.요청파라미터 조회+검증
 		//2.BusinessLogic
-		if(memberService.findMember(inputName, inputEmail)==null){
-			//System.out.println("Email있음");
+		Member member=memberService.findMemberByEmail(inputEmail);
+		if(member==null){
+			return "nonExistMember";
+		}
+		if(!member.getMemberName().equals(inputName)){
 			return "nonExistMember";
 		}
 		return inputEmail;

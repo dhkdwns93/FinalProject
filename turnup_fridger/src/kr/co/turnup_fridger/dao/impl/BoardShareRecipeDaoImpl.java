@@ -163,8 +163,11 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 	
 	@Override
 	public List<BoardShareRecipe> selectBoardShareRecipeById(List<Integer> recipeIds) {
+		System.out.println("보드쉐어dao 찾을 id들" + recipeIds);
+		HashMap map = new HashMap();
+		map.put("recipeIds", recipeIds);
 		
-		return session.selectList(sql("selectBoardShareRecipeById"),recipeIds);
+		return session.selectList(makeSqlId("selectBoardShareRecipeById"),map);
 	}
 	
 	

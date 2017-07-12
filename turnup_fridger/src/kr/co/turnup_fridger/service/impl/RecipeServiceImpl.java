@@ -1,5 +1,7 @@
 package kr.co.turnup_fridger.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -82,12 +84,28 @@ public class RecipeServiceImpl implements RecipeService{
 
 		//선택재료, 기피재료들 받아서 레시피 목록들 불러오는 것.+ 페이징
 		@Override
-		public List<RecipeInfo> findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword) {
+		public Map findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword) {
 			//페이징
-			List<Integer> recipeIds = irdntDao.getRecipeCodeByIrdntIds(irdntIds, hateIrdntIds);		
+			
+			//재료id들을 줘서 recipeid들과 count수 의 map을 받은 list.
+			List recipeMap = irdntDao.getRecipeCodeByIrdntIds(irdntIds, hateIrdntIds);	
+			
+			List recipeIds= new ArrayList();
+			List countList = new ArrayList();
+			HashMap apiMap = new HashMap();
+			
+			//recipeId들만 넣은 recipeIds추출,  id들과 count들을 함께넣은 countList추출.
+			for(int i=0; i<recipeMap.size();i++){
+				HashMap map = (HashMap)recipeMap.get(i);
+				recipeIds.add(map.get("recipe_id"));
+				countList.add(map);			
+			}
+			//recipeId들을 줘서 recipeInfo들을 받아옴
 			List<RecipeInfo> apiList = infoDao.selectRecipesInfoByIds(recipeIds, keyword);
 			
-			return null;
+			apiMap.put("apiList", apiList);
+			apiMap.put("countList", countList);
+			return apiMap;
 		}
 
 		//레시피 이름으로 레시피 목록들 불러오는것.
@@ -133,6 +151,11 @@ public class RecipeServiceImpl implements RecipeService{
 		@Override
 		public List<String> getTypeNameByCategoryName(String categoryName) {
 			return infoDao.selectTypeNameByCategoryName(categoryName);
+		}
+
+		@Override
+		public RecipeInfo findRecipeInfoByRecipeId(int recipeId) {
+			return infoDao.selectRecipeInfoById(recipeId);
 		}
 		
 
