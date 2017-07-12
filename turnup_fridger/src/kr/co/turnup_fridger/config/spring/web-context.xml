@@ -131,6 +131,7 @@
 	<mvc:view-controller path="/popup_duplicate_email_form.do" view-name="user/popup_duplicate_email_form"/>
 	<!-- 회원가입성공 -->
 	<mvc:view-controller path="/join_member_success.do" view-name="user/join_member_success.tiles"/>
+	
 	<!-- /common/member -->
 	<!-- 마이페이지(개인회원정보조회) -->
 	<mvc:view-controller path="/common/member/member_mypage.do" view-name="common/member/user/member_mypage.tiles"/>
