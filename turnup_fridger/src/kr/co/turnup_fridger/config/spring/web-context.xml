@@ -131,6 +131,7 @@
 	<mvc:view-controller path="/popup_duplicate_email_form.do" view-name="user/popup_duplicate_email_form"/>
 	<!-- 회원가입성공 -->
 	<mvc:view-controller path="/join_member_success.do" view-name="user/join_member_success.tiles"/>
+	
 	<!-- /common/member -->
 	<!-- 마이페이지(개인회원정보조회) -->
 	<mvc:view-controller path="/common/member/member_mypage.do" view-name="common/member/user/member_mypage.tiles"/>
@@ -177,7 +178,7 @@
 	<!-- 재료관리 목록 페이지   -->
 <!-- 	<mvc:view-controller path="/common/admin/irdntManage/irdntList.do" view-name="common/admin/irdntManage/irdntList.tiles"/> -->
 	<!-- 재료관리 등록폼 페이지   -->
-	<mvc:view-controller path="/common/admin/irdntManage/irdnt_form.do" view-name="common/admin/irdntManage/irdnt_form.tiles"/>
+	<mvc:view-controller path="/common/admin/irdntManage/irdnt_form.do" view-name="common/admin/irdntManage/irdnt_form"/>
 	<!-- 재료관리 등록성공 페이지   -->
 	<mvc:view-controller path="/common/admin/irdntManage/register_success.do" view-name="common/admin/irdntManage/register_success.tiles"/>
 	<!-- 재료관리 수정폼 페이지   -->
@@ -186,7 +187,7 @@
 	<!-- 나의 식재료 목록 페이지   -->
 	<mvc:view-controller path="/common/member/myIrdnt/myIrdntList.do" view-name="common/member/myIrdnt/myIrdntList.tiles"/>
 	<!-- 나의 식재료 등록폼 페이지   -->
-	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_form.do" view-name="common/member/myIrdnt/myIrdnt_form.tiles"/>
+	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_form.do" view-name="common/member/myIrdnt/myIrdnt_form"/>
 	<!-- 나의 식재료 상세정보 페이지   -->
 	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_detail.do" view-name="common/member/myIrdnt/myIrdnt_detail.tiles"/>
 	<!-- 나의 식재료 수정폼 페이지   -->
@@ -230,9 +231,10 @@
 	<mvc:view-controller path="/common/member/memo/memoDetail.do" view-name="common/member/memo/memoDetail.jsp"/>
 	<!-- 쇼핑몰등록 -->
 	<mvc:view-controller path="/common/shop/shop_register_form.do" view-name="common/shop/shop_register_form.tiles"/>
-	<!-- 쇼핑몰리스트 -->
+	<!-- 쇼핑몰리스트(회원) -->
 	<mvc:view-controller path="/common/shop/shopList.do" view-name="common/shop/shopList.tiles"/>
-
+	<!-- 쇼핑몰리스트(관리자) -->
+	<mvc:view-controller path="/common/shop/shopList_for_admin.do" view-name="common/shop/shopList_for_admin.tiles"/>
 	
 	<!-- TilesConfigurer : tiles설정파일을 등록하는 bean -->
 	<bean name="tilesConfig" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">

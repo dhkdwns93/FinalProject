@@ -9,6 +9,9 @@
 <title>Insert title here</title>
 <style type="text/css">
 form{display:inline}
+input:focus {
+  outline: none;
+}
 </style>
 </head>
 <body>
@@ -28,7 +31,8 @@ form{display:inline}
 	검색한 아이디가 없습니다.
 </c:if>
 <c:if test="${!empty list}">
-<table border="1" width="600px">
+<div id="table" style="width:800px;">
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">
 <thead id="thead">
     <tr>
         <th>번호</th>
@@ -49,7 +53,8 @@ form{display:inline}
         		<input type="hidden" name="member" value="<sec:authentication property="principal.memberId"></sec:authentication>"> 
         		<input type="hidden" name="admin" value="">
         		<input type="hidden" name="memberId" value="${row.memberId}">
-				<button value="${row.boardQnAId}" name="boardQnAId" style="background-color:white;border:0">${row.boardQnATitle}</button>  
+				<input type="hidden" id="boardQnAId" name="boardQnAId" value="${row.boardQnAId}">
+        		<input type="submit" value="${row.boardQnATitle}" style="background-color:white;border:0;WIDTH: 400pt; HEIGHT: 15pt"> 
 			</sec:authorize>
         
      		<!-- 관리자일때 보여줌 -->	
@@ -57,7 +62,8 @@ form{display:inline}
 				<input type="hidden" name="admin" value="<sec:authentication property="principal.adminId"></sec:authentication>"> 
 				<input type="hidden" name="member" value="">
 				<input type="hidden" name="memberId" value="${row.memberId}">
-				<button value="${row.boardQnAId}" name="boardQnAId" style="background-color:white;border:0">${row.boardQnATitle}</button>  
+				<input type="hidden" id="boardQnAId" name="boardQnAId" value="${row.boardQnAId}">
+        		<input type="submit" value="${row.boardQnATitle}" style="background-color:white;border:0;WIDTH: 400pt; HEIGHT: 15pt">  
 			</sec:authorize>
 			<sec:csrfInput/>
 		</form>
@@ -70,6 +76,7 @@ form{display:inline}
 </c:forEach>
  </tbody>
 </table>
+</div>
 <p>
 	<%-- ######################################################
 														페이징 처리

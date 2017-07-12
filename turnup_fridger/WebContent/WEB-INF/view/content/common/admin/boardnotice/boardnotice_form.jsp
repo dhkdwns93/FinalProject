@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>Insert title here</title><script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
@@ -17,8 +18,10 @@ function insert_event(){
 	    return false;
 	}
 };
+
 </script>
 <style type="text/css">
+form{display:inline}
 span, td, th {
 	padding: 5px;
 }
@@ -33,7 +36,7 @@ span.error {
 <h1>공시사항 등록</h1><br>
 <hr>
 	<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeAdd.do?" method="post" enctype="multipart/form-data">
-		<table>
+		<table >
 			<tr>
 				<th>제목</th>
 				<td><input type="text" name="title"
@@ -61,5 +64,9 @@ span.error {
 		</table>
 		<sec:csrfInput/>
 	</form>
+	<form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
+			<input type="submit" value="뒤로가기">
+			<sec:csrfInput/>
+	</form>  
 </body>
 </html>

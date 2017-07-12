@@ -70,6 +70,7 @@ p{
 <body>
 <input type="hidden" id="id" value="<sec:authentication property='principal.memberId'/>">
 <p id="memoNum">현재 <span id="count"></span> 개의 메모가 있습니다</p>
+<div class="container">
 <div id="memoListT">
 <table id="tt" class="table table-hover">
 	<tr>
@@ -85,6 +86,7 @@ p{
 		</tr>
 	</c:forEach>
 </table>
+</div>
 </div>
 <a href="${initParam.rootPath}/"><button type="button" id="back" class="one">뒤로가기</button></a>
 </body>

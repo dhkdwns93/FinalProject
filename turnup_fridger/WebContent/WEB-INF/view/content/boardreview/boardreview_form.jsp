@@ -249,6 +249,10 @@ span.error{
 </table>
 <input type="submit" value="등록하기" onclick="insert_event();">
 </form>
-<a href="${initParam.rootPath}/boardreview/boardReviewList.do"><button type="button">목록으로</button></a>
+<form action="${initParam.rootPath}/boardreview/boardReviewList.do" method="post">
+<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+	<input type="submit" value="뒤로가기">
+	
+</form>
 </body>
 </html>

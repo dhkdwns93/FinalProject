@@ -51,6 +51,10 @@
 			<li><a href="${initParam.rootPath}/common/admin/recipe/recipeList.do" id="submenuLink">관리자관리</a></li>
 			<li><a href="${initParam.rootPath}/boardnotice/boardNoticeList.do" id="submenuLink">게시판 관리</a></li>
 		</ul></li>
+		<li class="topMenuLi">
+			<a href="${initParam.rootPath}/common/shop/shopList_for_admin.do" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i>
+			<span class="network-name">쇼핑몰관리</span></a>
+		</li>
 		</sec:authorize>
 	<li class="topMenuLi"><a href="#" class="btn btn-default btn-lg"><i
 			class="fa fa-linkedin fa-fw"></i> <span class="network-name">게시판</span></a>

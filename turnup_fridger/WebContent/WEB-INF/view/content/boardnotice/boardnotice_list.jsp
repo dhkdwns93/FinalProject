@@ -9,20 +9,8 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <style type="text/css">
-a:link{
-	/*방문하지 않은 링크 설정.*/
-	text-decoration:none; /*밑줄 안나오도록 처리.*/
-	color:black;
-}
-a:visited{
-	/*방문한 링크 설정*/
-	text-decoration: none;
-	color:black;
-}
-a:hover{
-	/*마우스 포인터가 올라간 시점의 설정.*/
-	text-decoration: underline;
-	color:red;
+input:focus {
+  outline: none;
 }
 </style>
 </head>
@@ -37,8 +25,10 @@ a:hover{
 </select>
 <input type="submit" value="검색"/>
 </form>
-<table border="1" width="600px">
-<thead id="thead">
+
+<div id="table" style="width:800px;">
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">
+<thead>
     <tr>
         <th>번호</th>
         <th>말머리</th>
@@ -47,7 +37,7 @@ a:hover{
         <th>작성자</th>
     </tr>
  </thead>
-<tbody id="tbody">
+<tbody>
 <c:forEach var="row" items="${list}">
     <tr>
         <td>${row.id}</td>
@@ -56,7 +46,8 @@ a:hover{
         <td>
     		<form action="${initParam.rootPath}/boardnotice/boardNoticeView.do" method="post">
     			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-				<button value="${row.id}" name="id" style="background-color:white;border:0">${row.title}</button>
+    			<input type="hidden" name="id" value="${row.id}">
+    			<input type="submit" value="${row.title}" style="background-color:white;border:0;WIDTH: 400pt; HEIGHT: 15pt"> 
 			</form>           
         </td>
         <td>
@@ -67,7 +58,8 @@ a:hover{
 </c:forEach>
  </tbody>
 </table>
-<p>
+</div>
+<p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리
 			###################################################### --%>
