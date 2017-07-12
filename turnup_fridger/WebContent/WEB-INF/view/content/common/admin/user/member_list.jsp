@@ -43,7 +43,7 @@ $(document).ready(function(){
 		var downloadDate=year+month+day+"_"+hour+mins;
 		var fileName="TurnupFridger_MemberList_"+downloadDate+".xls";
 		
-		var uri=$(".tblExport").btechco_excelexport({
+		var uri=$("#tblExport").btechco_excelexport({
 			containerid:tbl, datatype:$datatype.Table, worksheetName:fileName, encoding:"UTF-8", returnUri:true
 		});//end of uri
 		
@@ -64,7 +64,7 @@ $(document).ready(function(){
 		<a id="exportBtn" href="#" download=""><button type="button">(Excel)Download</button></a>
 		<div id="allMemberList"
 			style="border: 1px solid black; overflow-x: hidden; overflow-y: scroll; height: 150px; width: 1000px;">
-			<table class="tblExport" id="tblExport" border="1" width="900px">
+			<table class="table" id="tblExport" border="1" width="900px">
 				<thead id="thead">
 					<tr>
 						<th>번호</th>
