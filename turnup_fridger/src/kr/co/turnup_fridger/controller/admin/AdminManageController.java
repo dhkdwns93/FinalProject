@@ -99,7 +99,6 @@ public class AdminManageController {
 	@RequestMapping("/admin_list")
 	public ModelAndView inquiryAdminList(){
 		List<Admin> adminList=adminService.inquiryAdminList();
-		//System.out.println("AdminManageController- adminList : "+adminList);
 		return new ModelAndView("common/admin/user/admin_list.tiles","adminList",adminList);
 	}
 	
@@ -174,10 +173,6 @@ public class AdminManageController {
 			System.out.println("로그인한 관리자는 권한수정이 불가합니다.");
 			throw new RuntimeException("로그인한 관리자는 권한수정이 불가합니다.");
 		}
-		
-//		System.out.println("AdminManage changeAdminAuthority : "+ adminId);
-//		System.out.println("AdminManage changeAdminAuthority : "+ adminAuthority);
-		
 		adminService.changeAdminAuthority(adminId, adminAuthority);
 		
 		//3.응답
@@ -198,11 +193,7 @@ public class AdminManageController {
 		//1.요청한 사용자 정보 조회
 		SecurityContext ctx=SecurityContextHolder.getContext();
 		Authentication authentication=ctx.getAuthentication();
-//		String adminAuthority=service.inquiryAdminInfo(adminId).getAdminAuthority();
-//		System.out.println("AdminManage deleteAdmin : "+ adminAuthority);
-		
-//		String loginAuthority=((Admin)authentication.getPrincipal()).getAdminAuthority();
-//		System.out.println(loginAuthority);
+
 		//2.Business Logic
 		if((adminService.inquiryAdminInfo(adminId).getAdminAuthority()).equals("ROLE_HEADMASTERADMIN")){
 			System.out.println("Head Master는 탈퇴가 불가합니다.");
@@ -214,15 +205,11 @@ public class AdminManageController {
 				System.out.println("Master관리자는 headMaster만 탈퇴처리 할 수 있습니다.");
 				throw new RuntimeException("Master관리자는 headMaster만 탈퇴처리 할 수 있습니다.");
 			}
-			//System.out.println("master관리자 탈퇴");
 			adminService.deleteAdmin(adminId);
 		}else{
-			//System.out.println("일반관리자 탈퇴");
 			adminService.deleteAdmin(adminId);
 		}
 		
-		//System.out.println("AdminManage deleteAdmin : "+ adminId);
-		//service.deleteAdmin(adminId);
 		//3.응답
 		return "redirect:/common/admin/admin_list.do";
 	}
@@ -237,7 +224,6 @@ public class AdminManageController {
 		//1.요청한 사용자 정보 조회
 
 		//2.Business Logic
-		//System.out.println(memberId + "탈퇴");	
 		myDislikeIrdntService.removeMyDislikeIrdntByMemberId(memberId);
 		memberService.deleteMember(memberId);
 		//3.응답
