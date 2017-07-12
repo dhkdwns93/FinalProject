@@ -60,6 +60,7 @@ public class ShareRecipeIrdntDaoImpl implements ShareRecipeIrdntDao{
 		HashMap map = new HashMap();
 		map.put("irdntIds",irdntIds);
 		map.put("hateIrdntIds",hateIrdntIds);
+		System.out.println("매퍼가기전 선호/비선호 재료들 "+irdntIds+"/"+hateIrdntIds);
 		
 		return session.selectList(sql("getRecipeBoardIdByIrdntIds"),map);
 	}

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
- 
+
 <h1>Turnup-Fridger</h1>
 <h3>효율적인 식재료 관리를 위한 냉장고 털어먹기</h3>
 <hr class="intro-divider">
@@ -64,7 +64,7 @@
 		
 	<!-- 회원만 -->
 	<sec:authorize access="hasRole('ROLE_MEMBER')">
-	<li class="topMenuLi"><a href="#" class="btn btn-default btn-lg"><i
+	<li class="topMenuLi"><a href="${initParam.rootPath}/shop/findShopList.do" class="btn btn-default btn-lg"><i
 			class="fa fa-linkedin fa-fw"></i> <span class="network-name">쇼핑하기</span></a>
 	</li>
 	</sec:authorize>
@@ -74,9 +74,13 @@
 	<li class="topMenuLi"><a href="#" class="btn btn-default btn-lg"><span
 			class="network-name">마이페이지</span></a>
 		<ul class="submenu">
-			<li><a href="" id="submenuLink">내 메모보기</a></li>
-			<li><a href="" id="submenuLink">주변 마트보기</a></li>
-			<li><a href="" id="submenuLink">회원정보수정</a></li>
+			<sec:authorize access="isAuthenticated()">
+				<sec:authentication property='principal.memberId' var='memberId'/>
+			</sec:authorize>
+			<li><a href="${initParam.rootPath}/memo/memoList.do?memberId=${memberId}" id="submenuLink">내 메모보기</a></li>
+			<li><a href="#"
+				onClick="window.open('${initParam.rootPath}/memo/map.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)" id="submenuLink">주변 마트보기</a></li>
+			<li><a href="${initParam.rootPath}/common/member/member_mypage_event.do" id="submenuLink">회원정보수정</a></li>
 		</ul></li>
 		</sec:authorize>
 </ul>

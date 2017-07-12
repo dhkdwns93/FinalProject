@@ -33,13 +33,13 @@ public class InsertMethod {
 			// 레시피재료정보
 			case "recipe_irdnt":
 				// String sql = "insert into view_tn_recipe_irdnt values(?,?,?,?,?,?)";
-				sql = "insert into " + fileName + " values(?,?,?,?,?,?,?)";
+				sql = "insert into " + fileName + "_temp values(?,?,?,?,?,?,?)";
 				pstmt = conn.prepareStatement(sql);
 				while ((line = in.readLine()) != null) {
 					str = line.split("&");
 					if (str.length == 7) {// 열갯수=6
 						for (int i = 0; i < str.length; i++) {
-							pstmt.setString(i + 1, str[i]);
+							pstmt.setString(i + 1, str[i].trim());
 						}
 						/*
 						 * pstmt.setString(1, str[0]); 

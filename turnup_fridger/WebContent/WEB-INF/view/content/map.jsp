@@ -13,7 +13,7 @@
 <body>
 <div id="map" style="width:750px;height:500px;"></div>
 <sec:authentication property="principal.memberAddress" var="ma"/>
-<input type="hidden" id="addrss" value="${ma}">
+<input type="hidden" id="address" value="${ma}">
 
 <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=a48481878cc565128cd84abd9fda8053&libraries=services"></script>
 <script>

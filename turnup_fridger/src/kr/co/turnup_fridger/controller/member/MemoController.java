@@ -1,6 +1,5 @@
 package kr.co.turnup_fridger.controller.member;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.view.InternalResourceView;
 
 import kr.co.turnup_fridger.service.MyMemoService;
 import kr.co.turnup_fridger.validation.MemoValidator;
@@ -25,23 +26,46 @@ public class MemoController {
 	@Autowired
 	private MyMemoService service;
 	
+	// 지도 팝업 띄우는 핸들러(no-tiles)
+	@RequestMapping("map")
+	public ModelAndView map(){
+		View view = new InternalResourceView("/WEB-INF/view/content/map.jsp");
+		return new ModelAndView(view);
+	}
+	
+	// 메모작성팝업 띄우는 핸들러(no-tiles)
+	@RequestMapping("memoPopup")
+	public ModelAndView memoPopup(){
+		View view = new InternalResourceView("/WEB-INF/view/content/common/member/memo/memo_register_form.jsp");
+		return new ModelAndView(view);
+	}
+	
+	// 메모상세 팝업 띄우는 핸들러(no-tiles)
+	@RequestMapping("memoDetailPopup")
+	public ModelAndView memoDetailPopup(String memoId){
+		int memId = Integer.parseInt(memoId);
+		MyMemo mm = service.selectOneMemo(memId);
+		View view = new InternalResourceView("/WEB-INF/view/content/common/member/memo/memoDetail.jsp");
+		return new ModelAndView(view, "memo", mm);
+	}
+	
 	// 메모등록 - O
 	@RequestMapping(value="addMemo", method=RequestMethod.POST) 
 	public ModelAndView addMemo(@ModelAttribute MyMemo mm, BindingResult err) {
 		MemoValidator val = new MemoValidator();
 		val.validate(mm, err);
-		System.out.println(" == 검증 종료 ==");
+		mm.setRegisteredDate(new Date());
 		if(err.hasErrors()){
-			return new ModelAndView("/memo_register_form.jsp", "error", err);
+			return new ModelAndView("/common/member/memo/memo_register_form", "error", err);
 		}
-		System.out.println(" == 에러 없음 ==");
+		
 		try {
 			service.insertMemo(mm);
 		} catch (Exception e) {
-			return new ModelAndView("/memo_register_form.jsp", "error", e.getMessage());
+			return new ModelAndView("/common/member/memo/memo_register_form", "error", e.getMessage());
 		}
-		System.out.println(" == 완료 ==");
-		return new ModelAndView("common/member/memo/memoDetail.tiles", "memo", mm);
+		
+		return new ModelAndView("/common/member/memo/memoDetail", "memo", mm);
 	}
 	
 	// 메모삭제 O
@@ -75,25 +99,25 @@ public class MemoController {
 	}
 	
 	// 내가 쓴 메모목록 - O 					 ajax사용시 produces해줘야 한글 깨지지않음!
-	@RequestMapping(value="memoList")
+/*	@RequestMapping(value="memoList")
 	@ResponseBody
 	public List<MyMemo> selectMemoByMember(String memberId){
 		return service.selectMemoList(memberId);
-	}
+	}*/
 	
-/*	@RequestMapping(value="memoList")
+	@RequestMapping("memoList")
 	public ModelAndView selectMemoByMember(String memberId){
 		List<MyMemo>list = service.selectMemoList(memberId);
 		return new ModelAndView("common/member/memo/memoList.tiles", "list", list);
 		
-	}*/
+	}
 	
 	// 메모하나 상세보기 - O
 	@RequestMapping("findOneMemo")
 	public ModelAndView selectOneMemo(String memoId){
 		int memId = Integer.parseInt(memoId);
 		MyMemo mm = service.selectOneMemo(memId);
-		return new ModelAndView("common/member/memo/memoDetail.tiles", "memo", mm);
+		return new ModelAndView("common/member/memo/memoDetail.jsp", "memo", mm);
 	}
 	
 	// 내가 쓴 메모개수 - O

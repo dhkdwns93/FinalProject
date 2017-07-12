@@ -26,22 +26,27 @@ public class MyDislikeIrdnt implements Serializable{
 		this.irdntId = irdntId;
 	}
 
-	public MyDislikeIrdnt(int myDislikeIrdntsKey,String memberId, int irdntId) {
-		this.myDislikeIrdntKey = myDislikeIrdntsKey;
+	public MyDislikeIrdnt(int myDislikeIrdntKey, String memberId, int irdntId) {
+		this.myDislikeIrdntKey = myDislikeIrdntKey;
 		this.memberId = memberId;
 		this.irdntId = irdntId;
+
 	}
 
-
-
-	
-
-
-	public MyDislikeIrdnt(int myDislikeIrdntsKey, String memberId, int irdntId, Member member) {
-		this.myDislikeIrdntKey = myDislikeIrdntsKey;
+	public MyDislikeIrdnt(int myDislikeIrdntKey, String memberId, int irdntId, Member member) {
+		this.myDislikeIrdntKey = myDislikeIrdntKey;
 		this.memberId = memberId;
 		this.irdntId = irdntId;
 		this.member = member;
+
+	}
+
+	public int getMyDislikeIrdntKey() {
+		return myDislikeIrdntKey;
+	}
+
+	public void setMyDislikeIrdntKey(int myDislikeIrdntKey) {
+		this.myDislikeIrdntKey = myDislikeIrdntKey;
 	}
 
 
@@ -134,5 +139,9 @@ public class MyDislikeIrdnt implements Serializable{
 			return false;
 		return true;
 	}
+
+
+
+
 	
 }

@@ -6,12 +6,22 @@
 작성자 :  김경혜
 최초 작성일 170705
 변경이력 
+170711 한번더회원탈퇴처리 확인
  -->
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("button#deleteMemberBtn").on("click",function(){
+		return window.confirm("정말 이 회원을 탈퇴처리 하시겠습니까?");
+	});
+});
+
+</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
@@ -33,9 +43,9 @@
 	</tr>	
 </thead>
 <tbody>
-<c:forEach var="member" items="${requestScope.memberList}">
+<c:forEach var="member" items="${requestScope.memberList}"  varStatus="loop">
 	<tr>
-		<td>페이징 목록 번호</td>
+		<td>${(loop.index)+1}</td>
 		<td>${member.memberId }</td>
 		<td>${member.memberName }</td>
 		<td>${member.memberAddress }</td>
@@ -47,7 +57,7 @@
 			<form action="${initParam.rootPath}/common/admin/member_delete.do" method="post">
 				<input type="hidden" name="memberId" value="${member.memberId}">
 				<sec:csrfInput/>
-				<button type="submit">탈퇴</button>
+				<button type="submit" id="deleteMemberBtn">탈퇴</button>
 			</form>
 		</td>
 	</tr>

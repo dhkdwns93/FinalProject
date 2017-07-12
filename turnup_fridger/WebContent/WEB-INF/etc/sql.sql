@@ -1,25 +1,13 @@
-	SELECT recipe_id,
-		recipe_name,
-		sumry,
-		category_code,
-		category_name,
-		type_code,
-		type_name,
-		cooking_time,
-		calorie,
-		qnt,
-		recipe_level,
-		irdnt_code,
-		price,
-		img_url,
-		det_url,
-		recipe_hits
-			FROM Recipe_Info
-			where recipe_name like '%'||'안'||'%' and recipe_level='보통'
+
+
+--select * from recipe_irdnt
+--select * from IRDNT_MANAGE
+
 --headMaster한명 input(테이블 생성후 넣으세용)
 insert into authority values('headAdmin1','headAdmin1','ROLE_HEADMASTERADMIN');
 insert into admin values('headAdmin1','headAdmin1','HeadMasterAdmin','01012345678','headadmin@kosta.or.kr','ROLE_HEADMASTERADMIN');
-
+--select distinct category_name, category_code, type_code, type_name from Recipe_Info order by category_code
+--select distinct irdnt_Code from Recipe_Info 
 
 /*전체 사용자(회원, 관리자) 권한관리_로그인용*/
 DROP TABLE AUTHORITY CASCADE CONSTRAINT;
@@ -140,6 +128,7 @@ DROP SEQUENCE BOARD_SHARE_RECIPE_ID;
 CREATE SEQUENCE BOARD_SHARE_RECIPE_ID INCREMENT BY 1 START WITH 1;  
 --SELECT BOARD_SHARE_RECIPE_ID.NEXTVAL FROM DUAL;
 
+--insert into board_share_recipe values(2,'test','test',sysdate,0,0,'기타재료','user1');
 /* 레시피 공유 게시판 사진 */
 DROP TABLE BOARD_SHARE_RECIPE_IMG;
 DELETE FROM BOARD_SHARE_RECIPE_IMG;
@@ -299,6 +288,11 @@ DROP SEQUENCE SHARE_RECIPE_IRDNT_KEY;
 CREATE SEQUENCE SHARE_RECIPE_IRDNT_KEY INCREMENT BY 1 START WITH 1;  
 --SELECT SHARE_RECIPE_IRDNT_KEY.NEXTVAL FROM DUAL;
 
+--insert into SHARE_RECIPE_IRDNT values(0,2,11);
+
+--select * from IRDNT_MANAGE where irdnt_id=11
+
+
 /* 개인기피재료 */
 DROP SEQUENCE MY_DISLIKE_IRDNT_KEY;
 CREATE SEQUENCE MY_DISLIKE_IRDNT_KEY INCREMENT BY 1 START WITH 1; 
@@ -312,9 +306,11 @@ CREATE TABLE MY_DISLIKE_IRDNT (
    MY_DISLIKE_IRDNT_KEY NUMBER PRIMARY KEY, /* 기피재료KEY */
    MEMBER_ID VARCHAR2(20) NOT NULL, /* 회원ID */
    IRDNT_ID NUMBER NOT NULL, /* 재료ID */
+   /*IRDNT_NAME VARCHAR2(50)*/ /*재료명*/
    CONSTRAINT MY_DISLIKE_IRDNT_MEMBER_ID_FK FOREIGN KEY(MEMBER_ID) REFERENCES MEMBER
+   ,CONSTRAINT MY_DISLIKE_IRDNT_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE
+   );
 --   ,CONSTRAINT MY_DISLIKE_IRDNT_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE
-);
 select * from my_dislike_irdnt;
 select * from my_dislike_irdnt where  member_id='id-1' and  irdnt_id=2;
 
@@ -457,24 +453,25 @@ CREATE SEQUENCE process_no INCREMENT BY 1 START WITH 1;
 SELECT * FROM JOIN_PROCESS
 
 
-
+select * from recipe_info where recipe_id in (360, 1, 2, 4, 5, 7, 60, 105, 110, 160, 165, 179, 183, 186, 257, 258, 296, 355, 382, 406, 452, 453, 476, 492, 500, 90997)
 
 
 -------------------재로료 레시피 추출하기(원하는 재료포함, 기피재료 미포함)------------
 SELECT * FROM RECIPE_IRDNT;
 
-SELECT	COUNT(*), recipe_id
-		recipe_id
+SELECT	recipe_id,COUNT(*) 
 FROM	recipe_irdnt
 WHERE	recipe_id	NOT IN (
 	SELECT	recipe_id
 	FROM	recipe_irdnt
-	WHERE	irdnt_id	IN ( 50 )
+	WHERE	irdnt_id	IN ( 1 )
 )
-AND		irdnt_id	IN ( 702, 29, 169, 302, 303, 176)
+AND		irdnt_id	IN ( 454, 45, 24 )
 GROUP BY	recipe_id
-HAVING COUNT(*) >= 2
+HAVING COUNT(*) >= 1
 ORDER BY	COUNT(*) DESC, recipe_id;
+
+select * from recipe_irdnt 
 
 ---------------------------- 후기 게시판(07.08)
 /* 후기 게시판 */
@@ -497,3 +494,47 @@ CREATE TABLE BOARD_REVIEW(
 DROP SEQUENCE BOARD_REVIEW_ID;
 CREATE SEQUENCE BOARD_REVIEW_ID INCREMENT BY 1 START WITH 1; 
 --SELECT BOARD_FREE_ID.NEXTVAL FROM DUAL;
+
+
+DELETE FROM RECIPE_IRDNT
+CREATE TABLE recipe_irdnt_temp (
+IRDNT_no NUMBER PRIMARY KEY, /* 재료순번 */
+   IRDNT_name VARCHAR2(280) NOT NULL, /* 재료명 */
+   IRDNT_amount VARCHAR2(280), /* 재료용량 */
+   IRDNT_type_CODE NUMBER NOT NULL, /* 재료타입 코드 */
+   IRDNT_type_name VARCHAR2(280) NOT NULL, /* 재료타입명 */
+   RECIPE_ID NUMBER, /* 레시피 코드 */
+   IRDNT_ID NUMBER /* 재료ID */
+);
+
+DELETE FROM RECIPE_IRDNT_temp;
+SELECT * FROM recipe_irdnt_temp;
+
+SELECT count(*) FROM recipe_irdnt_temp;
+SELECT count(*) FROM recipe_irdnt;
+SELECT * FROM recipe_irdnt WHERE recipe_id = 1;
+SELECT * FROM irdnt_manage;
+SELECT * FROM recipe_irdnt where irdnt_id=321;
+
+INSERT INTO recipe_irdnt
+SELECT 	i.IRDNT_no, i.IRDNT_name, i.IRDNT_amount, i.IRDNT_type_CODE, i.IRDNT_type_name, i.RECIPE_ID,
+		m.IRDNT_ID
+FROM	recipe_irdnt_temp i, irdnt_manage m
+WHERE	m.IRDNT_name = i.IRDNT_name
+
+
+select distinct irdnt_name from recipe_irdnt_temp
+where irdnt_no NOT IN ( select irdnt_no
+from recipe_irdnt)
+
+
+SELECT COUNT(*), recipe_id recipe_id 
+FROM RECIPE_IRDNT
+WHERE recipe_id NOT IN (
+			SELECT recipe_id 
+			FROM recipe_irdnt
+			)							
+		and	irdnt_id IN (7)
+		GROUP BY recipe_id
+		HAVING COUNT(*) >= 2
+		ORDER BY COUNT(*) DESC, recipe_id
