@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 public class BoardShareRecipe implements Serializable{
 	private int recipeId; //레시피 공유 ID
@@ -15,106 +16,45 @@ public class BoardShareRecipe implements Serializable{
 	private int recommand; 	//추천수
 	private int hits;	//조회수
 	private String etc;	 //기타재료
+	private String saveName;//이클립스가 저장하는 이름
+	private String original;//원래이름
 	
 	
 	private String memberId;	//회원ID
 	private Member member;//회원 객체
 	
+	//사진
+	private MultipartFile upImage;
+	
 	//Join
-	private List<String> images; //사진
 	private List<MemberRecipeRecommand>memberRecommand;//추천현황 객체
 	private List<ShareRecipeIrdnt> shareRecipeIrdnt;//재료명 객체
 	
 	
+	public BoardShareRecipe(){
+		
+	}
 	
 	
-
-
-
-	public BoardShareRecipe() {
-	
-	}
-
 	
 
-	public BoardShareRecipe(int recipeId, String title, String txt, Date date, String etc) {
-		
-		this.recipeId = recipeId;
-		this.title = title;
-		this.txt = txt;
-		this.date = date;
-		this.etc = etc;
-	}
-
-
-	//insert
-	public BoardShareRecipe(int recipeId, String title, String txt, Date date, int recommand, int hits, String etc,
-			String memberId) {
-		this.recipeId = recipeId;
-		this.title = title;
-		this.txt = txt;
-		this.date = date;
-		this.recommand = recommand;
-		this.hits = hits;
-		this.etc = etc;
-		this.memberId = memberId;
-	}
-
-
-
-	public BoardShareRecipe(int recipeId, String title, String txt, Date date, int recommand, int hits, String etc,
-			List<String> images) {
-		
-		this.recipeId = recipeId;
-		this.title = title;
-		this.txt = txt;
-		this.date = date;
-		this.recommand = recommand;
-		this.hits = hits;
-		this.etc = etc;
-		this.images = images;
-	}
-
-
-
-	public BoardShareRecipe(int recipeId, String title, String txt, Date date, int recommand, int hits, String etc,
-			String memberId, List<String> images, List<ShareRecipeIrdnt> shareRecipeIrdnt) {
-		
-		this.recipeId = recipeId;
-		this.title = title;
-		this.txt = txt;
-		this.date = date;
-		this.recommand = recommand;
-		this.hits = hits;
-		this.etc = etc;
-		this.memberId = memberId;
-		this.images = images;
-		this.shareRecipeIrdnt = shareRecipeIrdnt;
-	}
-
-
-
-	public BoardShareRecipe(int recipeId, String title, String txt, Date date, int recommand, int hits, String etc,
-			String memberId, Member member, List<MemberRecipeRecommand> memberRecommand) {
-		
-		this.recipeId = recipeId;
-		this.title = title;
-		this.txt = txt;
-		this.date = date;
-		this.recommand = recommand;
-		this.hits = hits;
-		this.etc = etc;
-		this.memberId = memberId;
-		this.member = member;
-		this.memberRecommand = memberRecommand;
-	}
-
-
-
-	public BoardShareRecipe(int recipeId, String title, String txt, Date date, int recommand, int hits, String etc,
-			String memberId, Member member, List<String> images, List<MemberRecipeRecommand> memberRecommand,
+	public BoardShareRecipe(String title, String txt, String etc, MultipartFile upImage,
 			List<ShareRecipeIrdnt> shareRecipeIrdnt) {
-		
+		super();
+		this.title = title;
+		this.txt = txt;
+		this.etc = etc;
+		this.upImage = upImage;
+		this.shareRecipeIrdnt = shareRecipeIrdnt;
+	}
+
+
+
+
+	public BoardShareRecipe(int recipeId, String title, String txt, Date date, int recommand, int hits, String etc,
+			String saveName, String original, String memberId, Member member, MultipartFile upImage,
+			List<MemberRecipeRecommand> memberRecommand, List<ShareRecipeIrdnt> shareRecipeIrdnt) {
+		super();
 		this.recipeId = recipeId;
 		this.title = title;
 		this.txt = txt;
@@ -122,13 +62,14 @@ public class BoardShareRecipe implements Serializable{
 		this.recommand = recommand;
 		this.hits = hits;
 		this.etc = etc;
+		this.saveName = saveName;
+		this.original = original;
 		this.memberId = memberId;
 		this.member = member;
-		this.images = images;
+		this.upImage = upImage;
 		this.memberRecommand = memberRecommand;
 		this.shareRecipeIrdnt = shareRecipeIrdnt;
 	}
-
 
 
 	public int getRecipeId() {
@@ -136,11 +77,9 @@ public class BoardShareRecipe implements Serializable{
 	}
 
 
-
 	public void setRecipeId(int recipeId) {
 		this.recipeId = recipeId;
 	}
-
 
 
 	public String getTitle() {
@@ -148,11 +87,9 @@ public class BoardShareRecipe implements Serializable{
 	}
 
 
-
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
 
 
 	public String getTxt() {
@@ -160,11 +97,9 @@ public class BoardShareRecipe implements Serializable{
 	}
 
 
-
 	public void setTxt(String txt) {
 		this.txt = txt;
 	}
-
 
 
 	public Date getDate() {
@@ -172,11 +107,9 @@ public class BoardShareRecipe implements Serializable{
 	}
 
 
-
 	public void setDate(Date date) {
 		this.date = date;
 	}
-
 
 
 	public int getRecommand() {
@@ -184,11 +117,9 @@ public class BoardShareRecipe implements Serializable{
 	}
 
 
-
 	public void setRecommand(int recommand) {
 		this.recommand = recommand;
 	}
-
 
 
 	public int getHits() {
@@ -196,11 +127,9 @@ public class BoardShareRecipe implements Serializable{
 	}
 
 
-
 	public void setHits(int hits) {
 		this.hits = hits;
 	}
-
 
 
 	public String getEtc() {
@@ -208,11 +137,29 @@ public class BoardShareRecipe implements Serializable{
 	}
 
 
-
 	public void setEtc(String etc) {
 		this.etc = etc;
 	}
 
+
+	public String getSaveName() {
+		return saveName;
+	}
+
+
+	public void setSaveName(String saveName) {
+		this.saveName = saveName;
+	}
+
+
+	public String getOriginal() {
+		return original;
+	}
+
+
+	public void setOriginal(String original) {
+		this.original = original;
+	}
 
 
 	public String getMemberId() {
@@ -220,11 +167,9 @@ public class BoardShareRecipe implements Serializable{
 	}
 
 
-
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
 	}
-
 
 
 	public Member getMember() {
@@ -232,23 +177,19 @@ public class BoardShareRecipe implements Serializable{
 	}
 
 
-
 	public void setMember(Member member) {
 		this.member = member;
 	}
 
 
-
-	public List<String> getImages() {
-		return images;
+	public MultipartFile getUpImage() {
+		return upImage;
 	}
 
 
-
-	public void setImages(List<String> images) {
-		this.images = images;
+	public void setUpImage(MultipartFile upImage) {
+		this.upImage = upImage;
 	}
-
 
 
 	public List<MemberRecipeRecommand> getMemberRecommand() {
@@ -256,11 +197,9 @@ public class BoardShareRecipe implements Serializable{
 	}
 
 
-
 	public void setMemberRecommand(List<MemberRecipeRecommand> memberRecommand) {
 		this.memberRecommand = memberRecommand;
 	}
-
 
 
 	public List<ShareRecipeIrdnt> getShareRecipeIrdnt() {
@@ -268,11 +207,9 @@ public class BoardShareRecipe implements Serializable{
 	}
 
 
-
 	public void setShareRecipeIrdnt(List<ShareRecipeIrdnt> shareRecipeIrdnt) {
 		this.shareRecipeIrdnt = shareRecipeIrdnt;
 	}
-
 
 
 	@Override
@@ -282,18 +219,19 @@ public class BoardShareRecipe implements Serializable{
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + ((etc == null) ? 0 : etc.hashCode());
 		result = prime * result + hits;
-		result = prime * result + ((images == null) ? 0 : images.hashCode());
 		result = prime * result + ((member == null) ? 0 : member.hashCode());
 		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
 		result = prime * result + ((memberRecommand == null) ? 0 : memberRecommand.hashCode());
+		result = prime * result + ((original == null) ? 0 : original.hashCode());
 		result = prime * result + recipeId;
 		result = prime * result + recommand;
+		result = prime * result + ((saveName == null) ? 0 : saveName.hashCode());
 		result = prime * result + ((shareRecipeIrdnt == null) ? 0 : shareRecipeIrdnt.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		result = prime * result + ((txt == null) ? 0 : txt.hashCode());
+		result = prime * result + ((upImage == null) ? 0 : upImage.hashCode());
 		return result;
 	}
-
 
 
 	@Override
@@ -317,11 +255,6 @@ public class BoardShareRecipe implements Serializable{
 			return false;
 		if (hits != other.hits)
 			return false;
-		if (images == null) {
-			if (other.images != null)
-				return false;
-		} else if (!images.equals(other.images))
-			return false;
 		if (member == null) {
 			if (other.member != null)
 				return false;
@@ -337,9 +270,19 @@ public class BoardShareRecipe implements Serializable{
 				return false;
 		} else if (!memberRecommand.equals(other.memberRecommand))
 			return false;
+		if (original == null) {
+			if (other.original != null)
+				return false;
+		} else if (!original.equals(other.original))
+			return false;
 		if (recipeId != other.recipeId)
 			return false;
 		if (recommand != other.recommand)
+			return false;
+		if (saveName == null) {
+			if (other.saveName != null)
+				return false;
+		} else if (!saveName.equals(other.saveName))
 			return false;
 		if (shareRecipeIrdnt == null) {
 			if (other.shareRecipeIrdnt != null)
@@ -356,18 +299,28 @@ public class BoardShareRecipe implements Serializable{
 				return false;
 		} else if (!txt.equals(other.txt))
 			return false;
+		if (upImage == null) {
+			if (other.upImage != null)
+				return false;
+		} else if (!upImage.equals(other.upImage))
+			return false;
 		return true;
 	}
-
 
 
 	@Override
 	public String toString() {
 		return "BoardShareRecipe [recipeId=" + recipeId + ", title=" + title + ", txt=" + txt + ", date=" + date
-				+ ", recommand=" + recommand + ", hits=" + hits + ", etc=" + etc + ", memberId=" + memberId
-				+ ", member=" + member + ", images=" + images + ", memberRecommand=" + memberRecommand
-				+ ", shareRecipeIrdnt=" + shareRecipeIrdnt + "]";
+				+ ", recommand=" + recommand + ", hits=" + hits + ", etc=" + etc + ", saveName=" + saveName
+				+ ", original=" + original + ", memberId=" + memberId + ", member=" + member + ", upImage="
+				+ upImage + ", memberRecommand=" + memberRecommand + ", shareRecipeIrdnt=" + shareRecipeIrdnt + "]";
 	}
+	
+	
+	 
+	
+	
+
 
 	
 	
