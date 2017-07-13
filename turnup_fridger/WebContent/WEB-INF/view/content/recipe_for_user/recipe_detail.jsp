@@ -38,6 +38,32 @@ $(document).ready(function(){
 		})
 	});
 	
+	$(document).on("click" ,"#deleteRecipeBtn", function(){
+		console.log( ${ requestScope.recipe.recipeId })
+		
+		$.ajax({
+			"url":"/turnup_fridger/common/admin/recipe/remove.do",
+			"type":"POST",		
+			"data":{'recipeId' : ${ requestScope.recipe.recipeId },'${_csrf.parameterName}':'${_csrf.token}'},
+			"dataType":"text",
+			"beforeSend":function(){
+				if(confirm("레시피를 삭제하시겠습니까?") != true){
+					return false;
+				}
+			},
+			"success":function(text){
+				if(text == 1){
+					alert("삭제가 완료되었습니다.");
+				}
+				window.location.href="${initParam.rootPath}/common/admin/recipe/recipeList.do"
+			},
+			"error":function(xhr, msg, code){
+				alert("오류발생-" +msg+ ":" +code);
+			}
+		});
+
+	})
+	
 	$.ajax(function(){
 		
 	});//재료삭제 받아오기
@@ -263,6 +289,6 @@ top: 650px;
 
 
 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-<button type="button" id="deletBtn">삭제</button> 
+<button type="button" id="deleteRecipeBtn">삭제</button> 
 </sec:authorize>
 <button type="button" onclick="window.history.back()">뒤로가기</button>

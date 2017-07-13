@@ -93,23 +93,36 @@ public class RecipeServiceImpl implements RecipeService{
 		}
 
 		@Override
-		public void updateRecipeCrse(Map<String, List> recipeCrse) throws NoneRecipeException {
-
-			//재거할 목록
-			List<Map> removeCrseList = recipeCrse.get("removeCrseList");	//삭제할 과정(recipeId-cookingNo)
-			if(removeCrseList != null && !removeCrseList.isEmpty() && removeCrseList.size() > 0){
-				for(int i=0;i<removeCrseList.size();i++){
-					crseDao.deleteRecipeCrse((int)(removeCrseList.get(i).get("recipeId")), (int)(removeCrseList.get(i).get("cookingNo")));
+		public void updateRecipeCrse(int recipeId, List<RecipeCrse> addCrseList, 
+									List<Integer> removeCrseList, 
+									List<RecipeCrse> currentCrseList) throws NoneRecipeException {
+			
+			//업뎃할 목록:currentCrseList
+			if(currentCrseList != null && !currentCrseList.isEmpty() && currentCrseList.size() > 0){
+				for(RecipeCrse rc : currentCrseList){
+					if(rc != null )
+						//System.out.println("updateRecipeCrse:"+rc);
+						rc.setRecipeId(recipeId);
+						crseDao.updateRecipeCrse(rc);
 				}
 			}
-			//추가할 목록
-			List<RecipeCrse> addCrseList = recipeCrse.get("addCrseList");	//추가할 과정
+			
+			//제거할 목록 :removeCrseList
+			//삭제할 과정(cookingNo)
+			if(removeCrseList != null && !removeCrseList.isEmpty() && removeCrseList.size() > 0){
+				for(int cookingNo : removeCrseList){
+					if(cookingNo != -1 )
+					crseDao.deleteRecipeCrse(recipeId, cookingNo);
+				}
+			}
+			
+			//추가할 목록 :addCrseList
+			//추가할 과정
 			if(addCrseList != null && !addCrseList.isEmpty() && addCrseList.size() > 0){
-				for(int i=0; i<addCrseList.size();i++){
-					if(addCrseList.get(i) != null )
-						crseDao.selectRecipeCrseById(addCrseList.get(i).getRecipeId());
-						
-						crseDao.insertRecipeCrse(addCrseList.get(i));
+				for(RecipeCrse rc : addCrseList){
+					if(rc != null )
+						rc.setCookingNo((crseDao.selectRecipeCrseById(recipeId).size()+1));
+						crseDao.insertRecipeCrse(rc);
 				}
 			}
 		}

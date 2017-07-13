@@ -6,9 +6,9 @@ import java.util.Map;
 public class RecipeCrseUpdate {
 
 	int recipeId;
-	List<Map> removeCrseList;
+	List<RecipeCrse> removeCrseList;
 	List<RecipeCrse> addCrseList;
-	
+	List<RecipeCrse> currentCrseList;
 	
 	
 	public int getRecipeId() {
@@ -17,10 +17,11 @@ public class RecipeCrseUpdate {
 	public void setRecipeId(int recipeId) {
 		this.recipeId = recipeId;
 	}
-	public List<Map> getRemoveCrseList() {
+	
+	public List<RecipeCrse> getRemoveCrseList() {
 		return removeCrseList;
 	}
-	public void setRemoveCrseList(List<Map> removeCrseList) {
+	public void setRemoveCrseList(List<RecipeCrse> removeCrseList) {
 		this.removeCrseList = removeCrseList;
 	}
 	public List<RecipeCrse> getAddCrseList() {
@@ -28,6 +29,12 @@ public class RecipeCrseUpdate {
 	}
 	public void setAddCrseList(List<RecipeCrse> addCrseList) {
 		this.addCrseList = addCrseList;
+	}
+	public List<RecipeCrse> getCurrentCrseList() {
+		return currentCrseList;
+	}
+	public void setCurrentCrseList(List<RecipeCrse> currentCrseList) {
+		this.currentCrseList = currentCrseList;
 	}
 	
 	

@@ -393,6 +393,7 @@ CREATE TABLE RECIPE_CRSE (
 );
 
 --select * from recipe_crse WHERE STEP_IMAGE_URL = 'null';
+--select * from recipe_crse where recipe_id = 386;
 
 /* 레시피 재료정보 */
 DROP TABLE RECIPE_IRDNT CASCADE CONSTRAINT;
@@ -412,7 +413,7 @@ CREATE TABLE RECIPE_IRDNT (
 --select count(*) from recipe_crse;
 --select count(*) from recipe_info;
 --select count(*) from recipe_irdnt;
---select * from recipe_irdnt;
+--select * from recipe_irdnt where recipe_id = 386;
 
 /* 즐겨찾기 */
 DROP TABLE FAVORITE_RECIPE;

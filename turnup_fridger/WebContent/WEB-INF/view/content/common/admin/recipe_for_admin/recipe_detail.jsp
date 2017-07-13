@@ -33,6 +33,32 @@ $(document).ready(function(){
 			
 		})
 	});
+	
+	
+	$(document).on("click" ,"#deleteRecipeBtn", function(){
+		console.log( ${ requestScope.recipe.recipeId })
+		$.ajax({
+			"url":"/turnup_fridger/common/admin/recipe/remove.do",
+			"type":"POST",		
+			"data":{'recipeId' : ${ requestScope.recipe.recipeId },'${_csrf.parameterName}':'${_csrf.token}'},
+			"dataType":"text",
+			"beforeSend":function(){
+				if(confirm("레시피를 삭제하시겠습니까?") != true){
+					return false;
+				}
+			},
+			"success":function(text){
+				if(text == 1){
+					alert("삭제가 완료되었습니다.");
+				}
+				window.location.reload()
+			},
+			"error":function(xhr, msg, code){
+				alert("오류발생-" +msg+ ":" +code);
+			}
+		});
+
+	})
 		
 })
 </script>
@@ -160,10 +186,10 @@ top: 650px;
 	<tr>
 		<td>
 			${recipeCrse.cookingNo} - ${recipeCrse.cookingDc}<br>
-			<c:if test="${recipeCrse.stepTip !='null'}">
+			<c:if test="${recipeCrse.stepTip !='null' || !empty recipeCrse.stepTip.trim() }">
 				(팁: ${recipeCrse.stepTip} )<br>
 			</c:if>
-			<c:if test="${recipeCrse.stepImageUrl != 'null'}">
+			<c:if test="${recipeCrse.stepImageUrl != 'null' || !empty recipeCrse.stepImageUrl.trim()}">
 				<img src="${ recipeCrse.stepImageUrl }"><br>
 			</c:if>
 			</td>
@@ -176,7 +202,7 @@ top: 650px;
 
 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 <button type="button" id="updateBtn" onclick="('/turnup_fridger/common/admin/recipe/update.do?recipeId=')">수정</button> 
-<button type="button" id="deletBtn">삭제</button> 
+<button type="button" id="deleteRecipeBtn">삭제</button> 
 </sec:authorize>
 <button type="button" onclick="window.history.back()">뒤로가기</button>
 </div>

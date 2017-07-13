@@ -22,7 +22,7 @@ $(document).ready(function () {
 										 .append($("<td>").append($("<button>").prop("type","button").prop("id","removeBtn").prop("value",this.fridgerId).append("삭제")))
 												 .append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").prop("value",this.fridgerId).append("수정")))
 												 .append($("<td>").append($("<button>").prop("type","button").prop("id","moveInBtn").prop("value",this.fridgerId).append("열어보기"))))
-												 .append($("<tr>").prop("class","collapse out").prop("id", "info"+ this.fridgerId).append($("<td>").prop("colspan","5").append(" 정보가보여용")));
+												 .append($("<tr>").prop("class","collapse out").prop("id", "info"+ this.fridgerId).append($("<td>").prop("colspan","5").append("<img scr='${initParam.rootPath}/images/"+this.fridgerImg+"' width='150px'>")));
         				
 	        });	// end of each
 	      
@@ -67,7 +67,7 @@ $(document).ready(function () {
 		        	}
 		        	
 		        });	// end of each
-		        $("#info"+fridgerId).children(":first-child").html("[이 냉장고를 공유하고 있는 회원목록]<br>"+txt);
+		        $("#info"+fridgerId).children(":first-child").append("<br>[이 냉장고를 공유하고 있는 회원목록]<br>"+txt);
 	        },
 	        "error":function(xhr, msg, code){
 			alert("오류발생-" + code);
