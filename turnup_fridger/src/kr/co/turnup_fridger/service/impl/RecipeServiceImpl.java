@@ -72,21 +72,27 @@ public class RecipeServiceImpl implements RecipeService{
 		
 		@Override
 		public void updateRecipeIrdnt(Map<String, List> recipeIrdnt) throws NoneRecipeException {
-			
-			//재료
+			//재거할 목록
 			List<Integer> removeIrdntList = recipeIrdnt.get("removeIrdntList");	//삭제할 재료
-			if(removeIrdntList != null || !removeIrdntList.isEmpty()){
-			for(int i=0;i<removeIrdntList.size();i++){
-				if(removeIrdntList.get(i) != null )
-				irdntDao.deleteRecipeIrdnt(removeIrdntList.get(i));
+			if(removeIrdntList == null || removeIrdntList.size() <= 0 || !removeIrdntList.isEmpty()){
+				//널일때는 아무것도 하지 않음 
+			}else{	
+				for(int i=0;i<removeIrdntList.size();i++){
+					if(removeIrdntList.get(i) != null )
+					irdntDao.deleteRecipeIrdnt(removeIrdntList.get(i));
+				}
 			}
-			}
+			
+			//추가할 목록
 			List<RecipeIrdnt> addIrdntList = recipeIrdnt.get("addIrdntList");	//추가할 재료
-			if(addIrdntList != null || !addIrdntList.isEmpty()){
-			for(int i=0;i<addIrdntList.size();i++){
-				if(removeIrdntList.get(i) != null )
-				irdntDao.insertRecipeIrdnt(addIrdntList.get(i));
-			}
+			System.out.println("addIrdntList 널첵:"+addIrdntList);
+			if(addIrdntList == null || addIrdntList.size() <= 0 || addIrdntList.isEmpty() ){
+				//널일때는 아무것도 하지 않음 
+			}else{
+				for(int i=0;i<addIrdntList.size();i++){
+					if(addIrdntList.get(i) != null )
+						irdntDao.insertRecipeIrdnt(addIrdntList.get(i));
+				}
 			}
 		}
 
@@ -104,8 +110,9 @@ public class RecipeServiceImpl implements RecipeService{
 			List<RecipeCrse> addCrseList = recipeCrse.get("addCrseList");	//추가할 과정
 			if(addCrseList != null || !addCrseList.isEmpty()){
 			for(int i=0; i<addCrseList.size();i++){
-				crseDao.insertRecipeCrse(addCrseList.get(i));
-			}
+				if(addCrseList.get(i) != null )
+					crseDao.insertRecipeCrse(addCrseList.get(i));
+				}
 			}
 		}
 	
