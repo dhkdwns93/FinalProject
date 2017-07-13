@@ -89,7 +89,8 @@
 	<mvc:view-controller path="/boardreview/boardreview_upload.do" view-name="boardreview/boardreview_upload.tiles"/>	
 	<!-- 후기 레시피 이름 조회 페이지 -->
 	<mvc:view-controller path="/boardreview/recipenamesearch.do" view-name="boardreview/recipenamesearch"/>	
-
+	<!-- 후기 레시피 아이디 조회 페이지 -->
+	<mvc:view-controller path="/boardreview/boardreview_list_recipeId.do" view-name="boardreview/boardreview_list_recipeId.tiles"/>		
 
 
 

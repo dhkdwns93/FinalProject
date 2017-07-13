@@ -118,5 +118,35 @@ public class BoardReviewServiceImpl implements BoardReviewService{
 		// TODO Auto-generated method stub
 		return dao.selectRecipeName(recipeName);
 	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	
+	//레시피 아이디로 리스트조회
+	@Override
+	public Map<String, Object> findBoardReviewByRecipeId(int recipeId,int page) {
+		HashMap<String, Object> map = new HashMap<>();
+		int totalCount = dao.selectRecipeIdCount(recipeId); 
+		PagingBean pageBean = new PagingBean(totalCount, page);
+		List<BoardReview> list = dao.selectBoardReviewByRecipeId(recipeId,pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
+		map.put("recipeId", recipeId);
+		map.put("list", list);
+		map.put("pageBean", pageBean);
+		return map;
+	}
+	
+	
+	public static void main(String[] args) {
+		//ApplicationContext 객체 생성
+		ApplicationContext container = new ClassPathXmlApplicationContext("kr/co/turnup_fridger/config/spring/model-context.xml");
+		//Spring 컨테이너로 부터 BoardReviewService bean 가져오기
+		BoardReviewService service = (BoardReviewService)container.getBean("boardReviewServiceImpl");
+
+	
+		int recipeId = 1;
+		
+		Map<String, Object> map = service.findBoardReviewByRecipeId(recipeId,1);
+				
+		System.out.println(map);
+	}
 	
 }
