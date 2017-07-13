@@ -143,7 +143,7 @@ public class BoardReviewController extends HttpServlet {
 			    mav.setViewName("boardreview/boardreview_list_memberid.tiles");
 
 		        return mav;
-			}			
+			}		
 			else if(select.equals(name))
 			{
 				map  = service.selectBoardReviewByRecipeNameList(keyword,page);
@@ -160,7 +160,7 @@ public class BoardReviewController extends HttpServlet {
 			mav.addObject("list", map.get("list"));
 			mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("boardreview/boardreview_list.tiles");
-	        return mav; 
+	        return mav;
 		}		
 	
 		//등록
@@ -363,5 +363,24 @@ public class BoardReviewController extends HttpServlet {
 			System.out.println(list);
 	        return list; 
 		} 
+		
+		////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//레시피 아이디 조회
+		@RequestMapping("boardReviewByRecipeId")
+		@ResponseBody
+		public ModelAndView boardReviewByRecipeId(@RequestParam int recipeId,@RequestParam(defaultValue="1") int page)
+		{
+			ModelAndView mav = new ModelAndView();	
+			
+		
+			Map<String, Object> map  = service.findBoardReviewByRecipeId(recipeId, page);
+			
+			mav.addObject("list", map.get("list"));
+		    mav.addObject("recipeId",  map.get("recipeId"));
+		    mav.addObject("pageBean", map.get("pageBean"));
+		    mav.setViewName("boardreview/boardreview_list_recipeId.tiles");
+
+	        return mav; 
+		}
 		
 }

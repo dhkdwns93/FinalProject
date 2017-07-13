@@ -142,16 +142,6 @@ public class MemberManageController {
 		member.setMyDislikeIrdntList(myDislikeIrdntList);//member객체에 set
 		memberService.changeMemberInfo(member);
 		
-		//membervo에서 찾아서 올거야?
-/*		List<MyDislikeIrdnt> memberDislikeIrdntList=myDislikeIrdntService.findMyDislikeIrdntByMemberId(memberId);
-		List<String> myDislikeIrdntNameList=new ArrayList<>();
-		if(myDislikeIrdntId.size()==1){//등록된 기피재료가 하나도 없으면 //id default값 하나 등록되있음.
-			myDislikeIrdntNameList.add("등록된 기피재료가 없습니다");
-		}else{
-			for(MyDislikeIrdnt irdnt : memberDislikeIrdntList){
-				myDislikeIrdntNameList.add(irdntManageService.findIrdntByIrdntId(irdnt.getIrdntId()).getIrdntName());
-			}
-		}	*/	
 		ctx.setAuthentication(new UsernamePasswordAuthenticationToken(member, null, authentication.getAuthorities()));
 		//3. 응답
 		map.addAttribute("member",member);
@@ -181,14 +171,12 @@ public class MemberManageController {
 		//PW 체크
 		String memberPw=((Member)authentication.getPrincipal()).getMemberPw();
 		if(!passwordEncoder.matches(inputMemberPw,memberPw)){
-//		if(!memberPw.equals(inputMemberPw)){
 			System.out.println("MemberManageController(deleteMember메소드) + PW가 다릅니다");
 			throw new RuntimeException("PW가 다릅니다.");
 		}
 		
 		//2.Business Logic 호출
 		myDislikeIrdntService.removeMyDislikeIrdntByMemberId(memberId); //회원기피재료 삭제
-		//System.out.println("회원탈퇴메소드 확인"+memberId);
 		memberService.deleteMember(memberId);
 		
 		//3.응답

@@ -10,12 +10,12 @@
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 function closeWindow(){
-	window.opener.name= "parentPage";
-	document.insertForm.target= "parentPage";
+	//window.opener.name= "parentPage";
+	//document.insertForm.target= "parentPage";
 	document.insertForm.action="/turnup_fridger/common/admin/irdntManage/createIrdnt.do";
-	document.insertForm.submit();
+	//document.insertForm.submit();
 	window.opener.location.reload();
-	self.close();
+	//self.close();
 	}
 </script>
 </head>
@@ -28,32 +28,32 @@ function closeWindow(){
 	<tr>
 		<th>재료명</th>
 		<td><input type="text" name="irdntName" value="${param.irdntName}">
-		<span class="error"><form:errors path="irdnt.irdntName" delimiter="&nbsp;&nbsp;"/></span></td>
+		<span class="error"><form:errors path="irdntManage.irdntName" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr>
 		<th>카테고리</th>
 		<td><input type="text" name="irdntCategory" value="${param.irdntCategory}">
-		<span class="error"><form:errors path="irdnt.irdntCategory" delimiter="&nbsp;&nbsp;"/></span></td>
+		<span class="error"><form:errors path="irdntManage.irdntCategory" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr>
 		<th>실온보관기간</th>
 		<td><input type="text" name="roomTemPeriod" value="${param.roomTemPeriod}">
-		<span class="error"><form:errors path="irdnt.roomTemPeriod" delimiter="&nbsp;&nbsp;"/></span></td>
+		<span class="error"><form:errors path="irdntManage.roomTemPeriod" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr>
 		<th>냉장보관기간</th>
 		<td><input type="text" name="coldTemPeriod" value="${param.coldTemPeriod}">
-		<span class="error"><form:errors path="irdnt.coldTemPeriod" delimiter="&nbsp;&nbsp;"/></span></td>
+		<span class="error"><form:errors path="irdntManage.coldTemPeriod" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr>
 		<th>냉동보관기간</th>
 		<td><input type="text" name="freezeTemPeriod" value="${param.freezeTemPeriod}">
-		<span class="error"><form:errors path="irdnt.freezeTemPeriod" delimiter="&nbsp;&nbsp;"/></span></td>
+		<span class="error"><form:errors path="irdntManage.freezeTemPeriod" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr>
 		<th>비고</th>
 		<td><input type="text" name="note" value="${param.note}">
-		<span class="error"><form:errors path="irdnt.note" delimiter="&nbsp;&nbsp;"/></span></td>
+		<span class="error"><form:errors path="irdntManage.note" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr>
 		<td colspan="2">

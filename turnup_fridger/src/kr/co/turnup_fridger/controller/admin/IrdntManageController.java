@@ -1,7 +1,9 @@
 package kr.co.turnup_fridger.controller.admin;
 
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,6 +18,7 @@ import kr.co.turnup_fridger.exception.DuplicateIrdntException;
 import kr.co.turnup_fridger.exception.NoneIrdntException;
 import kr.co.turnup_fridger.service.IrdntManageService;
 import kr.co.turnup_fridger.validation.IrdntManageValidator;
+import kr.co.turnup_fridger.validation.form.IrdntManageForm;
 import kr.co.turnup_fridger.vo.IrdntManage;
 
 @Controller
@@ -26,10 +29,10 @@ public class IrdntManageController {
 	private IrdntManageService service;
 	
 	@RequestMapping(value="createIrdnt", produces="html/text;charset=UTF-8;")
-	public ModelAndView createIrdnt(@ModelAttribute IrdntManage irdnt,BindingResult errors){
+	public ModelAndView createIrdnt(@ModelAttribute ("irdntManage") IrdntManageForm irdntForm,BindingResult errors){
 		
-		IrdntManageValidator validator= new IrdntManageValidator();
-		validator.validate(irdnt, errors);
+		//IrdntManageValidator validator= new IrdntManageValidator();
+		//validator.validate(irdnt, errors);
 	
 		if(errors.hasErrors()){
 			System.out.println("발리데이션");
@@ -37,9 +40,11 @@ public class IrdntManageController {
 			//여기서 새페이지 열리네... 그냥 그 팝업창에서 처리하고싶다. 
 			return new ModelAndView("common/admin/irdntManage/irdnt_form");
 		}
+		IrdntManage irdntManage = new IrdntManage();
+		BeanUtils.copyProperties(irdntForm, irdntManage);
 		
 		try {
-		service.createIrdnt(irdnt);
+		service.createIrdnt(irdntManage);
 				
 		} catch (DuplicateIrdntException e) {
 			return new ModelAndView("common/admin/irdntManage/irdnt_form", "errorMsg_irdntName", e.getMessage());
@@ -49,7 +54,7 @@ public class IrdntManageController {
 	
 	@RequestMapping("successCreateIrdnt")
 	public ModelAndView successCreateIrdnt(String msg){
-		return new ModelAndView("common/admin/irdntManage/irdntList.tiles","success_msg","등록성공!");
+		return new ModelAndView("common/admin/irdntManage/create_success","success_msg","등록성공!");
 	}
 	
 	
@@ -86,17 +91,16 @@ public class IrdntManageController {
 	
 	@RequestMapping("allIrdntList")
 	@ResponseBody
-	public List<IrdntManage> allIrdntList(){
-		List<IrdntManage> list = service.findAllIrdnt();
-		return list;
+	public Map<String,Object> allIrdntList(@RequestParam(defaultValue = "1") int page){		
+		Map<String,Object> map = service.findAllIrdnt(page);
+		return map;
 	}
 	
 	@RequestMapping("findIrdntByKeyword")
 	@ResponseBody
-	public List<IrdntManage> findIrdntByKeyword(@RequestParam String irdntName,@RequestParam String irdntCategory){
-		List<IrdntManage> list = service.findIrdntsByKeyword(irdntName, irdntCategory);
-		return list;
-
+	public Map<String,Object> findIrdntByKeyword(@RequestParam String irdntName,@RequestParam String irdntCategory, @RequestParam(defaultValue = "1") int page ){
+		Map<String,Object> map = service.findIrdntsByKeyword(irdntName, irdntCategory,page);
+		return map;
 	}
 	
 	@RequestMapping("findAllICategory")
@@ -126,7 +130,7 @@ public class IrdntManageController {
 	@RequestMapping("findIrdntByName")
 	@ResponseBody
 	public List<IrdntManage> findIrdntByName(@RequestParam String irdntName){
-//		System.out.println("findIrdntByName 핸들러: irdntName:"+irdntName);//받아옴
+		System.out.println("findIrdntByName 핸들러: irdntName:"+irdntName);//받아옴
 		List<IrdntManage> list = service.findIrdntByName(irdntName);
 		System.out.println(list);
 		return list;

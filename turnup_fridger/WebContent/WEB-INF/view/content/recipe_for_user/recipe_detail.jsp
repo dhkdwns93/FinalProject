@@ -7,6 +7,10 @@
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+
+	$("#deleteIrdnt").hide();
+	$("#review").hide();
+	
 	$("#updateBtn").on("click", function(){
 		window.open(
 				"${ initParam.rootPath }/common/admin/recipe/update_chk.do?recipeId=${requestScope.recipe.recipeId}",
@@ -33,8 +37,36 @@ $(document).ready(function(){
 			
 		})
 	});
+	
+	$.ajax(function(){
 		
+	});//재료삭제 받아오기
+	
+	$.ajax(function(){
+		
+	});//후기게시판 받아오기
+	
+	$("#favoriteBtn").on("click",function(){
+		
+	});//즐겨찾기 
+	
+	$("#changePortion").on("click",function(){
+		
+	});//단위변환
+	
+	
+	
 })
+
+
+function moveTo(url,recipeId){
+		window.open(
+				url+"?recipeId="+recipeId,
+				"_blank",
+				"fullscreen=yes, height=700, width=500, resizable=no, scrollbars=no, location=no, toolbar=no, directories=no, menubar=no"
+				);
+		
+}
 </script>
 <style>
 div#whole{
@@ -66,12 +98,24 @@ top: 650px;
 }
 </style>
 
+<!--즐겨찾기버튼  -->
+<button type="button" id="favoriteBtn">즐겨찾기</button><br><br>
+
+<!--단위변환  -->
+<button type="button" class="changePortion">1인분</button>
+<button type="button" class="changePortion">2인분</button>
+<button type="button" class="changePortion">3인분</button>
+<button type="button" class="changePortion">4인분</button><hr>
+
 <div class="container" >
 <h2>레시피 상세화면</h2>
 
 <div id="whole">
 	<div id="recipe_info">
 		<h3>레시피 기본정보</h3>
+		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+		<button type="button" onclick="moveTo('/turnup_fridger/common/admin/recipe/info/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
+		</sec:authorize>
 		<table>
 			<tbody>
 				<tr>
@@ -122,8 +166,11 @@ top: 650px;
 		</table>
 	
 	<div id="recipe_irdnt">
+	
 		<h3>레시피 재료정보</h3>
-		
+		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+		<button type="button" onclick="moveTo('/turnup_fridger/common/admin/recipe/irdnt/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
+		</sec:authorize>
 		<div>
 		주재료 :
 		<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
@@ -151,10 +198,13 @@ top: 650px;
 	</div>
 	</div>
 
-	
+	<!--타이머?  -->
 
 	<div id="recipe_crse">
 	<h3>레시피 과정정보</h3>
+	<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+	<button type="button" onclick="moveTo('/turnup_fridger/common/admin/recipe/crse/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
+	</sec:authorize>
 	<table>
 	<c:forEach items="${ requestScope.recipe.recipeCrseList }" var="recipeCrse">
 	<tr>
@@ -174,12 +224,45 @@ top: 650px;
 </div>
 <div style="margin-right: 50px;  width: auto;  right:0; position: absolute;">
 
+<!--나의 식재료들 가져와서 수정,삭제할수있게 하는 테이블  -->
+	<div id="deleteIrdnt" style="overflow-x:hidden; overflow-y:scroll; height:200px;width:300px;">사용한 재료삭제</div>
+		<table>
+			<thead id="myIrdntThead">
+				<tr>
+					<th>재료명</th>
+					<th>수량메모</th>
+					<th>수정</th>
+					<th>삭제</th>
+				</tr>
+			</thead>
+			<tbody id="myIrdntTbody"></tbody>
+		</table>
+	</div><hr>
+
+
+<!--후기게시판연결  -->
+	<div id="review">후기</div>
+		<table>
+			<thead id="reviewThead">
+				<tr>
+					<th>레시피id</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>작성일</th>
+					<th>조회수</th>
+					<th>추천수</th>
+				</tr>
+			</thead>
+			<tbody id="reviewTbody">
+				
+			</tbody>
+		</table>
+	</div>
+	<div id="reviewPageBean"></div>
+
+
+
 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-<button type="button" id="updateBtn" onclick="('/turnup_fridger/common/admin/recipe/update.do?recipeId=')">수정</button> 
 <button type="button" id="deletBtn">삭제</button> 
 </sec:authorize>
 <button type="button" onclick="window.history.back()">뒤로가기</button>
-</div>
-
-
-</div>

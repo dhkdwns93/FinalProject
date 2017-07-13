@@ -35,8 +35,16 @@ public class IrdntManageDaoImpl implements IrdntManageDao{
 	}
 
 	@Override
-	public List<IrdntManage> selectAllIrdnt() {
-		return session.selectList(makeSql("selectAllIrdnt"));
+	public List<IrdntManage> selectAllIrdnt(int startIndex, int endIndex) {
+		HashMap map = new HashMap();
+		map.put("startIndex", startIndex);
+		map.put("endIndex", endIndex);
+		return session.selectList(makeSql("selectAllIrdnt"),map);
+	}
+
+	@Override
+	public int selectAllIrdntCount() {
+		return session.selectOne(makeSql("selectAllIrdntCount"));
 	}
 
 	@Override
@@ -60,8 +68,10 @@ public class IrdntManageDaoImpl implements IrdntManageDao{
 	}
 
 	@Override
-	public List<IrdntManage> selectIrdntsBykeyword(String irdntName, String irdntCategory) {
+	public List<IrdntManage> selectIrdntsBykeyword(String irdntName, String irdntCategory,int startIndex,int endIndex) {
 		HashMap map = new HashMap();
+		map.put("startIndex", startIndex);
+		map.put("endIndex", endIndex);
 		map.put("irdntName",irdntName);
 		map.put("irdntCategory",irdntCategory);
 		return session.selectList(makeSql("selectIrdntsBykeyword"),map);
@@ -70,6 +80,19 @@ public class IrdntManageDaoImpl implements IrdntManageDao{
 	@Override
 	public List<String> selectAllIrdntCategory() {
 		return session.selectList(makeSql("selectAllIrdntCategory"));
+	}
+
+	@Override
+	public int selectIrdntsBykeywordCount(String irdntName, String irdntCategory) {
+		HashMap map = new HashMap();
+		map.put("irdntName",irdntName);
+		map.put("irdntCategory",irdntCategory);
+		return session.selectOne(makeSql("selectIrdntsBykeywordCount"),map);
+	}
+
+	@Override
+	public List<IrdntManage> selectAllIrdntNotPaging() {
+		return session.selectList(makeSql("selectAllIrdntNotPaging"));
 	}
 	
 	

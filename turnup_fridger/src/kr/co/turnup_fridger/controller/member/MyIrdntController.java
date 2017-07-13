@@ -67,15 +67,21 @@ public class MyIrdntController {
 		} catch (DuplicateMyIrdntException e) {
 			return new ModelAndView("common/member/myIrdnt/myIrdnt_form","errorMsg_keyDuplicate",e.getMessage());
 		}
-		return new ModelAndView("redirect:myIrdntList.do");
+		return new ModelAndView("redirect:create/success.do");
 	}
+	
+	@RequestMapping("create/success")
+	public ModelAndView createSuccess() throws Exception{
+		return new ModelAndView("common/member/myIrdnt/create_success");
+	}
+	
 	
 	@RequestMapping(value="updateMyIrdnt", produces="html/text;charset=UTF-8;")
 	@ResponseBody
 	public ModelAndView updateMyIrdnt(@ModelAttribute ("myIrdnt") @Valid MyIrdntForm myIrdntForm,BindingResult errors){
 		
 		if(errors.hasErrors()){
-			return new ModelAndView("/common/member/myIrdnt/myIrdnt_update_form");
+			return new ModelAndView("common/member/myIrdnt/myIrdnt_update_form");
 		}
 		
 		MyIrdnt myIrdnt = new MyIrdnt();

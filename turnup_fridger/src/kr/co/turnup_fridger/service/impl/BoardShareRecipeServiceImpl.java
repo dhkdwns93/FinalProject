@@ -65,12 +65,6 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 		
 	}
 	
-	@Override
-	public List<BoardShareRecipe> selectBoardShareRecipeByTitle(String title) {
-		
-		return dao.selectBoardShareRecipeByTitle(title);
-	}
-	
 	
 	@Override
 	public BoardShareRecipe boardRead(int recipeId) {
@@ -221,36 +215,52 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 	}
 
 
-
+	//연수
 	@Override
-	public Map findUserRecipeByIds(List<Integer> irdntIds, List<Integer> hateIrdntsIds) {
-		//나중에 페이징...?
+	public Map findUserRecipeByIds(List<Integer> irdntIds, List<Integer> hateIrdntsIds, int page) {
 		
-		System.out.println("게시판 : "+irdntIds+"/"+hateIrdntsIds);
 		//재료id들을 줘서 recipeid들과 count수의 map을 받은 list.
 		List recipeMap = shareDao.getRecipeBoardIdByIrdntIds(irdntIds, hateIrdntsIds);
-		
-		System.out.println("dao다녀온 : "+recipeMap);
-		
+		System.out.println("boardService's 레시피id추출한거랑, 카운트 맵 : "+recipeMap);		
 		List recipeIds = new ArrayList();
 		List countList = new ArrayList();
 		HashMap userMap = new HashMap();
 		
 		for(int i =0;i<recipeMap.size();i++){
 			HashMap map = (HashMap) recipeMap.get(i);
-			System.out.println("게시판  map"+ map);
-			recipeIds.add(map.get("BOARD_SHARE_RECIPE_ID"));
+			//System.out.println("게시판  map"+ map);
+			recipeIds.add(map.get("recipeId"));
 			countList.add(map);
 		}
 		
-		List<BoardShareRecipe> userList = dao.selectBoardShareRecipeById(recipeIds);
-		System.out.println("받아온 게시판들 : "+userList);
-		System.out.println("받아온 countList : " +countList);
+		System.out.println("user's recipeids : "+recipeIds);
+		System.out.println("user's countList : "+countList);
+		
+		int totalCount = dao.selectBoardShareRecipeByIdCount(recipeIds);
+		PagingBean pageBean = new PagingBean(totalCount,page);
+		
+		List<BoardShareRecipe> userList = dao.selectBoardShareRecipeById(recipeIds,pageBean.getBeginItemInPage(),pageBean.getEndItemInPage());
 		
 		userMap.put("userList", userList);
 		userMap.put("countList", countList);
+		userMap.put("pageBean", pageBean);
 		
+		System.out.println(userMap);
 		return userMap;
+	}
+	
+	//연수
+	@Override
+	public Map selectBoardShareRecipeByTitle(String title, int page) {
+		HashMap map = new HashMap();
+		
+		int totalCount = dao.selectBoardShareRecipeByTitleCount(title);
+		PagingBean pageBean = new PagingBean(totalCount,page);
+		
+		List<BoardShareRecipe> list = dao.selectBoardShareRecipeByTitle(title, pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
+		map.put("list", list);
+		map.put("pageBean", pageBean);
+		return map;
 	}
 	
 	

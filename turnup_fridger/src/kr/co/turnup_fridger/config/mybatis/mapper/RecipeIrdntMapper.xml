@@ -63,7 +63,7 @@
 		SELECT
 		<include refid="all-column" />
 		FROM RECIPE_IRDNT
-		where recipe_no = #{recipeNo}
+		where recipe_id = #{recipeId}
 	</select>
 	
 	<select id="selectRecipeIrdntByNo" resultMap="RecipeIrdnt-resultmap" parameterType="_int">

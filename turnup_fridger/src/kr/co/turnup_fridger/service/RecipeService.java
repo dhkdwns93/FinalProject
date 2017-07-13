@@ -1,11 +1,14 @@
 package kr.co.turnup_fridger.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import kr.co.turnup_fridger.exception.DuplicateRecipeException;
 import kr.co.turnup_fridger.exception.NoneRecipeException;
+import kr.co.turnup_fridger.vo.RecipeCrse;
 import kr.co.turnup_fridger.vo.RecipeInfo;
+import kr.co.turnup_fridger.vo.RecipeIrdnt;
 
 public interface RecipeService {
 
@@ -21,7 +24,22 @@ public interface RecipeService {
 	 * @param recipe
 	 * @throws Exception 
 	 */
-	void updateRecipe(RecipeInfo recipe) throws NoneRecipeException;
+	void updateRecipeInfo(RecipeInfo recipeInfo) throws NoneRecipeException;
+	
+	/**
+	 * 레시피를 수정
+	 * @param recipe
+	 * @throws Exception 
+	 */
+	void updateRecipeIrdnt(Map<String, List> recipeIrdnt) throws NoneRecipeException;
+	
+	/**
+	 * 레시피를 수정
+	 * @param recipe
+	 * @throws Exception 
+	 */
+	void updateRecipeCrse(Map<String, List> recipeCrse) throws NoneRecipeException;
+	
 	
 	/**
 	 * 레시피를 삭제
@@ -37,10 +55,8 @@ public interface RecipeService {
 	 * 2. recipeId들의 리스트를 가지고 recipeInfo만 가져오는걸 한다.(페이징) 
 	 * @return
 	 */
-	//Map<String,Object> findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword,int page);
-	
-	Map findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword);
-	
+	Map<String,Object> findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword,int page);
+
 	/**
 	 * 레시피 id로 레시피 찾기 
 	 * @param recipeId
@@ -54,18 +70,14 @@ public interface RecipeService {
 	 * @param recipeName
 	 * @return
 	 */
-	//Map<String, Object> findRecipeByRecipeName(String recipeName,String keyword,int page);
-	
-	List<RecipeInfo> findRecipeByRecipeName(String recipeName,String keyword);
-	
+	Map<String, Object> findRecipeByRecipeName(String recipeName,String keyword,int page);
+
 	/**
 	 * 카테고리로 레시피들을 찾기 (페이징)
 	 * @return
 	 */
-	//Map<String,Object> findRecipeByCategory(String categoryName, String typeName,String keyword,int page);
+	Map<String,Object> findRecipeByCategory(String categoryName, String typeName,String keyword,int page);
 
-	List<RecipeInfo> findRecipeByCategory(String categoryName, String typeName,String keyword);
-	
 	/**
 	 * 목록에서 클릭했을때 recipeId값이 넘어가서 그걸로 검색하여 보여줄 상세페이지 (조인)
 	 * @param recipeId
@@ -92,5 +104,13 @@ public interface RecipeService {
 	 * @return
 	 */
 	List<String> getTypeNameByCategoryName(String categoryName);
+	
+	
+	/**
+	 * 카테고리 코드를 받아 타입 코드와, 타입명을 받아옴
+	 * @param caragoryCode
+	 * @return
+	 */
+	List<RecipeInfo> findTypeCodeAndNameByCategoryCode(int caragoryCode);
 	
 }

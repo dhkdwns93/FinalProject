@@ -18,7 +18,7 @@ public interface BoardShareRecipeService {
 
 	public void updateBoardShareRecipe(BoardShareRecipe boardShareRecipe );
 	
-	List<BoardShareRecipe> selectBoardShareRecipeByTitle(String title);
+	Map selectBoardShareRecipeByTitle(String title, int page);
 	
 	BoardShareRecipe boardRead(int recipeId);
 	
@@ -60,7 +60,7 @@ public interface BoardShareRecipeService {
 	 * @param hareIrdntsIds
 	 * @return
 	 */
-	Map findUserRecipeByIds(List<Integer> irdntIds, List<Integer> hateIrdntsIds);
+	Map findUserRecipeByIds(List<Integer> irdntIds, List<Integer> hateIrdntsIds,int page);
 	
 	
 	

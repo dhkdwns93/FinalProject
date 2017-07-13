@@ -7,6 +7,114 @@
 <title>레시피 by 재료</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
+function getList(keyword,page){
+	$("#apiThead").show();
+	$("#userThead").show();
+	$("#apiPageBean").show();
+	$("#userPageBean").show();
+	$("#sortKeyword").show();
+	
+	if(!page) page = 1;
+	
+	var dislikes = [];
+	var likes = [];
+	
+	$("#dislikeTbody tr").each(function(){
+		dislikes.push($(this).children(":first-child").text());
+	}); 
+	$("#likeTbody tr").each(function(){
+		likes.push($(this).children(":first-child").text());
+	}); 
+
+	$.ajax({		
+		"url":"/turnup_fridger/findRecipeByIrdntId.do",
+		"type":"POST",
+		"data":'irdntIds='+likes+'&hateIrdntIds='+dislikes+'&keyword='+keyword+'&page='+page+'&${_csrf.parameterName}=${_csrf.token}',
+		//"data":{'irdntIds':likes, 'hateIrdntIds':dislikes,'keyword':'보통','page':1,'${_csrf.parameterName}':'${_csrf.token}'},
+		"dataType":"json",
+		"success":function(map){
+			$("#apiPageBean").empty();
+			$("#userPageBean").empty();
+			$("#apiTbody").empty();	
+			$.each(map.apiMap.apiList, function(){
+				$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId))
+						.append($("<td>").prop("id", "title").append($("<a>").prop("href", "${initParam.rootPath}/recipe/show/detail.do?recipeId="+this.recipeId).append(this.recipeName))).append($("<td>").append(this.sumry))
+						.append($("<td>").append(this.categoryName)).append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel))
+						.append($("<td>").append(this.imgUrl)).append($("<td>").append(this.recipeHits)));
+			 });//each	 
+			$.each(map.apiMap.countList, function(){
+				$("#"+this.recipe_id).children(":first-child").text(this.count);
+			 });//each	 
+			 
+			 $("#userTbody").empty();
+			 $.each(map.userMap.userList, function(){
+					$("#userTbody").append($("<tr>").prop("class","userRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId))
+							.append($("<td>").prop("id", "title").append($("<a>").prop("href", "${initParam.rootPath}/recipe/show/detailOfBoard.do?recipeId="+this.recipeId).append(this.title)))
+							.append($("<td>").append(this.memberId)).append($("<td>").append(this.date)).append($("<td>").append(this.hits)).append($("<td>").append(this.recommand)));
+			 });//each
+			 $.each(map.userMap.countList, function(){
+					$("#"+this.recipeId).children(":first-child").text(this.count);
+				});//each
+		
+		//페이징		
+
+			 	$("#apiPageBean").append($("<a href='javascript:getList("+keyword+",1)'>").append("첫페이지"));
+			
+			 	if(map.apiMap.pageBean.previousPageGroup!=null){
+			 		$("#apiPageBean").append($("<a href='javascript:getList("+keyword+","+(map.apiMap.pageBean.beginPage-1)+")'>").append("◀"));
+			 		
+				}else{
+					$("#apiPageBean").append("◀");
+				} 	
+			 	for(var index = map.apiMap.pageBean.beginPage ; index < map.apiMap.pageBean.endPage ; index++){
+			 		if(index !=map.apiMap.pageBean.page){
+			 			$("#apiPageBean").append($("<a href='javascript:getList("+keyword+","+index+")'>").append(index));
+					}else{
+						$("#apiPageBean").append("["+index+"]"+"&nbsp;&nbsp;");
+					}
+			 	}
+			 	if(map.apiMap.pageBean.nextPageGroup!=null){
+			 		$("#apiPageBean").append($("<a href ='javascript:getList("+keyword+","+(map.apiMap.pageBean.endPage+1)+")'>").append("▶"));
+			 	}else{
+			 		$("#apiPageBean").append("▶");
+			 	}
+			 	$("#apiPageBean").append($("<a href = 'javascript:getList("+keyword+","+(map.apiMap.pageBean.totalPage)+")'>").append("마지막 페이지"));
+			 	
+			 	//============================
+			 	
+			 	$("#userPageBean").append($("<a href='javascript:getList("+keyword+",1)'>").append("첫페이지"));
+				
+			 	if(map.userMap.pageBean.previousPageGroup!=null){
+			 		$("#userPageBean").append($("<a href='javascript:getList("+keyword+","+(map.userMap.pageBean.beginPage-1)+")'>").append("◀"));
+			 		
+				}else{
+					$("#userPageBean").append("◀");
+				} 	
+			 	for(var index = map.userMap.pageBean.beginPage ; index < map.userMap.pageBean.endPage ; index++){
+			 		if(index !=map.userMap.pageBean.page){
+			 			$("#userPageBean").append($("<a href='javascript:getList("+keyword+","+index+")'>").append(index));
+					}else{
+						$("#userPageBean").append("["+index+"]"+"&nbsp;&nbsp;");
+					}
+			 	}
+			 	if(map.userMap.pageBean.nextPageGroup!=null){
+			 		$("#userPageBean").append($("<a href ='javascript:getList("+keyword+","+(map.userMap.pageBean.endPage+1)+")'>").append("▶"));
+			 	}else{
+			 		$("#userPageBean").append("▶");
+			 	}
+			 	$("#userPageBean").append($("<a href = 'javascript:getList("+keyword+","+(map.userMap.pageBean.totalPage)+")'>").append("마지막 페이지"));
+		
+		
+		
+		},//success
+		"error":function(errorMsg){
+			alert("오류다!");
+		} 
+	})//ajax
+	
+};//페이징 함수 
+
+
 $(document).ready(function(){
 	
 	$("#sortKeyword").hide();
@@ -14,6 +122,8 @@ $(document).ready(function(){
 	$("#likeResult").hide();
 	$("#apiThead").hide();	
 	$("#userThead").hide();	
+	$("#apiPageBean").hide();
+	$("#userPageBean").hide();
 	
 	$.ajax({
 		//재료관리에서 식재료들 리스트로 받아오기.
@@ -56,11 +166,9 @@ $(document).ready(function(){
 				})
 			},//success
 			"error":function(xhr, msg, code){ 
-				if(msg.equals("error") && code.equals("Internal Server Error")){
-					alert("비회원이므로 나의 식재료를 불러오지 못합니다.")
-				}else{
+				
 					alert("오류발생-" +msg+ ":" +code);	
-				}
+				
 			}//error	
 	});//ajax2
 	
@@ -81,11 +189,7 @@ $(document).ready(function(){
 				})	
 			},//success
 			"error":function(xhr, msg, code){ 
-				if(msg.equals("error") && code.equals("Internal Server Error")){
-					alert("비회원이므로 나의 식재료를 불러오지 못합니다.")
-				}else{
 					alert("오류발생-" +msg+ ":" +code);	
-				}
 			}//error	
 	});//ajax3
 	
@@ -108,267 +212,33 @@ $(document).ready(function(){
 	$(document).on("click",(".select_col"),function(){
 		//테이블에서 삭제처리 
 		$(this).remove();
-		//다시 복귀시켜야하는데....
 	});//컬럼클릭
 	
 	$(document).on("click",("#searchBtn"),function(){
-		//숨김되었던것 나타나게 
-		$("#sortKeyword").show();
-		$("#apiThead").show();	
-		$("#userThead").show();	
 		//선택재료, 기피재료 리스트에 넣어서 핸들러로 보내기 
-		var dislikes = [];
-		var likes = [];
-		$("#dislikeTbody tr").each(function(){
-			dislikes.push($(this).children(":first-child").text());
-		}); 
-		$("#likeTbody tr").each(function(){
-			likes.push($(this).children(":first-child").text());
-		}); 
-	
-		$.ajax({
-			"url":"/turnup_fridger/findRecipeByIrdntId.do",
-			"type":"POST",
-			"data":'irdntIds='+likes+'&hateIrdntIds='+dislikes+'&keyword=&${_csrf.parameterName}=${_csrf.token}',
-			"dataType":"json",
-			"success":function(map){			
-				$("#apiTbody").empty();	
-				$.each(map.apiMap.apiList, function(){
-					$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)).append($("<td>").append(this.sumry)).append($("<td>").append(this.categoryName))
-							.append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel)).append($("<td>").append(this.imgUrl))
-							.append($("<td>").append(this.recipeHits)));
-				 });//each	 
-				$.each(map.apiMap.countList, function(){
-					$("#"+this.recipe_id).children(":first-child").text(this.count);
-				 });//each	 
-				 
-				 $("#userTbody").empty();
-				 $.each(map.userMap.userList, function(){
-					$("#userTbody").append($("<tr>").prop("class","userRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId)).append($("<td>").append(this.title)).append($("<td>").append(this.memberId))
-							.append($("<td>").append(this.date)).append($("<td>").append(this.hits)).append($("<td>").append(this.recommand)));
-				 });//each
-				 $.each(map.userMap.countList, function(){
-					 alert(this.count);
-						$("#"+this.BOARD_SHARE_RECIPE_ID).children(":first-child").text(this.count);
-					});//each	 
-			},//success
-			"error":function(xhr, msg, code){
-				alert("오류발생-" +msg+ ":" +code);
-			}
-		})
+		getList(null,1);
 	});//검색
 	
 	$(document).on("click","#hitsDesc",function(){
-		var dislikes = [];
-		var likes = [];
-		$("#dislikeTbody tr").each(function(){
-			dislikes.push($(this).children(":first-child").text());
-		}); 
-		$("#likeTbody tr").each(function(){
-			likes.push($(this).children(":first-child").text());
-		}); 
-	
-		$.ajax({
-			"url":"/turnup_fridger/findRecipeByIrdntId.do",
-			"type":"POST",
-			"data":'irdntIds='+likes+'&hateIrdntIds='+dislikes+'&keyword=recipeHitsDesc&${_csrf.parameterName}=${_csrf.token}',
-			"dataType":"json",
-			"success":function(map){			
-				$("#apiTbody").empty();	
-				$.each(map.apiMap.apiList, function(){
-					$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)).append($("<td>").append(this.sumry)).append($("<td>").append(this.categoryName))
-							.append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel)).append($("<td>").append(this.imgUrl))
-							.append($("<td>").append(this.recipeHits)));
-				 });//each	 
-				$.each(map.apiMap.countList, function(){
-					$("#"+this.recipe_id).children(":first-child").text(this.count);
-				 });//each	 
-				 
-				 $("#userTbody").empty();
-				 $.each(map.userMap.userList, function(){
-					$("#userTbody").append($("<tr>").prop("class","userRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId)).append($("<td>").append(this.title)).append($("<td>").append(this.memberId))
-							.append($("<td>").append(this.date)).append($("<td>").append(this.hits)).append($("<td>").append(this.recommand)));
-				 });//each
-				 $.each(map.userMap.countList, function(){
-						$("#"+this.BOARD_SHARE_RECIPE_ID).children(":first-child").text(this.count);
-					});//each	 
-			},//success
-			"error":function(xhr, msg, code){
-				alert("오류발생-" +msg+ ":" +code);
-			}
-		})
+		getList('recipeHitsDesc',1);
 	});//최다조회순
 	
 	$(document).on("click","#hitsAsc",function(){
-		var dislikes = [];
-		var likes = [];
-		$("#dislikeTbody tr").each(function(){
-			dislikes.push($(this).children(":first-child").text());
-		}); 
-		$("#likeTbody tr").each(function(){
-			likes.push($(this).children(":first-child").text());
-		}); 
-	
-		$.ajax({
-			"url":"/turnup_fridger/findRecipeByIrdntId.do",
-			"type":"POST",
-			"data":'irdntIds='+likes+'&hateIrdntIds='+dislikes+'&keyword=recipeHitsAsc&${_csrf.parameterName}=${_csrf.token}',
-			"dataType":"json",
-			"success":function(map){			
-				$("#apiTbody").empty();	
-				$.each(map.apiMap.apiList, function(){
-					$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)).append($("<td>").append(this.sumry)).append($("<td>").append(this.categoryName))
-							.append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel)).append($("<td>").append(this.imgUrl))
-							.append($("<td>").append(this.recipeHits)));
-				 });//each	 
-				$.each(map.apiMap.countList, function(){
-					$("#"+this.recipe_id).children(":first-child").text(this.count);
-				 });//each	 
-				 
-				 $("#userTbody").empty();
-				 $.each(map.userMap.userList, function(){
-					$("#userTbody").append($("<tr>").prop("class","userRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId)).append($("<td>").append(this.title)).append($("<td>").append(this.memberId))
-							.append($("<td>").append(this.date)).append($("<td>").append(this.hits)).append($("<td>").append(this.recommand)));
-				 });//each
-				 $.each(map.userMap.countList, function(){
-						$("#"+this.BOARD_SHARE_RECIPE_ID).children(":first-child").text(this.count);
-					});//each	 
-			},//success
-			"error":function(xhr, msg, code){
-				alert("오류발생-" +msg+ ":" +code);
-			}
-		})
+		getList('recipeHitsAsc',1);
 	});//최저조회순
 	
 	$(document).on("click","#calrorieDesc",function(){
-		var dislikes = [];
-		var likes = [];
-		$("#dislikeTbody tr").each(function(){
-			dislikes.push($(this).children(":first-child").text());
-		}); 
-		$("#likeTbody tr").each(function(){
-			likes.push($(this).children(":first-child").text());
-		}); 
-	
-		$.ajax({
-			"url":"/turnup_fridger/findRecipeByIrdntId.do",
-			"type":"POST",
-			"data":'irdntIds='+likes+'&hateIrdntIds='+dislikes+'&keyword=calorieDesc&${_csrf.parameterName}=${_csrf.token}',
-			"dataType":"json",
-			"success":function(map){			
-				$("#apiTbody").empty();	
-				$.each(map.apiMap.apiList, function(){
-					$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)).append($("<td>").append(this.sumry)).append($("<td>").append(this.categoryName))
-							.append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel)).append($("<td>").append(this.imgUrl))
-							.append($("<td>").append(this.recipeHits)));
-				 });//each	 
-				$.each(map.apiMap.countList, function(){
-					$("#"+this.recipe_id).children(":first-child").text(this.count);
-				 });//each	 
-				 
-				 $("#userTbody").empty();
-				 $.each(map.userMap.userList, function(){
-					$("#userTbody").append($("<tr>").prop("class","userRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId)).append($("<td>").append(this.title)).append($("<td>").append(this.memberId))
-							.append($("<td>").append(this.date)).append($("<td>").append(this.hits)).append($("<td>").append(this.recommand)));
-				 });//each
-				 $.each(map.userMap.countList, function(){
-						$("#"+this.BOARD_SHARE_RECIPE_ID).children(":first-child").text(this.count);
-					});//each	 
-			},//success
-			"error":function(xhr, msg, code){
-				alert("오류발생-" +msg+ ":" +code);
-			}
-		})
+		getList('calorieDesc',1);
 	});//고칼로리순
 	
 	$(document).on("click","#calrorieAsc",function(){
-		var dislikes = [];
-		var likes = [];
-		$("#dislikeTbody tr").each(function(){
-			dislikes.push($(this).children(":first-child").text());
-		}); 
-		$("#likeTbody tr").each(function(){
-			likes.push($(this).children(":first-child").text());
-		}); 
-	
-		$.ajax({
-			"url":"/turnup_fridger/findRecipeByIrdntId.do",
-			"type":"POST",
-			"data":'irdntIds='+likes+'&hateIrdntIds='+dislikes+'&keyword=calorieAsc&${_csrf.parameterName}=${_csrf.token}',
-			"dataType":"json",
-			"success":function(map){			
-				$("#apiTbody").empty();	
-				$.each(map.apiMap.apiList, function(){
-					$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)).append($("<td>").append(this.sumry)).append($("<td>").append(this.categoryName))
-							.append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel)).append($("<td>").append(this.imgUrl))
-							.append($("<td>").append(this.recipeHits)));
-				 });//each	 
-				$.each(map.apiMap.countList, function(){
-					$("#"+this.recipe_id).children(":first-child").text(this.count);
-				 });//each	 
-				 
-				 $("#userTbody").empty();
-				 $.each(map.userMap.userList, function(){
-					$("#userTbody").append($("<tr>").prop("class","userRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId)).append($("<td>").append(this.title)).append($("<td>").append(this.memberId))
-							.append($("<td>").append(this.date)).append($("<td>").append(this.hits)).append($("<td>").append(this.recommand)));
-				 });//each
-				 $.each(map.userMap.countList, function(){
-						$("#"+this.BOARD_SHARE_RECIPE_ID).children(":first-child").text(this.count);
-					});//each	 
-			},//success
-			"error":function(xhr, msg, code){
-				alert("오류발생-" +msg+ ":" +code);
-			}
-		})
+		getList('calorieAsc',1);
 	});//저칼로리순
 	
 	$(document).on("change","#recipeLevel",function(){
-		var dislikes = [];
-		var likes = [];
-		$("#dislikeTbody tr").each(function(){
-			dislikes.push($(this).children(":first-child").text());
-		}); 
-		$("#likeTbody tr").each(function(){
-			likes.push($(this).children(":first-child").text());
-		}); 
-		var recipeLevel = $("#recipeLevel").val();
-		
-		$.ajax({
-			"url":"/turnup_fridger/findRecipeByIrdntId.do",
-			"type":"POST",
-			"data":'irdntIds='+likes+'&hateIrdntIds='+dislikes+'&keyword='+recipeLevel+'&${_csrf.parameterName}=${_csrf.token}',
-			"dataType":"json",
-			"success":function(map){			
-				$("#apiTbody").empty();	
-				$.each(map.apiMap.apiList, function(){
-					$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)).append($("<td>").append(this.sumry)).append($("<td>").append(this.categoryName))
-							.append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel)).append($("<td>").append(this.imgUrl))
-							.append($("<td>").append(this.recipeHits)));
-				 });//each	 
-				$.each(map.apiMap.countList, function(){
-					$("#"+this.recipe_id).children(":first-child").text(this.count);
-				 });//each	 
-				 
-				 $("#userTbody").empty();
-				 $.each(map.userMap.userList, function(){
-					$("#userTbody").append($("<tr>").prop("class","userRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId)).append($("<td>").append(this.title)).append($("<td>").append(this.memberId))
-							.append($("<td>").append(this.date)).append($("<td>").append(this.hits)).append($("<td>").append(this.recommand)));
-				 });//each
-				 $.each(map.userMap.countList, function(){
-						$("#"+this.BOARD_SHARE_RECIPE_ID).children(":first-child").text(this.count);
-					});//each	 
-			},//success
-			"error":function(xhr, msg, code){
-				alert("오류발생-" +msg+ ":" +code);
-			}
-		})
-	});//난이도
-	
-	/* $(document).on("click",".apiRecipe_col",function(){
-	//검색해온 레시피들의 컬럼을 클릭했을때.-> 상세페이지로 이동처리.
-	//벌써했나 혹시?	
-}) */
-	
+		getList($("#recipeLevel").val(),1);
+	});//난이도 
+
 })//ready
 </script>
 </head>
@@ -391,9 +261,6 @@ $(document).ready(function(){
 			<tbody id="irdntManageTbody"></tbody>
 		</table>
 	</div><hr>
-	<!--체크박스 골라서 버튼누르면 이동 다중선택가능하지만, 4개이하 -->
-<!-- 	<button type="button" id="likeBtn">선택재료</button><br>
-	<button type="button" id="dislikeBtn">기피재료</button><br> -->
 
 	<!--컬럼누르면 테이블에서 삭제  -->
 	기피재료 : 
@@ -434,7 +301,7 @@ $(document).ready(function(){
 		<option value="어려움">어려움</option>
 	</select>
 	</div>
-	<div id="apiResult" style="overflow-x:hidden; overflow-y:scroll; height:300px;width:1400px;">
+	<div id="apiResult">
 		<table>
 			<thead id="apiThead">
 				<tr>
@@ -453,7 +320,10 @@ $(document).ready(function(){
 			</thead>
 			<tbody id="apiTbody"></tbody>
 		</table>
-	</div><br><br>
+	</div>
+	<br>
+	<div id="apiPageBean"></div>
+	<br>
 	<div id="userResult" >
 		<table>
 			<thead id="userThead">
@@ -470,5 +340,6 @@ $(document).ready(function(){
 			<tbody id="userTbody"></tbody>
 		</table>
 	</div>
+	<div id="userPageBean"></div>
 </body>
 </html>

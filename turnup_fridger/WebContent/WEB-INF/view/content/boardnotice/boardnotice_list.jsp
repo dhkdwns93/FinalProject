@@ -9,27 +9,41 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <style type="text/css">
+/* focus none 지정 */
 input:focus {
   outline: none;
+}
+/* th 가운데 정렬 정렬 */
+th{
+text-align:center
+}
+/* input 정렬 */
+input {
+   vertical-align:middle;  
 }
 </style>
 </head>
 <body>
-<h1>공지사항</h1><br>
-<form action="${initParam.rootPath}/boardnotice/boardNoticeByItems.do" method="post">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-<select name="items" id="items" value="${requestScope.items}">
-	<option value="전체보기">전체보기</option>
-	<option value="공지사항" >공지사항</option>
-	<option value="뉴스" >뉴스</option>
-</select>
-<input type="submit" value="검색"/>
-</form>
 
-<div id="table" style="width:800px;">
-<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">
+<div id="table" style="width:800px; margin-left: auto; margin-right: auto;">
+<h1>공지사항</h1><br>
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+	<a href="${initParam.rootPath}/index.do"><button style="text-align:right">홈으로</button></a>
+	
+	<!-- 검색 버튼 -->
+	<div style="float:right">
+	<form action="${initParam.rootPath}/boardnotice/boardNoticeByItems.do" method="post">
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+			<select name="items" id="items" value="${requestScope.items}">
+				<option value="전체보기">전체보기</option>
+				<option value="공지사항" >공지사항</option>
+				<option value="뉴스" >뉴스</option>
+			</select>
+		<input type="submit" value="검색"/>
+	</form>
+	</div>
 <thead>
-    <tr>
+    <tr style="text-align:center;">
         <th>번호</th>
         <th>말머리</th>
         <th>제목</th>
@@ -58,6 +72,10 @@ input:focus {
 </c:forEach>
  </tbody>
 </table>
+<!-- 관리자만 등록 가능 -->
+ <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+ 	<a href="${initParam.rootPath}/common/admin/boardnotice/boardnotice_form.do"><button>등록</button></a>
+ </sec:authorize>
 </div>
 <p style="text-align:center">
 	<%-- ######################################################
@@ -125,10 +143,5 @@ input:focus {
 
 
 </p>
-<!-- 관리자만 등록 가능 -->
- <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
- 	<a href="${initParam.rootPath}/common/admin/boardnotice/boardnotice_form.do"><button>등록</button></a>
- </sec:authorize>
-<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 </body>
 </html>

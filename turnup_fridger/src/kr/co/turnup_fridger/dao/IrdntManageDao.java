@@ -28,7 +28,19 @@ public interface IrdntManageDao {
 	 * 재료 전부 조회
 	 * @return
 	 */
-	List<IrdntManage> selectAllIrdnt();
+	List<IrdntManage> selectAllIrdnt(int startIndex,int endIndex);
+	
+	/**
+	 * 페이징안한 재료 전체조회
+	 * @return
+	 */
+	List<IrdntManage> selectAllIrdntNotPaging();
+	
+	/**
+	 * 재료 전부조회한 수.
+	 * @return
+	 */
+	int selectAllIrdntCount();
 	
 	/**
 	 * 재료명으로 검색(완전일치)
@@ -51,7 +63,7 @@ public interface IrdntManageDao {
 	 * @param irdntCategory
 	 * @return
 	 */
-	List<IrdntManage> selectIrdntsBykeyword(String irdntName, String irdntCategory);
+	List<IrdntManage> selectIrdntsBykeyword(String irdntName, String irdntCategory,int startIndex,int endIndex);
 	
 	
 	//==============
@@ -72,5 +84,14 @@ public interface IrdntManageDao {
 	 * @return
 	 */
 	List<String> selectAllIrdntCategory();
+	
+	/**
+	 * 재료명과 카테고리로 검색한 것의 총 갯수.
+	 * @param irdntName
+	 * @param irdntCategory
+	 * @return
+	 */
+	int selectIrdntsBykeywordCount(String irdntName, String irdntCategory);
+	
 	
 }

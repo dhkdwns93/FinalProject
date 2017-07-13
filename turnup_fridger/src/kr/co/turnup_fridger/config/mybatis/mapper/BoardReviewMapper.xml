@@ -214,14 +214,34 @@
 		WHERE RNUM>=#{startIndex}		
 	</select>	
 	
-	
-	
-	
-	
 	<!-- reviewId로 조회하는 SQL-->	
-		<select id="selectBoardReviewByBoardReviewId" parameterType="int" resultMap="boardReview-resultmap">
+	<select id="selectBoardReviewByBoardReviewId" parameterType="int" resultMap="boardReview-resultmap">
 		<include refid="boardReview-select-sql"/>
 		 WHERE BOARD_REVIEW_ID = #{boardReviewId}
 	</select>	
 	
+	<!--    //////////////////////////////////////////////////////////////////////////////////////////////   -->	
+	
+	
+	<!-- 리뷰 아이디 카운트  -->
+	<select id = "selectRecipeIdCount" resultType="_int">
+		SELECT COUNT(*) FROM BOARD_REVIEW
+		WHERE RECIPE_ID LIKE #{recipeId}
+	</select>
+	
+	
+	<!-- 레시피 아이디로 리스트 조회 SQL -->
+	<select id="selectBoardReviewByRecipeId" parameterType="map" resultMap="boardReview-resultmap">
+		SELECT <include refid="all-column"/>
+		FROM(
+			SELECT ROWNUM RNUM, <include refid="all-column"/>
+			FROM(
+				<include refid="boardReview-select-sql"/>
+				 WHERE RECIPE_ID = #{recipeId}
+				 ORDER BY BOARD_REVIEW_DATE DESC
+				)
+			WHERE ROWNUM &lt;=#{endIndex}	
+			)
+		WHERE RNUM>=#{startIndex}	
+	</select>	
 </mapper>

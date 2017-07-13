@@ -1,8 +1,8 @@
 package kr.co.turnup_fridger.dao;
 
 import java.util.List;
+import java.util.Map;
 
-import kr.co.turnup_fridger.vo.IrdntManage;
 import kr.co.turnup_fridger.vo.ShareRecipeIrdnt;
 
 public interface ShareRecipeIrdntDao {
