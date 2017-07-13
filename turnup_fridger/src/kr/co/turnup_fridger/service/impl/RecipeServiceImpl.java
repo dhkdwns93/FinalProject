@@ -15,6 +15,7 @@ import kr.co.turnup_fridger.dao.RecipeIrdntDao;
 import kr.co.turnup_fridger.exception.DuplicateRecipeException;
 import kr.co.turnup_fridger.exception.NoneRecipeException;
 import kr.co.turnup_fridger.service.RecipeService;
+import kr.co.turnup_fridger.util.PagingBean;
 import kr.co.turnup_fridger.vo.RecipeCrse;
 import kr.co.turnup_fridger.vo.RecipeInfo;
 import kr.co.turnup_fridger.vo.RecipeIrdnt;
@@ -81,11 +82,9 @@ public class RecipeServiceImpl implements RecipeService{
 			infoDao.deleteRecipeInfo(recipeId);
 		}
 
-
 		//선택재료, 기피재료들 받아서 레시피 목록들 불러오는 것.+ 페이징
 		@Override
-		public Map findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword) {
-			//페이징
+		public Map findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword,int page) {
 			
 			//재료id들을 줘서 recipeid들과 count수 의 map을 받은 list.
 			List recipeMap = irdntDao.getRecipeCodeByIrdntIds(irdntIds, hateIrdntIds);	
@@ -101,32 +100,46 @@ public class RecipeServiceImpl implements RecipeService{
 				countList.add(map);			
 			}
 			//recipeId들을 줘서 recipeInfo들을 받아옴
-			List<RecipeInfo> apiList = infoDao.selectRecipesInfoByIds(recipeIds, keyword);
+			
+			int totalCount = infoDao.selectRecipesInfoByIdsCount(recipeIds, keyword);
+			PagingBean pageBean = new PagingBean(totalCount,page);
+					
+			List<RecipeInfo> apiList = infoDao.selectRecipesInfoByIds(recipeIds, keyword,pageBean.getBeginItemInPage(),pageBean.getEndItemInPage());
 			
 			apiMap.put("apiList", apiList);
 			apiMap.put("countList", countList);
+			apiMap.put("pageBean", pageBean);
+			//System.out.println(apiMap);
+			
 			return apiMap;
 		}
 
 		//레시피 이름으로 레시피 목록들 불러오는것.
 		@Override
-		public List<RecipeInfo> findRecipeByRecipeName(String recipeName,String keyword) {
+		public Map findRecipeByRecipeName(String recipeName,String keyword,int page) {
+			HashMap map = new HashMap();
+			int totalCount=infoDao.selectRecipeInfoByNameCount(recipeName, keyword);
+			PagingBean pageBean = new PagingBean(totalCount,page);
 			
-			System.out.println("레시피서비스임플"+recipeName+keyword);
-			List<RecipeInfo> list = infoDao.selectRecipeInfoByName(recipeName,keyword);
-			System.out.println("레시피서비스임플"+list);
-			return list;
+			List<RecipeInfo> list = infoDao.selectRecipeInfoByName(recipeName,keyword,pageBean.getBeginItemInPage(),pageBean.getEndItemInPage());
+			map.put("pageBean", pageBean);
+			map.put("list", list);
+			return map;
 		}
 
 		//유형분류와 음식분류로 선택해서 레시피 목록들 불러오는것. 
 		@Override
-		public List<RecipeInfo> findRecipeByCategory(String categoryName, String typeName,String keyword) {
-			//페이징
-			//infoDao.selectRecipeInfoByCategoryAndType(categoryName, typeName, keyword);
+		public Map findRecipeByCategory(String categoryName, String typeName,String keyword,int page) {
+			HashMap map = new HashMap();
+			int totalCount = infoDao.selectRecipeInfoByCategoryAndTypeCount(categoryName, typeName, keyword);
+			PagingBean pageBean = new PagingBean(totalCount,page);
 			
-			List<RecipeInfo> list = infoDao.selectRecipeInfoByCategoryAndType(categoryName, typeName, keyword);
+			List<RecipeInfo> list = 
+					infoDao.selectRecipeInfoByCategoryAndType(categoryName, typeName, keyword,pageBean.getBeginItemInPage(),pageBean.getEndItemInPage());
+			map.put("pageBean", pageBean);
+			map.put("list", list);
 			
-			return list;
+			return map;
 		}
 		
 		//불러온 목록에서 하나를 선택하여 그 레시피의 상세화면을 가져오는 것.

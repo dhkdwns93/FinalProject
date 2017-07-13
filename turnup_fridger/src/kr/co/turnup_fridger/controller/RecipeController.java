@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -29,7 +30,6 @@ import kr.co.turnup_fridger.service.IrdntManageService;
 import kr.co.turnup_fridger.service.MyDislikeIrdntService;
 import kr.co.turnup_fridger.service.MyIrdntService;
 import kr.co.turnup_fridger.service.RecipeService;
-import kr.co.turnup_fridger.service.ShareRecipeIrdntService;
 import kr.co.turnup_fridger.validation.form.RecipeCrseForm;
 import kr.co.turnup_fridger.validation.form.RecipeInfoForm;
 import kr.co.turnup_fridger.validation.form.RecipeIrdntForm;
@@ -50,8 +50,6 @@ public class RecipeController {
 	private RecipeService recipeService;
 	@Autowired
 	private BoardShareRecipeService shareService;
-	@Autowired
-	private ShareRecipeIrdntService IrdntService;
 	@Autowired
 	private IrdntManageService imService;
 	@Autowired
@@ -251,36 +249,41 @@ public class RecipeController {
 	
 	@RequestMapping(value="findRecipeByRecipeName")
 	@ResponseBody
-	public Map findRecipeByRecipeName(@RequestParam String recipeName, @RequestParam String keyword){
+	public Map findRecipeByRecipeName(@RequestParam String recipeName, @RequestParam String keyword,@RequestParam(defaultValue = "1") int page ){
 		
-		List<RecipeInfo> apiList = recipeService.findRecipeByRecipeName(recipeName, keyword);
-		List<BoardShareRecipe> userList = shareService.selectBoardShareRecipeByTitle(recipeName);
+		Map apiList = recipeService.findRecipeByRecipeName(recipeName, keyword,page);
+		Map userList = shareService.selectBoardShareRecipeByTitle(recipeName,page);
 		HashMap map = new HashMap();
-		map.put("apiList", apiList);
-		map.put("userList", userList);
+		map.put("apiList", apiList); // 이안에 페이징빈이랑 리스트 두개 들어있다.
+		map.put("userList", userList); // 이거 안에도 페이징빈이랑 리스트 두개 
+		System.out.println(map);
 		return map;
 	}
 	
 	@RequestMapping(value="findRecipeByCategory")
 	@ResponseBody
-	public List<RecipeInfo> findRecipeByCategory(@RequestParam String categoryName, @RequestParam String typeName, @RequestParam String keyword){
-
-		
-		List<RecipeInfo> list = recipeService.findRecipeByCategory(categoryName, typeName, keyword);
-
+	public Map findRecipeByCategory(@RequestParam String categoryName, @RequestParam String typeName, @RequestParam String keyword,
+			@RequestParam(defaultValue = "1") int page ){
+		Map list = recipeService.findRecipeByCategory(categoryName, typeName, keyword,page);
 		return list;
 	}
 	
 	@RequestMapping(value="findRecipeByIrdntId")
 	@ResponseBody
-	public Map<String,Object> findRecipeByIrdntId(@RequestParam List<Integer> irdntIds, @RequestParam List<Integer> hateIrdntIds, @RequestParam String keyword){
+	public Map<String,Object> findRecipeByIrdntId(@RequestParam List<Integer> irdntIds, @RequestParam List<Integer> hateIrdntIds, @RequestParam String keyword,
+			@RequestParam(defaultValue = "1") int page ){
 
-		Map apiMap = recipeService.findRecipeByIrdntId(irdntIds, hateIrdntIds, keyword);
-		Map userMap = shareService.findUserRecipeByIds(irdntIds, hateIrdntIds);
+		//System.out.println(irdntIds);
+		//System.out.println(hateIrdntIds);
+		//System.out.println(keyword + page);
+		Map apiMap = recipeService.findRecipeByIrdntId(irdntIds, hateIrdntIds, keyword,page);
+		Map userMap = shareService.findUserRecipeByIds(irdntIds, hateIrdntIds,page);
 	
+		System.out.println("컨트롤러 apiMap: "+ apiMap);
+		System.out.println("컨트롤러 userMap: "+userMap);
 		HashMap map = new HashMap();
-		map.put("apiMap", apiMap);
-		map.put("userMap", userMap);
+		map.put("apiMap", apiMap);//여기안에 count랑 리스트, 페이징빈 들어있다. 
+		map.put("userMap", userMap);//여기에 리스트랑 페이징빈 들어있다. 
 		return map;
 	}
 	
@@ -288,8 +291,20 @@ public class RecipeController {
 	@RequestMapping("recipe/show/detail")
 	public ModelAndView showDetailOfRecipe(@RequestParam int recipeId){
 		RecipeInfo recipe = recipeService.showDetailOfRecipe(recipeId);
-		System.out.println(recipe);
 		return new ModelAndView("recipe_for_user/recipe_detail.tiles","recipe",recipe);
+	}
+	
+	
+	@RequestMapping("recipe/show/detailOfBoard")
+	public ModelAndView showDetailOfUserRecipe(@RequestParam int recipeId, HttpSession session) throws Exception{
+		//조회수 증가처리
+		shareService.increaseHit(recipeId, session);
+		
+		ModelAndView mav = new ModelAndView();
+		
+		mav.addObject("boardView", shareService.boardRead(recipeId));
+		mav.setViewName("recipe_for_user/boardRecipe_view.tiles");
+		return mav;
 	}
 	
 	@RequestMapping("changePortion")
@@ -303,19 +318,10 @@ public class RecipeController {
 		return recipeService.getTypeNameByCategoryName(categoryName);
 	}
 	
-	@RequestMapping("getIrdntTable")
-	@ResponseBody
-	public Map getIrdntTable(){
-		HashMap map = new HashMap();
-		//List<myIrdnt> = 
-		
-		return map;
-	}
-	
 	@RequestMapping("getIrdntList")
 	@ResponseBody
 	public List<IrdntManage> allIrdntList(){
-		List<IrdntManage> list = imService.findAllIrdnt();
+		List<IrdntManage> list = imService.fingAllIrdntNotPaging();
 		return list;
 	}
 	

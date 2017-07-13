@@ -1,6 +1,7 @@
 package kr.co.turnup_fridger.service;
 
 import java.util.List;
+import java.util.Map;
 
 import kr.co.turnup_fridger.exception.DuplicateIrdntException;
 import kr.co.turnup_fridger.exception.NoneIrdntException;
@@ -36,7 +37,7 @@ public interface IrdntManageService {
 	 * 모든 재료 불러오기
 	 * @return
 	 */
-	List<IrdntManage> findAllIrdnt();
+	Map<String,Object> findAllIrdnt(int page);
 	
 	/**
 	 * 재료id로 재료 검색
@@ -51,7 +52,7 @@ public interface IrdntManageService {
 	 * @param irdntCategory
 	 * @return
 	 */
-	List<IrdntManage> findIrdntsByKeyword(String irdntName, String irdntCategory);
+	Map<String,Object> findIrdntsByKeyword(String irdntName, String irdntCategory,int page);
 	
 	/**
 	 * 카테고리명들을 불러오는 메서드.
@@ -66,4 +67,9 @@ public interface IrdntManageService {
 	 */
 	List<IrdntManage> findIrdntByName(String irdntName);
 	
+	/**
+	 * 페이징안한 전체재료조회
+	 * @return
+	 */
+	List<IrdntManage> fingAllIrdntNotPaging();
 }

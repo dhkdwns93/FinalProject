@@ -12,12 +12,11 @@ $(document).ready(function(){
 	self.close();
 });
 </script>
-
 </head>
 <body>
-등록성공! 
 
-<a href = "/turnup_fridger/common/admin/irdntManage/irdntList.do"><button>전체목록보기</button></a>
+
+<h2>등록성공!</h2>
 
 </body>
 </html>

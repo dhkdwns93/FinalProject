@@ -37,10 +37,8 @@ public interface RecipeService {
 	 * 2. recipeId들의 리스트를 가지고 recipeInfo만 가져오는걸 한다.(페이징) 
 	 * @return
 	 */
-	//Map<String,Object> findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword,int page);
-	
-	Map findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword);
-	
+	Map<String,Object> findRecipeByIrdntId(List<Integer> irdntIds, List<Integer> hateIrdntIds,String keyword,int page);
+
 	/**
 	 * 레시피 id로 레시피 찾기 
 	 * @param recipeId
@@ -54,18 +52,14 @@ public interface RecipeService {
 	 * @param recipeName
 	 * @return
 	 */
-	//Map<String, Object> findRecipeByRecipeName(String recipeName,String keyword,int page);
-	
-	List<RecipeInfo> findRecipeByRecipeName(String recipeName,String keyword);
-	
+	Map<String, Object> findRecipeByRecipeName(String recipeName,String keyword,int page);
+
 	/**
 	 * 카테고리로 레시피들을 찾기 (페이징)
 	 * @return
 	 */
-	//Map<String,Object> findRecipeByCategory(String categoryName, String typeName,String keyword,int page);
+	Map<String,Object> findRecipeByCategory(String categoryName, String typeName,String keyword,int page);
 
-	List<RecipeInfo> findRecipeByCategory(String categoryName, String typeName,String keyword);
-	
 	/**
 	 * 목록에서 클릭했을때 recipeId값이 넘어가서 그걸로 검색하여 보여줄 상세페이지 (조인)
 	 * @param recipeId

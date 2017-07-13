@@ -2,6 +2,7 @@ package kr.co.turnup_fridger.dao.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,10 +61,11 @@ public class ShareRecipeIrdntDaoImpl implements ShareRecipeIrdntDao{
 		HashMap map = new HashMap();
 		map.put("irdntIds",irdntIds);
 		map.put("hateIrdntIds",hateIrdntIds);
-		System.out.println("매퍼가기전 선호/비선호 재료들 "+irdntIds+"/"+hateIrdntIds);
+		System.out.println("getrecipeId in sharedao 레시피 id추출하러 갈때 들고가는 재료id들 :  "+irdntIds+"/"+hateIrdntIds);
 		
 		return session.selectList(sql("getRecipeBoardIdByIrdntIds"),map);
 	}
+
 	
 	
 }

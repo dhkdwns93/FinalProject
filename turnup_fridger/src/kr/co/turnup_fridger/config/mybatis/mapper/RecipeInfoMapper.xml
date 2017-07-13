@@ -166,93 +166,115 @@
 	
 	<!--레시피명으로 조회-->
 	<select id="selectRecipeInfoByName" resultMap="RecipeInfo-resultmap" parameterType="java.util.HashMap">
-		SELECT <include refid="all-column" />
-			FROM Recipe_Info
-			where recipe_name like '%'||#{recipeName}||'%'
-			<choose>
-			<when test="keyword=='recipeHitsDesc'">
-				order by recipe_hits desc
-			</when>
-			<when test="keyword=='recipeHitsAsc'">
-				order by recipe_hits asc
-			</when>
-			<when test="keyword =='calorieDesc'">
-				order by calorie desc
-			</when>
-			<when test="keyword =='calorieAsc'">
-				order by calorie asc
-			</when>
-			<when test="keyword == '초보환영'">
-				and recipe_level='초보환영'
-			</when>
-			<when test="keyword == '보통'">
-				and recipe_level='보통'
-			</when>
-			<when test="keyword == '어려움'">
-				and recipe_level='어려움'
-			</when>			
-		</choose>
+	 SELECT recipe_id,recipe_name,sumry,category_code,category_name,type_code,type_name,cooking_time,
+		calorie,qnt,recipe_level,irdnt_code,price,img_url,det_url,recipe_hits
+     FROM (			
+		SELECT rownum rnum,	recipe_id,recipe_name,sumry,category_code,category_name,type_code,type_name,cooking_time,
+		calorie,qnt,recipe_level,irdnt_code,price,img_url,det_url,recipe_hits
+			FROM (		
+				SELECT <include refid="all-column" />
+				FROM Recipe_Info
+				where recipe_name like '%'||#{recipeName}||'%'
+				<choose>
+					<when test="keyword=='recipeHitsDesc'">
+						order by recipe_hits desc
+					</when>
+					<when test="keyword=='recipeHitsAsc'">
+						order by recipe_hits asc
+					</when>
+					<when test="keyword =='calorieDesc'">
+					order by calorie desc
+					</when>
+					<when test="keyword =='calorieAsc'">
+						order by calorie asc
+					</when>
+					<when test="keyword == '초보환영'">
+						and recipe_level='초보환영'
+					</when>
+					<when test="keyword == '보통'">
+					and recipe_level='보통'
+					</when>
+					<when test="keyword == '어려움'">
+						and recipe_level='어려움'
+					</when>			
+				</choose>)
+			WHERE rownum &lt;=#{endIndex})
+		WHERE rnum>=#{startIndex}
+	
+	
 	</select>
 	
 	<!--레시피명 카운트  -->
 	<select id="selectRecipeInfoByNameCount" resultType="_int" parameterType="java.util.HashMap">
-		SELECT count(*)
-		FROM Recipe_Info
-		where recipe_name like '%'||#{recipeName}||'%' 
-		<choose>
-			<when test="keyword=='recipeHitsDesc'">
-				order by recipe_hits desc
-			</when>
-			<when test="keyword=='recipeHitsAsc'">
-				order by recipe_hits asc
-			</when>
-			<when test="keyword =='calorieDesc'">
-				order by calorie desc
-			</when>
-			<when test="keyword =='calorieAsc'">
-				order by calorie asc
-			</when>
-			<when test="keyword == '초보환영'">
-				and recipe_level='초보환영'
-			</when>
-			<when test="keyword == '보통'">
-				and recipe_level='보통'
-			</when>
-			<when test="keyword == '어려움'">
-				and recipe_level='어려움'
-			</when>			
-		</choose>
+				SELECT count(*)
+				FROM Recipe_Info
+				where recipe_name like '%'||#{recipeName}||'%'
+				<choose>
+					<when test="keyword=='recipeHitsDesc'">
+						order by recipe_hits desc
+					</when>
+					<when test="keyword=='recipeHitsAsc'">
+						order by recipe_hits asc
+					</when>
+					<when test="keyword =='calorieDesc'">
+					order by calorie desc
+					</when>
+					<when test="keyword =='calorieAsc'">
+						order by calorie asc
+					</when>
+					<when test="keyword == '초보환영'">
+						and recipe_level='초보환영'
+					</when>
+					<when test="keyword == '보통'">
+					and recipe_level='보통'
+					</when>
+					<when test="keyword == '어려움'">
+						and recipe_level='어려움'
+					</when>			
+				</choose>
 	</select>
 	
 	<!--카테고리  -->
 	<select id="selectRecipeInfoByCategoryAndType" resultMap="RecipeInfo-resultmap" parameterType="java.util.HashMap">
-		SELECT
-		<include refid="all-column" />
-		FROM Recipe_Info
-		where category_name like '%'||#{categoryName}||'%' and type_name like '%'||#{typeName}||'%'
-			<choose>
-			<when test="keyword=='recipeHitsDesc'">
-				order by recipe_hits desc
-			</when>
-			<when test="keyword=='recipeHitsAsc'">
-				order by recipe_hits asc
-			</when>
-			<when test="keyword =='calorieDesc'">
-				order by calorie desc
-			</when>
-			<when test="keyword =='calorieAsc'">
-				order by calorie asc
-			</when>
-			<when test="keyword == '초보환영'">
-				and recipe_level='초보환영'
-			</when>
-			<when test="keyword == '보통'">
-				and recipe_level='보통'
-			</when>
-			<when test="keyword == '어려움'">
-				and recipe_level='어려움'
-			</when>			
-		</choose>
+	SELECT
+	recipe_id,recipe_name,sumry,category_code,category_name,type_code,type_name,cooking_time,
+	calorie,qnt,recipe_level,irdnt_code,price,img_url,det_url,recipe_hits
+	FROM (
+	SELECT rownum
+	rnum,recipe_id,recipe_name,sumry,category_code,category_name,type_code,type_name,cooking_time,
+	calorie,qnt,recipe_level,irdnt_code,price,img_url,det_url,recipe_hits
+	FROM (
+
+	SELECT
+	<include refid="all-column" />
+	FROM Recipe_Info
+	where category_name like '%'||#{categoryName}||'%' and type_name like '%'||#{typeName}||'%'
+	<choose>
+		<when test="keyword=='recipeHitsDesc'">
+			order by recipe_hits desc
+		</when>
+		<when test="keyword=='recipeHitsAsc'">
+			order by recipe_hits asc
+		</when>
+		<when test="keyword =='calorieDesc'">
+			order by calorie desc
+		</when>
+		<when test="keyword =='calorieAsc'">
+			order by calorie asc
+		</when>
+		<when test="keyword == '초보환영'">
+			and recipe_level='초보환영'
+		</when>
+		<when test="keyword == '보통'">
+			and recipe_level='보통'
+		</when>
+		<when test="keyword == '어려움'">
+			and recipe_level='어려움'
+		</when>
+	</choose>)
+	WHERE rownum &lt;=#{endIndex})
+	WHERE rnum>=#{startIndex}
+	
 	</select>
 		
 	<!--카테고리 카운트  -->
@@ -287,6 +309,15 @@
 		
 	<!--recipe_id들로 조회  -->
 	<select id="selectRecipesInfoByIds" resultMap="RecipeInfo-resultmap" parameterType="java.util.HashMap">
+		SELECT
+	recipe_id,recipe_name,sumry,category_code,category_name,type_code,type_name,cooking_time,
+	calorie,qnt,recipe_level,irdnt_code,price,img_url,det_url,recipe_hits
+	FROM (
+	SELECT rownum
+	rnum,recipe_id,recipe_name,sumry,category_code,category_name,type_code,type_name,cooking_time,
+	calorie,qnt,recipe_level,irdnt_code,price,img_url,det_url,recipe_hits
+	FROM (
+		
 		select
 		<include refid="all-column" />
 		FROM Recipe_Info
@@ -325,7 +356,11 @@
 			<when test="keyword == '어려움'">
 				and recipe_level='어려움'
 			</when>			
-		</choose>
+		</choose>)
+	WHERE rownum &lt;=#{endIndex})
+	WHERE rnum>=#{startIndex}
+	
+	
 	</select>
 	
 	<!--id로 카운트  -->

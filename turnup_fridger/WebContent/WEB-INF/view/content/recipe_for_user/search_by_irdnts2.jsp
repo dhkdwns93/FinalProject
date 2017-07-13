@@ -9,10 +9,11 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	
-	//테이블정렬기준 숨김.
 	$("#sortKeyword").hide();
 	$("#dislikeResult").hide();
 	$("#likeResult").hide();
+	$("#apiThead").hide();	
+	$("#userThead").hide();	
 	
 	$.ajax({
 		//재료관리에서 식재료들 리스트로 받아오기.
@@ -33,7 +34,8 @@ $(document).ready(function(){
 			"error":function(xhr, msg, code){
 				alert("오류발생-" +msg+ ":" +code);
 			}//error
-	});
+	});//ajax1
+	
 	$.ajax({
 		//나의식재료랑에서 식재료들 리스트로 받아오기.
 		//나의식재료 - 재료명,신선도, 선택, 기피
@@ -54,9 +56,34 @@ $(document).ready(function(){
 				})
 			},//success
 			"error":function(xhr, msg, code){ 
-				alert("오류발생-" +msg+ ":" +code);
+				
+					alert("오류발생-" +msg+ ":" +code);	
+				
 			}//error	
 	});//ajax2
+	
+	$.ajax({
+		//나의 기피재료 받아오기.
+		"url":"/turnup_fridger/getMyDislikeIrdnt.do", 
+		"type":"POST",
+		"data":{'${_csrf.parameterName}':'${_csrf.token}'},
+		"dataType":"json", 
+		"success":function(map){
+			$("#dislikeResult").show();
+			$.each(map.dislikeIrdnt, function(){
+				$("#dislikeTbody").append($("<tr>").prop("class","select_col").prop("id",this.irdntId).append($("<td>").append(this.irdntId)).append($("<td>").append('')));	 
+				})
+			$.each(map.irdntList, function(){
+				//alert(this.irdntId);
+				$("#"+this.irdntId).children(":nth-child(2)").text(this.irdntName);	 
+				})	
+			},//success
+			"error":function(xhr, msg, code){ 
+			
+					alert("오류발생-" +msg+ ":" +code);	
+				
+			}//error	
+	});//ajax3
 	
 	$(document).on("click",(".dislikeBtn"),function(){
 		var irdntId = $(this).val();
@@ -81,74 +108,75 @@ $(document).ready(function(){
 	});//컬럼클릭
 	
 	$(document).on("click",("#searchBtn"),function(){
-		//숨김되었던것 나타나게 
-		$("#sortKeyword").show();
 		//선택재료, 기피재료 리스트에 넣어서 핸들러로 보내기 
 		var dislikes = [];
 		var likes = [];
+		
 		$("#dislikeTbody tr").each(function(){
 			dislikes.push($(this).children(":first-child").text());
 		}); 
 		$("#likeTbody tr").each(function(){
 			likes.push($(this).children(":first-child").text());
 		}); 
-		//alert(dislikes.length);
-		//alert(likes.join(","));
 		
-		$.ajax({
+		alert(likes);
+		alert(dislikes);
+		
+		$.ajax({		
 			"url":"/turnup_fridger/findRecipeByIrdntId.do",
 			"type":"POST",
-			"data":'irdntIds='+likes+'&hateIrdntIds='+dislikes+'&keyword=보통&${_csrf.parameterName}=${_csrf.token}',
+			"data":'irdntIds='+likes+'&hateIrdntIds='+dislikes+'&keyword=보통&page=1&${_csrf.parameterName}=${_csrf.token}',
+			//"data":{'irdntIds':likes, 'hateIrdntIds':dislikes,'keyword':'보통','page':1,'${_csrf.parameterName}':'${_csrf.token}'},
 			"dataType":"json",
-			"success":function(map){
-				$("#apiThead").empty();	
-				$("#apiThead").empty();	
-				$("#apiThead").append($("<tr>").prop("id","apiRecipe_col").append($("<th>").append("레시피id")).append($("<th>").append("이름")).append($("<th>").append("간략소개")).append($("<th>").append("유형분류"))
-						.append($("<th>").append("음식분류")).append($("<th>").append("조리시간")).append($("<th>").append("칼로리")).append($("<th>").append("난이도")).append($("<th>").append("대표이미지"))
-						.append($("<th>").append("조회수")));
-				
-				$("#userThead").append($("<tr>").prop("id","userRecipe_col").append($("<th>").append("레시피id")).append($("<th>").append("제목")).append($("<th>").append("작성자")).append($("<th>").append("작성일"))
-						.append($("<th>").append("조회수")).append($("<th>").append("추천수")));
-				
+			"success":function(map){			
 				$("#apiTbody").empty();	
-				$.each(map.apiList, function(){
-					$("#apiTbody").append($("<tr>").prop("id","apiRecipe_col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)).append($("<td>").append(this.sumry)).append($("<td>").append(this.categoryName))
-							.append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel)).append($("<td>").append(this.imgUrl))
-							.append($("<td>").append(this.recipeHits)));
+				$.each(map.apiMap.apiList, function(){
+					$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").append($("<td>").append(this.recipeId))
+							.append($("<td>").prop("id", "title").append($("<a>").prop("href", "${initParam.rootPath}/recipe/show/detail.do?recipeId="+this.recipeId).append(this.recipeName))).append($("<td>").append(this.sumry))
+							.append($("<td>").append(this.categoryName)).append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel))
+							.append($("<td>").append(this.imgUrl)).append($("<td>").append(this.recipeHits)));
+				 });//each	 
+				$.each(map.apiMap.countList, function(){
+					$("#"+this.recipe_id).children(":first-child").text(this.count);
 				 });//each	 
 				 
 				 $("#userTbody").empty();
-				 $.each(map.userList, function(){
-					$("#userTbody").append($("<tr>").prop("id","userRecipe_col").append($("<td>").append(this.boardShareRecipeId)).append($("<td>").append(this.boardShareRecipeTitle)).append($("<td>").append(this.memberId))
-							.append($("<td>").append(this.boardShareRecipeDate)).append($("<td>").append(this.boardShaerRecipeHits)).append($("<td>").append(this.boardShareRecipeRecommand)));
-				 });//each	
+				 $.each(map.userMap.userList, function(){
+						$("#userTbody").append($("<tr>").prop("class","userRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId))
+								.append($("<td>").prop("id", "title").append($("<a>").prop("href", "${initParam.rootPath}/recipe/show/detailOfBoard.do?recipeId="+this.recipeId).append(this.title)))
+								.append($("<td>").append(this.memberId)).append($("<td>").append(this.date)).append($("<td>").append(this.hits)).append($("<td>").append(this.recommand)));
+				 });//each
+				 $.each(map.userMap.countList, function(){
+					 alert(this.count);
+						$("#"+this.BOARD_SHARE_RECIPE_ID).children(":first-child").text(this.count);
+					});//each
 			},//success
-			"error":function(xhr, msg, code){
-				alert("오류발생-" +msg+ ":" +code);
-			}
-		})
+			"error":function(errorMsg){
+				alert("오류다!");
+			} 
+		})//ajax
 	});//검색
 	
-	/* $(document).on("click",("#hitsDesc"),function(){
-		
+/* 	$(document).on("click","#hitsDesc",function(){
+		getList('recipeHitsDesc',1);
 	});//최다조회순
 	
-	$(document).on("click",("#hitsAsc"),function(){
-	
+	$(document).on("click","#hitsAsc",function(){
+		getList('recipeHitsAsc',1);
 	});//최저조회순
 	
-	$(document).on("click",("#calrorieDesc"),function(){
-	
+	$(document).on("click","#calrorieDesc",function(){
+		getList('calorieDesc',1);
 	});//고칼로리순
 	
-	$(document).on("click",("#calrorieAsc"),function(){
-	
+	$(document).on("click","#calrorieAsc",function(){
+		getList('calorieAsc',1);
 	});//저칼로리순
 	
-	$(document).on("change",("#recipeLevel"),function(){
-
+	$(document).on("change","#recipeLevel",function(){
+		getList($("#recipeLevel").val(),1);
 	});//난이도 */
-	
+
 })//ready
 </script>
 </head>
@@ -171,9 +199,6 @@ $(document).ready(function(){
 			<tbody id="irdntManageTbody"></tbody>
 		</table>
 	</div><hr>
-	<!--체크박스 골라서 버튼누르면 이동 다중선택가능하지만, 4개이하 -->
-<!-- 	<button type="button" id="likeBtn">선택재료</button><br>
-	<button type="button" id="dislikeBtn">기피재료</button><br> -->
 
 	<!--컬럼누르면 테이블에서 삭제  -->
 	기피재료 : 
@@ -216,15 +241,43 @@ $(document).ready(function(){
 	</div>
 	<div id="apiResult" style="overflow-x:hidden; overflow-y:scroll; height:300px;width:1400px;">
 		<table>
-			<thead id="apiThead"></thead>
+			<thead id="apiThead">
+				<tr>
+					<th>만족하는 재료수</th>
+					<th>레시피id</th>
+					<th>이름</th>
+					<th>간략소개</th>
+					<th>유형분류</th>
+					<th>음식분류</th>
+					<th>조리시간</th>
+					<th>칼로리</th>
+					<th>난이도</th>
+					<th>대표이미지</th>
+					<th>조회수</th>
+				</tr>
+			</thead>
 			<tbody id="apiTbody"></tbody>
 		</table>
 	</div>
+	<br>
+	<div id="apiPageBean"></div>
+	<br>
 	<div id="userResult" >
 		<table>
-			<thead id="userThead"></thead>
+			<thead id="userThead">
+				<tr>
+					<th>만족하는 재료수</th>
+					<th>레시피id</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>작성일</th>
+					<th>조회수</th>
+					<th>추천수</th>
+				</tr>
+			</thead>
 			<tbody id="userTbody"></tbody>
 		</table>
 	</div>
+	<div id="userPageBean"></div>
 </body>
 </html>

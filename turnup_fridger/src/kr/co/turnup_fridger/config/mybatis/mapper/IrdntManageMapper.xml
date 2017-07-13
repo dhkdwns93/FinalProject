@@ -48,12 +48,29 @@
       where irdnt_id=#{irdntId}
    </delete>
    
-   <select id="selectAllIrdnt" resultMap="irdntManage-resultmap">
-      SELECT
-      <include refid="all-column" />
+   <select id="selectAllIrdnt" resultMap="irdntManage-resultmap" parameterType="java.util.HashMap">
+     SELECT irdnt_id,irdnt_name,irdnt_category,room_tem_period,cold_tem_period,freeze_tem_period,note
+     FROM (
+		SELECT rownum rnum,irdnt_id,irdnt_name,irdnt_category,room_tem_period,cold_tem_period,freeze_tem_period,note
+		FROM (
+			SELECT
+   	  	 	<include refid="all-column" />
+   	  	 	FROM Irdnt_Manage
+   	  	 	ORDER BY irdnt_id)
+		WHERE rownum &lt;=#{endIndex})
+	WHERE rnum >= #{startIndex}
+   </select>
+   
+   <select id="selectAllIrdntNotPaging" resultMap="irdntManage-resultmap">
+   	select <include refid="all-column" />
+   	 from irdnt_manage order by irdnt_name
+   </select>
+   
+   <select id="selectAllIrdntCount" resultType="_int">
+      SELECT count(*)
       FROM Irdnt_Manage
       ORDER BY irdnt_id
-   </select>
+   </select>   
    
    <select id="selectIrdntByName" resultMap="irdntManage-resultmap" parameterType="String">
       SELECT
@@ -89,18 +106,37 @@
    </select>
    
    <select id="selectIrdntsBykeyword" resultMap="irdntManage-resultmap" parameterType="java.util.HashMap">
-      SELECT
-      <include refid="all-column" />
-      FROM Irdnt_Manage
-      <choose>
-      	<when test="irdntCategory =='전체'">
-      		where irdnt_name like '%'||#{irdntName}||'%' ORDER BY irdnt_id
-      	</when>
-      	<otherwise>
-      		where irdnt_name like '%'||#{irdntName}||'%' and irdnt_category=#{irdntCategory} ORDER BY irdnt_id
-      	</otherwise>
-      </choose>
+     SELECT irdnt_id,irdnt_name,irdnt_category,room_tem_period,cold_tem_period,freeze_tem_period,note
+     FROM (	
+     	SELECT rownum rnum,irdnt_id,irdnt_name,irdnt_category,room_tem_period,cold_tem_period,freeze_tem_period,note
+     	FROM(
+     		 SELECT
+      		<include refid="all-column" />
+    		  FROM Irdnt_Manage
+     		 <choose>
+     		 	<when test="irdntCategory =='전체'">
+      				where irdnt_name like '%'||#{irdntName}||'%' ORDER BY irdnt_id
+      			</when>
+      			<otherwise>
+      				where irdnt_name like '%'||#{irdntName}||'%' and irdnt_category=#{irdntCategory} ORDER BY irdnt_id
+      			</otherwise>
+     		 </choose>)
+     	 WHERE rownum &lt;=#{endIndex})
+   	WHERE rnum>=#{startIndex}
    </select>
+   
+ 	<select id="selectIrdntsBykeywordCount" resultType="_int" parameterType="java.util.HashMap">
+     	SELECT count(*)
+    		  FROM Irdnt_Manage
+     		 <choose>
+     		 	<when test="irdntCategory =='전체'">
+      				where irdnt_name like '%'||#{irdntName}||'%' ORDER BY irdnt_id
+      			</when>
+      			<otherwise>
+      				where irdnt_name like '%'||#{irdntName}||'%' and irdnt_category=#{irdntCategory} ORDER BY irdnt_id
+      			</otherwise>
+     		 </choose>
+   </select>  
    
    <select id="selectAllIrdntCategory" resultType="java.lang.String">
    	select distinct irdnt_category 

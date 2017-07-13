@@ -18,12 +18,11 @@
 
 	})//ready
 	function closeWindow(){
-		window.opener.name= "parentPage";
-		document.myIrdntForm.target= "parentPage";
-		document.myIrdntForm.action=action="/turnup_fridger/common/member/myIrdnt/createMyIrdnt.do";
-		document.myIrdntForm.submit();
+		//window.opener.name= "parentPage";
+		//document.myIrdntForm.target= "parentPage";
+		document.myIrdntForm.action="/turnup_fridger/common/member/myIrdnt/createMyIrdnt.do";
+		//document.myIrdntForm.submit();
 		window.opener.location.reload();
-		self.close();
 		};
 </script>
 </head>

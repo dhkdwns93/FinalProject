@@ -192,7 +192,7 @@
 	<!-- 나의 식재료 수정폼 페이지   -->
 	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_update_form.do" view-name="common/member/myIrdnt/myIrdnt_update_form.tiles"/>
 	<!-- 나의 식재료 재료명 검색 페이지   -->
-	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_search_result.do" view-name="common/member/myIrdnt/myIrdnt_search_result.tiles"/>
+	<mvc:view-controller path="/common/member/myIrdnt/myIrdnt_search_result.do" view-name="common/member/myIrdnt/myIrdnt_search_result"/>
 	
 	<!--레시피-관리자용  -->
 	<!--레시피 목록불러오기  -->
@@ -214,6 +214,8 @@
 	<!--레시피 사용자용  -->
 	<!--레시피 상세페이지  -->
 	<mvc:view-controller path="/recipe_for_user/recipe_detail.do" view-name="recipe_for_user/recipe_detail.tiles"/>
+	<!--레시피공유게시판 상세페이지  -->
+	<mvc:view-controller path="/recipe_for_user/boardRecipe_view.do" view-name="recipe_for_user/boardRecipe_view.tiles"/>
 	<!--레시피 재료로 검색하는 페이지  -->
 	<mvc:view-controller path="/recipe_for_user/search_by_irdnts.do" view-name="recipe_for_user/search_by_irdnts.tiles"/>
 	<!--레시피 요리명으로 검색하는 페이지  -->
