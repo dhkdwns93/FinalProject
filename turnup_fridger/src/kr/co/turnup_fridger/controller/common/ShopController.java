@@ -11,11 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,7 +30,7 @@ public class ShopController {
 	private ShopService service;
 	
 	//이미지 경로				
-	private String eclipseDir = "C:\\java\\git\\FinalProject\\turnup_fridger\\WebContent\\images"; 
+	private String eclipseDir = "C:\\Java\\apache-tomcat-8.0.43\\webapps\\turnup_fridger\\images"; 
 	
 	private void copyToEclipseDir(String newImageName, MultipartFile upImage) throws Exception{
 		File eclipseDest = new File(eclipseDir, newImageName);
@@ -51,7 +49,6 @@ public class ShopController {
 	// 등록(관리자) - O
 	@RequestMapping(value="addShop", method=RequestMethod.POST )
 	public ModelAndView addShop(@ModelAttribute Shop shop ,BindingResult errors, HttpServletRequest req) throws Exception{
-		System.out.println("=== shop controller - 진입 ===");
 	
 		ShopValidator val = new ShopValidator();
 		val.validate(shop, errors);
@@ -59,8 +56,6 @@ public class ShopController {
 		if(errors.hasErrors()){
 			return new ModelAndView("common/shop/shop_register_form.tiles");
 		}
-		
-		System.out.println("=== shop controller - 검증 마침 ===");
 		
 		ModelAndView mav = new ModelAndView();
 		String upImageDir = req.getServletContext().getRealPath("/images");
@@ -75,7 +70,7 @@ public class ShopController {
 			shop.setShopImg(upImage.getOriginalFilename());
 			String newImageName = UUID.randomUUID().toString();
 			shop.setSaveImg(newImageName);
-			File dest = new File(upImageDir);
+			File dest = new File(upImageDir, newImageName);
 			
 			// 이클립스 경로로 카피
 			copyToEclipseDir(newImageName,upImage);
@@ -84,7 +79,6 @@ public class ShopController {
 			// 저장
 			service.insertShop(shop);
 		}
-		System.out.println(" 등록 됐지롱");
 		mav.addObject("shop",shop);
 		mav.setViewName("redirect:/common/shop/shopList_for_admin.do");
 		mav.addObject("shop", service.selectShopById(shop.getShopId()));
