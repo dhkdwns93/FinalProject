@@ -11,7 +11,7 @@ $(document).ready(function(){
 		window.open(
 				"${ initParam.rootPath }/common/admin/recipe/update_chk.do?recipeId=${requestScope.recipe.recipeId}",
 				"_blank",
-				"fullscreen=yes, height=700, width=500, resizable=no, scrollbars=no, location=no, toolbar=no, directories=no, menubar=no"
+				"fullscreen=yes, height=600, width=500, resizable=no, scrollbars=no, location=no, toolbar=no, directories=no, menubar=no"
 				);
 	});
 

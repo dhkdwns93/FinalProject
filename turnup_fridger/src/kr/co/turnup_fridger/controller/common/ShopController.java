@@ -31,8 +31,8 @@ public class ShopController {
 	@Autowired
 	private ShopService service;
 	
-	//이미지 경로
-	private String eclipseDir = "C:\\Java\\eclipse\\workspace_web\\turnup_fridger1\\WebContent\\up_image"; 
+	//이미지 경로				
+	private String eclipseDir = "C:\\java\\git\\FinalProject\\turnup_fridger\\WebContent\\images"; 
 	
 	private void copyToEclipseDir(String newImageName, MultipartFile upImage) throws Exception{
 		File eclipseDest = new File(eclipseDir, newImageName);
@@ -63,7 +63,7 @@ public class ShopController {
 		System.out.println("=== shop controller - 검증 마침 ===");
 		
 		ModelAndView mav = new ModelAndView();
-		String upImageDir = req.getServletContext().getRealPath("/up_image");
+		String upImageDir = req.getServletContext().getRealPath("/images");
 		MultipartFile upImage = shop.getUpImage();
 		
 		String fname = upImage.getOriginalFilename();
@@ -86,16 +86,15 @@ public class ShopController {
 		}
 		System.out.println(" 등록 됐지롱");
 		mav.addObject("shop",shop);
-		mav.setViewName("common/shop/shopList.tiles");
+		mav.setViewName("redirect:/common/shop/shopList_for_admin.do");
 		mav.addObject("shop", service.selectShopById(shop.getShopId()));
 		return mav;	
 	}
 	
-	// 삭제(관리자) - shopId를 이상하게 넘겨줌 
+	// 삭제(관리자) - O
 	@RequestMapping(value="removeShop", produces="text/html;charset=UTF-8")
 	@ResponseBody
 	public String removeShop(String shopId){
-		System.out.println(" === shop 삭제 === ");
 		int sId = Integer.parseInt(shopId);
 		try {
 			service.deleteShop(sId);
@@ -105,12 +104,18 @@ public class ShopController {
 		return "삭제완료";
 	}
 	
-	// 쇼핑몰 전체목록(회원, 관리자) - O
+	// 쇼핑몰 전체목록(회원) - O
 	@RequestMapping("findShopList")
 	public ModelAndView findShopList(){
 		List<Shop> list = service.selectShopList();
-		System.out.println("=== shop List ===");
 		return new ModelAndView("common/shop/shopList.tiles", "list", list);
+	}
+	
+	// 쇼핑몰 전체목록(관리자) - O
+	@RequestMapping(value = "findShopListAjax", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public List<Shop> findShopListAjax() {
+		return service.selectShopList();
 	}
 	
 	// 쇼핑몰 총 개수(회원, 관리자) - O

@@ -51,7 +51,7 @@ public interface BoardShareRecipeDao {
 		 * @param title
 		 * @return
 		 */
-		List<BoardShareRecipe> selectBoardShareRecipeByTitle(String title);
+	List<BoardShareRecipe> selectBoardShareRecipeByTitle(String title,int startIndex, int endIndex);
 	/**
 	 * 모든 게시판의 전체수를 반환
 	 * @return
@@ -169,5 +169,21 @@ public interface BoardShareRecipeDao {
 		 * @param recipeIds
 		 * @return
 		 */
-		List<BoardShareRecipe> selectBoardShareRecipeById(List<Integer> recipeIds);
+		List<BoardShareRecipe> selectBoardShareRecipeById(List<Integer> recipeIds,int startIndex, int endIndex);
+		
+		/**
+		 * 레시피id 여러개로 불러오는 글들의 수 
+		 * @param recipeIds
+		 * @return
+		 */
+		int selectBoardShareRecipeByIdCount(List<Integer> recipeIds);
+		
+		/**
+		 * 제목으로 부분조회된 레시피들의 수 
+		 * @param title
+		 * @param startIndex
+		 * @param endIndex
+		 * @return
+		 */
+		int selectBoardShareRecipeByTitleCount(String title);
 }

@@ -6,45 +6,114 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript"
-	src="/turnup_fridger/scripts/jquery.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
-	$(document).ready(function(){
-		$.ajax({
-			"url":"/turnup_fridger/common/admin/irdntManage/allIrdntList.do",
-			"dataType":"json", 
-			"success":function(list){
-				$.each(list, function(){
-					$("#tbody").append($("<tr>").prop("id","irdnt_col").append($("<td>").append(this.irdntId)).append($("<td>").append(this.irdntName)).append($("<td>").append(this.irdntCategory))
-					.append($("<td>").append(this.roomTemPeriod)).append($("<td>").append(this.coldTemPeriod)).append($("<td>").append(this.freezeTemPeriod)).append($("<td>").append(this.note))
-					.append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").append("수정")))
-					.append($("<td>").append($("<button>").prop("type","button").prop("id","deleteBtn").append("삭제"))));
-				 	});//each
-			},//success
-			"error":function(errorMsg){
-				alert("오류다!");
-			} 
-		})//ajax
+function getList(page){
+	$("#tbody").empty();
+	$("#pageBean").empty();
 	
+	if(!page) page = 1;
+	
+	$.ajax({
+		"url":"/turnup_fridger/common/admin/irdntManage/allIrdntList.do",
+		"data":"page="+page,
+		"dataType":"json", 
+		"success":function(map){
+			$.each(map.list, function(){
+				$("#tbody").append($("<tr>").prop("id","irdnt_col").append($("<td>").append(this.irdntId)).append($("<td>").append(this.irdntName)).append($("<td>").append(this.irdntCategory))
+				.append($("<td>").append(this.roomTemPeriod)).append($("<td>").append(this.coldTemPeriod)).append($("<td>").append(this.freezeTemPeriod)).append($("<td>").append(this.note))
+				.append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").append("수정")))
+				.append($("<td>").append($("<button>").prop("type","button").prop("id","deleteBtn").append("삭제"))));
+			 	});//each
+			
+			 	$("#pageBean").append($("<a href='javascript:getList(1)'>").append("첫페이지"));
+			
+			 	if(map.pageBean.previousPageGroup!=null){
+			 		$("#pageBean").append($("<a href='javascript:getList("+(map.pageBean.beginPage-1)+")'>").append("◀"));
+			 		//$("#pageBean").append($("<a>").prop("href", "/turnup_fridger/common/admin/irdntManage/allIrdntList.do?page="+map.pageBean.beginPage-1).append("◀"));
+				}else{
+					$("#pageBean").append("◀");
+				} 	
+			 	for(var index = map.pageBean.beginPage ; index < map.pageBean.endPage ; index++){
+			 		if(index !=map.pageBean.page){
+			 			$("#pageBean").append($("<a href='javascript:getList("+index+")'>").append(index));
+						//$("#pageBean").append($("<a>").prop("href", "/turnup_fridger/common/admin/irdntManage/allIrdntList.do?page="+index).append(index));
+					}else{
+						$("#pageBean").append("["+index+"]"+"&nbsp;&nbsp;");
+					}
+			 	}
+			 	if(map.pageBean.nextPageGroup!=null){
+			 		$("#pageBean").append($("<a href ='javascript:getList("+(map.pageBean.endPage+1)+")'>").append("▶"));
+			 		//$("#pageBean").append($("<a>").prop("href", "/turnup_fridger/common/admin/irdntManage/allIrdntList.do?page="+map.pageBean.endPage+1).append("▶"));
+			 	}else{
+			 		$("#pageBean").append("▶");
+			 	}
+			 	
+			 	$("#pageBean").append($("<a href = 'javascript:getList("+(map.pageBean.totalPage)+")'>").append("마지막 페이지"));
+			 	//$("#pageBean").append($("<a>").prop("href", "/turnup_fridger/common/admin/irdntManage/allIrdntList.do?page="+map.pageBean.totalPage).append("마지막 페이지"));
+		},//success
+		"error":function(errorMsg){
+			alert("오류다!");
+		} 
+	})//ajax
+	
+};
+
+function getSearchList(page){
+	$("#tbody").empty();
+	$("#pageBean").empty();
+	
+	if(!page) page = 1;
+	
+	$.ajax({
+		"url":"/turnup_fridger/common/admin/irdntManage/findIrdntByKeyword.do",
+		"data":{'irdntCategory' : $("#irdntCategory").val(), 'irdntName' : $("#irdntName").val(),'page':page,'${_csrf.parameterName}':'${_csrf.token}'},
+		"dataType":"json", 
+		"success":function(map){
+			$.each(map.list, function(){
+				$("#tbody").append($("<tr>").prop("id","irdnt_col").append($("<td>").append(this.irdntId)).append($("<td>").append(this.irdntName)).append($("<td>").append(this.irdntCategory))
+				.append($("<td>").append(this.roomTemPeriod)).append($("<td>").append(this.coldTemPeriod)).append($("<td>").append(this.freezeTemPeriod)).append($("<td>").append(this.note))
+				.append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").append("수정")))
+				.append($("<td>").append($("<button>").prop("type","button").prop("id","deleteBtn").append("삭제"))));
+			 	});//each
+			
+			 	$("#pageBean").append($("<a href='javascript:getSearchList(1)'>").append("첫페이지"));
+			
+			 	if(map.pageBean.previousPageGroup!=null){
+			 		$("#pageBean").append($("<a href='javascript:getSearchList("+(map.pageBean.beginPage-1)+")'>").append("◀"));
+			 		//$("#pageBean").append($("<a>").prop("href", "/turnup_fridger/common/admin/irdntManage/allIrdntList.do?page="+map.pageBean.beginPage-1).append("◀"));
+				}else{
+					$("#pageBean").append("◀");
+				} 	
+			 	for(var index = map.pageBean.beginPage ; index < map.pageBean.endPage ; index++){
+			 		if(index !=map.pageBean.page){
+			 			$("#pageBean").append($("<a href='javascript:getSearchList("+index+")'>").append(index));
+						//$("#pageBean").append($("<a>").prop("href", "/turnup_fridger/common/admin/irdntManage/allIrdntList.do?page="+index).append(index));
+					}else{
+						$("#pageBean").append("["+index+"]"+"&nbsp;&nbsp;");
+					}
+			 	}
+			 	if(map.pageBean.nextPageGroup!=null){
+			 		$("#pageBean").append($("<a href ='javascript:getSearchList("+(map.pageBean.endPage+1)+")'>").append("▶"));
+			 		//$("#pageBean").append($("<a>").prop("href", "/turnup_fridger/common/admin/irdntManage/allIrdntList.do?page="+map.pageBean.endPage+1).append("▶"));
+			 	}else{
+			 		$("#pageBean").append("▶");
+			 	}
+			 	
+			 	$("#pageBean").append($("<a href = 'javascript:getSearchList("+(map.pageBean.totalPage)+")'>").append("마지막 페이지"));
+			 	//$("#pageBean").append($("<a>").prop("href", "/turnup_fridger/common/admin/irdntManage/allIrdntList.do?page="+map.pageBean.totalPage).append("마지막 페이지"));
+		},//success
+		"error":function(errorMsg){
+			alert("오류다!");
+		} 
+	})//ajax
+	
+}
+	$(document).ready(function(){
+		getList(1);	
+				
 		$("#searchBtn").on("click",function(){
-			$.ajax({
-				"url":"/turnup_fridger/common/admin/irdntManage/findIrdntByKeyword.do",
-				"type":"POST",
-				"data":{'irdntCategory' : $("#irdntCategory").val(), 'irdntName' : $("#irdntName").val(),'${_csrf.parameterName}':'${_csrf.token}'},
-				"dataType":"json",
-				"success":function(list){
-					$("#tbody").empty();
-					$.each(list, function(){
-						$("#tbody").append($("<tr>").prop("id","irdnt_col").append($("<td>").append(this.irdntId)).append($("<td>").append(this.irdntName)).append($("<td>").append(this.irdntCategory))
-						.append($("<td>").append(this.roomTemPeriod)).append($("<td>").append(this.coldTemPeriod)).append($("<td>").append(this.freezeTemPeriod)).append($("<td>").append(this.note))
-						.append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").append("수정")))
-						.append($("<td>").append($("<button>").prop("type","button").prop("id","deleteBtn").append("삭제"))));
-						 });//each
-				},
-				"error":function(errorMsg){
-					alert("오류다!")
-				}
-			})
+			getSearchList(1);
 		});//searchBtn
 
 		$(document).on("click","#updateBtn",function(){
@@ -73,7 +142,7 @@
 		$("#insertBtn").on("click",function(){
 			window.open("/turnup_fridger/common/admin/irdntManage/irdnt_form.do","insertIrdnt","width=500, height=400");
 		})//insertBtn
-	})
+	});
 
 </script>
 <style type="text/css">
@@ -136,5 +205,6 @@ td {
 			<tbody id="tbody"></tbody>
 		</table>
 	</div>
+	<div id="pageBean"></div>
 </body>
 </html>
