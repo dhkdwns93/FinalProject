@@ -57,21 +57,59 @@ public class RecipeServiceImpl implements RecipeService{
 			}	
 		}
 
-		//레시피 수정	
+		//레시피 수정
 		@Override
-		public void updateRecipe(RecipeInfo recipe) throws NoneRecipeException {
-			if(infoDao.selectRecipeInfoById(recipe.getRecipeId())==null){
+		public void updateRecipeInfo(RecipeInfo recipeInfo) throws NoneRecipeException {
+			//기본정보
+			if(infoDao.selectRecipeInfoById(recipeInfo.getRecipeId())==null){
 				throw new NoneRecipeException("없는 레시피입니다.");
 			}
-			infoDao.updateRecipeInfo(recipe);
-			for(int i=0;i<recipe.getRecipeCrseList().size();i++){
-				crseDao.updateRecipeCrse(recipe.getRecipeCrseList().get(i));
+			infoDao.updateRecipeInfo(recipeInfo);
+		}
+			
+			
+
+		
+		@Override
+		public void updateRecipeIrdnt(Map<String, List> recipeIrdnt) throws NoneRecipeException {
+			
+			//재료
+			List<Integer> removeIrdntList = recipeIrdnt.get("removeIrdntList");	//삭제할 재료
+			if(removeIrdntList != null || !removeIrdntList.isEmpty()){
+			for(int i=0;i<removeIrdntList.size();i++){
+				if(removeIrdntList.get(i) != null )
+				irdntDao.deleteRecipeIrdnt(removeIrdntList.get(i));
 			}
-			for(int i=0; i<recipe.getRecipeIrdntList().size();i++){
-				irdntDao.updateRecipeIrdnt(recipe.getRecipeIrdntList().get(i));
-			}	
+			}
+			List<RecipeIrdnt> addIrdntList = recipeIrdnt.get("addIrdntList");	//추가할 재료
+			if(addIrdntList != null || !addIrdntList.isEmpty()){
+			for(int i=0;i<addIrdntList.size();i++){
+				if(removeIrdntList.get(i) != null )
+				irdntDao.insertRecipeIrdnt(addIrdntList.get(i));
+			}
+			}
 		}
 
+		@Override
+		public void updateRecipeCrse(Map<String, List> recipeCrse) throws NoneRecipeException {
+
+			//과정
+			List<Map> removeCrseList = recipeCrse.get("removeCrseList");	//삭제할 과정(recipeId-cookingNo)
+			if(removeCrseList != null || !removeCrseList.isEmpty()){
+			for(int i=0;i<removeCrseList.size();i++){
+				crseDao.deleteRecipeCrse((int)(removeCrseList.get(i).get("recipeId")), (int)(removeCrseList.get(i).get("cookingNo")));
+			}
+			}
+			
+			List<RecipeCrse> addCrseList = recipeCrse.get("addCrseList");	//추가할 과정
+			if(addCrseList != null || !addCrseList.isEmpty()){
+			for(int i=0; i<addCrseList.size();i++){
+				crseDao.insertRecipeCrse(addCrseList.get(i));
+			}
+			}
+		}
+	
+		
 		//레시피 삭제
 		@Override
 		public void removeRecipe(int recipeId) throws NoneRecipeException {
@@ -170,7 +208,12 @@ public class RecipeServiceImpl implements RecipeService{
 		public RecipeInfo findRecipeInfoByRecipeId(int recipeId) {
 			return infoDao.selectRecipeInfoById(recipeId);
 		}
-		
 
+		@Override
+		public List<RecipeInfo> findTypeCodeAndNameByCategoryCode(int catagoryCode) {
+			return infoDao.selectTypeCodeAndNameByCategoryCode(catagoryCode);
+		}
+
+	
 	
 }

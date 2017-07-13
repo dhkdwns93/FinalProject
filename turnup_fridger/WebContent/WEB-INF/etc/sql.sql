@@ -242,7 +242,7 @@ DROP SEQUENCE IRDNT_ID;
 CREATE SEQUENCE IRDNT_ID INCREMENT BY 1000 START WITH 1;  
 SELECT IRDNT_ID.NEXTVAL FROM DUAL;
 
---insert into irdnt_manage values (0,'테스트','가공식품',1,1,1,'테스트야~');
+--insert into irdnt_manage values (1,'테스트','가공식품',1,1,1,'테스트야~');
 --select * from IRDNT_MANAGE;
 --select distinct irdnt_category from irdnt_manage;
 --delete from irdnt_manage where irdnt_category is null;
@@ -537,3 +537,8 @@ WHERE recipe_id NOT IN (
 		GROUP BY recipe_id
 		HAVING COUNT(*) >= 2
 		ORDER BY COUNT(*) DESC, recipe_id
+		
+	SELECT DISTINCT type_code, type_name 
+	FROM RECIPE_INFO 
+	where category_name='한식'
+	order by type_code

@@ -130,7 +130,7 @@ public class IrdntManageController {
 	@RequestMapping("findIrdntByName")
 	@ResponseBody
 	public List<IrdntManage> findIrdntByName(@RequestParam String irdntName){
-//		System.out.println("findIrdntByName 핸들러: irdntName:"+irdntName);//받아옴
+		System.out.println("findIrdntByName 핸들러: irdntName:"+irdntName);//받아옴
 		List<IrdntManage> list = service.findIrdntByName(irdntName);
 		System.out.println(list);
 		return list;

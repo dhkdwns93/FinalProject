@@ -55,11 +55,11 @@ form{display:inline}
 			<input type="submit" value="수정" onclick="return insert_event();">
 </form>
 <form action="${initParam.rootPath}/common/boardfree/boardFreeView.do" method="post">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
         <input type="hidden" name="member" value=""> 
         <input type="hidden" name="admin" value="">
         <input type="hidden" name="memberId" value="${boardFree.memberId}">
-	<button value="${boardFree.boardFreeId}" name="boardFreeId">뒤로가기</button>
+<button value="${boardFree.boardFreeId}" name="boardFreeId">뒤로가기</button>
 </form>    
 </body>
 </html>

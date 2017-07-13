@@ -111,4 +111,11 @@ public interface RecipeInfoDao {
 	 * @return
 	 */
 	List<String> selectTypeNameByCategoryName(String categoryName);
+	
+	/**
+	 * 카테고리 코드를 받아 타입 코드와, 타입명을 받아옴
+	 * @param caregoryCode
+	 * @return
+	 */
+	List<RecipeInfo> selectTypeCodeAndNameByCategoryCode(int caregoryCode);
 }

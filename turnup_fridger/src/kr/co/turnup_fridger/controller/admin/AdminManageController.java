@@ -15,6 +15,8 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +26,9 @@ import kr.co.turnup_fridger.exception.RegisterAdminFailException;
 import kr.co.turnup_fridger.service.AdminService;
 import kr.co.turnup_fridger.service.MemberService;
 import kr.co.turnup_fridger.service.MyDislikeIrdntService;
+import kr.co.turnup_fridger.validation.AdminChangeInfoValidator;
+import kr.co.turnup_fridger.validation.AdminJoinValidator;
+import kr.co.turnup_fridger.validation.form.AdminChangeForm;
 import kr.co.turnup_fridger.vo.Admin;
 import kr.co.turnup_fridger.vo.Member;
 
@@ -41,6 +46,11 @@ public class AdminManageController {
 	private AdminService adminService;
 	
 	@Autowired
+	private AdminJoinValidator validatorJoin;
+	@Autowired
+	private AdminChangeInfoValidator validatorChange;
+	
+	@Autowired
 	private MyDislikeIrdntService myDislikeIrdntService;
 	
 	@Autowired
@@ -53,7 +63,7 @@ public class AdminManageController {
 	@RequestMapping("/member_list")
 	public ModelAndView inquiryMemberList(){
 		List<Member> memberList=memberService.inquiryMemberList();
-		return new ModelAndView("common/admin/user/member_list","memberList",memberList);
+		return new ModelAndView("common/admin/user/member_list.tiles","memberList",memberList);
 	}
 	
 	/**
@@ -65,15 +75,21 @@ public class AdminManageController {
 	 * @throws RegisterAdminFailException
 	 */
 	@RequestMapping("/master/join_admin")
-	public ModelAndView registerAdmin(@ModelAttribute Admin admin) throws RegisterAdminFailException{
+	public ModelAndView registerAdmin(@ModelAttribute Admin admin, BindingResult errors) throws RegisterAdminFailException{
+		//validator
+		validatorJoin.validate(admin, errors);
+		if(errors.hasErrors()){
+			return new ModelAndView("common/admin/master/user/join_admin_form.tiles","admin",admin);
+		}
+		
+		//관리자등록
 		adminService.registerAdmin(admin);
 		return new ModelAndView("redirect:/common/admin/master/join_admin_success.do","adminId",admin.getAdminId());
 	}
-	
 	@RequestMapping("/master/join_admin_success")
 	public ModelAndView registerSuccesAdmin(@RequestParam String adminId){
 		Admin admin=adminService.inquiryAdminInfo(adminId);
-		return new ModelAndView("common/admin/master/user/join_admin_success","admin",admin);
+		return new ModelAndView("common/admin/master/user/join_admin_success.tiles","admin",admin);
 	}
 	
 	/**
@@ -83,8 +99,7 @@ public class AdminManageController {
 	@RequestMapping("/admin_list")
 	public ModelAndView inquiryAdminList(){
 		List<Admin> adminList=adminService.inquiryAdminList();
-		//System.out.println("AdminManageController- adminList : "+adminList);
-		return new ModelAndView("common/admin/user/admin_list","adminList",adminList);
+		return new ModelAndView("common/admin/user/admin_list.tiles","adminList",adminList);
 	}
 	
 	/**
@@ -96,33 +111,41 @@ public class AdminManageController {
 	 * @return
 	 */
 	@RequestMapping("/admin_change")
-	public String changeAdminInfo(@ModelAttribute Admin admin, @RequestParam String oldAdminPw){
+	public String changeAdminInfo(@ModelAttribute AdminChangeForm adminChangeForm, ModelMap map, BindingResult errors){
 		//1. 요청한 사용자 정보 조회
 		SecurityContext ctx=SecurityContextHolder.getContext();
 		Authentication authentication=ctx.getAuthentication();
-		
 		//PW체크
 		String originalAdminPw=((Admin)authentication.getPrincipal()).getAdminPw();
 		//바꾸려는 비밀번호
-		String adminPw=admin.getAdminPw();
-		if(!passwordEncoder.matches(oldAdminPw,originalAdminPw)){
-//		if(!adminPw.equals(admin.getAdminPw())){
-			System.out.println("originalPW="+originalAdminPw);
-			System.out.println("입력한 PW="+ oldAdminPw);
-			System.out.println("AdminManageController + PW가 다릅니다.");
+		String adminPw=adminChangeForm.getAdminPw();
+		
+		//Admin객체 생성
+		Admin admin=new Admin(adminChangeForm.getAdminId(),adminChangeForm.getAdminPw(),adminChangeForm.getAdminName(),adminChangeForm.getAdminTel(),adminChangeForm.getAdminEmail());
+		
+		//validator
+		adminChangeForm.setOriginalAdminPw(originalAdminPw);
+		validatorChange.validate(adminChangeForm, errors);
+		if(errors.hasErrors()){
+			map.addAttribute("admin",admin);
+			return "common/admin/user/admin_change_info.tiles";
+		}
+		//한번더 확인
+		if(!passwordEncoder.matches(adminChangeForm.getOldAdminPw(),originalAdminPw)){
 			throw new RuntimeException("PW가 다릅니다.");
 		}
 		
 		//2.BusinessLogic호출
-		if((adminService.inquiryAdminInfo(admin.getAdminId()).getAdminAuthority()).equals("ROLE_HEADMASTERADMIN")){
+		if((adminService.inquiryAdminInfo(adminChangeForm.getAdminId()).getAdminAuthority()).equals("ROLE_HEADMASTERADMIN")){
 			System.out.println("Head Master는 수정이 불가합니다.");
 			throw new RuntimeException("Head Master는 수정이 불가합니다.");
 		}
 		adminService.changeAdminInfo(admin);
 		
-		//3.응답
 		ctx.setAuthentication(new UsernamePasswordAuthenticationToken(admin, null, authentication.getAuthorities()));
-		return "common/admin/user/admin_mypage";
+		//3.응답
+		map.addAttribute("admin",admin);
+		return "redirect:/common/admin/admin_mypage.do";
 	}
 	
 	/**
@@ -150,10 +173,6 @@ public class AdminManageController {
 			System.out.println("로그인한 관리자는 권한수정이 불가합니다.");
 			throw new RuntimeException("로그인한 관리자는 권한수정이 불가합니다.");
 		}
-		
-//		System.out.println("AdminManage changeAdminAuthority : "+ adminId);
-//		System.out.println("AdminManage changeAdminAuthority : "+ adminAuthority);
-		
 		adminService.changeAdminAuthority(adminId, adminAuthority);
 		
 		//3.응답
@@ -174,11 +193,7 @@ public class AdminManageController {
 		//1.요청한 사용자 정보 조회
 		SecurityContext ctx=SecurityContextHolder.getContext();
 		Authentication authentication=ctx.getAuthentication();
-//		String adminAuthority=service.inquiryAdminInfo(adminId).getAdminAuthority();
-//		System.out.println("AdminManage deleteAdmin : "+ adminAuthority);
-		
-//		String loginAuthority=((Admin)authentication.getPrincipal()).getAdminAuthority();
-//		System.out.println(loginAuthority);
+
 		//2.Business Logic
 		if((adminService.inquiryAdminInfo(adminId).getAdminAuthority()).equals("ROLE_HEADMASTERADMIN")){
 			System.out.println("Head Master는 탈퇴가 불가합니다.");
@@ -190,15 +205,11 @@ public class AdminManageController {
 				System.out.println("Master관리자는 headMaster만 탈퇴처리 할 수 있습니다.");
 				throw new RuntimeException("Master관리자는 headMaster만 탈퇴처리 할 수 있습니다.");
 			}
-			//System.out.println("master관리자 탈퇴");
 			adminService.deleteAdmin(adminId);
 		}else{
-			//System.out.println("일반관리자 탈퇴");
 			adminService.deleteAdmin(adminId);
 		}
 		
-		//System.out.println("AdminManage deleteAdmin : "+ adminId);
-		//service.deleteAdmin(adminId);
 		//3.응답
 		return "redirect:/common/admin/admin_list.do";
 	}
@@ -213,7 +224,6 @@ public class AdminManageController {
 		//1.요청한 사용자 정보 조회
 
 		//2.Business Logic
-		//System.out.println(memberId + "탈퇴");	
 		myDislikeIrdntService.removeMyDislikeIrdntByMemberId(memberId);
 		memberService.deleteMember(memberId);
 		//3.응답

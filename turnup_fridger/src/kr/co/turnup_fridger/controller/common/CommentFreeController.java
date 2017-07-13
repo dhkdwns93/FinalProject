@@ -1,14 +1,17 @@
 package kr.co.turnup_fridger.controller.common;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +22,6 @@ import kr.co.turnup_fridger.service.BoardFreeService;
 import kr.co.turnup_fridger.service.CommentFreeService;
 import kr.co.turnup_fridger.validation.CommentFreeValidator;
 import kr.co.turnup_fridger.vo.BoardFree;
-import kr.co.turnup_fridger.vo.BoardQnA;
 import kr.co.turnup_fridger.vo.CommentFree;
 
 @Controller
@@ -99,7 +101,7 @@ public class CommentFreeController extends HttpServlet {
 		@RequestMapping("commentFreeRemove")
 		@ResponseBody
 		public ModelAndView commentQnARemove(@RequestParam int commentFreeId,@RequestParam int boardFreeId,@RequestParam String adminId,@RequestParam String memberId,
-				@RequestParam String writer,@RequestParam(defaultValue="1") int page)
+				@RequestParam String writer,@RequestParam(defaultValue="1") int page,HttpServletRequest request, HttpServletResponse response) throws IOException
 		{
 			
 			ModelAndView mav = new ModelAndView();
@@ -107,20 +109,30 @@ public class CommentFreeController extends HttpServlet {
 			if((writer.equals(memberId) && adminId.trim().isEmpty()) || !adminId.trim().isEmpty())
 			{
 				service.removeCommentFree(commentFreeId);
+				BoardFree boradFree = board.selectBoardFreeByboardFreeId(boardFreeId);
+				mav.addObject("boardFree",boradFree);
+				Map<String, Object> map = service.selectCommentFreeListbyId(boardFreeId,page);
+				mav.addObject("commentFree", map.get("list"));
+				mav.addObject("boardFreeId",  map.get("boardFreeId"));
+			    mav.addObject("pageBean", map.get("pageBean"));
+			    mav.setViewName("common/boardfree/boardfree_view.tiles");
+			    return mav;
+				
 			}
-			
 			
 			BoardFree boradFree = board.selectBoardFreeByboardFreeId(boardFreeId);
 			mav.addObject("boardFree",boradFree);
-			
 			Map<String, Object> map = service.selectCommentFreeListbyId(boardFreeId,page);
 			mav.addObject("commentFree", map.get("list"));
 			mav.addObject("boardFreeId",  map.get("boardFreeId"));
 		    mav.addObject("pageBean", map.get("pageBean"));
-		    
-			
-			mav.setViewName("common/boardfree/boardfree_view.tiles");
-			
+		    mav.setViewName("common/boardfree/boardfree_view.tiles");
+		   
+		    response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('권한이 없습니다.');</script>");
+            out.flush();
+
 			return mav;
 		}	
 		
@@ -129,10 +141,10 @@ public class CommentFreeController extends HttpServlet {
 		@RequestMapping("commentFreeUploadView")
 		@ResponseBody
 		public ModelAndView commentFreeUploadView(@RequestParam int commentFreeId,@RequestParam String writer,
-				@RequestParam String memberId,@RequestParam int boardFreeId,@RequestParam(defaultValue="1") int page)
+				@RequestParam String memberId,@RequestParam int boardFreeId,@RequestParam(defaultValue="1") int page,
+				HttpServletRequest request, HttpServletResponse response) throws Exception
 		{
 			ModelAndView mav = new ModelAndView();
-			
 			
 			if(writer.equals(memberId))
 			{
@@ -142,21 +154,23 @@ public class CommentFreeController extends HttpServlet {
 			    
 				return mav;
 			}
-			
+
 			BoardFree boradFree = board.selectBoardFreeByboardFreeId(boardFreeId);
-			mav.addObject("boardFree",boradFree);
-			
+            mav.addObject("boardFree",boradFree);
 			Map<String, Object> map = service.selectCommentFreeListbyId(boardFreeId,page);
 			mav.addObject("commentFree", map.get("list"));
 			mav.addObject("boardFreeId",  map.get("boardFreeId"));
 		    mav.addObject("pageBean", map.get("pageBean"));
-		    
-			
 			mav.setViewName("common/boardfree/boardfree_view.tiles");
 			
-			return mav;
+			response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('권한이 없습니다.');</script>");
+            out.flush();
+			
+            return mav;
 		}	
-		
+			
 		//수정
 		@RequestMapping("commentFreeUploadForm")
 		@ResponseBody

@@ -1,3 +1,9 @@
+/**
+(validation.form)MemberChangeForm
+작성자 :  김경혜
+최초 작성일 170708
+변경이력 
+*/
 package kr.co.turnup_fridger.validation.form;
 
 import java.util.List;
@@ -24,7 +30,6 @@ public class MemberChangeForm{
 	public MemberChangeForm(String originalMemberPw, String memberId, String oldMemberPw, String memberPw,
 			String memberName, String memberAddress, String memberEmail, String memberTel, String memberSex,
 			String memberAuthority, List<MyDislikeIrdnt> myDislikeIrdntList) {
-		super();
 		this.originalMemberPw = originalMemberPw;
 		this.memberId = memberId;
 		this.oldMemberPw = oldMemberPw;

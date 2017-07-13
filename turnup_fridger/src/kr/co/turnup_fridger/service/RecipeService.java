@@ -1,11 +1,14 @@
 package kr.co.turnup_fridger.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import kr.co.turnup_fridger.exception.DuplicateRecipeException;
 import kr.co.turnup_fridger.exception.NoneRecipeException;
+import kr.co.turnup_fridger.vo.RecipeCrse;
 import kr.co.turnup_fridger.vo.RecipeInfo;
+import kr.co.turnup_fridger.vo.RecipeIrdnt;
 
 public interface RecipeService {
 
@@ -21,7 +24,22 @@ public interface RecipeService {
 	 * @param recipe
 	 * @throws Exception 
 	 */
-	void updateRecipe(RecipeInfo recipe) throws NoneRecipeException;
+	void updateRecipeInfo(RecipeInfo recipeInfo) throws NoneRecipeException;
+	
+	/**
+	 * 레시피를 수정
+	 * @param recipe
+	 * @throws Exception 
+	 */
+	void updateRecipeIrdnt(Map<String, List> recipeIrdnt) throws NoneRecipeException;
+	
+	/**
+	 * 레시피를 수정
+	 * @param recipe
+	 * @throws Exception 
+	 */
+	void updateRecipeCrse(Map<String, List> recipeCrse) throws NoneRecipeException;
+	
 	
 	/**
 	 * 레시피를 삭제
@@ -86,5 +104,13 @@ public interface RecipeService {
 	 * @return
 	 */
 	List<String> getTypeNameByCategoryName(String categoryName);
+	
+	
+	/**
+	 * 카테고리 코드를 받아 타입 코드와, 타입명을 받아옴
+	 * @param caragoryCode
+	 * @return
+	 */
+	List<RecipeInfo> findTypeCodeAndNameByCategoryCode(int caragoryCode);
 	
 }

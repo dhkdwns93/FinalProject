@@ -1,5 +1,5 @@
 /**
- (Validator)MebmerChangeInfoValidator
+ (Validator)AdminChangeInfoValidator
 작성자 :  김경혜
 최초 작성일 170709
 변경이력

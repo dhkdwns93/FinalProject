@@ -33,7 +33,7 @@ public class InsertMethod {
 			// 레시피재료정보
 			case "recipe_irdnt":
 				// String sql = "insert into view_tn_recipe_irdnt values(?,?,?,?,?,?)";
-				sql = "insert into " + fileName + "_temp values(?,?,?,?,?,?,?)";
+				sql = "insert into " + fileName + " values(?,?,?,?,?,?,?)";
 				pstmt = conn.prepareStatement(sql);
 				while ((line = in.readLine()) != null) {
 					str = line.split("&");

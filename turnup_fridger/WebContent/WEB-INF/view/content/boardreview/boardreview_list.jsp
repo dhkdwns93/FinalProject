@@ -20,19 +20,6 @@ function delete_event(){
 	    return false;
 	}
 };
-
-
-//후기 등록
-function insert_event(){
-	if (confirm("등록 하시겠습니까??") == true){    
-		//확인
-		location.href="/turnup_fridger/boardreview/boardreview_list.do";
-	}else{   
-		//취소
-	    return false;
-	}
-};
-
 </script>
 <style type="text/css">
  form{display:inline}
@@ -53,7 +40,12 @@ span.error{
 <sec:authorize access="hasRole('ROLE_MEMBER')">
 후기 작성
 <a href="${initParam.rootPath}/boardreview/boardreview_form.do"><button>후기 작성</button></a>
+<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 </sec:authorize>
+ <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+ 	<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
+ </sec:authorize>
+
 <hr>
 <form action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
@@ -127,7 +119,7 @@ span.error{
  				${row.boardReviewTxt}
  			</c:if>
    			<c:if test="${row.imageName != null}">
-   				<img width="320px" alt="${row.imageName}" src="${initParam.rootPath}/up_image/${row.imageSaveName}"><br>
+   				<img width="320px" alt="${row.imageName}" src="${initParam.rootPath}/img/${row.imageSaveName}"><br>
    				${row.boardReviewTxt}
    			</c:if>
    		</td>
@@ -229,8 +221,5 @@ span.error{
 	<a href="${initParam.rootPath}/boardreview/boardReviewList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
 
 </p>
-<hr>
-
-<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 </body>
 </html>

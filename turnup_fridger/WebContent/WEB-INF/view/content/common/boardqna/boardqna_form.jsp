@@ -19,6 +19,7 @@ function insert_event(){
 };
 </script>
 <style type="text/css">
+ form{display:inline}
 span, td, th{
 	padding: 5px; 
 }
@@ -45,13 +46,13 @@ span.error{
 		<th>내용</th>
 		<td><textarea name="boardQnATxt" row="120" cols="70" placeholder="내용을 입력해주세요">${boardQnA.boardQnATxt}</textarea><span class="error"><form:errors path="boardQnA.boardQnATxt" delimiter="&nbsp;"/></td>
 	</tr>	
-	<tr>
-		<td>
-			<input type="submit" value="등록" onclick="return insert_event();">
-		</td>
-	</tr>
 </table>
+<input type="submit" value="등록" onclick="return insert_event();">
 <sec:csrfInput/>
+</form>
+<form action="${initParam.rootPath}/common/boardqna/boardQnAList.do" method="POST">
+	<input type="submit" value="뒤로가기">
+	<sec:csrfInput/>
 </form>
 </body>
 </html>

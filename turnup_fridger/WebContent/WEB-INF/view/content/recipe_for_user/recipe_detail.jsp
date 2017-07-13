@@ -7,6 +7,7 @@
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+
 	$("#deleteIrdnt").hide();
 	$("#review").hide();
 	
@@ -56,6 +57,16 @@ $(document).ready(function(){
 	
 	
 })
+
+
+function moveTo(url,recipeId){
+		window.open(
+				url+"?recipeId="+recipeId,
+				"_blank",
+				"fullscreen=yes, height=700, width=500, resizable=no, scrollbars=no, location=no, toolbar=no, directories=no, menubar=no"
+				);
+		
+}
 </script>
 <style>
 div#whole{
@@ -102,6 +113,9 @@ top: 650px;
 <div id="whole">
 	<div id="recipe_info">
 		<h3>레시피 기본정보</h3>
+		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+		<button type="button" onclick="moveTo('/turnup_fridger/common/admin/recipe/info/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
+		</sec:authorize>
 		<table>
 			<tbody>
 				<tr>
@@ -152,8 +166,11 @@ top: 650px;
 		</table>
 	
 	<div id="recipe_irdnt">
+	
 		<h3>레시피 재료정보</h3>
-		
+		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+		<button type="button" onclick="moveTo('/turnup_fridger/common/admin/recipe/irdnt/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
+		</sec:authorize>
 		<div>
 		주재료 :
 		<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
@@ -185,6 +202,9 @@ top: 650px;
 
 	<div id="recipe_crse">
 	<h3>레시피 과정정보</h3>
+	<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+	<button type="button" onclick="moveTo('/turnup_fridger/common/admin/recipe/crse/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
+	</sec:authorize>
 	<table>
 	<c:forEach items="${ requestScope.recipe.recipeCrseList }" var="recipeCrse">
 	<tr>
@@ -243,7 +263,6 @@ top: 650px;
 
 
 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-<button type="button" id="updateBtn" onclick="('/turnup_fridger/common/admin/recipe/update.do?recipeId=')">수정</button> 
 <button type="button" id="deletBtn">삭제</button> 
 </sec:authorize>
 <button type="button" onclick="window.history.back()">뒤로가기</button>

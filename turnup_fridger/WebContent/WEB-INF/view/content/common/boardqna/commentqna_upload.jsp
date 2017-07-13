@@ -70,6 +70,26 @@ function closeWindow(){
 		<input type="hidden" name="boardQnAId" id="boardQnAId" value="${commentQnA.boardQnAId}">
 		<input id="submit" type="submit" value="수정">
 </form>
+        <form name="form" action="${initParam.rootPath}/common/boardqna/boardQnAView.do" method="post">
+        	<!-- 회원일때 보여줌 -->
+        	<sec:authorize access="hasRole('ROLE_MEMBER')">
+        		<input type="hidden" id="member" name="member" value="<sec:authentication property="principal.memberId"></sec:authentication>"> 
+        		<input type="hidden"  name="admin" value="">
+        		<input type="hidden" id="memberId" name="memberId" value="${commentQnA.memberId}">
+        		<input type="hidden" id="boardQnAId" name="boardQnAId" value="${commentQnA.boardQnAId}">
+ 				<input id="submit" type="submit" value="뒤로가기">
+			</sec:authorize>
+        
+     		<!-- 관리자일때 보여줌 -->	
+     		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+				<input type="hidden" name="admin" value="<sec:authentication property="principal.adminId"></sec:authentication>"> 
+				<input type="hidden" name="member" value="">
+				<input type="hidden" name="memberId" value="${commentQnA.memberId}">
+				<input type="hidden" id="boardQnAId" name="boardQnAId" value="${commentQnA.boardQnAId}">
+				<input id="submit" type="submit" value="뒤로가기">
+			</sec:authorize>
+			<sec:csrfInput/>
+		</form>
 </body>
 </html>
 

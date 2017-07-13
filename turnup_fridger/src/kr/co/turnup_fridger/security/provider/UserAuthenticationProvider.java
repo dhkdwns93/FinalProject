@@ -30,11 +30,6 @@ import kr.co.turnup_fridger.vo.Authority;
 import kr.co.turnup_fridger.vo.Member;
 
 @Component
-/*
- * Spring Security 컨테이너가 사용자 인증 처리(로그인 처리) 할때 호출할 클래스
- * 	=> AuthenticationProvider
- * 구현 : AuthenticationProvider를 implements. 메소드 오버라이딩(authenticate())
- */
 public class UserAuthenticationProvider implements AuthenticationProvider{
 
 	@Autowired
@@ -45,15 +40,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider{
 	private AdminDao adminDao;
 	@Autowired
 	private PasswordEncoder encoder;
-	//문자열을 암호화 - encode()
-	//문자열과 암호화된 문자열을 비고 - matches(비교대상문자열, 암호화된문자열) : boolean
-	
-	/*Authentication : 인증/권한 정보를 가지는 객체 
-			- 매개변수는 로그인 처리시 사용할 ID와 패스워드를 제공
-			- 리턴 타입은 로그인처리 끝나고 로그인한 사용자의 정보를 담아 리턴할때 사용
-		- 인증 실패 : Exception을 던지거나 return null 인 경우 스프링 시큐리티 컨테이너는 인증실패로처리
-	  GrantedAuthority - 권한정보 하나를 저장하는 객체.
-	*/
+
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 		
@@ -62,12 +49,10 @@ public class UserAuthenticationProvider implements AuthenticationProvider{
 		
 		//권한 조회
 		Authority user=authorityDao.selectAuthorityById(loginId);
-//		System.out.println("user"+user);
 		if(user==null){
 			throw new UsernameNotFoundException("등록되지 않은 계정입니다.");
 		}
 		String userAuthority = user.getLoginAuthority();
-//		if (userAuthority == null || userAuthority.trim().isEmpty()) {
 		if (!userAuthority.equals("ROLE_MEMBER")&&!userAuthority.equals("ROLE_ADMIN")&&!userAuthority.equals("ROLE_MASTERADMIN")&&!userAuthority.equals("ROLE_HEADMASTERADMIN")) {
 
 			throw new UsernameNotFoundException("권한 입력에 오류가 있는 사용자 입니다.");
@@ -79,11 +64,9 @@ public class UserAuthenticationProvider implements AuthenticationProvider{
 				throw new UsernameNotFoundException("등록되지 않은 ID입니다.");
 			}
 			//PW체크
-//			if(!loginPw.equals(member.getMemberPw())){
 			if(!encoder.matches(loginPw,member.getMemberPw())){//Pw가 일치하지 않으면 로그인 실패
 				throw new BadCredentialsException("입력하신 ID와 패스워드가 일치하지 않습니다.");
 			}
-			//System.out.println(member);
 			//===========(인증성공)==============
 			List<SimpleGrantedAuthority> list=new ArrayList<>();
 			list.add(new SimpleGrantedAuthority(userAuthority));
@@ -99,15 +82,12 @@ public class UserAuthenticationProvider implements AuthenticationProvider{
 				throw new UsernameNotFoundException("등록되지 않은 ID입니다.");
 			}
 			//PW체크
-//			if(!loginPw.equals(admin.getAdminPw())){
 			if(!encoder.matches(loginPw,admin.getAdminPw())){//Pw가 일치하지 않으면 로그인 실패
 				throw new BadCredentialsException("입력하신 ID와 패스워드가 일치하지 않습니다.");
 			}
-			//System.out.println("User..Provider"+admin);
 			//===========(인증성공)==============
 			List<SimpleGrantedAuthority> list=new ArrayList<>();
 			list.add(new SimpleGrantedAuthority(userAuthority));
-			System.out.println("User..Provider"+list);//확인용
 			return new UsernamePasswordAuthenticationToken(admin,null,list);
 		}
 		//권한 headmaster -비밀번호 passwordencoding 안되있음.
@@ -119,10 +99,8 @@ public class UserAuthenticationProvider implements AuthenticationProvider{
 			}
 			//PW체크
 			if(!loginPw.equals(admin.getAdminPw())){
-//			if(!encoder.matches(loginPw,admin.getAdminPw())){//Pw가 일치하지 않으면 로그인 실패
 				throw new BadCredentialsException("입력하신 ID와 패스워드가 일치하지 않습니다.");
 			}
-			//System.out.println("User..Provider"+admin);
 			//===========(인증성공)==============
 			List<SimpleGrantedAuthority> list=new ArrayList<>();
 			list.add(new SimpleGrantedAuthority(userAuthority));
@@ -130,7 +108,6 @@ public class UserAuthenticationProvider implements AuthenticationProvider{
 			return new UsernamePasswordAuthenticationToken(admin,null,list);
 		}
 		return null;//- 인증 실패 : Exception을 던지거나 return null 인 경우 스프링 시큐리티 컨테이너는 인증실패로처리
-//		throw new UsernameNotFoundException("ID/PW를 다시 확인해주세요.");
 	}
 
 	@Override

@@ -50,13 +50,13 @@ input{
 	</tr>
 	<tr>
 		<td>이름</td>
-		<td><input type="text" name="shopName" placeholder="shop name" size="50">
+		<td><input type="text" name="shopName" value="${param.shopName}" placeholder="shop name" size="50">
 			<span class="error"><form:errors path="shop.shopName" delimiter="&nbsp;"/></span>
 		</td>
 	</tr>
 	<tr>
 		<td>url</td>
-		<td><input type="url" name="shopAddress" placeholder="shop url"  size="50">
+		<td><input type="url" name="shopAddress" value="${param.shopAddress}" placeholder="shop url"  size="50">
 			<span class="error"><form:errors path="shop.shopAddress" delimiter="&nbsp;"/></span>
 		</td>
 	</tr>
