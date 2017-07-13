@@ -65,7 +65,7 @@ public class FridgerGroupServiceImpl implements FridgerGroupService{
 	}
 
 	@Override
-	public FridgerGroup selectFridgerGroupByGroupMemberId(String groupMemberId) {
+	public List<FridgerGroup> selectFridgerGroupByGroupMemberId(String groupMemberId) {
 		return dao.selectFridgerGroupByGroupMemberId(groupMemberId);
 	}
 

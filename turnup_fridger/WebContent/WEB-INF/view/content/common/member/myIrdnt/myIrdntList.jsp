@@ -2,19 +2,13 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger/scripts/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		
 		//기본적으로 가져오는 모든 재료 목록들. 
 		$.ajax({
-			"url":"/turnup_fridger/common/member/myIrdnt/allMyIrdntList.do?fridgerId=1",
-			//"data":{'fridgerId': 1},
+			"url":"/turnup_fridger/common/member/myIrdnt/allMyIrdntList.do",
+			"data":{'fridgerId': '${param.fridgerId}'},
 			"dataType":"json", 
 			"success":function(list){
 					 $.each(list, function(){
@@ -55,7 +49,7 @@
 			$.ajax({
 				"url":"/turnup_fridger/common/member/myIrdnt/removeMyIrdnt.do",
 				"type":"POST",
-				"data":{'irdntKey':irdntKeyList,'fridgerId':1,'${_csrf.parameterName}':'${_csrf.token}'},
+				"data":{'irdntKey':irdntKeyList,'fridgerId':'${requestScope.fridgerId}','${_csrf.parameterName}':'${_csrf.token}'},
 				"dataType":"text",
 				"traditional": true,
 				"success":function(TEXT){
@@ -127,7 +121,6 @@ td {
 </style>
 </head>
 <body>
-
 
 <h2>나의 식재료 목록</h2><hr>
 <button type="button" id="addIrdnt">재료추가</button>

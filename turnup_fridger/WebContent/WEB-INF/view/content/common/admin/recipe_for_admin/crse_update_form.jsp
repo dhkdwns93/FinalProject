@@ -7,8 +7,8 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$("div.image_none").hide();
-	$("div.StepImage_none").hide();
-	var crse_idx = -1;
+	$("div.stepImage_deleted").hide();
+	var crse_idx = ${requestScope.recipe.recipeCrseList.size()-1}
 	var irdnt_idx = -1;
 	var removeIrdnt_idx = -1;
 	var removeCrse_idx = -1;
@@ -20,23 +20,23 @@ $(document).ready(function(){
 		crse_idx += 1;
 		alert(crse_idx);
 		
-		$("#recipe_crse_table>tbody").append($("<tr>").prop("class","newCrseRow"+crse_idx).append($("<td>").prop("rowspan", "3").append($("<input>").prop("type", "hidden").prop("name","addCrseList["+crse_idx+"].cookingNo").prop("value", crse_idx+1)).append("과정"+(crse_idx+1)))
+		$("#recipe_crse_table").append($("<table>").prop("class","recipe_crse_table").prop("id","newCrseRow").append($("<tbody>")
+							.append($("<tr>").append($("<td>").prop("rowspan", "3").prop("width","60px").append($("<input>").prop("type", "hidden").prop("name","addCrseList["+crse_idx+"].cookingNo").prop("value", crse_idx+1)).append("과정"+(crse_idx+1)))
 									.append($("<td>").append($("<textarea>").prop("cols", "60").prop("rows", "3").prop("name", "addCrseList["+crse_idx+"].cookingDc").prop("size", "60"))))
 									.append($("<tr>").prop("class","newCrseRow"+crse_idx).append($("<td>").append($("<input>").prop("type", "file").prop("name","addCrseList["+crse_idx+"].stepImageUrlSrc"))))
-									.append($("<tr>").prop("class","newCrseRow"+crse_idx).append($("<td>").append($("<input>").prop("type", "text").prop("name", "addCrseList["+crse_idx+"].stepTip").prop("placeholder","간단한 팁이 있다면 입력해주세요!").prop("size", "60"))));
+									.append($("<tr>").prop("class","newCrseRow"+crse_idx).append($("<td>").append($("<input>").prop("type", "text").prop("name", "addCrseList["+crse_idx+"].stepTip").prop("placeholder","간단한 팁이 있다면 입력해주세요!").prop("size", "60"))))))
+	
 	});
 	
 
 
 
 	$(document).on("click", ".deleteCrseBtn", function(){
-		
 		removeCrse_idx += 1;	
-		console.log($("#recipe_crse_table tbody").find(".6"));
-		$("#recipe_crse_table tbody").find(".6").hide();
-		$("#recipe_crse_table tbody").find(".6").children("input#OldCrseList.cookingNo").prop("name", "removeCrseList["+removeCrse_idx+"].cookingNo" )
-		$(this).parent().find("input#OldCrseList.recipeId").prop("name", "removeCrseList["+removeCrse_idx+"].recipeId" )
-		$("#recipe_crse_table tbody").filter("."+this.value).hide();
+		$(this).parent().parent().parent().hide();
+		$("#recipe_crse_table tbody").find(".6").children("input#CurrentCrseList.cookingNo").prop("name", "removeCrseList["+removeCrse_idx+"].cookingNo" )
+		$(this).parent().find("input#CurrentCrseList.recipeId").prop("name", "removeCrseList["+removeCrse_idx+"].recipeId" )
+		$("#recipe_crse_table tbody").hide();
 	})
 	
 	
@@ -46,9 +46,9 @@ $(document).ready(function(){
 			return false;
 		}else{
 			$(this).parent().parent().hide();
-			$(this).parent().parent().parent().children("div.stepImage_none").show();
+			$(this).parent().parent().parent().children("div.stepImage_deleted").show();
 			$("#stepImageUrl").removeAttr("value");
-			$(this).parent().parent().parent().append($("<input>").prop("type", "file").prop("name", "OldCrseList.stepImageUrlSrc").prop("id", "stepImageUrlSrc"));
+			$(this).parent().parent().parent().append($("<input>").prop("type", "file").prop("name", "CurrentCrseList.stepImageUrlSrc").prop("id", "stepImageUrlSrc"));
 			alert("기존사진이 삭제되었습니다. 새로운 사진을 등록해주세요.");
 		}
 	})
@@ -61,11 +61,14 @@ $(document).ready(function(){
 	$(document).on("click", "#backStepImgBtn", function(){
 		$(this).parent().parent().children("#stepImageUrlSrc").remove();
 			$("div.stepImage").show();
-			$("div.stepImage_none").hide();
+			$("div.stepImage_deleted").hide();
 			$("input#stepImageUrlSrc").hide();
 			$("#stepImageUrl").prop("value", "${ requestScope.recipe.imgUrl }");
 	})
 	
+	$(document).on("click", "#backCrseBtn", function(){
+		$("table").show()
+	})
 
 	
 });
@@ -119,6 +122,14 @@ top:5px;
 left:5px;
 }
 
+tr, td{
+border:1px solid black
+}
+
+.recipe_crse_table {
+margin-bottom: 10px;
+}
+
 </style>
 
 
@@ -126,7 +137,7 @@ left:5px;
 <h2>레시피 업데이트</h2>
 
 <form id="recipe_register_form" 
-	action="${ initParam.rootPath }/common/admin/recipe/update.do" 
+	action="${ initParam.rootPath }/common/admin/recipe/crse/update.do" 
 	enctype="multipart/form-data" method="post">
 
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
@@ -142,26 +153,35 @@ left:5px;
 							</c:if> </span>
 	<button type="button" id="crseBtn">+과정추가</button>
 	<button type="button" id="backCrseBtn">되돌리기</button>
-	<button type="button" class="deleteCrseBtn">삭제</button>
-		<table id="recipe_crse_table" style="margin-bottom: 10px; ">
+		
+		
+		<div id="recipe_crse_table">
+		
+		<c:forEach items="${ requestScope.recipe.recipeCrseList }" var="recipeCrse">
+		<table class="recipe_crse_table" id=" ${ recipeCrse.cookingNo }">
 			<tbody>
-				<c:forEach items="${ requestScope.recipe.recipeCrseList }" var="recipeCrse">
-					<tr class="${ recipeCrse.cookingNo }">
+					<tr>
 						<td  rowspan="3" width="60px">
-						<input type="hidden" id="OldCrseList.cookingNo" name="OldCrseList.cookingNo" value=" ${ recipeCrse.cookingNo }">
-						<input type="hidden" id="OldCrseList.recipeId" name="OldCrseList.recipeId" value=" ${ recipeCrse.recipeId }">
+						<input type="hidden" id="CurrentCrseList.cookingNo" name="CurrentCrseList.cookingNo" value=" ${ recipeCrse.cookingNo }">
+						<input type="hidden" id="CurrentCrseList.recipeId" name="CurrentCrseList.recipeId" value=" ${ recipeCrse.recipeId }">
 						과정${ recipeCrse.cookingNo }<br>
-						
+						<button type="button" class="deleteCrseBtn">삭제</button>
 						
 						</td>
 						
-						<td width="300px" ><textarea cols="60" rows="3" name="OldCrseList.cookingDc">(${ recipeCrse.cookingNo }) : ${recipeCrse.cookingDc}</textarea>
+						<td width="300px" ><textarea cols="60" rows="3" name="CurrentCrseList.cookingDc">(${ recipeCrse.cookingNo }) : ${recipeCrse.cookingDc}</textarea>
 						</td>
 					</tr>
 					
-					<tr class="${ recipeCrse.cookingNo }">
+					<tr>
 					<td>
-
+					<c:choose>
+						<c:when test="${ recipeCrse.stepImageUrl eq 'null' || empty recipeCrse.stepTip || recipeCrse.stepTip == null}">
+							<div class="stepImage_none">
+								<input type="file" name="CrseList.stepImageUrlSrc" >
+							</div>
+							</c:when>
+							<c:otherwise>
 							<div class="stepImage">
 								<!-- 내가 저장한 사진경로와 API 사진경로가 다른 문제 해결해야함 -->
 								<img src="${ recipeCrse.stepImageUrl }" height="150px">
@@ -170,25 +190,32 @@ left:5px;
 									<button type="button" id="deleteStepImgBtn">삭제</button>
 								</div>
 							</div>
-							<div class="stepImage_none">
+							</c:otherwise>
+						</c:choose>
+							<div class="stepImage_deleted">
 								<button type="button" id="backStepImgBtn">원래 사진 복구</button>
 							</div>
 						</td>
 					</tr>
 					
 					
-					<tr class="${ recipeCrse.cookingNo }">
-					
+					<tr>
 						<td>
-						<input type="text" id="OldCrseList" name="OldCrseList.cookingNo" value=" ${ recipeCrse.stepTip }" size="60">
-
-					</td>
+						<c:choose>
+						<c:when test="${ recipeCrse.stepTip eq 'null' || empty recipeCrse.stepTip || recipeCrse.stepTip == null}">
+						<input type="text" id="CurrentCrseList" name="CurrentCrseList.cookingNo" placeholder="입력된 팁이 없습니다!" size="60">
+						</c:when>
+						<c:otherwise>
+						<input type="text" id="CurrentCrseList" name="CurrentCrseList.cookingNo" value=" ${ recipeCrse.stepTip }" size="60">
+						</c:otherwise>
+						</c:choose>
+						</td>
 					</tr>
-					
-				</c:forEach>
 			</tbody>
-			
 		</table>
+		</c:forEach>
+		
+		
 	</div>
 	</div>
 	<input type="submit" id="updateBtn" value="업데이트">

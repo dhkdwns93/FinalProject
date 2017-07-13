@@ -191,7 +191,7 @@ CREATE TABLE fridger_GROUP (
 DROP SEQUENCE GROUP_KEY;
 CREATE SEQUENCE GROUP_KEY INCREMENT BY 1 START WITH 1; 
 --SELECT GROUP_KEY.NEXTVAL FROM DUAL;
-select * from fridger_group
+select * from fridger_group where group_member_id = '2222';
 
 /* 공지사항 */
 DROP TABLE BOARD_NOTICE;
@@ -372,7 +372,7 @@ CREATE TABLE RECIPE_INFO (
    RECIPE_HITS NUMBER NOT NULL /* 조회수 */
 );
 
---select * from RECIPE_INFO
+--select * from RECIPE_INFO 
 --select distinct category_name from RECIPE_INFO
 --select distinct type_name from recipe_info
 --select category_name, type_name from RECIPE_INFO where category_name ='퓨전' group by category_name, type_name 
@@ -392,7 +392,7 @@ CREATE TABLE RECIPE_CRSE (
    CONSTRAINT VTRC_RECIPE_ID_FK FOREIGN KEY(RECIPE_ID) REFERENCES RECIPE_INFO on delete cascade
 );
 
---select * from recipe_crse;
+--select * from recipe_crse WHERE STEP_IMAGE_URL = 'null';
 
 /* 레시피 재료정보 */
 DROP TABLE RECIPE_IRDNT CASCADE CONSTRAINT;

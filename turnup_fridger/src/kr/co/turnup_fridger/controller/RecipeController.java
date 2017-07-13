@@ -33,14 +33,15 @@ import kr.co.turnup_fridger.service.RecipeService;
 import kr.co.turnup_fridger.validation.form.RecipeCrseForm;
 import kr.co.turnup_fridger.validation.form.RecipeInfoForm;
 import kr.co.turnup_fridger.validation.form.RecipeIrdntForm;
-import kr.co.turnup_fridger.vo.BoardShareRecipe;
 import kr.co.turnup_fridger.vo.IrdntManage;
 import kr.co.turnup_fridger.vo.Member;
 import kr.co.turnup_fridger.vo.MyDislikeIrdnt;
 import kr.co.turnup_fridger.vo.MyIrdnt;
 import kr.co.turnup_fridger.vo.RecipeCrse;
+import kr.co.turnup_fridger.vo.RecipeCrseUpdate;
 import kr.co.turnup_fridger.vo.RecipeInfo;
 import kr.co.turnup_fridger.vo.RecipeIrdnt;
+import kr.co.turnup_fridger.vo.RecipeIrdntUpdate;
 
 @Controller
 @RequestMapping("/")
@@ -95,8 +96,8 @@ public class RecipeController {
 			
 			// 2.레시피 과정 넣기
 			List<RecipeCrse> recipeCrseList = new ArrayList<>();
-			RecipeCrse rc = new RecipeCrse();
 			for(RecipeCrseForm rcf :recipeInfoForm.getRecipeCrseList()){
+				RecipeCrse rc = new RecipeCrse();
 				BeanUtils.copyProperties(rcf, rc);
 				recipeCrseList.add(rc);
 				
@@ -116,8 +117,8 @@ public class RecipeController {
 			
 			// 3. 재료정보 넣기	
 			List<RecipeIrdnt> recipeIrdntList = new ArrayList<>();
-			RecipeIrdnt ri = new RecipeIrdnt();
 			for(RecipeIrdntForm rif : recipeInfoForm.getRecipeIrdntList()){
+				RecipeIrdnt ri = new RecipeIrdnt();
 				BeanUtils.copyProperties(rif, ri);
 				recipeIrdntList.add(ri);
 			}
@@ -222,25 +223,28 @@ public class RecipeController {
 		}
 		
 		@RequestMapping("common/admin/recipe/irdnt/update")
-		public ModelAndView updateRecipeIrdntHandler(@RequestParam int recipeId, @RequestParam(value="removeIrdntList")  List<Integer> removeIrdntList,
+		/*
+		public ModelAndView updateRecipeIrdntHandler(@RequestParam int recipeId, @RequestParam(value="removeIrdntList", required=false)  List<Integer> removeIrdntList,
 													@RequestParam(value="addIrdntList" , required=false) List<RecipeIrdnt> addIrdntList,  
 												 HttpServletRequest request) throws IllegalStateException, IOException{
-			System.out.println("업데이트 핸들러: recipeId -"+recipeId+"/"+removeIrdntList);
-			//System.out.println("업데이트 핸들러:"+recipeInfoForm);
+		*/
+		public ModelAndView updateRecipeIrdntHandler(@ModelAttribute RecipeIrdntUpdate riu, BindingResult errors, HttpServletRequest request){
+			System.out.println("업데이트 핸들러: recipeId - "+riu.getRecipeId()+"/removeIrdntList:"+riu.getRemoveIrdntList()+"/addIrdntList:"+riu.getAddIrdntList());
 			//if(errors.hasErrors()){
 				//System.out.println("업데이트 핸들러 errors수:"+ errors.getAllErrors());
 			//	return new ModelAndView("common/admin/recipe_for_admin/info_update_form", "recipe", recipeInfoForm);
+	
 			// 2.레시피 재료 수정하기(삭제와 추가 리스트에 넣기)
 			Map<String, List> recipeIrdnt = new HashMap<>();
 			//삭제할거는 recipeId와 cookingNo를 Map로 받아온다 -> 그대로 넘기고 , 
-			recipeIrdnt.put("removeIrdntList", removeIrdntList);
-				//추가할 것 레시피 아이디 세팅해서 넘겨주기
+			recipeIrdnt.put("removeIrdntList", riu.getRemoveIrdntList());
+				//추가할 것 레시피 아이디 세팅해서 넘겨주기 
 			
-			if(addIrdntList != null){
-				for(RecipeIrdnt ri : addIrdntList){
-					ri.setRecipeId(recipeId);
+			if(riu.getAddIrdntList() != null){
+				for(RecipeIrdnt ri : riu.getAddIrdntList()){
+					ri.setRecipeId(riu.getRecipeId());
 				}
-				recipeIrdnt.put("addIrdntList", addIrdntList);
+				recipeIrdnt.put("addIrdntList", riu.getAddIrdntList());
 			}
 			
 						
@@ -253,12 +257,8 @@ public class RecipeController {
 			}
 			
 			//System.out.println("레시피컨트롤러 update완료 :"+recipeInfo);
-			return new ModelAndView("redirect:update/success.do","recipeId",recipeId);
+			return new ModelAndView("redirect:update/success.do","recipeId", riu.getRecipeId());
 		}
-		
-		
-		
-		
 		
 		
 		@RequestMapping("common/admin/recipe/crse/update_chk")
@@ -270,18 +270,16 @@ public class RecipeController {
 		}
 		
 		@RequestMapping("common/admin/recipe/crse/update")
-		public ModelAndView updateRecipeCrseHandler(int recipeId, @RequestParam(value="removeCrseList") List<Map> removeCrseList,
-														@RequestParam(value="addCrseList", required=false) List<RecipeCrse> addCrseList,
-				HttpServletRequest request) throws IllegalStateException, IOException{
+		public ModelAndView updateRecipeCrseHandler(@ModelAttribute RecipeCrseUpdate rcu, BindingResult errors, HttpServletRequest request) throws IllegalStateException, IOException{
 			// 3. 래시피 과정 수정하기(삭제와 추가 리스트에 넣기)
 			Map<String, List> recipeCrse = new HashMap<>();
 				//삭제할거는 recipeId와 cookingNo를 Map로 받아온다 -> 그대로 넘기고 , 
-			recipeCrse.put("removeCrseList", removeCrseList);
+			recipeCrse.put("removeCrseList", rcu.getRemoveCrseList());
 				//추가할 것 레시피 아이디 세팅, 사진 파일 저장해서 넘겨주기
 			String fileName = null;
 			long fileSize= 0;	
-			for(RecipeCrse rc : addCrseList){
-				rc.setRecipeId(recipeId);
+			for(RecipeCrse rc : rcu.getAddCrseList()){
+				rc.setRecipeId(rcu.getRecipeId());
 				
 				if(rc.getStepImageUrlSrc() != null && !rc.getStepImageUrlSrc().isEmpty()){
 					fileName = rc.getStepImageUrlSrc().getOriginalFilename();
@@ -296,17 +294,19 @@ public class RecipeController {
 				}
 				
 			}
-			recipeCrse.put("addCrseList", addCrseList);
+			recipeCrse.put("addCrseList", rcu.getAddCrseList());
 						
+			
+			
 			try {
 				recipeService.updateRecipeCrse(recipeCrse);
 			}  catch (NoneRecipeException e)  {
 				e.printStackTrace();
-				return new ModelAndView("common/admin/recipe_for_admin/info_update_form","errorMsg_NoneRecipe",e.getMessage());
+				return new ModelAndView("common/admin/recipe_for_admin/crse_update_form","errorMsg_NoneRecipe",e.getMessage());
 			}
 			
 			//System.out.println("레시피컨트롤러 update완료 :"+recipeInfo);
-			return new ModelAndView("redirect:update/success.do","recipeId",recipeId);
+			return new ModelAndView("redirect:update/success.do","recipeId", rcu.getRecipeId());
 		}
 		
 		
