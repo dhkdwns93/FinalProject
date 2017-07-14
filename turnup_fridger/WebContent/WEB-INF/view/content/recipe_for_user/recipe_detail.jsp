@@ -4,12 +4,71 @@
 <html>
 <title>레시피 상세화면</title>
 
+<style>
+.star-rating { width:130px; }
+.star-rating,.star-rating span{ 
+display:inline-block; 
+height:24px; 
+overflow:hidden; 
+background:url(/turnup_fridger/starimage/star.png)no-repeat; 
+}
+.star-rating span{ background-position:left bottom; line-height:0; vertical-align:top; }
+</style>
+
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
+function getReview(page){
+	if(!page) page = 1;
+	$.ajax({   
+		"url":"/turnup_fridger/recipe/show/detail/review.do",
+		"type":"POST",
+		"data":{'recipeId':${requestScope.recipe.recipeId},'page':page,'${_csrf.parameterName}':'${_csrf.token}'}, 
+		"dataType":"json", 
+		"success":function(reviewMap){
+			
+			$("#reviewTbody").empty();
+			$.each(reviewMap.list, function(){
+				$("#reviewTbody").empty();
+				$("#reviewTbody").append($("<tr>").prop("class","review_col").append($("<td>").append(this.boardReviewId)).append($("<td>").append(this.boardReviewTitle))
+						.append($("<td>").append(this.boardReviewTxt)).append($("<td>").append(this.imageName)).append($("<td>").append(this.memberId))
+						.append($("<td>").append(this.boardReviewDate)).append($("<td>")
+								.append($("<span>").prop("class","star-rating").append($("<span>").prop("style","width:"+(this.boardReviewStar)*10+"%")))));
+				});//each									
+				
+			 	$("#reviewPageBean").append($("<a href='javascript:getReview(1)'>").append("첫페이지"));
+			
+			 	if(reviewMap.pageBean.previousPageGroup!=null){
+			 		$("#reviewPageBean").append($("<a href='javascript:getReview("+(reviewMap.pageBean.beginPage-1)+")'>").append("◀"));
+			 		
+				}else{
+					$("#reviewPageBean").append("◀");
+				} 	
+			 	for(var index = reviewMap.pageBean.beginPage ; index < reviewMap.pageBean.endPage ; index++){
+			 		if(index !=reviewMap.pageBean.page){
+			 			$("#reviewPageBean").append($("<a href='javascript:getReview("+index+")'>").append(index));
+					}else{
+						$("#reviewPageBean").append("["+index+"]"+"&nbsp;&nbsp;");
+					}
+			 	}
+			 	if(reviewMap.pageBean.nextPageGroup!=null){
+			 		$("#reviewPageBean").append($("<a href ='javascript:getReview("+(reviewMap.pageBean.endPage+1)+")'>").append("▶"));
+			 	}else{
+			 		$("#reviewPageBean").append("▶");
+			 	}
+			 	$("#reviewPageBean").append($("<a href = 'javascript:getReview("+(reviewMap.pageBean.totalPage)+")'>").append("마지막 페이지"));
+			 
+		},//success
+		"error":function(xhr, msg, code){
+			alert("오류발생-" +msg+ ":" +code);
+		} 
+	})//ajax
+	
+};//페이징 함수 
+
 $(document).ready(function(){
 
 	$("#deleteIrdnt").hide();
-	$("#review").hide();
+	$("#reviewThead").hide();
 	
 	$("#updateBtn").on("click", function(){
 		window.open(
@@ -34,12 +93,33 @@ $(document).ready(function(){
 			"error":function(xhr, msg, code){
 				alert("오류발생-" +msg+ ":" +code);
 			}
-			
 		})
 	});
 	
+	$.ajax({
+		"url":"/turnup_fridger/getMyIrdntList.do", 
+		"type":"POST",
+		"data":{'fridgerId':1,'${_csrf.parameterName}':'${_csrf.token}'},
+		"dataType":"json", 
+		"success":function(list){
+			$("#myIrdntThead").empty();	
+			$("#myIrdntThead").append($("<tr>").append($("<th>").append("재료명")).append($("<th>").append("신선도")).append($("<th>").append("수량메모"))
+					.append($("<th>").append("삭제")));
+			$("#myIrdntTbody").empty();	
+			$.each(list, function(){
+				$("#myIrdntTbody").append($("<tr>").prop("class","irdnt_col").append($("<td>").append(this.irdntName)).append($("<td>").append(this.freshLevel))
+						.append($("<td>").append(this.irdntCount))
+						.append($("<td>").append($("<button>").prop("type","button").prop("id","deleteBtn").prop("value",this.myIrdntKey).append("삭제"))));
+			});
+			},//success
+			"error":function(xhr, msg, code){ 
+					alert("오류발생-" +msg+ ":" +code);	
+			}//error	
+	});//재료편집
+
 	$(document).on("click" ,"#deleteRecipeBtn", function(){
 
+		console.log( ${ requestScope.recipe.recipeId})
 		
 		$.ajax({
 			"url":"/turnup_fridger/common/admin/recipe/remove.do",
@@ -68,15 +148,92 @@ $(document).ready(function(){
 		
 	});//재료삭제 받아오기
 	
-	$.ajax(function(){
-		
-	});//후기게시판 받아오기
+	$(document).on("click","#deleteBtn",function(){
+		alert($(this).val());
+		$.ajax({
+			"url":"/turnup_fridger/removeMyIrdnt.do", 
+			//"type":"POST",
+			"data":{'myIrdntKey':$(this).val()},
+			"dataType":"text", 
+			"success":function(text){
+				alert(text);
+				document.location.reload();
+				},
+				"error":function(xhr, msg, code){ 
+						alert("오류발생-" +msg+ ":" +code);	
+				}	
+		});
+	});//삭제버튼클릭
 	
+<<<<<<< HEAD
 	$("#favoriteBtn").on("click",function(){
 		
 	});//즐겨찾기 
 	 */
+=======
+	$("#reviewBtn").on("click",function(){
+		$("#reviewThead").show();
+		getReview(1);
+	});//후기보기
 	
+	$.ajax({
+		"url":"/turnup_fridger/findFavoriteRecipeByIds.do", 
+		"data":'recipeId='+${requestScope.recipe.recipeId}, 
+		"dataType":"text", 
+		"success":function(text){
+			//alert(text);
+			if(text=="0"){
+				//빈하트출력.
+				$("#favoriteSection").append($("<img>").prop("width","70").prop("class","heart")
+						.prop("src","/turnup_fridger/starimage/emptyHeart.png"));
+			}else{
+				//빨간하트 출력.
+				$("#favoriteSection").append($("<img>").prop("width","70").prop("class","heart")
+						.prop("src","/turnup_fridger/starimage/fullHeart.png"));
+			}
+		},
+		"error":function(xhr, msg, code){ 
+			alert("오류발생-" +msg+ ":" +code);	
+		}		
+	});//즐겨찾기 사진 처음에 불러오기. 
+	
+	$(document).on("click",".heart",function(){
+		$.ajax({
+			"url":"/turnup_fridger/findFavoriteRecipeByIds.do", 
+			"data":'recipeId='+${requestScope.recipe.recipeId},    
+			"dataType":"text", 
+			"success":function(text){
+				//alert(text);
+				if(text=="0"){
+					//추가할꺼냐 확인받고 add
+					if (confirm("즐겨찾기에 추가하시겠습니까?") == true){    
+						location.href="/turnup_fridger/addFavoriteRecipe.do?recipeId="+${requestScope.recipe.recipeId};
+						//document.location.reload();//이걸하면 안먹히네 기능이 
+					}else{   
+					    return false;
+					}
+				}else{
+					//삭제할꺼냐 확인받고 remove
+					if (confirm("즐겨찾기에서 제외하시겠습니까?") == true){    
+						location.href="/turnup_fridger/removeFavorite.do?recipeId="+${requestScope.recipe.recipeId};
+						//document.location.reload();
+					}else{   
+					    return false;
+					}
+				
+				}
+			},//success
+			"error":function(xhr, msg, code){ 
+						alert("오류발생-" +msg+ ":" +code);	
+				}//error	
+		});
+	});//하트 클릭하면 
+
+	
+	
+>>>>>>> branch 'master' of https://github.com/dhkdwns93/FinalProject.git
+	
+<<<<<<< HEAD
 	
 	$("#changePortionFor1_Btn").on("click",function(){
 		var qnt = getNumber($("#standardQnt").text())
@@ -162,7 +319,12 @@ $(document).ready(function(){
 		$("#changePortionFor3_Btn").prop("disabled","disabled");
 		
 	});//단위변환:3인분
+=======
+	$("#changePortion").on("click",function(){
+	});//단위변환
+>>>>>>> branch 'master' of https://github.com/dhkdwns93/FinalProject.git
 	
+<<<<<<< HEAD
 	$("#changePortionFor4_Btn").on("click",function(){
 		var qnt = getNumber($("#standardQnt").text())
 		$("#standardQnt").text('4인분');
@@ -200,6 +362,9 @@ function getNumber(str){
 		target = target.replace(regex, '');
 	  return target;
 }
+=======
+})//ready
+>>>>>>> branch 'master' of https://github.com/dhkdwns93/FinalProject.git
 
 //분수추출
 function getFrct(frct){
@@ -273,7 +438,8 @@ top: 650px;
 </style>
 
 <!--즐겨찾기버튼  -->
-<button type="button" id="favoriteBtn">즐겨찾기</button><br><br>
+<!-- <button type="button" id="favoriteBtn"></button><br><br> -->
+<div id="favoriteSection"></div><br><br>
 
 <!--단위변환  -->
 <button type="button" id="changePortionFor1_Btn" class="changePortionBtn">1인분</button>
@@ -281,7 +447,7 @@ top: 650px;
 <button type="button" id="changePortionFor3_Btn" class="changePortionBtn">3인분</button>
 <button type="button" id="changePortionFor4_Btn" class="changePortionBtn">4인분</button><hr>
 
-<div class="container" >
+<div class="container">
 <h2>레시피 상세화면</h2>
 
 <div id="whole">
@@ -404,8 +570,8 @@ top: 650px;
 			<thead id="myIrdntThead">
 				<tr>
 					<th>재료명</th>
+					<th>신선도</th>
 					<th>수량메모</th>
-					<th>수정</th>
 					<th>삭제</th>
 				</tr>
 			</thead>
@@ -415,20 +581,21 @@ top: 650px;
 
 
 <!--후기게시판연결  -->
-	<div id="review">후기</div>
+	<button type="button" id="reviewBtn">후기 보기</button>
+	<div id="review">
 		<table>
 			<thead id="reviewThead">
 				<tr>
-					<th>레시피id</th>
+					<th>글번호</th>
 					<th>제목</th>
+					<th>글</th>
+					<th>사진</th>
 					<th>작성자</th>
 					<th>작성일</th>
-					<th>조회수</th>
-					<th>추천수</th>
+					<th>별점</th>
 				</tr>
 			</thead>
 			<tbody id="reviewTbody">
-				
 			</tbody>
 		</table>
 	</div>

@@ -33,7 +33,7 @@
 <table>
 	<tr>
 		<td>
-			<input type="hidden" name="fridgerId" id="fridgerId" value="1"><span class="error"><form:errors path="MyIrdnt.fridgerId" delimiter="&nbsp;&nbsp;"/></span>
+			<input type="hidden" name="fridgerId" id="fridgerId" value="${param.fridgerId}"><span class="error"><form:errors path="MyIrdnt.fridgerId" delimiter="&nbsp;&nbsp;"/></span>
 		</td>
 	</tr>
 	<tr>

@@ -104,6 +104,7 @@ public class FridgerServiceImpl implements FridgerService{
 
 	@Override
 	public Fridger findFridgerAndIrdntByFridgerId(int fridgerId) {
+		System.out.println("여기는 서비스 받아온 냉장고 id = "+fridgerId);
 		return fDao.selectFridgerAndIrdntByFridgerId(fridgerId);
 	}
 

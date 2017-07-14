@@ -6,6 +6,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		//기본적으로 가져오는 모든 재료 목록들. 
+		alert('${param.fridgerId}');
 		$.ajax({
 			"url":"/turnup_fridger/common/member/myIrdnt/allMyIrdntList.do",
 			"data":{'fridgerId': '${param.fridgerId}'},
@@ -40,7 +41,6 @@
 				
 		//선택삭제 -> 체크박스 만들어서 체크된것만 삭제처리하게 
 		$(document).on("click","#deleteOnSelect",function(){
-			//var irdntKey = $(this).parent().parent().children(":first-child").text();
 			var irdntKeyList = [];
 			$("input[name='deleteChk']:checked").each(function(){
 				irdntKeyList.push($(this).parent().parent().children(":first-child").text());
@@ -49,7 +49,7 @@
 			$.ajax({
 				"url":"/turnup_fridger/common/member/myIrdnt/removeMyIrdnt.do",
 				"type":"POST",
-				"data":{'irdntKey':irdntKeyList,'fridgerId':'${requestScope.fridgerId}','${_csrf.parameterName}':'${_csrf.token}'},
+				"data":{'irdntKey':irdntKeyList,'fridgerId':'${param.fridgerId}','${_csrf.parameterName}':'${_csrf.token}'},
 				"dataType":"text",
 				"traditional": true,
 				"success":function(TEXT){
@@ -95,7 +95,7 @@
 		});//searchBtn
 		
 		$("#addIrdnt").on("click",function(){
-			window.open("/turnup_fridger/common/member/myIrdnt/myIrdnt_form.do","insertIrdnt","width=500, height=400");
+			window.open("/turnup_fridger/common/member/myIrdnt/myIrdnt_form.do?fridgerId=${param.fridgerId}","insertIrdnt","width=500, height=400");
 		});//재료추가
 		
 	})//ready

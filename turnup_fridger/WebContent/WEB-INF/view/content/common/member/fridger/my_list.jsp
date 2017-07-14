@@ -5,13 +5,11 @@
  
  <script type="text/javascript">
 $(document).ready(function () {
-
-	var memberId = ${memberId}
 	//냉장고목록검색 페이지 디폴트는 전체 목록번호순으로 
 	$.ajax({
 		"url":"/turnup_fridger/common/member/fridger/show/byOwner.do",
 		"type":"post",
-		"data":{'memberId': memberId , '${_csrf.parameterName}':'${_csrf.token}'},
+		"data":{'memberId': "${memberId}", '${_csrf.parameterName}':'${_csrf.token}'},
         "dataType": "json",
         "success": function(list){
         	$("tbody").empty();

@@ -83,7 +83,7 @@ function insert_event(){
     <tr>
     	<td>별점 : 
     		<c:if test="${row.boardReviewStar == 0}">
-    			<img width="100px" src="${initParam.rootPath}/starimage/rating0.png">
+    			<img width="100px"src="${initParam.rootPath}/starimage/rating0.png">
     		</c:if>
     		<c:if test="${row.boardReviewStar == 1}">
     			<img width="100px" src="${initParam.rootPath}/starimage/rating01.png">    		

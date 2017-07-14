@@ -1,4 +1,21 @@
-
+SELECT	f.fridger_id,
+			f.fridger_name,
+			f.member_id,
+			f.fridger_img,
+			i.my_irdnt_key,
+			i.start_date,
+			i.end_date,
+			i.fresh_level,
+			i.irdnt_count,
+			i.irdnt_id,
+			i.irdnt_name,
+			i.fridger_id,
+			i.start_fresh_level,
+			i.storge_place
+	FROM	fridger f, my_Irdnt i
+	WHERE	f.fridger_id = i.fridger_id
+AND		f.fridger_id = 24
+ORDER BY	i.irdnt_name
 --select * from recipe_irdnt
 --select * from IRDNT_MANAGE
 
@@ -173,6 +190,7 @@ CREATE TABLE fridger (
 DROP SEQUENCE fridger_ID;
 CREATE SEQUENCE fridger_ID INCREMENT BY 1 START WITH 1;  
 --SELECT fridger_ID.NEXTVAL FROM DUAL;
+
 
 --insert into fridger values(1, '215', 'id-1');
 select * from fridger;
@@ -429,8 +447,9 @@ DROP SEQUENCE FAVORITE_RECIPE_KEY;
 CREATE SEQUENCE FAVORITE_RECIPE_KEY INCREMENT BY 1 START WITH 1;  
 --SELECT FAVORITE_RECIPE_KEY.NEXTVAL FROM DUAL;
 --select * from FAVORITE_RECIPE
-
-
+--insert into favorite_recipe values(0,'user1','478');
+--select * from recipe_info  where recipe_id = 478
+--select irdnt_name from my_irdnt where my_irdnt_key=48;
 
 
 --------(6/28) 냉장고 그룹 가입 처리를 위한 테이블 BY은영---------------------------------
@@ -494,7 +513,7 @@ CREATE TABLE BOARD_REVIEW(
 DROP SEQUENCE BOARD_REVIEW_ID;
 CREATE SEQUENCE BOARD_REVIEW_ID INCREMENT BY 1 START WITH 1; 
 --SELECT BOARD_FREE_ID.NEXTVAL FROM DUAL;
-
+select * from board_review
 
 DELETE FROM RECIPE_IRDNT
 CREATE TABLE recipe_irdnt_temp (
