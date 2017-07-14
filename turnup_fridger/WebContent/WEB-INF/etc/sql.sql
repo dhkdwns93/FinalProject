@@ -1,4 +1,5 @@
 
+
 --select * from recipe_irdnt
 --select * from IRDNT_MANAGE
 
@@ -428,8 +429,9 @@ DROP SEQUENCE FAVORITE_RECIPE_KEY;
 CREATE SEQUENCE FAVORITE_RECIPE_KEY INCREMENT BY 1 START WITH 1;  
 --SELECT FAVORITE_RECIPE_KEY.NEXTVAL FROM DUAL;
 --select * from FAVORITE_RECIPE
-
-
+--insert into favorite_recipe values(0,'user1','478');
+--select * from recipe_info  where recipe_id = 478
+--select irdnt_name from my_irdnt where my_irdnt_key=48;
 
 
 --------(6/28) 냉장고 그룹 가입 처리를 위한 테이블 BY은영---------------------------------
@@ -493,7 +495,7 @@ CREATE TABLE BOARD_REVIEW(
 DROP SEQUENCE BOARD_REVIEW_ID;
 CREATE SEQUENCE BOARD_REVIEW_ID INCREMENT BY 1 START WITH 1; 
 --SELECT BOARD_FREE_ID.NEXTVAL FROM DUAL;
-
+select * from board_review
 
 DELETE FROM RECIPE_IRDNT
 CREATE TABLE recipe_irdnt_temp (

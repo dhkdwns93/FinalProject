@@ -51,7 +51,7 @@ function getList(keyword,page){
 				}else{
 					$("#apiPageBean").append("◀");
 				} 	
-			 	for(var index = map.apiList.pageBean.beginPage ; index < map.apiList.pageBean.endPage ; index++){
+			 	for(var index = map.apiList.pageBean.beginPage ; index <= map.apiList.pageBean.endPage ; index++){
 			 		if(index !=map.apiList.pageBean.page){
 			 			$("#apiPageBean").append($("<a href='javascript:getList("+keyword+","+index+")'>").append(index));
 					}else{
@@ -75,7 +75,7 @@ function getList(keyword,page){
 				}else{
 					$("#userPageBean").append("◀");
 				} 	
-			 	for(var index = map.userList.pageBean.beginPage ; index < map.userList.pageBean.endPage ; index++){
+			 	for(var index = map.userList.pageBean.beginPage ; index <= map.userList.pageBean.endPage ; index++){
 			 		if(index !=map.userList.pageBean.page){
 			 			$("#userPageBean").append($("<a href='javascript:getList("+keyword+","+index+")'>").append(index));
 					}else{

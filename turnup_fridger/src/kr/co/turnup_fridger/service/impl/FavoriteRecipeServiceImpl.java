@@ -20,12 +20,13 @@ public class FavoriteRecipeServiceImpl implements FavoriteRecipeService{
 	@Override
 	public void createFavoriteRecipe(FavoriteRecipe recipe) throws DuplicateFavoriteException {
 		//사용자가 이미 추가한 즐찾이면 못들어가게 해야해. 
-		if(dao.selectFavoriteRecipeByIds(recipe.getMemberId(), recipe.getRecipeId())==null){
+		if(dao.selectFavoriteRecipeByIds(recipe.getMemberId(), recipe.getRecipeId())!=null){
 			throw new DuplicateFavoriteException("이미 즐겨찾기에 추가되어있습니다.");
 		}
 		
-		//시퀀스니까 0으로 일단 설정해주고.  
-		recipe.setFavoriteRecipeKey(0);
+		//시퀀스니까 0으로 일단 설정해주고.시퀀스가 안먹히네...
+		recipe.setFavoriteRecipeKey(505);
+		System.out.println("service : "+recipe);
 		dao.insertFavoriteRecipe(recipe);
 	}
 
@@ -61,6 +62,12 @@ public class FavoriteRecipeServiceImpl implements FavoriteRecipeService{
 		return dao.selectFavoriteRecipeByRecipeId(recipeId);
 	}
 
+	@Override
+	public FavoriteRecipe findFavoriteRecipeByIds(String memberId, int recipeId) {
+		return dao.selectFavoriteRecipeByIds(memberId, recipeId);
+	}
+
+	
 
 	
 	

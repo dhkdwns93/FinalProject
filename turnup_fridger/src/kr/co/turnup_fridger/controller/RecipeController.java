@@ -23,9 +23,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.turnup_fridger.exception.DuplicateFavoriteException;
 import kr.co.turnup_fridger.exception.DuplicateRecipeException;
+import kr.co.turnup_fridger.exception.NoneFavoriteException;
+import kr.co.turnup_fridger.exception.NoneMyIrdntException;
 import kr.co.turnup_fridger.exception.NoneRecipeException;
+import kr.co.turnup_fridger.service.BoardReviewService;
 import kr.co.turnup_fridger.service.BoardShareRecipeService;
+import kr.co.turnup_fridger.service.FavoriteRecipeService;
 import kr.co.turnup_fridger.service.IrdntManageService;
 import kr.co.turnup_fridger.service.MyDislikeIrdntService;
 import kr.co.turnup_fridger.service.MyIrdntService;
@@ -33,7 +38,7 @@ import kr.co.turnup_fridger.service.RecipeService;
 import kr.co.turnup_fridger.validation.form.RecipeCrseForm;
 import kr.co.turnup_fridger.validation.form.RecipeInfoForm;
 import kr.co.turnup_fridger.validation.form.RecipeIrdntForm;
-import kr.co.turnup_fridger.vo.BoardShareRecipe;
+import kr.co.turnup_fridger.vo.FavoriteRecipe;
 import kr.co.turnup_fridger.vo.IrdntManage;
 import kr.co.turnup_fridger.vo.Member;
 import kr.co.turnup_fridger.vo.MyDislikeIrdnt;
@@ -56,7 +61,10 @@ public class RecipeController {
 	private MyIrdntService myService;
 	@Autowired
 	private MyDislikeIrdntService disService;
-	
+	@Autowired
+	private BoardReviewService rvService;
+	@Autowired
+	private FavoriteRecipeService frService;
 	
 	/***************************************************************
 	 * 관리자를 위한  Recipe Handler : 등록, 삭제
@@ -426,7 +434,7 @@ public class RecipeController {
 		HashMap map = new HashMap();
 		map.put("apiList", apiList); // 이안에 페이징빈이랑 리스트 두개 들어있다.
 		map.put("userList", userList); // 이거 안에도 페이징빈이랑 리스트 두개 
-		System.out.println(map);
+		//System.out.println(map);
 		return map;
 	}
 	
@@ -449,15 +457,13 @@ public class RecipeController {
 		Map apiMap = recipeService.findRecipeByIrdntId(irdntIds, hateIrdntIds, keyword,page);
 		Map userMap = shareService.findUserRecipeByIds(irdntIds, hateIrdntIds,page);
 	
-		System.out.println("컨트롤러 apiMap: "+ apiMap);
-		System.out.println("컨트롤러 userMap: "+userMap);
+		//System.out.println("컨트롤러 apiMap: "+ apiMap);
+		//System.out.println("컨트롤러 userMap: "+userMap);
 		HashMap map = new HashMap();
 		map.put("apiMap", apiMap);//여기안에 count랑 리스트, 페이징빈 들어있다. 
 		map.put("userMap", userMap);//여기에 리스트랑 페이징빈 들어있다. 
 		return map;
 	}
-	
-	
 	
 	//상세화면 handler
 	@RequestMapping("recipe/show/detail")
@@ -465,6 +471,25 @@ public class RecipeController {
 		RecipeInfo recipe = recipeService.showDetailOfRecipe(recipeId);
 		return new ModelAndView("recipe_for_user/recipe_detail.tiles","recipe",recipe);
 	}
+	
+/*	//상세화면 handler
+	@RequestMapping("recipe/show/detail/review")
+	public ModelAndView showDetailOfRecipeReview(@RequestParam int recipeId,@RequestParam(defaultValue="1") int page ){
+		System.out.println("컨트롤러 : " +recipeId+","+page);
+		HashMap<String,Object> map = new HashMap<>();
+		map = (HashMap) rvService.findBoardReviewByRecipeId(recipeId, page);
+		System.out.println(map);
+		return new ModelAndView("recipe_for_user/recipe_detail.tiles","reviewMap",map);
+	}*/
+	
+	@RequestMapping("recipe/show/detail/review")
+	@ResponseBody
+	public Map showDetailOfRecipeReview(@RequestParam int recipeId, @RequestParam(defaultValue="1") int page ){
+		//System.out.println("컨트롤러 : " +recipeId+","+page);
+		Map<String,Object> map =  rvService.findBoardReviewByRecipeId(recipeId, page);
+		//System.out.println(map);
+		return map;
+	}			
 	
 	
 	@RequestMapping("recipe/show/detailOfBoard")
@@ -494,16 +519,6 @@ public class RecipeController {
 	@ResponseBody
 	public List<RecipeInfo> getTypeCodeAndName(@RequestParam int categoryCode){
 		return recipeService.findTypeCodeAndNameByCategoryCode(categoryCode);
-	}
-	
-	
-	@RequestMapping("getIrdntTable")
-	@ResponseBody
-	public Map getIrdntTable(){
-		HashMap map = new HashMap();
-		//List<myIrdnt> = 
-		
-		return map;
 	}
 	
 	@RequestMapping("getIrdntList")
@@ -549,5 +564,76 @@ public class RecipeController {
 		map.put("irdntList", irdntList);
 		
 		return map;
+	}
+	
+	@RequestMapping(value="removeMyIrdnt", produces="html/text;charset=UTF-8;")
+	@ResponseBody
+	public String removeMyIrdnt(@RequestParam int myIrdntKey){
+		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(member==null){
+			return "회원이 아닙니다.";
+		}
+		try {
+			myService.removeMyIrdnt(myIrdntKey);
+		} catch (NoneMyIrdntException e) {
+			return "삭제안돼앵~"+e.getMessage();
+		}
+		return "삭제완료!";
+	}
+	
+	/*@RequestMapping("addFavoriteRecipe")
+	@ResponseBody
+	public String addFavoriteRecipe(@RequestParam int recipeId){
+		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		try {
+			System.out.println("레시피id받아온거 : "+recipeId);
+			frService.createFavoriteRecipe(new FavoriteRecipe(0,member.getMemberId(),recipeId));
+		} catch (DuplicateFavoriteException e) {
+			System.out.println("입셉션");
+			return e.getMessage();
+		}
+		return "추가완료!";
+	}*/
+	
+	@RequestMapping("addFavoriteRecipe")
+	//@ResponseBody
+	public ModelAndView addFavoriteRecipe(@RequestParam int recipeId){
+		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		try {
+			System.out.println("레시피id받아온거 : "+recipeId);
+			frService.createFavoriteRecipe(new FavoriteRecipe(0,member.getMemberId(),recipeId));
+		} catch (DuplicateFavoriteException e) {
+			System.out.println("입셉션");
+			return new ModelAndView("recipe_for_user/recipe_detail.tiles","error_msg",e.getMessage());
+		}
+		
+	
+		return new ModelAndView("redirect:recipe/show/detail.do","recipeId",recipeId);
+	}
+	
+	@RequestMapping("removeFavorite")
+	@ResponseBody
+	public ModelAndView removeFavorite(@RequestParam int recipeId){
+		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		int favoriteRecipeKey = frService.findFavoriteRecipeByIds(member.getMemberId(), recipeId).getFavoriteRecipeKey();
+		try {
+			frService.removeFavoriteRecipe(favoriteRecipeKey);
+		} catch (NoneFavoriteException e) {
+			return new ModelAndView("recipe_for_user/recipe_detail.tiles","error_msg",e.getMessage());
+		}
+		
+		return new ModelAndView("redirect:recipe/show/detail.do","recipeId",recipeId);
+	}
+	
+	@RequestMapping("findFavoriteRecipeByIds")
+	@ResponseBody
+	public int findFavoriteRecipeByIds(@RequestParam int recipeId){
+		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(frService.findFavoriteRecipeByIds(member.getMemberId(), recipeId)==null){
+			return 0;
+		}
+		return 1;
 	}
 }

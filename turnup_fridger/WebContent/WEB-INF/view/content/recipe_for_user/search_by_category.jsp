@@ -34,7 +34,7 @@ function getList(keyword,page){
 				}else{
 					$("#pageBean").append("◀");
 				} 	
-			 	for(var index = list.pageBean.beginPage ; index < list.pageBean.endPage ; index++){
+			 	for(var index = list.pageBean.beginPage ; index <= list.pageBean.endPage ; index++){
 			 		if(index !=list.pageBean.page){
 			 			$("#pageBean").append($("<a href='javascript:getList("+keyword+","+index+")'>").append(index));
 					}else{

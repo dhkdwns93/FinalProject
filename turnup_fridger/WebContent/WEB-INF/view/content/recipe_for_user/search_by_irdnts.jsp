@@ -66,7 +66,7 @@ function getList(keyword,page){
 				}else{
 					$("#apiPageBean").append("◀");
 				} 	
-			 	for(var index = map.apiMap.pageBean.beginPage ; index < map.apiMap.pageBean.endPage ; index++){
+			 	for(var index = map.apiMap.pageBean.beginPage ; index <= map.apiMap.pageBean.endPage ; index++){
 			 		if(index !=map.apiMap.pageBean.page){
 			 			$("#apiPageBean").append($("<a href='javascript:getList("+keyword+","+index+")'>").append(index));
 					}else{
@@ -90,7 +90,7 @@ function getList(keyword,page){
 				}else{
 					$("#userPageBean").append("◀");
 				} 	
-			 	for(var index = map.userMap.pageBean.beginPage ; index < map.userMap.pageBean.endPage ; index++){
+			 	for(var index = map.userMap.pageBean.beginPage ; index <= map.userMap.pageBean.endPage ; index++){
 			 		if(index !=map.userMap.pageBean.page){
 			 			$("#userPageBean").append($("<a href='javascript:getList("+keyword+","+index+")'>").append(index));
 					}else{
@@ -103,8 +103,6 @@ function getList(keyword,page){
 			 		$("#userPageBean").append("▶");
 			 	}
 			 	$("#userPageBean").append($("<a href = 'javascript:getList("+keyword+","+(map.userMap.pageBean.totalPage)+")'>").append("마지막 페이지"));
-		
-		
 		
 		},//success
 		"error":function(errorMsg){
