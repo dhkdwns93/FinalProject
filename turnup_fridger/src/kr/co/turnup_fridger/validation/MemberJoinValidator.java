@@ -33,6 +33,9 @@ public class MemberJoinValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberAddress", "requiredJoin");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberEmail", "requiredJoin");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberTel", "requiredJoin");
+		if(member.getMemberTel().length()!=11){
+			errors.rejectValue("memberTel", "length","*사용하시는 휴대폰번호 11자리를 입력해주십시오. 문자서비스를 받기 위함입니다.");
+		}
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberSex", "requiredJoin");
 	}
 

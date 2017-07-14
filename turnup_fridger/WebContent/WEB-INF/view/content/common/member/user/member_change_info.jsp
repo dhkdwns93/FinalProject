@@ -98,7 +98,7 @@ $(document).ready(function(){
 		<br><span id="duplicateEmailError" class="error">&nbsp&nbsp*이메일변경을 원하시면 중복검사를 해주세요.</span>	
 		</div>
 	<div class="form-group">
-		<label for="tel">전화번호</label>
+		<label for="tel">전화번호</label><span id="lengthTel" class="error">&nbsp&nbsp*ex.01012345678</span>
 		<input type="text" id="tel" name="memberTel" value='<sec:authentication property="principal.memberTel"/>' class="form-control">
 		<span class="error"><form:errors path="memberChangeForm.memberTel" delimiter="&nbsp;&nbsp"/></span>
 	</div>
