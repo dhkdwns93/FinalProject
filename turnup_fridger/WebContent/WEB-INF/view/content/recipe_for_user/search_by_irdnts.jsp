@@ -123,6 +123,7 @@ $(document).ready(function(){
 	$("#apiPageBean").hide();
 	$("#userPageBean").hide();
 	$("#myFridersThead").hide();
+	$("#myIrdnt").hide();
 	
 	$.ajax({
 		//재료관리에서 식재료들 리스트로 받아오기.
@@ -165,8 +166,8 @@ $(document).ready(function(){
 	});//ajax2
 	
 	$(document).on("click",".selectFridger",function(){
+		$("#myIrdnt").show();		
 		var fridgerId = $(this).val();
-		alert(fridgerId);
 		$.ajax({
 			//나의식재료에서 식재료들 리스트로 받아오기.
 			//나의식재료 - 재료명,신선도, 선택, 기피
@@ -282,8 +283,9 @@ $(document).ready(function(){
 		</table>
 	</div><hr>
 	
-	나의 식재료 : 
+	
 	<div id="myIrdnt">
+	나의 식재료 : 
 		<table style="overflow-x:hidden; overflow-y:scroll; height:200px;width:300px;">
 			<thead id="myIrdntThead"></thead>
 			<tbody id="myIrdntTbody"></tbody>

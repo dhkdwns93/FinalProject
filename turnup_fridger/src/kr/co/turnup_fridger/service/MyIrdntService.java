@@ -95,6 +95,45 @@ public interface MyIrdntService {
 	 * @return
 	 */
 	List<MyIrdnt> findMyIrdntByMemberId(String memberId);
+	
+	/**
+	 * 한 레시피의 재료들과 일치하는 나의 식재료들을 리턴.
+	 * @param recipeId
+	 * @param memberId
+	 * @return
+	 */
+	List<MyIrdnt> findMatchIrdnt(int recipeId,String memberId);
+	
+	/**
+	 * 냉장고 속 재료의 전체수 리턴.
+	 * @param fridgerId
+	 * @return
+	 */
+	int findAllMyIrdntCount(int fridgerId);
+	
+	/**
+	 * 냉장고 속 재료 중 보관장소 별 수 리턴.
+	 * @param fridgerId
+	 * @param storgePlace
+	 * @return
+	 */
+	int findMyIrdntByStorgePlace(int fridgerId, String storgePlace);
+	
+	/**
+	 * 냉장고 속 재료중 재료의 카테고리별 수 리턴. 
+	 * @param fridgerId
+	 * @param irdntCategory
+	 * @return
+	 */
+	int findMyIrdntByCategory(int fridgerId, String irdntCategory);
+	
+	/**
+	 * 냉장고 속 재료중 신선도 별 수 리턴.
+	 * @param fridgerId
+	 * @param freshLevel
+	 * @return
+	 */
+	int findMyIrdntByFreshLevel(int fridgerId, String freshLevel);
 }
 
 

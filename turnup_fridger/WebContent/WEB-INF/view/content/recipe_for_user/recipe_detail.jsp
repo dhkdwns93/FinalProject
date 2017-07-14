@@ -19,10 +19,11 @@ background:url(/turnup_fridger/starimage/star.png)no-repeat;
 <script type="text/javascript">
 function getReview(page){
 	if(!page) page = 1;
+	$("#reviewPageBean").empty();
 	$.ajax({   
 		"url":"/turnup_fridger/recipe/show/detail/review.do",
 		"type":"POST",
-		"data":{'recipeId':${requestScope.recipe.recipeId},'page':page,'${_csrf.parameterName}':'${_csrf.token}'}, 
+		"data":{'recipeId':${requestScope.recipe.recipeId},'page':page,'${_csrf.parameterName}':'${_csrf.token}'},  
 		"dataType":"json", 
 		"success":function(reviewMap){
 			
@@ -33,8 +34,10 @@ function getReview(page){
 						.append($("<td>").append(this.boardReviewTxt)).append($("<td>").append(this.imageName)).append($("<td>").append(this.memberId))
 						.append($("<td>").append(this.boardReviewDate)).append($("<td>")
 								.append($("<span>").prop("class","star-rating").append($("<span>").prop("style","width:"+(this.boardReviewStar)*10+"%")))));
-				});//each									
-				
+			});//each				
+			
+			//================페이징	
+			
 			 	$("#reviewPageBean").append($("<a href='javascript:getReview(1)'>").append("첫페이지"));
 			
 			 	if(reviewMap.pageBean.previousPageGroup!=null){
@@ -67,7 +70,6 @@ function getReview(page){
 
 $(document).ready(function(){
 
-	$("#deleteIrdnt").hide();
 	$("#reviewThead").hide();
 	
 	$("#updateBtn").on("click", function(){
@@ -78,12 +80,12 @@ $(document).ready(function(){
 				);
 	});
 
-	$("#deleteBtn").on("click", function(){
+/* 	$("#deleteBtn").on("click", function(){
 		$.ajax({
 			"url":"/turnup_fridger/common/admin/recipe/update.do",
 			"type":"POST",
 			"data":{'recipe' : $("#categoryName").val(),'${_csrf.parameterName}':'${_csrf.token}'},
-			"dataType":"json",
+			"dataType":"json", 
 			"success":function(list){
 				$("#typeName").empty();
 				$.each(list, function(){
@@ -94,32 +96,10 @@ $(document).ready(function(){
 				alert("오류발생-" +msg+ ":" +code);
 			}
 		})
-	});
+	}); */
 	
-	$.ajax({
-		"url":"/turnup_fridger/getMyIrdntList.do", 
-		"type":"POST",
-		"data":{'fridgerId':1,'${_csrf.parameterName}':'${_csrf.token}'},
-		"dataType":"json", 
-		"success":function(list){
-			$("#myIrdntThead").empty();	
-			$("#myIrdntThead").append($("<tr>").append($("<th>").append("재료명")).append($("<th>").append("신선도")).append($("<th>").append("수량메모"))
-					.append($("<th>").append("삭제")));
-			$("#myIrdntTbody").empty();	
-			$.each(list, function(){
-				$("#myIrdntTbody").append($("<tr>").prop("class","irdnt_col").append($("<td>").append(this.irdntName)).append($("<td>").append(this.freshLevel))
-						.append($("<td>").append(this.irdntCount))
-						.append($("<td>").append($("<button>").prop("type","button").prop("id","deleteBtn").prop("value",this.myIrdntKey).append("삭제"))));
-			});
-			},//success
-			"error":function(xhr, msg, code){ 
-					alert("오류발생-" +msg+ ":" +code);	
-			}//error	
-	});//재료편집
-
 	$(document).on("click" ,"#deleteRecipeBtn", function(){
-		console.log( ${ requestScope.recipe.recipeId})
-		
+		console.log(${ requestScope.recipe.recipeId});
 		$.ajax({
 			"url":"/turnup_fridger/common/admin/recipe/remove.do",
 			"type":"POST",		
@@ -140,15 +120,30 @@ $(document).ready(function(){
 				alert("오류발생-" +msg+ ":" +code);
 			}
 		});
-
-	})
+	});//레시피삭제
 	
-	$.ajax(function(){
-		
-	});//재료삭제 받아오기
+	$.ajax({
+		"url":"/turnup_fridger/findMatchIrdnt.do",  
+		"type":"POST",
+		"data":{'recipeId':${requestScope.recipe.recipeId},'${_csrf.parameterName}':'${_csrf.token}'},
+		"dataType":"json", 
+		"success":function(list){
+			$("#myIrdntTbody").empty();	
+			$.each(list, function(){
+				//alert(this);
+				$("#myIrdntTbody").append($("<tr>").append($("<td>").append(this.fridgerId)).append($("<td>").append(this.irdntName))
+					.append($("<td>").append(this.freshLevel)).append($("<td>").append(this.irdntCount))
+					.append($("<td>").append($("<button>").prop("type","button").prop("class","deleteIrdnt").prop("value",this.myIrdntKey).append("삭제"))));
+			})
+		},//success
+		"error":function(xhr, msg, code){ 
+			alert("오류발생-" +msg+ ":" +code);	
+		}//error	
+	});//ajax3,일치하는 식재료 보여주기 
 	
-	$(document).on("click","#deleteBtn",function(){
-		alert($(this).val());
+	 
+	$(document).on("click",".deleteIrdnt",function(){
+		//alert($(this).val());
 		$.ajax({
 			"url":"/turnup_fridger/removeMyIrdnt.do", 
 			//"type":"POST",
@@ -162,7 +157,7 @@ $(document).ready(function(){
 						alert("오류발생-" +msg+ ":" +code);	
 				}	
 		});
-	});//삭제버튼클릭
+	});//재료삭제버튼클릭
 	
 	$("#reviewBtn").on("click",function(){
 		$("#reviewThead").show();
@@ -171,7 +166,7 @@ $(document).ready(function(){
 	
 	$.ajax({
 		"url":"/turnup_fridger/findFavoriteRecipeByIds.do", 
-		"data":'recipeId='+${requestScope.recipe.recipeId}, 
+		"data":'recipeId='+${requestScope.recipe.recipeId},
 		"dataType":"text", 
 		"success":function(text){
 			//alert(text);
@@ -394,13 +389,15 @@ top: 650px;
 	</table>
 	</div>
 </div>
+</div>
 <div style="margin-right: 50px;  width: auto;  right:0; position: absolute;">
 
 <!--나의 식재료들 가져와서 수정,삭제할수있게 하는 테이블  -->
-	<div id="deleteIrdnt" style="overflow-x:hidden; overflow-y:scroll; height:200px;width:300px;">사용한 재료삭제</div>
+	<div id="myIrdnt">
 		<table>
 			<thead id="myIrdntThead">
 				<tr>
+					<th>냉장고id</th>
 					<th>재료명</th>
 					<th>신선도</th>
 					<th>수량메모</th>
@@ -433,7 +430,7 @@ top: 650px;
 	</div>
 	<div id="reviewPageBean"></div>
 
-
+</div>
 
 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 <button type="button" id="deleteRecipeBtn">삭제</button> 

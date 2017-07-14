@@ -607,18 +607,11 @@ public class RecipeController {
 		return fridgerList;
 	}
 	
-	
 	@RequestMapping("getMyIrdntList")
 	@ResponseBody
-	public List allMyIrdntList(@RequestParam int fridgerId){
+	public List<MyIrdnt> allMyIrdntList(@RequestParam int fridgerId){
 		return myService.findAllMyIrdntByFridgerId(fridgerId);
 	}
-		
-		
-		
-		
-		
-		
 		/*
 		List<FridgerGroup> groupList = fgService.selectFridgerGroupByGroupMemberId(member.getMemberId());
 		List<Fridger> fridgerList = new ArrayList<>();
@@ -731,5 +724,14 @@ public class RecipeController {
 			return 0;
 		}
 		return 1;
+	}
+	
+	@RequestMapping("findMatchIrdnt")
+	@ResponseBody
+	public List<MyIrdnt> findMatchIrdnt(@RequestParam int recipeId){
+		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<MyIrdnt> list = myService.findMatchIrdnt(recipeId, member.getMemberId());
+		System.out.println("일치재료"+list);
+		return list;
 	}
 }

@@ -1,21 +1,42 @@
-SELECT	f.fridger_id,
-			f.fridger_name,
-			f.member_id,
-			f.fridger_img,
-			i.my_irdnt_key,
-			i.start_date,
-			i.end_date,
-			i.fresh_level,
-			i.irdnt_count,
-			i.irdnt_id,
-			i.irdnt_name,
-			i.fridger_id,
-			i.start_fresh_level,
-			i.storge_place
-	FROM	fridger f, my_Irdnt i
-	WHERE	f.fridger_id = i.fridger_id
-AND		f.fridger_id = 24
-ORDER BY	i.irdnt_name
+		select 
+				my_irdnt_key,
+				start_date,
+				end_date,
+				fresh_level,
+				irdnt_count,
+				irdnt_id,
+				irdnt_name,
+				fridger_id,
+				start_fresh_level,
+				storge_place
+		from (
+			select 	my_irdnt_key,
+					start_date,
+					end_date,
+					fresh_level,
+					irdnt_count,
+					irdnt_id,
+					irdnt_name,
+					fridger_id,
+					start_fresh_level,
+					storge_place 
+			from my_irdnt 
+			where fridger_id in (
+					select fridger_id 
+					from fridger 
+					where member_id='user1'))
+		where irdnt_id in (
+			select irdnt_id 
+			from recipe_irdnt 
+			where recipe_id=132)	
+			
+select * from (select * from my_irdnt where fridger_id in (select fridger_id from fridger where member_id='user1')) 
+where irdnt_id in
+(select irdnt_id from recipe_irdnt where recipe_id='241');
+
+select * from recipe_info where recipe_id=473
+
+select * from my_irdnt where member_id='user1';
 --select * from recipe_irdnt
 --select * from IRDNT_MANAGE
 
