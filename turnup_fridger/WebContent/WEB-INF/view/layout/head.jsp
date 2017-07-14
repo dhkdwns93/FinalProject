@@ -10,19 +10,22 @@
  <form id="logoutForm" action="${initParam.rootPath}/common/logout.do" method="post" style="display:none">
  	<sec:csrfInput/><%--csrf 토큰 생성 --%>
  </form>
-
-
-<div class="collapse navbar-collapse">
-	<ul class="nav navbar-nav navbar-right">
-		<%-- <li><a><sec:authentication property="authorities"/> 권한으로 로그인</a></li> --%>
-		<!-- 권한, 상태별로 분리하기 -->
-		<sec:authorize access="!isAuthenticated()">
-			<li><a href="${initParam.rootPath}/login_form.do">login</a></li>
-			<li><a href="${initParam.rootPath}/join_member_form.do">join</a></li>
-		</sec:authorize>
-		
-		<!-- 회원 메뉴/member로 시작 -->
-		<sec:authorize access="hasRole('ROLE_MEMBER')">
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+        <div class="container topnav">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="${initParam.rootPath}" ><i class="material-icons">home</i></a>
+            </div>
+            
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                
+                <!-- 권한, 상태별로 분리하기 -->
+                <sec:authorize access="!isAuthenticated()">
+                	<li> <a href="${initParam.rootPath}/login_form.do">login</a> </li>
+                    <li> <a href="${initParam.rootPath}/join_member_form.do">join</a> </li>
+                </sec:authorize>
+                <sec:authorize access="hasRole('ROLE_MEMBER')">
 			<sec:authentication property="principal" var="member" />
 			<li><a>${member.memberName }님 환영합니다</a></li>
 			<li><a href="javascript:logout()">logout</a></li>
@@ -37,8 +40,10 @@
  			<li><a>${admin.adminName}님 환영합니다</a></li>
 			<li><a href="javascript:logout()">logout</a></li>
 		</sec:authorize>
-			<li> <a class="navbar-brand topnav" href="/turnup_fridger/">Main</a> </li>
-	</ul>
-</div>
-
-
+                
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
