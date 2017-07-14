@@ -20,16 +20,30 @@
 	float:right;
 	width:75%;
 	height:70%;
+}
+a.list-group-item {
+  border:none;
+  color: #555;
+  text-decoration: none;
+  background-color:#ffcccc;
+}
+a.list-group-item:hover,
+a.list-group-item:focus {
+  color: #555;
+  text-decoration: none;
+  background-color: #f5f5f5 !important;
+}
 
 </style>
 <div class='left-box'>
-		<div><h5>Welcome to Turnup-fridger</h5></div>
+		<div><h5>Welcome to Turnup-fridger1</h5></div>
 		<hr>
-		<div>
-			<a href="${initParam.rootPath}/login_form.do" >Login</a>
-		</div>
-		<div>
-			<a href="${initParam.rootPath}/join_member_form.do">Join us</a>
+		<div class="list-group">
+			<a href="${initParam.rootPath}/login_form.do" class="list-group-item">Login</a>
+		
+		
+			<a href="${initParam.rootPath}/join_member_form.do" class="list-group-item">Join us</a>
+		
 		</div>
 </div>
 
