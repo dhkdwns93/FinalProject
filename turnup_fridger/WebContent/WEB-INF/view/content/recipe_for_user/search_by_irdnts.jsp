@@ -122,6 +122,7 @@ $(document).ready(function(){
 	$("#userThead").hide();	
 	$("#apiPageBean").hide();
 	$("#userPageBean").hide();
+	$("#myFridersThead").hide();
 	
 	$.ajax({
 		//재료관리에서 식재료들 리스트로 받아오기.
@@ -145,30 +146,51 @@ $(document).ready(function(){
 	});//ajax1
 	
 	$.ajax({
-		//나의식재료랑에서 식재료들 리스트로 받아오기.
-		//나의식재료 - 재료명,신선도, 선택, 기피
-		
-		"url":"/turnup_fridger/getMyIrdntList.do", 
-		"type":"POST",
-		"data":{'fridgerId':1,'${_csrf.parameterName}':'${_csrf.token}'},
+	//나의 냉장고들 불러오기 
+	//냉장고id, 냉장고 이름, 선택버튼
+		"url":"/turnup_fridger/getFridgers.do", 
+		//"type":"POST",
+		//"data":{'${_csrf.parameterName}':'${_csrf.token}'},
 		"dataType":"json", 
 		"success":function(list){
-			$("#myIrdntThead").empty();	
-			$("#myIrdntThead").append($("<tr>").append($("<th>").append("재료명")).append($("<th>").append("신선도")).append($("<th>").append("선택"))
-					.append($("<th>").append("기피")));
-			$("#myIrdntTbody").empty();	
+			$("#myFridersThead").show();
 			$.each(list, function(){
-				$("#myIrdntTbody").append($("<tr>").prop("class","irdnt_col").append($("<td>").append(this.irdntName)).append($("<td>").append(this.freshLevel))
-						.append($("<td>").append($("<button>").prop("type","button").prop("class","likeBtn").prop("value",this.irdntId).append("선택")))
-						.append($("<td>").append($("<button>").prop("type","button").prop("class","dislikeBtn").prop("value",this.irdntId).append("기피"))));	 
+				$("#myFridersTbody").append($("<tr>").append($("<td>").append(this.fridgerId)).append($("<td>").append(this.fridgerName))
+						.append($("<td>").append($("<button>").prop("type","button").prop("class","selectFridger").prop("value",this.fridgerId).append("선택"))));
 				})
 			},//success
 			"error":function(xhr, msg, code){ 
-				
 					alert("오류발생-" +msg+ ":" +code);	
-				
 			}//error	
 	});//ajax2
+	
+	$(document).on("click",".selectFridger",function(){
+		var fridgerId = $(this).val();
+		alert(fridgerId);
+		$.ajax({
+			//나의식재료에서 식재료들 리스트로 받아오기.
+			//나의식재료 - 재료명,신선도, 선택, 기피
+			"url":"/turnup_fridger/getMyIrdntList.do", 
+			"type":"POST",
+			"data":{'fridgerId':fridgerId,'${_csrf.parameterName}':'${_csrf.token}'},
+			"dataType":"json", 
+			"success":function(list){
+				$("#myIrdntThead").empty();	
+				$("#myIrdntThead").append($("<tr>").append($("<th>").append("재료명")).append($("<th>").append("신선도")).append($("<th>").append("선택"))
+						.append($("<th>").append("기피")));
+				$("#myIrdntTbody").empty();	
+				$.each(list, function(){
+					$("#myIrdntTbody").append($("<tr>").prop("class","irdnt_col").append($("<td>").append(this.irdntName)).append($("<td>").append(this.freshLevel))
+							.append($("<td>").append($("<button>").prop("type","button").prop("class","likeBtn").prop("value",this.irdntId).append("선택")))
+							.append($("<td>").append($("<button>").prop("type","button").prop("class","dislikeBtn").prop("value",this.irdntId).append("기피"))));	 
+					})
+				},//success
+				"error":function(xhr, msg, code){ 
+						alert("오류발생-" +msg+ ":" +code);	
+					
+				}//error	
+		});//ajax3
+	});//냉장고선택-> 식재료 보여주기 
 	
 	$.ajax({
 		//나의 기피재료 받아오기.
@@ -189,7 +211,7 @@ $(document).ready(function(){
 			"error":function(xhr, msg, code){ 
 					alert("오류발생-" +msg+ ":" +code);	
 			}//error	
-	});//ajax3
+	});//ajax4
 	
 	$(document).on("click",(".dislikeBtn"),function(){
 		var irdntId = $(this).val();
@@ -245,9 +267,24 @@ $(document).ready(function(){
 
 <!--나의식재료 / 재료관리  ->  나의 기피재료/나의 선택재료 -> 검색버튼 -> 레시피info들(페이징) and 레시피공유게시판목록들(페이징)-->
 	
-	나의 식재료 : 
-	<div id="myIrdnt" style="overflow-x:hidden; overflow-y:scroll; height:200px;width:300px;">
+	나의 냉장고 : 
+	<div id="myFridgers">
 		<table>
+			<thead id="myFridersThead">
+				<tr>
+				<th>냉장고id</th>
+				<th>냉장고애칭</th>
+				<th>선택</th>
+			</tr>	
+			</thead>
+			<tbody id="myFridersTbody">
+			</tbody>
+		</table>
+	</div><hr>
+	
+	나의 식재료 : 
+	<div id="myIrdnt">
+		<table style="overflow-x:hidden; overflow-y:scroll; height:200px;width:300px;">
 			<thead id="myIrdntThead"></thead>
 			<tbody id="myIrdntTbody"></tbody>
 		</table>

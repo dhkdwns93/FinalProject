@@ -72,40 +72,58 @@ public class RecipeServiceImpl implements RecipeService{
 		
 		@Override
 		public void updateRecipeIrdnt(Map<String, List> recipeIrdnt) throws NoneRecipeException {
-			
-			//재료
+			//재거할 목록
 			List<Integer> removeIrdntList = recipeIrdnt.get("removeIrdntList");	//삭제할 재료
-			if(removeIrdntList != null || !removeIrdntList.isEmpty()){
-			for(int i=0;i<removeIrdntList.size();i++){
-				if(removeIrdntList.get(i) != null )
-				irdntDao.deleteRecipeIrdnt(removeIrdntList.get(i));
+			if(removeIrdntList != null && removeIrdntList.size()> 0 && !removeIrdntList.isEmpty()){
+				for(int i=0;i<removeIrdntList.size();i++){
+					if(removeIrdntList.get(i) != null )
+					irdntDao.deleteRecipeIrdnt(removeIrdntList.get(i));
+				}
 			}
-			}
+			
+			//추가할 목록
 			List<RecipeIrdnt> addIrdntList = recipeIrdnt.get("addIrdntList");	//추가할 재료
-			if(addIrdntList != null || !addIrdntList.isEmpty()){
-			for(int i=0;i<addIrdntList.size();i++){
-				if(removeIrdntList.get(i) != null )
-				irdntDao.insertRecipeIrdnt(addIrdntList.get(i));
-			}
+//			System.out.println("addIrdntList 널첵:"+addIrdntList);
+			if(addIrdntList != null && addIrdntList.size() > 0 && !addIrdntList.isEmpty()){
+				for(int i=0;i<addIrdntList.size();i++){
+					if(addIrdntList.get(i) != null )
+						irdntDao.insertRecipeIrdnt(addIrdntList.get(i));
+				}
 			}
 		}
 
 		@Override
-		public void updateRecipeCrse(Map<String, List> recipeCrse) throws NoneRecipeException {
-
-			//과정
-			List<Map> removeCrseList = recipeCrse.get("removeCrseList");	//삭제할 과정(recipeId-cookingNo)
-			if(removeCrseList != null || !removeCrseList.isEmpty()){
-			for(int i=0;i<removeCrseList.size();i++){
-				crseDao.deleteRecipeCrse((int)(removeCrseList.get(i).get("recipeId")), (int)(removeCrseList.get(i).get("cookingNo")));
-			}
+		public void updateRecipeCrse(int recipeId, List<RecipeCrse> addCrseList, 
+									List<Integer> removeCrseList, 
+									List<RecipeCrse> currentCrseList) throws NoneRecipeException {
+			
+			//업뎃할 목록:currentCrseList
+			if(currentCrseList != null && !currentCrseList.isEmpty() && currentCrseList.size() > 0){
+				for(RecipeCrse rc : currentCrseList){
+					if(rc != null )
+						//System.out.println("updateRecipeCrse:"+rc);
+						rc.setRecipeId(recipeId);
+						crseDao.updateRecipeCrse(rc);
+				}
 			}
 			
-			List<RecipeCrse> addCrseList = recipeCrse.get("addCrseList");	//추가할 과정
-			if(addCrseList != null || !addCrseList.isEmpty()){
-			for(int i=0; i<addCrseList.size();i++){
-				crseDao.insertRecipeCrse(addCrseList.get(i));
+			//제거할 목록 :removeCrseList
+			//삭제할 과정(cookingNo)
+			if(removeCrseList != null && !removeCrseList.isEmpty() && removeCrseList.size() > 0){
+				for(int cookingNo : removeCrseList){
+					if(cookingNo != -1 )
+					crseDao.deleteRecipeCrse(recipeId, cookingNo);
+				}
 			}
+			
+			//추가할 목록 :addCrseList
+			//추가할 과정
+			if(addCrseList != null && !addCrseList.isEmpty() && addCrseList.size() > 0){
+				for(RecipeCrse rc : addCrseList){
+					if(rc != null )
+						rc.setCookingNo((crseDao.selectRecipeCrseById(recipeId).size()+1));
+						crseDao.insertRecipeCrse(rc);
+				}
 			}
 		}
 	

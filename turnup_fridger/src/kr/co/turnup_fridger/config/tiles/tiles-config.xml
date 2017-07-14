@@ -37,5 +37,9 @@
 	<definition name="*/*/*/*/*.tiles" extends="template">
 		<put-attribute name="content" value="/WEB-INF/view/content/{1}/{2}/{3}/{4}/{5}.jsp" />
 	</definition>
+	
+		<definition name="*/*/*/*/*/*.tiles" extends="template">
+		<put-attribute name="content" value="/WEB-INF/view/content/{1}/{2}/{3}/{4}/{5}/{6}.jsp" />
+	</definition>
 
 </tiles-definitions>

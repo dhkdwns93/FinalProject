@@ -26,9 +26,7 @@
 	
 	<update id="updateRecipeCrse" parameterType="RecipeCrse">
 		update RECIPE_CRSE
-		set recipe_id=#{recipeId},
-			cooking_no=#{cookingNo},
-			cooking_dc=#{cookingDc},
+		set cooking_dc=#{cookingDc},
 			step_image_url=#{stepImageUrl},
 			step_tip=#{stepTip}
 		where recipe_id=#{recipeId} and cooking_no = #{cookingNo}
@@ -36,7 +34,7 @@
 	
 	<delete id="deleteRecipeCrse" parameterType="java.util.HashMap">
 		delete from RECIPE_CRSE
-		where recipe_id=#{recipeId.recipeId} and cooking_no=#{cookingNo.cookingNo}
+		where recipe_id=#{recipeId} and cooking_no=#{cookingNo}
 	</delete>
 	
 	<select id="selectAllRecipeCrse" resultMap="RecipeCrse-resultmap">

@@ -22,6 +22,7 @@ $(document).ready(function(){
 });
 </script>
 <style type="text/css">
+
 table{
 	border:1;
 	border-collapse:collapse;
@@ -29,14 +30,16 @@ table{
 	align: center;
 	margin:auto;
 }
-p{
+p, h3{
 	text-align: center;
 }
 
 </style>
 </head>
 <body>
-<p id="shopCount"><span id="count"></span></p>
+<h3> 클릭하시면 해당 사이트로 연결됩니다</h3>
+<br><br>
+<p id="shopCount"><span id="count"></span>
 <div class="container">
 <div style="width:100%; height:500px; overflow:auto">
 <table class="table table-hover">
@@ -47,7 +50,7 @@ p{
 	<c:forEach items="${requestScope.list }" var="shop">
 		<tr>
 			<td>${shop.shopId }</td>
-			<td><img alt="${shop.shopImg }" src="${initParam.rootPath}/up_image/${shop.saveImg}" width="100" height="102"></td>
+			<td><img alt="${shop.shopImg }" src="${initParam.rootPath}/images/${shop.saveImg}" width="100" height="102"></td>
 			<td><a href="#" onClick="window.open('${shop.shopAddress}','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=1000px, height=600px ,top=10, left=10', bottom=10, right=10)">${shop.shopName }</a></td>
 		</tr>
 	</c:forEach>

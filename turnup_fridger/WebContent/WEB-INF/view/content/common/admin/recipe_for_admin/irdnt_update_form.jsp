@@ -128,14 +128,17 @@ function openPopup(url){
 var irdnt_idx = -1;
 function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount ){
 	irdnt_idx += 1;
+	
 	$("#recipe_irdnt_table>tbody").append($("<tr>").prop("class","newIrdntRow").append($("<td>").append($("<input>").prop("type", "hidden").prop("name", "addIrdntList["+irdnt_idx+"].irdntId").prop("value", irdntId)))
-													.append($("<td>").append($("<input>").prop("type", "text").prop("name", "addIrdntList["+irdnt_idx+"].irdntName").prop("size", "10").prop("value", irdntName).prop("readonly", "readonly")))
+													.append($("<td>").append($("<input>").prop("type", "text").prop("name", "addIrdntList["+irdnt_idx+"].irdntName").prop("value",irdntName).prop("size", "10").prop("readonly", "readonly")))
 								  					.append($("<td>").append($("<input>").prop("type", "hidden").prop("name", "addIrdntList["+irdnt_idx+"].irdntTypeCode").prop("value",irdntTypeCode)))
-								  					.append($("<td>").append($("<input>").prop("type", "text").prop("name", "addIrdntList["+irdnt_idx+"].irdntTypeName").prop("size", "5").prop("value",irdntTypeName).prop("readonly", "readonly")))
-								  					.append($("<td>").append($("<input>").prop("type", "text").prop("name", "addIrdntList["+irdnt_idx+"].irdntAmount").prop("size", "5").prop("value",irdntAmount).prop("readonly", "readonly")))
+								  					.append($("<td>").append($("<input>").prop("type", "text").prop("name", "addIrdntList["+irdnt_idx+"].irdntTypeName").prop("value",irdntTypeName).prop("size", "5").prop("readonly", "readonly").val(irdntTypeName)))
+								  					.append($("<td>").append($("<input>").prop("type", "text").prop("name", "addIrdntList["+irdnt_idx+"].irdntAmount").prop("value",irdntAmount).prop("size", "5").prop("readonly", "readonly").val(irdntAmount)))
 								  					.append($("<td>").append($("<button>").prop("type", "button").prop("class","deleteIrdntBtn").append("삭제"))));
+	
 }
 </script>
+
 
 <style>
 .image{
@@ -171,7 +174,7 @@ left:5px;
 
 <form id="recipe_register_form" 
 	action="${ initParam.rootPath }/common/admin/recipe/irdnt/update.do" 
-	enctype="multipart/form-data" method="post">
+	 method="post">
 
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
 	<input type="hidden" name="recipeId" value="${requestScope.recipe.recipeId}"> 

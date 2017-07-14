@@ -34,7 +34,7 @@ public interface FridgerGroupDao {
 	 * @param groupMemberId
 	 * @return
 	 */
-	public FridgerGroup selectFridgerGroupByGroupMemberId(String groupMemberId);
+	public List<FridgerGroup> selectFridgerGroupByGroupMemberId(String groupMemberId);
 
 	/**
 	 * 한 냉장고의 공유멤버 리스트 조회(가입순서 정렬)

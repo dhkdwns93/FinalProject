@@ -31,6 +31,8 @@ import kr.co.turnup_fridger.exception.NoneRecipeException;
 import kr.co.turnup_fridger.service.BoardReviewService;
 import kr.co.turnup_fridger.service.BoardShareRecipeService;
 import kr.co.turnup_fridger.service.FavoriteRecipeService;
+import kr.co.turnup_fridger.service.FridgerGroupService;
+import kr.co.turnup_fridger.service.FridgerService;
 import kr.co.turnup_fridger.service.IrdntManageService;
 import kr.co.turnup_fridger.service.MyDislikeIrdntService;
 import kr.co.turnup_fridger.service.MyIrdntService;
@@ -39,13 +41,18 @@ import kr.co.turnup_fridger.validation.form.RecipeCrseForm;
 import kr.co.turnup_fridger.validation.form.RecipeInfoForm;
 import kr.co.turnup_fridger.validation.form.RecipeIrdntForm;
 import kr.co.turnup_fridger.vo.FavoriteRecipe;
+import kr.co.turnup_fridger.vo.Fridger;
+import kr.co.turnup_fridger.vo.FridgerGroup;
+//github.com/dhkdwns93/FinalProject.git
 import kr.co.turnup_fridger.vo.IrdntManage;
 import kr.co.turnup_fridger.vo.Member;
 import kr.co.turnup_fridger.vo.MyDislikeIrdnt;
 import kr.co.turnup_fridger.vo.MyIrdnt;
 import kr.co.turnup_fridger.vo.RecipeCrse;
+import kr.co.turnup_fridger.vo.RecipeCrseUpdate;
 import kr.co.turnup_fridger.vo.RecipeInfo;
 import kr.co.turnup_fridger.vo.RecipeIrdnt;
+import kr.co.turnup_fridger.vo.RecipeIrdntUpdate;
 
 @Controller
 @RequestMapping("/")
@@ -65,6 +72,10 @@ public class RecipeController {
 	private BoardReviewService rvService;
 	@Autowired
 	private FavoriteRecipeService frService;
+	@Autowired
+	private FridgerGroupService fgService;
+	@Autowired
+	private FridgerService fService;
 	
 	/***************************************************************
 	 * 관리자를 위한  Recipe Handler : 등록, 삭제
@@ -103,8 +114,8 @@ public class RecipeController {
 			
 			// 2.레시피 과정 넣기
 			List<RecipeCrse> recipeCrseList = new ArrayList<>();
-			RecipeCrse rc = new RecipeCrse();
 			for(RecipeCrseForm rcf :recipeInfoForm.getRecipeCrseList()){
+				RecipeCrse rc = new RecipeCrse();
 				BeanUtils.copyProperties(rcf, rc);
 				recipeCrseList.add(rc);
 				
@@ -124,8 +135,8 @@ public class RecipeController {
 			
 			// 3. 재료정보 넣기	
 			List<RecipeIrdnt> recipeIrdntList = new ArrayList<>();
-			RecipeIrdnt ri = new RecipeIrdnt();
 			for(RecipeIrdntForm rif : recipeInfoForm.getRecipeIrdntList()){
+				RecipeIrdnt ri = new RecipeIrdnt();
 				BeanUtils.copyProperties(rif, ri);
 				recipeIrdntList.add(ri);
 			}
@@ -230,25 +241,28 @@ public class RecipeController {
 		}
 		
 		@RequestMapping("common/admin/recipe/irdnt/update")
-		public ModelAndView updateRecipeIrdntHandler(@RequestParam int recipeId, @RequestParam(value="removeIrdntList")  List<Integer> removeIrdntList,
+		/*
+		public ModelAndView updateRecipeIrdntHandler(@RequestParam int recipeId, @RequestParam(value="removeIrdntList", required=false)  List<Integer> removeIrdntList,
 													@RequestParam(value="addIrdntList" , required=false) List<RecipeIrdnt> addIrdntList,  
 												 HttpServletRequest request) throws IllegalStateException, IOException{
-			System.out.println("업데이트 핸들러: recipeId -"+recipeId+"/"+removeIrdntList);
-			//System.out.println("업데이트 핸들러:"+recipeInfoForm);
+		*/
+		public ModelAndView updateRecipeIrdntHandler(@ModelAttribute RecipeIrdntUpdate riu, BindingResult errors, HttpServletRequest request){
+			System.out.println("업데이트 핸들러: recipeId - "+riu.getRecipeId()+"/removeIrdntList:"+riu.getRemoveIrdntList()+"/addIrdntList:"+riu.getAddIrdntList());
 			//if(errors.hasErrors()){
 				//System.out.println("업데이트 핸들러 errors수:"+ errors.getAllErrors());
 			//	return new ModelAndView("common/admin/recipe_for_admin/info_update_form", "recipe", recipeInfoForm);
+	
 			// 2.레시피 재료 수정하기(삭제와 추가 리스트에 넣기)
 			Map<String, List> recipeIrdnt = new HashMap<>();
 			//삭제할거는 recipeId와 cookingNo를 Map로 받아온다 -> 그대로 넘기고 , 
-			recipeIrdnt.put("removeIrdntList", removeIrdntList);
-				//추가할 것 레시피 아이디 세팅해서 넘겨주기
+			recipeIrdnt.put("removeIrdntList", riu.getRemoveIrdntList());
+				//추가할 것 레시피 아이디 세팅해서 넘겨주기 
 			
-			if(addIrdntList != null){
-				for(RecipeIrdnt ri : addIrdntList){
-					ri.setRecipeId(recipeId);
+			if(riu.getAddIrdntList() != null){
+				for(RecipeIrdnt ri : riu.getAddIrdntList()){
+					ri.setRecipeId(riu.getRecipeId());
 				}
-				recipeIrdnt.put("addIrdntList", addIrdntList);
+				recipeIrdnt.put("addIrdntList", riu.getAddIrdntList());
 			}
 			
 						
@@ -261,12 +275,8 @@ public class RecipeController {
 			}
 			
 			//System.out.println("레시피컨트롤러 update완료 :"+recipeInfo);
-			return new ModelAndView("redirect:update/success.do","recipeId",recipeId);
+			return new ModelAndView("redirect:update/success.do","recipeId", riu.getRecipeId());
 		}
-		
-		
-		
-		
 		
 		
 		@RequestMapping("common/admin/recipe/crse/update_chk")
@@ -278,43 +288,76 @@ public class RecipeController {
 		}
 		
 		@RequestMapping("common/admin/recipe/crse/update")
-		public ModelAndView updateRecipeCrseHandler(int recipeId, @RequestParam(value="removeCrseList") List<Map> removeCrseList,
-														@RequestParam(value="addCrseList", required=false) List<RecipeCrse> addCrseList,
-				HttpServletRequest request) throws IllegalStateException, IOException{
-			// 3. 래시피 과정 수정하기(삭제와 추가 리스트에 넣기)
-			Map<String, List> recipeCrse = new HashMap<>();
-				//삭제할거는 recipeId와 cookingNo를 Map로 받아온다 -> 그대로 넘기고 , 
-			recipeCrse.put("removeCrseList", removeCrseList);
-				//추가할 것 레시피 아이디 세팅, 사진 파일 저장해서 넘겨주기
+		public ModelAndView updateRecipeCrseHandler(@ModelAttribute RecipeCrseUpdate rcu, BindingResult errors, HttpServletRequest request) throws IllegalStateException, IOException{
+			// 3. 래시피 과정 수정하기(삭제와 추가 리스트에 넣기)+수정
+			
+
+			System.out.println("업데이트 핸들러: recipeId - "+rcu.getRecipeId()+"/removeCrseList:"+rcu.getRemoveCrseList()+"/addCrseList:"+rcu.getAddCrseList()+"/CurrentCrseList:"+rcu.getCurrentCrseList());
+			// 수정 목록 사진처리
 			String fileName = null;
-			long fileSize= 0;	
-			for(RecipeCrse rc : addCrseList){
-				rc.setRecipeId(recipeId);
-				
-				if(rc.getStepImageUrlSrc() != null && !rc.getStepImageUrlSrc().isEmpty()){
-					fileName = rc.getStepImageUrlSrc().getOriginalFilename();
-					fileSize= rc.getStepImageUrlSrc().getSize();
-					System.out.printf("파일명 :%s, 파일크기 :%d%n", fileName, fileSize);
+			long fileSize= 0;
+			if(rcu.getCurrentCrseList() != null && !rcu.getCurrentCrseList().isEmpty()){
+				for(RecipeCrse rc : rcu.getCurrentCrseList()){
+					if(rc != null){
+					rc.setRecipeId(rcu.getRecipeId());
 					
-					//이동 : request.getServletContext().getRealPath("하위 경로") - Application의 Root경로의 실제 파일경로로 리턴
-					System.out.println("request.getServletContext().getRealPath() : "+ request.getServletContext().getRealPath("/images") );
-					File dest = new File(request.getServletContext().getRealPath("/images"), fileName);
-					rc.setStepImageUrl(fileName);
-					rc.getStepImageUrlSrc().transferTo(dest);	// Exception 던짐
+						if(rc.getStepImageUrlSrc() != null && !rc.getStepImageUrlSrc().isEmpty()){
+							fileName = rc.getStepImageUrlSrc().getOriginalFilename();
+							fileSize= rc.getStepImageUrlSrc().getSize();
+							System.out.printf("파일명 :%s, 파일크기 :%d%n", fileName, fileSize);
+							
+							//이동 : request.getServletContext().getRealPath("하위 경로") - Application의 Root경로의 실제 파일경로로 리턴
+							System.out.println("request.getServletContext().getRealPath() : "+ request.getServletContext().getRealPath("/images") );
+							File dest = new File(request.getServletContext().getRealPath("/images"), fileName);
+							rc.setStepImageUrl("/turnup_fridger/images/"+fileName);
+							rc.getStepImageUrlSrc().transferTo(dest);	// Exception 던짐
+						}
+					
+					}
 				}
-				
 			}
-			recipeCrse.put("addCrseList", addCrseList);
-						
+			
+			
+			
+			//추가목록 사진 처리
+			if(rcu.getAddCrseList() != null && !rcu.getAddCrseList().isEmpty()){
+				for(RecipeCrse rc : rcu.getAddCrseList()){
+					if(rc != null){
+					rc.setRecipeId(rcu.getRecipeId());
+					
+						if(rc.getStepImageUrlSrc() != null && !rc.getStepImageUrlSrc().isEmpty()){
+							fileName = rc.getStepImageUrlSrc().getOriginalFilename();
+							fileSize= rc.getStepImageUrlSrc().getSize();
+							System.out.printf("파일명 :%s, 파일크기 :%d%n", fileName, fileSize);
+							
+							//이동 : request.getServletContext().getRealPath("하위 경로") - Application의 Root경로의 실제 파일경로로 리턴
+							System.out.println("request.getServletContext().getRealPath() : "+ request.getServletContext().getRealPath("/images") );
+							File dest = new File(request.getServletContext().getRealPath("/images"), fileName);
+							rc.setStepImageUrl(fileName);
+							rc.getStepImageUrlSrc().transferTo(dest);	// Exception 던짐
+						}
+					
+					}
+				}
+			}
+			
+			List<Integer> removeCrseList = new ArrayList<Integer>();
+			if(rcu.getRemoveCrseList()!= null && !rcu.getRemoveCrseList().isEmpty()){
+				for(RecipeCrse rc : rcu.getRemoveCrseList()){
+					removeCrseList.add(rc.getCookingNo());
+				}
+			}
+			
+			
 			try {
-				recipeService.updateRecipeCrse(recipeCrse);
+				recipeService.updateRecipeCrse(rcu.getRecipeId(), rcu.getAddCrseList(), removeCrseList, rcu.getCurrentCrseList());
 			}  catch (NoneRecipeException e)  {
 				e.printStackTrace();
-				return new ModelAndView("common/admin/recipe_for_admin/info_update_form","errorMsg_NoneRecipe",e.getMessage());
+				return new ModelAndView("common/admin/recipe_for_admin/crse_update_form","errorMsg_NoneRecipe",e.getMessage());
 			}
 			
 			//System.out.println("레시피컨트롤러 update완료 :"+recipeInfo);
-			return new ModelAndView("redirect:update/success.do","recipeId",recipeId);
+			return new ModelAndView("redirect:update/success.do","recipeId", rcu.getRecipeId());
 		}
 		
 		
@@ -528,17 +571,70 @@ public class RecipeController {
 		return list;
 	}
 	
-	@RequestMapping("getMyIrdntList")
+	@RequestMapping("getFridgers")
 	@ResponseBody
-	public List<MyIrdnt> allMyIrdntList(@RequestParam int fridgerId){
+	public List allFridgerByMemberId(){
+		
+		//회원아이디로 속한 냉장고 그룹들을 가져옴. 
 		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if(member==null){
-			//비회원
+			//비회원처리.어떻게하나?
 			return null;
 		}
-		List<MyIrdnt> list = myService.findAllMyIrdntByFridgerId(fridgerId);
-		return list;
+		
+		List<FridgerGroup> groupList = fgService.selectFridgerGroupByGroupMemberId(member.getMemberId());
+		
+		List<Fridger> fridgerList = new ArrayList<>();
+		
+		for(int i=0; i<groupList.size();i++){
+			//id로 찾은 냉장고 객체를 냉장고 리스트에 넣는작업. 
+			fridgerList.add(fService.findFridgerAndFridgerGroupByFridgerId(groupList.get(i).getFridgerId()));
+		}
+		
+		/*List<Integer> idList = new ArrayList<>();
+		List<String> nameList = new ArrayList<>();
+		
+		for(int i=0; i<groupList.size(); i++){
+			idList.add(groupList.get(i).getFridgerId());
+			nameList.add(groupList.get(i).getfridger().getFridgerName());
+		}
+		
+		HashMap map = new HashMap();
+		map.put("idList", idList);
+		map.put("nameList", nameList);
+		
+		return map;*/
+		return fridgerList;
 	}
+	
+	
+	@RequestMapping("getMyIrdntList")
+	@ResponseBody
+	public List allMyIrdntList(@RequestParam int fridgerId){
+		return myService.findAllMyIrdntByFridgerId(fridgerId);
+	}
+		
+		
+		
+		
+		
+		
+		/*
+		List<FridgerGroup> groupList = fgService.selectFridgerGroupByGroupMemberId(member.getMemberId());
+		List<Fridger> fridgerList = new ArrayList<>();
+		
+		//System.out.println("냉장고 그룹리스트 : "+groupList);
+		
+		for(int i=0; i<groupList.size(); i++){
+			//System.out.println(groupList.get(i).getFridgerId());
+			Fridger fridger = fService.findFridgerAndIrdntByFridgerId(groupList.get(i).getFridgerId());
+			fridgerList.add(fridger);
+			//System.out.println("냉장고들 : "+fridger);
+		}
+		//List<MyIrdnt> list = myService.findAllMyIrdntByFridgerId(fridgerId);
+		System.out.println(fridgerList);
+		return fridgerList;*/
+	
 
 	@RequestMapping("getMyDislikeIrdnt")
 	@ResponseBody

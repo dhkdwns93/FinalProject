@@ -65,7 +65,7 @@ public class MemoController {
 			return new ModelAndView("/common/member/memo/memo_register_form", "error", e.getMessage());
 		}
 		
-		return new ModelAndView("/common/member/memo/memoDetail", "memo", mm);
+		return new ModelAndView("redirect:/common/member/memo/memoDetail.do", "memo", mm);
 	}
 	
 	// 메모삭제 O
