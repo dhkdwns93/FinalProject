@@ -72,8 +72,8 @@ $(document).ready(function(){
 			"url" : "${initParam.rootPath}/sms/sendSMS.do",
 			"type" : "post",
 			"data" : {'memoName' :$("#name").val(), 'memoTxt' : $("#txt").val(), 'memberTel' : $("#memberTel").val(), '${_csrf.parameterName}' : '${_csrf.token}'},
-			"success" : function(result){
-				alert(result);
+			"success" : function(){
+				alert('전송 완료');
 			}
 		});
 	});
