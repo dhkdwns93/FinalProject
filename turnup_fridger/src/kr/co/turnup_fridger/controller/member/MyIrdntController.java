@@ -42,6 +42,7 @@ public class MyIrdntController {
 		
 		if(errors.hasErrors()){
 			//여기서 새페이지 열리지않고, 팝업창내에서 나왔으면 좋겠다.
+			System.out.println(errors.getAllErrors());
 			return new ModelAndView("common/member/myIrdnt/myIrdnt_form");
 		}
 		

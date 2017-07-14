@@ -32,7 +32,7 @@ public class FavoriteRecipeDaoImpl implements FavoriteRecipeDao{
 
 	@Override
 	public int deleteFavoriteRecipe(int favoriteRecipeKey) {
-		return session.delete(makeSql("deleteFavoirteRecipe"),favoriteRecipeKey);
+		return session.delete(makeSql("deleteFavoriteRecipe"),favoriteRecipeKey);
 	}
 
 	@Override
