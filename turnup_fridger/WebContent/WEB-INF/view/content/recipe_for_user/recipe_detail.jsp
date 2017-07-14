@@ -118,6 +118,7 @@ $(document).ready(function(){
 	});//재료편집
 
 	$(document).on("click" ,"#deleteRecipeBtn", function(){
+
 		console.log( ${ requestScope.recipe.recipeId})
 		
 		$.ajax({
@@ -143,7 +144,7 @@ $(document).ready(function(){
 
 	})
 	
-	$.ajax(function(){
+	/* $.ajax(function(){
 		
 	});//재료삭제 받아오기
 	
@@ -164,6 +165,12 @@ $(document).ready(function(){
 		});
 	});//삭제버튼클릭
 	
+<<<<<<< HEAD
+	$("#favoriteBtn").on("click",function(){
+		
+	});//즐겨찾기 
+	 */
+=======
 	$("#reviewBtn").on("click",function(){
 		$("#reviewThead").show();
 		getReview(1);
@@ -224,12 +231,169 @@ $(document).ready(function(){
 
 	
 	
+>>>>>>> branch 'master' of https://github.com/dhkdwns93/FinalProject.git
 	
+<<<<<<< HEAD
+	
+	$("#changePortionFor1_Btn").on("click",function(){
+		var qnt = getNumber($("#standardQnt").text())
+		$("#standardQnt").text('1인분');
+		$("span.amountChangable").each(function(){
+			//console.log($(this).text());
+			var amt = $(this).text();
+			if(!isNaN(amt)){	//정수일때
+			 	//console.log(amt/qnt*1)
+			 	$(this).text(amt/qnt*1);
+			}
+			if(amt.includes("/")){	//분수인경우
+				console.log(amt);
+				var frct = amt.split('/');
+				console.log(frct[1]*qnt);
+				frct[1] = frct[1]*qnt;
+				console.log(frct[0]*1);
+				frct[0] = frct[0]*1;
+				console.log(getFrct(frct))
+				$(this).text(getFrct(frct));
+			}if(!amt || amt ==''){
+				$(this).remove();
+			}
+		})
+		$(".changePortionBtn").removeAttr("disabled");
+		$("#changePortionFor1_Btn").prop("disabled","disabled");
+	});//단위변환:1인분
+
+	
+	$("#changePortionFor2_Btn").on("click",function(){
+		var qnt = getNumber($("#standardQnt").text())
+		$("#standardQnt").text('2인분');
+		$("span.amountChangable").each(function(){
+			//console.log($(this).text());
+			var amt = $(this).text();
+			if(!isNaN(amt)){	//정수일때
+			 	//console.log(amt/qnt*2)
+			 	$(this).text(amt/qnt*2);
+			}
+			if(amt.includes("/")){	//분수인경우
+				console.log(amt);
+				var frct = amt.split('/');
+				console.log(frct[1]*qnt);
+				frct[1] = frct[1]*qnt;
+				console.log(frct[0]*2);
+				frct[0] = frct[0]*2;
+				console.log(getFrct(frct))
+				$(this).text(getFrct(frct));
+			}if(!amt || amt ==''){
+				$(this).remove();
+			}
+		})
+		$(".changePortionBtn").removeAttr("disabled");
+		$("#changePortionFor2_Btn").prop("disabled","disabled");
+	});//단위변환:2인분
+	
+	
+	$("#changePortionFor3_Btn").on("click",function(){
+		//원상복귀 과정 필요
+		var qnt = getNumber($("#standardQnt").text())
+		$("#standardQnt").text('3인분');
+		$("span.amountChangable").each(function(){
+			//console.log($(this).text());
+			var amt = $(this).text();
+			if(!isNaN(amt)){	//정수일때
+			 	//console.log(amt/qnt*3)
+			 	$(this).text(amt/qnt*3);
+			}
+			if(amt.includes("/")){	//분수인경우
+				console.log(amt);
+				var frct = amt.split('/');
+				console.log(frct[1]*qnt);
+				frct[1] = frct[1]*qnt;
+				console.log(frct[0]*3);
+				frct[0] = frct[0]*3;
+				console.log(getFrct(frct))
+				$(this).text(getFrct(frct));
+			}if(!amt || amt ==''){
+				$(this).remove();
+			}
+		})
+		$(".changePortionBtn").removeAttr("disabled");
+		$("#changePortionFor3_Btn").prop("disabled","disabled");
+		
+	});//단위변환:3인분
+=======
 	$("#changePortion").on("click",function(){
 	});//단위변환
+>>>>>>> branch 'master' of https://github.com/dhkdwns93/FinalProject.git
 	
-})//ready
+<<<<<<< HEAD
+	$("#changePortionFor4_Btn").on("click",function(){
+		var qnt = getNumber($("#standardQnt").text())
+		$("#standardQnt").text('4인분');
+		$("span.amountChangable").each(function(){
+			//console.log($(this).text());
+			var amt = $(this).text();
+			if(!isNaN(amt)){	//정수일때
+			 	//console.log(amt/qnt*4)
+			 	$(this).text(amt/qnt*4);
+			}
+			if(amt.includes("/")){	//분수인경우
+				console.log(amt);
+				var frct = amt.split('/');
+				console.log(frct[1]*qnt);
+				frct[1] = frct[1]*qnt;
+				console.log(frct[0]*4);
+				frct[0] = frct[0]*4;
+				console.log(getFrct(frct))
+				$(this).text(getFrct(frct));
+			}if(!amt || amt ==''){
+				$(this).remove();
+			}
+		})
+		$(".changePortionBtn").removeAttr("disabled");
+		$("#changePortionFor4_Btn").prop("disabled","disabled");
+	});//단위변환:4인분
+	
+	
+})
 
+//숫자 추출
+function getNumber(str){
+		var target = str;
+		var regex = /[^0-9]/g;
+		target = target.replace(regex, '');
+	  return target;
+}
+=======
+})//ready
+>>>>>>> branch 'master' of https://github.com/dhkdwns93/FinalProject.git
+
+//분수추출
+function getFrct(frct){
+	var bunja = frct[0];
+	var bunmo = frct[1];
+	if(bunmo == 0){
+		bunmo == 0;
+		bunja == 0;
+	}
+	
+	var gcdResult = getGcd(bunja,bunmo);
+	bunmo = bunmo/gcdResult;
+	bunja = bunja/gcdResult;
+	
+	return bunja+"/"+bunmo;
+	
+}
+
+function getGcd(a,b){ //최대공약수 계산
+	while(b != 0){
+		var temp = a%b;
+		a = b;
+		b = temp;
+	}
+	return Math.abs(a);
+}
+
+
+//이동
 function moveTo(url,recipeId){
 		window.open(
 				url+"?recipeId="+recipeId,
@@ -238,6 +402,10 @@ function moveTo(url,recipeId){
 				);
 		
 }
+
+</script>
+<script type="text/javascript">
+
 </script>
 <style>
 div#whole{
@@ -274,10 +442,10 @@ top: 650px;
 <div id="favoriteSection"></div><br><br>
 
 <!--단위변환  -->
-<button type="button" class="changePortion">1인분</button>
-<button type="button" class="changePortion">2인분</button>
-<button type="button" class="changePortion">3인분</button>
-<button type="button" class="changePortion">4인분</button><hr>
+<button type="button" id="changePortionFor1_Btn" class="changePortionBtn">1인분</button>
+<button type="button" id="changePortionFor2_Btn" class="changePortionBtn">2인분</button>
+<button type="button" id="changePortionFor3_Btn" class="changePortionBtn">3인분</button>
+<button type="button" id="changePortionFor4_Btn" class="changePortionBtn">4인분</button><hr>
 
 <div class="container">
 <h2>레시피 상세화면</h2>
@@ -312,7 +480,7 @@ top: 650px;
 				</tr>
 				<tr>
 					<th>기준인분</th>
-					<td>${ requestScope.recipe.qnt }</td>
+					<td id="standardQnt">${ requestScope.recipe.qnt }</td>
 				</tr>
 				<tr>
 					<th>난이도</th>

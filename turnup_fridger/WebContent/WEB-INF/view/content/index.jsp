@@ -14,7 +14,7 @@
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
                             <li class="topMenuLi">
-                                <a href="#recipe" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Recipe</span></a>
+                                <a href="#recipe" class="btn btn-default btn-lg"><span class="network-name">Recipe</span></a>
                                 <ul class="submenu">
 						    		<li><a href="${initParam.rootPath}/recipe_for_user/search_by_irdnts.do" id="submenuLink">재료명 검색</a></li>
 						    		<li><a href="${initParam.rootPath}/recipe_for_user/search_by_category.do" id="submenuLink">카테고리별 검색</a></li>
@@ -23,7 +23,7 @@
                             </li>
                             <sec:authorize access="hasRole('ROLE_MEMBER')">
                             <li class="topMenuLi">
-                                <a href="#fridger" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Fridger</span></a>
+                                <a href="#fridger" class="btn btn-default btn-lg"><span class="network-name">Fridger</span></a>
                             	<ul class="submenu">
 						    		<li><a href="${initParam.rootPath}/common/member/fridger/register_form2.do" id="submenuLink">냉장고 만들기</a></li>
 						    		<li><a href="${initParam.rootPath}/common/member/fridger/my_list.do" id="submenuLink">냉장고 관리</a></li>
@@ -34,7 +34,8 @@
                             </li>
                             </sec:authorize>
                             <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-                            <li class="topMenuLi"><a href="#"  class="btn btn-default btn-lg">Recipe & Irdnt</a>
+                            <li class="topMenuLi">
+                            	<a href="#"  class="btn btn-default btn-lg"><span class="network-name">Recipe & Irdnt</span></a>
 						      	<ul class="submenu">
 									<li><a href="${initParam.rootPath}/common/admin/recipe/recipeList.do" id="submenuLink">레시피 조회</a></li>
 									<li><a href="${initParam.rootPath}/common/admin/recipe/register_form.do" id="submenuLink">레시피 저장</a></li>
@@ -43,7 +44,8 @@
 									<li><a href="" id="submenuLink">레시피 공유게시판</a></li>
 								</ul>
 						      </li>
-						      <li class="topMenuLi"><a href="#"  class="btn btn-default btn-lg">Board & Member</a>
+						      <li class="topMenuLi">
+						      	<a href="#"  class="btn btn-default btn-lg"><span class="network-name">Board & Member</span></a>
 						      	<ul class="submenu">
 									<li><a href="${initParam.rootPath}/common/admin/recipe/recipeList.do" id="submenuLink">회원관리</a></li>
 									<li><a href="${initParam.rootPath}/common/admin/admin_mypage.do" id="submenuLink">관리자관리</a></li>
@@ -52,7 +54,7 @@
 							  </li>
                             </sec:authorize>
                             <li class="topMenuLi">
-                                <a href="#" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Board</span></a>
+                                <a href="#" class="btn btn-default btn-lg"><span class="network-name">Board</span></a>
                             	<ul class="submenu">
 						    		<li><a href="${initParam.rootPath}/boardnotice/boardNoticeList.do" id="submenuLink">공지사항</a></li>
 									<li><a href="${initParam.rootPath}/common/boardqna/boardQnAList.do" id="submenuLink">QnA</a></li>
@@ -63,7 +65,7 @@
                             </li>
                             <sec:authorize access="hasRole('ROLE_MEMBER')">
                             <li class="topMenuLi">
-                                <a href="${initParam.rootPath}/shop/findShopList.do" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Shop</span></a>
+                                <a href="${initParam.rootPath}/shop/findShopList.do" class="btn btn-default btn-lg"><span class="network-name">Shop</span></a>
                             </li>
                             <li class="topMenuLi">
                                 <a href="#" class="btn btn-default btn-lg"><span class="network-name">MyPage</span></a>
@@ -95,7 +97,9 @@
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
                     <h2 class="section-heading">이달의 추천레시피&nbsp;&nbsp;<a target="_blank" href="소갈비찜 상세정보보기화면">소갈비찜</a></h2>
-                    <p class="lead">특별한 날, 기념할만한 날을 위한 든든하고 정갈한 음식 소갈비찜을 추천드립니다. 맛있어요 정말정말 맛있어요. 만들어 보세요 강추! 동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세 무궁화 삼천리 화려강산 대한사람 대한으로 길이 보전하세</p>
+                    <p class="lead">
+                    특별한 날, 기념할만한 날을 위한 든든하고 정갈한 음식 소갈비찜을 추천드립니다. 짭짤하고 달달한 맛으로 남녀노소 누구나 맛있게 즐길 수 있는 요리인데요, 요즘같이 무더운 여름철 보양식으로도 손색없습니다!<br>
+                    저희 Turnup-Fridger에서 강력추천 드리는 이달의 추천 레시피 소갈비찜을 직접 만들어 드시고 게시판을 통해 후기를 올려주시면 추첨을 통해 다양한 상품을 증정해드립니다. </p>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                     <img class="img-responsive" src="img/la.png" alt="소갈비찜 사진">

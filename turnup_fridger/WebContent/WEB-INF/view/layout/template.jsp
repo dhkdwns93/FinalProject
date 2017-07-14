@@ -20,9 +20,9 @@
 <div id="container">
 <!-- Navigation -->
 <nav id="head" class="navbar navbar-default navbar-fixed-top topnav " role="navigation">
-	<div class="container topnav">
-		<tiles:insertAttribute name="head" />
-	</div>
+   <div class="container topnav">
+      <tiles:insertAttribute name="head" />
+   </div>
 </nav>
 
 <!-- 메뉴바 -->
@@ -31,6 +31,7 @@
 	<tiles:insertAttribute name="menu" />
 </div>
 </nav> --%>
+
 
 <!-- content -->
 <div id ="content" class="">
@@ -57,4 +58,5 @@
 </footer>
 </div>
 </div>
+
 </html>

@@ -36,7 +36,7 @@ import kr.co.turnup_fridger.service.FridgerService;
 import kr.co.turnup_fridger.service.IrdntManageService;
 import kr.co.turnup_fridger.service.MyDislikeIrdntService;
 import kr.co.turnup_fridger.service.MyIrdntService;
-import kr.co.turnup_fridger.service.RecipeService;
+import kr.co.turnup_fridger.service.impl.RecipeServiceImpl;
 import kr.co.turnup_fridger.validation.form.RecipeCrseForm;
 import kr.co.turnup_fridger.validation.form.RecipeInfoForm;
 import kr.co.turnup_fridger.validation.form.RecipeIrdntForm;
@@ -47,7 +47,6 @@ import kr.co.turnup_fridger.vo.FridgerGroup;
 import kr.co.turnup_fridger.vo.IrdntManage;
 import kr.co.turnup_fridger.vo.Member;
 import kr.co.turnup_fridger.vo.MyDislikeIrdnt;
-import kr.co.turnup_fridger.vo.MyIrdnt;
 import kr.co.turnup_fridger.vo.RecipeCrse;
 import kr.co.turnup_fridger.vo.RecipeCrseUpdate;
 import kr.co.turnup_fridger.vo.RecipeInfo;
@@ -59,7 +58,7 @@ import kr.co.turnup_fridger.vo.RecipeIrdntUpdate;
 public class RecipeController {
 	
 	@Autowired
-	private RecipeService recipeService;
+	private RecipeServiceImpl recipeService;
 	@Autowired
 	private BoardShareRecipeService shareService;
 	@Autowired
@@ -512,6 +511,15 @@ public class RecipeController {
 	@RequestMapping("recipe/show/detail")
 	public ModelAndView showDetailOfRecipe(@RequestParam int recipeId){
 		RecipeInfo recipe = recipeService.showDetailOfRecipe(recipeId);
+		//레시피 재료 중량변환
+		for(RecipeIrdnt ri : recipe.getRecipeIrdntList()){
+			ri.setIrdntName(recipeService.amountChange(ri.getirdntAmount()));
+		}
+		//레시피 과정 중량변환
+		for(RecipeCrse rc : recipe.getRecipeCrseList()){
+			rc.setCookingDc(recipeService.amountChange(rc.getCookingDc()));
+			rc.setStepTip(recipeService.amountChange(rc.getStepTip()));
+		}
 		return new ModelAndView("recipe_for_user/recipe_detail.tiles","recipe",recipe);
 	}
 	
@@ -662,6 +670,7 @@ public class RecipeController {
 		return map;
 	}
 	
+
 	@RequestMapping(value="removeMyIrdnt", produces="html/text;charset=UTF-8;")
 	@ResponseBody
 	public String removeMyIrdnt(@RequestParam int myIrdntKey){
@@ -732,4 +741,5 @@ public class RecipeController {
 		}
 		return 1;
 	}
+
 }

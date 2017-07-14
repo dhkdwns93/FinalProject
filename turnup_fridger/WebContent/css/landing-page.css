@@ -1,6 +1,6 @@
 @CHARSET "utf-8";
 @import url('https://fonts.googleapis.com/css?family=Julius+Sans+One|Coming+Soon|Philosopher|Kalam|Handlee');
-'Coming Soon', cursive;
+
 body,html { /* 전체화면 비율 */
     width: 100%;
     height: 100%;
@@ -186,7 +186,7 @@ html, #container{
 .fridger{
 	min-height: 100%; /* content 높이가 브라우저 높이보다 짧은 경우를 대비해 최소값 100%로 지정 */
 	position: relative;
-	padding-bottom: 100px; /* content와 footer겹치지않게 전체 하단여백을 footer높이보다 크게 줌 */
+	padding-bottom: 150px; /* content와 footer겹치지않게 전체 하단여백을 footer높이보다 크게 줌 */
 	padding-top: 50px;
 }
 
@@ -197,7 +197,7 @@ nav#head{
 
 footer {
 	font-family: 'Noto Sans KR', sans-serif;
-    height: 60px;
+    height: 100px;
     width: 100%;
     background-color: #f8f8f8;
 	position: absolute; /* 위치 고정 */
