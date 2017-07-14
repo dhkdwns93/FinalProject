@@ -2,7 +2,6 @@ package kr.co.turnup_fridger.dao.impl;
 
 import java.util.List;
 
-import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -35,8 +34,8 @@ public class FridgerGroupDaoImpl implements FridgerGroupDao{
 	}
 
 	@Override
-	public FridgerGroup selectFridgerGroupByGroupMemberId(String groupMemberId) {
-		return session.selectOne(sql+"selectFridgerGroupByGroupMemberId", groupMemberId);
+	public List<FridgerGroup> selectFridgerGroupByGroupMemberId(String groupMemberId) {
+		return session.selectList(sql+"selectFridgerGroupByGroupMemberId", groupMemberId);
 	}
 
 	@Override

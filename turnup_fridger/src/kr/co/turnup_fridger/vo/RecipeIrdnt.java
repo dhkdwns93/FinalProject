@@ -11,6 +11,7 @@ public class RecipeIrdnt implements Serializable{
 	private String irdntTypeName;
 	private int recipeId;
 	private int irdntId;
+	
 	private IrdntManage irdntManage;
 	private RecipeInfo RecipeInfo;
 	
@@ -40,6 +41,18 @@ public class RecipeIrdnt implements Serializable{
 		this.irdntId = irdntId;
 		this.irdntManage = irdntManage;
 		RecipeInfo = recipeInfo;
+	}
+
+	
+	
+	public RecipeIrdnt(String irdntName, String irdntAmount, int irdntTypeCode, String irdntTypeName, int recipeId,
+			int irdntId) {
+		this.irdntName = irdntName;
+		this.irdntAmount = irdntAmount;
+		this.irdntTypeCode = irdntTypeCode;
+		this.irdntTypeName = irdntTypeName;
+		this.recipeId = recipeId;
+		this.irdntId = irdntId;
 	}
 
 	public int getIrdntNo() {

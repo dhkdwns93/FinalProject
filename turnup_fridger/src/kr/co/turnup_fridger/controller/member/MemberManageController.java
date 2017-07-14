@@ -7,8 +7,10 @@
 package kr.co.turnup_fridger.controller.member;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +29,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.turnup_fridger.exception.ChangeMemberInfoFailException;
+import kr.co.turnup_fridger.service.FavoriteRecipeService;
 import kr.co.turnup_fridger.service.IrdntManageService;
 import kr.co.turnup_fridger.service.MemberService;
 import kr.co.turnup_fridger.service.MyDislikeIrdntService;
+import kr.co.turnup_fridger.service.RecipeService;
 import kr.co.turnup_fridger.validation.MemberChangeInfoValidator;
 import kr.co.turnup_fridger.validation.form.MemberChangeForm;
+import kr.co.turnup_fridger.vo.FavoriteRecipe;
 import kr.co.turnup_fridger.vo.Member;
 import kr.co.turnup_fridger.vo.MyDislikeIrdnt;
+import kr.co.turnup_fridger.vo.RecipeInfo;
 
 /**
  *	/common/member/경로로 요청하는 작업 처리
@@ -57,6 +63,11 @@ public class MemberManageController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	@Autowired
+	private FavoriteRecipeService fService;
+	
+	@Autowired
+	private RecipeService rService;
 	
 	@RequestMapping("/member_mypage_event")
 	public ModelAndView memberMyPage(){
@@ -200,4 +211,21 @@ public class MemberManageController {
 		return "checkPwOK";
 	}
 
+	@RequestMapping("/getFavorite")
+	@ResponseBody
+	public List getFavoriteRecipeByMemberId(){
+		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		//회원의 즐겨찾기목록
+		List<FavoriteRecipe> favoriteList = fService.findFavoriteRecipeByMemberId(member.getMemberId());
+		
+		for(int i=0; i<favoriteList.size();i++){
+			//id로 찾아낸 레시피 객체
+			RecipeInfo recipe = rService.findRecipeInfoByRecipeId(favoriteList.get(i).getRecipeId());
+			favoriteList.get(i).setRecipeInfo(recipe);
+		}
+		
+		return favoriteList; 
+	}
+	
 }

@@ -38,7 +38,7 @@ public interface RecipeService {
 	 * @param recipe
 	 * @throws Exception 
 	 */
-	void updateRecipeCrse(Map<String, List> recipeCrse) throws NoneRecipeException;
+	void updateRecipeCrse(int recipeId, List<RecipeCrse> addCrseList, List<Integer> removeCrseList, List<RecipeCrse> currentCrseList) throws NoneRecipeException;
 	
 	
 	/**

@@ -111,7 +111,7 @@ $(document).ready(function(){
 		<br><span id="duplicateEmailError" class="error">&nbsp&nbsp*이메일 중복검사는 필수사항입니다.</span>
 	</div>
 	<div class="form-group">
-		<label for="tel">전화번호</label>
+		<label for="tel">전화번호</label><span id="lengthTel" class="error">&nbsp&nbsp*ex.01012345678</span>
 		<input type="text" id="tel" name="memberTel" class="form-control">
 		<span class="error"><form:errors path="member.memberTel"/></span>
 	</div>

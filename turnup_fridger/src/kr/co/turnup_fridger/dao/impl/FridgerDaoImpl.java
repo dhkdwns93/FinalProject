@@ -50,6 +50,7 @@ public class FridgerDaoImpl implements FridgerDao{
 
 	@Override
 	public Fridger selectFridgerAndIrdntByFridgerId(int fridgerId) {
+		System.out.println("여기는 dao, 받아온 냉장고id="+fridgerId);
 		return session.selectOne(makeSql("selectFridgerAndIrdntByFridgerId"), fridgerId);
 	}
 

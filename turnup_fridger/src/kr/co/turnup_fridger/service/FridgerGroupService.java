@@ -25,7 +25,7 @@ public interface FridgerGroupService {
 	 * @param groupMemberId
 	 * @return
 	 */
-	FridgerGroup selectFridgerGroupByGroupMemberId(String groupMemberId);
+	List<FridgerGroup> selectFridgerGroupByGroupMemberId(String groupMemberId);
 	
 	/**
 	 * 한 냉장고의 공유멤버리스트 조회

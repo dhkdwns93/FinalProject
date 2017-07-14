@@ -16,6 +16,9 @@
 	</resultMap>
 	
 	<insert id="insertFavoriteRecipe" parameterType="FavoriteRecipe">
+	  <selectKey resultType="_int" keyProperty="favoriteRecipeKey" order="BEFORE">
+         SELECT FAVORITE_RECIPE_KEY.nextval FROM dual
+      </selectKey>
 		insert into FAVORITE_RECIPE
 		values (#{favoriteRecipeKey},#{memberId},#{recipeId})
 	</insert>
@@ -29,9 +32,9 @@
 		where favorite_recipe_key=#{favoriteRecipeKey}
 	</update>
 	
-	<delete id="deleteRecipeIrdnt" parameterType="_int">
+	<delete id="deleteFavoriteRecipe" parameterType="_int">
 		delete from FAVORITE_RECIPE
-		where favorite_recipe_key=#{favoriteRecipeKey}
+		where favorite_recipe_key=#{value}
 	</delete>
 	
 	<select id="selectAllFavoriteRecipe" resultMap="FavoriteRecipe-resultmap">

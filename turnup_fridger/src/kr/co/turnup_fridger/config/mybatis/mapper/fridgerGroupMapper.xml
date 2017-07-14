@@ -58,7 +58,7 @@
 	</insert>
 	
 	<!-- 냉장고그룹 삭제 - 공유멤버 탈퇴 -->
-	<delete id="deleteFridgerGroup" parameterType="String">
+	<delete id="deleteFridgerGroup" parameterType="java.lang.String">
 		DELETE FROM fridger_group WHERE group_member_id = #{value}
 	</delete>
 	
@@ -70,7 +70,7 @@
 	<!-- ============= select =============== -->
 	
 	<!-- 회원id로 공유멤버조회 -->
-	<select id="selectFridgerGroupByGroupMemberId" parameterType="String" resultMap="fridger_group-resultmap">
+	<select id="selectFridgerGroupByGroupMemberId" parameterType="java.lang.String" resultMap="fridger_group-resultmap">
 		<include refid="select"/>
 		WHERE group_member_id = #{value}
 	</select>
