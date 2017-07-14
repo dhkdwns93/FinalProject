@@ -57,14 +57,16 @@ $(document).ready(function(){
 	$("div#showMyDislikeIrdnt").on("click","button#removeMyDislikeIrdnt",function(){
 			var deleteInputTextHtml=$(this).parent().remove();
 	});//end of showMyDislikeIRdnt
-
 });
-
 </script>
+
 </head>
 <body>
 <jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
 <hr>
+
+<jsp:include page="/WEB-INF/view/layout/side_menu/nonMemberSideMenu.jsp"/>
+<div class='right-box'>
 
 
 <h2>회원가입페이지</h2>
@@ -132,6 +134,7 @@ $(document).ready(function(){
 	<button type="submit" id="submit" class="btn btn-default">가입</button>
 	<button type="button" onclick="location.reload()" class="btn btn-default">다시작성</button>
 </form>
+</div>
 
 </body>
 </html>
