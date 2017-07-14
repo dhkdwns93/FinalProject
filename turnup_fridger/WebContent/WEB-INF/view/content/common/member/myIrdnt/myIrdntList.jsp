@@ -65,7 +65,7 @@
 		//검색버튼
 		$("#searchBtn").on("click",function(){
 			$.ajax({
-				"url":"/turnup_fridger/common/member/myIrdnt/findMyIrdntByFreshLevelAndIrdntName.do?fridgerId=1",
+				"url":"/turnup_fridger/common/member/myIrdnt/findMyIrdntByFreshLevelAndIrdntName.do?fridgerId=${param.fridgerId}",
 				"type":"post",
 				"data":{'freshLevel':$("#freshLevel").val(), 'irdntName':$("#irdntName").val(),'${_csrf.parameterName}':'${_csrf.token}'},
 				"dataType":"json", 
