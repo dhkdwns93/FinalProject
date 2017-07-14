@@ -19,54 +19,54 @@
 <div id="container">
 <!-- Navigation -->
 <nav id="head" class="navbar navbar-default navbar-fixed-top topnav " role="navigation">
-	<div class="container topnav">
-		<tiles:insertAttribute name="head" />
-	</div>
+   <div class="container topnav">
+      <tiles:insertAttribute name="head" />
+   </div>
 </nav>
 
 <!-- 메뉴바 -->
 <div id ="menu" class="intro-header">
-	<div class="container">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="intro-message">
-						<tiles:insertAttribute name="menu" />
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+   <div class="container">
+      <div class="container">
+         <div class="row">
+            <div class="col-lg-12">
+               <div class="intro-message">
+                  <tiles:insertAttribute name="menu" />
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>
 
 
 <!-- content -->
 
 <div id="content" class="container subnav">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="intro-content">
+   <div class="container">
+      <div class="row">
+         <div class="col-lg-12">
+            <div class="intro-content">
 
-					<tiles:insertAttribute name="content" />
+               <tiles:insertAttribute name="content" />
 
-				</div>
-			</div>
-		</div>
-	</div>
+            </div>
+         </div>
+      </div>
+   </div>
 </div>
 
 
 
 <!-- footer -->
 <footer>
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<tiles:insertAttribute name="footer" />
-			</div>
-		</div>
-	</div>
+   <div class="container">
+      <div class="row">
+         <div class="col-lg-12">
+            <tiles:insertAttribute name="footer" />
+         </div>
+      </div>
+   </div>
 </footer>
 </div>
 
