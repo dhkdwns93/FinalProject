@@ -24,11 +24,11 @@
 			where fridger_id in (
 					select fridger_id 
 					from fridger 
-					where member_id='user1'))
+					where member_id='1111'))
 		where irdnt_id in (
 			select irdnt_id 
 			from recipe_irdnt 
-			where recipe_id=132)	
+			where recipe_id=1)	
 			
 select * from (select * from my_irdnt where fridger_id in (select fridger_id from fridger where member_id='user1')) 
 where irdnt_id in

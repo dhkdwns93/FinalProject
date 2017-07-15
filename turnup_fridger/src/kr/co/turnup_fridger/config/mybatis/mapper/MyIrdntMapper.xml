@@ -183,7 +183,7 @@
 		where irdnt_id in (
 			select irdnt_id 
 			from recipe_irdnt 
-			where recipe_id=#{recipe_id})			
+			where recipe_id=#{recipeId})			
 	</select>
 	
 	<!--7/14일 추가 나의식재료들 카운트 쿼리  -->

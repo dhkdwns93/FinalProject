@@ -104,6 +104,7 @@ public class MyIrdntDaoImpl implements MyIrdntDao{
 		map.put("recipeId", recipeId);
 		map.put("memberId", memberId);
 		System.out.println("dao : "+map);
+		System.out.println("맵퍼에서 돌아온 값:" +session.selectList(makeSql("selectMatchIrdnt"),map));
 		return session.selectList(makeSql("selectMatchIrdnt"),map);
 	}
 	
