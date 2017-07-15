@@ -1408,8 +1408,9 @@ ol ol {
   list-style: none;
 }
 .list-inline {
-  padding-left: 0;
-  margin-left: -5px;
+ /*  padding-left: 0; */
+  margin-left: auto;
+  margin-right: auto;
   list-style: none;
 }
 .list-inline > li {
@@ -4373,6 +4374,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   .navbar-right {
     float: right !important;
     margin-right: -15px;
+  }
+  .navbar-center{
+  	float: center !important;
   }
   .navbar-right ~ .navbar-right {
     margin-right: 0;

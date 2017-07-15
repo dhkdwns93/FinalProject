@@ -11,12 +11,9 @@
  	<sec:csrfInput/><%--csrf 토큰 생성 --%>
  </form>
 
-<div class="navbar-header">
-	<a class="navbar-brand topnav" href="/turnup_fridger/">Main</a>
-</div>
-<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	<ul class="nav navbar-nav navbar-right">
 
+<div class="collapse navbar-collapse">
+	<ul class="nav navbar-nav navbar-right">
 		<%-- <li><a><sec:authentication property="authorities"/> 권한으로 로그인</a></li> --%>
 		<!-- 권한, 상태별로 분리하기 -->
 		<sec:authorize access="!isAuthenticated()">
@@ -29,10 +26,6 @@
 			<sec:authentication property="principal" var="member" />
 			<li><a>${member.memberName }님 환영합니다</a></li>
 			<li><a href="javascript:logout()">logout</a></li>
-			<li><a href="${initParam.rootPath}/common/member/member_mypage.do">myPage</a></li>
-			<li><a id="callMap" href="#"
-				onClick="window.open('${initParam.rootPath}/memo/map.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)">근처마트보기</a>
-			</li>
 			<li><a id="memo" href="#"
 				onClick="window.open('${initParam.rootPath}/memo/memoPopup.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=450px, height=430px ,top=10, left=10', bottom=10, right=10)">+메모</a>
 			</li>
@@ -43,9 +36,8 @@
  			<sec:authentication property="principal" var="admin" />
  			<li><a>${admin.adminName}님 환영합니다</a></li>
 			<li><a href="javascript:logout()">logout</a></li>
-			<li><a href="${initParam.rootPath}/common/admin/admin_mypage.do">myPage</a></li>
 		</sec:authorize>
-
+			<li> <a class="navbar-brand topnav" href="/turnup_fridger/">Main</a> </li>
 	</ul>
 </div>
 

@@ -7,6 +7,7 @@
 최초 작성일 170703
 변경이력 
 170708 ID/PW 찾기 버튼 추가
+170714 modal로 css처리
  -->
 <!DOCTYPE html>
 <html>
@@ -28,24 +29,30 @@
 <hr>
 
 
+<jsp:include page="/WEB-INF/view/layout/side_menu/nonMemberSideMenu.jsp"/>
+<div class='right-box'>
+
 <h2>Login</h2>
 <c:if test="${not empty param.errorMessage }">
-	<div class="well text-danger">
-		${param.errorMessage }
-	</div>
+	<div class="well text-danger">${param.errorMessage }</div>
 </c:if>
 <form action="${initParam.rootPath}/login.do" method="post">
-	<sec:csrfInput/><%-- csrf token생성 --%>
+	<sec:csrfInput />
+	<%-- csrf token생성 --%>
 	<div class="form-group">
-	<label for="id">ID</label><br>
-	<input type="text" id="id" name="userId" class="form-control">
+		<label for="id">ID</label><br> <input type="text" id="id"
+			name="userId" class="form-control">
 	</div>
 	<div class="form-group">
-		<label for="password">PW</label><br>
-		<input type="password" id="password" name="userPw" class="form-control">
+		<label for="password">PW</label><br> <input type="password"
+			id="password" name="userPw" class="form-control">
 	</div>
 	<button type="submit" class="btn btn-default">LOGIN</button>
-	<button type="button" id="findIdPwBtn" class="btn btn-default">forget ID/Password</button>
+	<button type="button" id="findIdPwBtn" class="btn btn-default">forget
+		ID/Password</button>
 </form>
+
+</div>
+
 </body>
 </html>

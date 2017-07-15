@@ -18,7 +18,6 @@ public class LoginFailHandler implements AuthenticationFailureHandler{
 			throws IOException, ServletException {
 		String errorMessage = URLEncoder.encode(ex.getMessage(), "UTF-8");
 		response.sendRedirect(request.getContextPath()+"/login_form.do?errorMessage="+errorMessage);
-		
 	}
 	
 }
