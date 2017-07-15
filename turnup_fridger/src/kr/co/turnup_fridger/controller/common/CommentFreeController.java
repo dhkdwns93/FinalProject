@@ -60,7 +60,7 @@ public class CommentFreeController extends HttpServlet {
 			}
 			
 			service.addCommentFree(commentFree);
-			
+			service.commentCount(boardFreeId);
 			BoardFree boardFree = board.selectBoardFreeByboardFreeId(boardFreeId);
 			Map<String, Object> list = service.selectCommentFreeListbyId(commentFree.getBoardFreeId(),page);
 			/*mav.addObject("boardFree", boardFree);//게시물 상세 정보*/			
@@ -109,6 +109,7 @@ public class CommentFreeController extends HttpServlet {
 			if((writer.equals(memberId) && adminId.trim().isEmpty()) || !adminId.trim().isEmpty())
 			{
 				service.removeCommentFree(commentFreeId);
+				service.commentDeleteCount(boardFreeId);
 				BoardFree boradFree = board.selectBoardFreeByboardFreeId(boardFreeId);
 				mav.addObject("boardFree",boradFree);
 				Map<String, Object> map = service.selectCommentFreeListbyId(boardFreeId,page);
@@ -126,12 +127,8 @@ public class CommentFreeController extends HttpServlet {
 			mav.addObject("commentFree", map.get("list"));
 			mav.addObject("boardFreeId",  map.get("boardFreeId"));
 		    mav.addObject("pageBean", map.get("pageBean"));
+		    mav.addObject("error", "err");
 		    mav.setViewName("common/boardfree/boardfree_view.tiles");
-		   
-		    response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script>alert('권한이 없습니다.');</script>");
-            out.flush();
 
 			return mav;
 		}	
@@ -161,13 +158,9 @@ public class CommentFreeController extends HttpServlet {
 			mav.addObject("commentFree", map.get("list"));
 			mav.addObject("boardFreeId",  map.get("boardFreeId"));
 		    mav.addObject("pageBean", map.get("pageBean"));
+		    mav.addObject("error", "err");
 			mav.setViewName("common/boardfree/boardfree_view.tiles");
-			
-			response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script>alert('권한이 없습니다.');</script>");
-            out.flush();
-			
+
             return mav;
 		}	
 			

@@ -239,11 +239,8 @@ public class BoardReviewController extends HttpServlet {
 			 
 			mav.addObject("list", map.get("list"));
 			mav.addObject("pageBean", map.get("pageBean"));
+			mav.addObject("error", "err");
 	        mav.setViewName("boardreview/boardreview_list.tiles");
-	        response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script>alert('권한이 없습니다.');</script>");
-            out.flush();
 	        return mav; 
         
 
@@ -253,7 +250,7 @@ public class BoardReviewController extends HttpServlet {
 		@RequestMapping("boardReviewUploadView")
 		@ResponseBody
 		public ModelAndView boardReviewUploadView(@RequestParam int boardReviewId, @RequestParam String writer,@RequestParam String memberId,
-				@RequestParam(defaultValue="1") int page,HttpServletRequest request, HttpServletResponse response) throws IOException
+				@RequestParam(defaultValue="1") int page) throws IOException
 		{
 			ModelAndView mav = new ModelAndView();
 			
@@ -268,11 +265,8 @@ public class BoardReviewController extends HttpServlet {
 			 
 			mav.addObject("list", map.get("list"));
 			mav.addObject("pageBean", map.get("pageBean"));
+			 mav.addObject("error", "err");
 	        mav.setViewName("boardreview/boardreview_list.tiles");
-	        response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script>alert('권한이 없습니다.');</script>");
-            out.flush();
 	        return mav; 
 		}
 		

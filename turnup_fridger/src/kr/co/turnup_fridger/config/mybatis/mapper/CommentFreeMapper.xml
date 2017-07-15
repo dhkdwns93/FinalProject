@@ -30,6 +30,18 @@
 		<result column="MEMBER_ID" property="memberId"/>
 	</resultMap>
 	
+	
+	<!-- ResultMap BoardFree 등록 -->
+	<resultMap id="boardFree-resultmap" type="boardFree">
+		<id column="BOARD_FREE_ID" property="boardFreeId"/>
+		<result column="BOARD_FREE_TITLE" property="boardFreeTitle"/>
+		<result column="BOARD_FREE_TXT" property="boardFreeTxt"/>
+		<result column="BOARD_FREE_DATE" property="date"/>
+		<result column="BOARD_FREE_HITS" property="boardFreeHits"/>
+		<result column="COMMENT_COUNT" property="commentCount"/>
+		<result column="MEMBER_ID" property="memberId"/>
+	</resultMap>
+	
 	<!-- 등록 SQL -->
 	<insert id="insertCommentFree" parameterType="commentFree">
 		<selectKey resultType="int" keyProperty="commentFreeId" order="BEFORE">
@@ -44,6 +56,10 @@
 				#{memberId}
 		  	  )
 	</insert>	
+	<!-- 댓글 수 증가 -->
+	<update id="boardFreeCount" parameterType="int"> 
+		UPDATE BOARD_FREE SET COMMENT_COUNT = COMMENT_COUNT + 1 WHERE BOARD_FREE_ID = #{boardFreeId}
+	</update>
 	
 	<!-- 업데이트 SQL -->
 	<update id="updateCommentFree" parameterType="commentFree">
@@ -55,14 +71,20 @@
 		WHERE	COMMENT_FREE_ID = #{commentFreeId}
 	</update>
 	
-	
-	<!-- 삭세 SQL-->
+	<!-- 삭제 SQL-->
 	<delete id="deleteCommentFree" parameterType="_int">
 		DELETE FROM COMMENT_FREE WHERE COMMENT_FREE_ID = #{commentFreeId}
 	</delete>	
 	
+	<!-- 댓글 갯수 감소 -->
+	<update id="boardFreeDeleteCount" parameterType="int"> 
+		UPDATE BOARD_FREE SET COMMENT_COUNT = COMMENT_COUNT - 1 WHERE BOARD_FREE_ID = #{boardFreeId}
+	</update>
 	
-		<!-- CommentFree boardFreeId 카운트  -->
+
+	
+
+	<!-- CommentFree boardFreeId 카운트  -->
 	<select id = "selectCommentFreeCount" parameterType="map" resultType="_int">
 		SELECT COUNT(*) FROM COMMENT_FREE
 		WHERE BOARD_FREE_ID LIKE #{boardFreeId}

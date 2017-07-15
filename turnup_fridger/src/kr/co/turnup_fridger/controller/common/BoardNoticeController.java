@@ -63,11 +63,9 @@ public class BoardNoticeController extends HttpServlet {
 	public ModelAndView boardNoticeList(@RequestParam(defaultValue="1") int page)
 	{  
 	    Map<String, Object> map = service.findBoardNoticeList(page);
-	
-	    
-	    
+
 	    ModelAndView mav = new ModelAndView(); 
-	    
+	    mav.addObject("totalCount",map.get("totalCount"));
 	    mav.addObject("list", map.get("list"));
 	    mav.addObject("pageBean", map.get("pageBean"));
 	    mav.setViewName("boardnotice/boardnotice_list.tiles"); 
@@ -93,6 +91,7 @@ public class BoardNoticeController extends HttpServlet {
 			 map = service.findBoardNoticeList(page);
  
 			 mav.addObject("list", map.get("list"));
+			 mav.addObject("totalCount",map.get("totalCount"));
 			 mav.addObject("pageBean", map.get("pageBean"));
 			 mav.setViewName("boardnotice/boardnotice_list.tiles"); 
 			    
@@ -100,6 +99,7 @@ public class BoardNoticeController extends HttpServlet {
 		}
 	    mav.addObject("list", map.get("list"));
 	    mav.addObject("items",  map.get("items"));
+	    mav.addObject("totalCount",map.get("totalCount"));
 	    mav.addObject("pageBean", map.get("pageBean"));
 	    mav.setViewName("boardnotice/boardnotice_list_items.tiles");
 		
@@ -280,6 +280,7 @@ public class BoardNoticeController extends HttpServlet {
 	    ModelAndView mav = new ModelAndView(); 
 	    
 	    mav.addObject("list", map.get("list"));
+	    mav.addObject("totalCount",map.get("totalCount"));
 	    mav.addObject("pageBean", map.get("pageBean"));
 	    mav.setViewName("boardnotice/boardnotice_list.tiles"); 
 	    

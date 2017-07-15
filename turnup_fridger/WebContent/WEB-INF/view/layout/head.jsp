@@ -28,6 +28,7 @@
                 <sec:authorize access="hasRole('ROLE_MEMBER')">
 			<sec:authentication property="principal" var="member" />
 			<li><a>${member.memberName }님 환영합니다</a></li>
+			<li><a href="${initParam.rootPath}/common/member/member_mypage_event.do">MyPage</a></li>
 			<li><a href="javascript:logout()">logout</a></li>
 			<li><a id="memo" href="#"
 				onClick="window.open('${initParam.rootPath}/memo/memoPopup.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=450px, height=430px ,top=10, left=10', bottom=10, right=10)">+메모</a>
@@ -38,6 +39,7 @@
  		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
  			<sec:authentication property="principal" var="admin" />
  			<li><a>${admin.adminName}님 환영합니다</a></li>
+ 			<li><a href="${initParam.rootPath}/common/admin/admin_mypage.do" id="submenuLink">MyPage</a></li>
 			<li><a href="javascript:logout()">logout</a></li>
 		</sec:authorize>
                 
