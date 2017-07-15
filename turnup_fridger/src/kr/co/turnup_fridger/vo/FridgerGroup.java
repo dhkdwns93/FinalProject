@@ -95,14 +95,7 @@ public class FridgerGroup implements Serializable{
 	}
 	
 
-	public Fridger getfridger() {
-		return fridger;
-	}
-
-
-	public void setfridger(Fridger fridger) {
-		this.fridger = fridger;
-	}
+	
 	
 
 	public Member getMember() {
@@ -116,6 +109,18 @@ public class FridgerGroup implements Serializable{
 	
 	
 	
+	
+	
+
+
+	public Fridger getFridger() {
+		return fridger;
+	}
+
+
+	public void setFridger(Fridger fridger) {
+		this.fridger = fridger;
+	}
 
 
 	@Override
@@ -154,16 +159,15 @@ public class FridgerGroup implements Serializable{
 	}
 
 
-
-
-	
-
 	@Override
 	public String toString() {
-		return "FridgerGroup [groupKey=" + groupKey + ", groupJoinSeq=" + groupJoinSeq + ", groupMemberId=" + groupMemberId
-				+ ", fridgerId=" + fridgerId + "]";
+		return "FridgerGroup [groupKey=" + groupKey + ", groupJoinSeq=" + groupJoinSeq + ", groupMemberId="
+				+ groupMemberId + ", fridgerId=" + fridgerId + ", fridger=" + fridger + ", member=" + member + "]";
 	}
 
 
+
+
+	
 	
 }

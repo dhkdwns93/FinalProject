@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -28,12 +30,14 @@ import kr.co.turnup_fridger.exception.FindMemberFailException;
 import kr.co.turnup_fridger.service.FridgerGroupService;
 import kr.co.turnup_fridger.service.FridgerService;
 import kr.co.turnup_fridger.service.JoinProcessService;
+import kr.co.turnup_fridger.service.MyIrdntService;
 import kr.co.turnup_fridger.validation.form.FridgerForm;
 import kr.co.turnup_fridger.validation.form.JoinProcessForm;
 import kr.co.turnup_fridger.vo.Fridger;
 import kr.co.turnup_fridger.vo.FridgerGroup;
 import kr.co.turnup_fridger.vo.JoinProcess;
 import kr.co.turnup_fridger.vo.Member;
+import kr.co.turnup_fridger.vo.MyIrdnt;
 
 @Controller
 @RequestMapping("/common/member/fridger/")
@@ -45,6 +49,8 @@ public class FridgerController {
 	private FridgerGroupService fridgerGroupService; 
 	@Autowired
 	private JoinProcessService joinProcessService;
+	@Autowired
+	private MyIrdntService myIrdntService;
 	
 	
 	List list;
@@ -244,7 +250,6 @@ public class FridgerController {
 	@ResponseBody
 	public List<FridgerGroup> getFriderInDetail(int fridgerId){
 		list = fridgerService.findFridgerAndFridgerGroupByFridgerId(fridgerId).getFridgerGroupList();
-		
 		/*로그*/
 		for(Object f : list){
 			System.out.println(f);
@@ -253,7 +258,43 @@ public class FridgerController {
 	}
 
 	
-	
+	//선택한 냉장고 현황 보여주는 handler
+	@RequestMapping("main")
+	public ModelAndView getFridgerMain(){
+//		Map<String, List> fridgerDetail = new HashMap<String, List>();
+//		fridgerDetail.put("FridgerGroupList", fridgerGroupService.selectFridgerGroupByGroupMemberId(memberId));
+		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		list = fridgerGroupService.selectFridgerGroupByGroupMemberId(member.getMemberId());
+		/*로그*/
+		//System.out.println("getMyFridgerInDetail의 공유 냉장고 리스트");
+		for(Object fg: list){
+			System.out.println(fg);
+		}
+		return new ModelAndView("common/member/fridger/myFridger.tiles", "fridgerList", list);
+	}
+
+	@RequestMapping("select")
+	@ResponseBody
+	public Map getFridgerSelect(@RequestParam int fridgerId){
+		Map map = new HashMap<>();
+		// Fridger : 냉장고 명/ 사진 (조인 - FridgerGroup : 공유회원 수 / 이름 )
+		fridger = fridgerService.findFridgerAndFridgerGroupByFridgerId(fridgerId);
+		map.put("fridger", fridger);
+		// JoinProcess : 나가 한 냉장고 가입/초대 요청, 내가 받은 가입/초대 요청
+		
+		// MyIrdnt : 신선도(Avg) 냉장고속 재료 갯수(총수), 보관장소별 갯수 count, 재료별 갯수
+		map.put("myIrdntCount", myIrdntService.findAllMyIrdntCount(fridgerId));
+		map.put("myIrdntGoodCount", myIrdntService.CountMyIrdntByFreshLevel(fridgerId, "안전"));
+		map.put("myIrdntNormalCount", myIrdntService.CountMyIrdntByFreshLevel(fridgerId, "보통"));
+		map.put("myIrdntBadCount", myIrdntService.CountMyIrdntByFreshLevel(fridgerId, "위험"));
+		map.put("myIrdntBadList", myIrdntService.findMyIrdntByFreshLevel("위험", fridgerId));
+		
+		
+
+		//			 위험인 재료
+		
+		return map;
+	}
 	
 	
 	
