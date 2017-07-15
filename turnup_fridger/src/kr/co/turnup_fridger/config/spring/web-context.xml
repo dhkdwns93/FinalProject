@@ -231,7 +231,7 @@
 	<!-- 메모리스트 -->
 	<mvc:view-controller path="/common/member/memo/memoList.do" view-name="common/member/memo/memoList.tiles"/>
 	<!-- 메모상세 (no-tiles/popup) -->
-	<mvc:view-controller path="/common/member/memo/memoDetail.do" view-name="common/member/memo/memoDetail.jsp"/>
+	<mvc:view-controller path="/common/member/memo/memoDetail.do" view-name="common/member/memo/memoDetail"/>
 	<!-- 쇼핑몰등록 -->
 	<mvc:view-controller path="/common/shop/shop_register_form.do" view-name="common/shop/shop_register_form.tiles"/>
 	<!-- 쇼핑몰리스트(회원) -->

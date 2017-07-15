@@ -54,6 +54,7 @@ public class MemoController {
 	public ModelAndView addMemo(@ModelAttribute MyMemo mm, BindingResult err) {
 		MemoValidator val = new MemoValidator();
 		val.validate(mm, err);
+		// 현재날짜를 메모작성일로 세팅
 		mm.setRegisteredDate(new Date());
 		if(err.hasErrors()){
 			return new ModelAndView("/common/member/memo/memo_register_form", "error", err);
@@ -64,8 +65,8 @@ public class MemoController {
 		} catch (Exception e) {
 			return new ModelAndView("/common/member/memo/memo_register_form", "error", e.getMessage());
 		}
-		
-		return new ModelAndView("redirect:/common/member/memo/memoDetail.do", "memo", mm);
+		String memId = String.valueOf(mm.getMemoId());
+		return new ModelAndView("redirect:/memo/memoDetailPopup.do", "memoId", memId);
 	}
 	
 	// 메모삭제 O
