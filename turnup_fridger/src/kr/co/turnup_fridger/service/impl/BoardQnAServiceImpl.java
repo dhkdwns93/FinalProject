@@ -60,7 +60,7 @@ public class BoardQnAServiceImpl implements BoardQnAService {
 		int totalCount = dao.selectBoardQnACount();
 		PagingBean pageBean = new PagingBean(totalCount, page);
 		map.put("pageBean", pageBean);
-		
+		map.put("totalCount", totalCount);
 		List<BoardQnA> list = dao.selectBoardQnAList(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
 		map.put("list", list);
 		
@@ -86,7 +86,7 @@ public class BoardQnAServiceImpl implements BoardQnAService {
 		int totalCount = dao.selectBoardQnAByMemberIdCount(memberId);
 		PagingBean pageBean = new PagingBean(totalCount, page);
 		map.put("pageBean", pageBean);
-		
+		map.put("totalCount", totalCount);
 		List<BoardQnA> list = dao.selectBoardQnAByMemberId(memberId, pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
 		map.put("memberId", memberId);
 		map.put("list", list);
@@ -105,7 +105,7 @@ public class BoardQnAServiceImpl implements BoardQnAService {
 		//Spring 컨테이너로 부터 BoardNoticeService bean 가져오기
 		BoardQnAService service = (BoardQnAService)container.getBean("boardQnAServiceImpl");
 		//service.addBoardQnA(new BoardQnA(1, "회원수요청입니다.", "회원 수정하고 싶은데 어떻게 해야 하나요?", new Date(2017-1900,01,02), "jang"));
-		service.addBoardQnA(new BoardQnA(5, "회원탈퇴요청입니다.", "그만 이 사이트를 이용하고 싶습니다.", new Date(2017-1900,01,02), "id-3"));
+		//service.addBoardQnA(new BoardQnA(5, "회원탈퇴요청입니다.", "그만 이 사이트를 이용하고 싶습니다.", new Date(2017-1900,01,02), "id-3"));
 		
 		int upId = 1;
 		//service.updateBoardQnA(new BoardQnA(upId, "궁금한게 있어요!!!", "재료추가 하고 싶은데 어떻게 하나요????", new Date(2017-1900,01,02), "jang"));

@@ -42,6 +42,7 @@ public class BoardFreeController extends HttpServlet {
 			Map<String, Object> map = service.selectBoardFreeList(page);
 	 
 			mav.addObject("list", map.get("list"));
+			mav.addObject("totalCount", map.get("totalCount"));
 			mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("common/boardfree/boardfree_list.tiles");
 	        return mav; 
@@ -57,6 +58,7 @@ public class BoardFreeController extends HttpServlet {
 			Map<String, Object> map = service.selectBoardFreeByBoardFreeHits(page);
 
 			mav.addObject("list", map.get("list"));
+			mav.addObject("totalCount", map.get("totalCount"));
 			mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("common/boardfree/boardfree_list_hit.tiles");
 	        return mav; 
@@ -74,6 +76,7 @@ public class BoardFreeController extends HttpServlet {
 			Map<String, Object> map  = service.selectBoardFreeByMemberId(memberId,page);
 			
 			mav.addObject("list", map.get("list"));
+			mav.addObject("totalCount", map.get("totalCount"));
 		    mav.addObject("memberId",  map.get("memberId"));
 		    mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("common/boardfree/boardfree_list_memberid.tiles"); 
@@ -91,6 +94,7 @@ public class BoardFreeController extends HttpServlet {
 			Map<String, Object> map  = service.selectBoardFreeByTitle(boardFreeTitle,page);
 			
 			mav.addObject("list", map.get("list"));
+			mav.addObject("totalCount", map.get("totalCount"));
 		    mav.addObject("boardFreeTitle", map.get("boardFreeTitle"));
 		    mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("common/boardfree/boardfree_list_title.tiles"); 
@@ -114,6 +118,7 @@ public class BoardFreeController extends HttpServlet {
 			{
 				map  = service.selectBoardFreeByMemberId(keyword,page);
 				mav.addObject("list", map.get("list"));
+				mav.addObject("totalCount", map.get("totalCount"));
 			    mav.addObject("memberId",  map.get("memberId"));
 			    mav.addObject("pageBean", map.get("pageBean"));
 		        mav.setViewName("common/boardfree/boardfree_list_memberid.tiles"); 
@@ -125,6 +130,7 @@ public class BoardFreeController extends HttpServlet {
 				map = service.selectBoardFreeByTitle(keyword, page);
 				System.out.println(map);
 				mav.addObject("list", map.get("list"));
+				mav.addObject("totalCount", map.get("totalCount"));
 				mav.addObject("boardFreeTitle",  map.get("boardFreeTitle.tiles"));
 			    mav.addObject("pageBean", map.get("pageBean"));
 		        mav.setViewName("common/boardfree/boardfree_list_title.tiles");
@@ -132,6 +138,7 @@ public class BoardFreeController extends HttpServlet {
 			}
 			map = service.selectBoardFreeList(page);
 			mav.addObject("list", map.get("list"));
+			mav.addObject("totalCount", map.get("totalCount"));
 			mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("common/boardfree/boardfree_list.tiles");
 	        return mav; 
@@ -192,6 +199,7 @@ public class BoardFreeController extends HttpServlet {
 	        	service.removeBoardFree(boardFreeId);//정보삭제
 				Map<String, Object> map = service.selectBoardFreeList(page);//리스트 값 불러오기
 			    mav.addObject("list", map.get("list"));//리스트 값 저장
+			    mav.addObject("totalCount", map.get("totalCount"));
 			    mav.addObject("pageBean", map.get("pageBean"));
 		        mav.setViewName("common/boardfree/boardfree_list.tiles"); 
 		        return mav; 

@@ -27,7 +27,12 @@ public class CommentQnAServiceImpl implements CommentQnAService{
 		dao.insertCommentQnA(commentQnA);
 		
 	}
-	
+
+	@Override
+	public void commentCount(int boardQnAId) {
+		dao.commentCount(boardQnAId);
+	}
+
 	/**
 	 * QnA 댓글을 수정 하는 메소드
 	 * 작성자 - 김장규
@@ -38,6 +43,14 @@ public class CommentQnAServiceImpl implements CommentQnAService{
 		
 	}
 	
+	
+	
+	@Override
+	public void commentDeleteCount(int boardQnAId) {
+		dao.commentDeleteCount(boardQnAId);
+		
+	}
+
 	/**
 	 * QnA 댓글을 삭제 하는 메소드
 	 * 작성자 - 김장규
@@ -63,6 +76,12 @@ public class CommentQnAServiceImpl implements CommentQnAService{
 	}
 	
 	
+	@Override
+	public List<CommentQnA> selectCommentQnAByboardQnAId(int boardQnAId) {
+		// TODO Auto-generated method stub
+		return dao.selectCommentQnAByboardQnAId(boardQnAId);
+	}
+
 	/**
 	 * 메소드 Test
 	 * 작성자 - 김장규

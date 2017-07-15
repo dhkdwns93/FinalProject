@@ -18,27 +18,41 @@ public class CommentFreeServiceImpl implements CommentFreeService{
 	@Autowired
 	private CommentFreeDao dao;
 
+	//댓글 등록
 	@Override
 	public void addCommentFree(CommentFree commentFree) {
 		dao.insertCommentFree(commentFree);
 		
 	}
-	
-	
+
+	@Override
+	public void commentCount(int boardFreeId) {
+		dao.commentCount(boardFreeId);
+		
+	}
+
+	//댓글 수정
 	@Override
 	public void updateCommentFree(CommentFree commentFree) {
 		dao.updateCommentFree(commentFree);
 		
 	}
+	
 
-
+	//댓글 삭제
 	@Override
 	public void removeCommentFree(int id) {
 		dao.deleteCommentFree(id);
 		
 	}
+	
+	@Override
+	public void commentDeleteCount(int boardFreeId) {
+		dao.commentDeleteCount(boardFreeId);
+		
+	}
 
-
+	//댓글 목록
 	@Override
 	public Map<String, Object> selectCommentFreeListbyId(int boardFreeId,int page) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -52,7 +66,7 @@ public class CommentFreeServiceImpl implements CommentFreeService{
 		return map;
 	}
 
-
+	//해당 댓글 상세 정보
 	@Override
 	public CommentFree selectCommentFreeById(int commentFreeId) {
 		// TODO Auto-generated method stub

@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +10,7 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
+//후기 삭제
 function delete_event(){
 	if (confirm("정말 삭제하시겠습니까??") == true){    
 		//확인
@@ -21,13 +23,15 @@ function delete_event(){
 </script>
 <style type="text/css">
  form{display:inline}
- span, td, th{
+</style>
+<style type="text/css">
+span, td, th{
 	padding: 5px; 
- }
- span.error{
+}
+span.error{
 	font-size:small;
 	color: red;
- }
+}
 </style>
 </head>
 <body>
@@ -52,16 +56,17 @@ function delete_event(){
 	<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
 	<button>검색</button>
 </form>
-<br>
-<c:if test="${empty list}">
-	검색한 아이디가 없습니다.
-</c:if>
-<c:if test="${!empty list}">
+<form action="${initParam.rootPath}/boardreview/boardReviewStarList.do" method="post">
+<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+<button>별점순</button>
+</form>
+
+
 <c:forEach var="row" items="${list}">
-<table border="1" width="600px" style="text-align:center"> 
+<table border="1" style="width:100%; text-align:center">
 <thead>
-    <tr>
-        <td>
+    <tr style="width: 100%;">
+        <td style="width: 33%;">
         	레시피 : ${row.recipeName} |
         	제목 : ${row.boardReviewTitle} |
         	작성자 : ${row.memberId} |
@@ -70,8 +75,8 @@ function delete_event(){
     </tr>
 </thead>
  <tbody>   
-    <tr>
-    	<td>별점 : 
+    <tr style="width: 100%;">
+    	<td style="width: 33%;">별점 : 
     		<c:if test="${row.boardReviewStar == 0}">
     			<img width="100px" src="${initParam.rootPath}/starimage/rating0.png">
     		</c:if>
@@ -107,8 +112,8 @@ function delete_event(){
     		</c:if>
     	</td>
     </tr>
-    <tr>
-   		<td>
+    <tr style="width: 100%;">
+   		<td style="width: 33%;">
    			<c:if test="${row.imageName == null}">
  				${row.boardReviewTxt}
  			</c:if>
@@ -120,8 +125,8 @@ function delete_event(){
     </tr>	
 	<!-- 회원 권한 폼 -->
 	<sec:authorize access="hasRole('ROLE_MEMBER')">
-		<tr>
-   			<td>
+		<tr style="width: 100%;">
+   			<td style="width: 33%;">
    			<form action="${initParam.rootPath}/boardreview/boardReviewUploadView.do" method="post">
 				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 				<input type="hidden" name="boardReviewId" value="${row.boardReviewId}">
@@ -144,8 +149,8 @@ function delete_event(){
 	
 	<!-- 관리자 권한 폼 -->
 	<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-	<tr>
-   		<td>	
+	<tr style="width: 100%;">
+   		<td style="width: 33%;">	
 			<form action="${initParam.rootPath}/boardreview/boardReviewRemove.do" method="post">
 			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 				<input type="hidden" name="boardReviewId" value="${row.boardReviewId}">
@@ -166,7 +171,7 @@ function delete_event(){
 														페이징 처리
 			###################################################### --%>
 	<!-- 첫페이지로 이동 -->
-	<a href="${initParam.rootPath}/boardreview/boardReviewByMemberId.do?page=1&memberId=${requestScope.memberId}">첫페이지</a>
+	<a href="${initParam.rootPath}/boardreview/boardReviewList.do?page=1">첫페이지</a>
 
 	<!--
 		이전 페이지 그룹 처리.
@@ -175,7 +180,7 @@ function delete_event(){
 	<c:choose>
 		<c:when test="${requestScope.pageBean.previousPageGroup}">
 			<%-- 이전페이지 그룹이 있디면 : previousPageGroup()--%>
-			<a href="${initParam.rootPath }/boardreview/boardReviewByMemberId.do?page=${requestScope.pageBean.beginPage - 1}&memberId=${requestScope.memberId}">☜</a>
+			<a href="${initParam.rootPath }/boardreview/boardReviewList.do?page=${requestScope.pageBean.beginPage - 1}">☜</a>
 		</c:when>
 		<c:otherwise>
 				☜	
@@ -190,14 +195,13 @@ function delete_event(){
 		<c:forEach begin="${requestScope.pageBean.beginPage}" end="${requestScope.pageBean.endPage}" var="page">
 			<c:choose>
 				<c:when test="${requestScope.pageBean.page != page}"> <%-- 현재패이지가 아니라면 --%>
-					<a href="${initParam.rootPath}/boardreview/boardReviewByMemberId.do?page=${page}&memberId=${requestScope.memberId}">&nbsp;${page}&nbsp;</a>
+					<a href="${initParam.rootPath}/boardreview/boardReviewList.do?page=${page}">&nbsp;${page}&nbsp;</a>
 				</c:when>
 				<c:otherwise>
 					&nbsp;[${page}]&nbsp;
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
-	
 
 	<!-- 
 		다음페이지 그룹으로 이동
@@ -206,17 +210,15 @@ function delete_event(){
 	<c:choose>
 		<c:when test="${requestScope.pageBean.nextPageGroup}">
 			<%-- 다음페이지 그룹이 있디면 : nextPageGroup()--%>
-			<a href="${initParam.rootPath }/boardreview/boardReviewByMemberId.do?page=${requestScope.pageBean.endPage + 1}&memberId=${requestScope.memberId}">☞</a>
+			<a href="${initParam.rootPath }/boardreview/boardReviewList.do?page=${requestScope.pageBean.endPage + 1}">☞</a>
 		</c:when>
 		<c:otherwise>
 				☞		
 		</c:otherwise>
 	</c:choose>			
-	
 	<!-- 마지막 페이지로 이동 -->
-	<a href="${initParam.rootPath}/boardreview/boardReviewByMemberId.do?page=${requestScope.pageBean.totalPage}&memberId=${requestScope.memberId}">마지막페이지</a>
+	<a href="${initParam.rootPath}/boardreview/boardReviewList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
 
 </p>
-</c:if>
 </body>
 </html>

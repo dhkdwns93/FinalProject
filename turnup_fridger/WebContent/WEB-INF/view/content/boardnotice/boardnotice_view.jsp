@@ -26,7 +26,7 @@ form{display:inline}
 <body>
 <h1>공지사항 > ${boardNotice.items}</h1><br>
 <div id="table" style="width:800px;">
-<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
+<table class="table table-bordered" style="width:100%; border:1; text-align:center">
 	<tr>
 		<td>말머리</td>
 		<td>${boardNotice.items}</td>

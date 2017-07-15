@@ -32,21 +32,45 @@ span.error{
 	font-size:small;
 	color: red;
 }
+.lst_erai{
+    width:100%;margin:0;padding:0;
+    font-size:0;
+    letter-spacing:-5px
+}
+.lst_erai li{
+    display:inline-block;
+    width:30%;
+    min-height:200px;
+    margin:0 5px 10px 0;
+    background:withe;
+    font-size:20px;
+    
+   /*  letter-spacing:0; */
+    line-height:1.5;
+    vertical-align:top;
+    color:black;
+    *display:inline;
+    zoom:1;
+}
 </style>
 </head>
 <body>
+<c:if test="${requestScope.error != null}">
+	<script type="text/javascript">alert('권한이 없습니다.')</script>
+</c:if>
+
+
 <h1>후기 게시판</h1><br>
 <hr>
 <sec:authorize access="hasRole('ROLE_MEMBER')">
 후기 작성
 <a href="${initParam.rootPath}/boardreview/boardreview_form.do"><button>후기 작성</button></a>
-<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 </sec:authorize>
- <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
- 	<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
- </sec:authorize>
-
+<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 <hr>
+
+
+
 <form action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<select name="select" id="select">
@@ -61,24 +85,21 @@ span.error{
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 <button>별점순</button>
 </form>
-
-
+<ul class="lst_erai">
 <c:forEach var="row" items="${list}">
-<table border="1" width="600px" style="text-align:center"> 
-<thead>
-    <tr>
-        <td>
-        	레시피 : ${row.recipeName} |
-        	제목 : ${row.boardReviewTitle} |
-        	작성자 : ${row.memberId} |
-        	작성일 : <fmt:formatDate value="${row.boardReviewDate}" pattern="yyyy-MM-dd"/>
-        </td>
-    </tr>
-</thead>
- <tbody>   
-    <tr>
-    	<td>별점 : 
-    		<c:if test="${row.boardReviewStar == 0}">
+    <li>
+    	<p style="width:200px;">
+   			<c:if test="${row.imageName != null}">
+   				<img width="250px" alt="${row.imageName}" src="${initParam.rootPath}/img/${row.imageName}"><br>
+   			</c:if>
+   			<c:if test="${row.imageName == null}">
+   				<img width="290px" src="${initParam.rootPath}/img/noimages.png">
+   			</c:if>
+     	</p>
+      	<p>제목 : ${row.boardReviewTitle}</p>
+      	<p class="album-title">레시피 : ${row.recipeName}</p>
+      	<p>
+      		<c:if test="${row.boardReviewStar == 0}">
     			<img width="100px" src="${initParam.rootPath}/starimage/rating0.png">
     		</c:if>
     		<c:if test="${row.boardReviewStar == 1}">
@@ -111,23 +132,15 @@ span.error{
     		<c:if test="${row.boardReviewStar == 10}">
       			<img width="100px" src="${initParam.rootPath}/starimage/rating10.png">  		
     		</c:if>
-    	</td>
-    </tr>
-    <tr>
-   		<td>
-   			<c:if test="${row.imageName == null}">
- 				${row.boardReviewTxt}
- 			</c:if>
-   			<c:if test="${row.imageName != null}">
-   				<img width="320px" alt="${row.imageName}" src="${initParam.rootPath}/img/${row.imageSaveName}"><br>
-   				${row.boardReviewTxt}
-   			</c:if>
-   		</td>
-    </tr>	
-	<!-- 회원 권한 폼 -->
+      	</p>
+      	<p>작성자 : ${row.memberId}</p>
+        <p><fmt:formatDate value="${row.boardReviewDate}" pattern="yyyy-MM-dd"/></p>
+      	<p>
+   			${row.boardReviewTxt}
+      	</p>
+      	<p>
+      			<!-- 회원 권한 폼 -->
 	<sec:authorize access="hasRole('ROLE_MEMBER')">
-		<tr>
-   			<td>
    			<form action="${initParam.rootPath}/boardreview/boardReviewUploadView.do" method="post">
 				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 				<input type="hidden" name="boardReviewId" value="${row.boardReviewId}">
@@ -143,15 +156,9 @@ span.error{
 					<input type="hidden" name="adminId" value="">
 					<input type="submit" value="삭제하기" onclick="return delete_event();">
 				</form>
-			</td>
-     	</tr> 
 	</sec:authorize>
-
-	
 	<!-- 관리자 권한 폼 -->
-	<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-	<tr>
-   		<td>	
+	<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">	
 			<form action="${initParam.rootPath}/boardreview/boardReviewRemove.do" method="post">
 			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 				<input type="hidden" name="boardReviewId" value="${row.boardReviewId}">
@@ -160,66 +167,10 @@ span.error{
 				<input type="hidden" name="memberId" value="">
 				<input type="submit" value="삭제하기" onclick="return delete_event();">
 			</form>
-		</td>
-    </tr>
 	</sec:authorize>
-   	   
-</tbody>
-</table>
-</c:forEach>
-<p>
-	<%-- ######################################################
-														페이징 처리
-			###################################################### --%>
-	<!-- 첫페이지로 이동 -->
-	<a href="${initParam.rootPath}/boardreview/boardReviewList.do?page=1">첫페이지</a>
-
-	<!--
-		이전 페이지 그룹 처리.
-		만약에 이전페이지 그룹이 있으면 링크처리하고 없으면 화살표만 나오도록 처리.
-	 -->
-	<c:choose>
-		<c:when test="${requestScope.pageBean.previousPageGroup}">
-			<%-- 이전페이지 그룹이 있디면 : previousPageGroup()--%>
-			<a href="${initParam.rootPath }/boardreview/boardReviewList.do?page=${requestScope.pageBean.beginPage - 1}">☜</a>
-		</c:when>
-		<c:otherwise>
-				☜	
-		</c:otherwise>
-	</c:choose>
-	
-	<!-- 
-		현재 page가 속한 page 그룹내의 페이지들 링크.
-		현재 pageGroup의 시작page ~ 끝 page
-	 -->
-	 <!-- 만약에 page가 현재페이지면 링크처리를 하지 않고 page가 현재페이지가 아니라면 링크처리. -->
-		<c:forEach begin="${requestScope.pageBean.beginPage}" end="${requestScope.pageBean.endPage}" var="page">
-			<c:choose>
-				<c:when test="${requestScope.pageBean.page != page}"> <%-- 현재패이지가 아니라면 --%>
-					<a href="${initParam.rootPath}/boardreview/boardReviewList.do?page=${page}">&nbsp;${page}&nbsp;</a>
-				</c:when>
-				<c:otherwise>
-					&nbsp;[${page}]&nbsp;
-				</c:otherwise>
-			</c:choose>
-		</c:forEach>
-
-	<!-- 
-		다음페이지 그룹으로 이동
-		만약에 다음페이지 그룹이 있으면 링크 처리 없으면 화살표만 나오도록 처리
-	 -->
-	<c:choose>
-		<c:when test="${requestScope.pageBean.nextPageGroup}">
-			<%-- 다음페이지 그룹이 있디면 : nextPageGroup()--%>
-			<a href="${initParam.rootPath }/boardreview/boardReviewList.do?page=${requestScope.pageBean.endPage + 1}">☞</a>
-		</c:when>
-		<c:otherwise>
-				☞		
-		</c:otherwise>
-	</c:choose>			
-	<!-- 마지막 페이지로 이동 -->
-	<a href="${initParam.rootPath}/boardreview/boardReviewList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
-
-</p>
+      	</p>
+    </li>
+ </c:forEach>
+</ul>
 </body>
 </html>
