@@ -1,0 +1,13 @@
+.error{
+  font-size:80%;
+  color:#808080;
+}
+
+.btn-style1  {
+  padding: 3px 6px;
+  font-size:12px;
+  font-weight:bold;
+  color: #333;
+  background-color:  #ffa366;
+  border-color: #ccc;
+}

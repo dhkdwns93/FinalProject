@@ -62,8 +62,6 @@ $(document).ready(function(){
 
 </head>
 <body>
-<jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
-<hr>
 
 <jsp:include page="/WEB-INF/view/layout/side_menu/nonMemberSideMenu.jsp"/>
 <div class='right-box'>
@@ -74,7 +72,7 @@ $(document).ready(function(){
 <form action="${initParam.rootPath}/join_member.do" method="post" name="usePopup">
 	※모든 사항은 필수기입사항입니다.<br><br>
 	<div id="idCheck" class="form-group">
-		<label for="id">회원 ID</label>
+		<label for="id">회원 ID</label><span id="duplicateError" class="error">&nbsp&nbsp*중복검사는 필수사항입니다.</span>
 		<span id="duplicateBefore">
 		<input type="text" id="id" name="inputId" class="form-control">
 		</span>
@@ -83,7 +81,6 @@ $(document).ready(function(){
 		</span>
 		<button type="button" id="duplicateIdBtn" class="btn btn-default">ID 중복검사</button>
 		<span class="error"><form:errors path="member.memberId" delimiter="&nbsp;&nbsp"/></span>
-		<br><span id="duplicateError" class="error">&nbsp&nbsp*중복검사는 필수사항입니다.</span>
 	</div>
 	<div class="form-group">
 		<label for="password">회원 PW</label>
@@ -101,7 +98,7 @@ $(document).ready(function(){
 		<span class="error"><form:errors path="member.memberAddress" delimiter="&nbsp;&nbsp"/></span>
 	</div>
 	<div id="emailCheck" class="form-group">
-		<label for="inputEmail">이메일</label>
+		<label for="inputEmail">이메일</label><span id="duplicateEmailError" class="error">&nbsp&nbsp*이메일 중복검사는 필수사항입니다.</span>
 		<span id="duplicateEmailBefore">
 		<input type="text" id="inputEmail" name="inputEmail" class="form-control" >
 		</span>
@@ -110,7 +107,6 @@ $(document).ready(function(){
 		</span>
 		<button type="button" id="duplicateEmailBtn" class="btn btn-default">Email 중복검사</button>
 		<span class="error"><form:errors path="member.memberEmail" delimiter="&nbsp;&nbsp"/></span>
-		<br><span id="duplicateEmailError" class="error">&nbsp&nbsp*이메일 중복검사는 필수사항입니다.</span>
 	</div>
 	<div class="form-group">
 		<label for="tel">전화번호</label><span id="lengthTel" class="error">&nbsp&nbsp*ex.01012345678</span>
@@ -126,7 +122,7 @@ $(document).ready(function(){
 		기피재료<br>
 		<div id="showMyDislikeIrdnt">
 			<input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="-1" class="form-control">
-			<button type="button" id="createMyDislikeIrdnt">기피재료추가</button><br>
+			<button type="button" id="createMyDislikeIrdnt" class="btn btn-style1"><span class="glyphicon glyphicon-trash"></span>기피재료추가</button><br>
 			<span class="error" id="tooMuchIrdnt"></span>
 		</div>
 	</div>
