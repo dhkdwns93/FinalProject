@@ -14,52 +14,39 @@
 <script src="${ initParam.rootPath }/scripts/bootstrap.min.js"></script>
 <link href="${ initParam.rootPath }/css/bootstrap.css" rel="stylesheet">
 <link href="${ initParam.rootPath }/css/landing-page.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"  rel="stylesheet">
 </head>
-<body>
+<div class="fridger">
 <div id="container">
 <!-- Navigation -->
 <nav id="head" class="navbar navbar-default navbar-fixed-top topnav " role="navigation">
-	<div class="container topnav">
-		<tiles:insertAttribute name="head" />
-	</div>
+   <div class="container topnav">
+      <tiles:insertAttribute name="head" />
+   </div>
 </nav>
 
 <!-- 메뉴바 -->
-<div id ="menu" class="intro-header">
-	<div class="container">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="intro-message">
-						<tiles:insertAttribute name="menu" />
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<%-- <nav id="head" class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+<div class="container topnav">
+	<tiles:insertAttribute name="menu" />
 </div>
+</nav> --%>
 
 
 <!-- content -->
-
-<div id="content" class="container subnav">
-	<div class="container">
+<div id ="content" class="">
+	<div class="container-fluid">
 		<div class="row">
-			<div class="col-lg-12">
-				<div class="intro-content">
-
+			<div class="col-lg-12 content">
 					<tiles:insertAttribute name="content" />
-
-				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
-
-
 <!-- footer -->
 <footer>
+<div id="foot">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
@@ -67,8 +54,9 @@
 			</div>
 		</div>
 	</div>
+	</div>
 </footer>
 </div>
+</div>
 
-</body>
 </html>

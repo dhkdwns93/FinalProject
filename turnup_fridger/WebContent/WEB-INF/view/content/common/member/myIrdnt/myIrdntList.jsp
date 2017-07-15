@@ -2,19 +2,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger/scripts/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		
 		//기본적으로 가져오는 모든 재료 목록들. 
+		//alert('${param.fridgerId}');
 		$.ajax({
-			"url":"/turnup_fridger/common/member/myIrdnt/allMyIrdntList.do?fridgerId=1",
-			//"data":{'fridgerId': 1},
+			"url":"/turnup_fridger/common/member/myIrdnt/allMyIrdntList.do",
+			"data":{'fridgerId': '${param.fridgerId}'},
 			"dataType":"json", 
 			"success":function(list){
 					 $.each(list, function(){
@@ -46,7 +41,6 @@
 				
 		//선택삭제 -> 체크박스 만들어서 체크된것만 삭제처리하게 
 		$(document).on("click","#deleteOnSelect",function(){
-			//var irdntKey = $(this).parent().parent().children(":first-child").text();
 			var irdntKeyList = [];
 			$("input[name='deleteChk']:checked").each(function(){
 				irdntKeyList.push($(this).parent().parent().children(":first-child").text());
@@ -55,7 +49,7 @@
 			$.ajax({
 				"url":"/turnup_fridger/common/member/myIrdnt/removeMyIrdnt.do",
 				"type":"POST",
-				"data":{'irdntKey':irdntKeyList,'fridgerId':1,'${_csrf.parameterName}':'${_csrf.token}'},
+				"data":{'irdntKey':irdntKeyList,'fridgerId':'${param.fridgerId}','${_csrf.parameterName}':'${_csrf.token}'},
 				"dataType":"text",
 				"traditional": true,
 				"success":function(TEXT){
@@ -71,7 +65,7 @@
 		//검색버튼
 		$("#searchBtn").on("click",function(){
 			$.ajax({
-				"url":"/turnup_fridger/common/member/myIrdnt/findMyIrdntByFreshLevelAndIrdntName.do?fridgerId=1",
+				"url":"/turnup_fridger/common/member/myIrdnt/findMyIrdntByFreshLevelAndIrdntName.do?fridgerId=${param.fridgerId}",
 				"type":"post",
 				"data":{'freshLevel':$("#freshLevel").val(), 'irdntName':$("#irdntName").val(),'${_csrf.parameterName}':'${_csrf.token}'},
 				"dataType":"json", 
@@ -101,7 +95,7 @@
 		});//searchBtn
 		
 		$("#addIrdnt").on("click",function(){
-			window.open("/turnup_fridger/common/member/myIrdnt/myIrdnt_form.do","insertIrdnt","width=500, height=400");
+			window.open("/turnup_fridger/common/member/myIrdnt/myIrdnt_form.do?fridgerId=${param.fridgerId}","insertIrdnt","width=500, height=400");
 		});//재료추가
 		
 	})//ready
@@ -127,7 +121,6 @@ td {
 </style>
 </head>
 <body>
-
 
 <h2>나의 식재료 목록</h2><hr>
 <button type="button" id="addIrdnt">재료추가</button>

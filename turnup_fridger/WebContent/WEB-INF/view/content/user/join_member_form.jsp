@@ -57,14 +57,16 @@ $(document).ready(function(){
 	$("div#showMyDislikeIrdnt").on("click","button#removeMyDislikeIrdnt",function(){
 			var deleteInputTextHtml=$(this).parent().remove();
 	});//end of showMyDislikeIRdnt
-
 });
-
 </script>
+
 </head>
 <body>
 <jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
 <hr>
+
+<jsp:include page="/WEB-INF/view/layout/side_menu/nonMemberSideMenu.jsp"/>
+<div class='right-box'>
 
 
 <h2>회원가입페이지</h2>
@@ -111,7 +113,7 @@ $(document).ready(function(){
 		<br><span id="duplicateEmailError" class="error">&nbsp&nbsp*이메일 중복검사는 필수사항입니다.</span>
 	</div>
 	<div class="form-group">
-		<label for="tel">전화번호</label>
+		<label for="tel">전화번호</label><span id="lengthTel" class="error">&nbsp&nbsp*ex.01012345678</span>
 		<input type="text" id="tel" name="memberTel" class="form-control">
 		<span class="error"><form:errors path="member.memberTel"/></span>
 	</div>
@@ -132,6 +134,7 @@ $(document).ready(function(){
 	<button type="submit" id="submit" class="btn btn-default">가입</button>
 	<button type="button" onclick="location.reload()" class="btn btn-default">다시작성</button>
 </form>
+</div>
 
 </body>
 </html>

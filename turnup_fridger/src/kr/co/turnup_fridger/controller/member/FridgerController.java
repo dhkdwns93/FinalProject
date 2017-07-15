@@ -13,7 +13,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -213,12 +212,28 @@ public class FridgerController {
 		return list;
 	}
 	
-	//로그인 된 회원의 냉장고 찾는 handler
+	//로그인 된 회원의 소유한 냉장고 찾는 handler
 		@RequestMapping("show/mine" )
 		@ResponseBody
 		public List<Fridger> getFridgerMine(){	
 			Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 			list = fridgerService.findFridgerByOwner(member.getMemberId());
+			System.out.println(list);
+			return list;
+		}
+	
+		
+
+	//로그인 된 회원이 공유하고 있는 냉장고 찾는 handler
+		@RequestMapping("show/mine/shared")
+		@ResponseBody
+		public List<Fridger> getFridgerMineShared(){	
+			Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			List<Fridger> list = new ArrayList<Fridger>();
+			for(FridgerGroup fg:fridgerGroupService.selectFridgerGroupByGroupMemberId(member.getMemberId())){
+				list.add(fridgerService.findFridgerByFridgerId(fg.getFridgerId()));
+			};
+			//내가 공유하는 냉장고 
 			System.out.println(list);
 			return list;
 		}
@@ -428,7 +443,7 @@ public class FridgerController {
 	
 	
 	
-	/*************************업로드 테스트**************************/
+	/*************************업로드 완성**************************/
 	
 	@RequestMapping(value="register", method={RequestMethod.POST,RequestMethod.GET} )	// input type="file"으로 전송받는 변수는 MultipartFile 타입으로 선언
 	public ModelAndView regisgerFridgerWithImgs(@RequestParam String fridgerName,

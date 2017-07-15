@@ -55,6 +55,6 @@ public interface FavoriteRecipeService {
 	 * @param recipeId
 	 * @return
 	 */
-	//FavoriteRecipe findFavoriteRecipeByIds(String memberId, int recipeId);
+	FavoriteRecipe findFavoriteRecipeByIds(String memberId, int recipeId);
 	
 }
