@@ -411,6 +411,7 @@ CREATE TABLE RECIPE_INFO (
    RECIPE_HITS NUMBER NOT NULL /* 조회수 */
 );
 
+CREATE SEQUENCE RECIPE_ID_seq INCREMENT BY 1 START WITH 1;  
 --select * from RECIPE_INFO 
 --select distinct category_name from RECIPE_INFO
 --select distinct type_name from recipe_info
@@ -448,6 +449,8 @@ CREATE TABLE RECIPE_IRDNT (
    CONSTRAINT VTRI_RECIPE_ID_FK FOREIGN KEY(RECIPE_ID) REFERENCES RECIPE_INFO on delete cascade,
    CONSTRAINT VTRI_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE on delete cascade
 );
+CREATE SEQUENCE IRDNT_NO_seq INCREMENT BY 1 START WITH 1;  
+
 --select distinct irdnt_name from RECIPE_IRDNT order by irdnt_name;
 --select count(*) from recipe_crse;
 --select count(*) from recipe_info;
