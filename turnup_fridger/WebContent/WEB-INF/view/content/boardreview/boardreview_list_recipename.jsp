@@ -9,7 +9,6 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
-/* //후기 삭제
 function delete_event(){
 	if (confirm("정말 삭제하시겠습니까??") == true){    
 		//확인
@@ -19,19 +18,6 @@ function delete_event(){
 	    return false;
 	}
 };
-
-
-//후기 등록
-function insert_event(){
-	if (confirm("등록 하시겠습니까??") == true){    
-		//확인
-		location.href="/turnup_fridger/boardreview/boardreview_list.do";
-	}else{   
-		//취소
-	    return false;
-	}
-};
- */
 </script>
 <style type="text/css">
  form{display:inline}
@@ -45,16 +31,16 @@ function insert_event(){
 </style>
 </head>
 <body>
+<c:if test="${requestScope.error != null}">
+	<script type="text/javascript">alert('권한이 없습니다.')</script>
+</c:if>
 <h1>후기 게시판</h1><br>
 <hr>
 <sec:authorize access="hasRole('ROLE_MEMBER')">
 후기 작성
 <a href="${initParam.rootPath}/boardreview/boardreview_form.do"><button>후기 작성</button></a>
-<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 </sec:authorize>
- <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
- 	<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
- </sec:authorize>
+<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 <hr>
 <form action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">

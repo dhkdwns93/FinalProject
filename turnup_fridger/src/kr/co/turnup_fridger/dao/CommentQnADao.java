@@ -14,6 +14,12 @@ public interface CommentQnADao {
 	 */
 	int insertCommentQnA(CommentQnA commentQnA);
 	
+	
+	//댓글수  증가
+	int commentCount(int boardQnAId);
+	
+	
+	
 	/**
 	 * CommentQnA 정보를 update 하는 메소드
 	 * @param commentQnA
@@ -21,6 +27,8 @@ public interface CommentQnADao {
 	 */
 	int updateCommentQnA(CommentQnA commentQnA);
 	
+	//댓글 tn 삭제
+	int commentDeleteCount(int boardQnAId);
 	/**
 	 * CommentQnA 정보를 delete 하는 메소드
 	 * @param id
@@ -42,5 +50,7 @@ public interface CommentQnADao {
 	 * 작성자 : 김장규
 	 */
 	CommentQnA selectCommentQnAById(int commentQnAId);	
+	
+	List<CommentQnA> selectCommentQnAByboardQnAId(int boardQnAId);	
 	
 }

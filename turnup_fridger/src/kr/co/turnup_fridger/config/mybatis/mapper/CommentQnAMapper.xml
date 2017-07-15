@@ -29,6 +29,17 @@
 	</resultMap>
 	
 	
+	<!-- ResultMap BoardQnA 등록 -->
+	<resultMap id="boardQnA-resultmap" type="boardQnA">
+		<id column="BOARD_QNA_ID" property="boardQnAId"/>
+		<result column="BOARD_QNA_TITLE" property="boardQnATitle"/>
+		<result column="BOARD_QNA_TXT" property="boardQnATxt"/>
+		<result column="BOARD_QNA_DATE" property="boardQnAdate"/>
+		<result column="COMMENT_COUNT" property="commentCount"/>
+		<result column="MEMBER_ID" property="memberId"/>	
+	</resultMap>
+	
+
 	<!-- 등록 SQL -->
 	<insert id="insertCommentQnA" parameterType="commentQnA">
 		<selectKey resultType="int" keyProperty="commentQnAId" order="BEFORE">
@@ -43,8 +54,13 @@
 				#{memberId},
 				#{boardQnAId}
 		  	  )
+
 	</insert>
 	
+	<update id="boardQnAcount" parameterType="int"> 
+		UPDATE BOARD_QNA SET COMMENT_COUNT = COMMENT_COUNT + 1 WHERE BOARD_QNA_ID = #{boardQnAId}
+	</update>
+
 	<!-- 업데이트 SQL -->
 	<update id="updateCommentQnA" parameterType="commentQnA">
 		UPDATE 	COMMENT_QNA 
@@ -61,6 +77,12 @@
 		DELETE FROM COMMENT_QNA WHERE COMMENT_QNA_ID = #{commentQnAId}
 	</delete>	
 	
+	<update id="boardQnADeleteCount" parameterType="int"> 
+		UPDATE BOARD_QNA SET COMMENT_COUNT = COMMENT_COUNT - 1 WHERE BOARD_QNA_ID = #{boardQnAId}
+	</update>
+	
+	
+
 	<!-- LIST 전체 조회 SQL -->
 	<select id="selectCommentQnAList" resultMap="commentQnA-resultmap">
 		<include refid="commentQnA-select-sql"></include>
@@ -68,13 +90,19 @@
 	</select> 
 
 	<!-- id 조회 SQL -->
-	<select id="selectCommentQnAById" resultMap="commentQnA-resultmap">
+	<select id="selectCommentQnAById" parameterType="_int" resultMap="commentQnA-resultmap">
 		<include refid="commentQnA-select-sql"></include>
 		WHERE COMMENT_QNA_ID = #{commentQnAId}
 		ORDER BY COMMENT_QNA_DATE DESC
 	</select> 
-
-
+	
+	
+	<!-- boardQnAId 조회 SQL -->
+	<select id="selectCommentQnAByboardQnAId" parameterType="_int" resultMap="commentQnA-resultmap">
+		<include refid="commentQnA-select-sql"></include>
+		WHERE BOARD_QNA_ID = #{boardQnAId}
+		ORDER BY COMMENT_QNA_DATE DESC
+	</select> 
 
 
 </mapper>

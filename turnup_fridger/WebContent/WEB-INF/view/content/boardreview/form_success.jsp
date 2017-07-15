@@ -10,7 +10,8 @@
 </head>
 <body>
 <h2>후기 등록 완료</h2>
-<table border="1" width="600px" style="text-align:center"> 
+<div id="table" style="width:800px;">
+<table class="table table-bordered" style="width:100%; border:1; text-align:center">
 	<tr>
 		<td>레시피</td>
 		<td>${boardReview.recipeName}</td>
@@ -74,6 +75,7 @@
 		</td>
 	</tr>
 </table>
+</div>
 <form action="${initParam.rootPath}/boardreview/boardReviewList.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<input type="submit" value="목록으로">

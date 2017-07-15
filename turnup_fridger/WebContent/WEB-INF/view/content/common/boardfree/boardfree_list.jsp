@@ -10,51 +10,61 @@
 <title>Insert title here</title>
 <style type="text/css">
 form{display:inline}
+/* focus none 지정 */
 input:focus {
   outline: none;
+}
+/* th 가운데 정렬 정렬 */
+th{
+text-align:center
+}
+/* input 정렬 */
+input {
+   vertical-align:middle;  
 }
 </style>
 </head>
 <body>
-<h1>자유 게시판</h1><br>
-<hr>
-<form action="${initParam.rootPath}/common/boardfree/boardFreeBySelect.do" method="post">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<select name="select" id="select">
-		<option>전체보기</option>
-		<option value="제목">제목</option>
-		<option value="아이디">아이디</option>
-	</select>
-	<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
-	<button>검색</button>
-</form>
-
-<form action="${initParam.rootPath}/common/boardfree/boardFreeByBoardFreeHits.do" method="post">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<button>조회수</button>
-</form>
-
-<div id="table" style="width:800px;">
-<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">
-<thead id="thead">
+<div id="table" style="width:800px; margin-left: auto; margin-right: auto;">
+<h1>자유 게시판</h1><br>	
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+	<a href="${initParam.rootPath}/index.do"><button style="text-align:right">홈으로</button></a>
+	<div style="float:right">
+	<form action="${initParam.rootPath}/common/boardfree/boardFreeBySelect.do" method="post">
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+		<select name="select" id="select">
+			<option>전체보기</option>
+			<option value="제목">제목</option>
+			<option value="아이디">아이디</option>
+		</select>
+		<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
+		<button>검색</button>
+	</form>
+	<form action="${initParam.rootPath}/common/boardfree/boardFreeByBoardFreeHits.do" method="post">
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+		<button>조회수</button>
+	</form>
+	</div>
+<thead>
     <tr>
         <th>번호</th>
         <th>제목</th>
         <th>작성일</th>
         <th>작성자</th>
         <th>조회수</th>
+        <th>댓글수</th>
     </tr>
  </thead>
- 
-<tbody id="tbody">
-<c:forEach var="row" items="${list}">
+
+<tbody>
+<c:forEach var="row" items="${list}" varStatus="status">
     <tr>
-        <td>${row.boardFreeId}</td>
+        <td>${requestScope.totalCount-((requestScope.pageBean.page -1 ) * 10 + status.index)}</td>
         <td>
     		<form action="${initParam.rootPath}/common/boardfree/boardFreeView.do" method="post">
     			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
         		<input type="hidden" name="boardFreeId" value="${row.boardFreeId}">
-        		<input type="submit" value="${row.boardFreeTitle}" style="background-color:white;border:0;WIDTH: 400pt; HEIGHT: 15pt"> 
+        		<input type="submit" value="${row.boardFreeTitle}" style="background-color:white;border:0;WIDTH: 350pt; HEIGHT: 15pt"> 
 			</form>    
         </td>
         <td>
@@ -62,12 +72,23 @@ input:focus {
         </td>
         <td>${row.memberId}</td>
         <td>${row.boardFreeHits}</td>
+        <td>
+        	<c:if test="${row.commentCount == 0}">
+        		0
+        	</c:if>
+        	<c:if test="${row.commentCount != 0}">
+        		${row.commentCount}
+        	</c:if>
+        </td>
     </tr>    
 </c:forEach>
  </tbody>
 </table>
+<sec:authorize access="hasRole('ROLE_MEMBER')">
+	<a href="${initParam.rootPath}/common/boardfree/boardfree_form.do"><button>등록</button></a>
+</sec:authorize>
 </div>
-<p>
+<p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리
 			###################################################### --%>
@@ -119,11 +140,6 @@ input:focus {
 	</c:choose>			
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/common/boardfree/boardFreeList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
-
 </p>
-<sec:authorize access="hasRole('ROLE_MEMBER')">
-<a href="${initParam.rootPath}/common/boardfree/boardfree_form.do"><button>등록</button></a>
-</sec:authorize>
-<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 </body>
 </html>

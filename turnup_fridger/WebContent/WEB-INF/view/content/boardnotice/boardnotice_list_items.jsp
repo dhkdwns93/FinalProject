@@ -54,9 +54,9 @@ input {
     </tr>
  </thead>
 <tbody>
-<c:forEach var="row" items="${list}">
+<c:forEach var="row" items="${list}" varStatus="status">
     <tr>
-        <td>${row.id}</td>
+        <td>${requestScope.totalCount-((requestScope.pageBean.page -1 ) * 10 + status.index)}</td>
         <td>${row.items}</td>
         
         <td>
