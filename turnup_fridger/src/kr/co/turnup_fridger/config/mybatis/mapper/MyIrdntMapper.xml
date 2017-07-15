@@ -150,4 +150,58 @@
 		from my_irdnt
 		where member_id=#{value}
 	</select>
+	
+	<!--7/14추가 레시피의 재료들과 일치하는 나의 식재료들을 골라내는 쿼리.  -->
+	<select id="selectMatchIrdnt" resultMap="MyIrdnt-resultmap" parameterType="java.util.HashMap">
+		select 
+				my_irdnt_key,
+				start_date,
+				end_date,
+				fresh_level,
+				irdnt_count,
+				irdnt_id,
+				irdnt_name,
+				fridger_id,
+				start_fresh_level,
+				storge_place
+		from (
+			select 	my_irdnt_key,
+					start_date,
+					end_date,
+					fresh_level,
+					irdnt_count,
+					irdnt_id,
+					irdnt_name,
+					fridger_id,
+					start_fresh_level,
+					storge_place 
+			from my_irdnt 
+			where fridger_id in (
+					select fridger_id 
+					from fridger 
+					where member_id=#{memberId}))
+		where irdnt_id in (
+			select irdnt_id 
+			from recipe_irdnt 
+			where recipe_id=#{recipeId})			
+	</select>
+	
+	<!--7/14일 추가 나의식재료들 카운트 쿼리  -->
+	<select id="selectMyIrdntByStorgePlace" parameterType="java.util.HashMap" resultType="_int">
+		select count(*) from My_irdnt
+		where fridger_id = #{fridgerId} and storge_place=#{storgePlace}
+	</select>
+	
+	<select id="selectMyIrdntByCategory" parameterType="java.util.HashMap" resultType="_int">
+		select count(*) 
+		from My_irdnt m, irdnt_manage i
+		where m.irdnt_id = i.irdnt_id and m.fridger_id =#{fridgerId} and i.irdnt_category=#{category}
+	</select>
+	
+	<select id="selectMyIrdntByFreshLevel" parameterType="java.util.HashMap" resultType="_int">
+		select count(*) 
+		from My_irdnt
+		where fridger_id = #{fridgerId} and fresh_level=#{freshLevel}
+	</select>
+	
 </mapper>
