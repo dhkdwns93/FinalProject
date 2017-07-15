@@ -28,7 +28,6 @@
 			<li><a href="${initParam.rootPath}/common/admin/recipe/recipeList.do" id="submenuLink">레시피 조회</a></li>
 			<li><a href="${initParam.rootPath}/common/admin/recipe/register_form.do" id="submenuLink">레시피 저장</a></li>
 			<li><a href="${initParam.rootPath}/common/admin/irdntManage/findAllICategory.do" id="submenuLink">재료 조회</a></li>
-			<li><a href="${initParam.rootPath}/common/admin/recipe/recipeList.do" id="submenuLink">재료 등록</a></li>
 			<li><a href="" id="submenuLink">레시피 공유게시판</a></li>
 		</ul>
       </li>

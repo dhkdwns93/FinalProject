@@ -166,17 +166,17 @@ $(document).ready(function(){
 	
 	$.ajax({
 		"url":"/turnup_fridger/findFavoriteRecipeByIds.do", 
-		"data":'recipeId='+${requestScope.recipe.recipeId},
+		"data":'recipeId='+${requestScope.recipe.recipeId}, 
 		"dataType":"text", 
 		"success":function(text){
 			//alert(text);
 			if(text=="0"){
 				//빈하트출력.
-				$("#favoriteSection").append($("<img>").prop("width","70").prop("class","heart")
+				$("#favoriteSection").append($("<img>").prop("width","70").prop("id","heart").prop("class","img-rounded")
 						.prop("src","/turnup_fridger/starimage/emptyHeart.png"));
 			}else{
 				//빨간하트 출력.
-				$("#favoriteSection").append($("<img>").prop("width","70").prop("class","heart")
+				$("#favoriteSection").append($("<img>").prop("width","70").prop("class","heart").prop("class","img-rounded")
 						.prop("src","/turnup_fridger/starimage/fullHeart.png"));
 			}
 		},
@@ -185,7 +185,7 @@ $(document).ready(function(){
 		}		
 	});//즐겨찾기 사진 처음에 불러오기. 
 	
-	$(document).on("click",".heart",function(){
+	$(document).on("click","#heart",function(){ 
 		$.ajax({
 			"url":"/turnup_fridger/findFavoriteRecipeByIds.do", 
 			"data":'recipeId='+${requestScope.recipe.recipeId},    
@@ -536,8 +536,8 @@ top: 650px;
 	</table>
 	</div>
 </div>
-</div>
-<div style="margin-right: 50px;  width: auto;  right:0; position: absolute;">
+
+<div style="margin-right: 50px; margin-bottom:500px; width: auto;  right:0; position: absolute;">
 
 <!--나의 식재료들 가져와서 수정,삭제할수있게 하는 테이블  -->
 	<div id="myIrdnt">
@@ -557,8 +557,9 @@ top: 650px;
 
 
 <!--후기게시판연결  -->
-	<button type="button" id="reviewBtn">후기 보기</button>
-	<div id="review">
+	<button type="button" id="reviewBtn" >후기 보기</button>
+	<div id="review"  style= "margin-right: 50px; padding:500px; width: auto;  right:0; position: absolute;">
+	
 		<table>
 			<thead id="reviewThead">
 				<tr>
@@ -578,6 +579,10 @@ top: 650px;
 	<div id="reviewPageBean"></div>
 
 </div>
+</div>
+
+
+
 
 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 <button type="button" id="deleteRecipeBtn">삭제</button> 

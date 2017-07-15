@@ -4,6 +4,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style type="text/css">
+
+
+form{display:inline}
+input:focus {
+  outline: none;
+}
+</style>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
@@ -145,50 +153,28 @@ function getSearchList(page){
 	});
 
 </script>
-<style type="text/css">
-table, td {
-	border: 1px solid black;
-}
-table {
-	width: 1000px;
-	border-collapse: collapse;
-}
-td {
-	padding: 5px;
-}
-#tbody {
-	cursor: pointer;
-}
-</style>
 </head>
 <body>
 
-	<h2>재료 목록</h2>
-	<hr>
-	<button type="button" id="insertBtn">재료추가</button><br>
-
+	<div style= "text-align: center;">
+	<h2>재료 목록</h2><hr><br>
 	카테고리 :
 	<select name="irdntCategory" id="irdntCategory">
 		<option value="전체">전체</option>
 		<c:forEach items="${requestScope.irdntCategory}" var="irdntCategory">
 			<option value="${irdntCategory}">${irdntCategory}</option>
 		</c:forEach>
-	</select> 
+	</select>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 	
 	재료명검색
 	<input type="text" name ="irdntName" id="irdntName">
-	<button type="button" id="searchBtn">검색</button><br>
-<%-- 
-	재료id
-	<input type="text" name ="irdntId" id="irdntId">
-	<button type="button" id="updateBtn">수정</button>
+	<button type="button" id="searchBtn">검색</button>
 	
-	재료id 
-	<input type="text" name ="irdntId" id="irdntId">
-	<button type="button" id="deleteBtn">삭제</button><br><br>
---%>	
-	<div id="result">
-		<table>
+	</div>
+	
+	<br>	
+	<div id="result" class="tableList" style="width:1000px; ">
+		<table class="table table-hover table-condensed" style="width:100%; border:5;">
 			<thead>
 				<tr>
 				<th>재료id</th>
@@ -204,7 +190,10 @@ td {
 			</thead>
 			<tbody id="tbody"></tbody>
 		</table>
-	</div>
-	<div id="pageBean"></div>
+	</div><br>
+	
+	<div style="text-align:center;"><button type="button" id="insertBtn">재료추가</button></div><br>
+	<div id="pageBean" style="text-align:center;"></div>
+
 </body>
 </html>
