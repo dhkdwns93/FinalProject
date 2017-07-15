@@ -8,6 +8,17 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
+//댓글 수정
+function comment_update_event(){
+	
+	if (confirm("수정 하시겠습니까??") == true){    
+		//확인
+		location.href="/turnup_fridger/common/boardfree/boardfree_view.do";
+	}else{   
+		//취소
+	    return false;
+	}
+}; 
 /* $(document).ready(function(){
 	$("#submit").on("click", function(){
 		alert('수정되었습니다');
@@ -66,7 +77,7 @@ function closeWindow(){
 </table>
 		<input type="hidden" name="commentFreeId" id="commentFreeId" value="${commentFree.commentFreeId}">
 		<input type="hidden" name="boardFreeId" id="boardFreeId" value="${commentFree.boardFreeId}">
-		<input id="submit" type="submit" value="수정">
+		<input id="submit" type="submit" value="수정"  onclick="return comment_update_event();">
 </form>
 </body>
 </html>

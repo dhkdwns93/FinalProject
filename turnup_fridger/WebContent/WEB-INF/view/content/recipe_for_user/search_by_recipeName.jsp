@@ -7,6 +7,8 @@
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 function getList(keyword,page){
+	$("#apiResult").show();
+	$("#userResult").show();
 	$("#apiTbody").empty();
 	$("#pageBean").empty();
 	if(!page) page = 1;
@@ -22,24 +24,25 @@ function getList(keyword,page){
 			$("#userPageBean").empty();
 			
 			$("#apiThead").append($("<tr>").append($("<th>").append("레시피id")).append($("<th>").append("이름")).append($("<th>").append("간략소개")).append($("<th>").append("유형분류"))
-					.append($("<th>").append("음식분류")).append($("<th>").append("조리시간")).append($("<th>").append("칼로리")).append($("<th>").append("난이도")).append($("<th>").append("대표이미지"))
+					.append($("<th>").append("음식분류")).append($("<th>").append("조리시간")).append($("<th>").append("칼로리")).append($("<th>").append("난이도")).append($("<th>").append("img"))
 					.append($("<th>").append("조회수")));
 			
-			$("#userThead").append($("<tr>").append($("<th>").append("레시피id")).append($("<th>").append("제목")).append($("<th>").append("작성자")).append($("<th>").append("작성일"))
-					.append($("<th>").append("조회수")).append($("<th>").append("추천수")));
+			$("#userThead").append($("<tr>").append($("<th>").append("레시피id")).append($("<th>").append("제목")).append($("<th>").append("img"))
+					.append($("<th>").append("작성자")).append($("<th>").append("작성일")).append($("<th>").append("조회수")).append($("<th>").append("추천수")));
 			
 			$("#apiTbody").empty();	
 			$.each(map.apiList.list, function(){
 				$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").append($("<td>").append(this.recipeId))
 						.append($("<td>").prop("id", "title").append($("<a>").prop("href", "${initParam.rootPath}/recipe/show/detail.do?recipeId="+this.recipeId).append(this.recipeName))).append($("<td>").append(this.sumry))
 						.append($("<td>").append(this.categoryName)).append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel))
-						.append($("<td>").append(this.imgUrl)).append($("<td>").append(this.recipeHits)));
+						.append($("<td>").append("<img>").prop("src",this.imgUrl)).append($("<td>").append(this.recipeHits)));
 			 });//each	 
 			 
 			 $("#userTbody").empty();
 			 $.each(map.userList.list, function(){
-					$("#userTbody").append($("<tr>").prop("class","userRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId))
-							.append($("<td>").prop("id", "title").append($("<a>").prop("href", "${initParam.rootPath}/recipe/show/detailOfBoard.do?recipeId="+this.recipeId).append(this.title)))
+					$("#userTbody").append($("<tr>").prop("class","userRecipe_col").prop("id",this.recipeId).append($("<td>").append(this.recipeId))
+							.append($("<a>").prop("href", "${initParam.rootPath}/recipe/show/detailOfBoard.do?recipeId="+this.recipeId).append(this.title))
+							.append($("<td>").append("<img>").prop("src",this.imgUrl))
 							.append($("<td>").append(this.memberId)).append($("<td>").append(this.date)).append($("<td>").append(this.hits)).append($("<td>").append(this.recommand)));
 			 });//each			 
 		
@@ -101,6 +104,8 @@ $(document).ready(function(){
 	
 	//테이블정렬기준 숨김.
 	$("#sortKeyword").hide();
+	$("#apiResult").hide();
+	$("#userResult").hide();
 	
 	$("#searchBtn").on("click",function(){
 		$("#sortKeyword").show();
@@ -131,18 +136,17 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<h2>요리이름으로 레시피 찾기</h2>
 
 <!--레시피명입력받는창-> 검색 -> 레시피info들(페이징) and 레시피공유게시판목록들(페이징)  -->
 <!--검색 전 화면이 비어있을테니, top4들 불러오는작업? 여기서는 레시피공유게시판to4  -->
-
-	<!--레시피공유게시판 top4 가져올까?  -->
-
-	레시피명검색
+	<div style="text-align:center;">
+	<h2>요리이름으로 레시피 찾기</h2><hr>
+	레시피명 검색 : 
 	<input type="text" name ="recipeName" id="recipeName">
 	<button type="button" id="searchBtn">검색</button><br>
+	</div>
 	
-	<div id="sortKeyword">
+	<div id="sortKeyword" style="text-align:right;">
 	<button type="button" id="hitsDesc">최다조회순</button>
 	<button type="button" id="hitsAsc">최저조회순</button>
 	<button type="button" id="calrorieDesc">고칼로리순</button>
@@ -156,19 +160,21 @@ $(document).ready(function(){
 	</div>
 	
 	<div id="apiResult">
-		<table>
+		<h3>기본 레시피 </h3>
+		<table class="table table-hover table-condensed" style="width:100%; border:5;">
 			<thead id="apiThead"></thead>
 			<tbody id="apiTbody"></tbody>
 		</table>
 	</div>
-	<div id="apiPageBean"></div>
+	<div id="apiPageBean" style="text-align:center;"></div>
 	<div id="userResult">
-		<table>
+		<h3>사용자 레시피</h3>
+		<table class="table table-hover table-condensed" style="width:80%; border:5;">
 			<thead id="userThead"></thead>
 			<tbody id="userTbody"></tbody>
 		</table>
 	</div>
-	<div id="userPageBean"></div>
+	<div id="userPageBean" style="text-align:center;" class="tableList"></div>
 	
 </body>
 </html>

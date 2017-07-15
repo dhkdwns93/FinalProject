@@ -9,7 +9,6 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
-/* //후기 삭제
 function delete_event(){
 	if (confirm("정말 삭제하시겠습니까??") == true){    
 		//확인
@@ -19,19 +18,6 @@ function delete_event(){
 	    return false;
 	}
 };
-
-
-//후기 등록
-function insert_event(){
-	if (confirm("등록 하시겠습니까??") == true){    
-		//확인
-		location.href="/turnup_fridger/boardreview/boardreview_list.do";
-	}else{   
-		//취소
-	    return false;
-	}
-};
- */
 </script>
 <style type="text/css">
  form{display:inline}
@@ -45,48 +31,140 @@ function insert_event(){
 </style>
 </head>
 <body>
-<h1>후기 게시판</h1><br>
-<hr>
-<sec:authorize access="hasRole('ROLE_MEMBER')">
-후기 작성
-<a href="${initParam.rootPath}/boardreview/boardreview_form.do"><button>후기 작성</button></a>
-<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
-</sec:authorize>
- <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
- 	<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
- </sec:authorize>
-<hr>
-<form action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<select name="select" id="select">
-		<option>전체보기</option>
-		<option value="레시피">레시피</option>
-		<option value="아이디">아이디</option>
-	</select>
-	<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
-	<button>검색</button>
-</form>
-<br>
+<c:if test="${requestScope.error != null}">
+	<script type="text/javascript">alert('권한이 없습니다.')</script>
+</c:if>
+
 <c:if test="${empty list}">
-	검색한 레시피가 없습니다.
+<div id="table" style="width:800px; margin-left: auto; margin-right: auto;">
+<h1>후기 게시판</h1><br>
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
+<div style="float:right">
+	<form action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+		<select name="select" id="select">
+			<option>전체보기</option>
+			<option value="레시피">레시피</option>
+			<option value="아이디">아이디</option>
+		</select>
+		<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
+		<button>검색</button>
+	</form>
+	</div>
+	<br><a style="text-align:center"><h2>검색한 레시피가 없습니다.</h2></a>
+</table>
+<sec:authorize access="hasRole('ROLE_MEMBER')">
+<a href="${initParam.rootPath}/boardreview/boardreview_form.do"><button>후기 작성</button></a>
+</sec:authorize>
+</div>
 </c:if>
 <c:if test="${!empty list}">
+<div id="table" style="width:800px; margin-left: auto; margin-right: auto;">
+<h1>후기 게시판</h1><br>
+<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
+<div style="float:right">
+	<form action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+		<select name="select" id="select">
+			<option>전체보기</option>
+			<option value="레시피">레시피</option>
+			<option value="아이디">아이디</option>
+		</select>
+		<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
+		<button>검색</button>
+	</form>
+</div>
+<div style="background-color:#dcdcdc;">
+<table class="table table-hover table-condensed" style="width:100%;text-align:center;">
 <c:forEach var="row" items="${list}">
-<table border="1" width="600px" style="text-align:center"> 
-<thead>
-    <tr>
-        <td>
-        	레시피 : ${row.recipeName} |
-        	제목 : ${row.boardReviewTitle} |
-        	작성자 : ${row.memberId} |
-        	작성일 : <fmt:formatDate value="${row.boardReviewDate}" pattern="yyyy-MM-dd"/>
-        </td>
-    </tr>
-</thead>
- <tbody>   
-    <tr>
-    	<td>별점 : 
-    		<c:if test="${row.boardReviewStar == 0}">
+<table>
+	<tr>
+		<td>
+			<c:if test="${row.boardReviewStar == 0}">
+    			<img width="100px"  src="${initParam.rootPath}/img/icon/사진9.png">
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 1}">
+    			<img width="100px"  src="${initParam.rootPath}/img/icon/사진1.png">  		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 2}">
+    			<img width="100px"  src="${initParam.rootPath}/img/icon/사진3.png">    		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 3}">
+    			<img width="100px"  src="${initParam.rootPath}/img/icon/사진2.png">  		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 4}">
+    			<img width="100px"  src="${initParam.rootPath}/img/icon/사진4.png">    		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 5}">
+    			<img width="100px"  src="${initParam.rootPath}/img/icon/사진6.png">       		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 6}">
+    			<img width="100px"  src="${initParam.rootPath}/img/icon/사진7.png">       		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 7}">
+     			<img width="100px"  src="${initParam.rootPath}/img/icon/사진3.png">     		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 8}">
+     			<img width="100px"  src="${initParam.rootPath}/img/icon/사진1.png">     		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 9}">
+     			<img width="100px"  src="${initParam.rootPath}/img/icon/사진3.png">     		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 10}">
+      			<img width="100px"  src="${initParam.rootPath}/img/icon/사진4.png">    		
+    		</c:if>
+		</td>	
+		<td style="background-color:white">
+				<h4>${row.memberId}</h4>님의 후기  |  <fmt:formatDate value="${row.boardReviewDate}" pattern="yyyy-MM-dd"/> 
+		</td>
+		<td  style="background-color:white">
+	<!-- 회원 권한 폼 -->
+			<sec:authorize access="hasRole('ROLE_MEMBER')">
+   			<form action="${initParam.rootPath}/boardreview/boardReviewUploadView.do" method="post">
+				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+				<input type="hidden" name="boardReviewId" value="${row.boardReviewId}">
+				<input type="hidden" name="memberId" value="<sec:authentication property="principal.memberId"></sec:authentication>">
+				<input type="hidden" name="writer" value="${row.memberId}">
+				<button>수정하기</button>
+			</form>
+				<form action="${initParam.rootPath}/boardreview/boardReviewRemove.do" method="post">
+				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+					<input type="hidden" name="boardReviewId" value="${row.boardReviewId}">
+					<input type="hidden" name="writer" value="${row.memberId}">	
+					<input type="hidden" name="memberId" value="<sec:authentication property="principal.memberId"></sec:authentication>">
+					<input type="hidden" name="adminId" value="">
+					<input type="submit" value="삭제하기" onclick="return delete_event();">
+				</form>
+			</sec:authorize>
+	<!-- 관리자 권한 폼 -->
+			<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">	
+			<form action="${initParam.rootPath}/boardreview/boardReviewRemove.do" method="post">
+			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+				<input type="hidden" name="boardReviewId" value="${row.boardReviewId}">
+				<input type="hidden" name="writer" value="${row.memberId}">
+				<input type="hidden" name="adminId" value="<sec:authentication property="principal.adminId"></sec:authentication>">
+				<input type="hidden" name="memberId" value="">
+				<input type="submit" value="삭제하기" onclick="return delete_event();">
+			</form>
+			</sec:authorize>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		</td>
+		<td style="background-color:white">
+				${row.boardReviewTitle}
+		</td>
+		<td style="background-color:white">
+		</td>
+	</tr>
+	<tr>
+		<td>
+		</td>
+		<td style="background-color:white">
+				${row.recipeName}	|	
+			<c:if test="${row.boardReviewStar == 0}">
     			<img width="100px" src="${initParam.rootPath}/starimage/rating0.png">
     		</c:if>
     		<c:if test="${row.boardReviewStar == 1}">
@@ -119,63 +197,32 @@ function insert_event(){
     		<c:if test="${row.boardReviewStar == 10}">
       			<img width="100px" src="${initParam.rootPath}/starimage/rating10.png">  		
     		</c:if>
-    	</td>
-    </tr>
-    <tr>
-   		<td>
-   			<c:if test="${row.imageName == null}">
- 				${row.boardReviewTxt}
- 			</c:if>
-   			<c:if test="${row.imageName != null}">
-   				<img width="320px" alt="${row.imageName}" src="${initParam.rootPath}/img/${row.imageSaveName}"><br>
-   				${row.boardReviewTxt}
-   			</c:if>
-   		</td>
-    </tr>	
-	<!-- 회원 권한 폼 -->
-	<sec:authorize access="hasRole('ROLE_MEMBER')">
-		<tr>
-   			<td>
-   			<form action="${initParam.rootPath}/boardreview/boardReviewUploadView.do" method="post">
-				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-				<input type="hidden" name="boardReviewId" value="${row.boardReviewId}">
-				<input type="hidden" name="memberId" value="<sec:authentication property="principal.memberId"></sec:authentication>">
-				<input type="hidden" name="writer" value="${row.memberId}">
-				<button>수정하기</button>
-			</form>
-				<form action="${initParam.rootPath}/boardreview/boardReviewRemove.do" method="post">
-				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-					<input type="hidden" name="boardReviewId" value="${row.boardReviewId}">
-					<input type="hidden" name="writer" value="${row.memberId}">	
-					<input type="hidden" name="memberId" value="<sec:authentication property="principal.memberId"></sec:authentication>">
-					<input type="hidden" name="adminId" value="">
-					<input type="submit" value="삭제하기" onclick="return delete_event();">
-				</form>
-			</td>
-     	</tr> 
-	</sec:authorize>
-
-	
-	<!-- 관리자 권한 폼 -->
-	<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-	<tr>
-   		<td>	
-			<form action="${initParam.rootPath}/boardreview/boardReviewRemove.do" method="post">
-			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-				<input type="hidden" name="boardReviewId" value="${row.boardReviewId}">
-				<input type="hidden" name="writer" value="${row.memberId}">
-				<input type="hidden" name="adminId" value="<sec:authentication property="principal.adminId"></sec:authentication>">
-				<input type="hidden" name="memberId" value="">
-				<input type="submit" value="삭제하기" onclick="return delete_event();">
-			</form>
 		</td>
-    </tr>
-	</sec:authorize>
-   	   
-</tbody>
+		<td  style="background-color:white">
+		</td>
+	</tr>	
+	<tr>
+		<td>
+		</td>
+		<td style="background-color:white;width:100px" >
+				<a style="color:white">&asdfasdfsdfadfasdfasdfasdfasdfasdfasdfasdfasdfsdfasdfadsffsdfsdfffsdf</a>
+				${row.boardReviewTxt}<br>
+			<c:if test="${row.imageName != null}">
+   				<img width="500px" alt="${row.imageName}" src="${initParam.rootPath}/img/${row.imageName}"><br>
+   			</c:if>
+		</td>
+		<td  style="background-color:white">
+		</td>
+	</tr>		
 </table>
+<br>
 </c:forEach>
-<p>
+</table>
+</div>
+<sec:authorize access="hasRole('ROLE_MEMBER')">
+<a href="${initParam.rootPath}/boardreview/boardreview_form.do"><button>후기 작성</button></a>
+</sec:authorize>
+<p style="text-align:center;">
 	<%-- ######################################################
 														페이징 처리
 			###################################################### --%>
@@ -230,6 +277,7 @@ function insert_event(){
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/boardreview/boardReviewByRecipeName.do?page=${requestScope.pageBean.totalPage}&recipeName=${requestScope.recipeName}">마지막페이지</a>
 </p>
+</div>
 </c:if>
 <br>
 </body>

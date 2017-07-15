@@ -16,6 +16,7 @@ public class BoardFree implements Serializable{
 	@JsonSerialize(using=DateJSONSerializer.class)
 	private Date date;
 	private int boardFreeHits;
+	private int commentCount;
 	
 	private String memberId;
 	private Member member;
@@ -25,12 +26,14 @@ public class BoardFree implements Serializable{
 	public BoardFree(){}
 
 	public BoardFree(int boardFreeId, String boardFreeTitle, String boardFreeTxt, Date date, int boardFreeHits,
-			String memberId) {
+			int commentCount, String memberId) {
+		super();
 		this.boardFreeId = boardFreeId;
 		this.boardFreeTitle = boardFreeTitle;
 		this.boardFreeTxt = boardFreeTxt;
 		this.date = date;
 		this.boardFreeHits = boardFreeHits;
+		this.commentCount = commentCount;
 		this.memberId = memberId;
 	}
 
@@ -74,6 +77,14 @@ public class BoardFree implements Serializable{
 		this.boardFreeHits = boardFreeHits;
 	}
 
+	public int getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
+
 	public String getMemberId() {
 		return memberId;
 	}
@@ -98,13 +109,11 @@ public class BoardFree implements Serializable{
 		this.commentFree = commentFree;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "BoardFree [boardFreeId=" + boardFreeId + ", boardFreeTitle=" + boardFreeTitle + ", boardFreeTxt="
-				+ boardFreeTxt + ", date=" + date + ", boardFreeHits=" + boardFreeHits + ", memberId=" + memberId
-				+ ", member=" + member + ", commentFree=" + commentFree + "]";
+				+ boardFreeTxt + ", date=" + date + ", boardFreeHits=" + boardFreeHits + ", commentCount="
+				+ commentCount + ", memberId=" + memberId + ", member=" + member + ", commentFree=" + commentFree + "]";
 	}
 
 	@Override
@@ -115,6 +124,7 @@ public class BoardFree implements Serializable{
 		result = prime * result + boardFreeId;
 		result = prime * result + ((boardFreeTitle == null) ? 0 : boardFreeTitle.hashCode());
 		result = prime * result + ((boardFreeTxt == null) ? 0 : boardFreeTxt.hashCode());
+		result = prime * result + commentCount;
 		result = prime * result + ((commentFree == null) ? 0 : commentFree.hashCode());
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + ((member == null) ? 0 : member.hashCode());
@@ -145,6 +155,8 @@ public class BoardFree implements Serializable{
 				return false;
 		} else if (!boardFreeTxt.equals(other.boardFreeTxt))
 			return false;
+		if (commentCount != other.commentCount)
+			return false;
 		if (commentFree == null) {
 			if (other.commentFree != null)
 				return false;
@@ -167,5 +179,6 @@ public class BoardFree implements Serializable{
 			return false;
 		return true;
 	}
+
 	
 }

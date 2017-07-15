@@ -15,31 +15,46 @@ form{display:inline}
 input:focus {
   outline: none;
 }
+/* th 가운데 정렬 정렬 */
+th{
+text-align:center
+}
+/* input 정렬 */
+input {
+   vertical-align:middle;  
+}
 </style>
 </head>
 <body>
+<c:if test="${requestScope.error != null}">
+	<script type="text/javascript">alert('권한이 없습니다.')</script>
+</c:if>
+
+
+<div id="table" style="width:800px; margin-left: auto; margin-right: auto;">
 <h1>QnA 게시판 </h1><br>
-<hr>
-<div>
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
+<!-- 검색 버튼 -->
+<div style="float:right">
 <form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
 	<input type="text" name="memberId" placeholder="아이디를 입력해주세요">
 	<button>검색</button>
 	<sec:csrfInput/>
 </form>
 </div>
-<div id="table" style="width:800px;">
-<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">
 <thead id="thead">
     <tr>
-        <th>글번호</th>
+        <th>번호</th>
         <th>제목</th>
         <th>작성일</th>
         <th>작성자</th>
+        <th>댓글수</th>
     </tr>
  </thead>
-<c:forEach var="row" items="${list}">
+<c:forEach var="row" items="${list}" varStatus="status">
     <tr>
-        <td>${row.boardQnAId}</td>
+        <td>${requestScope.totalCount-((requestScope.pageBean.page -1 ) * 10 + status.index)}</td>
         <td>
         <form name="form" action="${initParam.rootPath}/common/boardqna/boardQnAView.do" method="post">
         	<!-- 회원일때 보여줌 -->
@@ -48,7 +63,7 @@ input:focus {
         		<input type="hidden"  name="admin" value="">
         		<input type="hidden" id="memberId" name="memberId" value="${row.memberId}">
         		<input type="hidden" id="boardQnAId" name="boardQnAId" value="${row.boardQnAId}">
-        		<input type="submit" value="${row.boardQnATitle}" style="background-color:white;border:0;WIDTH: 400pt; HEIGHT: 15pt"> 
+        		<input type="submit" id="error" value="${row.boardQnATitle}" style="background-color:white;border:0;WIDTH: 400pt; HEIGHT: 15pt"> 
 			</sec:authorize>
         
      		<!-- 관리자일때 보여줌 -->	
@@ -68,13 +83,25 @@ input:focus {
         <td>        	
         	${row.memberId}
         </td>
+        <td>
+        	<c:if test="${row.commentCount == 0}">
+        		0
+        	</c:if>
+        	<c:if test="${row.commentCount != 0}">
+        		${row.commentCount}
+        	</c:if>
+        </td>
     </tr>    
 </c:forEach>
  </tbody>
 </table>
+<!-- 회원만 등록 가능 -->
+<sec:authorize access="hasRole('ROLE_MEMBER')">
+ 	<a href="${initParam.rootPath}/common/boardqna/boardqna_form.do"><button>등록</button></a>
+</sec:authorize>
 </div>
-<div>
-<p>
+
+<p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리
 			###################################################### --%>
@@ -129,16 +156,5 @@ input:focus {
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/common/boardqna/boardQnAList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
 </p>
-</div>
-
-<div>
-<!-- 회원만 등록 가능 -->
-<sec:authorize access="hasRole('ROLE_MEMBER')">
- 	<a href="${initParam.rootPath}/common/boardqna/boardqna_form.do"><button>등록</button></a>
-</sec:authorize>
-</div>
-<div>
-<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
-</div>
 </body>
 </html>
