@@ -15,14 +15,14 @@ public interface FridgerService {
 	 * @return
 	 * @throws Exception 
 	 */
-	void createFridger(Fridger fridger) throws DuplicatedFridgerException;
+	void createFridger(Fridger fridger);
 	
 	/**
 	 * 냉장고 정보 수정 서비스
 	 * @param fridger
 	 * @throws Exception 
 	 */
-	void updateFridger(Fridger fridger) throws FindFridgerFailException, DuplicatedFridgerException, FindMemberFailException ;
+	void updateFridger(Fridger fridger) throws FindFridgerFailException, FindMemberFailException ;
 	
 	/**
 	 * 냉장고 삭제 서비스
