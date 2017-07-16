@@ -14,7 +14,6 @@ background:url(/turnup_fridger/starimage/star.png)no-repeat;
 }
 .star-rating span{ background-position:left bottom; line-height:0; vertical-align:top; }
 </style>
-
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 function getReview(page){
@@ -68,6 +67,10 @@ function getReview(page){
 	
 };//페이징 함수 
 
+//변수 선언
+var endTime, worker;
+//var hour=0, minute=15, second=0; //타이머의 작동 시간 이 경우에는 15분
+var pause;
 $(document).ready(function(){
 
 	$("#reviewThead").hide();
@@ -104,7 +107,7 @@ $(document).ready(function(){
 		$.ajax({
 			"url":"/turnup_fridger/common/admin/recipe/remove.do",
 			"type":"POST",		
-			"data":{'recipeId' : ${ requestScope.recipe.recipeId },'${_csrf.parameterName}':'${_csrf.token}'},
+			"data":{'recipeId' : ${requestScope.recipe.recipeId},'${_csrf.parameterName}':'${_csrf.token}'},
 			"dataType":"text",
 			"beforeSend":function(){
 				if(confirm("레시피를 삭제하시겠습니까?") != true){
@@ -176,7 +179,7 @@ $(document).ready(function(){
 						.prop("src","/turnup_fridger/starimage/emptyHeart.png"));
 			}else{
 				//빨간하트 출력.
-				$("#favoriteSection").append($("<img>").prop("width","70").prop("class","heart").prop("class","img-rounded")
+				$("#favoriteSection").append($("<img>").prop("width","70").prop("id","heart").prop("class","img-rounded")
 						.prop("src","/turnup_fridger/starimage/fullHeart.png"));
 			}
 		},
@@ -330,6 +333,10 @@ $(document).ready(function(){
 		$(".changePortionBtn").removeAttr("disabled");
 		$("#changePortionFor4_Btn").prop("disabled","disabled");
 	});//단위변환:4인분
+	
+	$("#timerBtn").on("click",function(){
+		window.open("/turnup_fridger/timer.do","timer","width=500, height=200");
+	});
 
 })//ready	
 //숫자 추출
@@ -421,6 +428,8 @@ top: 650px;
 <button type="button" id="changePortionFor3_Btn" class="changePortionBtn">3인분</button>
 <button type="button" id="changePortionFor4_Btn" class="changePortionBtn">4인분</button><hr>
 
+<button type="button" id="timerBtn">타이머</button>
+
 <div class="container">
 <h2>레시피 상세화면</h2>
 
@@ -511,8 +520,6 @@ top: 650px;
 		</div>
 	</div>
 	</div>
-
-	<!--타이머?  -->
 
 	<div id="recipe_crse">
 	<h3>레시피 과정정보</h3>

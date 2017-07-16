@@ -315,6 +315,7 @@ SELECT MY_IRDNT_KEY.NEXTVAL FROM DUAL;
 --insert into MY_IRDNT values (1,SYSDATE,NULL,'보통','2개',17,'감자전분',1,'보통','실온');
 --select * from MY_IRDNT;
 
+
 /* 공유레시피재료 */
 DROP TABLE SHARE_RECIPE_IRDNT;
 DELETE FROM SHARE_RECIPE_IRDNT;

@@ -744,5 +744,10 @@ public class RecipeController {
 		System.out.println("일치재료"+list);
 		return list;
 	}
+	
+	@RequestMapping("timer")
+	public ModelAndView timer(){
+		return new ModelAndView("recipe_for_user/timer");
+	}
 
 }
