@@ -54,9 +54,9 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+<div class="container">
 <jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
 <hr>
-
 
 <h2>전체개인회원정보</h2>
 	<div id="wrap">
@@ -104,6 +104,6 @@ $(document).ready(function(){
 			</table>
 		</div>
 	</div>
-
+</div>
 </body>
 </html>

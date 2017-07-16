@@ -53,9 +53,9 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+<div class="container">
 <jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
 <hr>
-
 
 <h2>회원정보수정</h2>
 <form action="${initParam.rootPath}/common/member/member_change.do" method="post" name="usePopup">
@@ -119,5 +119,6 @@ $(document).ready(function(){
 	<button type="submit" class="btn btn-default">수정완료</button>
 	<button type="reset" class="btn btn-default">다시작성</button>
 </form>
+</div>
 </body>
 </html>

@@ -73,6 +73,10 @@ img{ /* 삽입 이미지들 */
     text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
 }
 
+.tf{ /* 메인 마지막 섹션 Turnup-Fridger글자 부분 */
+	font-family: 'Philosopher', sans-serif;
+}
+
 /* ================= 메뉴드롭다운부분 =================== */
 
     #submenuLink, #submenu2Link {  /* 하위 메뉴의 a 태그 */
@@ -140,7 +144,7 @@ img{ /* 삽입 이미지들 */
     }
 /* ======================================================== */
 
-@media(max-width:767px) {
+@media(max-width:767px) { /*  모바일기기 화면 크기 */
     .intro-message {
         padding-bottom: 15%;
     }
@@ -148,8 +152,12 @@ img{ /* 삽입 이미지들 */
     .intro-message > h1 {
         font-size: 3em;
     }
+    
+    .intro-message > h3{
+    	font-size: 1.5em;
+    }
 
-    ul.intro-social-buttons > li {
+    ul.intro-social-buttons > li { /* 메인화면 버튼들 */
         display: block;
         margin-bottom: 20px;
         padding: 0;
@@ -161,6 +169,53 @@ img{ /* 삽입 이미지들 */
 
     .intro-divider {
         width: 100%;
+    }
+    
+    .submenu{
+    	position: relative;
+    	top:5px;
+    	left:auto;
+    	height: 0px;
+        overflow: hidden;
+        transition: height .3s;		/* 하위메뉴가 서서히 나오게하는 설정 */
+        -webkit-transition: height .2s; 
+        -moz-transition: height .2s; 
+        -o-transition: height .2s; 
+        display: inline-block;
+        width: auto;
+        background-color: #FFFFFF;
+		background: rgba(255, 255, 255, 0.3); /* 하위메뉴박스 배경 투명도 */
+    }
+    
+    .submenu2 {
+        position: relative; /* 고정 위치에 표시 */
+		top: 50px; /* 부모 요소로부터 아래로 떨어진거리(부모요소가 상단바) */
+        left: auto;
+        height: 0px;
+        overflow: hidden;
+        transition: height .3s;		/* 하위메뉴가 서서히 나오게하는 설정 */
+        -webkit-transition: height .2s; 
+        -moz-transition: height .2s; 
+        -o-transition: height .2s; 
+        width: auto;
+        background-color: #313131;
+		background: rgba(255, 255, 255, 0.3); /* 하위메뉴박스 배경 투명도 */
+    }
+    
+    .submenu li, .submenu2 li { /* 하위메뉴들 */
+    	margin: auto;
+		padding: auto;
+        /* padding-right: 40px;
+        padding-left: 10px;
+        padding-top: 11px; */
+    }
+    
+    .topMenuLi:hover .submenu { /* 상위메뉴 마우스오버시 하위메뉴들(ul) */
+        height: 100px;
+    }
+    
+    .topMenuLi2:hover .submenu2 { /* 상위메뉴 마우스오버시 하위메뉴들(ul) */
+        height: 45px;
     }
     
 }

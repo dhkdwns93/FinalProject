@@ -41,12 +41,12 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+<div class="container">
 <jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
 <hr>
 
-
-<h2>마이페이지</h2>
-<table border="1" width="500">
+<h2>마이페이지</h2><p>
+<table class="table" border="1" width="500">
 	<tr>
 		<th>회원 ID</th>
 		<th><sec:authentication property="principal.memberId"></sec:authentication></th>
@@ -99,6 +99,6 @@ $(document).ready(function(){
 		</tbody>
 	</table>
 </div>
-
+</div>
 </body>
 </html>

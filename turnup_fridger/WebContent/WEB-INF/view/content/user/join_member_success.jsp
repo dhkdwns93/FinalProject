@@ -13,10 +13,9 @@
 <title>Insert title here</title>
 </head>
 <body>
+<div class="container">
 <jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
 <hr>
-
-
 <h2>회원가입성공!</h2>
 <div class="row">
 	<div>회원 ID</div>
@@ -52,6 +51,6 @@
 </div>
 
 <a href="${initParam.rootPath}/login_form.do"><button type="button">LOGIN</button></a>
-
+</div>
 </body>
 </html>

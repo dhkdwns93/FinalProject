@@ -25,11 +25,9 @@
 </script>
 </head>
 <body>
+<div class="container">
 <jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
 <hr>
-
-
-<jsp:include page="/WEB-INF/view/layout/side_menu/nonMemberSideMenu.jsp"/>
 <div class='right-box'>
 
 <h2>Login</h2>
@@ -53,6 +51,6 @@
 </form>
 
 </div>
-
+</div>
 </body>
 </html>

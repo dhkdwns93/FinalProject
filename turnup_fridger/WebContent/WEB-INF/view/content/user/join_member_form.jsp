@@ -62,6 +62,7 @@ $(document).ready(function(){
 
 </head>
 <body>
+<div class="container">
 <jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
 <hr>
 
@@ -135,6 +136,6 @@ $(document).ready(function(){
 	<button type="button" onclick="location.reload()" class="btn btn-default">다시작성</button>
 </form>
 </div>
-
+</div>
 </body>
 </html>

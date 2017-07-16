@@ -84,6 +84,7 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+<div class="container">
 <jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
 <hr>
 
@@ -165,5 +166,6 @@ $(document).ready(function(){
  	<!-- 관리자 등록 -->
  	<a href="${initParam.rootPath}/common/admin/master/join_admin_form.do"><button type="button">관리자 등록</button></a>
  </sec:authorize>
+ </div>
 </body>
 </html>
