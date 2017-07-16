@@ -24,7 +24,7 @@ function getList(keyword,page){
 				$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").append($("<td>").append(this.recipeId))
 						.append($("<td>").prop("id", "title").append($("<a>").prop("href", "${initParam.rootPath}/recipe/show/detail.do?recipeId="+this.recipeId).append(this.recipeName))).append($("<td>").append(this.sumry))
 						.append($("<td>").append(this.categoryName)).append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel))
-						.append($("<td>").append("<img>").prop("src",this.imgUrl).prop("width","100px")).append($("<td>").append(this.recipeHits)));
+						.append($("<td>").append(this.recipeHits)));
 				});//each
 			 	$("#pageBean").append($("<a href='javascript:getList("+keyword+",1)'>").append("첫페이지"));
 			
@@ -158,7 +158,6 @@ $(document).ready(function(){
 					<th>조리시간</th>
 					<th>칼로리</th>
 					<th>난이도</th>
-					<th>img</th>
 					<th>조회수</th>
 				</tr>
 			</thead>

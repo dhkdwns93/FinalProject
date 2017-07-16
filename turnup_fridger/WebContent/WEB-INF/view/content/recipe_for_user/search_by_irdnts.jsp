@@ -40,7 +40,7 @@ function getList(keyword,page){
 				$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId))
 						.append($("<td>").prop("id", "title").append($("<a>").prop("href", "${initParam.rootPath}/recipe/show/detail.do?recipeId="+this.recipeId).append(this.recipeName))).append($("<td>").append(this.sumry))
 						.append($("<td>").append(this.categoryName)).append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel))
-						.append($("<td>").append(this.imgUrl)).append($("<td>").append(this.recipeHits)));
+						.append($("<td>").append(this.recipeHits)));
 			 });//each	 
 			$.each(map.apiMap.countList, function(){
 				$("#"+this.recipe_id).children(":first-child").text(this.count);
@@ -146,30 +146,40 @@ $(document).ready(function(){
 			}//error
 	});//ajax1
 	
-	$.ajax({
-	//나의 냉장고들 불러오기 
-	//냉장고id, 냉장고 이름, 선택버튼
-		"url":"/turnup_fridger/getFridgers.do", 
-		//"type":"POST",
-		//"data":{'${_csrf.parameterName}':'${_csrf.token}'},
-		"dataType":"json", 
-		"success":function(list){
-			$("#myFridersThead").show();
-			$.each(list, function(){
-				$("#myFridersTbody").append($("<tr>").append($("<td>").append(this.fridgerId)).append($("<td>").append(this.fridgerName))
-						.append($("<td>").append($("<button>").prop("type","button").prop("class","selectFridger").prop("value",this.fridgerId).append("선택"))));
-				})
-			},//success
-			"error":function(xhr, msg, code){ 
-					alert("오류발생-" +msg+ ":" +code);	
-			}//error	
-	});//ajax2
+	//*******************************************************************************************************************************************************
+
+	$("#getMyFridger").on("click",function(){
+		
+		$.ajax({	
+			//나의 냉장고들 불러오기 
+			//냉장고id, 냉장고 이름, 선택버튼
+				"url":"/turnup_fridger/getFridgers.do", 
+				//"type":"POST",
+				"data":{'${_csrf.parameterName}':'${_csrf.token}'},
+				"dataType":"json", 
+				"success":function(list){
+					$("#myFridersThead").show();
+					$.each(list, function(){
+						$("#myFridersTbody").append($("<tr>").append($("<td>").append(this.fridgerId)).append($("<td>").append(this.fridgerName))
+								.append($("<td>").append($("<button>").prop("type","button").prop("class","selectFridger").prop("value",this.fridgerId).append("선택"))));
+						})
+					},//success
+					"error":function(xhr, msg, code){ 
+						if(msg=='error'&&code=='Internal Server Error'){
+							alert("비회원은 불러올 수 없습니다.");
+						}else{
+							alert("오류발생-" +msg+ ":" +code);	
+						}
+						
+					}//error	
+			});//ajax2
+	});
+	
 	
 	$(document).on("click",".selectFridger",function(){
 		$("#myIrdnt").show();		
 		var fridgerId = $(this).val();
 		$.ajax({
-			//나의식재료에서 식재료들 리스트로 받아오기.
 			//나의식재료 - 재료명,신선도, 선택, 기피
 			"url":"/turnup_fridger/getMyIrdntList.do", 
 			"type":"POST",
@@ -193,27 +203,36 @@ $(document).ready(function(){
 		});//ajax3
 	});//냉장고선택-> 식재료 보여주기 
 	
-	$.ajax({
-		//나의 기피재료 받아오기.
-		"url":"/turnup_fridger/getMyDislikeIrdnt.do", 
-		"type":"POST",
-		"data":{'${_csrf.parameterName}':'${_csrf.token}'},
-		"dataType":"json", 
-		"success":function(map){
-			$("#dislikeResult").show();
-			$.each(map.dislikeIrdnt, function(){
-				$("#dislikeTbody").append($("<tr>").prop("class","select_col").prop("id",this.irdntId).append($("<td>").append(this.irdntId)).append($("<td>").append('')));	 
-				})
-			$.each(map.irdntList, function(){
-				//alert(this.irdntId);
-				$("#"+this.irdntId).children(":nth-child(2)").text(this.irdntName);	 
-				})	
-			},//success
-			"error":function(xhr, msg, code){ 
-					alert("오류발생-" +msg+ ":" +code);	
-			}//error	
-	});//ajax4
+	$("#getMydislike").on("click",function(){
 	
+		$.ajax({
+			//나의 기피재료 받아오기.
+			"url":"/turnup_fridger/getMyDislikeIrdnt.do", 
+			"type":"POST",
+			"data":{'${_csrf.parameterName}':'${_csrf.token}'},
+			"dataType":"json", 
+			"success":function(map){
+				$("#dislikeResult").show();
+				$.each(map.dislikeIrdnt, function(){
+					
+					$("#dislikeTbody").append($("<tr>").prop("class","select_col").prop("id",this.irdntId).append($("<td>").append(this.irdntId)).append($("<td>").append('')));	 
+					})
+				$.each(map.irdntList, function(){
+					$("#"+this.irdntId).children(":nth-child(2)").text(this.irdntName);	 
+					})	
+				},//success
+				"error":function(xhr, msg, code){ 
+					if(msg=='error'&&code=='Internal Server Error'){
+						alert("비회원은 불러올 수 없습니다.");
+					}else{
+						alert("오류발생-" +msg+ ":" +code);	
+					}
+						
+				}//error	
+		});//ajax4
+	});
+	
+	//*******************************************************************************************************************************************************
 	$(document).on("click",(".dislikeBtn"),function(){
 		var irdntId = $(this).val();
 		var irdntName= $(this).parent().parent().children(":first-child");
@@ -264,6 +283,8 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+<%-- <input type="hidden" id="memberId" value="<sec:authentication property='principal.memberId'/>">  --%>
+<%-- <sec:authentication property="principal.memberId" var="memberId"/> --%>
 
 <div style="text-align:center;"><h2>재료로 레시피 찾기</h2><br><hr></div>
 
@@ -275,9 +296,11 @@ $(document).ready(function(){
 		</table>
 	</div>
 	
+	
 	<div id="myIrdntSection" style="width:23%; float: left; padding:10px;" >
 	<div id="myFridgers" style="border:5; overflow-x:hidden; overflow-y:scroll; height:300px;width:350px;margin:20px;">
-	나의 냉장고 목록  
+	나의 냉장고 목록 :
+		<button type="button" id="getMyFridger" >냉장고불러오기</button>   
 		<table class="table table-hover table-condensed" style=" border:5;">
 			<thead id="myFridersThead">
 				<tr>
@@ -303,6 +326,7 @@ $(document).ready(function(){
 	<!--컬럼누르면 테이블에서 삭제  -->
 	<div id="dislikeSection" style="width:23%; border:5;float: left;border:5; overflow-x:hidden; overflow-y:scroll; height:350px; margin:20px;">
 	기피재료 : 
+	<button type="button" id="getMydislike" >나의 기피재료 불러오기</button>
 	<table id="dislikeResult" class="table table-hover table-condensed" >
 		<thead id="dislikeThead">
 			<tr>
@@ -335,7 +359,7 @@ $(document).ready(function(){
 
 	<div id="recipeSection" style="width:100%; border:5;float: left;">
 	<div id="sortKeyword">
-	<div style="text-align:center;"><hr><h3>기본 레시피 검색결과</h3><hr></div>
+	<div style="text-align:center;"><hr><br><h3>기본 레시피 검색결과</h3><br><hr></div>
 	<button type="button" id="hitsDesc">최다조회순</button>
 	<button type="button" id="hitsAsc">최저조회순</button>
 	<button type="button" id="calrorieDesc">고칼로리순</button>
@@ -346,7 +370,7 @@ $(document).ready(function(){
 		<option value="보통">보통</option>
 		<option value="어려움">어려움</option>
 	</select>
-	</div>
+	</div><br>
 	<div id="apiResult">
 		<table class="table table-hover table-condensed" style="border:5;">
 			<thead id="apiThead">
@@ -360,19 +384,17 @@ $(document).ready(function(){
 					<th>조리시간</th>
 					<th>칼로리</th>
 					<th>난이도</th>
-					<th>대표이미지</th>
 					<th>조회수</th>
 				</tr>
 			</thead>
 			<tbody id="apiTbody"></tbody>
 		</table>
-	</div>
-	<br>
+	</div><br>
 	<div id="apiPageBean" style="text-align:center;"></div>
 	<br>
 	
 	<div id="userResult" >
-	<div style="text-align:center;"><hr><h3>사용자레시피 검색결과</h3><hr></div>
+	<div style="text-align:center;"><hr><h3><br>사용자레시피 검색결과</h3><br><hr></div>
 		<table class="table table-hover table-condensed" style="border:5;">
 			<thead id="userThead">
 				<tr>
@@ -387,7 +409,7 @@ $(document).ready(function(){
 			</thead>
 			<tbody id="userTbody"></tbody>
 		</table>
-	</div>
+	</div><br>
 	<div id="userPageBean" style="text-align:center;"></div>
 	</div>
 </body>

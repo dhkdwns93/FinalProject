@@ -29,6 +29,7 @@ function Timer_refresh(milisec){ //입력받은 값을 토대로 남은 시간�
 	T_min = Math.floor(milisec/60000)%60; //남은 시간중 '분'을 계산함.
 	T_sec = Math.floor(milisec/1000)%60; //남은 시간중 '초'를 계산함. 
 	$('#timer').html(n2(T_hour) + " : " + n2(T_min) + " : " + n2(T_sec)); //계산한 남은 시간들을 출력함. 
+	
 }
 
 $(document).ready(function(){
@@ -76,9 +77,9 @@ $(document).ready(function(){
 <div id="timer" style="font-size:45pt;text-align:center;">00 : 00: 00</div>
 <div style="text-align:center;">
 	<!-- <input type="number" id="timerInput" placeholder="시간" style="width:60px"> -->
-	<input type="number" id="hourInput" placeholder="시간" style="width:60px">
-	<input type="number" id="minuteInput" placeholder="분" style="width:60px">
-	<input type="number" id="secondInput" placeholder="초" style="width:60px"><br><br>
+	<input type="number" id="hourInput" placeholder="시간" style="width:60px" value="0">시간&ensp;
+	<input type="number" id="minuteInput" placeholder="분" style="width:60px" value="0">분&ensp;
+	<input type="number" id="secondInput" placeholder="초" style="width:60px" value="0">초<br><br>
 	<button id="start">시작</button>
 	<button id="pause">일시정지</button>
 	<button id="stop">정지</button>
