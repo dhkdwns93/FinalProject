@@ -25,7 +25,7 @@
                             <li class="topMenuLi">
                                 <a href="#fridger" class="btn btn-default btn-lg"><span class="network-name">Fridger</span></a>
                             	<ul class="submenu">
-						    		<li><a href="${initParam.rootPath}/common/member/fridger/register_form2.do" id="submenuLink">냉장고 만들기</a></li>
+						    		<li><a href="${initParam.rootPath}/common/member/fridger/main.do" id="submenuLink">내 냉장고</a></li>
 						    		<li><a href="${initParam.rootPath}/common/member/fridger/my_list.do" id="submenuLink">냉장고 관리</a></li>
 						    		<li><a href="${initParam.rootPath}/common/member/fridger/list.do" id="submenuLink">냉장고 조회</a></li>
 									<li><a href="${initParam.rootPath}/common/member/fridger/joinProcess/list.do" id="submenuLink">공유 관리</a></li>

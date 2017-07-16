@@ -126,5 +126,5 @@ public interface MyIrdntDao {
 	 * @param freshLevel
 	 * @return
 	 */
-	int selectMyIrdntByFreshLevel(String freshLevel,int fridgerId);
+	int selectCountMyIrdntByFreshLevel(String freshLevel,int fridgerId);
 }

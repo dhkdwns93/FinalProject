@@ -200,8 +200,8 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 	}
 
 	@Override
-	public int findMyIrdntByFreshLevel(int fridgerId, String freshLevel) {
-		return dao.selectMyIrdntByFreshLevel(freshLevel, fridgerId);
+	public int CountMyIrdntByFreshLevel(int fridgerId, String freshLevel) {
+		return dao.selectCountMyIrdntByFreshLevel(freshLevel, fridgerId);
 	}
 
 	
