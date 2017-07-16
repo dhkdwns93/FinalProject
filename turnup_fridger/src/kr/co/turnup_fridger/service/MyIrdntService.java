@@ -55,7 +55,7 @@ public interface MyIrdntService {
 	/**
 	 * 나의 식재료key로 식재료를 찾기.
 	 * @param IrdntId
-	 * @return
+	 * @returnz
 	 */
 	MyIrdnt fingMyIrdntBymyIrdntKey(int myIrdntKey);
 	
@@ -133,7 +133,7 @@ public interface MyIrdntService {
 	 * @param freshLevel
 	 * @return
 	 */
-	int findMyIrdntByFreshLevel(int fridgerId, String freshLevel);
+	int CountMyIrdntByFreshLevel(int fridgerId, String freshLevel);
 }
 
 

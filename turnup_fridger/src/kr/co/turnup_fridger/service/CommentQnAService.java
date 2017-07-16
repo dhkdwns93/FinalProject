@@ -20,12 +20,20 @@ public interface CommentQnAService {
 	 */
 	void updateCommentQnA(CommentQnA commentQnA);
 	
+	
+	//댓글수 증가
+	void commentCount(int boardQnAId);
+	
 	/**
 	 * 댓글 정보를 삭제 하는 메소드
 	 * 작성자 - 김장규
 	 * @param id
 	 */
 	void removeCommentQnA(int id);
+	
+	//댓글수 감소
+	void commentDeleteCount(int boardQnAId);
+	
 	
 	/**
 	 * 댓글 리스트를 조회 하는 메소드
@@ -42,4 +50,5 @@ public interface CommentQnAService {
 	 */
 	CommentQnA selectCommentQnAById(int commentQnAId);
 	
+	List<CommentQnA> selectCommentQnAByboardQnAId(int boardQnAId);
 }

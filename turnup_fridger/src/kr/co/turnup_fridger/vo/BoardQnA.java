@@ -9,49 +9,22 @@ public class BoardQnA
 	private String boardQnATitle;
 	private String boardQnATxt;
 	private Date boardQnAdate;
-	
+	private int commentCount;
 	private String memberId;
 	private Member member;
 	private List<CommentQnA> commentQnAList;
 	
 	public BoardQnA(){}
-	
-	public BoardQnA(int boardQnAId, String boardQnATitle, String boardQnATxt, Date boardQnAdate) {
 
+	public BoardQnA(int boardQnAId, String boardQnATitle, String boardQnATxt, Date boardQnAdate, int commentCount,
+			String memberId) {
+		super();
 		this.boardQnAId = boardQnAId;
 		this.boardQnATitle = boardQnATitle;
 		this.boardQnATxt = boardQnATxt;
 		this.boardQnAdate = boardQnAdate;
-	}
-
-	public BoardQnA(int boardQnAId, String boardQnATitle, String boardQnATxt, Date boardQnAdate, String memberId) {
-		this.boardQnAId = boardQnAId;
-		this.boardQnATitle = boardQnATitle;
-		this.boardQnATxt = boardQnATxt;
-		this.boardQnAdate = boardQnAdate;
+		this.commentCount = commentCount;
 		this.memberId = memberId;
-	}
-
-	public BoardQnA(int boardQnAId, String boardQnATitle, String boardQnATxt, Date boardQnAdate, String memberId,
-			Member member) {
-		this.boardQnAId = boardQnAId;
-		this.boardQnATitle = boardQnATitle;
-		this.boardQnATxt = boardQnATxt;
-		this.boardQnAdate = boardQnAdate;
-		this.memberId = memberId;
-		this.member = member;
-	}
-	
-
-	public BoardQnA(int boardQnAId, String boardQnATitle, String boardQnATxt, Date boardQnAdate, String memberId,
-			Member member, List<CommentQnA> commentQnAList) {
-		this.boardQnAId = boardQnAId;
-		this.boardQnATitle = boardQnATitle;
-		this.boardQnATxt = boardQnATxt;
-		this.boardQnAdate = boardQnAdate;
-		this.memberId = memberId;
-		this.member = member;
-		this.commentQnAList = commentQnAList;
 	}
 
 	public int getBoardQnAId() {
@@ -86,6 +59,14 @@ public class BoardQnA
 		this.boardQnAdate = boardQnAdate;
 	}
 
+	public int getCommentCount() {
+		return commentCount;
+	}
+
+	public void setCommentCount(int commentCount) {
+		this.commentCount = commentCount;
+	}
+
 	public String getMemberId() {
 		return memberId;
 	}
@@ -109,12 +90,14 @@ public class BoardQnA
 	public void setCommentQnAList(List<CommentQnA> commentQnAList) {
 		this.commentQnAList = commentQnAList;
 	}
-
+	
+	
+	
 	@Override
 	public String toString() {
 		return "BoardQnA [boardQnAId=" + boardQnAId + ", boardQnATitle=" + boardQnATitle + ", boardQnATxt="
-				+ boardQnATxt + ", boardQnAdate=" + boardQnAdate + ", memberId=" + memberId + ", member=" + member
-				+ ", commentQnAList=" + commentQnAList + "]";
+				+ boardQnATxt + ", boardQnAdate=" + boardQnAdate + ", commentCount=" + commentCount + ", memberId="
+				+ memberId + ", member=" + member + ", commentQnAList=" + commentQnAList + "]";
 	}
 
 	@Override
@@ -125,6 +108,7 @@ public class BoardQnA
 		result = prime * result + ((boardQnATitle == null) ? 0 : boardQnATitle.hashCode());
 		result = prime * result + ((boardQnATxt == null) ? 0 : boardQnATxt.hashCode());
 		result = prime * result + ((boardQnAdate == null) ? 0 : boardQnAdate.hashCode());
+		result = prime * result + commentCount;
 		result = prime * result + ((commentQnAList == null) ? 0 : commentQnAList.hashCode());
 		result = prime * result + ((member == null) ? 0 : member.hashCode());
 		result = prime * result + ((memberId == null) ? 0 : memberId.hashCode());
@@ -157,6 +141,8 @@ public class BoardQnA
 				return false;
 		} else if (!boardQnAdate.equals(other.boardQnAdate))
 			return false;
+		if (commentCount != other.commentCount)
+			return false;
 		if (commentQnAList == null) {
 			if (other.commentQnAList != null)
 				return false;
@@ -174,6 +160,7 @@ public class BoardQnA
 			return false;
 		return true;
 	}
-
+	
+	
 	
 }

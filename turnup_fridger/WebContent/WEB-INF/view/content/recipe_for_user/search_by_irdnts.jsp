@@ -9,7 +9,7 @@
 <script type="text/javascript">
 function getList(keyword,page){
 	$("#apiThead").show();
-	$("#userThead").show();
+	$("#userResult").show();
 	$("#apiPageBean").show();
 	$("#userPageBean").show();
 	$("#sortKeyword").show();
@@ -119,7 +119,7 @@ $(document).ready(function(){
 	$("#dislikeResult").hide();
 	$("#likeResult").hide();
 	$("#apiThead").hide();	
-	$("#userThead").hide();	
+	$("#userResult").hide();	
 	$("#apiPageBean").hide();
 	$("#userPageBean").hide();
 	$("#myFridersThead").hide();
@@ -264,13 +264,21 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<h2>재료로 레시피 찾기</h2>
 
-<!--나의식재료 / 재료관리  ->  나의 기피재료/나의 선택재료 -> 검색버튼 -> 레시피info들(페이징) and 레시피공유게시판목록들(페이징)-->
+<div style="text-align:center;"><h2>재료로 레시피 찾기</h2><br><hr></div>
+
+	<div id="irdntManage" style="width:23%; border:5; float:left; border:5; overflow-x:hidden; overflow-y:scroll; height:600px;width:400px; margin:20px;">
+	기타 재료 :   
+		<table  class="table table-hover table-condensed" style="padding: 10px";>
+			<thead id="irdntManageThead"></thead>
+			<tbody id="irdntManageTbody"></tbody>
+		</table>
+	</div>
 	
-	나의 냉장고 : 
-	<div id="myFridgers">
-		<table>
+	<div id="myIrdntSection" style="width:23%; float: left; padding:10px;" >
+	<div id="myFridgers" style="border:5; overflow-x:hidden; overflow-y:scroll; height:300px;width:350px;margin:20px;">
+	나의 냉장고 목록  
+		<table class="table table-hover table-condensed" style=" border:5;">
 			<thead id="myFridersThead">
 				<tr>
 				<th>냉장고id</th>
@@ -282,26 +290,20 @@ $(document).ready(function(){
 			</tbody>
 		</table>
 	</div><hr>
-	
-	
-	<div id="myIrdnt">
-	나의 식재료 : 
-		<table style="overflow-x:hidden; overflow-y:scroll; height:200px;width:300px;">
+	<div id="myIrdnt" style="border:5; overflow-x:hidden; overflow-y:scroll; height:300px;width:350px;margin:20px;">
+	냉장고 속 식재료 
+		<table class="table table-hover table-condensed">
 			<thead id="myIrdntThead"></thead>
 			<tbody id="myIrdntTbody"></tbody>
 		</table>
-	</div><hr>
-	기타 재료 : 
-	<div id="irdntManage" style="overflow-x:hidden; overflow-y:scroll; height:300px;width:300px;">
-		<table>
-			<thead id="irdntManageThead"></thead>
-			<tbody id="irdntManageTbody"></tbody>
-		</table>
-	</div><hr>
+	</div>
+	</div>
 
+	
 	<!--컬럼누르면 테이블에서 삭제  -->
+	<div id="dislikeSection" style="width:23%; border:5;float: left;border:5; overflow-x:hidden; overflow-y:scroll; height:350px; margin:20px;">
 	기피재료 : 
-	<table id="dislikeResult">
+	<table id="dislikeResult" class="table table-hover table-condensed" >
 		<thead id="dislikeThead">
 			<tr>
 				<th>재료id</th>
@@ -309,10 +311,12 @@ $(document).ready(function(){
 			</tr>
 		</thead>
 		<tbody id="dislikeTbody"></tbody>
-	</table><hr>
+	</table>
+	</div>
+	
+	<div id="likeSeciton" style="width:23%; border:5;float: left;border:5; overflow-x:hidden; overflow-y:scroll; height:350px; margin:20px;">
 	선택재료 : 
-
-	<table id="likeResult">
+	<table id="likeResult" class="table table-hover table-condensed">
 		<thead id="likeThead">
 			<tr>
 				<th>재료id</th>
@@ -320,13 +324,18 @@ $(document).ready(function(){
 			</tr>
 		</thead>
 		<tbody id="likeTbody"></tbody>
-	</table><hr>
-	
+	</table>
+	</div><br>
+	<br>
 	
 	<!--위의 재료들을 리스트에 담아서 재료로 검색하는 핸들러로 보낸다. -->
-	<button type="button" id="searchBtn">레시피검색</button><br><hr>
+	<div style="width:50%; border:5;float: right;">
+	<button type="button" id="searchBtn" style="float:right; margin-top:100px;margin-right:480px;width:200px;height:100px;">레시피검색</button><br>
+	</div>
 
+	<div id="recipeSection" style="width:100%; border:5;float: left;">
 	<div id="sortKeyword">
+	<div style="text-align:center;"><hr><h3>기본 레시피 검색결과</h3><hr></div>
 	<button type="button" id="hitsDesc">최다조회순</button>
 	<button type="button" id="hitsAsc">최저조회순</button>
 	<button type="button" id="calrorieDesc">고칼로리순</button>
@@ -339,7 +348,7 @@ $(document).ready(function(){
 	</select>
 	</div>
 	<div id="apiResult">
-		<table>
+		<table class="table table-hover table-condensed" style="border:5;">
 			<thead id="apiThead">
 				<tr>
 					<th>만족하는 재료수</th>
@@ -359,10 +368,12 @@ $(document).ready(function(){
 		</table>
 	</div>
 	<br>
-	<div id="apiPageBean"></div>
+	<div id="apiPageBean" style="text-align:center;"></div>
 	<br>
+	
 	<div id="userResult" >
-		<table>
+	<div style="text-align:center;"><hr><h3>사용자레시피 검색결과</h3><hr></div>
+		<table class="table table-hover table-condensed" style="border:5;">
 			<thead id="userThead">
 				<tr>
 					<th>만족하는 재료수</th>
@@ -377,6 +388,7 @@ $(document).ready(function(){
 			<tbody id="userTbody"></tbody>
 		</table>
 	</div>
-	<div id="userPageBean"></div>
+	<div id="userPageBean" style="text-align:center;"></div>
+	</div>
 </body>
 </html>

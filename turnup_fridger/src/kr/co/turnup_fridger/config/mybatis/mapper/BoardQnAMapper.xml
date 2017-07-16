@@ -11,12 +11,12 @@
 			+ BoardQnA 조회
 	 -->
 	 <sql id="all-column">
-		BOARD_QNA_ID, BOARD_QNA_TITLE, BOARD_QNA_TXT, BOARD_QNA_DATE, MEMBER_ID
+		BOARD_QNA_ID, BOARD_QNA_TITLE, BOARD_QNA_TXT, BOARD_QNA_DATE, COMMENT_COUNT, MEMBER_ID
 	</sql> 
 	 
 	 <!-- BoardQnA 기본 조회 sql -->
 	 <sql id="boardQnA-select-sql">
-	 	SELECT BOARD_QNA_ID, BOARD_QNA_TITLE, BOARD_QNA_TXT, BOARD_QNA_DATE, MEMBER_ID
+	 	SELECT BOARD_QNA_ID, BOARD_QNA_TITLE, BOARD_QNA_TXT, BOARD_QNA_DATE, COMMENT_COUNT, MEMBER_ID
 	 	FROM BOARD_QNA
 	 </sql>
 	
@@ -26,6 +26,7 @@
 		<result column="BOARD_QNA_TITLE" property="boardQnATitle"/>
 		<result column="BOARD_QNA_TXT" property="boardQnATxt"/>
 		<result column="BOARD_QNA_DATE" property="boardQnAdate"/>
+		<result column="COMMENT_COUNT" property="commentCount"/>
 		<result column="MEMBER_ID" property="memberId"/>	
 	</resultMap>
 	
@@ -46,6 +47,7 @@
 				#{boardQnATitle},
 				#{boardQnATxt},
 				sysdate,
+				#{commentCount},
 				#{memberId}
 		  	  )
 	</insert>
@@ -57,6 +59,7 @@
 		SET		BOARD_QNA_TITLE = #{boardQnATitle},
 				BOARD_QNA_TXT = #{boardQnATxt},
 				BOARD_QNA_DATE = sysdate,
+				COMMENT_COUNT = #{commentCount},
 				MEMBER_ID = #{memberId}
 		WHERE	BOARD_QNA_ID = #{boardQnAId}
 	</update>
@@ -122,11 +125,7 @@
 	
 	<!-- LIST 중에서 ID로 조회하는 SQL-->
 	<select id="selectBoardQnAById" parameterType="_int" resultMap="boardQnA-commentQnA-resultmap">
-		 SELECT b.BOARD_QNA_ID, b.BOARD_QNA_TITLE, b.BOARD_QNA_TXT, b.BOARD_QNA_DATE, b.MEMBER_ID,
-		 		c.COMMENT_QNA_ID, c.COMMENT_QNA_TXT, c.COMMENT_QNA_DATE, c.ADMIN_ID
-		 FROM BOARD_QNA b, COMMENT_QNA c
-		 WHERE b.BOARD_QNA_ID =c.BOARD_QNA_ID(+)
-		 AND b.BOARD_QNA_ID = #{value}
-		 ORDER BY c.COMMENT_QNA_DATE DESC
+		<include refid="boardQnA-select-sql"/>
+		 WHERE BOARD_QNA_ID = #{value}
 	</select>
 </mapper>

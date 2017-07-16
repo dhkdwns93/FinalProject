@@ -1,5 +1,6 @@
 package kr.co.turnup_fridger.controller.common;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServlet;
@@ -52,8 +53,8 @@ public class CommentQnAController extends HttpServlet {
 				return mav; 
 			}
 				
-			
 			service.addCommentQnA(commentQnA);
+			service.commentCount(boardQnAId);
 			BoardQnA boardQnA = service2.findBoardQnAById(boardQnAId);
 			
 			map.addAttribute("commentQnA", commentQnA);
@@ -71,6 +72,8 @@ public class CommentQnAController extends HttpServlet {
 			ModelAndView mav = new ModelAndView();
 			
 			BoardQnA boardQnA = service2.findBoardQnAById(boardQnAId);
+			List<CommentQnA> list = service.selectCommentQnAByboardQnAId(boardQnA.getBoardQnAId());
+			mav.addObject("list", list);
 			mav.addObject("boardQnA", boardQnA);
 			mav.setViewName("common/boardqna/boardqna_view.tiles");
 	        return mav; 
@@ -84,9 +87,12 @@ public class CommentQnAController extends HttpServlet {
 		{
 			service.removeCommentQnA(commentQnAId);
 			
+			service.commentDeleteCount(boardQnAId);
 			ModelAndView mav = new ModelAndView();
 			
 			BoardQnA boardQnA = service2.findBoardQnAById(boardQnAId);
+			List<CommentQnA> list = service.selectCommentQnAByboardQnAId(boardQnAId);
+			mav.addObject("list", list);
 			mav.addObject("boardQnA", boardQnA);
 			mav.setViewName("common/boardqna/boardqna_view.tiles");
 	        return mav; 
@@ -128,6 +134,8 @@ public class CommentQnAController extends HttpServlet {
 				service.updateCommentQnA(commentQnA);
 				
 				mav.addObject("commentQnA",commentQnA);
+				List<CommentQnA> list = service.selectCommentQnAByboardQnAId(boardQnAId);
+				mav.addObject("list", list);
 				mav.addObject("boardQnA", service2.findBoardQnAById(boardQnAId));
 				mav.setViewName("common/boardqna/boardqna_view.tiles");
 		    

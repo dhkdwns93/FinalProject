@@ -12,12 +12,12 @@
 	 	-->
 	 	
 	<sql id="all-column">
-		BOARD_FREE_ID, BOARD_FREE_TITLE, BOARD_FREE_TXT, BOARD_FREE_DATE, BOARD_FREE_HITS, MEMBER_ID
+		BOARD_FREE_ID, BOARD_FREE_TITLE, BOARD_FREE_TXT, BOARD_FREE_DATE, BOARD_FREE_HITS,COMMENT_COUNT, MEMBER_ID
 	</sql> 	 	
 	 		
 	<!-- BoardFree 기본 조회 sql -->
 	 <sql id="boardFree-select-sql"> 
-	 	SELECT BOARD_FREE_ID, BOARD_FREE_TITLE, BOARD_FREE_TXT, BOARD_FREE_DATE, BOARD_FREE_HITS, MEMBER_ID
+	 	SELECT BOARD_FREE_ID, BOARD_FREE_TITLE, BOARD_FREE_TXT, BOARD_FREE_DATE, BOARD_FREE_HITS,COMMENT_COUNT, MEMBER_ID
 	 	FROM BOARD_FREE
 	 </sql>
 	
@@ -28,6 +28,7 @@
 		<result column="BOARD_FREE_TXT" property="boardFreeTxt"/>
 		<result column="BOARD_FREE_DATE" property="date"/>
 		<result column="BOARD_FREE_HITS" property="boardFreeHits"/>
+		<result column="COMMENT_COUNT" property="commentCount"/>
 		<result column="MEMBER_ID" property="memberId"/>
 
 	</resultMap>
@@ -44,6 +45,7 @@
 				#{boardFreeTxt},
 				SYSDATE,
 				#{boardFreeHits},
+				#{commentCount},
 				#{memberId}
 
 		  	  )
@@ -56,6 +58,7 @@
         WHERE BOARD_FREE_ID = #{boardFreeId}
     </update>
 	
+	
 	<!-- 업데이트 SQL -->
 	<update id="updateBoardFree" parameterType="boardFree">
 		UPDATE 	BOARD_FREE 
@@ -63,6 +66,7 @@
 				BOARD_FREE_TXT = #{boardFreeTxt},
 				BOARD_FREE_DATE = SYSDATE,
 				BOARD_FREE_HITS = #{boardFreeHits},
+				COMMENT_COUNT = #{commentCount},
 				MEMBER_ID = #{memberId}
 		WHERE	BOARD_FREE_ID = #{boardFreeId}
 	</update>

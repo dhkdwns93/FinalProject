@@ -138,9 +138,9 @@ td {
 	<button type="button" id="searchBtn">검색</button><br><br>
 
 
-<div id ="result">
+<div id ="result" style="width:800px;">
 실온보관재료 : 
-<table id = "room">
+<table id = "room" class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
 	<thead>
 		<tr>
 			<th>재료key</th>

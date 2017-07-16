@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,12 +25,10 @@ input {
 </style>
 </head>
 <body>
-
 <div id="table" style="width:800px; margin-left: auto; margin-right: auto;">
 <h1>공지사항</h1><br>
 <table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
 	<a href="${initParam.rootPath}/index.do"><button style="text-align:right">홈으로</button></a>
-	
 	<!-- 검색 버튼 -->
 	<div style="float:right">
 	<form action="${initParam.rootPath}/boardnotice/boardNoticeByItems.do" method="post">
@@ -43,7 +42,7 @@ input {
 	</form>
 	</div>
 <thead>
-    <tr style="text-align:center;">
+    <tr>
         <th>번호</th>
         <th>말머리</th>
         <th>제목</th>
@@ -52,9 +51,13 @@ input {
     </tr>
  </thead>
 <tbody>
-<c:forEach var="row" items="${list}">
+<c:forEach var="row" items="${list}" varStatus="status">
     <tr>
-        <td>${row.id}</td>
+        <td>
+        	${requestScope.totalCount-((requestScope.pageBean.page -1 ) * 10 + status.index)}
+        	<!-- 전체 데이터 수 - ( (현재 페이지 번호 - 1) * 한 페이지당 보여지는 데이터 수 + 현재 게시물 출력 순서 )  ////
+        	 count라던지, index 또는 last first등의 접근을 통해 조금더 세밀한 제어를 가능   /// status.index : 0부터의 순서-->
+        </td>
         <td>${row.items}</td>
         
         <td>
@@ -113,10 +116,6 @@ input {
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
-	
-
-	
-	
 	<!-- 
 		다음페이지 그룹으로 이동
 		만약에 다음페이지 그룹이 있으면 링크 처리 없으면 화살표만 나오도록 처리
@@ -130,18 +129,8 @@ input {
 				☞		
 		</c:otherwise>
 	</c:choose>			
-	
-	
-	
-	
-	
-	
-	
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/boardnotice/boardNoticeList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
-
-
-
 </p>
 </body>
 </html>
