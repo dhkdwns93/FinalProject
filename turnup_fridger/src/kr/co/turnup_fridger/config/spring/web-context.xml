@@ -231,6 +231,9 @@
 	<mvc:view-controller path="/recipe_for_user/search_by_recipeName.do" view-name="recipe_for_user/search_by_recipeName.tiles"/>
 	<!--레시피 카테고리로 검색하는 페이지  -->
 	<mvc:view-controller path="/recipe_for_user/search_by_category.do" view-name="recipe_for_user/search_by_category.tiles"/>
+	<!-- 타이머 팝업페이지 --> 
+	<mvc:view-controller path="/recipe_for_user/timer.do" view-name="recipe_for_user/timer"/>
+	
 
 	<!-- 메모등록 (no-tiles/popup) -->
 	<mvc:view-controller path="/common/member/memo/memo_register_form.do" view-name="common/member/memo/memo_register_form.jsp"/>
