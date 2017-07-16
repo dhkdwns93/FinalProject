@@ -30,7 +30,7 @@
 
 
 <jsp:include page="/WEB-INF/view/layout/side_menu/nonMemberSideMenu.jsp"/>
-<div class='right-box'>
+<div class='right-box-sidemenu'>
 
 <h2>Login</h2>
 <c:if test="${not empty param.errorMessage }">

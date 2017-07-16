@@ -63,6 +63,7 @@ $(document).ready(function(){
 </head>
 <body>
 
+<div class='wrapperDiv'>
 <jsp:include page="/WEB-INF/view/layout/side_menu/nonMemberSideMenu.jsp"/>
 <div class='right-box'>
 
@@ -132,5 +133,6 @@ $(document).ready(function(){
 </form>
 </div>
 
+</div><!-- wrapperDiv -->
 </body>
 </html>

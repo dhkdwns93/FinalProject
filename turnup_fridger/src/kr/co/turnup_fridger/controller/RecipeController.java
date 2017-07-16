@@ -36,7 +36,7 @@ import kr.co.turnup_fridger.service.FridgerService;
 import kr.co.turnup_fridger.service.IrdntManageService;
 import kr.co.turnup_fridger.service.MyDislikeIrdntService;
 import kr.co.turnup_fridger.service.MyIrdntService;
-import kr.co.turnup_fridger.service.RecipeService;
+import kr.co.turnup_fridger.service.impl.RecipeServiceImpl;
 import kr.co.turnup_fridger.validation.form.RecipeCrseForm;
 import kr.co.turnup_fridger.validation.form.RecipeInfoForm;
 import kr.co.turnup_fridger.validation.form.RecipeIrdntForm;
@@ -59,7 +59,7 @@ import kr.co.turnup_fridger.vo.RecipeIrdntUpdate;
 public class RecipeController {
 	
 	@Autowired
-	private RecipeService recipeService;
+	private RecipeServiceImpl recipeService;
 	@Autowired
 	private BoardShareRecipeService shareService;
 	@Autowired
@@ -512,6 +512,15 @@ public class RecipeController {
 	@RequestMapping("recipe/show/detail")
 	public ModelAndView showDetailOfRecipe(@RequestParam int recipeId){
 		RecipeInfo recipe = recipeService.showDetailOfRecipe(recipeId);
+		//레시피 재료 중량변환
+		for(RecipeIrdnt ri : recipe.getRecipeIrdntList()){
+			ri.setIrdntName(recipeService.amountChange(ri.getirdntAmount()));
+		}
+		//레시피 과정 중량변환
+		for(RecipeCrse rc : recipe.getRecipeCrseList()){
+			rc.setCookingDc(recipeService.amountChange(rc.getCookingDc()));
+			rc.setStepTip(recipeService.amountChange(rc.getStepTip()));
+		}
 		return new ModelAndView("recipe_for_user/recipe_detail.tiles","recipe",recipe);
 	}
 	
@@ -607,18 +616,11 @@ public class RecipeController {
 		return fridgerList;
 	}
 	
-	
 	@RequestMapping("getMyIrdntList")
 	@ResponseBody
-	public List allMyIrdntList(@RequestParam int fridgerId){
+	public List<MyIrdnt> allMyIrdntList(@RequestParam int fridgerId){
 		return myService.findAllMyIrdntByFridgerId(fridgerId);
 	}
-		
-		
-		
-		
-		
-		
 		/*
 		List<FridgerGroup> groupList = fgService.selectFridgerGroupByGroupMemberId(member.getMemberId());
 		List<Fridger> fridgerList = new ArrayList<>();
@@ -662,6 +664,7 @@ public class RecipeController {
 		return map;
 	}
 	
+
 	@RequestMapping(value="removeMyIrdnt", produces="html/text;charset=UTF-8;")
 	@ResponseBody
 	public String removeMyIrdnt(@RequestParam int myIrdntKey){
@@ -732,4 +735,14 @@ public class RecipeController {
 		}
 		return 1;
 	}
+
+	@RequestMapping("findMatchIrdnt")
+	@ResponseBody
+	public List<MyIrdnt> findMatchIrdnt(@RequestParam int recipeId){
+		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<MyIrdnt> list = myService.findMatchIrdnt(recipeId, member.getMemberId());
+		System.out.println("일치재료"+list);
+		return list;
+	}
+
 }

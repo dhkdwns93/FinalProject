@@ -6,7 +6,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		//기본적으로 가져오는 모든 재료 목록들. 
-		alert('${param.fridgerId}');
+		//alert('${param.fridgerId}');
 		$.ajax({
 			"url":"/turnup_fridger/common/member/myIrdnt/allMyIrdntList.do",
 			"data":{'fridgerId': '${param.fridgerId}'},
