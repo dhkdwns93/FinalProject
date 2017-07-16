@@ -477,7 +477,6 @@ public class RecipeController {
 		HashMap map = new HashMap();
 		map.put("apiList", apiList); // 이안에 페이징빈이랑 리스트 두개 들어있다.
 		map.put("userList", userList); // 이거 안에도 페이징빈이랑 리스트 두개 
-		//System.out.println(map);
 		return map;
 	}
 	
@@ -494,14 +493,9 @@ public class RecipeController {
 	public Map<String,Object> findRecipeByIrdntId(@RequestParam List<Integer> irdntIds, @RequestParam List<Integer> hateIrdntIds, @RequestParam String keyword,
 			@RequestParam(defaultValue = "1") int page ){
 
-		//System.out.println(irdntIds);
-		//System.out.println(hateIrdntIds);
-		//System.out.println(keyword + page);
 		Map apiMap = recipeService.findRecipeByIrdntId(irdntIds, hateIrdntIds, keyword,page);
 		Map userMap = shareService.findUserRecipeByIds(irdntIds, hateIrdntIds,page);
 	
-		//System.out.println("컨트롤러 apiMap: "+ apiMap);
-		//System.out.println("컨트롤러 userMap: "+userMap);
 		HashMap map = new HashMap();
 		map.put("apiMap", apiMap);//여기안에 count랑 리스트, 페이징빈 들어있다. 
 		map.put("userMap", userMap);//여기에 리스트랑 페이징빈 들어있다. 
@@ -523,16 +517,6 @@ public class RecipeController {
 		}
 		return new ModelAndView("recipe_for_user/recipe_detail.tiles","recipe",recipe);
 	}
-	
-/*	//상세화면 handler
-	@RequestMapping("recipe/show/detail/review")
-	public ModelAndView showDetailOfRecipeReview(@RequestParam int recipeId,@RequestParam(defaultValue="1") int page ){
-		System.out.println("컨트롤러 : " +recipeId+","+page);
-		HashMap<String,Object> map = new HashMap<>();
-		map = (HashMap) rvService.findBoardReviewByRecipeId(recipeId, page);
-		System.out.println(map);
-		return new ModelAndView("recipe_for_user/recipe_detail.tiles","reviewMap",map);
-	}*/
 	
 	@RequestMapping("recipe/show/detail/review")
 	@ResponseBody
@@ -600,19 +584,6 @@ public class RecipeController {
 			fridgerList.add(fService.findFridgerAndFridgerGroupByFridgerId(groupList.get(i).getFridgerId()));
 		}
 		
-		/*List<Integer> idList = new ArrayList<>();
-		List<String> nameList = new ArrayList<>();
-		
-		for(int i=0; i<groupList.size(); i++){
-			idList.add(groupList.get(i).getFridgerId());
-			nameList.add(groupList.get(i).getfridger().getFridgerName());
-		}
-		
-		HashMap map = new HashMap();
-		map.put("idList", idList);
-		map.put("nameList", nameList);
-		
-		return map;*/
 		return fridgerList;
 	}
 	
@@ -621,22 +592,6 @@ public class RecipeController {
 	public List<MyIrdnt> allMyIrdntList(@RequestParam int fridgerId){
 		return myService.findAllMyIrdntByFridgerId(fridgerId);
 	}
-		/*
-		List<FridgerGroup> groupList = fgService.selectFridgerGroupByGroupMemberId(member.getMemberId());
-		List<Fridger> fridgerList = new ArrayList<>();
-		
-		//System.out.println("냉장고 그룹리스트 : "+groupList);
-		
-		for(int i=0; i<groupList.size(); i++){
-			//System.out.println(groupList.get(i).getFridgerId());
-			Fridger fridger = fService.findFridgerAndIrdntByFridgerId(groupList.get(i).getFridgerId());
-			fridgerList.add(fridger);
-			//System.out.println("냉장고들 : "+fridger);
-		}
-		//List<MyIrdnt> list = myService.findAllMyIrdntByFridgerId(fridgerId);
-		System.out.println(fridgerList);
-		return fridgerList;*/
-	
 
 	@RequestMapping("getMyDislikeIrdnt")
 	@ResponseBody
@@ -680,31 +635,14 @@ public class RecipeController {
 		return "삭제완료!";
 	}
 	
-	/*@RequestMapping("addFavoriteRecipe")
-	@ResponseBody
-	public String addFavoriteRecipe(@RequestParam int recipeId){
-		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		
-		try {
-			System.out.println("레시피id받아온거 : "+recipeId);
-			frService.createFavoriteRecipe(new FavoriteRecipe(0,member.getMemberId(),recipeId));
-		} catch (DuplicateFavoriteException e) {
-			System.out.println("입셉션");
-			return e.getMessage();
-		}
-		return "추가완료!";
-	}*/
-	
 	@RequestMapping("addFavoriteRecipe")
 	//@ResponseBody
 	public ModelAndView addFavoriteRecipe(@RequestParam int recipeId){
 		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 		try {
-			System.out.println("레시피id받아온거 : "+recipeId);
 			frService.createFavoriteRecipe(new FavoriteRecipe(0,member.getMemberId(),recipeId));
 		} catch (DuplicateFavoriteException e) {
-			System.out.println("입셉션");
 			return new ModelAndView("recipe_for_user/recipe_detail.tiles","error_msg",e.getMessage());
 		}
 		
@@ -741,7 +679,6 @@ public class RecipeController {
 	public List<MyIrdnt> findMatchIrdnt(@RequestParam int recipeId){
 		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<MyIrdnt> list = myService.findMatchIrdnt(recipeId, member.getMemberId());
-		System.out.println("일치재료"+list);
 		return list;
 	}
 	
