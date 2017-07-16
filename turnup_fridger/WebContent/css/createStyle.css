@@ -2,7 +2,7 @@
 /* font-Viner_Hand_ITC_가입성공페이지(welcome to~ */
 .font-Viner_Hand_ITC {
 	font-family: "Viner Hand ITC";
-	src: url("http://images.hollywood.com/images/site/vineritc.ttf");
+	src: url("/font/VINERITC.TTF");
 }
 
 /* 회원가입성공 페이지 _ ID, Name 등 속성명  */
@@ -34,6 +34,8 @@
   width: 100%;
   padding-right: 0;
   padding-left: 0;
+  margin-top :5px;
+  margin-bottom : 5px;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
@@ -65,41 +67,56 @@ input[type="button"].btn-block {
   background-color: #d8d8d8 \9;
 }
 
+/* 경혜 form ex. 회원가입페이지 */
 
-
-/* 사이드메뉴 사용 단나누기  --사용할 jsp style태그에 복사해서 사용*/
-
-
-.left-box-sidemenu {
-	background: #ffcc99;
-	float: left;
-	margin-left: 50px;
-	width: 230px;
-	height: 100%;
-	border-radius: 10%;
-	padding: 1%;
-	font-size: 100%;
+.ccfield-prepend{
+	margin-bottom:10px;
+	width:100%;
 }
 
-.right-box-sidemenu {
-	background: white;
-	margin-left: 320px;
-	margin-right: 35%;
-	width: 65%;
-	height: 100%;
+.ccform-addon{
+	color:#f8ae45; 
+	float:left;
+	padding:8px;
+	width:8%;
+	height:34px;
+	background:#FFFFFF;
+	border: 1px solid #f1f1f1;
+	text-align:center;
+	
 }
 
-.list-group-item {
-	border: none;
-	color: #555;
-	text-decoration: none;
-	background-color: #ffcc99;
+.ccformfield {
+	color:#000000; 
+	background:#FFFFFF;
+	border: 1px solid #f1f1f1;
+	padding:15.5px;
+	width:50%;
+	height:34px;
+	font-family: 'Lato',Arial,sans-serif;
+	font-size:14px;
+	margin:0;
 }
 
-.list-group-item:hover, .list-group-item:focus {
-	color: #555;
-	text-decoration: none;
-	background-color: #fff2e6 !important;
+.ccformfield {
+	font-family: 'Lato',Arial,sans-serif;
+}
+.ccbtn{
+	font-size:13px;
+	border:none;
+	background:#f8ae45;
+	height:28px;
+	color:#FFFFFF;
+	cursor:pointer;
+	text-decoration:none;
+	font-weight:bold;
+}
+.ccbtn:hover{
+	background:#d8850e;
+}
+
+.ccfield-submit-part{
+	text-align:center;
 }
 
 /* 프로필 보이는 부분 ex. 회원가입성공페이지*/
@@ -118,7 +135,7 @@ input[type="button"].btn-block {
 
 .card.hovercard img {
 	width: 430px;
-	height: 200px;
+	height: 230px;
 }
 
 .card.hovercard .avatar {
@@ -128,10 +145,10 @@ input[type="button"].btn-block {
 }
 
 .card.hovercard .avatar img {
-	width: 180px;
-	height: 180px;
-	max-width: 180px;
-	max-height: 180px;
+	width: 150px;
+	height: 150px;
+	max-width: 150px;
+	max-height: 150px;
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
@@ -166,4 +183,33 @@ input[type="button"].btn-block {
 	top: -25px;
 	padding: 0 20px;
 	margin-bottom: 17px;
+}
+
+/* ****** */
+.card.hovercard .bottom-mypage {
+	padding: 0 20px;
+	margin-top:30px;
+	margin-bottom: -10px;
+}
+/* ****** */
+
+.member-join-success-table {
+	margin-left: auto;
+	margin-right: auto;
+	width : 90%;
+	/* border:1px solid lightgrey; */
+}
+.table-attribute-name{
+	width:33%;
+    color: #444444;
+    font-weight:bold;
+    font-size:18px;
+    padding-top : 10px;
+    padding-bottom:10px;
+}
+.table-attribute-text{
+	font-size:15px;
+	text-align:left;
+	padding-top:3px;
+	padding-left:5px;
 }

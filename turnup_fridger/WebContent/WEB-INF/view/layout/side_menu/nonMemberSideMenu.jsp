@@ -6,33 +6,34 @@
 변경이력 
 -->
 <style>
+
 .wrapperDiv{
-	display:-wibkit-flex;
+	display:-webkit-flex;
 	display:flex;
 }
-
-.left-box-sidemenu {
-	background: #ffcc99;
-	float: left;
-	margin-left: 50px;
-	width: 230px;
-	/* height: 100%; */
-	border-radius: 10%;
-	padding: 1%;
-	font-size: 100%;
+.left-box-sidemenu{
+ 	background:#ffcc99;
+ 	float:left;
+ 	width:20%;
+	min-width:200px;
+	max-width:250px;
+ 	height:100%;
+	margin-left:5%;
+	margin-bottom:auto;
+ 	border-radius:10%;
+ 	padding : 2%;
+ 	font-size:100%;
 }
-.right-box-sidemenu {
-	background: white;
-
+.right-box-sidemenu{
+	-webkit-flex:none;
+	flex:none;
+	position:relative;
+	background:white;
+	float:right;
+	width:67%;
+	height:100%;
+	margin-right:5%;
 }
-/* .right-box-sidemenu {
-	background: white;
-	float:left;
-	margin-left: 320px;
-	margin-right: 35%;
-	width: 65%;
-	height: 100%;
-} */
 
 .list-group-item {
 	border: none;
@@ -46,11 +47,12 @@
 	text-decoration: none;
 	background-color: #fff2e6 !important;
 }
+
 </style>
 
 
 <div class='left-box-sidemenu'>
-		<div><h5>1233Welcome to Turnup-fridger</h5></div>
+		<div><h5>Welcome to Turnup-fridger</h5></div>
 		<hr>
 		<div class="list-group">
 			<a href="${initParam.rootPath}/login_form.do" class="list-group-item">Login</a>
