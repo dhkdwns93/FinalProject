@@ -16,7 +16,21 @@
 		FROM	join_process
 	</sql>
 	
-	<!-- reqult-mapping -->
+		<sql id="select-join-fridger-sql">
+		SELECT	p.process_no,
+				p.process_fridger_id,
+				p.process_state,
+				p.req_date,
+				p.resp_date,
+				p.req_member_id,
+				p.resp_member_id,
+				f.fridger_name,
+				f.member_id
+		FROM	join_process p, fridger f
+		WHERE	p.process_fridger_id = f.fridger_id(+)
+	</sql>
+	
+	<!-- result-mapping -->
 	<resultMap type="joinProcess" id="joinProcess-resultmap">
 		<id column="process_no" property="processNo"/>
 		<result column="process_fridger_id" property="processFridgerId"/>
@@ -28,6 +42,12 @@
 	</resultMap>
 	
 	
+	<resultMap type="joinProcess" id="joinProcess-fridger-resultmap" extends="joinProcess-resultmap">
+		<association property="fridger" javaType="kr.co.turnup_fridger.vo.Fridger">
+			<result column="fridger_name"  property="fridgerName"/>
+			<result column="member_id" property="memberId"/>
+		</association>
+	</resultMap>
 
 	<!-- insert : 가입신청/초대가 들어오면 삽입됨 -->
 	<insert id="insertJoinProcess" parameterType="joinProcess">
@@ -139,17 +159,17 @@
 	</select>
 	
 	<!-- 신청자로 목록 조회 -->
-	<select id="selectJoinProcessByRequestMemberId" parameterType="java.lang.String" resultMap="joinProcess-resultmap">
-		<include refid="select-sql"/>
-		WHERE		req_member_id = #{value}
-		ORDER BY	process_no
+	<select id="selectJoinProcessByRequestMemberId" parameterType="java.lang.String" resultMap="joinProcess-fridger-resultmap">
+		<include refid="select-join-fridger-sql"/>
+		AND		p.req_member_id = #{value}
+		ORDER BY	p.process_no
 	</select>
 	
 	<!-- 승인자로 목록 조회 -->
-	<select id="selectJoinProcessByResponseMemberId" parameterType="java.lang.String" resultMap="joinProcess-resultmap">
-		<include refid="select-sql"/>
-		WHERE		resp_member_id = #{value}
-		ORDER BY	process_no
+	<select id="selectJoinProcessByResponseMemberId" parameterType="java.lang.String" resultMap="joinProcess-fridger-resultmap">
+		<include refid="select-join-fridger-sql"/>
+		AND		p.resp_member_id = #{value}
+		ORDER BY	p.process_no
 	</select>
 	
 	<!-- 신청일로 조회 -->

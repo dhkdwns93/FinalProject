@@ -600,7 +600,24 @@ WHERE recipe_id NOT IN (
 			i.storge_place
 	FROM	fridger f, my_Irdnt i
 	WHERE	f.fridger_id = i.fridger_id(+)
-	AND		f.fridger_id = 2
+	AND		f.fridger_id = 1
 	ORDER BY	i.irdnt_name
 
+	
+	SELECT	f.fridger_id,
+			f.fridger_name,
+			f.member_id,
+			f.fridger_img,
+			g.group_key,
+			g.group_join_seq,
+			g.group_member_id,
+			g.fridger_id
+	FROM	fridger f, fridger_group g
+	WHERE	f.fridger_id = g.fridger_id(+)
+	AND		f.fridger_id = 1
+	ORDER BY	g.group_member_id
+	
+	UPDATE fridger
+	SET fridger_img = '/turnup_fridger/images/fridger/f1.png'
+	where fridger_id=1
 

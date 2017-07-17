@@ -37,12 +37,10 @@
 			f.fridger_img,
 			g.group_key,
 			g.group_join_seq,
-			g.group_member_id,
-			g.fridger_id
+			g.group_member_id
 	FROM	fridger f, fridger_group g
 	WHERE	f.fridger_id = g.fridger_id(+)
 </sql>
-
 
 <!-- result-mapping -->
 <resultMap type="fridger" id="fridger-resultmap">
