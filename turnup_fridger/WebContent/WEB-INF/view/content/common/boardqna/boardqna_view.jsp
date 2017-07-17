@@ -10,6 +10,12 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 <script type="text/javascript">
 
 //게시물 삭제
@@ -54,7 +60,12 @@ function popup(frm){
 } */
 
 </script>
+
+
+
 <style type="text/css">
+
+
  form{display:inline}
  
  span, td, th{
@@ -76,7 +87,10 @@ h2{display:inline}
 	background-color:#dcdcdc;
 	width: 100%;
 }
-
+/* input 정렬 */
+input {
+   vertical-align:middle;  
+}
 
 </style>
 </head>
@@ -85,21 +99,32 @@ h2{display:inline}
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
-<h1>QnA 게시판 ></h1> <h2>${requestScope.boardQnA.memberId}님의 질문</h2><br>
+<br><br>
+<h1>QnA 게시판 ></h1> <h2> ${requestScope.boardQnA.memberId}님의 질문</h2><br>
 <hr>
+<form action="${initParam.rootPath}/common/boardqna/boardQnAList.do" method="post">
+	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+		<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+	</button>
+	<sec:csrfInput/>
+</form>
 <div style="float:right"><!-- 오른쪽 정렬 -->
 	<form action="${initParam.rootPath}/common/boardqna/boardQnAUploadView.do" method="post">
 			<input type="hidden" name="boardQnAId" id="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
 			<!-- 회원만 수정 가능  -->
 			<sec:authorize access="hasRole('ROLE_MEMBER')">
-				<button>수정하기</button>
+				<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+				</button>
 			</sec:authorize>
 		<sec:csrfInput/>
 	</form>
 	
 	<form action="${initParam.rootPath}/common/boardqna/boardQnARemove.do" method="post">
 		<input type="hidden" name="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
-		<input type="submit" value="삭제하기" onclick="return delete_event();">
+		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return delete_event();">
+			<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+		</button>
 		<sec:csrfInput/>
 	</form>
 </div>
@@ -129,8 +154,9 @@ h2{display:inline}
 <!-- 댓글 없을 때   -->
 
 <c:if test="${empty list}">
-<h3>댓글 목록</h3><br>
-댓글이 없습니다.
+<h3>댓글 목록</h3>
+<hr>
+댓글이 없습니다.<br>
 </c:if>
 <!-- 댓글 있을 때   -->
 <div>
@@ -138,7 +164,8 @@ h2{display:inline}
 <c:if test="${!empty list}">
 <div id="table" style="width:100%; border:1; text-align:center">
 <div style="float:left">
-<h3>댓글 목록</h3><br>
+<h3>댓글 목록</h3>
+<hr>
 </div>
 <table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">	
 <thead>
@@ -178,13 +205,17 @@ h2{display:inline}
 				<!-- 작성자가 관리자이면 관리자 댓글 수정가능 -->
 				<c:if test="${row.adminId != null}">		
 					 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-							<input type="submit" value="수정하기">
+						<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+	  						<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+						</button>
 					 </sec:authorize>
 				</c:if>
 				<!-- 작성자가 사용자이면 사용자 댓글 수정 -->
 				<c:if test="${row.adminId == null}">
 					 <sec:authorize access="hasRole('ROLE_MEMBER')">
-					 	<input type="submit" value="수정하기">
+					 	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+	  						<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+						</button>
 					 </sec:authorize>
 				</c:if>
 			<sec:csrfInput/>
@@ -197,13 +228,17 @@ h2{display:inline}
 				<!-- 작성자가 관리자이면 관리자/사용자 댓글 삭제 가능 -->
 				<c:if test="${row.adminId != null}">		
 					 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-							<input type="submit" value="삭제하기" onclick="return delete_event2();">
-					 </sec:authorize>
+							<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return delete_event2();">
+								<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+							</button>
+					</sec:authorize>
 				</c:if>				
 				<!-- 작성자가 사용자이면 사용자 댓글만 삭제 가능 -->
 				<c:if test="${row.adminId == null}">
 					 <sec:authorize access="isAuthenticated()">
-					 	<input type="submit" value="삭제하기" onclick="return delete_event2();">
+							<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return delete_event2();">
+								<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+							</button>
 					 </sec:authorize>
 				</c:if>				
 				<sec:csrfInput/>
@@ -236,7 +271,9 @@ h2{display:inline}
 					<div style="float:right"><!-- 오른쪽 정렬 -->
 				 		<input type="hidden" name="adminId" value="">
 						<input type="hidden" name="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
-						<input type="submit" value="등록하기" onclick="insert_event();">		
+						<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="insert_event();">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</button>
 					</div>	
 				</td>
 			</tr>
@@ -269,7 +306,9 @@ h2{display:inline}
 					<div style="float:right"><!-- 오른쪽 정렬 -->
 				 		<input type="hidden" name="memberId" value="">
 						<input type="hidden" name="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
-						<input type="submit" value="등록하기" onclick="insert_event();">		
+						<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="insert_event();">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</button>	
 					</div>	
 				</td>
 			</tr>
@@ -287,10 +326,7 @@ h2{display:inline}
 <sec:csrfInput/>
 </form>
 </div>
-<form action="${initParam.rootPath}/common/boardqna/boardQnAList.do" method="post">
-	<input type="submit" value="목록으로"/>
-	<sec:csrfInput/>
-</form>
+<br>
 </div>	
 </div>
 </body>

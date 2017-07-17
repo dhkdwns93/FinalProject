@@ -8,6 +8,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" 
+href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style type="text/css">
 form{display:inline}
 /* focus none 지정 */
@@ -29,9 +34,21 @@ input {
 
 <c:if test="${empty list}">
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
 <h1>자유 게시판</h1><br>	
 <table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
-	<a href="${initParam.rootPath}/index.do"><button style="text-align:right">홈으로</button></a>
+	<a href="${initParam.rootPath}/index.do">
+		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+		</button>
+	</a>
+	<sec:authorize access="hasRole('ROLE_MEMBER')">
+		<a href="${initParam.rootPath}/common/boardfree/boardfree_form.do">
+			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+			</button>
+		</a>
+	</sec:authorize>
 	<div style="float:right">
 	<form action="${initParam.rootPath}/common/boardfree/boardFreeBySelect.do" method="post">
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
@@ -41,21 +58,33 @@ input {
 			<option value="아이디">아이디</option>
 		</select>
 		<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
-		<button>검색</button>
+		<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+			<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+		</button>
 	</form>
 	</div>
 </table>
+<br><h2 style="text-align:center">검색한 제목이 없습니다.</a>
 </div>
-	<br><a style="text-align:center"><h2>검색한 제목이 없습니다.</h2></a>
 </c:if>
-
-
 
 <c:if test="${!empty list}">
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
 <h1>자유 게시판</h1><br>	
 <table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
-<a href="${initParam.rootPath}/index.do"><button style="text-align:right">홈으로</button></a>
+<a href="${initParam.rootPath}/index.do">
+	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+		<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+	</button>
+</a>
+	<sec:authorize access="hasRole('ROLE_MEMBER')">
+		<a href="${initParam.rootPath}/common/boardfree/boardfree_form.do">
+			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+			</button>
+		</a>
+	</sec:authorize>
 	<div style="float:right">
 	<form action="${initParam.rootPath}/common/boardfree/boardFreeBySelect.do" method="post">
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
@@ -65,7 +94,9 @@ input {
 			<option value="아이디">아이디</option>
 		</select>
 		<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
-		<button>검색</button>
+		<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+			<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+		</button>
 	</form>
 	</div>
 <thead>
@@ -107,10 +138,6 @@ input {
 </c:forEach>
  </tbody>
 </table>
-<sec:authorize access="hasRole('ROLE_MEMBER')">
-	<a href="${initParam.rootPath}/common/boardfree/boardfree_form.do"><button>등록</button></a>
-</sec:authorize>
-
 <p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리

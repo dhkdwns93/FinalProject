@@ -136,21 +136,21 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-
+<div class="container">
 <!--레시피명입력받는창-> 검색 -> 레시피info들(페이징) and 레시피공유게시판목록들(페이징)  -->
 <!--검색 전 화면이 비어있을테니, top4들 불러오는작업? 여기서는 레시피공유게시판to4  -->
 	<div style="text-align:center;">
 	<h2>요리이름으로 레시피 찾기</h2><hr>
 	레시피명 검색 : 
 	<input type="text" name ="recipeName" id="recipeName">
-	<button type="button" id="searchBtn">검색</button><br>
+	<button type="button" class="btn btn-warning" id="searchBtn">검색</button><br><br><br><br>
 	</div>
 	
 	<div id="sortKeyword" style="text-align:right;">
-	<button type="button" id="hitsDesc">최다조회순</button>
-	<button type="button" id="hitsAsc">최저조회순</button>
-	<button type="button" id="calrorieDesc">고칼로리순</button>
-	<button type="button" id="calrorieAsc">저칼로리순</button>
+	<button type="button" class="btn btn-default" id="hitsDesc">최다조회순</button>
+	<button type="button" class="btn btn-default" id="hitsAsc">최저조회순</button>
+	<button type="button" class="btn btn-default" id="calrorieDesc">고칼로리순</button>
+	<button type="button" class="btn btn-default" id="calrorieAsc">저칼로리순</button>
 	<select name="recipeLevel" id="recipeLevel">
 		<option value="전체">전체</option>
 		<option value="초보환영">초보</option>
@@ -175,6 +175,6 @@ $(document).ready(function(){
 		</table>
 	</div>
 	<div id="userPageBean" style="text-align:center;" class="tableList"></div>
-	
+	</div>
 </body>
 </html>

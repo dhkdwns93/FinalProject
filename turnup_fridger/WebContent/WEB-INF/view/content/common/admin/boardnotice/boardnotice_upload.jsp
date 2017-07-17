@@ -7,6 +7,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" 
+href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 function modify_event(){
@@ -33,6 +38,7 @@ span.error{
 <body>
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
 <h1>공지사항 수정</h1><br>
 <hr>
 <c:if test="${boardNotice.saveImg != null}">
@@ -43,7 +49,7 @@ span.error{
 		<input type="hidden" name="txt" value="${boardNotice.txt}">
 		<input type="hidden" name="img" value="${boardNotice.img}">
 		<input type="hidden" name="saveImg" value="${boardNotice.saveImg}">
-		<input type="submit" value="이미지 삭제">
+		<input class="btn btn-default" type="submit" value="이미지 삭제">
 <sec:csrfInput/>
 </form>
 </c:if>
@@ -109,12 +115,16 @@ span.error{
 	</tr>	
 </table>
 	<input type="hidden" name="id" value="${boardNotice.id}">
-	<input type="submit" value="등록" onclick="return modify_event();">
+	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return modify_event();">
+		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+	</button>
 <sec:csrfInput/>
 </form>
 <form action="${initParam.rootPath}/boardnotice/boardNoticeView.do" method="post">
     <input type="hidden" name="id" value="${boardNotice.id}">
-	<input type="submit" value="뒤로가기">
+    <button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+		<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+	</button>
 <sec:csrfInput/>
 </form>
 </div>
