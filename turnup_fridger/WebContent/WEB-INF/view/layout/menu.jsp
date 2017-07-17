@@ -50,8 +50,9 @@
       <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
       <li class="topMenuLi2"><a href="#" class="navbar-brand">Board & Member</a>
          <ul class="submenu2">
+         <li><a href="${initParam.rootPath}/common/admin/admin_mypage.do" id="submenu2Link">관리자 계정 정보</a></li>
          <li><a href="${initParam.rootPath}/common/admin/member_list.do" id="submenu2Link">회원관리</a></li>
-         <li><a href="${initParam.rootPath}/common/admin/admin_mypage.do" id="submenu2Link">관리자관리</a></li>
+         <li><a href="${initParam.rootPath}/common/admin/admin_list.do" id="submenu2Link">관리자관리</a></li>
          <li><a href="${initParam.rootPath}/boardnotice/boardNoticeList.do" id="submenu2Link">게시판 관리</a></li>
       </ul>
      </li>
