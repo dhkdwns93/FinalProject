@@ -6,12 +6,18 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
+var endTime, worker;
+var pause;
+
 function operateTimer(){ //타이머의 시간을 줄이는 부분
 	var now = new Date(); //시간 비교용 변수
 	var leftTime = endTime.getTime() - now.getTime(); //종료시간 까지 얼마나 남았는지 파악
+	var Sound = new Audio('/turnup_fridger/sound/alert2.mp3');
+
 	if(leftTime <= 0){ //만약 시간이 다 줄었다면
 		Timer_refresh(0); //남은 시간을 0으로 출력해줌.
 		clearInterval(worker); //타이머를 종료함
+		Sound.play();
 		alert("시간종료!");
 		window.close();
 	}else{ // 아닐 경우
@@ -24,10 +30,9 @@ function n2(num){ //숫자를 2자리로 만들기 위함.
 }
 
 function Timer_refresh(milisec){ //입력받은 값을 토대로 남은 시간을 출력해줌
-	T_hour = Math.floor(milisec/3600000)%24; //남은 시간중 '시간'을 계산함.
-
-	T_min = Math.floor(milisec/60000)%60; //남은 시간중 '분'을 계산함.
-	T_sec = Math.floor(milisec/1000)%60; //남은 시간중 '초'를 계산함. 
+	T_hour = parseInt(Math.floor(milisec/3600000)%24); //남은 시간중 '시간'을 계산함.
+	T_min = parseInt(Math.floor(milisec/60000)%60); //남은 시간중 '분'을 계산함.
+	T_sec = parseInt(Math.floor(milisec/1000)%60); //남은 시간중 '초'를 계산함. 
 	$('#timer').html(n2(T_hour) + " : " + n2(T_min) + " : " + n2(T_sec)); //계산한 남은 시간들을 출력함. 
 	
 }
@@ -74,7 +79,7 @@ $(document).ready(function(){
 </head>
 <body>
 <br>
-<div id="timer" style="font-size:45pt;text-align:center;">00 : 00: 00</div>
+<div id="timer" style="font-size:45pt;text-align:center;font-weight:bold;">00 : 00: 00</div>
 <div style="text-align:center;">
 	<!-- <input type="number" id="timerInput" placeholder="시간" style="width:60px"> -->
 	<input type="number" id="hourInput" placeholder="시간" style="width:60px" value="0">시간&ensp;
