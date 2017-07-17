@@ -3,15 +3,6 @@
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 
 
-<!-- 장규/준 -->
-<a href="${initParam.rootPath}/boardnotice/boardNoticeList.do"><button type="button">공지사항</button></a>
-<a href="${initParam.rootPath}/common/boardqna/boardQnAList.do"><button type="button">QnA</button></a>
-<a href="${initParam.rootPath}/common/boardfree/boardFreeList.do"><button type="button">자유게시판</button></a>
-<a href="${initParam.rootPath}/boardreview/boardReviewList.do"><button type="button">후기</button></a>
-<hr>
-<h3>레시피공유게시판</h3>
-<a href="${initParam.rootPath }/boardRecipe/boardRecipeList.do"><button type="button">공유레시피게시판</button></a>
-
     <a id="about"></a>
     <div class="intro-header">
     <div class="container">
