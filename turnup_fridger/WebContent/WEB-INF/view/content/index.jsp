@@ -25,7 +25,7 @@
                             <li class="topMenuLi">
                                 <a href="#fridger" class="btn btn-default btn-lg"><span class="network-name">Fridger</span></a>
                             	<ul class="submenu">
-						    		<li><a href="${initParam.rootPath}/common/member/fridger/register_form2.do" id="submenuLink">냉장고 만들기</a></li>
+						    		<li><a href="${initParam.rootPath}/common/member/fridger/main.do" id="submenuLink">내 냉장고</a></li>
 						    		<li><a href="${initParam.rootPath}/common/member/fridger/my_list.do" id="submenuLink">냉장고 관리</a></li>
 						    		<li><a href="${initParam.rootPath}/common/member/fridger/list.do" id="submenuLink">냉장고 조회</a></li>
 									<li><a href="${initParam.rootPath}/common/member/fridger/joinProcess/list.do" id="submenuLink">공유 관리</a></li>
@@ -102,7 +102,7 @@
                     저희 <span class="tf"><b>Turnup-Fridger</b></span>에서 강력추천 드리는 이달의 추천 레시피 소갈비찜을 직접 만들어 드시고 게시판을 통해 후기를 올려주시면 추첨을 통해 다양한 상품을 드립니다. </p>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                    <img class="img-responsive" src="img/la.png" alt="소갈비찜 사진">
+                    <img class="img-responsive mainImg" src="img/la.png"  style="border-radius: 50em;">
                 </div>
             </div>
 
@@ -124,7 +124,7 @@
                     <p class="lead">Turn your 2D designs into high quality, 3D product shots in seconds using free Photoshop actions by <a target="_blank" href="http://www.psdcovers.com/">PSDCovers</a>! Visit their website to download some of their awesome, free photoshop actions!</p>
                 </div>
                 <div class="col-lg-5 col-sm-pull-6  col-sm-6">
-                    <img class="img-responsive" src="img/rose.jpg" alt="">
+                    <img class="img-responsive mainImg" src="img/rose.jpg"  style="border-radius: 50em;">
                 </div>
             </div>
 
@@ -148,7 +148,7 @@
                     지쳐가는 당신의 냉장고와 허기진 당신의 배를 위해 '냉장고 털어먹기'가 필요한 지금, 바로 <a href="${initParam.rootPath}/join_member_form.do"><span class="tf"><b>Turnup-Fridger</b></span></a> 와 함께 하세요.</p>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                    <img class="img-responsive" src="img/women.jpg" alt="">
+                    <img class="img-responsive mainImg" src="img/women.jpg" style="border-radius: 50em;">
                 </div>
             </div>
 

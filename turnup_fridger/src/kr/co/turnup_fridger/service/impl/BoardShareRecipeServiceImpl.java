@@ -221,7 +221,6 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 		
 		//재료id들을 줘서 recipeid들과 count수의 map을 받은 list.
 		List recipeMap = shareDao.getRecipeBoardIdByIrdntIds(irdntIds, hateIrdntsIds);
-		System.out.println("boardService's 레시피id추출한거랑, 카운트 맵 : "+recipeMap);		
 		List recipeIds = new ArrayList();
 		List countList = new ArrayList();
 		HashMap userMap = new HashMap();
@@ -233,9 +232,6 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 			countList.add(map);
 		}
 		
-		System.out.println("user's recipeids : "+recipeIds);
-		System.out.println("user's countList : "+countList);
-		
 		int totalCount = dao.selectBoardShareRecipeByIdCount(recipeIds);
 		PagingBean pageBean = new PagingBean(totalCount,page);
 		
@@ -245,7 +241,6 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 		userMap.put("countList", countList);
 		userMap.put("pageBean", pageBean);
 		
-		System.out.println(userMap);
 		return userMap;
 	}
 	

@@ -14,6 +14,7 @@
 <script src="${ initParam.rootPath }/scripts/bootstrap.min.js"></script>
 <link href="${ initParam.rootPath }/css/bootstrap.css" rel="stylesheet">
 <link href="${ initParam.rootPath }/css/landing-page.css" rel="stylesheet">
+<link href="${ initParam.rootPath }/css/createStyle.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"  rel="stylesheet">
 </head>
 <div class="fridger">

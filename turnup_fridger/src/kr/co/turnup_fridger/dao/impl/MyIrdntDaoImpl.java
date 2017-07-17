@@ -123,7 +123,7 @@ public class MyIrdntDaoImpl implements MyIrdntDao{
 		return session.selectOne(makeSql("selectMyIrdntByCategory"),map);
 	}
 	@Override
-	public int selectMyIrdntByFreshLevel(String freshLevel, int fridgerId) {
+	public int selectCountMyIrdntByFreshLevel(String freshLevel, int fridgerId) {
 		HashMap map = new HashMap();
 		map.put("freshLevel", freshLevel);
 		map.put("fridgerId", fridgerId);

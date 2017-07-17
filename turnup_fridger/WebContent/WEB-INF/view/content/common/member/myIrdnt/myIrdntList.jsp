@@ -102,6 +102,12 @@
 
 </script>
 <style type="text/css">
+body{
+background-image : url("/turnup_fridger/images/kitchen.jpg");
+background-repeat : no-repeat;
+}
+
+
 table, td {
 	border: 1px solid black;
 }
@@ -122,10 +128,9 @@ td {
 </head>
 <body>
 
-<h2>나의 식재료 목록</h2><hr>
-<button type="button" id="addIrdnt">재료추가</button>
-<button type="button" id="deleteOnSelect">선택삭제</button><br><br>
+<div style="text-align:center;"><h2>냉장고 속 재료 목록</h2><br></div><hr>
 
+<div style="margin-left : 30px;">
 신선도 :
 	<select name="freshLevel" id="freshLevel">
 		<option value="전체">전체</option>
@@ -136,45 +141,59 @@ td {
 재료명검색 : 
 	<input type="text" name ="irdntName" id="irdntName">
 	<button type="button" id="searchBtn">검색</button><br><br>
+</div>
 
+<!-- <img src="/turnup_fridger/images/kitchen.jpg" width="1900" height="750" style="border-radius:0;"> 
+ -->
 
-<div id ="result">
-실온보관재료 : 
-<table id = "room">
+<div id="roomSection" style="width:20%;float:left;margin-top:50px; margin-left:130px;overflow-x:hidden; overflow-y:scroll; height:300px;">
+실온재료:<br>
+<table id = "room" class="table table-hover table-condensed" style="width:350px;background-color:white;" >
 	<thead>
 		<tr>
 			<th>재료key</th>
 			<th>재료명</th>
 			<th>신선도</th>
-			<th>삭제여부</th>
+			<th>삭제</th>
 		</tr>
 	</thead>
 	<tbody id = "roomTbody"></tbody>
 </table><br>
-냉장보관재료 : 
-<table id = "cold">
+</div>
+
+<div id="freezeSection" style="width:20%;float:left; margin-left:280px;overflow-x:hidden; overflow-y:scroll; height:500px;">
+냉동재료:
+<table id = "freeze" class="table table-hover table-condensed" style="width:350px;background-color:white;">
 	<thead>
 		<tr>
 			<th>재료key</th>
 			<th>재료명</th>
 			<th>신선도</th>
-			<th>삭제여부</th>
-		</tr>
-	</thead>
-	<tbody id = "coldTbody"></tbody>
-</table><br>
-냉동보관재료 : 
-<table id = "freeze">
-	<thead>
-		<tr>
-			<th>재료key</th>
-			<th>재료명</th>
-			<th>신선도</th>
-			<th>삭제여부</th>
+			<th>삭제</th>
 		</tr>
 	</thead>
 	<tbody id = "freezeTbody"></tbody>
 </table><br>
+</div>
+
+<div id="coldSection" style="width:20%;float:left;margin-left:80px;overflow-x:hidden; overflow-y:scroll; height:500px;">
+냉장재료:
+<table id = "cold" class="table table-hover table-condensed" style="width:350px;background-color:white;">
+	<thead>
+		<tr>
+			<th>재료key</th>
+			<th>재료명</th>
+			<th>신선도</th>
+			<th>삭제</th>
+		</tr>
+	</thead>
+	<tbody id = "coldTbody"></tbody>
+</table><br>
+</div>
+
+<div id="buttons" style="width:10%;float:right;">
+<button type="button" id="addIrdnt">재료추가</button><br><br>
+<button type="button" id="deleteOnSelect">선택삭제</button><br><br>
 </div>
 
 </body>

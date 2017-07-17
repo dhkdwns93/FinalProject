@@ -2,7 +2,7 @@
 <ul class="list-inline">
 	<li>
 		<div class="footerImg">
-		<img class="img-responsive nana" src="${initParam.rootPath}/img/브로콜리.jpg" style="width: 80px; height: 80px; margin: auto;">
+		<img class="img-responsive mainImg" src="${initParam.rootPath}/img/브로콜리.jpg" style="width: 80px; height: 80px; margin: auto; border-radius: 50em;">
 		</div>
 	</li>
 	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
