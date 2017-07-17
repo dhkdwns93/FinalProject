@@ -1,42 +1,44 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
+<script type="text/javascript" src="/turnup_fridger/scripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script type="text/javascript">
 	$(document).ready(function(){
 		//기본적으로 가져오는 모든 재료 목록들. 
 		//alert('${param.fridgerId}');
+		 // $('[data-toggle="tooltip"]').tooltip();   
 	
 		$.ajax({
 			"url":"/turnup_fridger/common/member/myIrdnt/allMyIrdntList.do",
 			"data":{'fridgerId': '${param.fridgerId}'},
 			"dataType":"json", 
 			"success":function(list){
-					 $.each(list, function(){
-							if(this.storgePlace=="실온"){
-								$("#roomTbody").append($("<tr>").append($("<td>").append(this.myIrdntKey)).append($("<td>").prop("id","irdntName_col").append(this.irdntName)).append($("<td>").append(this.freshLevel))
-										.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.myIrdntKey))))
-								} 
-							else if(this.storgePlace=="냉장"){ 
-								$("#coldTbody").append($("<tr>").append($("<td>").append(this.myIrdntKey)).append($("<td>").prop("id","irdntName_col").append(this.irdntName)).append($("<td>").append(this.freshLevel))
-										.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.myIrdntKey))))
+						 $.each(list, function(){
+								if(this.storgePlace=="실온"){
+									$("#roomTbody").append($("<tr>").append($("<td>").append(this.myIrdntKey)).append($("<td>").prop("id","irdntName_col").append(this.irdntName)).append($("<td>").append(this.freshLevel))
+											.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.myIrdntKey))))
+									} 
+								else if(this.storgePlace=="냉장"){ 
+									$("#coldTbody").append($("<tr>").append($("<td>").append(this.myIrdntKey)).append($("<td>").prop("id","irdntName_col").append(this.irdntName)).append($("<td>").append(this.freshLevel))
+											.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.myIrdntKey))))
+									}
+								else if(this.storgePlace=="냉동"){
+									$("#freezeTbody").append($("<tr>").append($("<td>").append(this.myIrdntKey)).append($("<td>").prop("id","irdntName_col").append(this.irdntName)).append($("<td>").append(this.freshLevel))
+											.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.myIrdntKey))))
+									}
+						
+						/* 		if($("#irdntName_col").parent().children(":nth-child(3)").text()=='위험'){
+									$("#irdntName_col").prop("style","color:red;");
 								}
-							else if(this.storgePlace=="냉동"){
-								$("#freezeTbody").append($("<tr>").append($("<td>").append(this.myIrdntKey)).append($("<td>").prop("id","irdntName_col").append(this.irdntName)).append($("<td>").append(this.freshLevel))
-										.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.myIrdntKey))))
+								else if($("#irdntName_col").parent().children(":nth-child(3)").text()=='보통'){
+									$("#irdntName_col").prop("style","color:black;");
 								}
-					
-							if($("#irdntName_col").parent().children(":nth-child(3)").text()=='위험'){
-								$("#irdntName_col").prop("style","color:red;");
-							}
-							else if($("#irdntName_col").parent().children(":nth-child(3)").text()=='보통'){
-								$("#irdntName_col").prop("style","color:black;");
-							}
-							else if($("#irdntName_col").parent().children(":nth-child(3)").text()=='안전'){
-								$("#irdntName_col").prop("style","color:green;");
-							}
-							
+								else if($("#irdntName_col").parent().children(":nth-child(3)").text()=='안전'){
+									$("#irdntName_col").prop("style","color:green;");
+								} */
+				
 					 })//each
 							
 						
@@ -49,6 +51,7 @@
 		//재료클릭 -> 재료 상세정보 팝업 (쿼리로 정보들 붙여서 보내기)
 		$(document).on("click","#irdntName_col",function(){
 			var myIrdntKey = $(this).parent().children(":first-child").text();
+			//var myIrdntKey=$(this).val();
 			window.open("/turnup_fridger/common/member/myIrdnt/findIrdntByKey.do?myIrdntKey="+myIrdntKey,"detail","width=500, height=400");
 		
 		});//
@@ -71,7 +74,11 @@
 					window.location.reload();
 				},
 				"error":function(xhr, msg, code){
-					alert("오류발생-" +msg+ ":" +code);
+					if(msg=="error"&&code=="Bad Request"){
+						alert("선택한 재료가 없습니다.");
+					}else{
+						alert("오류발생-" +msg+ ":" +code);	
+					}
 				}
 			})			
 		});
@@ -101,7 +108,7 @@
 										.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.myIrdntKey))))
 								}
 		 			 		
-		 			 		if($("#irdntName_col").parent().children(":nth-child(3)").text()=='위험'){
+		 			/*  		if($("#irdntName_col").parent().children(":nth-child(3)").text()=='위험'){
 		 						$("#irdntName_col").prop("style","color:red;");
 		 					}
 		 					else if($("#irdntName_col").parent().children(":nth-child(3)").text()=='보통'){
@@ -109,7 +116,7 @@
 		 					}
 		 					else if($("#irdntName_col").parent().children(":nth-child(3)").text()=='안전'){
 		 						$("#irdntName_col").prop("style","color:green;");
-		 					}
+		 					} */
 		 					
 							})//each	
 				},//success
@@ -127,25 +134,16 @@
 
 </script>
 <style type="text/css">
-body{
-background-image : url("/turnup_fridger/images/kitchen.jpg");
+/* body{
+background-image : url("/turnup_fridger/images/fridgerPic.jpg");
 background-repeat : no-repeat;
+} */
+th, td {
+    border-bottom: 1px solid #ddd;
 }
-
-
-table, td {
-	border: 1px solid black;
-}
-
-table {
-	width: 1000px;
-	border-collapse: collapse;
-}
-
 td {
 	padding: 5px;
 }
-
 #tbody {
 	cursor: pointer;
 }
@@ -153,73 +151,79 @@ td {
 </head>
 <body>
 
-<div style="text-align:center;"><h2>냉장고 속 재료 목록</h2><br></div><hr>
-
-<div style="margin-left : 30px;">
-신선도 :
+<div style="text-align:center;"><h2>${param.fridgerName} 냉장고 속</h2><br></div><hr>
+<div class="container">
+<div style="text-align:center;">
+신선도
 	<select name="freshLevel" id="freshLevel">
 		<option value="전체">전체</option>
 		<option value="안전">안전</option>
 		<option value="보통">보통</option>
 		<option value="위험">위험</option>
-	</select> 
-재료명검색 : 
+	</select>&emsp;
+재료명 
 	<input type="text" name ="irdntName" id="irdntName">
-	<button type="button" id="searchBtn">검색</button><br><br>
+	<button type="button" class="btn btn-default" id="searchBtn">검색</button><br>
+</div><br>
+
+<div id="buttons" style="text-align:center;">
+<a href="#" data-toggle="tooltip" title="재료추가"><button type="button" class="btn btn-default" id="addIrdnt" style="width:50px;height:50px;font-size:25px;">+</button></a>&emsp;&emsp;
+<a href="#" data-toggle="tooltip" title="재료삭제"><button type="button" class="btn btn-default" id="deleteOnSelect" style="width:50px;height:50px;font-size:25px;">-</button></a><br><br>
+<h4 style="color:lightgray;">재료를 클릭하면 상세정보를 보실 수 있습니다.</h4>
 </div>
+<br>
 
-<!-- <img src="/turnup_fridger/images/kitchen.jpg" width="1900" height="750" style="border-radius:0;"> 
- -->
-
-<div id="roomSection" style="width:20%;float:left;margin-top:50px; margin-left:130px;overflow-x:hidden; overflow-y:scroll; height:300px;">
-실온재료:<br>
-<table id = "room" class="table table-hover table-condensed" style="width:350px;background-color:white;" >
+<div id="roomSection" style="width:30%; float:left; height:600px; border-style:ridge; margin:10px;">
+<h5 style="color:gray;margin-left:5px;">실온</h5>
+<div style="overflow-x:hidden; overflow-y:scroll; width: 300px;height:500px;margin-left: auto;margin-right: auto;">
+<table id = "room" class="table table-hover table-condensed" style="width:280px;background-color:white;">
 	<thead>
 		<tr>
-			<th>재료key</th>
+			<th>key</th>
 			<th>재료명</th>
 			<th>신선도</th>
 			<th>삭제</th>
 		</tr>
 	</thead>
 	<tbody id = "roomTbody"></tbody>
-</table><br>
+</table>
+</div>
 </div>
 
-<div id="freezeSection" style="width:20%;float:left; margin-left:280px;overflow-x:hidden; overflow-y:scroll; height:500px;">
-냉동재료:
-<table id = "freeze" class="table table-hover table-condensed" style="width:350px;background-color:white;">
+<div id="freezeSection" style="width:30%; float:left; height:600px;border-style:ridge;margin:10px;">
+<h5 style="color:gray;margin-left:5px;">냉동</h5>
+<div style="overflow-x:hidden; overflow-y:scroll; width: 300px;height:500px;margin-left: auto;margin-right: auto;">
+<table id = "freeze" class="table table-hover table-condensed" style="width:280px;background-color:white;">
 	<thead>
 		<tr>
-			<th>재료key</th>
+			<th>key</th>
 			<th>재료명</th>
 			<th>신선도</th>
 			<th>삭제</th>
 		</tr>
 	</thead>
 	<tbody id = "freezeTbody"></tbody>
-</table><br>
+</table>
+</div>
 </div>
 
-<div id="coldSection" style="width:20%;float:left;margin-left:80px;overflow-x:hidden; overflow-y:scroll; height:500px;">
-냉장재료:
-<table id = "cold" class="table table-hover table-condensed" style="width:350px;background-color:white;">
+<div id="coldSection" style="width:30%; float:left; height:600px;border-style:ridge;margin:10px;">
+<h5 style="color:gray;margin-left:5px;">냉장</h5>
+<div style="overflow-x:hidden; overflow-y:scroll; width: 300px;height:500px;margin-left: auto;margin-right: auto;">
+<table id = "cold" class="table table-hover table-condensed" style="width:280px;background-color:white;">
 	<thead>
 		<tr>
-			<th>재료key</th>
+			<th>key</th>
 			<th>재료명</th>
 			<th>신선도</th>
 			<th>삭제</th>
 		</tr>
 	</thead>
 	<tbody id = "coldTbody"></tbody>
-</table><br>
+</table>
+</div>
 </div>
 
-<div id="buttons" style="width:10%;float:right;">
-<button type="button" id="addIrdnt">재료추가</button><br><br>
-<button type="button" id="deleteOnSelect">선택삭제</button><br><br>
 </div>
-
 </body>
 </html>
