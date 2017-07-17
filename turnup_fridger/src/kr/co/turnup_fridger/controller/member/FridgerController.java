@@ -35,6 +35,7 @@ import kr.co.turnup_fridger.validation.form.FridgerForm;
 import kr.co.turnup_fridger.validation.form.JoinProcessForm;
 import kr.co.turnup_fridger.vo.Fridger;
 import kr.co.turnup_fridger.vo.FridgerGroup;
+import kr.co.turnup_fridger.vo.IrdntManage;
 import kr.co.turnup_fridger.vo.JoinProcess;
 import kr.co.turnup_fridger.vo.Member;
 import kr.co.turnup_fridger.vo.MyIrdnt;
@@ -284,11 +285,12 @@ public class FridgerController {
 		map.put("myIrdntBadCount", myIrdntService.CountMyIrdntByFreshLevel(fridgerId, "위험"));
 		map.put("myIrdntBadList", myIrdntService.findMyIrdntByFreshLevel("위험", fridgerId));
 		
-		List<MyIrdnt> list = fridgerService.findFridgerAndIrdntByFridgerId(fridgerId).getMyIrdntList();
+		
 		int myIrdntRoomTempCount = 0;
 		int myIrdntColdTempCount = 0;
 		int myIrdntFreezeTempCount = 0;
-		if(list.size() >0 && !list.isEmpty()){
+		System.out.println("getFridgerSelect 로그:"+fridgerService.findFridgerAndIrdntByFridgerId(fridgerId));
+		if(fridgerService.findFridgerAndIrdntByFridgerId(fridgerId).getMyIrdntList() != null && fridgerService.findFridgerAndIrdntByFridgerId(fridgerId).getMyIrdntList().size() >0 && !fridgerService.findFridgerAndIrdntByFridgerId(fridgerId).getMyIrdntList().isEmpty()){
 			for(MyIrdnt myIrdnt :  fridgerService.findFridgerAndIrdntByFridgerId(fridgerId).getMyIrdntList()){
 				if(myIrdnt.getStorgePlace().equals("실온")){
 					myIrdntRoomTempCount++;
@@ -302,9 +304,14 @@ public class FridgerController {
 		map.put("myIrdntRoomTempCount", myIrdntRoomTempCount);
 		map.put("myIrdntColdTempCount", myIrdntColdTempCount);		
 		map.put("myIrdntFreezeTempCount", myIrdntFreezeTempCount);
-
-		//			 위험인 재료
 		
+		Map category = new HashMap<>();
+		category.put("d", myIrdntService.findMyIrdntByCategory(fridgerId, "a"));
+		category.put("d", myIrdntService.findMyIrdntByCategory(fridgerId, "b"));
+		category.put("d", myIrdntService.findMyIrdntByCategory(fridgerId, "c"));
+		category.put("d", myIrdntService.findMyIrdntByCategory(fridgerId, "d"));
+		
+		map.put("irdntCategory", category);
 		return map;
 	}
 	
