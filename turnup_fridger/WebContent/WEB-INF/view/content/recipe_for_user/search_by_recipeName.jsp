@@ -24,7 +24,7 @@ function getList(keyword,page){
 			$("#userPageBean").empty();
 			
 			$("#apiThead").append($("<tr>").append($("<th>").append("레시피id")).append($("<th>").append("이름")).append($("<th>").append("간략소개")).append($("<th>").append("유형분류"))
-					.append($("<th>").append("음식분류")).append($("<th>").append("조리시간")).append($("<th>").append("칼로리")).append($("<th>").append("난이도")).append($("<th>").append("img"))
+					.append($("<th>").append("음식분류")).append($("<th>").append("조리시간")).append($("<th>").append("칼로리")).append($("<th>").append("난이도"))
 					.append($("<th>").append("조회수")));
 			
 			$("#userThead").append($("<tr>").append($("<th>").append("레시피id")).append($("<th>").append("제목")).append($("<th>").append("img"))
@@ -35,7 +35,7 @@ function getList(keyword,page){
 				$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").append($("<td>").append(this.recipeId))
 						.append($("<td>").prop("id", "title").append($("<a>").prop("href", "${initParam.rootPath}/recipe/show/detail.do?recipeId="+this.recipeId).append(this.recipeName))).append($("<td>").append(this.sumry))
 						.append($("<td>").append(this.categoryName)).append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel))
-						.append($("<td>").append("<img>").prop("src",this.imgUrl)).append($("<td>").append(this.recipeHits)));
+						.append($("<td>").append(this.recipeHits)));
 			 });//each	 
 			 
 			 $("#userTbody").empty();

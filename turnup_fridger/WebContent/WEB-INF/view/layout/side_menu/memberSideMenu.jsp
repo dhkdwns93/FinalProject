@@ -2,34 +2,62 @@
 <!-- 
  (jsp)memberSideMenu
 작성자 :  김경혜
-최초 작성일 170703
+최초 작성일 170717
 변경이력 
 -->
 <style>
-.left-box{
- 	background:#ffcccc;
+
+.wrapperDiv{
+	display:-webkit-flex;
+	display:flex;
+}
+.left-box-sidemenu{
+ 	background:#ffcc99;
  	float:left;
  	width:20%;
+	min-width:200px;
+	max-width:250px;
  	height:100%;
+	margin-left:5%;
+	margin-bottom:auto;
  	border-radius:10%;
  	padding : 2%;
  	font-size:100%;
 }
-.right-box{
+.right-box-sidemenu{
+	-webkit-flex:none;
+	flex:none;
+	position:relative;
 	background:white;
 	float:right;
-	width:75%;
-	height:70%;
+	width:67%;
+	height:100%;
+	margin-right:5%;
+}
+
+.list-group-item {
+	border: none;
+	color: #555;
+	text-decoration: none;
+	background-color: #ffcc99;
+}
+
+.list-group-item:hover, .list-group-item:focus {
+	color: #555;
+	text-decoration: none;
+	background-color: #fff2e6 !important;
+}
 
 </style>
-<div class='left-box'>
-		<div><h5>Welcome to Turnup-fridger</h5></div>
+
+
+<div class='left-box-sidemenu'>
+		<div><h5>My Menu</h5></div>
 		<hr>
-		<div>
-			<a href="${initParam.rootPath}/login_form.do" >Login</a>
-		</div>
-		<div>
-			<a href="${initParam.rootPath}/join_member_form.do">Join us</a>
+		<div class="list-group">
+			<a href="${initParam.rootPath}/memo/memoList.do"  class="list-group-item">내 메모보기</a>
+	        <a href="#"  class="list-group-item" onclick="window.open('/turnup_fridger/memo/map.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)">주변 마트보기</a>
+	        <a href="${initParam.rootPath}/common/member/member_mypage_event.do"  class="list-group-item">내정보</a>
 		</div>
 </div>
 

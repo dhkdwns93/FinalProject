@@ -21,8 +21,8 @@ public class InsertMain {
 		
 		///////은영이가 //////////////////
 		//레시피재료정보
-		insertMethod.insertAPI("D:\\Eunyoung\\java\\api\\","recipe_irdnt");//(파일루트, txt파일명)
-
+		//insertMethod.insertAPI("D:\\Eunyoung\\java\\api\\","recipe_irdnt");//(파일루트, txt파일명)
+		insertMethod.insertAPI("D:\\Eunyoung\\java\\api\\","irdnt_manage");//(파일루트, txt파일명)
 		
 		//레시피기본정보
 		//insertMethod.insertAPI("D:\\Eunyoung\\java\\api\\","recipe_info");

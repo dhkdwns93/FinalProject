@@ -73,10 +73,13 @@ $(document).ready(function () {
 		});	//end of ajax
 	}) // end of click on fridgerName_col
 	
-	
+
 	// 냉장고 수정
 	$(document).on("click","#updateBtn", function(){
-		alert($(this).val());
+		if("${memberId}" != $(this).parent().parent().children(":nth-child(3)").text()){
+			alert("수정 권한이  없습니다!");
+			return false;
+		}
 		window.open(
 				"${ initParam.rootPath }/common/member/fridger/update_chk.do?fridgerId="+$(this).val(),
 				"_blank",
@@ -142,7 +145,7 @@ $(document).ready(function () {
  </script>
 
 
-
+<div class="container">
 <h3>조회</h3>
 	
 <hr>
@@ -150,8 +153,7 @@ $(document).ready(function () {
 <a href="${initParam.rootPath}/common/member/fridger/register_form2.do"><button type="button">냉장고등록</button></a>
 <a href="${initParam.rootPath}/common/member/fridger/invite_form.do"><button type="button">초대하러가기</button></a>
 
-
-	<div id="table" style="width:800px;">
+	<div id="table" style="width:800px;" align="center">
 		<table id="fridgerList" class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
 			<thead>
 				<tr>
@@ -167,4 +169,7 @@ $(document).ready(function () {
 				<!-- 내용 받아올 부분 -->
 			</tbody>
 		</table>
+	</div>
+	
+	
 	</div>

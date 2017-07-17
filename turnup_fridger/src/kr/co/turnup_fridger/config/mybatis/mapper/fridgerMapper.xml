@@ -58,7 +58,6 @@
 	  <id column="group_key" property="groupKey"/>
       <result column="group_join_seq" property="groupJoinSeq"/>
       <result column="group_member_id" property="groupMemberId"/>
-      <result column="fridger_id" property="fridgerId"/>
 	</collection>
 </resultMap>
 

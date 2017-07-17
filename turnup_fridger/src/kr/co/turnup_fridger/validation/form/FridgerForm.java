@@ -2,6 +2,7 @@ package kr.co.turnup_fridger.validation.form;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
 
 public class FridgerForm {
 	//자동생성(seq)
@@ -13,6 +14,7 @@ public class FridgerForm {
 	@NotEmpty(message="아이디를 넣으세여!!")
 	private String memberId;
 	
+	private String fridgerImg;
 	
 	
 	public int getFridgerId() {
@@ -33,6 +35,13 @@ public class FridgerForm {
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
 	}
+	public String getFridgerImg() {
+		return fridgerImg;
+	}
+	public void setFridgerImg(String fridgerImg) {
+		this.fridgerImg = fridgerImg;
+	}
+	
 	
 	
 	
