@@ -7,6 +7,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" 
+href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 function insert_event(){
@@ -37,7 +42,7 @@ h2{display:inline}
 
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>자유 게시판 ></h1><h2>게시물 등록</h2><br>
+<h1>자유 게시판 ></h1><h2> 게시물 등록</h2><br>
 <hr>
 <form action="${initParam.rootPath}/common/boardfree/boardFreeAdd.do" method="post">
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
@@ -62,11 +67,15 @@ h2{display:inline}
 		</tr>	
 	</table>
 				<input type="hidden" name="boardFreeHits" value="0">
-				<input type="submit" value="등록" onclick="return insert_event();">
+				<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return insert_event();">
+					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				</button>
 	</form>
 	<form action="${initParam.rootPath}/common/boardfree/boardFreeList.do" method="post">
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-		<input type="submit" value="목록으로"/>
+		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+			<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+		</button>
 	</form>
 </div>
 </body>
