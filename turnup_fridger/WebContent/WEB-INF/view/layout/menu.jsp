@@ -56,6 +56,7 @@
       </ul>
      </li>
       </sec:authorize>
+      <sec:authorize access="!hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
       <li class="topMenuLi2"><a href="#" class="navbar-brand">Board</a>
          <ul class="submenu2">
          <li><a href="${initParam.rootPath}/boardnotice/boardNoticeList.do" id="submenu2Link">공지사항</a></li>
@@ -65,6 +66,7 @@
          <li><a href="" id="submenu2Link">레시피 공유게시판</a></li>
       </ul>
       </li>
+      </sec:authorize>
       <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
       <sec:authorize access="hasRole('ROLE_MEMBER')">
        <li class="topMenuLi2"><a href="#" class="navbar-brand">MyMenu</a>

@@ -286,12 +286,13 @@ $(document).ready(function(){
 <body>
 <%-- <input type="hidden" id="memberId" value="<sec:authentication property='principal.memberId'/>">  --%>
 <%-- <sec:authentication property="principal.memberId" var="memberId"/> --%>
+<div class="container">
 
 <div style="text-align:center;"><h2>재료로 레시피 찾기</h2><br><hr></div>
 
 	<div id="irdntManage" style="width:23%; border-style:outset; float:left; overflow-x:hidden; overflow-y:scroll; height:600px;width:400px; margin:20px;padding:10px;">
 	기타 재료 :   
-		<table  class="table table-hover table-condensed" style="padding: 10px";>
+		<table  class="table table-hover table-condensed" style="padding: 10px;">
 			<thead id="irdntManageThead"></thead>
 			<tbody id="irdntManageTbody"></tbody>
 		</table>
@@ -412,6 +413,7 @@ $(document).ready(function(){
 		</table>
 	</div><br>
 	<div id="userPageBean" style="text-align:center;"></div>
+	</div>
 	</div>
 </body>
 </html>

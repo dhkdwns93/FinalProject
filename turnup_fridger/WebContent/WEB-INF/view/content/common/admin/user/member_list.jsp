@@ -63,8 +63,8 @@ $(document).ready(function(){
 		<!-- 엑셀로 추출버튼 -->
 		<a id="exportBtn" href="#" download=""><button type="button">(Excel)Download</button></a>
 		<div id="allMemberList"
-			style="border: 1px solid black; overflow-x: hidden; overflow-y: scroll; height: 150px; width: 1000px;">
-			<table class="table" id="tblExport" border="1" width="900px">
+			style="border: 1px solid black; overflow-x: hidden; overflow-y: scroll; height: 300px; width: 1000px;">
+			<table class="table table-hover" id="tblExport" width="900px">
 				<thead id="thead">
 					<tr>
 						<th>번호</th>

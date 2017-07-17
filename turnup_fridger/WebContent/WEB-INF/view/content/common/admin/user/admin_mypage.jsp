@@ -28,7 +28,7 @@ $(document).ready(function(){
 
 
 <h2>마이페이지(관리자용)</h2>
-<table border="1">
+<table class="table table-bordered tableList">
 	<tr>
 		<th>관리자 ID</th>
 		<th><sec:authentication property="principal.adminId"></sec:authentication></th>
