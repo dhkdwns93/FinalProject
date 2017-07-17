@@ -309,7 +309,7 @@ public class BoardReviewController extends HttpServlet {
 		        return mav;  
 				
 			}
-			String upImageDir = request.getServletContext().getRealPath("/up_image");
+			String upImageDir = request.getServletContext().getRealPath("/img");
 			MultipartFile upImage = boardReview.getUpImage();
 			
 			String fname = upImage.getOriginalFilename();
@@ -324,7 +324,7 @@ public class BoardReviewController extends HttpServlet {
 				boardReview.setImageName(upImage.getOriginalFilename());
 				String newImageName = UUID.randomUUID().toString();
 				boardReview.setImageSaveName(newImageName);
-				File dest = new File(upImageDir);
+				File dest = new File(upImageDir,newImageName);
 				//파일 이동
 				/************************************
 				 * 이클립스 경로로 카피

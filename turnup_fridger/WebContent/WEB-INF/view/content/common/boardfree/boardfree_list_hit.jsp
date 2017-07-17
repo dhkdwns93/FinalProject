@@ -25,7 +25,10 @@ input {
 </style>
 </head>
 <body>
-<div id="table" style="width:800px; margin-left: auto; margin-right: auto;">
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+
+
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <h1>자유 게시판</h1><br>	
 <table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
 	<a href="${initParam.rootPath}/index.do"><button style="text-align:right">홈으로</button></a>
@@ -40,28 +43,32 @@ input {
 		<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
 		<button>검색</button>
 	</form>
+	<form action="${initParam.rootPath}/common/boardfree/boardFreeByBoardFreeHits.do" method="post">
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+		<button>조회수</button>
+	</form>
 	</div>
-	<thead id="thead">
+<thead>
     <tr>
-        <th>번호</th>
-        <th>제목</th>
-        <th>작성일</th>
-        <th>작성자</th>
-        <th>조회수</th>
-        <th>댓글수</th>
+        <th style="width:5%;">번호</th>
+        <th style="width:50%;">제목</th>
+        <th style="width:11%;">작성일</th>
+        <th style="width:11%;">작성자</th>
+        <th style="width:11%;">조회수</th>
+        <th style="width:11%;">댓글수</th>
     </tr>
  </thead>
- 
-<tbody id="tbody">
+
+<tbody>
 <c:forEach var="row" items="${list}" varStatus="status">
     <tr>
         <td>${requestScope.totalCount-((requestScope.pageBean.page -1 ) * 10 + status.index)}</td>
-        <td>
+        <td style="width:50%;">
     		<form action="${initParam.rootPath}/common/boardfree/boardFreeView.do" method="post">
-	    		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	       		<input type="hidden" name="boardFreeId" value="${row.boardFreeId}">
-	        	<input type="submit" value="${row.boardFreeTitle}" style="background-color:white;border:0;WIDTH: 350pt; HEIGHT: 15pt"> 
-			</form> 
+    			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+        		<input type="hidden" name="boardFreeId" value="${row.boardFreeId}">
+        		<input type="submit" value="${row.boardFreeTitle}" style="background-color:white;border:0;WIDTH: 350pt; HEIGHT: 15pt"> 
+			</form>    
         </td>
         <td>
             <fmt:formatDate value="${row.date}" pattern="yyyy-MM-dd"/>
@@ -83,7 +90,7 @@ input {
 <sec:authorize access="hasRole('ROLE_MEMBER')">
 	<a href="${initParam.rootPath}/common/boardfree/boardfree_form.do"><button>등록</button></a>
 </sec:authorize>
-</div>
+
 <p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리
@@ -140,5 +147,6 @@ input {
 	<a href="${initParam.rootPath}/common/boardfree/boardFreeByBoardFreeHits.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
 
 </p>
+</div>
 </body>
 </html>

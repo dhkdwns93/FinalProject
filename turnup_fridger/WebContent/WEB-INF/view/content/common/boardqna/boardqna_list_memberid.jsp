@@ -9,16 +9,24 @@
 <title>Insert title here</title>
 <style type="text/css">
 form{display:inline}
+th{
+text-align:center
+}
 input:focus {
   outline: none;
 }
 </style>
 </head>
 <body>
+<c:if test="${requestScope.error != null}">
+	<script type="text/javascript">alert('권한이 없습니다.')</script>
+</c:if>
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+
 
 <!-- 검색결과가 없을 때 -->
 <c:if test="${empty list}">
-<div id="table" style="width:800px; margin-left: auto; margin-right: auto;">
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 	<h1>QnA 게시판 </h1><br>
 	<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
 		<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
@@ -42,31 +50,31 @@ input:focus {
 
 <!-- 검색결과가 있을때  -->
 <c:if test="${!empty list}">
-<div id="table" style="width:800px; margin-left: auto; margin-right: auto;">
-	<h1>QnA 게시판 </h1><br>
-	<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
-		<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
-		<!-- 검색 버튼 -->
-		<div style="float:right">
-		<form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
-			<input type="text" name="memberId" placeholder="아이디를 입력해주세요">
-			<button>검색</button>
-			<sec:csrfInput/>
-		</form>
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<h1>QnA 게시판 </h1><br>
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
+<!-- 검색 버튼 -->
+<div style="float:right">
+<form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
+	<input type="text" name="memberId" placeholder="아이디를 입력해주세요">
+	<button>검색</button>
+	<sec:csrfInput/>
+</form>
 </div>
 <thead id="thead">
     <tr>
-        <th>번호</th>
-        <th>제목</th>
-        <th>작성일</th>
-        <th>작성자</th>
-        <th>댓글수</th>
+        <th style="width:5%;">번호</th>
+        <th style="width:50%;">제목</th>
+        <th style="width:10%;">작성일</th>
+        <th style="width:15%;">작성자</th>
+        <th style="width:10%;">댓글수</th>
     </tr>
  </thead>
 <c:forEach var="row" items="${list}" varStatus="status">
     <tr>
         <td>${requestScope.totalCount-((requestScope.pageBean.page -1 ) * 10 + status.index)}</td>
-        <td>
+        <td style="width:50%;">
         <form name="form" action="${initParam.rootPath}/common/boardqna/boardQnAView.do" method="post">
         	<!-- 회원일때 보여줌 -->
         	<sec:authorize access="hasRole('ROLE_MEMBER')">
@@ -110,8 +118,6 @@ input:focus {
 <sec:authorize access="hasRole('ROLE_MEMBER')">
  	<a href="${initParam.rootPath}/common/boardqna/boardqna_form.do"><button>등록</button></a>
 </sec:authorize>
-</div>
-
 <p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리
@@ -167,6 +173,7 @@ input:focus {
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do?page=${requestScope.pageBean.totalPage}&memberId=${requestScope.memberId}">마지막페이지</a>
 </p>
-</c:if><br>
+</div>
+</c:if>
 </body>
 </html>

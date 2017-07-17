@@ -47,6 +47,7 @@ function closeWindow(){
 }; */
 </script>
 <style type="text/css">
+form{display:inline}
  span, td, th{
 	padding: 5px; 
  }
@@ -54,10 +55,15 @@ function closeWindow(){
 	font-size:small;
 	color: red;
  }
+ h1{display:inline}
+h2{display:inline}
 </style>
 </head>
 <body>
-<h1>자유 게시판 > 댓글 수정</h1><br>
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
+<h1>자유 게시판 ></h1><h2>${commentFree.memberId }님의 댓글 수정</h2><br>
 <hr>
 <form id="upload" method="post" action="${initParam.rootPath}/common/commentfree/commentFreeUploadForm.do"<%--  onsubmit="closeWindow()" --%>>
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
@@ -65,13 +71,13 @@ function closeWindow(){
 <table>
 	<tr>
 		<th>작성자</th>
-		<td><input type="text" name="memberId" id="memberId" readonly value="${commentFree.memberId }"><br></td>
+		<td><input type="text" class="form-control" style="float:left;width:40%;" name="memberId" id="memberId" readonly value="${commentFree.memberId }"><br></td>
 	</tr>
 	<tr>
 		<th>내용</th>
 		<td>
-			<textarea name="commentFreeTxt" id="commentFreeTxt" row="120"cols="70">${commentFree.commentFreeTxt}</textarea>
-			<span class="error"><form:errors path="commentFree.commentFreeTxt" delimiter="&nbsp;"/>
+			<textarea class="form-control" name="commentFreeTxt" id="commentFreeTxt" row="120"cols="70">${commentFree.commentFreeTxt}</textarea>
+			<span class="error"><form:errors path="commentFree.commentFreeTxt" delimiter="&nbsp;"/></span>
 		</td>
 	</tr>
 </table>
@@ -79,6 +85,14 @@ function closeWindow(){
 		<input type="hidden" name="boardFreeId" id="boardFreeId" value="${commentFree.boardFreeId}">
 		<input id="submit" type="submit" value="수정"  onclick="return comment_update_event();">
 </form>
+<form action="${initParam.rootPath}/common/boardfree/boardFreeView.do" method="post">
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+        <input type="hidden" name="member" value=""> 
+        <input type="hidden" name="admin" value="">
+        <input type="hidden" name="memberId" value="${commentFree.memberId}">
+<button value="${commentFree.boardFreeId}" name="boardFreeId">뒤로가기</button>
+</form> 
+</div>
 </body>
 </html>
 
