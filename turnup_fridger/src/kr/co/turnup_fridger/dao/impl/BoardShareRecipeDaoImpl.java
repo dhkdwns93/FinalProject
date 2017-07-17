@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.co.turnup_fridger.dao.BoardShareRecipeDao;
 import kr.co.turnup_fridger.vo.BoardShareRecipe;
+import kr.co.turnup_fridger.vo.IrdntManage;
 import kr.co.turnup_fridger.vo.MemberRecipeRecommand;
 
 @Repository
@@ -21,11 +22,8 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 	private String makeSqlId(String id){
 		return "kr.co.turnup_fridger.config.mybatis.mapper.BoardShareRecipeMapper."+id;
 	}
-	//레시피공유사진
-	private String sql(String id){
-		return "kr.co.turnup_fridger.config.mybatis.mapper.BoardShareRecipeImgMapper."+id;
-	}
 	
+
 	@Override
 	public int insertBoardShareRecipe(BoardShareRecipe boardShareRecipe) {
 		
@@ -75,7 +73,12 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 		return session.selectList(makeSqlId("selectBoardShareRecipeByAll"), input);
 	}
 	
-	
+	@Override
+	public int updateImageNull(BoardShareRecipe boardShareRecipe) {
+		// TODO Auto-generated method stub
+		return session.update(makeSqlId("imageUpdateNull"), boardShareRecipe);
+	}
+
 	@Override
 	public int updateBoardRecommand(int recipeId) {
 		// TODO Auto-generated method stub
@@ -89,7 +92,7 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 	@Override
 	public MemberRecipeRecommand selectRecommand(int recipeId, String memberId) {
 		HashMap<String, Object> recommandMap = new HashMap<>();
-		recommandMap.put("recip;eId", recipeId);
+		recommandMap.put("recipeId", recipeId);
 		recommandMap.put("memberId", memberId);
 		return session.selectOne(makeSqlId("selectRecommand"), recommandMap);
 	}
@@ -97,6 +100,19 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 	public int deleteRecommand(int recipeId) {
 		// TODO Auto-generated method stub
 		return session.delete(makeSqlId("deleteRecommand"), recipeId);
+	}
+	
+
+	@Override
+	public MemberRecipeRecommand selectRecommandOne(int recipeId) {
+		// TODO Auto-generated method stub
+		return session.selectOne(makeSqlId("selectRecommandOne"), recipeId);
+	}
+	
+	@Override
+	public List<MemberRecipeRecommand> selectRecommandByRecipeId(int recipeId) {
+	
+		return session.selectList(makeSqlId("selectRecommandByRecipeId"), recipeId);
 	}
 	@Override
 	public List<BoardShareRecipe> boardSearchByTitle(int startIndex, int endIndex, String keyword) {
@@ -128,37 +144,9 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 		return session.selectList(makeSqlId("selectBoardTop4"));
 	}
 	@Override
-	public List<BoardShareRecipe> selectBoardShareRecipeByRecipeIdToIrdnt(int recipeId) {
+	public BoardShareRecipe selectBoardShareRecipeByRecipeIdToIrdnt(int recipeId) {
 		
-		return session.selectList(makeSqlId("selectBoardShareRecipeByRecipeIdToIrdnt"), recipeId);
-	}
-	@Override
-	public List<String> selectBoardShareRecipeByRecipeIdToImg(int recipeId) {
-		
-		return session.selectList(makeSqlId("selectBoardShareRecipeByRecipeIdToImg"), recipeId);
-	}
-	
-	@Override
-	public int insertBoardShareRecipeImg(HashMap map) {
-		return session.insert(sql("insertBoardShareRecipeImg"), map);
-	}
-	
-	
-	@Override
-	public int deleteBoardShareRecipeImgByKey(int boardShareRecipeImgKey) {
-		// TODO Auto-generated method stub
-		return session.delete(sql("deleteBoardShareRecipeImgByKey"), boardShareRecipeImgKey);
-	}
-	@Override
-	public int deleteBoardShareRecipeImgAll(int recipeId) {
-		// TODO Auto-generated method stub
-		return session.delete(sql("deleteBoardShareRecipeImgAll"), recipeId);
-	}
-	
-	@Override
-	public List<String> selectBoardShareRecipeImg(int recipeId) {
-		// TODO Auto-generated method stub
-		return session.selectList(sql("selectBoardShareRecipeImg"), recipeId);
+		return session.selectOne(makeSqlId("selectBoardShareRecipeByRecipeIdToIrdnt"), recipeId);
 	}
 	
 	@Override
@@ -169,7 +157,6 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 		
 		return session.selectList(makeSqlId("selectBoardShareRecipeById"),map);
 	}
-	
 	
 	
 	

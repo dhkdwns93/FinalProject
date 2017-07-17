@@ -61,6 +61,7 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 
 	@Override
 	public void updateBoardShareRecipe(BoardShareRecipe boardShareRecipe) {
+		System.out.println("BoardShareRecipeServiceImpl :"+boardShareRecipe );
 		dao.updateBoardShareRecipeByRecipeId(boardShareRecipe);
 		
 	}
@@ -86,7 +87,7 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 		int totalCount= dao.selectBoardCount();
 		PagingBean pageBean = new PagingBean(totalCount, page);
 		map.put("pageBean",	pageBean);
-		System.out.println("rrrrr");
+//		System.out.println("rrrrr");
 		List<BoardShareRecipe> list = dao.selectBoardShareRecipeByAll(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
 		
 		System.out.println(list);
@@ -117,8 +118,23 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 	@Override
 	public MemberRecipeRecommand selectRecommandService(int recipeId, String memberId) {
 		
-		
+		/*MemberRecipeRecommand overLap = dao.selectRecommand(recipeId, memberId);	
+		//중복 추천 했을 경우 
+		if(overLap.getRecipeId()==recipeId&&overLap.getMemberId().equals(memberId)){
+			throw new OverLapException( "이미 추천하신 게시물입니다.");
+		//비회원이 추천버튼을 눌렀을 경우
+		}else if(memberId.trim().isEmpty()||memberId==null){
+			throw new FindMemberFailException("회원에게만 추천 기능이 부여됩니다.");
+		}*/
 		return dao.selectRecommand(recipeId, memberId);
+	}
+
+	
+
+	@Override
+	public MemberRecipeRecommand selectRecommandOne(int recipeId) {
+		
+		return dao.selectRecommandOne(recipeId);
 	}
 
 
@@ -144,7 +160,12 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 		return map;
 	}
 
-
+	@Override
+	public List<MemberRecipeRecommand> selectRecommandByRecipeId(int recipeId) {
+		
+		return dao.selectRecommandByRecipeId(recipeId);
+		
+	}
 
 	@Override
 	public Map<String, Object> boardSearchByTxt(int page, String keyword) {
@@ -181,44 +202,18 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 		return boardTop;
 	}
 
-
-
 	@Override
-	public List<BoardShareRecipe> selectBoardShareRecipeByRecipeIdToIrdnt(int recipeId) {
+	public BoardShareRecipe selectBoardByShareIrdnt(int recipeId) {
 		
 		return dao.selectBoardShareRecipeByRecipeIdToIrdnt(recipeId);
 	}
 	@Override
-	public List<String> selectBoardShareRecipeByRecipeIdToImg(int recipeId) {
-		
-		return dao.selectBoardShareRecipeByRecipeIdToImg(recipeId);
-	}
-
-	@Override
-	public void insertBoardShareRecipeImg(int recipeId, String boardShareRecipeImgUrl) {
-		HashMap map = new HashMap();
-		map.put("recipeId",recipeId);
-		map.put("image", boardShareRecipeImgUrl);
-		dao.insertBoardShareRecipeImg(map);
+	public void updateImageNull(BoardShareRecipe boardShareRecipe) {
+		// TODO Auto-generated method stub
+		dao.updateImageNull(boardShareRecipe);
 	}
 	
-	@Override
-	public void deleteBoardShareRecipeImgByKey(int boardShareRecipeImgKey) {
 	
-		dao.deleteBoardShareRecipeImgByKey(boardShareRecipeImgKey);
-	}
-
-	@Override
-	public void deleteBoardShareRecipeImgAll(int recipeId) {
-		
-		dao.deleteBoardShareRecipeImgAll(recipeId);
-	}
-	
-	@Override
-	public List<String> selectBoardShareRecipeImg(int recipeId) {
-	
-		return dao.selectBoardShareRecipeImg(recipeId);
-	}
 
 
 

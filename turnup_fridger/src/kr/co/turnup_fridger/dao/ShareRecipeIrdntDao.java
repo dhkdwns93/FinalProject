@@ -24,24 +24,37 @@ public interface ShareRecipeIrdntDao {
 	 * @return
 	 */
 	int deleteShareRecipeIrdnt(int irdntKey);
+	
+	int deleteShareRecipeIrdntByRecipeId(int recipeId);
+	
+	
+	int deleteShareRecipeIrdntByIrdntId(int irdntId);
 	/**
 	 * irdntId로  공유레시피재료 조회
 	 * @param irdntId
 	 * @return
 	 */
-	List<ShareRecipeIrdnt> selectShareRecipeIrdntByIrdntId(int irdntId);
+	ShareRecipeIrdnt selectShareRecipeIrdntByIrdntId(int irdntId);
 	/**
 	 * recipeId로 공유레시피재료 조회
 	 * @param recipeId
 	 * @return
 	 */
 	List<ShareRecipeIrdnt> selectShareRecipeIrdntByRecipeId(int recipeId);
+	
+	ShareRecipeIrdnt selectShareRecipeByIrdntKey(int irdntKey);
+	
+	
 	/**
-	 * 전체조회
+	 * irdntName으로  조회
+	 * @param irdntName
 	 * @return
 	 */
-	List<ShareRecipeIrdnt> selectShareRecipeIrdntAll();
+	ShareRecipeIrdnt selectShareRecipeByIrdntName(String irdntName);
 	
+	ShareRecipeIrdnt selectShareRecipeIrdntByRecipeIdByIrdntId(ShareRecipeIrdnt shareRecipeIrdnt);
+	
+	ShareRecipeIrdnt selectShareRecipeIrdntByRecipeIdNotList(int recipeId);
 	/**
 	 * 입력받은 재료id들로 해당 레시피공유게시판글id들만 골라내는 작업. 
 	 * @param irdntIds
@@ -49,5 +62,11 @@ public interface ShareRecipeIrdntDao {
 	 * @return
 	 */
 	List<Integer> getRecipeBoardIdByIrdntIds(List<Integer> irdntIds, List<Integer> hateIrdntIds);
+	
+	
+	
+	//상세보기 페이지2
+	List<ShareRecipeIrdnt> findShareRecipeIrdntByRecipeId(int recipeId);
+
 	
 }

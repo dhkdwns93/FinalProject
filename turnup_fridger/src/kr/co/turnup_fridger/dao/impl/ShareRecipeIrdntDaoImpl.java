@@ -38,16 +38,53 @@ public class ShareRecipeIrdntDaoImpl implements ShareRecipeIrdntDao{
 		return session.delete(sql("deleteShareRecipeIrdnt"), irdntKey);
 	}
 	
-	@Override
+/*	@Override
 	public List<ShareRecipeIrdnt> selectShareRecipeIrdntAll() {
 		// TODO Auto-generated method stub
 		return session.selectList(sql("selectShareRecipeIrdntAll"));
+	}*/
+	@Override
+	public ShareRecipeIrdnt selectShareRecipeByIrdntName(String irdntName) {
+		// TODO Auto-generated method stub
+		return session.selectOne(sql("selectShareRecipeByIrdntName"), irdntName);
+	}
+
+	@Override
+	public ShareRecipeIrdnt selectShareRecipeIrdntByRecipeIdByIrdntId(ShareRecipeIrdnt shareRecipeIrdnt) {
+		// TODO Auto-generated method stub
+		return session.selectOne(sql("selectShareRecipeIrdntByRecipeIdByIrdntId"), shareRecipeIrdnt);
+	}
+
+	@Override
+	public int deleteShareRecipeIrdntByRecipeId(int recipeId) {
+		// TODO Auto-generated method stub
+		return session.delete(sql("deleteShareRecipeIrdntByRecipeId"), recipeId);
+	}
+
+	@Override
+	public int deleteShareRecipeIrdntByIrdntId(int irdntId) {
+		// TODO Auto-generated method stub
+		return session.delete(sql("deleteShareRecipeIrdntByIrdntId"), irdntId);
 	}
 	
+	
+
 	@Override
-	public List<ShareRecipeIrdnt> selectShareRecipeIrdntByIrdntId(int irdntId) {
+	public ShareRecipeIrdnt selectShareRecipeIrdntByRecipeIdNotList(int recipeId) {
 		// TODO Auto-generated method stub
-		return session.selectList(sql("selectShareRecipeIrdntByIrdntId"), irdntId);
+		return session.selectOne(sql("selectShareRecipeIrdntByRecipeIdNotList"), recipeId);
+	}
+
+	@Override
+	public ShareRecipeIrdnt selectShareRecipeByIrdntKey(int irdntKey) {
+		// TODO Auto-generated method stub
+		return session.selectOne(sql("selectShareRecipeByIrdntKey"), irdntKey);
+	}
+
+	@Override
+	public ShareRecipeIrdnt selectShareRecipeIrdntByIrdntId(int irdntId) {
+		// TODO Auto-generated method stub
+		return session.selectOne(sql("selectShareRecipeIrdntByIrdntId"), irdntId);
 	}
 	
 	@Override
@@ -64,6 +101,17 @@ public class ShareRecipeIrdntDaoImpl implements ShareRecipeIrdntDao{
 		
 		return session.selectList(sql("getRecipeBoardIdByIrdntIds"),map);
 	}
+	
+	
+	//////////////////////////
+
+	@Override
+	public List<ShareRecipeIrdnt> findShareRecipeIrdntByRecipeId(int recipeId) {
+		// TODO Auto-generated method stub
+		return 	session.selectList(sql("selectRecipeId"),recipeId);
+	}
+	
+
 	
 	
 }

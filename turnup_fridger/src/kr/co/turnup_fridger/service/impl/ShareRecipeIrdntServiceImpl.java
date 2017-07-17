@@ -16,40 +16,82 @@ public class ShareRecipeIrdntServiceImpl implements ShareRecipeIrdntService{
 	private ShareRecipeIrdntDao dao;
 	
 	@Override
-	public void insertShareRecipeIrdnt(ShareRecipeIrdnt shareRecipeIrdnt) {
-		// TODO Auto-generated method stub
+	public void insertShareRecipeIrdnt(ShareRecipeIrdnt shareRecipeIrdnt) throws Exception {
+	/*if(dao.selectShareRecipeIrdntByRecipeIdByIrdntId(shareRecipeIrdnt)!=null){
+		throw new Exception("이미 등록된 재료입니다.");
+	}*/
 		dao.insertShareRecipeIrdnt(shareRecipeIrdnt);
 	}
 
 	@Override
-	public void updateShareRecipeIrdnt(ShareRecipeIrdnt shareRecipeIrdnt) {
-		// TODO Auto-generated method stub
+	public void updateShareRecipeIrdnt(ShareRecipeIrdnt shareRecipeIrdnt) throws Exception {
+	/*	if(dao.selectShareRecipeByIrdntKey(shareRecipeIrdnt.getIrdntKey())==null){
+			throw new Exception("등록되지 않은 재료입니다.");
+		}*/
 		dao.updateShareRecipeIrdnt(shareRecipeIrdnt);
 	}
 	
 	@Override
-	public void deleteShareRecipeIrdnt(int irdntKey) {
-		// TODO Auto-generated method stub
+	public void deleteShareRecipeIrdnt(int irdntKey) throws Exception {
+		/*if(dao.selectShareRecipeByIrdntKey(irdntKey)==null){
+			throw new Exception("등록되지 않은 재료 입니다.");
+		}*/
 		dao.deleteShareRecipeIrdnt(irdntKey);
 	}
-	
 	@Override
-	public List<ShareRecipeIrdnt> selectShareRecipeIrdntAll() {
+	public void deleteShareRecipeIrdntByRecipeId(int recipeId) {
 		// TODO Auto-generated method stub
-		return dao.selectShareRecipeIrdntAll();
+		dao.deleteShareRecipeIrdntByRecipeId(recipeId);
+	}
+
+	@Override
+	public void deleteShareRecipeIrdntByIrdntId(int irdntId) {
+		// TODO Auto-generated method stub
+		dao.deleteShareRecipeIrdntByIrdntId(irdntId);
+	}
+	
+	
+
+
+	@Override
+	public ShareRecipeIrdnt selectShareRecipeByIrdntName(String irdntName) {
+		// TODO Auto-generated method stub
+		return dao.selectShareRecipeByIrdntName(irdntName);
 	}
 	
 	
 	@Override
-	public List<ShareRecipeIrdnt> selectShareRecipeIrdntByIrdntId(int irdntId) {
+	public ShareRecipeIrdnt selectShareRecipeByIrdntKey(int irdntKey) {
 		// TODO Auto-generated method stub
-		return dao.selectShareRecipeIrdntByIrdntId(irdntId);
+		return dao.selectShareRecipeByIrdntKey(irdntKey);
+	}
+	@Override
+	public ShareRecipeIrdnt selectShareRecipeIrdntByRecipeIdByIrdntId(ShareRecipeIrdnt shareRecipeIrdnt) {
+		// TODO Auto-generated method stub
+		return dao.selectShareRecipeIrdntByRecipeIdByIrdntId(shareRecipeIrdnt);
 	}
 	
+	@Override
+	public ShareRecipeIrdnt selectShareRecipeIrdntByRecipeIdNotList(int recipeId) {
+		// TODO Auto-generated method stub
+		return dao.selectShareRecipeIrdntByRecipeIdNotList(recipeId);
+	}
+
 	@Override
 	public List<ShareRecipeIrdnt> selectShareRecipeIrdntByRecipeId(int recipeId) {
 		// TODO Auto-generated method stub
 		return dao.selectShareRecipeIrdntByRecipeId(recipeId);
 	}
+
+	
+	
+	//////////////////////////////////////
+	@Override
+	public List<ShareRecipeIrdnt> findShareRecipeIrdntByRecipeId(int recipeId) {
+		// TODO Auto-generated method stub
+		return dao.findShareRecipeIrdntByRecipeId(recipeId);
+	}
+	
+	
 	
 }

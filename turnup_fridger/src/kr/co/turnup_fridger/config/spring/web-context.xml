@@ -95,23 +95,23 @@
 
 <!-- 왕준 view 등록 -->
 	<!-- 전체목록폼 링크 -->
-	<mvc:view-controller path="boardRecipe/boardRecipe_list.do" view-name="boardRecipe/boardRecipe_list.tiles"/>
+	<mvc:view-controller path="/boardRecipe/boardRecipe_list.do" view-name="boardRecipe/boardRecipe_list.tiles"/>
 	<!-- 게시물작성폼 링크 -->
-	<mvc:view-controller path="/common/member/boardRecipe/boardRecipe_write.do" view-name="/common/member/boardRecipe/boardRecipe_write.tiles"/>
+	<mvc:view-controller path="/common/member/boardRecipe/boardRecipe_write.do" view-name="common/member/boardRecipe/boardRecipe_write.tiles"/>
 	<!-- 검색 폼 -->
-	<mvc:view-controller path="/common/member/boardRecipe/boardRecipe_search_result.do" view-name="/common/member/boardRecipe/boardRecipe_search_result"/>
+	<mvc:view-controller path="/common/member/boardRecipe/boardRecipe_search_result.do" view-name="common/member/boardRecipe/boardRecipe_search_result"/>
 	<!-- 게시물 작성 성공폼 링크 -->
-	<mvc:view-controller path="/common/member/boardRecipe/boardRecipe_success.do" view-name="/common/member/boardRecipe/boardRecipe_success.tiles"/>
+	<mvc:view-controller path="/common/member/boardRecipe/boardRecipe_success.do" view-name="common/member/boardRecipe/boardRecipe_success.tiles"/>
 	<!-- 게시물 보기  -->
-	<mvc:view-controller path="boardRecipe/boardRecipe_view.do" view-name="boardRecipe/boardRecipe_view.tiles"/>
+	<mvc:view-controller path="/boardRecipe/boardRecipe_view.do" view-name="boardRecipe/boardRecipe_view.tiles"/>
 	<!-- 등록 상세페이지 -->
-	<mvc:view-controller path="/common/member/boardRecipe/boardRecipe_registerView.do" view-name="/common/member/boardRecipe/boardRecipe_registerView.tiles"/>
+	<mvc:view-controller path="/common/member/boardRecipe/boardRecipe_registerView.do" view-name="common/member/boardRecipe/boardRecipe_registerView.tiles"/>
 	<!-- 게시물 수정 폼  -->
-	<mvc:view-controller path="/common/boardRecipe/boardRecipe_update.do" view-name="/common/boardRecipe/boardRecipe_update.tiles"/>
+	<mvc:view-controller path="/common/boardRecipe/boardRecipe_update.do" view-name="common/boardRecipe/boardRecipe_update.tiles"/>
 	<!-- 게시물 수정 성공폼 -->
-	<mvc:view-controller path="/common/boardRecipe/boardRecipe_updateOk.do" view-name="/common/boardRecipe/boardRecipe_updateOk.tiles"/>
+	<mvc:view-controller path="/common/boardRecipe/boardRecipe_updateOk.do" view-name="common/boardRecipe/boardRecipe_updateOk.tiles"/>
 	<!-- 게시물 삭제 -->
-	<mvc:view-controller path="/common/boardRecipe/boardRecipe_delete.do" view-name="/common/boardRecipe/boardRecipe_delete.tiles"/>
+	<mvc:view-controller path="/common/boardRecipe/boardRecipe_delete.do" view-name="common/boardRecipe/boardRecipe_delete.tiles"/>
 
 
 	<!-- 경혜 view controller등록-->

@@ -128,7 +128,7 @@ public class MyIrdntController {
 	
 	@RequestMapping("findIrdntByName" )
 	@ResponseBody
-	public List<IrdntManage> findIrdntByName(@RequestParam String irdntName){
+	public List<IrdntManage> findIrdntByNameInMyIrdntHandler(@RequestParam String irdntName){
 		List<IrdntManage> list = irdntService.findIrdntByName(irdntName);
 		return list;
 	}

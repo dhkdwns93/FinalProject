@@ -125,7 +125,7 @@ public class IrdntManageController {
 	//레시피 등록/수정시 필요!
 	@RequestMapping("findIrdntByName")
 	@ResponseBody
-	public List<IrdntManage> findIrdntByName(@RequestParam String irdntName){
+	public List<IrdntManage> findIrdntByNameInIrdntManageHandler(@RequestParam String irdntName){
 		System.out.println("findIrdntByName 핸들러: irdntName:"+irdntName);//받아옴
 		List<IrdntManage> list = service.findIrdntByName(irdntName);
 		System.out.println(list);

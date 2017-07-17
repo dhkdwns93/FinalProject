@@ -29,32 +29,13 @@ public class BoardShareRecipe implements Serializable{
 	//Join
 	private List<MemberRecipeRecommand>memberRecommand;//추천현황 객체
 	private List<ShareRecipeIrdnt> shareRecipeIrdnt;//재료명 객체
-	
-	
+
 	public BoardShareRecipe(){
 		
 	}
-	
-	
-	
-
-	public BoardShareRecipe(String title, String txt, String etc, MultipartFile upImage,
-			List<ShareRecipeIrdnt> shareRecipeIrdnt) {
-		super();
-		this.title = title;
-		this.txt = txt;
-		this.etc = etc;
-		this.upImage = upImage;
-		this.shareRecipeIrdnt = shareRecipeIrdnt;
-	}
-
-
-
 
 	public BoardShareRecipe(int recipeId, String title, String txt, Date date, int recommand, int hits, String etc,
-			String saveName, String original, String memberId, Member member, MultipartFile upImage,
-			List<MemberRecipeRecommand> memberRecommand, List<ShareRecipeIrdnt> shareRecipeIrdnt) {
-		super();
+			String saveName, String original, String memberId) {
 		this.recipeId = recipeId;
 		this.title = title;
 		this.txt = txt;
@@ -65,152 +46,128 @@ public class BoardShareRecipe implements Serializable{
 		this.saveName = saveName;
 		this.original = original;
 		this.memberId = memberId;
-		this.member = member;
-		this.upImage = upImage;
-		this.memberRecommand = memberRecommand;
-		this.shareRecipeIrdnt = shareRecipeIrdnt;
 	}
-
-
+	
+	
 	public int getRecipeId() {
 		return recipeId;
 	}
-
 
 	public void setRecipeId(int recipeId) {
 		this.recipeId = recipeId;
 	}
 
-
 	public String getTitle() {
 		return title;
 	}
-
 
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-
 	public String getTxt() {
 		return txt;
 	}
-
 
 	public void setTxt(String txt) {
 		this.txt = txt;
 	}
 
-
 	public Date getDate() {
 		return date;
 	}
-
 
 	public void setDate(Date date) {
 		this.date = date;
 	}
 
-
 	public int getRecommand() {
 		return recommand;
 	}
-
 
 	public void setRecommand(int recommand) {
 		this.recommand = recommand;
 	}
 
-
 	public int getHits() {
 		return hits;
 	}
-
 
 	public void setHits(int hits) {
 		this.hits = hits;
 	}
 
-
 	public String getEtc() {
 		return etc;
 	}
-
 
 	public void setEtc(String etc) {
 		this.etc = etc;
 	}
 
-
 	public String getSaveName() {
 		return saveName;
 	}
-
 
 	public void setSaveName(String saveName) {
 		this.saveName = saveName;
 	}
 
-
 	public String getOriginal() {
 		return original;
 	}
-
 
 	public void setOriginal(String original) {
 		this.original = original;
 	}
 
-
 	public String getMemberId() {
 		return memberId;
 	}
-
 
 	public void setMemberId(String memberId) {
 		this.memberId = memberId;
 	}
 
-
 	public Member getMember() {
 		return member;
 	}
-
 
 	public void setMember(Member member) {
 		this.member = member;
 	}
 
-
 	public MultipartFile getUpImage() {
 		return upImage;
 	}
-
 
 	public void setUpImage(MultipartFile upImage) {
 		this.upImage = upImage;
 	}
 
-
 	public List<MemberRecipeRecommand> getMemberRecommand() {
 		return memberRecommand;
 	}
-
 
 	public void setMemberRecommand(List<MemberRecipeRecommand> memberRecommand) {
 		this.memberRecommand = memberRecommand;
 	}
 
-
 	public List<ShareRecipeIrdnt> getShareRecipeIrdnt() {
 		return shareRecipeIrdnt;
 	}
-
 
 	public void setShareRecipeIrdnt(List<ShareRecipeIrdnt> shareRecipeIrdnt) {
 		this.shareRecipeIrdnt = shareRecipeIrdnt;
 	}
 
+	@Override
+	public String toString() {
+		return "BoardShareRecipe [recipeId=" + recipeId + ", title=" + title + ", txt=" + txt + ", date=" + date
+				+ ", recommand=" + recommand + ", hits=" + hits + ", etc=" + etc + ", saveName=" + saveName
+				+ ", original=" + original + ", memberId=" + memberId + ", member=" + member + ", upImage=" + upImage
+				+ ", memberRecommand=" + memberRecommand + ", shareRecipeIrdnt=" + shareRecipeIrdnt + "]";
+	}
 
 	@Override
 	public int hashCode() {
@@ -232,7 +189,6 @@ public class BoardShareRecipe implements Serializable{
 		result = prime * result + ((upImage == null) ? 0 : upImage.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -307,15 +263,6 @@ public class BoardShareRecipe implements Serializable{
 		return true;
 	}
 
-
-	@Override
-	public String toString() {
-		return "BoardShareRecipe [recipeId=" + recipeId + ", title=" + title + ", txt=" + txt + ", date=" + date
-				+ ", recommand=" + recommand + ", hits=" + hits + ", etc=" + etc + ", saveName=" + saveName
-				+ ", original=" + original + ", memberId=" + memberId + ", member=" + member + ", upImage="
-				+ upImage + ", memberRecommand=" + memberRecommand + ", shareRecipeIrdnt=" + shareRecipeIrdnt + "]";
-	}
-	
 	
 	 
 	

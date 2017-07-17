@@ -22,6 +22,19 @@
 		<result column="BOARD_SHARE_RECIPE_ID" property="BOARD_SHARE_RECIPE_ID"/>
 	</resultMap>
 	
+	<!-- resultMap 공유게시판+공유재료+재료보관 -->
+	<resultMap type="shareRecipeIrdnt" id="shareRecipeIrdnt-manage-resultmap" extends="shareRecipeIrdnt-resultmap">
+		<association property="irdntManage" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.IrdntManageMapper.irdntManage-resultmap"/>
+		<association property="boardShareRecipe" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.BoardShareRecipeMapper.boardShareRecipe-resultmap"/>	
+	</resultMap>
+	
+	<!-- resultMap 공유재료+재료보관 -->
+	<resultMap type="shareRecipeIrdnt" id="recipeId-resultmap" extends="shareRecipeIrdnt-resultmap">
+		<association property="irdntManage" resultMap="kr.co.turnup_fridger.config.mybatis.mapper.IrdntManageMapper.irdntManage-resultmap"/>
+	</resultMap>
+	
+	
+	
 	<insert id="insertShareRecipeIrdnt" parameterType="shareRecipeIrdnt">
 		<selectKey keyProperty="irdntKey" resultType="int" order="BEFORE">
 		SELECT SHARE_RECIPE_IRDNT_KEY.NEXTVAL FROM DUAL
@@ -44,19 +57,103 @@
 		WHERE SHARE_RECIPE_IRDNT_KEY = #{irdntKey}
 	</delete>
 	
-	<select id="selectShareRecipeIrdntAll" resultMap="shareRecipeIrdnt-resultmap">
-		<include refid="all-column"/>
-	</select>
+	<delete id="deleteShareRecipeIrdntByRecipeId" parameterType="int">
+		DELETE FROM SHARE_RECIPE_IRDNT
+		WHERE BOARD_SHARE_RECIPE_ID = #{recipeId}
+	</delete>
 	
-	<select id="selectShareRecipeIrdntByIrdntId" parameterType="int" resultMap="shareRecipeIrdnt-resultmap">
+	<delete id="deleteShareRecipeIrdntByIrdntId" parameterType="int">
+		DELETE FROM SHARE_RECIPE_IRDNT
+		WHERE IRDNT_ID = #{irdntId}
+	</delete>
+	
+	<!-- <select id="selectShareRecipeIrdntAll" resultMap="shareRecipeIrdnt-resultmap">
+		<include refid="all-column"/>
+	</select> -->
+	
+	<!-- <select id="selectShareRecipeIrdntByIrdntId" parameterType="int" resultMap="shareRecipeIrdnt-resultmap">
 		<include refid="all-column"/>
 		WHERE IRDNT_ID = #{irdntId}
-	</select>
+	</select> -->
 	
-	<select id="selectShareRecipeIrdntByRecipeId" parameterType="int" resultMap="shareRecipeIrdnt-resultmap">
-		<include refid="all-column"/>
-		WHERE BOARD_SHARE_RECIPE_ID = #{recipeId}
-	</select>
+	
+	<!-- 왕준 레시피 재료 + 누나 레시피 재료 -->
+	<select id="selectRecipeId" parameterType="int" resultMap="recipeId-resultmap">
+		SELECT 	s.SHARE_RECIPE_IRDNT_KEY,
+				s.BOARD_SHARE_RECIPE_ID,
+				s.IRDNT_ID,
+				m.IRDNT_ID,
+				m.IRDNT_NAME,
+				m.IRDNT_CATEGORY,
+				m.ROOM_TEM_PERIOD,
+				m.COLD_TEM_PERIOD,
+				m.FREEZE_TEM_PERIOD,
+				m.NOTE
+		FROM SHARE_RECIPE_IRDNT s, IRDNT_MANAGE m 
+		WHERE s.IRDNT_ID = m.IRDNT_ID(+)
+		AND s.BOARD_SHARE_RECIPE_ID = #{recipeId}
+	</select> 
+	
+	
+	
+	
+	
+	
+	
+		<!-- 3개 조인  -->
+	<select id="selectShareRecipeIrdntByRecipeId" parameterType="int" resultMap="shareRecipeIrdnt-manage-resultmap">
+		SELECT 	b.BOARD_SHARE_RECIPE_ID, 
+				b.BOARD_SHARE_RECIPE_TITLE, 
+				b.BOARD_SHARE_RECIPE_TXT, 
+				b.BOARD_SHARE_RECIPE_DATE, 
+				b.BOARD_SHARE_RECIPE_RECOMMAND, 
+				b.BOARD_SHARE_RECIPE_HITS, 
+				b.BOARD_SHARE_IRDNT_ETC, 
+				b.BOARD_SHARE_RECIPE_SAVE_NAME,
+				b.BOARD_SHARE_RECIPE_ORIGINAL,
+				b.MEMBER_ID,
+				s.SHARE_RECIPE_IRDNT_KEY,
+				s.BOARD_SHARE_RECIPE_ID,
+				s.IRDNT_ID,
+				m.IRDNT_ID,
+				m.IRDNT_NAME,
+				m.IRDNT_CATEGORY,
+				m.ROOM_TEM_PERIOD,
+				m.COLD_TEM_PERIOD,
+				m.FREEZE_TEM_PERIOD,
+				m.NOTE
+		FROM BOARD_SHARE_RECIPE b, SHARE_RECIPE_IRDNT S , IRDNT_MANAGE m 
+		WHERE b.BOARD_SHARE_RECIPE_ID = s.BOARD_SHARE_RECIPE_ID(+)
+		AND	s.IRDNT_ID = m.IRDNT_ID(+)
+		AND b.BOARD_SHARE_RECIPE_ID = #{recipeId}
+	</select> 
+	
+	<select id="selectShareRecipeIrdntByRecipeIdNotList" parameterType="int" resultMap="shareRecipeIrdnt-manage-resultmap">
+		SELECT 	b.BOARD_SHARE_RECIPE_ID, 
+				b.BOARD_SHARE_RECIPE_TITLE, 
+				b.BOARD_SHARE_RECIPE_TXT, 
+				b.BOARD_SHARE_RECIPE_DATE, 
+				b.BOARD_SHARE_RECIPE_RECOMMAND, 
+				b.BOARD_SHARE_RECIPE_HITS, 
+				b.BOARD_SHARE_IRDNT_ETC, 
+				b.BOARD_SHARE_RECIPE_SAVE_NAME,
+				b.BOARD_SHARE_RECIPE_ORIGINAL,
+				b.MEMBER_ID,
+				s.SHARE_RECIPE_IRDNT_KEY,
+				s.BOARD_SHARE_RECIPE_ID,
+				s.IRDNT_ID,
+				m.IRDNT_ID,
+				m.IRDNT_NAME,
+				m.IRDNT_CATEGORY,
+				m.ROOM_TEM_PERIOD,
+				m.COLD_TEM_PERIOD,
+				m.FREEZE_TEM_PERIOD,
+				m.NOTE
+		FROM BOARD_SHARE_RECIPE b, SHARE_RECIPE_IRDNT S , IRDNT_MANAGE m 
+		WHERE b.BOARD_SHARE_RECIPE_ID = s.BOARD_SHARE_RECIPE_ID(+)
+		AND	s.IRDNT_ID = m.IRDNT_ID(+)
+		AND b.BOARD_SHARE_RECIPE_ID = #{recipeId}
+	</select> 
 	
 	<select id="getRecipeBoardIdByIrdntIds" resultMap="searchResult" parameterType="java.util.HashMap">
 		SELECT COUNT(*) count, BOARD_SHARE_RECIPE_ID BOARD_SHARE_RECIPE_ID
@@ -91,6 +188,17 @@
 		GROUP BY BOARD_SHARE_RECIPE_ID
 		HAVING COUNT(*) >= 1
 		ORDER BY COUNT(*) DESC,BOARD_SHARE_RECIPE_ID
+	</select>
+	
+	<select id="selectShareRecipeByIrdntKey" parameterType="int" resultMap="shareRecipeIrdnt-resultmap">
+		<include refid="all-column"/>
+		WHERE SHARE_RECIPE_IRDNT_KEY = #{irdntKey}
+	</select>
+	
+	<select id="selectShareRecipeIrdntByRecipeIdByIrdntId" parameterType="shareRecipeIrdnt"
+	resultMap="shareRecipeIrdnt-resultmap">
+		<include refid="all-column"/>
+		WHERE BOARD_SHARE_RECIPE_ID = #{recipeId} AND IRDNT_ID = #{irdntId}
 	</select>
 	
 	

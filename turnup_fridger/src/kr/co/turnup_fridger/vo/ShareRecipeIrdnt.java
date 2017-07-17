@@ -2,15 +2,26 @@ package kr.co.turnup_fridger.vo;
 
 public class ShareRecipeIrdnt {
 	private int irdntKey;
+//	private String irdntName;
 	private int recipeId;
 	private int irdntId;
-	
+	 
 	private BoardShareRecipe boardShareRecipe;
 	private IrdntManage irdntManage;
 	
 	public ShareRecipeIrdnt(){
 		
 	}
+	
+	
+	
+	public ShareRecipeIrdnt(int recipeId, int irdntId) {
+		
+		this.recipeId = recipeId;
+		this.irdntId = irdntId;
+	}
+
+
 
 	public ShareRecipeIrdnt(int irdntKey, int recipeId, int irdntId, BoardShareRecipe boardShareRecipe,
 			IrdntManage irdntManage) {
@@ -22,45 +33,76 @@ public class ShareRecipeIrdnt {
 		this.irdntManage = irdntManage;
 	}
 
+
+
+	public ShareRecipeIrdnt(int irdntKey, int recipeId, int irdntId) {
+		super();
+		this.irdntKey = irdntKey;
+		this.recipeId = recipeId;
+		this.irdntId = irdntId;
+	}
+
+
+
 	public int getIrdntKey() {
 		return irdntKey;
 	}
+
+
 
 	public void setIrdntKey(int irdntKey) {
 		this.irdntKey = irdntKey;
 	}
 
+
+
 	public int getRecipeId() {
 		return recipeId;
 	}
+
+
 
 	public void setRecipeId(int recipeId) {
 		this.recipeId = recipeId;
 	}
 
+
+
 	public int getIrdntId() {
 		return irdntId;
 	}
+
+
 
 	public void setIrdntId(int irdntId) {
 		this.irdntId = irdntId;
 	}
 
+
+
 	public BoardShareRecipe getBoardShareRecipe() {
 		return boardShareRecipe;
 	}
+
+
 
 	public void setBoardShareRecipe(BoardShareRecipe boardShareRecipe) {
 		this.boardShareRecipe = boardShareRecipe;
 	}
 
+
+
 	public IrdntManage getIrdntManage() {
 		return irdntManage;
 	}
 
+
+
 	public void setIrdntManage(IrdntManage irdntManage) {
 		this.irdntManage = irdntManage;
 	}
+
+
 
 	@Override
 	public int hashCode() {
@@ -73,6 +115,8 @@ public class ShareRecipeIrdnt {
 		result = prime * result + recipeId;
 		return result;
 	}
+
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -102,11 +146,20 @@ public class ShareRecipeIrdnt {
 		return true;
 	}
 
+
+
 	@Override
 	public String toString() {
 		return "ShareRecipeIrdnt [irdntKey=" + irdntKey + ", recipeId=" + recipeId + ", irdntId=" + irdntId
 				+ ", boardShareRecipe=" + boardShareRecipe + ", irdntManage=" + irdntManage + "]";
 	}
+
+
+	
+
+
+	
+	
 	
 	
 }
