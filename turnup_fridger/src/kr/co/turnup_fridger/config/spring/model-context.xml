@@ -19,6 +19,7 @@
 			  p:password="turnup"
 			  p:initialSize="1"
 			  p:maxTotal="100"/>
+			  
 	<bean 	name="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean"
 			   	p:dataSource-ref="dataSource"
 			   	p:configLocation="classpath:kr/co/turnup_fridger/config/mybatis/mybatis-config.xml"/>

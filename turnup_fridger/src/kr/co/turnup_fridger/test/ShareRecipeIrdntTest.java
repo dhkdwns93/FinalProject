@@ -24,9 +24,9 @@ public class ShareRecipeIrdntTest {
 //		service.updateShareRecipeIrdnt(new ShareRecipeIrdnt(1,2,1, null, null ));
 //		System.out.println("재료 수정");
 	
-		//delete
-//		service.deleteShareRecipeIrdnt(1);
-//		System.out.println("재료 삭제");
+//		delete
+		
+		
 		
 		//전체조회
 //		List<ShareRecipeIrdnt> list = service.selectShareRecipeIrdntAll();
@@ -41,9 +41,14 @@ public class ShareRecipeIrdntTest {
 		 System.out.println(share);*/
 		
 		//recipeId로 조회
-		int recipeId = 2;
+//		int recipeId = 2;
 		// ShareRecipeIrdnt share = service.selectShareRecipeIrdntByRecipeId(recipeId);
 		 
 	//	 System.out.println(share);
+		
+		int recipeId = 281;
+		
+		List<ShareRecipeIrdnt> list = service.selectShareRecipeIrdntByRecipeId(recipeId);
+		System.out.println(list);
 	}
 }

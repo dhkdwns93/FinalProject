@@ -38,11 +38,9 @@ $(document).ready(function(){
 	});
 		
 })
-
 </script>
 
 <style>
-
 .font-Viner_Hand_ITC {
 	font-family: "Viner Hand ITC";
 	src: url("/font/VINERITC.TTF");
@@ -51,7 +49,6 @@ $(document).ready(function(){
 	font-family: "Broadway";
 	src: url("/font/BROADW.TTF");
 }
-
 /* 프로필 보이는 부분 ex. 회원가입성공페이지*/
 .card.hovercard {
 	margin-left: auto;
@@ -65,18 +62,15 @@ $(document).ready(function(){
 	border: 1px solid #f1f1f1;
 	border-radius: 5px;
 }
-
 .card.hovercard img {
 	width: 430px;
 	height: 230px;
 }
-
 .card.hovercard .avatar {
 	position: relative;
 	top: -100px;
 	margin-bottom: -40px;
 }
-
 .card.hovercard .avatar img {
 	width: 150px;
 	height: 150px;
@@ -86,13 +80,11 @@ $(document).ready(function(){
 	-moz-border-radius: 50%;
 	border-radius: 50%;
 }
-
 .card.hovercard .info {
 	position: relative;
 	top: -50px;
 	padding: 4px 8px 10px;
 }
-
 .card.hovercard .info .title {
 	margin-bottom: 4px;
 	font-size: 28px;
@@ -101,7 +93,6 @@ $(document).ready(function(){
 	vertical-align: middle;
 	padding-top:20px;
 }
-
 .card.hovercard .info .desc {
 	overflow: hidden;
 	font-size: 12px;
@@ -110,7 +101,6 @@ $(document).ready(function(){
 	text-overflow: ellipsis;
 	padding-top:25px;
 }
-
 /* ****** */
 .card.hovercard .bottom-mypage {
 	padding: 0 20px;
@@ -118,7 +108,6 @@ $(document).ready(function(){
 	margin-bottom: -10px;
 }
 /* ****** */
-
 .mypage-table {
 	margin-left: auto;
 	margin-right: auto;
@@ -139,7 +128,6 @@ $(document).ready(function(){
 	padding-top:3px;
 	padding-left:5px;
 }
-
 /* 회색버튼 ex)회원가입성공페이지_ 로그인버튼 */
 .btn-block {
   color:#444444;
@@ -153,17 +141,14 @@ $(document).ready(function(){
      -moz-box-sizing: border-box;
           box-sizing: border-box;
 }
-
 .btn-block + .btn-block {
   margin-top: 5px;
 }
-
 input[type="submit"].btn-block,
 input[type="reset"].btn-block,
 input[type="button"].btn-block {
   width: 100%;
 }
-
 .btn-block:hover,
 .btn-block:focus,
 .btn-block:active,
@@ -174,12 +159,10 @@ input[type="button"].btn-block {
   color: #444444;
   background-color: #f1f1f1;
 }
-
 .btn-block:active,
 .btn-block.active {
   background-color: #d8d8d8 \9;
 }
-
 </style>
 
 </head>

@@ -21,11 +21,35 @@ function delete_event(){
 </script>
 <style type="text/css">
 form{display:inline}
+h1{display:inline}
+h2{display:inline}
 </style>
 </head>
 <body>
-<h1>공지사항 > ${boardNotice.items}</h1><br>
-<div id="table" style="width:800px;">
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<h1>공지사항 ></h1> <h2>${boardNotice.items}</h2><br><br>
+<div style="float:right">
+<!-- 관리자만 수정 가능 -->
+ <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadView.do?" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+	<input type="hidden" name="id" id="id" value="${boardNotice.id}">
+	<input type="submit" value="수정하기">
+</form>
+</sec:authorize>
+
+
+<!-- 관리자만 삭제 가능 -->
+ <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticRemove.do" method="post">
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+	<input type="hidden" name="id" value="${boardNotice.id}">
+	<input type="submit" value="삭제하기" onclick="return delete_event();">
+</form>
+</sec:authorize>
+</div>
 <table class="table table-bordered" style="width:100%; border:1; text-align:center">
 	<tr>
 		<td>말머리</td>
@@ -45,7 +69,7 @@ form{display:inline}
 	</tr>	
 	<tr>
 		<td>내용</td>
-		<td>
+		<td style="width:70%">
 			<c:if test="${boardNotice.img != null}">
 				<img width="320px" alt="${boardNotice.img}" src="${initParam.rootPath}/img/${boardNotice.saveImg}"><br>
 			</c:if>
@@ -53,31 +77,10 @@ form{display:inline}
 		</td>
 	</tr>
 </table>
-</div>
-<!-- 관리자만 수정 가능 -->
- <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadView.do?" method="post" enctype="multipart/form-data">
-	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<input type="hidden" name="id" id="id" value="${boardNotice.id}">
-	<button>수정하기</button>
-</form>
-</sec:authorize>
-
-
-<!-- 관리자만 삭제 가능 -->
- <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticRemove.do" method="post">
-	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<input type="hidden" name="id" value="${boardNotice.id}">
-	<input type="submit" value="삭제하기" onclick="return delete_event();">
-</form>
-</sec:authorize>
-
-
 <form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<input type="submit" value="뒤로가기"/>
+	<input type="submit" value="목록으로"/>
 </form>
-
+</div>
 </body>
 </html>

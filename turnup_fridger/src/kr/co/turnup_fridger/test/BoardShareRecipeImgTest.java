@@ -16,12 +16,12 @@ public class BoardShareRecipeImgTest {
 			
 			
 			BoardShareRecipeService service = (BoardShareRecipeService)container.getBean("boardShareRecipeServiceImpl");
-			
-			
-			service.insertBoardShareRecipeImg(1, "ii.jsp");
-			service.insertBoardShareRecipeImg(2, "iii.jsp");
-			service.insertBoardShareRecipeImg(3, "iiii.jsp");
-			System.out.println("이미지 추가");
+//			
+//			
+//			service.insertBoardShareRecipeImg(1, "ii.jsp");
+//			service.insertBoardShareRecipeImg(2, "iii.jsp");
+//			service.insertBoardShareRecipeImg(3, "iiii.jsp");
+//			System.out.println("이미지 추가");
 			
 			
 		/*	int BoardShareRecipeImgKey = 8;

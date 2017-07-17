@@ -159,6 +159,7 @@ $(document).ready(function(){
 				"dataType":"json", 
 				"success":function(list){
 					$("#myFridersThead").show();
+					$("#myFridersTbody").empty();
 					$.each(list, function(){
 						$("#myFridersTbody").append($("<tr>").append($("<td>").append(this.fridgerId)).append($("<td>").append(this.fridgerName))
 								.append($("<td>").append($("<button>").prop("type","button").prop("class","selectFridger").prop("value",this.fridgerId).append("선택"))));
@@ -288,7 +289,7 @@ $(document).ready(function(){
 
 <div style="text-align:center;"><h2>재료로 레시피 찾기</h2><br><hr></div>
 
-	<div id="irdntManage" style="width:23%; border:5; float:left; border:5; overflow-x:hidden; overflow-y:scroll; height:600px;width:400px; margin:20px;">
+	<div id="irdntManage" style="width:23%; border-style:outset; float:left; overflow-x:hidden; overflow-y:scroll; height:600px;width:400px; margin:20px;padding:10px;">
 	기타 재료 :   
 		<table  class="table table-hover table-condensed" style="padding: 10px";>
 			<thead id="irdntManageThead"></thead>
@@ -298,10 +299,10 @@ $(document).ready(function(){
 	
 	
 	<div id="myIrdntSection" style="width:23%; float: left; padding:10px;" >
-	<div id="myFridgers" style="border:5; overflow-x:hidden; overflow-y:scroll; height:300px;width:350px;margin:20px;">
+	<div id="myFridgers" style="border-style:outset; overflow-x:hidden; overflow-y:scroll; height:300px;width:350px;margin:20px;padding:10px;">
 	나의 냉장고 목록 :
-		<button type="button" id="getMyFridger" >냉장고불러오기</button>   
-		<table class="table table-hover table-condensed" style=" border:5;">
+		<button type="button" id="getMyFridger" >냉장고불러오기</button>
+		<table class="table table-hover table-condensed">
 			<thead id="myFridersThead">
 				<tr>
 				<th>냉장고id</th>
@@ -312,8 +313,8 @@ $(document).ready(function(){
 			<tbody id="myFridersTbody">
 			</tbody>
 		</table>
-	</div><hr>
-	<div id="myIrdnt" style="border:5; overflow-x:hidden; overflow-y:scroll; height:300px;width:350px;margin:20px;">
+	</div>
+	<div id="myIrdnt" style="border-style:outset; overflow-x:hidden; overflow-y:scroll; height:300px;width:350px;margin:20px;padding:10px;">
 	냉장고 속 식재료 
 		<table class="table table-hover table-condensed">
 			<thead id="myIrdntThead"></thead>
@@ -324,7 +325,7 @@ $(document).ready(function(){
 
 	
 	<!--컬럼누르면 테이블에서 삭제  -->
-	<div id="dislikeSection" style="width:23%; border:5;float: left;border:5; overflow-x:hidden; overflow-y:scroll; height:350px; margin:20px;">
+	<div id="dislikeSection" style="width:23%; border-style:outset;float: left;border:5; overflow-x:hidden; overflow-y:scroll; height:300px; margin:20px;padding:10px;">
 	기피재료 : 
 	<button type="button" id="getMydislike" >나의 기피재료 불러오기</button>
 	<table id="dislikeResult" class="table table-hover table-condensed" >
@@ -338,7 +339,7 @@ $(document).ready(function(){
 	</table>
 	</div>
 	
-	<div id="likeSeciton" style="width:23%; border:5;float: left;border:5; overflow-x:hidden; overflow-y:scroll; height:350px; margin:20px;">
+	<div id="likeSeciton" style="width:23%; border-style:outset;float: left; overflow-x:hidden; overflow-y:scroll; height:300px; margin:20px;padding:10px;">
 	선택재료 : 
 	<table id="likeResult" class="table table-hover table-condensed">
 		<thead id="likeThead">

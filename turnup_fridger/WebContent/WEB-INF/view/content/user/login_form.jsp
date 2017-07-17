@@ -24,13 +24,10 @@
 	});
 </script>
 <style>
-
-
 .ccfield-prepend{
 	margin-bottom:20px;
 	width:100%;
 }
-
 .ccform-addon{
 	color:#f8ae45; 
 	float:left;
@@ -42,7 +39,6 @@
 	text-align:center;
 	
 }
-
 .ccformfield {
 	color:#000000; 
 	background:#FFFFFF;
@@ -54,7 +50,6 @@
 	font-size:14px;
 	margin:0;
 }
-
 .ccformfield {
 	font-family: 'Lato',Arial,sans-serif;
 }
@@ -71,11 +66,9 @@
 .ccbtn:hover{
 	background:#d8850e;
 }
-
 .ccfield-submit-part{
 	text-align:center;
 }
-
 /* 기타 일반 text  */
 h1 {
 	font-family: "Viner Hand ITC";
@@ -87,13 +80,11 @@ h1 {
 	font-size:14px;
 	color:#808080;
 }
-
 /* 에러메시지 */
 .error{
   font-size:80% !important;
   color:#808080 !important;
 }
-
 /* contact-form 넓이*/
 .login-form{
 	display:inline-block;

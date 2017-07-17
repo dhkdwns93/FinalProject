@@ -7,6 +7,7 @@
 	$(document).ready(function(){
 		//기본적으로 가져오는 모든 재료 목록들. 
 		//alert('${param.fridgerId}');
+	
 		$.ajax({
 			"url":"/turnup_fridger/common/member/myIrdnt/allMyIrdntList.do",
 			"data":{'fridgerId': '${param.fridgerId}'},
@@ -25,7 +26,20 @@
 								$("#freezeTbody").append($("<tr>").append($("<td>").append(this.myIrdntKey)).append($("<td>").prop("id","irdntName_col").append(this.irdntName)).append($("<td>").append(this.freshLevel))
 										.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.myIrdntKey))))
 								}
-							})//each	
+					
+							if($("#irdntName_col").parent().children(":nth-child(3)").text()=='위험'){
+								$("#irdntName_col").prop("style","color:red;");
+							}
+							else if($("#irdntName_col").parent().children(":nth-child(3)").text()=='보통'){
+								$("#irdntName_col").prop("style","color:black;");
+							}
+							else if($("#irdntName_col").parent().children(":nth-child(3)").text()=='안전'){
+								$("#irdntName_col").prop("style","color:green;");
+							}
+							
+					 })//each
+							
+						
 			},//success
 			"error":function(xhr, msg, code){
 				alert("오류발생-" +msg+ ":" +code);
@@ -86,6 +100,17 @@
 								$("#freezeTbody").append($("<tr>").append($("<td>").append(this.myIrdntKey)).append($("<td>").prop("id","irdntName_col").append(this.irdntName)).append($("<td>").append(this.freshLevel))
 										.append($("<td>").append($("<input>").prop("type","checkbox").prop("name","deleteChk").prop("id","deleteChk").prop("value",this.myIrdntKey))))
 								}
+		 			 		
+		 			 		if($("#irdntName_col").parent().children(":nth-child(3)").text()=='위험'){
+		 						$("#irdntName_col").prop("style","color:red;");
+		 					}
+		 					else if($("#irdntName_col").parent().children(":nth-child(3)").text()=='보통'){
+		 						$("#irdntName_col").prop("style","color:black;");
+		 					}
+		 					else if($("#irdntName_col").parent().children(":nth-child(3)").text()=='안전'){
+		 						$("#irdntName_col").prop("style","color:green;");
+		 					}
+		 					
 							})//each	
 				},//success
 				"error":function(xhr, msg, code){

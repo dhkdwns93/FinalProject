@@ -19,7 +19,7 @@ function insert_event(){
 };
 </script>
 <style type="text/css">
- form{display:inline}
+form{display:inline}
 span, td, th{
 	padding: 5px; 
 }
@@ -27,24 +27,33 @@ span.error{
 	font-size:small;
 	color: red;
 }
+h1{display:inline}
+h2{display:inline}
 </style>
 </head>
 <body>
-<h1>QnA 게시판 > 질문 등록</h1><br>
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<h1>QnA 게시판 ></h1><h2>질문 등록</h2><br>
 <hr>
 <form action="${initParam.rootPath}/common/boardqna/boardQnAAdd.do" method="POST">
 <table>
 	<tr>
 		<th>작성자</th>
-		<td><input type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>"></td>
+		<td><input class="form-control" style="float:left;width:40%;" type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>"></td>
 	</tr>
 	<tr>
 		<th>제목</th>
-		<td><input type="text" name="boardQnATitle" value="${boardQnA.boardQnATitle}" placeholder="제목을 입력해주세요"><span class="error"><form:errors path="boardQnA.boardQnATitle" delimiter="&nbsp;"/></td>
+		<td><input class="form-control" type="text" name="boardQnATitle" value="${boardQnA.boardQnATitle}" placeholder="제목을 입력해주세요">
+			<span class="error"><form:errors path="boardQnA.boardQnATitle" delimiter="&nbsp;"/></span>
+		</td>
 	</tr>
 	<tr>
 		<th>내용</th>
-		<td><textarea name="boardQnATxt" row="120" cols="70" placeholder="내용을 입력해주세요">${boardQnA.boardQnATxt}</textarea><span class="error"><form:errors path="boardQnA.boardQnATxt" delimiter="&nbsp;"/></td>
+		<td>
+			<textarea class="form-control" name="boardQnATxt" row="120" cols="70" placeholder="내용을 입력해주세요">${boardQnA.boardQnATxt}</textarea>
+			<span class="error"><form:errors path="boardQnA.boardQnATxt" delimiter="&nbsp;"/></span>
+		</td>
 	</tr>	
 </table>
 <input type="submit" value="등록" onclick="return insert_event();">
@@ -54,5 +63,6 @@ span.error{
 	<input type="submit" value="뒤로가기">
 	<sec:csrfInput/>
 </form>
+</div>
 </body>
 </html>

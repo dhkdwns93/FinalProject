@@ -1,49 +1,54 @@
 package kr.co.turnup_fridger.dao;
 
-import java.util.HashMap;
 import java.util.List;
 
 import kr.co.turnup_fridger.vo.BoardShareRecipe;
+import kr.co.turnup_fridger.vo.IrdntManage;
 import kr.co.turnup_fridger.vo.MemberRecipeRecommand;
 
 public interface BoardShareRecipeDao {
 	
 	//등록
-	/**
-	 * insert로 레시피 공유게시판 등록
-	 * @param boradShareRecipe
-	 * @return
-	 */
-	int insertBoardShareRecipe(BoardShareRecipe boardShareRecipe);
-	/**
-	 * 게시물 조회수 증가
-	 * @param recipeId
-	 * @return
-	 */
-	int increaseHit(int recipeId);
-	//삭제
-	/**
-	 * recipeId로 레시피 공유게시판 삭제
-	 * @param recipeId
-	 * @return
-	 */
-	int deleteBoardShareRecipe(int recipeId);
+		/**
+		 * BoardShareRecipe 정보를 insert하는 메소드 - 회원
+		 * @param boradShareRecipe
+		 * @return
+		 */
+		int insertBoardShareRecipe(BoardShareRecipe boardShareRecipe);
+		/**
+		 * 상세보기 들어갈경우  조회수 증가
+		 * @param recipeId
+		 * @return
+		 */
+		int increaseHit(int recipeId);
+		//삭제
+		/**
+		 * recipeId로 레시피 공유게시판 삭제
+		 * @param recipeId
+		 * @return
+		 */
+		int deleteBoardShareRecipe(int recipeId);
 	
 	//수정
-	/**
-	 * recipeId로 레시피 공유게시판 수정
-	 * @param recipeId
-	 * @return
-	 */
-	int updateBoardShareRecipeByRecipeId(BoardShareRecipe boardShareRecipe);
-	
-	//recipeId로 조회
-	/**
-	 * 게시물 상세보기
-	 * @param recipeId
-	 * @return
-	 */
-	BoardShareRecipe boardRead(int recipeId);
+		/**
+		 * recipeId로 레시피 공유게시판 수정
+		 * @param recipeId
+		 * @return
+		 */
+		int updateBoardShareRecipeByRecipeId(BoardShareRecipe boardShareRecipe);
+		/**
+		 * 사진 update하는 메소드
+		 * @param boardShareRecipe
+		 * @return
+		 */
+		int updateImageNull(BoardShareRecipe boardShareRecipe);
+		//recipeId로 조회
+		/**
+		 * 게시물 상세보기 보여주는 메소드
+		 * @param recipeId
+		 * @return
+		 */
+		BoardShareRecipe boardRead(int recipeId);
 	
 	//title로 조회
 		/**
@@ -89,6 +94,15 @@ public interface BoardShareRecipeDao {
 		 * @return
 		 */
 		int deleteRecommand(int recipeId);
+		
+		/**
+		 * recipeId로 추천현황 전체 조회
+		 * @param recipeId
+		 * @return
+		 */
+		List<MemberRecipeRecommand> selectRecommandByRecipeId(int recipeId);
+		
+		MemberRecipeRecommand	selectRecommandOne(int recipeId);
 		/**
 		 * 게시판 제목으로 조회 메소드
 		 * @param startIndex
@@ -124,51 +138,24 @@ public interface BoardShareRecipeDao {
 		/***********************************재료명Dao************************************/
 		
 		/**
-		 * 재료명
-		 * @return
-		 */
-		List<BoardShareRecipe> selectBoardShareRecipeByRecipeIdToIrdnt(int recipeId);
-	
-		/***********************************imageDao************************************/
-		/**
-		 * 사진
-		 * @return
-		 */
-		List<String> selectBoardShareRecipeByRecipeIdToImg(int recipeId); 
-		
-		/**
-		 * 이미지 등록
-		 * @param image
-		 * @return
-		 */
-		int insertBoardShareRecipeImg(HashMap map);
-		
-		/**
-		 * 이미지 선택 삭제
-		 * @param BoardShareRecipeImgKey
-		 * @return
-		 */
-		int deleteBoardShareRecipeImgByKey(int boardShareRecipeImgKey);
-		
-		
-		/**
-		 * 이미지 전체 삭제
-		 * @param recipeId\
-		 * @return
-		 */
-		int deleteBoardShareRecipeImgAll(int recipeId);
-		/**
-		 * recipeId로 이미지 조회
+		 * 2개 조인(공유게시판, 공유재료) 
+		 * recipeId로 상세조회
 		 * @param recipeId
 		 * @return
 		 */
-		List<String> selectBoardShareRecipeImg(int recipeId);
-		
+		BoardShareRecipe selectBoardShareRecipeByRecipeIdToIrdnt(int recipeId);
+	
+	
 		/**
 		 * 레시피 id들로 여러개의 글객체들 불러오기 
 		 * @param recipeIds
 		 * @return
 		 */
+
+//		List<BoardShareRecipe> selectBoardShareRecipeById(List<Integer> recipeIds);
+		
+
+
 		List<BoardShareRecipe> selectBoardShareRecipeById(List<Integer> recipeIds,int startIndex, int endIndex);
 		
 		/**
@@ -186,4 +173,5 @@ public interface BoardShareRecipeDao {
 		 * @return
 		 */
 		int selectBoardShareRecipeByTitleCount(String title);
+
 }

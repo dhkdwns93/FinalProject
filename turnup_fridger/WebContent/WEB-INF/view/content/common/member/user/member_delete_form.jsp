@@ -41,7 +41,6 @@ $(document).ready(function(){
 		}
 	});
 });//end of leaveMemberBtn
-
 </script>
 </head>
 <body>

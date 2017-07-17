@@ -27,11 +27,11 @@ input {
 </head>
 <body>
 
-<div id="table" style="width:800px; margin-left: auto; margin-right: auto;">
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <h1>공지사항</h1><br>
 <table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
 	<a href="${initParam.rootPath}/index.do"><button style="text-align:right">홈으로</button></a>
-	
 	<!-- 검색 버튼 -->
 	<div style="float:right">
 	<form action="${initParam.rootPath}/boardnotice/boardNoticeByItems.do" method="post">
@@ -45,26 +45,30 @@ input {
 	</form>
 	</div>
 <thead>
-    <tr style="text-align:center;">
-        <th>번호</th>
-        <th>말머리</th>
-        <th>제목</th>
-        <th>작성일</th>
-        <th>작성자</th>
+    <tr>
+        <th style="width:5%;">번호</th>
+        <th style="width:10%;">말머리</th>
+        <th style="width:50%;">제목</th>
+        <th style="width:15%;">작성일</th>
+        <th style="width:10%;">작성자</th>
     </tr>
  </thead>
 <tbody>
 <c:forEach var="row" items="${list}" varStatus="status">
     <tr>
-        <td>${requestScope.totalCount-((requestScope.pageBean.page -1 ) * 10 + status.index)}</td>
+        <td>
+        	${requestScope.totalCount-((requestScope.pageBean.page -1 ) * 10 + status.index)}
+        	<!-- 전체 데이터 수 - ( (현재 페이지 번호 - 1) * 한 페이지당 보여지는 데이터 수 + 현재 게시물 출력 순서 )  ////
+        	 count라던지, index 또는 last first등의 접근을 통해 조금더 세밀한 제어를 가능   /// status.index : 0부터의 순서-->
+        </td>
         <td>${row.items}</td>
         
-        <td>
+        <td style="width:50%;">
     		<form action="${initParam.rootPath}/boardnotice/boardNoticeView.do" method="post">
     			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     			<input type="hidden" name="id" value="${row.id}">
-    			<input type="submit" value="${row.title}" style="background-color:white;border:0;WIDTH: 400pt; HEIGHT: 15pt"> 
-			</form>       
+    			<input type="submit" value="${row.title}" style="background-color:white;border:0;WIDTH:100%;HEIGHT:100%"> 
+			</form>           
         </td>
         <td>
             <fmt:formatDate value="${row.date}" pattern="yyyy-MM-dd"/>
@@ -78,7 +82,7 @@ input {
  <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
  	<a href="${initParam.rootPath}/common/admin/boardnotice/boardnotice_form.do"><button>등록</button></a>
  </sec:authorize>
-</div>
+
 <p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리
@@ -134,5 +138,6 @@ input {
 	<a href="${initParam.rootPath}/boardnotice/boardNoticeByItems.do?page=${requestScope.pageBean.totalPage}&items=${requestScope.items}">마지막페이지</a>
 
 </p>
+</div>
 </body>
 </html>

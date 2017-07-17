@@ -28,26 +28,38 @@ span.error{
 	color: red;
 }
 form{display:inline}
+h1{display:inline}
+h2{display:inline}
 </style>
 </head>
 <body>
-<h1>게시물 수정</h1><br>
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
+<h1>자유 게시판 ></h1><h2>${boardFree.memberId}님의 질문 수정</h2><br>
 <hr>
 <form action="${initParam.rootPath}/common/boardfree/boardFreeUploadForm.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-
 <table>
 	<tr>
 		<th>작성자</th>
-		<td><input type="text" name="memberId" value="${boardFree.memberId}"></td>
+		<td>
+			<input class="form-control" style="float:left;width:40%;" type="text" name="memberId" readonly value="${boardFree.memberId}">
+		</td>
 	</tr>
 	<tr>
 		<th>제목</th>
-		<td><input type="text" name="boardFreeTitle" value="${boardFree.boardFreeTitle}" placeholder="제목을 입력해주세요"><span class="error"><form:errors path="boardFree.boardFreeTitle" delimiter="&nbsp;"/></td>
+		<td>
+			<input  class="form-control" type="text" name="boardFreeTitle" value="${boardFree.boardFreeTitle}" placeholder="제목을 입력해주세요">
+			<span class="error"><form:errors path="boardFree.boardFreeTitle" delimiter="&nbsp;"/></span>
+		</td>
 	</tr>
 	<tr>
 		<th>내용</th>
-		<td><textarea name="boardFreeTxt" row="120" cols="70" placeholder="내용을 입력해주세요">${boardFree.boardFreeTxt}</textarea><span class="error"><form:errors path="boardFree.boardFreeTxt" delimiter="&nbsp;"/></td>
+		<td>
+			<textarea  class="form-control" name="boardFreeTxt" row="120" cols="70" placeholder="내용을 입력해주세요">${boardFree.boardFreeTxt}</textarea>
+			<span class="error"><form:errors path="boardFree.boardFreeTxt" delimiter="&nbsp;"/></span>
+		</td>
 	</tr>	
 </table>
 			<input type="hidden" name="boardFreeId" value="${boardFree.boardFreeId}">
@@ -60,6 +72,7 @@ form{display:inline}
         <input type="hidden" name="admin" value="">
         <input type="hidden" name="memberId" value="${boardFree.memberId}">
 <button value="${boardFree.boardFreeId}" name="boardFreeId">뒤로가기</button>
-</form>    
+</form> 
+</div>
 </body>
 </html>
