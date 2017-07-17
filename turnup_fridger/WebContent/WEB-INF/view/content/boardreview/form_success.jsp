@@ -7,10 +7,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" 
+href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
 <h2>후기 등록 완료</h2>
 <div id="table" style="width:800px;">
+<form action="${initParam.rootPath}/boardreview/boardReviewList.do" method="post">
+<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+		<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+	</button>
+</form>
 <table class="table table-bordered" style="width:100%; border:1; text-align:center">
 	<tr>
 		<td>레시피</td>
@@ -64,21 +78,18 @@
 	</tr>	
 	<tr>
 		<td>내용</td>
-		<td>
+		<td style="width:70%">
 			<c:if test="${boardReview.imageName == null}">
  				${boardReview.boardReviewTxt}
  			</c:if>
    			<c:if test="${boardReview.imageName != null}">
-   				<img width="320px" alt="${boardReview.imageName}" src="${initParam.rootPath}/img/${boardReview.imageSaveName}"><br>
+   				<img width="60%" alt="${boardReview.imageName}" src="${initParam.rootPath}/img/${boardReview.imageSaveName}"><br>
    				${boardReview.boardReviewTxt}
    			</c:if>
 		</td>
 	</tr>
 </table>
 </div>
-<form action="${initParam.rootPath}/boardreview/boardReviewList.do" method="post">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<input type="submit" value="목록으로">
-</form>
+</div>
 </body>
 </html>

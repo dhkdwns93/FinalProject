@@ -10,7 +10,16 @@
 <link href="${ initParam.rootPath }/css/bootstrap.css" rel="stylesheet">
 <link href="${ initParam.rootPath }/css/mdb.css" rel="stylesheet">
 <link href="${ initParam.rootPath }/css/landing-page.css" rel="stylesheet">
+<script>
+// 냉장고 추가
+$(document).on("click","#myIrdntBadBtn", function(){
+	$("#myModal").modal("show");
+});	// end of click on requstBtn
 
+$(document).on("click","#myModalCloseBtn", function(){
+	$("#myModal").modal("hide");
+});	// end of click on requstBtn
+</script>
 <!-- 위험한 식재료 modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="position; top:0; right:0;">
   <div class="modal-dialog">
@@ -26,11 +35,12 @@
       </ul>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
+        <button type="button" class="btn btn-elegant" id="myModalCloseBtn">CLOSE</button>
       </div>
     </div>
   </div>
 </div>
+
 
 <!-- 위험경고창 -->
 	<div id="myIrdntBadAlert" class="alert alert-danger alert-dismissible fade in" role="alert">
@@ -38,7 +48,7 @@
       <h4 id="oh-snap!-you-got-an-error!">*warning!!<a class="anchorjs-link" href="#oh-snap!-you-got-an-error!"><span class="anchorjs-icon"></span></a></h4>
       <p>지금<span id="myIrdntBadCount"><!-- 보관레벨'위험'인 식재료 --></span>개의 식재료 상태가 위험합니다. 빠른 시간 내에 처리 하십시오.</p>
       <p>
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">위험한 식재료 확인하기</button>
+        <button type="button" class="btn btn-danger" id="myIrdntBadBtn" data-target="#myModal">위험한 식재료 확인하기</button>
 <!--         <button type="button" class="btn btn-default" data-dismiss="alert" >닫기</button> -->
       </p>
     </div>

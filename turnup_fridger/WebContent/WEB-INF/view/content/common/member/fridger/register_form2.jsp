@@ -11,10 +11,13 @@
 
 <script>
 $(document).ready(function(){	
-	console.log($(".item.active").find("img").attr("src"))
+	//console.log($(".item.active").find("img").attr("src"))
 	
-	 $(document).on("click", "#registerFormBtn",function(){
-		var formData = $("#registerForm").serializeArray();
+	 /* $(document).on("click", "#registerFormBtn",function(){
+		
+		 $("#fridgerImg").val($(".item.active").find("img").attr("src"))
+		//alert($("#fridgerImg").val())
+		 var formData = $("#registerForm").serializeArray();
 		console.log(formData)
 		$.ajax({
 			"url": "${initParam.rootPath }/common/member/fridger/register.do",
@@ -22,8 +25,6 @@ $(document).ready(function(){
 			"data": formData,
 			"dataType":"text",
 			"beforeSend": function(){
-				$("#fridgerImg").val($(".item.active").find("img").attr("src"))
-				alert($("#fridgerImg").val())
 			},
 			"success": function(text){
 				if(text == "0"){
@@ -39,7 +40,7 @@ $(document).ready(function(){
 			
 		})
 
-  })
+  }) */
 		
 	
 	
@@ -49,9 +50,6 @@ function resetModal(){
 	document.getElementById("registerForm").reset();
 }
 
-function openModal(){
-	$('#createFridgerModal').modal('show');
-}
 
 </script>
 
@@ -229,9 +227,8 @@ border-radius: 5px;
         </form>
       </div>
       <div class="modal-footer">
-       <input type="button" id="registerFormBtn" class="btn btn-primary"  value="CREATE">
-       
-        <input type="button" class="btn btn-default" id="cancel" data-dismiss="modal" onclick="resetModal()" value="CANCEL">
+       <button type="button" id="registerFormBtn" class="btn btn-yellow" >CREATE</button>
+        <button type="button" class="btn btn-blue-grey" id="cancel" data-dismiss="modal" onclick="resetModal()" >CANCEL</button>
       </div>
     </div>
   </div>

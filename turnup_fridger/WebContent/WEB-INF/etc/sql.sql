@@ -1,42 +1,4 @@
-		select 
-				my_irdnt_key,
-				start_date,
-				end_date,
-				fresh_level,
-				irdnt_count,
-				irdnt_id,
-				irdnt_name,
-				fridger_id,
-				start_fresh_level,
-				storge_place
-		from (
-			select 	my_irdnt_key,
-					start_date,
-					end_date,
-					fresh_level,
-					irdnt_count,
-					irdnt_id,
-					irdnt_name,
-					fridger_id,
-					start_fresh_level,
-					storge_place 
-			from my_irdnt 
-			where fridger_id in (
-					select fridger_id 
-					from fridger 
-					where member_id='1111'))
-		where irdnt_id in (
-			select irdnt_id 
-			from recipe_irdnt 
-			where recipe_id=1)	
-			
-select * from (select * from my_irdnt where fridger_id in (select fridger_id from fridger where member_id='user1')) 
-where irdnt_id in
-(select irdnt_id from recipe_irdnt where recipe_id='241');
-
-select * from recipe_info where recipe_id=473
-
-select * from my_irdnt where member_id='user1';
+--select distinct irdnt_category from irdnt_manage
 --select * from recipe_irdnt
 --select * from IRDNT_MANAGE
 
@@ -600,7 +562,24 @@ WHERE recipe_id NOT IN (
 			i.storge_place
 	FROM	fridger f, my_Irdnt i
 	WHERE	f.fridger_id = i.fridger_id(+)
-	AND		f.fridger_id = 2
+	AND		f.fridger_id = 1
 	ORDER BY	i.irdnt_name
 
+	
+	SELECT	f.fridger_id,
+			f.fridger_name,
+			f.member_id,
+			f.fridger_img,
+			g.group_key,
+			g.group_join_seq,
+			g.group_member_id,
+			g.fridger_id
+	FROM	fridger f, fridger_group g
+	WHERE	f.fridger_id = g.fridger_id(+)
+	AND		f.fridger_id = 1
+	ORDER BY	g.group_member_id
+	
+	UPDATE fridger
+	SET fridger_img = '/turnup_fridger/images/fridger/f1.png'
+	where fridger_id=1
 

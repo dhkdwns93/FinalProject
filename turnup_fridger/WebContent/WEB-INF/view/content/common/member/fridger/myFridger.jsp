@@ -19,8 +19,6 @@ $(document).ready(function(){
 	$("#myIrdntBadAlert").hide();
 	$("#freshLevelFrame").hide();
 	getFridgerInfo('${ requestScope.fridgerList[0].fridgerId }')
-	getTypeChart()
-	getPlaceChart()
 	
 	$("#fridgerNameSelect").on("change", function(){
 		getFridgerInfo($("#fridgerNameSelect>option:selected").val());
@@ -29,8 +27,6 @@ $(document).ready(function(){
 	
 	})
 
-
-	
 	function getFridgerInfo(fridgerId){
 		$.ajax({
 			"url":"${initParam.rootPath}/common/member/fridger/select.do",
@@ -39,14 +35,13 @@ $(document).ready(function(){
 			"dataType" : "json",
 			"success": function(map){
 				console.log(map)
-				getTypeChart(map.irdntCategory)
+				getTypeChart(map.irdntCategoryList)
 				getPlaceChart(map.myIrdntRoomTempCount, map.myIrdntColdTempCount, map.myIrdntFreezeTempCount)
 				
 				if(map.fridger.fridgerImg != null){
 					$("span#fridgerImg").html($("<img>").prop("src", map.fridger.fridgerImg));
 				}
-				
-			
+							
 				$("span#fridgerName").text(map.fridger.fridgerName);
 				$("span#fridgerOwner").text(map.fridger.memberId);
 				$("span#fridgerId").text(map.fridger.fridgerId);
@@ -71,7 +66,6 @@ $(document).ready(function(){
 					$("#fridgerAvgFreshLevel").text("")
 				    $("#freshLevelBar").css("width","0%");
 					$("#fridgerAvgFreshLevelFault").text("*신선도 측정 불가. 식재료가 존재하지 않습니다!");
-					
 					$(".con2").hide();
 				}
 							
@@ -120,9 +114,9 @@ $(document).ready(function(){
 	    }
 	} 
 		 
-	function getTypeChart(map){
+	function getTypeChart(list){
 		
-	 var typeData = [
+	 /* var typeData = [
 		    {
 		        value: 5,
 		        color:"#F7464A",
@@ -154,25 +148,33 @@ $(document).ready(function(){
 		        label: "곡물류"
 		    } 
 
-		    ]
+		    ] */
 	 
-	 /* $.each(list, function(){
-		 typeData.push({
-			 s
-		 })
-	 }) */
-	 
-	
+		    
+	  var typeData = [];
+	 var colors = ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"];
+	 var highlights = ["#FF5A5E", "#5AD3D1","#FFC870", "#A8B3C5",  "#616774"];
+	  var idx = 0;
+	$.each(list, function(){
+		var obj = {
+				value: this.count,
+				color: colors[idx],
+				highlight:  highlights[idx++],
+				label: this.categoryName
+		}
+		 typeData.push(obj)
+	 }) 
+	 	
 	 var option = {
-			    responsive: true,
+			    responsive: false
 			    };
 	//Get the context of the canvas element we want to select
 	var typeCtx = document.getElementById("typeChart").getContext("2d");
-		typeCtx.clearRect(0, 0, 800, 800);
+/* 		typeCtx.clearRect(0, 0, 800, 800);
 		typeCtx.beginPath();
 		if(map == null){
 			return false;
-		}
+		} */
 	var myDoughnutChart = new Chart(typeCtx).Doughnut(typeData,option); 
 	 
 	}
@@ -203,17 +205,14 @@ $(document).ready(function(){
 		 
 		 
 		 var option = {
-				    responsive: true,
+			responsive: false
 				    };
 		//Get the context of the canvas element we want to select
 		var placeCtx = document.getElementById("placeChart").getContext("2d");
-	 		placeCtx.clearRect(0, 0, 800, 800);
+/* 	 		placeCtx.clearRect(0, 0, 800, 800);
 			placeCtx.beginPath();
-	
-		
+	 */
 		 var myDoughnutChart = new Chart(placeCtx).Doughnut(placeData,option); 
-	
-		 
 		
 	}
 	
@@ -229,7 +228,7 @@ $(document).ready(function(){
 	});
 	
 	
-	// 냉장고 추가
+	// 냉장고 추가 폼
 	$(document).on("click","#createBtn", function(){
 		var fridgerId = $("span#fridgerId").text();
 		var fridgerOwner = $("span#fridgerOwner").text();
@@ -237,7 +236,36 @@ $(document).ready(function(){
 		$("#createFridgerModal").modal("show");
 	});	// end of click on requstBtn
 	
-	// 냉장고 수정
+	// 냉장고 추가 처리
+	$(document).on("click", "#registerFormBtn",function(){
+		
+		 $("#fridgerImg").val($(".item.active").find("img").attr("src"))
+		//alert($("#fridgerImg").val())
+		 var formData = $("#registerForm").serializeArray();
+		console.log(formData)
+		$.ajax({
+			"url": "${initParam.rootPath }/common/member/fridger/register.do",
+			"type": "post",
+			"data": formData,
+			"dataType":"text",
+			"success": function(text){
+				if(text == "0"){
+					//alert("완료!")
+					$("#createFridgerModal").modal("hide");
+					resetModal("registerForm");
+					window.location.reload();
+				}else if(text =="-1"){
+					alert("실패!")				
+					//회색차유ㅠ
+				}
+			}
+		})
+
+ })
+	
+	
+	
+	// 냉장고 수정폼
 	$(document).on("click","#updateBtn", function(){
 		var fridgerId = $("span#fridgerId").text();
 		var fridgerOwner = $("span#fridgerOwner").text();
@@ -245,11 +273,54 @@ $(document).ready(function(){
 			alert("수정 권한이  없습니다!");
 			return false;
 		}
-		alert($("span#fridgerImg>img").attr("src"));
+		alert($("span#fridgerName").text());
 		$("#updateFridgerName").prop("placeholder", $("span#fridgerName").text())
+		$("#updateFridgerId").prop("value",fridgerId)
 		$("#updateFridgerCarousel img").filter("[src='"+$("span#fridgerImg>img").attr("src")+"']").parent().addClass("active")
 		$("#updateFridgerModal").modal("show");
 	});	// end of click on requstBtn
+	
+	//냉장고 수정 처리
+	$(document).on("click", "#updateFormBtn",function(){
+		/*  alert($("#updateFridgerName").val());
+		alert($("#updateFridgerCarousel .item.active").find("img").attr("src")); */
+		var fridgerImg = $("#updateFridgerCarousel .item.active").find("img").attr("src");
+		$("#updateFridgerImg").val(fridgerImg);
+		//alert($("#updateFridgerImg").val())
+		if(!$("#updateFridgerName").val()){
+			$("#updateFridgerName").val($("#updateFridgerName").prop("placeholder"));
+		}	
+			
+		
+		var formData = $("#updateForm").serializeArray();
+		console.log(formData)
+		$.ajax({
+			"url": "${initParam.rootPath }/common/member/fridger/update.do",
+			"type": "post",
+			"data": formData,
+			"dataType":"text",
+			"beforeSend": function(){
+				getFridgerInfo($("#updateFridgerId").val())
+				console.log($("#updateFridgerImg").val());
+				console.log(fridgerImg);				
+				
+						
+			},
+			"success": function(text){
+				if(text == "0"){
+					/* alert("완료!")*/
+					getFridgerInfo($("#updateFridgerId").val())
+					$("#updateFridgerModal").modal('hide');
+					resetModal("updateForm")
+				}else{
+					alert("실패!:"+text)			
+					$(".well").show();
+				}
+			}
+			
+		})
+	
+	})
 	
 	
 	// 냉장고 삭제
@@ -283,18 +354,14 @@ $(document).ready(function(){
 		});	//end of ajax
 	});	// end of click on requstBtn
 	
-	 
+	
+
+	function resetModal(form){
+		document.getElementById(form).reset();
+	}
 })
 
-
-
-
-
-
-
-
 </script>
-
 <style> 
  
 .container h1,h2,h3,h4{
@@ -473,7 +540,7 @@ font-size: 40px;
   <p><strong>당신의 냉장고, 더이상 지저분하게 방치하지 마세요!</strong></p>
 </header>
 
-
+<hr style="margin-bottom: -15px;">
 <div class="articles">
 
 <article class="article num1">
@@ -508,7 +575,7 @@ font-size: 40px;
 <article class="article num2">
   <div class="con1">
   <h1><span id="fridgerName"><!-- 냉장고 이름 --></span></h1>
-  <div>Owned by <span id="fridgerOwner"><!-- 냉장고 주인 오는 곳 --></span><span id="fridgerId" hidden="true"><!-- 냉장고 주인 아이디--></span></div>
+  <div>Owned by <span id="fridgerOwner"><!-- 냉장고 주인 오는 곳 --></span><span id="fridgerId" hidden="true"><!-- 냉장고 아이디--></span></div>
   
   <hr>
   <div style="position: relative;">현재 냉장고의 신선도 

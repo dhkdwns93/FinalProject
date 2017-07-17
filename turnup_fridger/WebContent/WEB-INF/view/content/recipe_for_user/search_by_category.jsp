@@ -112,7 +112,7 @@ $(document).ready(function(){
 
 <!--유형분류입력받는창-> 음식분류입력받는창 -> 검색 -> 레시피info들(페이징) (레시피공유게시판은 유형분류는 안받겠지?)  -->
 <!--검색 전 화면이 비어있을테니, top4들 불러오는작업? 여기서는 레시피쪽 조회수 top4  -->
-
+<div class="container">
 	<div style= "text-align:center;">
 	<h2>카테고리로 레시피 찾기</h2><hr>
 	유형분류 :
@@ -129,15 +129,15 @@ $(document).ready(function(){
 	음식분류 :  
 	<select name="typeName" id="typeName">
 		<!--첫번째꺼에 따라서 동적으로 받아서 뿌리자.  -->
-	</select> 
-	<button type="button" id="searchBtn">검색</button><br><br>
+	</select> &emsp;
+	<button type="button" class="btn btn-warning" id="searchBtn">검색</button><br><br><br><br>
 	</div>
 	
 	<div id="sortKeyword">
-	<button type="button" id="hitsDesc">최다조회순</button>
-	<button type="button" id="hitsAsc">최저조회순</button>
-	<button type="button" id="calorieDesc">고칼로리순</button>
-	<button type="button" id="calorieAsc">저칼로리순</button>
+	<button type="button" class="btn btn-default" id="hitsDesc">최다조회순</button>
+	<button type="button" class="btn btn-default" id="hitsAsc">최저조회순</button>
+	<button type="button" class="btn btn-default" id="calorieDesc">고칼로리순</button>
+	<button type="button" class="btn btn-default" id="calorieAsc">저칼로리순</button>
 	<select name="recipeLevel" id="recipeLevel">
 		<option value="전체">전체</option>
 		<option value="초보환영">초보</option>
@@ -165,5 +165,6 @@ $(document).ready(function(){
 		</table>
 	</div>
 	<div id="pageBean" style = "text-align:center;"></div>
+	</div>
 </body>
 </html>

@@ -7,13 +7,21 @@
 <script src="${ initParam.rootPath }/scripts/bootstrap.min.js"></script>
 <link href="${ initParam.rootPath }/css/bootstrap.css" rel="stylesheet">
 <link href="${ initParam.rootPath }/css/landing-page.css" rel="stylesheet">
-<script type="text/javascript">
+
+<!-- <script type="text/javascript">
 
 $(document).ready(function(){	
-	
-	$("#updateFridgerName").prop("placeholder", $("span#fridgerName").text())
+ $(document).on("click", "#updateFormBtn",function(){
+		/*  alert($("#updateFridgerName").val());
+		alert($("#updateFridgerCarousel .item.active").find("img").attr("src")); */
+		var fridgerImg = $("#updateFridgerCarousel .item.active").find("img").attr("src");
+		$("#updateFridgerImg").val(fridgerImg);
+		//alert($("#updateFridgerImg").val())
+		if(!$("#updateFridgerName").val()){
+			$("#updateFridgerName").val($("#updateFridgerName").prop("placeholder"));
+		}	
+			
 		
-	 $(document).on("click", "#updateFormBtn",function(){
 		var formData = $("#updateForm").serializeArray();
 		console.log(formData)
 		$.ajax({
@@ -22,24 +30,21 @@ $(document).ready(function(){
 			"data": formData,
 			"dataType":"text",
 			"beforeSend": function(){
-				alert(!$("#updateFridgerName").val())
 				
-				$("#updateFridgerImg").val($("#updateFridgerCarousel div.item.active").find("img").attr("src"))
-				//alert($("#updateFridgerImg").val())
-				if(!$("#updateFridgerName").val()){
-					$("#updateFridgerName").val($("#updateFridgerName").prop("placeholder"))
-				}			
+				console.log($("#updateFridgerImg").val());
+				console.log(fridgerImg);				
+				
+						
 			},
 			"success": function(text){
 				if(text == "0"){
-					alert("완료!")
-					resetModal()
+					/* alert("완료!")*/
 					$("#updateFridgerModal").modal('hide');
+					resetModal()
 				}else{
-					alert("실패!")				
-					//메시지 뿌려주기
+					alert("실패!:"+text)			
+					$(".well").show();
 				}
-			
 			}
 			
 		})
@@ -55,9 +60,9 @@ function resetModal(){
 
 function openModal(){
 	$('#updateFridgerModal').modal('show');
-}
+	}
 
-</script>
+</script> -->
 
 <style>
 img{
@@ -101,6 +106,9 @@ border-radius: 5px;
    border-radius: 0;
 }
 
+.well{
+display: none;
+}
 </style>
 
 <div class="container">
@@ -117,13 +125,27 @@ border-radius: 5px;
         <h3 class="modal-title" id="myModalLabel">냉장고 수정</h3>
       </div>
       <div class="modal-body" >
+      <!-- 에러메시지 -->
+      <div class="well">
+      	<span class="error">
+        <form:errors path="fridger.frigerName" delimiter="&nbsp;" />
+      	<form:errors path="fridger.frigerImg" delimiter="&nbsp;" />
+      	<form:errors path="fridger.frigerId" delimiter="&nbsp;" />
+      	</span>
+      </div>   
+      
+      
+      
+      
+         
  
 	<form id="updateForm" class="form-horizontal" action="${initParam.rootPath }/common/member/fridger/update.do" method="post">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
-        <div class="form-group">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+        <input type="hidden" name="fridgerId" id="updateFridgerId" >
+         <div class="form-group">
           <label class="col-sm-2 control-label" for="updateFridgerName">Name</label>
         <div class="col-sm-6">
-          <input class="form-control" id="updateFridgerName" name="fridgerName" type="text" placeholder="">
+          <input class="form-control" id="updateFridgerName" name="fridgerName" type="text" >
         </div>
         </div>
         <div class="form-group">    
@@ -133,10 +155,11 @@ border-radius: 5px;
           <input class="form-control" type="text" id="updatememberId" name="memberId" value="${ memberId }" readonly="readonly" style="border: none;">
         </div>
         </div>
+        
           <div class="form-group">
               <label class="col-sm-2 control-label" for="updateFridgerImg">Image</label>
              <div class="col-sm-9">
-              <input class="form-control"type="hidden" id="updateFridgerImg" name="fridgerImg">
+              <input class="form-control" type="hidden" id="updateFridgerImg" name="fridgerImg">
               <p class="help-block">냉장고 사진을 선택해주세요</p>
                <!-- start of fridgerCarousel -->
   
@@ -229,9 +252,9 @@ border-radius: 5px;
         </form>
       </div>
       <div class="modal-footer">
-       <input type="button" id="updateFormBtn" class="btn btn-primary" value="update">
+       <button type="button" id="updateFormBtn" class="btn btn-yellow" >update</button>
        
-        <input type="button" class="btn btn-default" id="cancel" data-dismiss="modal" onclick="resetModal()" value="CANCEL">
+        <button type="button" class="btn btn-blue-grey" id="cancel" data-dismiss="modal" onclick="resetModal()" >cancel</button>
       </div>
     </div>
   </div>
