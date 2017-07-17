@@ -46,9 +46,7 @@ public class BoardReviewDaoImpl implements BoardReviewDao {
 	public int updateImageNull(BoardReview boardReview) {
 		return session.update(makeSqlId("updateImageNull"),boardReview);
 	}
-	
-	
-	
+
 	/**
 	 * QnA 삭제(댓글과 함께 삭제)
 	 * 작성자 - 김장규
@@ -129,5 +127,23 @@ public class BoardReviewDaoImpl implements BoardReviewDao {
 		return session.selectList(makeSqlId("selectRecipeName"), recipeName);
 	}
 	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	//레시피Id 카운트
+	@Override
+	public int selectRecipeIdCount(int recipeId) {
+		return session.selectOne(makeSqlId("selectRecipeIdCount"), recipeId);
+	}
+	
+	//레시피Id로 리스트  조회
+	@Override
+	public List<BoardReview> selectBoardReviewByRecipeId(int recipeId,int startIndex,int endIndex) {
+		Map<String, Object> input = new HashMap<String, Object>();
+		input.put("recipeId",recipeId);
+		input.put("startIndex",startIndex);
+		input.put("endIndex",endIndex);		
+		return session.selectList(makeSqlId("selectBoardReviewByRecipeId"), input);
+	}
 	
 }

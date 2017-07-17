@@ -1,5 +1,42 @@
+		select 
+				my_irdnt_key,
+				start_date,
+				end_date,
+				fresh_level,
+				irdnt_count,
+				irdnt_id,
+				irdnt_name,
+				fridger_id,
+				start_fresh_level,
+				storge_place
+		from (
+			select 	my_irdnt_key,
+					start_date,
+					end_date,
+					fresh_level,
+					irdnt_count,
+					irdnt_id,
+					irdnt_name,
+					fridger_id,
+					start_fresh_level,
+					storge_place 
+			from my_irdnt 
+			where fridger_id in (
+					select fridger_id 
+					from fridger 
+					where member_id='1111'))
+		where irdnt_id in (
+			select irdnt_id 
+			from recipe_irdnt 
+			where recipe_id=1)	
+			
+select * from (select * from my_irdnt where fridger_id in (select fridger_id from fridger where member_id='user1')) 
+where irdnt_id in
+(select irdnt_id from recipe_irdnt where recipe_id='241');
 
+select * from recipe_info where recipe_id=473
 
+select * from my_irdnt where member_id='user1';
 --select * from recipe_irdnt
 --select * from IRDNT_MANAGE
 
@@ -66,6 +103,7 @@ CREATE TABLE BOARD_QNA (
    BOARD_QNA_TITLE VARCHAR2(300) NOT NULL, /* 제목 */
    BOARD_QNA_TXT VARCHAR2(3000) NOT NULL, /* 내용 */
    BOARD_QNA_DATE DATE DEFAULT SYSDATE NOT NULL, /* 작성일 */
+   COMMENT_COUNT NUMBER, /* 댓글 수 */
    MEMBER_ID VARCHAR2(20) NOT NULL, /* 회원ID */
    CONSTRAINT BOARD_QNA_MEMBER_ID_FK FOREIGN KEY(MEMBER_ID) REFERENCES MEMBER
 );
@@ -77,7 +115,7 @@ CREATE SEQUENCE BOARD_QNA_ID INCREMENT BY 1 START WITH 1;
 --SELECT BOARD_QNA_ID.NEXTVAL FROM DUAL;
 
 /* 자유게시판 */
-DROP TABLE BOARD_FREE;
+DROP TABLE BOARD_FREE cascade constraint;
 DELETE FROM BOARD_FREE;
 CREATE TABLE BOARD_FREE (
    BOARD_FREE_ID NUMBER PRIMARY KEY, /* 자유게시판 ID */
@@ -85,6 +123,7 @@ CREATE TABLE BOARD_FREE (
    BOARD_FREE_TXT VARCHAR2(3000) NOT NULL, /* 내용 */
    BOARD_FREE_DATE DATE DEFAULT SYSDATE NOT NULL, /* 작성일 */
    BOARD_FREE_HITS NUMBER NOT NULL, /* 조회수 */
+   COMMENT_COUNT NUMBER, /* 댓글 수 */
    MEMBER_ID VARCHAR2(20) NOT NULL, /* 회원ID */
    CONSTRAINT BOARD_FREE_MEMBER_ID_FK FOREIGN KEY(MEMBER_ID) REFERENCES MEMBER
 );
@@ -175,6 +214,7 @@ DROP SEQUENCE fridger_ID;
 CREATE SEQUENCE fridger_ID INCREMENT BY 1 START WITH 1;  
 --SELECT fridger_ID.NEXTVAL FROM DUAL;
 
+
 --insert into fridger values(1, '215', 'id-1');
 select * from fridger;
 
@@ -192,7 +232,7 @@ CREATE TABLE fridger_GROUP (
 DROP SEQUENCE GROUP_KEY;
 CREATE SEQUENCE GROUP_KEY INCREMENT BY 1 START WITH 1; 
 --SELECT GROUP_KEY.NEXTVAL FROM DUAL;
-select * from fridger_group
+select * from fridger_group where group_member_id = '2222';
 
 /* 공지사항 */
 DROP TABLE BOARD_NOTICE;
@@ -221,7 +261,8 @@ CREATE TABLE SHOP (
    SAVE_IMG VARCHAR2(500)
    );
 DROP SEQUENCE SHOP_ID;
-CREATE SEQUENCE SHOP_ID INCREMENT BY 1 START WITH 1;  
+CREATE SEQUENCE SHOP_ID INCREMENT BY 1 START WITH 1;
+--select * from shop;
 --SELECT SHOP_ID.NEXTVAL FROM DUAL;
 
 /* 재료 관리 */
@@ -264,7 +305,7 @@ CREATE TABLE MY_IRDNT (
    fridger_ID NUMBER NOT NULL, /* 냉장고ID */
    START_FRESH_LEVEL VARCHAR2(30) NOT NULL,
    STORGE_PLACE VARCHAR2(30) NOT NULL,
-   CONSTRAINT MY_IRDNT_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE,
+   CONSTRAINT MY_IRDNT_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE on delete cascade,
    CONSTRAINT MY_IRDNT_fridger_ID_FK FOREIGN KEY(fridger_ID) REFERENCES fridger
 );
 DROP SEQUENCE MY_IRDNT_KEY;
@@ -274,6 +315,7 @@ SELECT MY_IRDNT_KEY.NEXTVAL FROM DUAL;
 --insert into MY_IRDNT values (1,SYSDATE,NULL,'보통','2개',17,'감자전분',1,'보통','실온');
 --select * from MY_IRDNT;
 
+
 /* 공유레시피재료 */
 DROP TABLE SHARE_RECIPE_IRDNT;
 DELETE FROM SHARE_RECIPE_IRDNT;
@@ -282,7 +324,7 @@ CREATE TABLE SHARE_RECIPE_IRDNT (
    BOARD_SHARE_RECIPE_ID NUMBER NOT NULL, /* 레시피 공유 ID */
    IRDNT_ID NUMBER NOT NULL, /* 재료ID */
    CONSTRAINT SEI_BOARD_SHARE_RECIPE_ID_FK FOREIGN KEY(BOARD_SHARE_RECIPE_ID) REFERENCES  BOARD_SHARE_RECIPE,
-   CONSTRAINT SRI_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE
+   CONSTRAINT SRI_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE on delete cascade
 );
 DROP SEQUENCE SHARE_RECIPE_IRDNT_KEY;
 CREATE SEQUENCE SHARE_RECIPE_IRDNT_KEY INCREMENT BY 1 START WITH 1;  
@@ -307,13 +349,13 @@ CREATE TABLE MY_DISLIKE_IRDNT (
    MEMBER_ID VARCHAR2(20) NOT NULL, /* 회원ID */
    IRDNT_ID NUMBER NOT NULL, /* 재료ID */
    /*IRDNT_NAME VARCHAR2(50)*/ /*재료명*/
-   CONSTRAINT MY_DISLIKE_IRDNT_MEMBER_ID_FK FOREIGN KEY(MEMBER_ID) REFERENCES MEMBER
-   ,CONSTRAINT MY_DISLIKE_IRDNT_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE
+   CONSTRAINT MY_DISLIKE_IRDNT_MEMBER_ID_FK FOREIGN KEY(MEMBER_ID) REFERENCES MEMBER on delete cascade,
+   ,CONSTRAINT MY_DISLIKE_IRDNT_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE on delete cascade
    );
 --   ,CONSTRAINT MY_DISLIKE_IRDNT_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE
-select * from my_dislike_irdnt;
-select * from my_dislike_irdnt where  member_id='id-1' and  irdnt_id=2;
-
+--select * from my_dislike_irdnt;
+--select * from my_dislike_irdnt where  member_id='id-1' and  irdnt_id=2;
+--insert into my_dislike_irdnt values ('0','user1','112')
 
 /* 관리자  */
 DROP TABLE ADMIN CASCADE CONSTRAINT;
@@ -373,7 +415,8 @@ CREATE TABLE RECIPE_INFO (
    RECIPE_HITS NUMBER NOT NULL /* 조회수 */
 );
 
---select * from RECIPE_INFO
+CREATE SEQUENCE RECIPE_ID_seq INCREMENT BY 1 START WITH 1;  
+--select * from RECIPE_INFO 
 --select distinct category_name from RECIPE_INFO
 --select distinct type_name from recipe_info
 --select category_name, type_name from RECIPE_INFO where category_name ='퓨전' group by category_name, type_name 
@@ -393,7 +436,8 @@ CREATE TABLE RECIPE_CRSE (
    CONSTRAINT VTRC_RECIPE_ID_FK FOREIGN KEY(RECIPE_ID) REFERENCES RECIPE_INFO on delete cascade
 );
 
---select * from recipe_crse;
+--select * from recipe_crse WHERE STEP_IMAGE_URL = 'null';
+--select * from recipe_crse where recipe_id = 386;
 
 /* 레시피 재료정보 */
 DROP TABLE RECIPE_IRDNT CASCADE CONSTRAINT;
@@ -407,13 +451,15 @@ CREATE TABLE RECIPE_IRDNT (
    RECIPE_ID NUMBER, /* 레시피 코드 */
    IRDNT_ID NUMBER, /* 재료ID */
    CONSTRAINT VTRI_RECIPE_ID_FK FOREIGN KEY(RECIPE_ID) REFERENCES RECIPE_INFO on delete cascade,
-   CONSTRAINT VTRI_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE 
+   CONSTRAINT VTRI_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE on delete cascade
 );
+CREATE SEQUENCE IRDNT_NO_seq INCREMENT BY 1 START WITH 1;  
+
 --select distinct irdnt_name from RECIPE_IRDNT order by irdnt_name;
 --select count(*) from recipe_crse;
 --select count(*) from recipe_info;
 --select count(*) from recipe_irdnt;
---select * from recipe_irdnt;
+--select * from recipe_irdnt where recipe_id = 386;
 
 /* 즐겨찾기 */
 DROP TABLE FAVORITE_RECIPE;
@@ -429,8 +475,9 @@ DROP SEQUENCE FAVORITE_RECIPE_KEY;
 CREATE SEQUENCE FAVORITE_RECIPE_KEY INCREMENT BY 1 START WITH 1;  
 --SELECT FAVORITE_RECIPE_KEY.NEXTVAL FROM DUAL;
 --select * from FAVORITE_RECIPE
-
-
+--insert into favorite_recipe values(0,'user1','478');
+--select * from recipe_info  where recipe_id = 478
+--select irdnt_name from my_irdnt where my_irdnt_key=48;
 
 
 --------(6/28) 냉장고 그룹 가입 처리를 위한 테이블 BY은영---------------------------------
@@ -446,7 +493,7 @@ CREATE TABLE join_process (
 	resp_member_id	VARCHAR2(20)	NOT NULL,	/*응답회원*/
 CONSTRAINT pprocess_fridger_id_fk FOREIGN KEY(process_fridger_id) REFERENCES FRIDGER(fridger_id),
 CONSTRAINT req_member_id_fk FOREIGN KEY(req_member_id) REFERENCES MEMBER(member_id),
-CONSTRAINT resp_member_id_fk FOREIGN KEY(resp_member_id) REFE	RENCES MEMBER(member_id)
+CONSTRAINT resp_member_id_fk FOREIGN KEY(resp_member_id) REFERENCES MEMBER(member_id)
 );
 DROP SEQUENCE process_no;
 CREATE SEQUENCE process_no INCREMENT BY 1 START WITH 1;
@@ -494,9 +541,10 @@ CREATE TABLE BOARD_REVIEW(
 DROP SEQUENCE BOARD_REVIEW_ID;
 CREATE SEQUENCE BOARD_REVIEW_ID INCREMENT BY 1 START WITH 1; 
 --SELECT BOARD_FREE_ID.NEXTVAL FROM DUAL;
+select * from board_review
 
 
-DELETE FROM RECIPE_IRDNT
+DELETE FROM RECIPE_IRDNT_temp;
 CREATE TABLE recipe_irdnt_temp (
 IRDNT_no NUMBER PRIMARY KEY, /* 재료순번 */
    IRDNT_name VARCHAR2(280) NOT NULL, /* 재료명 */
@@ -507,7 +555,6 @@ IRDNT_no NUMBER PRIMARY KEY, /* 재료순번 */
    IRDNT_ID NUMBER /* 재료ID */
 );
 
-DELETE FROM RECIPE_IRDNT_temp;
 SELECT * FROM recipe_irdnt_temp;
 
 SELECT count(*) FROM recipe_irdnt_temp;
@@ -520,7 +567,8 @@ INSERT INTO recipe_irdnt
 SELECT 	i.IRDNT_no, i.IRDNT_name, i.IRDNT_amount, i.IRDNT_type_CODE, i.IRDNT_type_name, i.RECIPE_ID,
 		m.IRDNT_ID
 FROM	recipe_irdnt_temp i, irdnt_manage m
-WHERE	m.IRDNT_name = i.IRDNT_name
+WHERE	m.IRDNT_name = i.IRDNT_name 
+AND 	i.RECIPE_ID = 5836
 
 
 select distinct irdnt_name from recipe_irdnt_temp
@@ -543,3 +591,6 @@ WHERE recipe_id NOT IN (
 	FROM RECIPE_INFO 
 	where category_name='한식'
 	order by type_code
+);	
+
+

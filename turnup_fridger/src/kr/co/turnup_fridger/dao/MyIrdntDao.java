@@ -99,4 +99,32 @@ public interface MyIrdntDao {
 	 */
 	List<MyIrdnt> selectMyIrdntBymemberId(String memberId);
 	
+	/**
+	 * 한 레시피의 재료들과 일치하는 나의 식재료들을 리턴.
+	 * @param recipeId
+	 * @param memberId
+	 * @return
+	 */
+	List<MyIrdnt> selectMatchIrdnt(int recipeId, String memberId);
+	
+	/**
+	 * 나의 재료중 보관장소에 따른 재료수 리턴.
+	 * @param storgePlace
+	 * @return
+	 */
+	int selectMyIrdntByStorgePlace(String storgePlace, int fridgerId);
+	
+	/**
+	 * 나의 재료중 카테고리에 따른 재료수 리턴.
+	 * @param category
+	 * @return
+	 */
+	int selectMyIrdntByCategory(String category, int fridgerId);
+	
+	/**
+	 * 나의 재료중 신선도에 따른 재료수 리턴.
+	 * @param freshLevel
+	 * @return
+	 */
+	int selectCountMyIrdntByFreshLevel(String freshLevel,int fridgerId);
 }

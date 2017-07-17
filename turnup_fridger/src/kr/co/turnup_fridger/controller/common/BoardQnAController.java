@@ -29,10 +29,12 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.co.turnup_fridger.dao.BoardNoticeDao;
 import kr.co.turnup_fridger.service.BoardNoticeService;
 import kr.co.turnup_fridger.service.BoardQnAService;
+import kr.co.turnup_fridger.service.CommentQnAService;
 import kr.co.turnup_fridger.validation.BoardNoticeValidator;
 import kr.co.turnup_fridger.validation.BoardQnAValidator;
 import kr.co.turnup_fridger.vo.BoardNotice;
 import kr.co.turnup_fridger.vo.BoardQnA;
+import kr.co.turnup_fridger.vo.CommentQnA;
 
 @Controller
 @RequestMapping("/common/boardqna/")
@@ -40,7 +42,9 @@ public class BoardQnAController extends HttpServlet {
 	
 		@Autowired
 		private BoardQnAService service;
-			
+		@Autowired
+		private CommentQnAService comment;	
+		
 		//전체 리스트
 		@RequestMapping("boardQnAList")
 		@ResponseBody
@@ -50,6 +54,7 @@ public class BoardQnAController extends HttpServlet {
 		
 	        ModelAndView mav = new ModelAndView();
 		    mav.addObject("list", map.get("list"));
+		    mav.addObject("totalCount", map.get("totalCount"));
 		    mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("common/boardqna/boardqna_list.tiles"); // 뷰를 list.jsp로 설정
 	        return mav; 
@@ -67,6 +72,7 @@ public class BoardQnAController extends HttpServlet {
 			Map<String, Object> map  = service.findBoardQnAByMemberId(memberId,page);
 			
 		    mav.addObject("list", map.get("list"));
+		    mav.addObject("totalCount", map.get("totalCount"));
 		    mav.addObject("memberId",  map.get("memberId"));
 		    mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("common/boardqna/boardqna_list_memberid.tiles"); // 뷰를 list.jsp로 설정
@@ -86,9 +92,12 @@ public class BoardQnAController extends HttpServlet {
 			
 			if( (member.equals(memberId) && admin.trim().isEmpty()) || !admin.trim().isEmpty())
 			{
-				mav.setViewName("common/boardqna/boardqna_view.tiles");
 				
-				mav.addObject("boardQnA", service.findBoardQnAById(boardQnAId));
+				List<CommentQnA> list = comment.selectCommentQnAByboardQnAId(boardQnAId);
+				mav.addObject("list", list);
+				BoardQnA boardQnA = service.findBoardQnAById(boardQnAId);
+				mav.addObject("boardQnA", boardQnA);
+				mav.setViewName("common/boardqna/boardqna_view.tiles");
 				return mav;
 			}
 			
@@ -96,12 +105,10 @@ public class BoardQnAController extends HttpServlet {
 			
 		    mav.addObject("list", map.get("list"));
 		    mav.addObject("pageBean", map.get("pageBean"));
-	        mav.setViewName("common/boardqna/boardqna_list.tiles"); 
+	        mav.addObject("error", "err");
+		    mav.setViewName("common/boardqna/boardqna_list.tiles"); 
 	        
-	        response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script>alert('권한이 없습니다.');</script>");
-            out.flush();
+	        
 	        return mav; 
 		}		
 		
@@ -124,10 +131,12 @@ public class BoardQnAController extends HttpServlet {
 			
 			mav.addObject("boardQnA",boardQnA);
 			
+			List<CommentQnA> list = comment.selectCommentQnAByboardQnAId(boardQnA.getBoardQnAId());
+			mav.addObject("list", list);
+			mav.addObject("boardQnA", service.findBoardQnAById(boardQnA.getBoardQnAId()));
 			mav.setViewName("common/boardqna/boardqna_view.tiles");
 			
-			mav.addObject("boardQnA", service.findBoardQnAById(boardQnA.getBoardQnAId()));
-	        
+		
 			return mav;
 		}
 		
@@ -142,6 +151,7 @@ public class BoardQnAController extends HttpServlet {
 			
 	        ModelAndView mav = new ModelAndView();
 		    mav.addObject("list", map.get("list"));
+		    mav.addObject("totalCount", map.get("totalCount"));
 		    mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("common/boardqna/boardqna_list.tiles"); // 뷰를 list.jsp로 설정
 	        return mav; 
@@ -178,11 +188,11 @@ public class BoardQnAController extends HttpServlet {
 			ModelAndView mav = new ModelAndView();
 			
 			service.updateBoardQnA(boardQnA);
-			BoardQnA bq = new BoardQnA(0,boardQnA.getBoardQnATitle(),boardQnA.getBoardQnATxt(),boardQnA.getBoardQnAdate(),boardQnA.getMemberId());
-			mav.addObject("boardQnA",bq);
-		    
+			//BoardQnA bq = new BoardQnA(0,boardQnA.getBoardQnATitle(),boardQnA.getBoardQnATxt(),boardQnA.getBoardQnAdate(),boardQnA.getMemberId());
+			mav.addObject("boardQnA",boardQnA);
+			List<CommentQnA> list = comment.selectCommentQnAByboardQnAId(boardQnA.getBoardQnAId());
+			mav.addObject("list", list);
 			mav.setViewName("common/boardqna/boardqna_view.tiles");
-			
 			mav.addObject("boardQnA", service.findBoardQnAById(boardQnAId));
 		    
 			return mav;

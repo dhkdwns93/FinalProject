@@ -178,6 +178,32 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 		return dao.selectMyIrdntBymemberId(memberId);
 	}
 
+	@Override
+	public List<MyIrdnt> findMatchIrdnt(int recipeId, String memberId) {
+		System.out.println("받아온 매개변수들 :"+ recipeId+","+memberId);
+		return dao.selectMatchIrdnt(recipeId, memberId);
+	}
+
+	@Override
+	public int findAllMyIrdntCount(int fridgerId) {
+		return dao.selectCountAllMyIrdnts(fridgerId);
+	}
+
+	@Override
+	public int findMyIrdntByStorgePlace(int fridgerId, String storgePlace) {
+		return dao.selectMyIrdntByStorgePlace(storgePlace, fridgerId);
+	}
+
+	@Override
+	public int findMyIrdntByCategory(int fridgerId, String irdntCategory) {
+		return dao.selectMyIrdntByCategory(irdntCategory, fridgerId);
+	}
+
+	@Override
+	public int CountMyIrdntByFreshLevel(int fridgerId, String freshLevel) {
+		return dao.selectCountMyIrdntByFreshLevel(freshLevel, fridgerId);
+	}
+
 	
 	
 	

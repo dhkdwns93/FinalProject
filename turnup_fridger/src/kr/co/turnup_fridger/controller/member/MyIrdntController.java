@@ -42,6 +42,7 @@ public class MyIrdntController {
 		
 		if(errors.hasErrors()){
 			//여기서 새페이지 열리지않고, 팝업창내에서 나왔으면 좋겠다.
+			System.out.println(errors.getAllErrors());
 			return new ModelAndView("common/member/myIrdnt/myIrdnt_form");
 		}
 		
@@ -67,15 +68,21 @@ public class MyIrdntController {
 		} catch (DuplicateMyIrdntException e) {
 			return new ModelAndView("common/member/myIrdnt/myIrdnt_form","errorMsg_keyDuplicate",e.getMessage());
 		}
-		return new ModelAndView("redirect:myIrdntList.do");
+		return new ModelAndView("redirect:create/success.do");
 	}
+	
+	@RequestMapping("create/success")
+	public ModelAndView createSuccess() throws Exception{
+		return new ModelAndView("common/member/myIrdnt/create_success");
+	}
+	
 	
 	@RequestMapping(value="updateMyIrdnt", produces="html/text;charset=UTF-8;")
 	@ResponseBody
 	public ModelAndView updateMyIrdnt(@ModelAttribute ("myIrdnt") @Valid MyIrdntForm myIrdntForm,BindingResult errors){
 		
 		if(errors.hasErrors()){
-			return new ModelAndView("/common/member/myIrdnt/myIrdnt_update_form");
+			return new ModelAndView("common/member/myIrdnt/myIrdnt_update_form");
 		}
 		
 		MyIrdnt myIrdnt = new MyIrdnt();

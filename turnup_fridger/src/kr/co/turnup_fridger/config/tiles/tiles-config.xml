@@ -6,7 +6,6 @@
 
 	<definition name="template" template="/WEB-INF/view/layout/template.jsp">
 		<put-attribute name="head" value="/WEB-INF/view/layout/head.jsp" />
-		<put-attribute name="menu" value="/WEB-INF/view/layout/menu.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/view/layout/footer.jsp" />
 	</definition>
 
@@ -14,28 +13,40 @@
 	<definition name="*.tiles" extends="template">
 		<put-attribute name="content" value="/WEB-INF/view/content/{1}.jsp" />
 	</definition>
+	
+	<!-- ============== 상세 쪽 template =============== -->
+	<definition name="template2" template="/WEB-INF/view/layout/template2.jsp">
+		<put-attribute name="menu" value="/WEB-INF/view/layout/menu.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/view/layout/footer.jsp" />
+	</definition>
+	
+		
 
 	<!-- common 직속하위 jsp -->
-	<definition name="*/*.tiles" extends="template">
+	<definition name="*/*.tiles" extends="template2">
 		<put-attribute name="content" value="/WEB-INF/view/content/{1}/{2}.jsp" />
 	</definition>
 	
 	<!-- common 아래 admin / member 직속하위 jsp -->
-	<definition name="*/*/*.tiles" extends="template">
+	<definition name="*/*/*.tiles" extends="template2">
 		<put-attribute name="content" value="/WEB-INF/view/content/{1}/{2}/{3}.jsp" />
 	</definition>
 	
 	<!-- admin 또는 member 하위의 각자 폴더 아래의 jsp(가장 하위분류)
 			view - content - common - member - fridger - jsp파일			 -->
-	<definition name="*/*/*/*.tiles" extends="template">
+	<definition name="*/*/*/*.tiles" extends="template2">
 		<put-attribute name="content" value="/WEB-INF/view/content/{1}/{2}/{3}/{4}.jsp" />
 	</definition>
 	
 	
 	<!-- admin 또는 member 하위의 각자 폴더 아래의 jsp(가장 하위분류)
 			view - content - common - member - fridger - jsp파일			 -->
-	<definition name="*/*/*/*/*.tiles" extends="template">
+	<definition name="*/*/*/*/*.tiles" extends="template2">
 		<put-attribute name="content" value="/WEB-INF/view/content/{1}/{2}/{3}/{4}/{5}.jsp" />
+	</definition>
+	
+		<definition name="*/*/*/*/*/*.tiles" extends="template2">
+		<put-attribute name="content" value="/WEB-INF/view/content/{1}/{2}/{3}/{4}/{5}/{6}.jsp" />
 	</definition>
 
 </tiles-definitions>

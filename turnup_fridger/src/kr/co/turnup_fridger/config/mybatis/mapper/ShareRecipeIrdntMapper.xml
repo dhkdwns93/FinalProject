@@ -16,10 +16,10 @@
 		<result column="BOARD_SHARE_RECIPE_ID" property="recipeId"/>
 		<result column="IRDNT_ID" property="irdntId"/>
 	</resultMap>
-	
+		
 	<resultMap type="java.util.HashMap" id="searchResult">
 		<id column="count" property="count"/>
-		<result column="BOARD_SHARE_RECIPE_ID" property="BOARD_SHARE_RECIPE_ID"/>
+		<result column="BOARD_SHARE_RECIPE_ID" property="recipeId"/>
 	</resultMap>
 	
 	<!-- resultMap 공유게시판+공유재료+재료보관 -->

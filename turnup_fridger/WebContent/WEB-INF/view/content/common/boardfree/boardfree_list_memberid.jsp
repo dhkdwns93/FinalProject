@@ -10,54 +10,81 @@
 <title>Insert title here</title>
 <style type="text/css">
 form{display:inline}
+/* focus none 지정 */
 input:focus {
   outline: none;
+}
+/* th 가운데 정렬 정렬 */
+th{
+text-align:center
+}
+/* input 정렬 */
+input {
+   vertical-align:middle;  
 }
 </style>
 </head>
 <body>
-<h1>자유 게시판</h1><br>
-<hr>
-<form action="${initParam.rootPath}/common/boardfree/boardFreeBySelect.do" method="post">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<select name="select" id="select">
-		<option>전체보기</option>
-		<option value="제목">제목</option>
-		<option value="아이디">아이디</option>
-	</select>
-	<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
-	<button>검색</button>
-</form>
-<%-- <form action="${initParam.rootPath}/common/boardfree/boardFreeList.do" method="post">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-<a href="${initParam.rootPath}/common/boardfree/boardfree_list.do"><input type="submit" value="전체보기"/></a>
-</form> --%>
-<br>
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+
 <c:if test="${empty list}">
-	검색한 아이디가 없습니다.
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<h1>자유 게시판</h1><br>	
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+	<a href="${initParam.rootPath}/index.do"><button style="text-align:right">홈으로</button></a>
+	<div style="float:right">
+	<form action="${initParam.rootPath}/common/boardfree/boardFreeBySelect.do" method="post">
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+		<select name="select" id="select">
+			<option>전체보기</option>
+			<option value="제목">제목</option>
+			<option value="아이디">아이디</option>
+		</select>
+		<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
+		<button>검색</button>
+	</form>
+	</div>
+</table>
+</div>
+	<br><a style="text-align:center"><h2>검색한 아이디가 없습니다.</h2></a>
 </c:if>
 <c:if test="${!empty list}">
-<div id="table" style="width:800px;">
-<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">
-<thead id="thead">
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<h1>자유 게시판</h1><br>	
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+<a href="${initParam.rootPath}/index.do"><button style="text-align:right">홈으로</button></a>
+	<div style="float:right">
+	<form action="${initParam.rootPath}/common/boardfree/boardFreeBySelect.do" method="post">
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+		<select name="select" id="select">
+			<option>전체보기</option>
+			<option value="제목">제목</option>
+			<option value="아이디">아이디</option>
+		</select>
+		<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
+		<button>검색</button>
+	</form>
+	</div>
+<thead>
     <tr>
-        <th>번호</th>
-        <th>제목</th>
-        <th>작성일</th>
-        <th>작성자</th>
-        <th>조회수</th>
+        <th style="width:5%;">번호</th>
+        <th style="width:50%;">제목</th>
+        <th style="width:11%;">작성일</th>
+        <th style="width:11%;">작성자</th>
+        <th style="width:11%;">조회수</th>
+        <th style="width:11%;">댓글수</th>
     </tr>
  </thead>
  
-<tbody id="tbody">
-<c:forEach var="row" items="${list}">
+<tbody>
+<c:forEach var="row" items="${list}" varStatus="status">
     <tr>
-        <td>${row.boardFreeId}</td>
-        <td>
+        <td>${requestScope.totalCount-((requestScope.pageBean.page -1 ) * 10 + status.index)}</td>
+        <td style="width:50%;">
     		<form action="${initParam.rootPath}/common/boardfree/boardFreeView.do" method="post">
     			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
         		<input type="hidden" name="boardFreeId" value="${row.boardFreeId}">
-        		<input type="submit" value="${row.boardFreeTitle}" style="background-color:white;border:0;WIDTH: 400pt; HEIGHT: 15pt"> 
+        		<input type="submit" value="${row.boardFreeTitle}" style="background-color:white;border:0;WIDTH: 350pt; HEIGHT: 15pt"> 
 			</form>  
         </td>
         <td>
@@ -65,12 +92,22 @@ input:focus {
         </td>
         <td>${row.memberId}</td>
         <td>${row.boardFreeHits}</td>
+        <td>
+        	<c:if test="${row.commentCount == 0}">
+        		0
+        	</c:if>
+        	<c:if test="${row.commentCount != 0}">
+        		${row.commentCount}
+        	</c:if>
+        </td>
     </tr>    
 </c:forEach>
  </tbody>
 </table>
-</div>
-<p>
+<sec:authorize access="hasRole('ROLE_MEMBER')">
+	<a href="${initParam.rootPath}/common/boardfree/boardfree_form.do"><button>등록</button></a>
+</sec:authorize>
+<p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리
 			###################################################### --%>
@@ -125,13 +162,7 @@ input:focus {
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/common/boardfree/boardFreeByMemberId.do?page=${requestScope.pageBean.totalPage}&memberId=${requestScope.memberId}">마지막페이지</a>
 </p>
+</div>
 </c:if>
-<br>
-
-
-<sec:authorize access="hasRole('ROLE_MEMBER')">
-<a href="${initParam.rootPath}/common/boardfree/boardfree_form.do"><button>등록</button></a>
-</sec:authorize>
-<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 </body>
 </html>

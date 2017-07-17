@@ -11,45 +11,64 @@
 <script type="text/javascript">
 </script>
 <style type="text/css">
+/* focus none 지정 */
 input:focus {
   outline: none;
+}
+/* th 가운데 정렬 정렬 */
+th{
+text-align:center
+}
+/* input 정렬 */
+input {
+   vertical-align:middle;  
 }
 </style>
 </head>
 <body>
+
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <h1>공지사항</h1><br>
-<form action="${initParam.rootPath}/boardnotice/boardNoticeByItems.do" method="post">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-<select name="items" id="items" value="${requestScope.items}">
-	<option value="전체보기">전체보기</option>
-	<option value="공지사항">공지사항</option>
-	<option value="뉴스">뉴스</option>
-</select>
-<input type="submit" value="검색"/>
-</form>
-<div id="table" style="width:800px;">
-<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+	<a href="${initParam.rootPath}/index.do"><button style="text-align:right">홈으로</button></a>
+	<!-- 검색 버튼 -->
+	<div style="float:right">
+	<form action="${initParam.rootPath}/boardnotice/boardNoticeByItems.do" method="post">
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+			<select name="items" id="items" value="${requestScope.items}">
+				<option value="전체보기">전체보기</option>
+				<option value="공지사항" >공지사항</option>
+				<option value="뉴스" >뉴스</option>
+			</select>
+		<input type="submit" value="검색"/>
+	</form>
+	</div>
 <thead>
     <tr>
-        <th>번호</th>
-        <th>말머리</th>
-        <th>제목</th>
-        <th>작성일</th>
-        <th>작성자</th>
+        <th style="width:5%;">번호</th>
+        <th style="width:10%;">말머리</th>
+        <th style="width:50%;">제목</th>
+        <th style="width:15%;">작성일</th>
+        <th style="width:10%;">작성자</th>
     </tr>
  </thead>
 <tbody>
-<c:forEach var="row" items="${list}">
+<c:forEach var="row" items="${list}" varStatus="status">
     <tr>
-        <td>${row.id}</td>
+        <td>
+        	${requestScope.totalCount-((requestScope.pageBean.page -1 ) * 10 + status.index)}
+        	<!-- 전체 데이터 수 - ( (현재 페이지 번호 - 1) * 한 페이지당 보여지는 데이터 수 + 현재 게시물 출력 순서 )  ////
+        	 count라던지, index 또는 last first등의 접근을 통해 조금더 세밀한 제어를 가능   /// status.index : 0부터의 순서-->
+        </td>
         <td>${row.items}</td>
         
-        <td>
+        <td style="width:50%;">
     		<form action="${initParam.rootPath}/boardnotice/boardNoticeView.do" method="post">
     			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     			<input type="hidden" name="id" value="${row.id}">
-    			<input type="submit" value="${row.title}" style="background-color:white;border:0;WIDTH: 400pt; HEIGHT: 15pt"> 
-			</form>       
+    			<input type="submit" value="${row.title}" style="background-color:white;border:0;WIDTH:100%;HEIGHT:100%"> 
+			</form>           
         </td>
         <td>
             <fmt:formatDate value="${row.date}" pattern="yyyy-MM-dd"/>
@@ -59,9 +78,12 @@ input:focus {
 </c:forEach>
  </tbody>
 </table>
-</div>
+<!-- 관리자만 등록 가능 -->
+ <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+ 	<a href="${initParam.rootPath}/common/admin/boardnotice/boardnotice_form.do"><button>등록</button></a>
+ </sec:authorize>
 
-<p>
+<p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리
 			###################################################### --%>
@@ -116,10 +138,6 @@ input:focus {
 	<a href="${initParam.rootPath}/boardnotice/boardNoticeByItems.do?page=${requestScope.pageBean.totalPage}&items=${requestScope.items}">마지막페이지</a>
 
 </p>
-<!-- 관리자만 등록 가능 -->
- <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
- 	<a href="${initParam.rootPath}/common/admin/boardnotice/boardnotice_form.do"><button>등록</button></a>
- </sec:authorize>
-<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
+</div>
 </body>
 </html>

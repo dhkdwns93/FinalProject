@@ -23,6 +23,8 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 		return "kr.co.turnup_fridger.config.mybatis.mapper.BoardShareRecipeMapper."+id;
 	}
 	
+	
+
 
 	@Override
 	public int insertBoardShareRecipe(BoardShareRecipe boardShareRecipe) {
@@ -55,9 +57,13 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 		return session.selectOne(makeSqlId("boardRead"), recipeId);
 	}
 	@Override
-	public List<BoardShareRecipe> selectBoardShareRecipeByTitle(String title) {
-	
-		return session.selectList(makeSqlId("selectBoardShareRecipeByTitle"), title);
+	public List<BoardShareRecipe> selectBoardShareRecipeByTitle(String title,int startIndex, int endIndex) {
+		HashMap map = new HashMap();
+		map.put("title", title);
+		map.put("startIndex", startIndex);
+		map.put("endIndex", endIndex);
+		
+		return session.selectList(makeSqlId("selectBoardShareRecipeByTitle"), map);
 	}
 	
 	@Override
@@ -150,13 +156,27 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 	}
 	
 	@Override
-	public List<BoardShareRecipe> selectBoardShareRecipeById(List<Integer> recipeIds) {
-		System.out.println("보드쉐어dao 찾을 id들" + recipeIds);
+	public List<BoardShareRecipe> selectBoardShareRecipeById(List<Integer> recipeIds,int startIndex, int endIndex) {
+		
 		HashMap map = new HashMap();
 		map.put("recipeIds", recipeIds);
-		
+		map.put("startIndex", startIndex);
+		map.put("endIndex", endIndex);
+		System.out.println("페이징하러갈때 들고가는 레시피id들"+recipeIds);
 		return session.selectList(makeSqlId("selectBoardShareRecipeById"),map);
 	}
+
+	@Override
+	public int selectBoardShareRecipeByIdCount(List<Integer> recipeIds) {
+		System.out.println("추출된 레시피id들 받아온거"+recipeIds);
+		return session.selectOne(makeSqlId("selectBoardShareRecipeByIdCount"),recipeIds);
+	}
+	@Override
+	public int selectBoardShareRecipeByTitleCount(String title) {		
+		return session.selectOne(makeSqlId("selectBoardShareRecipeByTitleCount"),title);
+	}
+	
+
 	
 	
 	

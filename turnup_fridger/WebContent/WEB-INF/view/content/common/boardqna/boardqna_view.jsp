@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,16 +64,46 @@ function popup(frm){
 	font-size:small;
 	color: red;
  }
-</style>
+th{
+	text-align:center
+}
+h1{display:inline}
+h2{display:inline}
+#div{
+	height: auto; 
+	min-height: 100px; 
+	overflow: auto;
+	background-color:#dcdcdc;
+	width: 100%;
+}
 
+
+</style>
 </head>
 <body>
 
-<h1>QnA 게시판 > ${requestScope.boardQnA.memberId}님의 질문 </h1><br>
-<hr>
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 
-<div id="table" style="width:800px;">
-<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<h1>QnA 게시판 ></h1> <h2>${requestScope.boardQnA.memberId}님의 질문</h2><br>
+<hr>
+<div style="float:right"><!-- 오른쪽 정렬 -->
+	<form action="${initParam.rootPath}/common/boardqna/boardQnAUploadView.do" method="post">
+			<input type="hidden" name="boardQnAId" id="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
+			<!-- 회원만 수정 가능  -->
+			<sec:authorize access="hasRole('ROLE_MEMBER')">
+				<button>수정하기</button>
+			</sec:authorize>
+		<sec:csrfInput/>
+	</form>
+	
+	<form action="${initParam.rootPath}/common/boardqna/boardQnARemove.do" method="post">
+		<input type="hidden" name="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
+		<input type="submit" value="삭제하기" onclick="return delete_event();">
+		<sec:csrfInput/>
+	</form>
+</div>
+<table class="table table-bordered" style="width:100%; border:1; text-align:center">
 	<tr>
 		<td>제목</td>
 		<td>${requestScope.boardQnA.boardQnATitle}</td>
@@ -87,200 +118,180 @@ function popup(frm){
 	</tr>	
 	<tr>
 		<td>내용</td>
-		<td>
+		<td style="width:70%">
 			${requestScope.boardQnA.boardQnATxt}
 		</td>
 	</tr>
 </table>
-</div>
-<form action="${initParam.rootPath}/common/boardqna/boardQnAUploadView.do" method="post">
-	<input type="hidden" name="boardQnAId" id="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
-		<!-- 회원만 수정 가능  -->
-		<sec:authorize access="hasRole('ROLE_MEMBER')">
-			<button>수정하기</button>
-		</sec:authorize>
-	<sec:csrfInput/>
-</form>
 
-<form action="${initParam.rootPath}/common/boardqna/boardQnARemove.do" method="post">
-	<input type="hidden" name="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
-	<input type="submit" value="삭제하기" onclick="return delete_event();">
-	<sec:csrfInput/>
-</form>
-
-<form action="${initParam.rootPath}/common/boardqna/boardQnAList.do" method="post">
-	<input type="submit" value="목록으로"/>
-	<sec:csrfInput/>
-</form>
-
-
-<hr>
 
 <!-- 댓글 목록 -->
-댓글 목록<br>
-<c:forEach var="list" items="${requestScope.boardQnA.commentQnAList}">
-<c:if test="${list.commentQnAId == 0}">
+<!-- 댓글 없을 때   -->
+
+<c:if test="${empty list}">
+<h3>댓글 목록</h3><br>
 댓글이 없습니다.
 </c:if>
-<c:if test="${list.commentQnAId != 0}">
+<!-- 댓글 있을 때   -->
+<div>
 
-<div id="table" style="width:800px;">
+<c:if test="${!empty list}">
+<div id="table" style="width:100%; border:1; text-align:center">
+<div style="float:left">
+<h3>댓글 목록</h3><br>
+</div>
 <table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">	
 <thead>
     <tr>
-        <th>작성자</th>
-        <th>내용</th>
-        <th>작성일</th>
-        <th>수정</th>
-        <th>삭제</th>
+        <th style="width:10%;">작성자</th>
+        <th style="width:50%;">내용</th>
+        <th style="width:20%;">작성일</th>
+        <th style="width:10%;">수정</th>
+        <th style="width:10%;">삭제</th>
     </tr>
- </thead>
+</thead>
 <tbody>
+<c:forEach var="row" items="${list}"> 
 	<tr>
 		<td>
 			<!-- 사용자 등록일 경우  -->
-			<c:if test="${list.adminId == null}">
-				${list.memberId}
+			<c:if test="${row.adminId == null}">
+				${row.memberId}
 			</c:if>
 			<!-- 관리자 등록일 경우 -->
-			<c:if test="${list.adminId != null}">
-				관리자(${list.adminId})
+			<c:if test="${row.adminId != null}">
+				관리자(${row.adminId})
 			</c:if>	
 		</td>
-		<td>${list.commentQnATxt}</td>
-		<td><fmt:formatDate value="${list.commentQnADate}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
+		<td style="width:50%;">
+			${row.commentQnATxt}
+		</td>
 		<td>
-<%-- 		
-	     	<form name="commentQnAUpload" method="post" >
-						<input type="hidden" name="commentQnAId" id="commentQnAId" value="${list.commentQnAId}">
-						<input type="hidden" name="commentQnATxt" id="commentQnATxt" value="${list.commentQnATxt}">
-						<input type="hidden" name="memberId" id="memberId" value="${list.memberId}">
-						<input type="hidden" name="boardQnAId" id="boardQnAId" value="${list.boardQnAId}">
-						
-				<!-- 작성자가 관리자이면 관리자 댓글 수정가능 -->
-				<c:if test="${list.adminId != null}">		
-					 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN')">
-							<a href="javascript:popup();"><input type="button" id="button" value="수정하기"></a>
-					 </sec:authorize>
-				</c:if>
-				
-				<!-- 작성자가 사용자이면 사용자 댓글 수정 -->
-				<c:if test="${list.adminId == null}">
-					 <sec:authorize access="hasRole('ROLE_MEMBER')">
-					 	<input type="hidden" name="memberId" id="memberId" value="${boardQnA.memberId}">
-						<input type="hidden" name="loginId" id="loginId" value="<sec:authentication property="principal.memberId"/>">
-					 	<!-- <a href="javascript:popup();"><input type="button" value="수정하기"></a> -->
-					 	<button onclick="popup();">수정</button>
-					 </sec:authorize>
-				</c:if>
-				
-				
-			<sec:csrfInput/>
-			</form>		 --%>
+			<fmt:formatDate value="${row.commentQnADate}" pattern="yyyy-MM-dd a HH:mm:ss"/>
+		</td>
+		<td>
 			<form action="${initParam.rootPath}/common/commentqna/commentQnAUploadView.do" method="post">
-						<input type="hidden" name="commentQnAId" id="commentQnAId" value="${list.commentQnAId}">
-						<input type="hidden" name="commentQnATxt" id="commentQnATxt" value="${list.commentQnATxt}">
-						<input type="hidden" name="memberId" id="memberId" value="${list.memberId}">
-						<input type="hidden" name="boardQnAId" id="boardQnAId" value="${list.boardQnAId}">	
+						<input type="hidden" name="commentQnAId" id="commentQnAId" value="${row.commentQnAId}">
+						<input type="hidden" name="commentQnATxt" id="commentQnATxt" value="${row.commentQnATxt}">
+						<input type="hidden" name="memberId" id="memberId" value="${row.memberId}">
+						<input type="hidden" name="boardQnAId" id="boardQnAId" value="${row.boardQnAId}">	
 				<!-- 작성자가 관리자이면 관리자 댓글 수정가능 -->
-				<c:if test="${list.adminId != null}">		
+				<c:if test="${row.adminId != null}">		
 					 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 							<input type="submit" value="수정하기">
 					 </sec:authorize>
 				</c:if>
 				<!-- 작성자가 사용자이면 사용자 댓글 수정 -->
-				<c:if test="${list.adminId == null}">
+				<c:if test="${row.adminId == null}">
 					 <sec:authorize access="hasRole('ROLE_MEMBER')">
 					 	<input type="submit" value="수정하기">
 					 </sec:authorize>
 				</c:if>
 			<sec:csrfInput/>
 			</form>		
-
 		</td>
 		<td>
 		     <form action="${initParam.rootPath}/common/commentqna/commentQnARemove.do" method="post">
-				<input type="hidden" name="boardQnAId" value="${list.boardQnAId}">
-				<input type="hidden" name="commentQnAId" value="${list.commentQnAId}">
-				
+				<input type="hidden" name="boardQnAId" value="${row.boardQnAId}">
+				<input type="hidden" name="commentQnAId" value="${row.commentQnAId}">			
 				<!-- 작성자가 관리자이면 관리자/사용자 댓글 삭제 가능 -->
-				<c:if test="${list.adminId != null}">		
+				<c:if test="${row.adminId != null}">		
 					 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 							<input type="submit" value="삭제하기" onclick="return delete_event2();">
 					 </sec:authorize>
-				</c:if>
-				
+				</c:if>				
 				<!-- 작성자가 사용자이면 사용자 댓글만 삭제 가능 -->
-				<c:if test="${list.adminId == null}">
+				<c:if test="${row.adminId == null}">
 					 <sec:authorize access="isAuthenticated()">
 					 	<input type="submit" value="삭제하기" onclick="return delete_event2();">
 					 </sec:authorize>
 				</c:if>				
 				<sec:csrfInput/>
-			</form>
-			
-			
+			</form>			
 		</td>
-	</tr>   
+	</tr>
+	</c:forEach>   
  </tbody>
 </table>
 </div>	
 </c:if>
-</c:forEach>
-
 
 <!-- 댓글등록 -->
-<hr>
-댓글작성
+<div id="div">
 <form action="${initParam.rootPath}/common/commentqna/commentQnAAdd.do" method="post">
-
-
 <!-- 회원 등록  -->
 <sec:authorize access="hasRole('ROLE_MEMBER')">
-	<table border="1" style="text-align:center">
-	<thead id="thead">
-	    <tr>
-	        <th>내용</th>
-	        <th>작성자</th>
-	    </tr>
-	 </thead>
-	<tbody id="tbody">
-		<tr>
-			<td><textarea name="commentQnATxt" row="120" cols="70" placeholder="내용을 입력해주세요"></textarea><span class="error"><form:errors path="commentQnA.commentQnATxt" delimiter="&nbsp;"/></td>
-			<td><input type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"/>"></td>
-		</tr>   
-	 </tbody>
+	<div id="table" style="width:100%;">
+	<table class="table table-bordered" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">
+			<tr>
+				<td>작성자</td>
+				<td>
+					<input  type="text" name="memberId" class="form-control" style="float:left;width:30%" readonly value="<sec:authentication property="principal.memberId"/>">
+				</td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td>
+					<textarea name="commentQnATxt" class="form-control" style="float:left;width:90%;" row="5" cols="70" placeholder="내용을 입력해주세요"></textarea>			
+					<div style="float:right"><!-- 오른쪽 정렬 -->
+				 		<input type="hidden" name="adminId" value="">
+						<input type="hidden" name="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
+						<input type="submit" value="등록하기" onclick="insert_event();">		
+					</div>	
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<div style="float:left">
+						<span class="error"><form:errors path="commentQnA.commentQnATxt" delimiter="&nbsp;"/></span>
+					</div>
+				</td>
+			</tr> 		
 	</table>
-	<input type="hidden" name="adminId" value="">
-	<input type="hidden" name="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
-	<input type="submit" value="등록하기" onclick="insert_event();">
+	</div>	
 </sec:authorize>
-
-
-
-
+		
 <!-- 관리자 등록  -->
 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-	<table border="1" style="text-align:center">
-	<thead id="thead">
-	    <tr>
-	        <th>내용</th>
-	        <th>작성자</th>
-	    </tr>
-	 </thead>
-	<tbody id="tbody">
-		<tr>
-			<td><textarea name="commentQnATxt" row="120" cols="70" placeholder="내용을 입력해주세요"></textarea><span class="error"><form:errors path="commentQnA.commentQnATxt" delimiter="&nbsp;"/></td>
-			<td><input type="text" name="adminId" readonly value="<sec:authentication property="principal.adminId"/>"></td>
-		</tr>   
-	 </tbody>
+	<div id="table" style="width:100%;">
+	<table class="table table-bordered" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">
+			<tr>
+				<td>작성자</td>
+				<td>
+					<input class="form-control" type="text" name="adminId" readonly style="float:left;width:30%" value="<sec:authentication property="principal.adminId"/>">
+				</td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td>
+					<textarea class="form-control" name="commentQnATxt" style="float:left;width:90%;" row="5" cols="70" placeholder="내용을 입력해주세요"></textarea>		
+					<div style="float:right"><!-- 오른쪽 정렬 -->
+				 		<input type="hidden" name="memberId" value="">
+						<input type="hidden" name="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
+						<input type="submit" value="등록하기" onclick="insert_event();">		
+					</div>	
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<div style="float:left">
+						<span class="error"><form:errors path="commentQnA.commentQnATxt" delimiter="&nbsp;"/></span>
+					</div>
+				</td>
+			</tr>	 
 	</table>
-	<input type="hidden" name="memberId" value="">
-	<input type="hidden" name="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
-	<input type="submit" value="등록하기" onclick="insert_event();">
+	</div>
 </sec:authorize>
 <sec:csrfInput/>
 </form>
-
+</div>
+<form action="${initParam.rootPath}/common/boardqna/boardQnAList.do" method="post">
+	<input type="submit" value="목록으로"/>
+	<sec:csrfInput/>
+</form>
+</div>	
+</div>
 </body>
 </html>

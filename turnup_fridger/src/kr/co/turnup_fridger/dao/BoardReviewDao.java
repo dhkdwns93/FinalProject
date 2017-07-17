@@ -53,11 +53,18 @@ public interface BoardReviewDao {
 	//아이디로 조회
 	List<BoardReview> selectBoardReviewByMemberIdList(String memberId,int startIndex,int endIndex);
 
-	
-	//Id로 상세 정보 조회
+	//리뷰Id로 상세 정보 조회
 	BoardReview selecetBoardReviewByBoardReviewId(int boardReviewId);
-	
 	
 	//레시피 이름 검색 
 	List<RecipeInfo> selectRecipeName(String recipeName);
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//아이디 카운트
+	int selectRecipeIdCount(int recipeId);
+	//레시피 아이디로 리스트 조회
+	List<BoardReview> selectBoardReviewByRecipeId(int recipeId,int startIndex,int endIndex);
+	
 }

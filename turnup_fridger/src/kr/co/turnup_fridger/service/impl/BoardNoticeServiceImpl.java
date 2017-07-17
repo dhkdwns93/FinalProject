@@ -62,7 +62,7 @@ public class BoardNoticeServiceImpl implements BoardNoticeService
 		int totalCount = dao.selectBoardNoticeCount();
 		PagingBean pageBean = new PagingBean(totalCount, page);
 		map.put("pageBean", pageBean);
-		
+		map.put("totalCount", totalCount);
 		List<BoardNotice> list = dao.selectBoardNoticeList(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
 		map.put("list", list);
 		
@@ -75,6 +75,7 @@ public class BoardNoticeServiceImpl implements BoardNoticeService
 		int totalCount = dao.selectBoardNoticeByItmesCount(items);
 		PagingBean pageBean = new PagingBean(totalCount, page);
 		map.put("pageBean", pageBean);
+		map.put("totalCount", totalCount);
 		List<BoardNotice> list = dao.selectBoardNoticeByItems(items, pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
 		map.put("items", items);
 		map.put("list", list);

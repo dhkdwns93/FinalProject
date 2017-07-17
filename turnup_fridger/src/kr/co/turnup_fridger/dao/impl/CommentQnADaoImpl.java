@@ -29,6 +29,13 @@ public class CommentQnADaoImpl implements CommentQnADao{
 		return session.insert(makeSqlId("insertCommentQnA"),commentQnA);
 	}
 
+	//추천게시물 증가
+	@Override
+	public int commentCount(int boardQnAId) {
+		// TODO Auto-generated method stub
+		return session.update(makeSqlId("boardQnAcount"),boardQnAId);
+	}
+
 	/**
 	 * QnA 댓글 수정
 	 * 작성자 - 김장규
@@ -36,6 +43,14 @@ public class CommentQnADaoImpl implements CommentQnADao{
 	@Override
 	public int updateCommentQnA(CommentQnA commentQnA) {
 		return session.update(makeSqlId("updateCommentQnA"), commentQnA);
+	}
+
+	
+	//댓글 카운트 삭제
+	@Override
+	public int commentDeleteCount(int boardQnAId) {
+		// TODO Auto-generated method stub
+		return session.update(makeSqlId("boardQnADeleteCount"), boardQnAId);
 	}
 
 	/**
@@ -61,8 +76,11 @@ public class CommentQnADaoImpl implements CommentQnADao{
 		// TODO Auto-generated method stub
 		return session.selectOne(makeSqlId("selectCommentQnAById"),commentQnAId);
 	}
-	
-	
-	
-	
+
+	@Override
+	public List<CommentQnA> selectCommentQnAByboardQnAId(int boardQnAId) {
+		// TODO Auto-generated method stub
+		return session.selectList(makeSqlId("selectCommentQnAByboardQnAId"),boardQnAId);
+	}
+
 }

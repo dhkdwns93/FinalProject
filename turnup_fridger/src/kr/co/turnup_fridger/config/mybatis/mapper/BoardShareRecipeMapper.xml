@@ -115,11 +115,43 @@
 	</update>
 	
 	<!-- SELECT : 제목으로 조회 O -->
-	<select id="selectBoardShareRecipeByTitle" parameterType="java.lang.String"
+	<!-- <select id="selectBoardShareRecipeByTitleToSearch" parameterType="java.lang.String"
 	resultMap="boardShareRecipe-irdnt-resultmap">
 	<include refid="select-boardShareRecipe"/>
-	WHERE BOARD_SHARE_RECIPE_TITLE LIKE '%'||#{title}||'%'
+	WHERE BOARD_SHARE_RECIPE_TITLE LIKE '%'||#{title}||'%' -->
+
+	<select id="selectBoardShareRecipeByTitle" parameterType="java.util.HashMap" resultMap="boardShareRecipe-resultmap">
+	SELECT BOARD_SHARE_RECIPE_ID,
+		BOARD_SHARE_RECIPE_TITLE,
+		BOARD_SHARE_RECIPE_TXT,
+		BOARD_SHARE_RECIPE_DATE,
+		BOARD_SHARE_RECIPE_RECOMMAND,
+		BOARD_SHARE_RECIPE_HITS,
+		BOARD_SHARE_IRDNT_ETC,
+		MEMBER_ID
+	FROM (
+		SELECT rownum rnum, BOARD_SHARE_RECIPE_ID,
+			BOARD_SHARE_RECIPE_TITLE,
+			BOARD_SHARE_RECIPE_TXT,
+			BOARD_SHARE_RECIPE_DATE,
+			BOARD_SHARE_RECIPE_RECOMMAND,
+			BOARD_SHARE_RECIPE_HITS,
+			BOARD_SHARE_IRDNT_ETC,
+			MEMBER_ID
+		FROM(
+			<include refid="select-boardShareRecipe" />
+			WHERE BOARD_SHARE_RECIPE_TITLE LIKE '%'||#{title}||'%')
+		WHERE rownum &lt;=#{endIndex})
+	WHERE rnum>=#{startIndex}
+
 	</select>
+
+	<select id="selectBoardShareRecipeByTitleCount" parameterType="java.util.HashMap" resultType="_int">
+		select count(*)
+		from BOARD_SHARE_RECIPE
+		WHERE BOARD_SHARE_RECIPE_TITLE LIKE '%'||#{value}||'%'
+	</select>
+
 	
 	<!-- 페이징 카운터  -->
 	<select id="selectBoardCount" resultType="int">
@@ -289,6 +321,26 @@
 	<!--*************************************************  -->
 	<!--레시피 공유게시판 id들로 조회한거-->
 	<select id="selectBoardShareRecipeById" resultMap="boardShareRecipe-resultmap" parameterType="java.util.HashMap">
+		
+		   SELECT 		BOARD_SHARE_RECIPE_ID, 
+		BOARD_SHARE_RECIPE_TITLE, 
+		BOARD_SHARE_RECIPE_TXT, 
+		BOARD_SHARE_RECIPE_DATE, 
+		BOARD_SHARE_RECIPE_RECOMMAND, 
+		BOARD_SHARE_RECIPE_HITS, 
+		BOARD_SHARE_IRDNT_ETC, 
+		MEMBER_ID
+     FROM (	
+     	SELECT rownum rnum,		BOARD_SHARE_RECIPE_ID, 
+		BOARD_SHARE_RECIPE_TITLE, 
+		BOARD_SHARE_RECIPE_TXT, 
+		BOARD_SHARE_RECIPE_DATE, 
+		BOARD_SHARE_RECIPE_RECOMMAND, 
+		BOARD_SHARE_RECIPE_HITS, 
+		BOARD_SHARE_IRDNT_ETC, 
+		MEMBER_ID
+     	FROM(
+		
 		SELECT
 		<include refid="all-column" />
 		FROM BOARD_SHARE_RECIPE
@@ -297,6 +349,29 @@
 				<when test="recipeIds != null and recipeIds.size() > 0">
 					BOARD_SHARE_RECIPE_ID in
 					<foreach collection="recipeIds" open="(" close=")" separator="," item="recipeId">
+						#{recipeId}
+					</foreach>
+				</when>
+				<otherwise>
+				1=-1
+				</otherwise>
+			</choose>
+		</where>)
+     	 WHERE rownum &lt;=#{endIndex})
+   	WHERE rnum>=#{startIndex}
+	
+
+	</select>
+	
+	<!--레시피 공유게시판 id들로 조회 수 -->
+	<select id="selectBoardShareRecipeByIdCount" resultType="_int" parameterType="java.util.List">
+		SELECT count(*)
+		FROM BOARD_SHARE_RECIPE
+		<where>
+			<choose>
+				<when test="list != null and list.size()>0">
+					BOARD_SHARE_RECIPE_ID in
+					<foreach collection="list" open="(" close=")" separator="," item="recipeId">
 						#{recipeId}
 					</foreach>
 				</when>

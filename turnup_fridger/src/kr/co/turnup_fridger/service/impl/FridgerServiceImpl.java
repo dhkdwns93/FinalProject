@@ -34,11 +34,9 @@ public class FridgerServiceImpl implements FridgerService{
 	 */
 	
 	@Override
-	public void createFridger(Fridger fridger) throws DuplicatedFridgerException {
+	public void createFridger(Fridger fridger){
 		System.out.println("createFridger:"+fridger.getFridgerName());//
-		if(fDao.selectFridgerByFridgerFullName(fridger.getFridgerName())!=null){
-			throw new DuplicatedFridgerException("이미 존재하는 냉장고 애칭입니다!");	
-		}
+
 		fDao.insertFridger(fridger);
 		
 		FridgerGroup fg = new FridgerGroup(0, 1, fridger.getMemberId(), fridger.getFridgerId());
@@ -50,15 +48,15 @@ public class FridgerServiceImpl implements FridgerService{
 	}
 
 	@Override
-	public void updateFridger(Fridger fridger) throws FindFridgerFailException, DuplicatedFridgerException, FindMemberFailException  {
-		System.out.println(fridger.getFridgerName());
-		System.out.println(fDao.selectFridgerByFridgerFullName(fridger.getFridgerName()));
-		if(fDao.selectFridgerByFridgerFullName(fridger.getFridgerName()) != null){
+	public void updateFridger(Fridger fridger) throws FindFridgerFailException, FindMemberFailException  {
+//		System.out.println(fridger.getFridgerName());
+//		System.out.println(fDao.selectFridgerByFridgerFullName(fridger.getFridgerName()));
+/*		if(fDao.selectFridgerByFridgerFullName(fridger.getFridgerName()) != null){
 			throw new DuplicatedFridgerException("이미 존재하는 냉장고 애칭입니다!");	
-		}
+		}*/ //중복허용해야할듯요
 		// 냉장고 주인 회원 수정 : 양도
 		Fridger f = fDao.selectFridgerAndFridgerGroupByFridgerId(fridger.getFridgerId());
-		System.out.println(f);
+//		System.out.println(f);
 		boolean validChk = false;
 		for(FridgerGroup fg : f.getFridgerGroupList()){
 			//바꾸려는 회원이 해당 냉장고를 공유하고 있는 그룹 내 없는 회원인지 판별
@@ -104,6 +102,7 @@ public class FridgerServiceImpl implements FridgerService{
 
 	@Override
 	public Fridger findFridgerAndIrdntByFridgerId(int fridgerId) {
+		System.out.println("여기는 서비스 받아온 냉장고 id = "+fridgerId);
 		return fDao.selectFridgerAndIrdntByFridgerId(fridgerId);
 	}
 

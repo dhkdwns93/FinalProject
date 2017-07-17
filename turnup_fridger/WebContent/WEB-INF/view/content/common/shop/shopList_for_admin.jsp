@@ -19,7 +19,7 @@ $(document).ready(function(){
 			"success" : function(shopList){
 				var list = ""; 
 				$.each(shopList, function(){
-					list += "<tr><td id='shopid'>"+this.shopId+"</td><td><img alt='"+this.shopImg+"' src=${initParam.rootPath}/up_image/"+this.saveImg+" width='100' height='102'></td><td><a href='#' onClick='window.open('"+this.shopAddress+"','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=1000px, height=600px ,top=10, left=10', bottom=10, right=10)'>"+this.shopName+"</a></td><td><button type='button' id='delBtn'>삭제</button></td></tr>";
+					list += "<tr><td id='shopid'>"+this.shopId+"</td><td><img alt='"+this.shopImg+"' src=${initParam.rootPath}/images/"+this.saveImg+" width='100' height='102'></td><td><a href='#' onClick='window.open('"+this.shopAddress+"','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=1000px, height=600px ,top=10, left=10', bottom=10, right=10)'>"+this.shopName+"</a></td><td><button type='button' id='delBtn'>삭제</button></td></tr>";
 				});
 				$("#tbody").html(list);
 			},

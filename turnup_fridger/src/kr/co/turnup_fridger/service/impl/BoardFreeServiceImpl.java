@@ -50,6 +50,7 @@ public class BoardFreeServiceImpl implements BoardFreeService{
 		int totalCount = dao.selectBoardFreeCount();
 		PagingBean pageBean = new PagingBean(totalCount, page);
 		map.put("pageBean", pageBean);
+		map.put("totalCount", totalCount);
 		List<BoardFree> list = dao.selectBoardFreeList(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
 		map.put("list", list);
 		return map;
@@ -63,6 +64,7 @@ public class BoardFreeServiceImpl implements BoardFreeService{
 		int totalCount = dao.selectBoardFreeCount();
 		PagingBean pageBean = new PagingBean(totalCount, page);
 		map.put("pageBean", pageBean);
+		map.put("totalCount", totalCount);
 		List<BoardFree> list = dao.selectBoardFreeByBoardFreeHits(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
 		map.put("list", list);
 		return map;
@@ -75,7 +77,7 @@ public class BoardFreeServiceImpl implements BoardFreeService{
 		int totalCount = dao.selectBoardFreeByMemberIdCount(memberId);
 		PagingBean pageBean = new PagingBean(totalCount, page);
 		map.put("pageBean", pageBean);
-		
+		map.put("totalCount", totalCount);
 		List<BoardFree> list = dao.selectBoardFreeByMemberId(memberId, pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
 		map.put("memberId", memberId);
 		map.put("list", list);
@@ -91,6 +93,7 @@ public class BoardFreeServiceImpl implements BoardFreeService{
 		int totalCount = dao.selectBoardFreeByTitleCount(boardFreeTitle);
 		PagingBean pageBean = new PagingBean(totalCount, page);
 		map.put("pageBean", pageBean);
+		map.put("totalCount", totalCount);
 		List<BoardFree> list = dao.selectBoardFreeByTitle(boardFreeTitle, pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
 		map.put("boardFreeTitle", boardFreeTitle);
 		map.put("list", list);

@@ -50,4 +50,10 @@ public interface BoardReviewService {
 	BoardReview selecetBoardReviewByBoardReviewId(int boardReviewId);
 	//레시피이름조회
 	List<RecipeInfo> selectRecipeName(String recipeName);
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	//레시피 아이디로 리스트 조회
+	Map<String, Object> findBoardReviewByRecipeId(int recipeId,int page);
 }

@@ -98,6 +98,37 @@ public class MyIrdntDaoImpl implements MyIrdntDao{
 	public List<MyIrdnt> selectMyIrdntBymemberId(String memberId) {
 		return session.selectList(makeSql("selectMyIrdntBymemberId"),memberId);
 	}
+	@Override
+	public List<MyIrdnt> selectMatchIrdnt(int recipeId, String memberId) {
+		HashMap map = new HashMap();
+		map.put("recipeId", recipeId);
+		map.put("memberId", memberId);
+		System.out.println("dao : "+map);
+		System.out.println("맵퍼에서 돌아온 값:" +session.selectList(makeSql("selectMatchIrdnt"),map));
+		return session.selectList(makeSql("selectMatchIrdnt"),map);
+	}
+	
+	@Override
+	public int selectMyIrdntByStorgePlace(String storgePlace, int fridgerId) {
+		HashMap map = new HashMap();
+		map.put("storgePlace", storgePlace);
+		map.put("fridgerId", fridgerId);
+		return session.selectOne(makeSql("selectMyIrdntByStorgePlace"),map);
+	}
+	@Override
+	public int selectMyIrdntByCategory(String category, int fridgerId) {
+		HashMap map = new HashMap();
+		map.put("category", category);
+		map.put("fridgerId", fridgerId);
+		return session.selectOne(makeSql("selectMyIrdntByCategory"),map);
+	}
+	@Override
+	public int selectCountMyIrdntByFreshLevel(String freshLevel, int fridgerId) {
+		HashMap map = new HashMap();
+		map.put("freshLevel", freshLevel);
+		map.put("fridgerId", fridgerId);
+		return session.selectOne(makeSql("selectMyIrdntByFreshLevel"),map);
+	}
 
 	
 	

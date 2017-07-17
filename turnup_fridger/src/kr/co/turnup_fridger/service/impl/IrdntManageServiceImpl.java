@@ -1,6 +1,8 @@
 package kr.co.turnup_fridger.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import kr.co.turnup_fridger.dao.IrdntManageDao;
 import kr.co.turnup_fridger.exception.DuplicateIrdntException;
 import kr.co.turnup_fridger.exception.NoneIrdntException;
 import kr.co.turnup_fridger.service.IrdntManageService;
+import kr.co.turnup_fridger.util.PagingBean;
 import kr.co.turnup_fridger.vo.IrdntManage;
 
 @Service(value="IrdntManageService")
@@ -54,8 +57,21 @@ public class IrdntManageServiceImpl implements IrdntManageService{
 	}
 	
 	@Override
-	public List<IrdntManage> findAllIrdnt() {
-		return dao.selectAllIrdnt();
+	public Map<String,Object> findAllIrdnt(int page) {
+		HashMap<String,Object> map = new HashMap<>();
+		int totalCount = dao.selectAllIrdntCount();
+		PagingBean pageBean = new PagingBean(totalCount,page);
+		
+		List<IrdntManage> list = dao.selectAllIrdnt(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
+		map.put("pageBean", pageBean);
+		map.put("list", list);
+		
+		return map;
+	}
+
+	@Override
+	public List<IrdntManage> fingAllIrdntNotPaging() {
+		return dao.selectAllIrdntNotPaging();
 	}
 
 	@Override
@@ -64,8 +80,15 @@ public class IrdntManageServiceImpl implements IrdntManageService{
 	}
 
 	@Override
-	public List<IrdntManage> findIrdntsByKeyword(String irdntName, String irdntCategory) {
-		return dao.selectIrdntsBykeyword(irdntName, irdntCategory);
+	public Map<String,Object> findIrdntsByKeyword(String irdntName, String irdntCategory,int page) {
+		HashMap<String,Object> map = new HashMap<>();
+		int totalCount= dao.selectIrdntsBykeywordCount(irdntName, irdntCategory);
+		PagingBean pageBean = new PagingBean(totalCount,page);
+		
+		List<IrdntManage> list = dao.selectIrdntsBykeyword(irdntName, irdntCategory, pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
+		map.put("pageBean", pageBean);
+		map.put("list", list);
+		return map;
 	}
 
 	@Override

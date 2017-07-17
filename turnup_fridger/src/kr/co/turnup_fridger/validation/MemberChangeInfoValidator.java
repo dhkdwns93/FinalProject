@@ -43,6 +43,9 @@ public class MemberChangeInfoValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberAddress", "requiredChange");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberEmail", "requiredChange");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberTel", "requiredChange");
+		if(memberChangeForm.getMemberTel().length()!=11){
+			errors.rejectValue("memberTel", "length","*사용하시는 휴대폰번호 11자리를 입력해주십시오. 문자서비스를 받기 위함입니다.");
+		}
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberSex", "requiredChange");
 	}
 

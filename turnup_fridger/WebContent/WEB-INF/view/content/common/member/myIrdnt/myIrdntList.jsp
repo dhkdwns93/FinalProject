@@ -2,19 +2,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger/scripts/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		
 		//기본적으로 가져오는 모든 재료 목록들. 
+		//alert('${param.fridgerId}');
 		$.ajax({
-			"url":"/turnup_fridger/common/member/myIrdnt/allMyIrdntList.do?fridgerId=1",
-			//"data":{'fridgerId': 1},
+			"url":"/turnup_fridger/common/member/myIrdnt/allMyIrdntList.do",
+			"data":{'fridgerId': '${param.fridgerId}'},
 			"dataType":"json", 
 			"success":function(list){
 					 $.each(list, function(){
@@ -46,7 +41,6 @@
 				
 		//선택삭제 -> 체크박스 만들어서 체크된것만 삭제처리하게 
 		$(document).on("click","#deleteOnSelect",function(){
-			//var irdntKey = $(this).parent().parent().children(":first-child").text();
 			var irdntKeyList = [];
 			$("input[name='deleteChk']:checked").each(function(){
 				irdntKeyList.push($(this).parent().parent().children(":first-child").text());
@@ -55,7 +49,7 @@
 			$.ajax({
 				"url":"/turnup_fridger/common/member/myIrdnt/removeMyIrdnt.do",
 				"type":"POST",
-				"data":{'irdntKey':irdntKeyList,'fridgerId':1,'${_csrf.parameterName}':'${_csrf.token}'},
+				"data":{'irdntKey':irdntKeyList,'fridgerId':'${param.fridgerId}','${_csrf.parameterName}':'${_csrf.token}'},
 				"dataType":"text",
 				"traditional": true,
 				"success":function(TEXT){
@@ -71,7 +65,7 @@
 		//검색버튼
 		$("#searchBtn").on("click",function(){
 			$.ajax({
-				"url":"/turnup_fridger/common/member/myIrdnt/findMyIrdntByFreshLevelAndIrdntName.do?fridgerId=1",
+				"url":"/turnup_fridger/common/member/myIrdnt/findMyIrdntByFreshLevelAndIrdntName.do?fridgerId=${param.fridgerId}",
 				"type":"post",
 				"data":{'freshLevel':$("#freshLevel").val(), 'irdntName':$("#irdntName").val(),'${_csrf.parameterName}':'${_csrf.token}'},
 				"dataType":"json", 
@@ -101,13 +95,19 @@
 		});//searchBtn
 		
 		$("#addIrdnt").on("click",function(){
-			window.open("/turnup_fridger/common/member/myIrdnt/myIrdnt_form.do","insertIrdnt","width=500, height=400");
+			window.open("/turnup_fridger/common/member/myIrdnt/myIrdnt_form.do?fridgerId=${param.fridgerId}","insertIrdnt","width=500, height=400");
 		});//재료추가
 		
 	})//ready
 
 </script>
 <style type="text/css">
+body{
+background-image : url("/turnup_fridger/images/kitchen.jpg");
+background-repeat : no-repeat;
+}
+
+
 table, td {
 	border: 1px solid black;
 }
@@ -128,11 +128,9 @@ td {
 </head>
 <body>
 
+<div style="text-align:center;"><h2>냉장고 속 재료 목록</h2><br></div><hr>
 
-<h2>나의 식재료 목록</h2><hr>
-<button type="button" id="addIrdnt">재료추가</button>
-<button type="button" id="deleteOnSelect">선택삭제</button><br><br>
-
+<div style="margin-left : 30px;">
 신선도 :
 	<select name="freshLevel" id="freshLevel">
 		<option value="전체">전체</option>
@@ -143,45 +141,59 @@ td {
 재료명검색 : 
 	<input type="text" name ="irdntName" id="irdntName">
 	<button type="button" id="searchBtn">검색</button><br><br>
+</div>
 
+<!-- <img src="/turnup_fridger/images/kitchen.jpg" width="1900" height="750" style="border-radius:0;"> 
+ -->
 
-<div id ="result">
-실온보관재료 : 
-<table id = "room">
+<div id="roomSection" style="width:20%;float:left;margin-top:50px; margin-left:130px;overflow-x:hidden; overflow-y:scroll; height:300px;">
+실온재료:<br>
+<table id = "room" class="table table-hover table-condensed" style="width:350px;background-color:white;" >
 	<thead>
 		<tr>
 			<th>재료key</th>
 			<th>재료명</th>
 			<th>신선도</th>
-			<th>삭제여부</th>
+			<th>삭제</th>
 		</tr>
 	</thead>
 	<tbody id = "roomTbody"></tbody>
 </table><br>
-냉장보관재료 : 
-<table id = "cold">
+</div>
+
+<div id="freezeSection" style="width:20%;float:left; margin-left:280px;overflow-x:hidden; overflow-y:scroll; height:500px;">
+냉동재료:
+<table id = "freeze" class="table table-hover table-condensed" style="width:350px;background-color:white;">
 	<thead>
 		<tr>
 			<th>재료key</th>
 			<th>재료명</th>
 			<th>신선도</th>
-			<th>삭제여부</th>
-		</tr>
-	</thead>
-	<tbody id = "coldTbody"></tbody>
-</table><br>
-냉동보관재료 : 
-<table id = "freeze">
-	<thead>
-		<tr>
-			<th>재료key</th>
-			<th>재료명</th>
-			<th>신선도</th>
-			<th>삭제여부</th>
+			<th>삭제</th>
 		</tr>
 	</thead>
 	<tbody id = "freezeTbody"></tbody>
 </table><br>
+</div>
+
+<div id="coldSection" style="width:20%;float:left;margin-left:80px;overflow-x:hidden; overflow-y:scroll; height:500px;">
+냉장재료:
+<table id = "cold" class="table table-hover table-condensed" style="width:350px;background-color:white;">
+	<thead>
+		<tr>
+			<th>재료key</th>
+			<th>재료명</th>
+			<th>신선도</th>
+			<th>삭제</th>
+		</tr>
+	</thead>
+	<tbody id = "coldTbody"></tbody>
+</table><br>
+</div>
+
+<div id="buttons" style="width:10%;float:right;">
+<button type="button" id="addIrdnt">재료추가</button><br><br>
+<button type="button" id="deleteOnSelect">선택삭제</button><br><br>
 </div>
 
 </body>

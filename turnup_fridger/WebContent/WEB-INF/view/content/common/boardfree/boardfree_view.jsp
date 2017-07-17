@@ -70,42 +70,19 @@ function insert_event(){
 	    return false;
 	}
 };
-/* 
-//댓글 수정
-function comment_upload_event(){
-	
 
-	
- 	var memberId = $('input[name=memberId]').val();
-	var writer = $('input[name=writer]').val();
-	if(writer != memberId)
-	{
-		alert("권한이 없습니다.");
-		return false;
-	}
 
-	return	location.href="/turnup_fridger/common/boardfree/commentfree_upload.do";
-};
- */
-/* //댓글 삭제(회원)
+//댓글 삭제(회원)
 function comment_delete_event(){
 	
-	var memberId = $('input[name=memberId]').val();
-	var writer = $('input[name=writer]').val();
-	if(writer != memberId)
-	{
-		alert("권한이 없습니다.");
-		return false;
-	}
-	
-	if(confirm("정말 삭제하시겠습니까??") == true){    
+	if (confirm("삭제 하시겠습니까??") == true){    
 		//확인
 		location.href="/turnup_fridger/common/boardfree/boardfree_view.do";
 	}else{   
 		//취소
 	    return false;
 	}
-};
+}; 
 
 //댓글 삭제(관리자)
 function comment_delete_event2(){
@@ -117,7 +94,7 @@ function comment_delete_event2(){
 		//취소
 	    return false;
 	}
-}; */
+}; 
 
 /* 
 function popup(frm){
@@ -129,6 +106,7 @@ function popup(frm){
 </script>
 <style type="text/css">
  form{display:inline}
+ 
  span, td, th{
 	padding: 5px; 
  }
@@ -136,41 +114,35 @@ function popup(frm){
 	font-size:small;
 	color: red;
  }
+th{
+text-align:center
+}
+h1{display:inline}
+h2{display:inline}
+#div{
+	height: auto; 
+	min-height: 100px; 
+	overflow: auto;
+	background-color:#dcdcdc;
+	width: 100%;
+}
 </style>
 
 </head>
 <body>
-<h1>자유 게시판 > ${boardFree.memberId}님의 글</h1><br>
-<hr>
-<table border="1" style="text-align:center">
-	<tr>
-		<td>제목</td>
-		<td>${boardFree.boardFreeTitle}</td>
-	</tr>
-	<tr>
-		<td>작성날짜</td>
-		<td><fmt:formatDate value="${boardFree.date}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
-	</tr>
-	<tr>
-		<td>작성자</td>
-		<td>${boardFree.memberId}</td>
-	</tr>	
-	<tr>
-		<td>내용</td>
-		<td>
-			${boardFree.boardFreeTxt}
-		</td>	
-	</tr>
-	<tr>
-		<td>조회수</td>
-		<td>
-			${boardFree.boardFreeHits}
-		</td>	
-	</tr>
-</table>
+<c:if test="${requestScope.error != null}">
+	<script type="text/javascript">alert('권한이 없습니다.')</script>
+</c:if>
 
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
+<h1>자유 게시판 ></h1> <h2>${boardFree.memberId}님의 글</h2><br>
+<hr>
+<div style="float:right"><!-- 오른쪽 정렬 -->
 <!-- 회원 수정폼 -->
- <sec:authorize access="hasRole('ROLE_MEMBER')">
+<sec:authorize access="hasRole('ROLE_MEMBER')">
 	<form action="${initParam.rootPath}/common/boardfree/boardFreeUploadView.do" method="post">
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		<input type="hidden" name="boardFreeId" id="boardFreeId" value="${boardFree.boardFreeId}">
@@ -206,53 +178,69 @@ function popup(frm){
 	<input type="submit" value="삭제하기" onclick="return delete_event2();">
 </form>
 </sec:authorize>
+</div>
 
-
-<form action="${initParam.rootPath}/common/boardfree/boardFreeList.do" method="post">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<input type="submit" value="목록으로"/>
-</form>
+<table class="table table-bordered" style="width:100%; border:1; text-align:center">
+	<tr>
+		<td>제목</td>
+		<td>${boardFree.boardFreeTitle}</td>
+	</tr>
+	<tr>
+		<td>작성날짜</td>
+		<td><fmt:formatDate value="${boardFree.date}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
+	</tr>
+	<tr>
+		<td>작성자</td>
+		<td>${boardFree.memberId}</td>
+	</tr>	
+	<tr>
+		<td>내용</td>
+		<td style="width:70%">
+			${boardFree.boardFreeTxt}
+		</td>	
+	</tr>
+	<tr>
+		<td>조회수</td>
+		<td>
+			${boardFree.boardFreeHits}
+		</td>	
+	</tr>
+</table>
 <hr>
-
+<div>
 <!-- 댓글 목록 -->
-댓글 목록<br>
 <c:if test="${empty commentFree}">
- 해당 게시물에 댓글이 없습니다.
+<h3>댓글 목록</h3><br>
+댓글이 없습니다.
 </c:if>
+<!-- 댓글 있을 때   -->
 <c:if test="${!empty commentFree}">
-<c:forEach var="list" items="${commentFree}">
-<table border="1" style="text-align:center">
-<thead id="thead">
+<div id="table" style="width:100%; border:1; text-align:center">
+<div style="float:left">
+<h3>댓글 목록</h3><br>
+</div>
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">	
+<thead>
     <tr>
-        <th>내용</th>
-        <th>작성일</th>
-        <th>작성자</th>
-        <th>수정</th>
-        <th>삭제</th>
+        <th style="width:10%;">작성자</th>
+        <th style="width:50%;">내용</th>
+        <th style="width:20%;">작성일</th>
+        <th style="width:10%;">수정</th>
+        <th style="width:10%;">삭제</th>
     </tr>
  </thead>
-<tbody id="tbody">
+<tbody>
+<c:forEach var="list" items="${commentFree}">
 	<tr>
+		<td>
+			${list.memberId}
+		</td>
 		<td>
 			${list.commentFreeTxt}
 		</td>
 		<td>
 			<fmt:formatDate value="${list.commentFreedate}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
 		<td>
-			${list.memberId}
-		</td>
-		<td>
-<%-- 			<sec:authorize access="hasRole('ROLE_MEMBER')">
-		     	<form name="commentFreeUpload" method="post">
-		     	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-					<input type="hidden" name="commentFreeId" id="commentFreeId" value="${list.commentFreeId}">
-					<input type="hidden" name="commentFreeTxt" id="commentFreeTxt" value="${list.commentFreeTxt}">
-					<input type="hidden" name="writer" id="writer" value="${list.memberId}">
-					<input type="hidden" name="memberId" id="memberId" value="<sec:authentication property="principal.memberId"></sec:authentication>">
-					<input type="hidden" name="boardFreeId" id="boardFreeId" value="${list.boardFreeId}">
-					<a href="javascript:popup();"><input type="button" value="수정하기"></a>
-				</form>	
-			</sec:authorize> --%>
 			<sec:authorize access="hasRole('ROLE_MEMBER')">
 		     	<form  action="${initParam.rootPath}/common/commentfree/commentFreeUploadView.do" method="post">
 		     	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
@@ -264,9 +252,7 @@ function popup(frm){
 					<input type="submit" value="수정하기" onclick="return comment_upload_event();">
 				</form>	
 			</sec:authorize> 
-			
 		</td>
-		
 		<td>
 			<!-- 회원 권한 폼 -->
 			<sec:authorize access="hasRole('ROLE_MEMBER')">
@@ -295,10 +281,10 @@ function popup(frm){
 			</sec:authorize>
 		</td>
 	</tr>   
+	</c:forEach>
  </tbody>
-</table>	
-</c:forEach>
-<p>
+</table>		
+<p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리
 			###################################################### --%>
@@ -348,38 +334,50 @@ function popup(frm){
 				☞		
 		</c:otherwise>
 	</c:choose>			
-	
-
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/common/boardfree/boardFreeView.do?page=${requestScope.pageBean.totalPage}&boardFreeId=${requestScope.boardFreeId}">마지막페이지</a>
 </p>
+</div>
 </c:if>
-
-
-
- <sec:authorize access="hasRole('ROLE_MEMBER')">
-<hr>
-댓글작성
+<!-- 댓글 등록 -->
+<div id="div">
 <form action="${initParam.rootPath}/common/commentfree/commentFreeAdd.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-<table border="1" style="text-align:center">
-<thead id="thead">
-    <tr>
-        <th>내용</th>
-        <th>작성자</th>
-    </tr>
- </thead>
-<tbody id="tbody">
-	<tr>
-		<td><textarea name="commentFreeTxt" row="120" cols="70" placeholder="내용을 입력해주세요"></textarea><span class="error"><form:errors path="list.commentFreeTxt" delimiter="&nbsp;"/></td>
-		<td><input type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>"></td>
-	</tr>   
- </tbody>
-</table>
-<input type="hidden" name="boardFreeId" value="${boardFree.boardFreeId}">
-<input type="submit" value="등록하기" onclick="insert_event();">
-</form>
-</sec:authorize>
-
+ <sec:authorize access="hasRole('ROLE_MEMBER')">
+	<div id="table" style="width:100%;">
+	<table class="table table-bordered" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">
+			<tr>
+				<td>작성자</td>
+				<td>
+					<input type="text" name="memberId" readonly class="form-control" style="float:left;width:30%" value="<sec:authentication property="principal.memberId"/>">
+				</td>
+			</tr>
+			<tr>
+				<td>내용</td>
+				<td>
+					<textarea name="commentFreeTxt" class="form-control" style="float:left;width:90%;" row="5" cols="70" placeholder="내용을 입력해주세요"></textarea>	
+					<div style="float:right"><!-- 오른쪽 정렬 -->
+				 		<input type="hidden" name="boardFreeId" value="${boardFree.boardFreeId}">
+						<input type="submit" value="등록하기" onclick="insert_event();">	
+					</div>	
+				</td>
+			</tr>	
+			<tr>
+				<td></td>
+				<td>
+					<span class="error"><form:errors path="list.commentFreeTxt" delimiter="&nbsp;"/></span>	
+				</td>
+			</tr>
+	</table>
+	</div>
+	</sec:authorize>
+	</form>
+	</div>
+	<form action="${initParam.rootPath}/common/boardfree/boardFreeList.do" method="post">
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+		<input type="submit" value="목록으로"/>
+	</form>
+</div>
+</div>
 </body>
 </html>

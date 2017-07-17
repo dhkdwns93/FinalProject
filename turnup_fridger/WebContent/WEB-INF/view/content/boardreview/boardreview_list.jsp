@@ -35,99 +35,47 @@ span.error{
 </style>
 </head>
 <body>
-<h1>후기 게시판</h1><br>
+<c:if test="${requestScope.error != null}">
+	<script type="text/javascript">alert('권한이 없습니다.')</script>
+</c:if>
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
+<h1>후기 게시판</h1>
 <hr>
-<sec:authorize access="hasRole('ROLE_MEMBER')">
-후기 작성
-<a href="${initParam.rootPath}/boardreview/boardreview_form.do"><button>후기 작성</button></a>
 <a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
-</sec:authorize>
- <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
- 	<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
- </sec:authorize>
+<div style="float:right">
+	<form action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+		<select name="select" id="select">
+			<option>전체보기</option>
+			<option value="레시피">레시피</option>
+			<option value="아이디">아이디</option>
+		</select>
+		<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
+		<button>검색</button>
+	</form>
+	<form action="${initParam.rootPath}/boardreview/boardReviewStarList.do" method="post">
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+		<button>별점순</button>
+	</form>
+</div>
 
-<hr>
-<form action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<select name="select" id="select">
-		<option>전체보기</option>
-		<option value="레시피">레시피</option>
-		<option value="아이디">아이디</option>
-	</select>
-	<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
-	<button>검색</button>
-</form>
-<form action="${initParam.rootPath}/boardreview/boardReviewStarList.do" method="post">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-<button>별점순</button>
-</form>
-
-
+<table class="table table-hover table-condensed" style="width:100%;text-align:center;margin-left: auto; margin-right: auto;">
 <c:forEach var="row" items="${list}">
-<table border="1" width="600px" style="text-align:center"> 
-<thead>
-    <tr>
-        <td>
-        	레시피 : ${row.recipeName} |
-        	제목 : ${row.boardReviewTitle} |
-        	작성자 : ${row.memberId} |
-        	작성일 : <fmt:formatDate value="${row.boardReviewDate}" pattern="yyyy-MM-dd"/>
-        </td>
-    </tr>
-</thead>
- <tbody>   
-    <tr>
-    	<td>별점 : 
-    		<c:if test="${row.boardReviewStar == 0}">
-    			<img width="100px" src="${initParam.rootPath}/starimage/rating0.png">
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 1}">
-    			<img width="100px" src="${initParam.rootPath}/starimage/rating01.png">    		
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 2}">
-    			<img width="100px" src="${initParam.rootPath}/starimage/rating02.png">    		
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 3}">
-    			<img width="100px" src="${initParam.rootPath}/starimage/rating03.png">    		
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 4}">
-    			<img width="100px" src="${initParam.rootPath}/starimage/rating04.png">    		
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 5}">
-    			<img width="100px"  src="${initParam.rootPath}/starimage/rating05.png">    		
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 6}">
-    			<img width="100px" src="${initParam.rootPath}/starimage/rating06.png">    		
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 7}">
-     			<img width="100px"  src="${initParam.rootPath}/starimage/rating07.png">   		
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 8}">
-     			<img width="100px"  src="${initParam.rootPath}/starimage/rating08.png">   		
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 9}">
-     			<img width="100px"  src="${initParam.rootPath}/starimage/rating09.png">   		
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 10}">
-      			<img width="100px" src="${initParam.rootPath}/starimage/rating10.png">  		
-    		</c:if>
-    	</td>
-    </tr>
-    <tr>
-   		<td>
-   			<c:if test="${row.imageName == null}">
- 				${row.boardReviewTxt}
- 			</c:if>
-   			<c:if test="${row.imageName != null}">
-   				<img width="320px" alt="${row.imageName}" src="${initParam.rootPath}/img/${row.imageSaveName}"><br>
-   				${row.boardReviewTxt}
-   			</c:if>
-   		</td>
-    </tr>	
+<table>
+	<tr>
+		<td style="width:10%;">
+			<div style="float:right">
+	    		<img width="80%"  src="${initParam.rootPath}/img/icon/요리사3.png">
+	    	</div>
+		</td>	
+		<td style="width:70%;">
+				<h4>${row.memberId}</h4>님의 후기  |  <fmt:formatDate value="${row.boardReviewDate}" pattern="yyyy-MM-dd"/> 
+		</td>
+		<td  style="width:20%;">
 	<!-- 회원 권한 폼 -->
-	<sec:authorize access="hasRole('ROLE_MEMBER')">
-		<tr>
-   			<td>
+			<sec:authorize access="hasRole('ROLE_MEMBER')">
    			<form action="${initParam.rootPath}/boardreview/boardReviewUploadView.do" method="post">
 				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 				<input type="hidden" name="boardReviewId" value="${row.boardReviewId}">
@@ -143,15 +91,9 @@ span.error{
 					<input type="hidden" name="adminId" value="">
 					<input type="submit" value="삭제하기" onclick="return delete_event();">
 				</form>
-			</td>
-     	</tr> 
-	</sec:authorize>
-
-	
+			</sec:authorize>
 	<!-- 관리자 권한 폼 -->
-	<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-	<tr>
-   		<td>	
+			<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">	
 			<form action="${initParam.rootPath}/boardreview/boardReviewRemove.do" method="post">
 			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 				<input type="hidden" name="boardReviewId" value="${row.boardReviewId}">
@@ -160,14 +102,82 @@ span.error{
 				<input type="hidden" name="memberId" value="">
 				<input type="submit" value="삭제하기" onclick="return delete_event();">
 			</form>
+			</sec:authorize>
 		</td>
-    </tr>
-	</sec:authorize>
-   	   
-</tbody>
+	</tr>
+	<tr>
+		<td>
+		</td>
+		<td style="width:70%;">
+				${row.boardReviewTitle}
+		</td>
+		<td style="background-color:white">
+		</td>
+	</tr>
+	<tr>
+		<td>
+		</td>
+		<td style="width:70%;">
+				${row.recipeName}	|	
+			<c:if test="${row.boardReviewStar == 0}">
+    			<img width="20%" src="${initParam.rootPath}/starimage/rating0.png">
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 1}">
+    			<img width="20%" src="${initParam.rootPath}/starimage/rating01.png">    		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 2}">
+    			<img width="20%" src="${initParam.rootPath}/starimage/rating02.png">    		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 3}">
+    			<img width="20%" src="${initParam.rootPath}/starimage/rating03.png">    		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 4}">
+    			<img width="20%" src="${initParam.rootPath}/starimage/rating04.png">    		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 5}">
+    			<img width="20%"  src="${initParam.rootPath}/starimage/rating05.png">    		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 6}">
+    			<img width="20%" src="${initParam.rootPath}/starimage/rating06.png">    		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 7}">
+     			<img width="20%"  src="${initParam.rootPath}/starimage/rating07.png">   		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 8}">
+     			<img width="20%"  src="${initParam.rootPath}/starimage/rating08.png">   		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 9}">
+     			<img width="20%"  src="${initParam.rootPath}/starimage/rating09.png">   		
+    		</c:if>
+    		<c:if test="${row.boardReviewStar == 10}">
+      			<img width="20%" src="${initParam.rootPath}/starimage/rating10.png">  		
+    		</c:if>
+		</td>
+		<td>
+		</td>
+	</tr>	
+	<tr>
+		<td>
+		</td>
+		<td style="width:70%;" >
+				<a style="color:white">&asdfasdfsdfadfasdfasdfasdfasdfasdfasdfasdfasdfsdfassfsdfsdfddfffff</a><br>
+				${row.boardReviewTxt}<br>
+			<c:if test="${row.imageName != null}">
+   				<img width="90%" alt="${row.imageName}" src="${initParam.rootPath}/img/${row.imageName}"><br>
+   			</c:if>
+		</td>
+		<td>
+		</td>
+	</tr>		
 </table>
+<br>
+<br>
 </c:forEach>
-<p>
+</table>
+<sec:authorize access="hasRole('ROLE_MEMBER')">
+<a href="${initParam.rootPath}/boardreview/boardreview_form.do"><button>후기 작성</button></a>
+</sec:authorize>
+<p style="text-align:center;">
 	<%-- ######################################################
 														페이징 처리
 			###################################################### --%>
@@ -219,7 +229,7 @@ span.error{
 	</c:choose>			
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/boardreview/boardReviewList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
-
 </p>
+</div>
 </body>
 </html>

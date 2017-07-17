@@ -18,12 +18,11 @@
 
 	})//ready
 	function closeWindow(){
-		window.opener.name= "parentPage";
-		document.myIrdntForm.target= "parentPage";
-		document.myIrdntForm.action=action="/turnup_fridger/common/member/myIrdnt/createMyIrdnt.do";
-		document.myIrdntForm.submit();
+		//window.opener.name= "parentPage";
+		//document.myIrdntForm.target= "parentPage";
+		document.myIrdntForm.action="/turnup_fridger/common/member/myIrdnt/createMyIrdnt.do";
+		//document.myIrdntForm.submit();
 		window.opener.location.reload();
-		self.close();
 		};
 </script>
 </head>
@@ -34,7 +33,7 @@
 <table>
 	<tr>
 		<td>
-			<input type="hidden" name="fridgerId" id="fridgerId" value="1"><span class="error"><form:errors path="MyIrdnt.fridgerId" delimiter="&nbsp;&nbsp;"/></span>
+			<input type="hidden" name="fridgerId" id="fridgerId" value="${param.fridgerId}"><span class="error"><form:errors path="MyIrdnt.fridgerId" delimiter="&nbsp;&nbsp;"/></span>
 		</td>
 	</tr>
 	<tr>

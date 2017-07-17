@@ -1,28 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
-<!-- 
- (jsp)index
-작성자 : 
-최초 작성일
-변경이력 
-170703 (경혜)로그인 버튼 추가
- -->
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style type="text/css">
-form{display:inline}
-</style>
-</head>
-<body>
-<h1>★☆★냉장고 털ㄴ업★☆★</h1>
-<p>
-프로젝트 Turn Up the Fridger 인덱스 페이지에용. 여기서 각자 부분 jsp 등등 링크 걸어서 하세용.
-</p>
-<hr>
+
 
 <!-- 장규/준 -->
 <a href="${initParam.rootPath}/boardnotice/boardNoticeList.do"><button type="button">공지사항</button></a>
@@ -33,56 +12,159 @@ form{display:inline}
 <h3>레시피공유게시판</h3>
 <a href="${initParam.rootPath }/boardRecipe/boardRecipeList.do"><button type="button">공유레시피게시판</button></a>
 
-<hr>
+    <a id="about"></a>
+    <div class="intro-header">
+    <div class="container">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="intro-message">
+                        <h1>Turnup-Fridger</h1>
+                        <h3>효율적인 식재료 관리를 위한 냉장고 털어먹기</h3>
+                        <hr class="intro-divider">
+                        <ul class="list-inline intro-social-buttons">
+                            <li class="topMenuLi">
+                                <a href="#recipe" class="btn btn-default btn-lg"><span class="network-name">Recipe</span></a>
+                                <ul class="submenu">
+						    		<li><a href="${initParam.rootPath}/recipe_for_user/search_by_irdnts.do" id="submenuLink">재료명 검색</a></li>
+						    		<li><a href="${initParam.rootPath}/recipe_for_user/search_by_category.do" id="submenuLink">카테고리별 검색</a></li>
+						    		<li><a href="${initParam.rootPath}/recipe_for_user/search_by_recipeName.do" id="submenuLink">레시피로 검색</a></li>
+						    	</ul>
+                            </li>
+                            <sec:authorize access="hasRole('ROLE_MEMBER')">
+                            <li class="topMenuLi">
+                                <a href="#fridger" class="btn btn-default btn-lg"><span class="network-name">Fridger</span></a>
+                            	<ul class="submenu">
+						    		<li><a href="${initParam.rootPath}/common/member/fridger/main.do" id="submenuLink">내 냉장고</a></li>
+						    		<li><a href="${initParam.rootPath}/common/member/fridger/my_list.do" id="submenuLink">냉장고 관리</a></li>
+						    		<li><a href="${initParam.rootPath}/common/member/fridger/list.do" id="submenuLink">냉장고 조회</a></li>
+									<li><a href="${initParam.rootPath}/common/member/fridger/joinProcess/list.do" id="submenuLink">공유 관리</a></li>
+									<li><a href="${initParam.rootPath}/" id="submenuLink">공유 냉장고</a></li>
+						    	</ul>
+                            </li>
+                            </sec:authorize>
+                            <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+                            <li class="topMenuLi">
+                            	<a href="#"  class="btn btn-default btn-lg"><span class="network-name">Recipe & Irdnt</span></a>
+						      	<ul class="submenu">
+									<li><a href="${initParam.rootPath}/common/admin/recipe/recipeList.do" id="submenuLink">레시피 조회</a></li>
+									<li><a href="${initParam.rootPath}/common/admin/recipe/register_form.do" id="submenuLink">레시피 저장</a></li>
+									<li><a href="${initParam.rootPath}/common/admin/irdntManage/findAllICategory.do" id="submenuLink">재료 조회</a></li>
+									<li><a href="${initParam.rootPath}/common/admin/recipe/recipeList.do" id="submenuLink">재료 등록</a></li>
+									<li><a href="" id="submenuLink">레시피 공유게시판</a></li>
+								</ul>
+						      </li>
+						      <li class="topMenuLi">
+						      	<a href="#"  class="btn btn-default btn-lg"><span class="network-name">Board & Member</span></a>
+						      	<ul class="submenu">
+									<li><a href="${initParam.rootPath}/common/admin/member_list.do" id="submenuLink">회원관리</a></li>
+									<li><a href="${initParam.rootPath}/common/admin/admin_mypage.do" id="submenuLink">관리자관리</a></li>
+									<li><a href="${initParam.rootPath}/boardnotice/boardNoticeList.do" id="submenuLink">게시판 관리</a></li>
+								</ul>
+							  </li>
+                            </sec:authorize>
+                            <li class="topMenuLi">
+                                <a href="#" class="btn btn-default btn-lg"><span class="network-name">Board</span></a>
+                            	<ul class="submenu">
+						    		<li><a href="${initParam.rootPath}/boardnotice/boardNoticeList.do" id="submenuLink">공지사항</a></li>
+									<li><a href="${initParam.rootPath}/common/boardqna/boardQnAList.do" id="submenuLink">QnA</a></li>
+									<li><a href="${initParam.rootPath}/common/boardfree/boardFreeList.do" id="submenuLink">자유게시판</a></li>
+									<li><a href="${initParam.rootPath}/boardreview/boardReviewList.do" id="submenuLink">후기</a></li>
+									<li><a href="" id="submenuLink">레시피 공유게시판</a></li>
+						    	</ul>
+                            </li>
+                            <sec:authorize access="hasRole('ROLE_MEMBER')">
+                             <li class="topMenuLi">
+                                <a href="#" class="btn btn-default btn-lg"><span class="network-name">MyMenu</span></a>
+                            	<ul class="submenu">
+                            		<sec:authentication property='principal.memberId' var='memberId'/>
+						    		<li><a href="${initParam.rootPath}/memo/memoList.do?memberId=${memberId}" id="submenuLink">내 메모보기</a></li>
+						    		<li><a href="#" onClick="window.open('${initParam.rootPath}/memo/map.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)" id="submenuLink" id="submenuLink">주변 마트보기</a></li>
+						    		<li><a href="${initParam.rootPath}/common/member/member_mypage_event.do" id="submenuLink">회원정보관리</a></li>
+						    	</ul>
+                            </li>
+                            <li class="topMenuLi">
+                                <a href="${initParam.rootPath}/shop/findShopList.do" class="btn btn-default btn-lg"><span class="network-name">Shop</span></a>
+                            </li>
+                            </sec:authorize>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.intro-header -->
+</div>
+    <!-- Page Content -->
 
 
-<h4>레시피관련</h4>
-<a href="${initParam.rootPath}/common/admin/recipe/register_form.do"><button type="button">레시피등록</button></a>
-<a href="${initParam.rootPath}/common/admin/recipe/recipeList.do"><button type="button">레시피목록</button></a>
+	<a  id="services"></a>
+    <div class="content-section-a">
 
-<!-- 은영 -->
-<h4>냉장고관련</h4>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">이달의 추천레시피&nbsp;&nbsp;<a target="_blank" href="소갈비찜 상세정보보기화면">소갈비찜</a></h2>
+                    <p class="lead">
+                    특별한 날, 기념할만한 날을 위한 든든하고 정갈한 음식 소갈비찜을 추천드립니다. 짭짤하고 달달한 맛으로 남녀노소 누구나 맛있게 즐길 수 있는 요리인데요, 요즘같이 무더운 여름철 보양식으로도 손색없습니다!<br>
+                    저희 <span class="tf"><b>Turnup-Fridger</b></span>에서 강력추천 드리는 이달의 추천 레시피 소갈비찜을 직접 만들어 드시고 게시판을 통해 후기를 올려주시면 추첨을 통해 다양한 상품을 드립니다. </p>
+                </div>
+                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                    <img class="img-responsive mainImg" src="img/la.png"  style="border-radius: 50em;">
+                </div>
+            </div>
 
-<a href="${initParam.rootPath}/common/member/fridger/list.do"><button type="button">냉장고리스트(등록/업뎃/가입/초대)</button></a>
-<a href="${initParam.rootPath}/common/member/fridger/my_list.do"><button type="button">내냉장고(삭제/등록)</button></a>
-<a href="${initParam.rootPath}/common/member/fridger/register_form.do"><button type="button">냉장고등록</button></a>
-<a href="${initParam.rootPath}/common/member/fridger/register_form2.do"><button type="button">냉장고등록(with IMG)</button></a>
-<a href="${initParam.rootPath}/common/member/fridger/joinProcess/list.do"><button type="button">냉장고 가입처리</button></a>
+        </div>
+        <!-- /.container -->
 
+    </div>
+    <!-- /.content-section-a -->
 
-<br>
-<hr>
-<br>
-<hr>
-<!-- 경혜 -->
-<a href="${initParam.rootPath}/index_kh.do"><button type="button">경혜기능모음</button></a>
+    <div class="content-section-b">
 
-<hr>
-<!-- 연수 -->
-<h4>재료관리 관련</h4>
-<a href="${initParam.rootPath}/common/admin/irdntManage/findAllICategory.do" ><button type="button">재료관리</button></a><br>
-<h4>나의 식재료 관련</h4>
-<a href="${initParam.rootPath}/common/member/myIrdnt/myIrdntList.do"><button type="button">나의 식재료</button></a><br><hr>
-<h4>레시피관리</h4>
-<a href="${initParam.rootPath}/common/admin/recipe_for_admin/recipeList.do"><button type="button">레시피 관리</button></a><br><hr>
-<h4>레시피 재료검색</h4>
-<a href="${initParam.rootPath}/recipe_for_user/search_by_irdnts.do"><button type="button">레시피 재료검색</button></a><br>
-<h4>레시피 요리명검색</h4>
-<a href="${initParam.rootPath}/recipe_for_user/search_by_recipeName.do"><button type="button">레시피 요리명검색</button></a><br>
-<h4>레시피 카테고리검색</h4>
-<a href="${initParam.rootPath}/recipe_for_user/search_by_category.do"><button type="button">레시피 카테고리검색</button></a><br>
+        <div class="container">
 
-<hr>
-<!-- 현화 -->
-<h4>메모 관련</h4>
-<a id="memo" href="#" onClick="window.open('${initParam.rootPath}/memo/memoPopup.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=450px, height=430px ,top=10, left=10', bottom=10, right=10)"><button type="button">+메모</button></a>
-<sec:authorize access="hasRole('ROLE_MEMBER')">
-	<sec:authentication property='principal.memberId' var='memberId'/>
-</sec:authorize>
-<a href="${initParam.rootPath}/memo/memoList.do?memberId=${memberId}"><button type="button">메모목록</button></a>
+            <div class="row">
+                <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">3D Device Mockups<br>by PSDCovers</h2>
+                    <p class="lead">Turn your 2D designs into high quality, 3D product shots in seconds using free Photoshop actions by <a target="_blank" href="http://www.psdcovers.com/">PSDCovers</a>! Visit their website to download some of their awesome, free photoshop actions!</p>
+                </div>
+                <div class="col-lg-5 col-sm-pull-6  col-sm-6">
+                    <img class="img-responsive mainImg" src="img/rose.jpg"  style="border-radius: 50em;">
+                </div>
+            </div>
 
-<h4>쇼핑몰 관련</h4>
-<a href="${initParam.rootPath}/common/shop/shop_register_form.do"><button type="button">쇼핑몰 등록</button></a>
-<a href="${initParam.rootPath}/shop/findShopList.do"><button type="button">쇼핑몰 목록</button></a>
-</body>
-</html>
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.content-section-b -->
+
+    <div class="content-section-a">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-5 col-sm-6">
+                    <hr class="section-heading-spacer">
+                    <div class="clearfix"></div>
+                    <h2 class="section-heading">당신의 냉장고는 쾌적한가요?</h2>
+                    <p class="lead">내부의 여유공간이 5% 이하가 되면 우리의 냉장고는 점점 지쳐갑니다. 기술이 발달해 성능 좋은 냉장고들이 넘치는 요즘에도 마찬가지입니다.<br>
+                    하지만 지금 당신의 냉장고는 어떤가요?<br>언젠간 먹어야지라는 마음으로 넣어둔 음식이 이미 가득채우고 있지는 않은가요? 
+                    지쳐가는 당신의 냉장고와 허기진 당신의 배를 위해 '냉장고 털어먹기'가 필요한 지금, 바로 <a href="${initParam.rootPath}/join_member_form.do"><span class="tf"><b>Turnup-Fridger</b></span></a> 와 함께 하세요.</p>
+                </div>
+                <div class="col-lg-5 col-lg-offset-2 col-sm-6">
+                    <img class="img-responsive mainImg" src="img/women.jpg" style="border-radius: 50em;">
+                </div>
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.content-section-a -->

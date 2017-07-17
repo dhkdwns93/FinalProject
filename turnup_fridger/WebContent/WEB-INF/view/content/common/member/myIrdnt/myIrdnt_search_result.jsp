@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger/scripts/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 
 //재료들을 검색해서 irdntId값을 골라내서 myIrdnt_form으로 되돌려보내는 팝업창.
@@ -80,7 +80,9 @@ td {
 				<th>비고</th>
 				</tr>	
 			</thead>
-			<tbody id="tbody"></tbody>
+			<tbody id="tbody">
+				
+			</tbody>
 		</table>
 	</div>
 </body>
