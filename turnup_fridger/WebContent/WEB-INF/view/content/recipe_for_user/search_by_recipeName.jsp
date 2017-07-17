@@ -136,14 +136,14 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-
+<div class="container">
 <!--레시피명입력받는창-> 검색 -> 레시피info들(페이징) and 레시피공유게시판목록들(페이징)  -->
 <!--검색 전 화면이 비어있을테니, top4들 불러오는작업? 여기서는 레시피공유게시판to4  -->
 	<div style="text-align:center;">
 	<h2>요리이름으로 레시피 찾기</h2><hr>
 	레시피명 검색 : 
 	<input type="text" name ="recipeName" id="recipeName">
-	<button type="button" id="searchBtn">검색</button><br>
+	<button type="button" id="searchBtn">검색</button><br><br><br><br>
 	</div>
 	
 	<div id="sortKeyword" style="text-align:right;">
@@ -175,6 +175,6 @@ $(document).ready(function(){
 		</table>
 	</div>
 	<div id="userPageBean" style="text-align:center;" class="tableList"></div>
-	
+	</div>
 </body>
 </html>

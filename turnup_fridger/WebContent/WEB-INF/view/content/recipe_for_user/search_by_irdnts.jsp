@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>레시피 by 재료</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script type="text/javascript">
 function getList(keyword,page){
 	$("#apiThead").show();
@@ -30,7 +31,6 @@ function getList(keyword,page){
 		"url":"/turnup_fridger/findRecipeByIrdntId.do",
 		"type":"POST",
 		"data":'irdntIds='+likes+'&hateIrdntIds='+dislikes+'&keyword='+keyword+'&page='+page+'&${_csrf.parameterName}=${_csrf.token}',
-		//"data":{'irdntIds':likes, 'hateIrdntIds':dislikes,'keyword':'보통','page':1,'${_csrf.parameterName}':'${_csrf.token}'},
 		"dataType":"json",
 		"success":function(map){
 			$("#apiPageBean").empty();
@@ -284,24 +284,24 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<%-- <input type="hidden" id="memberId" value="<sec:authentication property='principal.memberId'/>">  --%>
-<%-- <sec:authentication property="principal.memberId" var="memberId"/> --%>
-
 <div style="text-align:center;"><h2>재료로 레시피 찾기</h2><br><hr></div>
 
-	<div id="irdntManage" style="width:23%; border-style:outset; float:left; overflow-x:hidden; overflow-y:scroll; height:600px;width:400px; margin:20px;padding:10px;">
-	기타 재료 :   
-		<table  class="table table-hover table-condensed" style="padding: 10px";>
+<div class="container"style="position:relative;">
+	<button type="button" id="irdntBtn" data-toggle="collapse" data-target="#irdntManage" style="position:absolute; top:0px;left:50px; ">기타 재료 선택 ↓</button>
+	<div id="irdntManage" class="collapse" style="border-style:outset; height:500px; width:400px; margin:20px; padding:10px; position:absolute;top:10px;left:30px;background-color:white;">
+		<div style="overflow-x:hidden; overflow-y:scroll;height:500px;">
+		<table  class="table table-hover table-condensed" style="padding: 10px; background-color:white;">
 			<thead id="irdntManageThead"></thead>
 			<tbody id="irdntManageTbody"></tbody>
 		</table>
+		</div>
 	</div>
 	
-	
-	<div id="myIrdntSection" style="width:23%; float: left; padding:10px;" >
-	<div id="myFridgers" style="border-style:outset; overflow-x:hidden; overflow-y:scroll; height:300px;width:350px;margin:20px;padding:10px;">
+	<button type="button" id="myIrdntBtn" data-toggle="collapse" data-target="#myFridgers" style="position:absolute; top:0px;left:200px; ">나의 냉장고 선택 ↓	</button>
+	<div id="myIrdntSection" style="float: left; padding:10px;" >
+	<div id="myFridgers" class="collapse" style="border-style:outset; height:300px;width:400px;margin:20px;padding:10px;position:absolute;top:10px;left:30px;background-color:white;">
 	나의 냉장고 목록 :
-		<button type="button" id="getMyFridger" >냉장고불러오기</button>
+		<button type="button" id="getMyFridger" >냉장고 불러오기 ↓</button>
 		<table class="table table-hover table-condensed">
 			<thead id="myFridersThead">
 				<tr>
@@ -313,7 +313,7 @@ $(document).ready(function(){
 			<tbody id="myFridersTbody">
 			</tbody>
 		</table>
-	</div>
+	
 	<div id="myIrdnt" style="border-style:outset; overflow-x:hidden; overflow-y:scroll; height:300px;width:350px;margin:20px;padding:10px;">
 	냉장고 속 식재료 
 		<table class="table table-hover table-condensed">
@@ -322,10 +322,11 @@ $(document).ready(function(){
 		</table>
 	</div>
 	</div>
+	</div>
 
 	
 	<!--컬럼누르면 테이블에서 삭제  -->
-	<div id="dislikeSection" style="width:23%; border-style:outset;float: left;border:5; overflow-x:hidden; overflow-y:scroll; height:300px; margin:20px;padding:10px;">
+	<div id="dislikeSection" style="width:25%; border-style:outset;float: right;border:5; overflow-x:hidden; overflow-y:scroll; height:300px; margin:20px;padding:10px;">
 	기피재료 : 
 	<button type="button" id="getMydislike" >나의 기피재료 불러오기</button>
 	<table id="dislikeResult" class="table table-hover table-condensed" >
@@ -339,7 +340,7 @@ $(document).ready(function(){
 	</table>
 	</div>
 	
-	<div id="likeSeciton" style="width:23%; border-style:outset;float: left; overflow-x:hidden; overflow-y:scroll; height:300px; margin:20px;padding:10px;">
+	<div id="likeSeciton" style="width:25%; border-style:outset; overflow-x:hidden; overflow-y:scroll; height:300px; margin:20px;padding:10px;float: right;">
 	선택재료 : 
 	<table id="likeResult" class="table table-hover table-condensed">
 		<thead id="likeThead">
@@ -351,11 +352,11 @@ $(document).ready(function(){
 		<tbody id="likeTbody"></tbody>
 	</table>
 	</div><br>
-	<br>
+	<br><br><br><br><br><br><br><br><br>
 	
 	<!--위의 재료들을 리스트에 담아서 재료로 검색하는 핸들러로 보낸다. -->
-	<div style="width:50%; border:5;float: right;">
-	<button type="button" id="searchBtn" style="float:right; margin-top:100px;margin-right:480px;width:200px;height:100px;">레시피검색</button><br>
+	<div style="width:100%;float: right;">
+	<button type="button" id="searchBtn" style="position:absolute; top:350px;left:780px;">레시피검색</button><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	</div>
 
 	<div id="recipeSection" style="width:100%; border:5;float: left;">
@@ -412,6 +413,7 @@ $(document).ready(function(){
 		</table>
 	</div><br>
 	<div id="userPageBean" style="text-align:center;"></div>
+	</div>
 	</div>
 </body>
 </html>
