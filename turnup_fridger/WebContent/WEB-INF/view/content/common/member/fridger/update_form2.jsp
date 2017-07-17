@@ -6,33 +6,38 @@
 <script src="${ initParam.rootPath }/scripts/jquery.js"></script>
 <script src="${ initParam.rootPath }/scripts/bootstrap.min.js"></script>
 <link href="${ initParam.rootPath }/css/bootstrap.css" rel="stylesheet">
-<link href="${ initParam.rootPath }/css/bootstrap-theme.css" rel="stylesheet">
 <link href="${ initParam.rootPath }/css/landing-page.css" rel="stylesheet">
+<script type="text/javascript">
 
-<script>
 $(document).ready(function(){	
-	console.log($(".item.active").find("img").attr("src"))
 	
-	 $(document).on("click", "#registerFormBtn",function(){
-		var formData = $("#registerForm").serializeArray();
+	$("#updateFridgerName").prop("placeholder", $("span#fridgerName").text())
+		
+	 $(document).on("click", "#updateFormBtn",function(){
+		var formData = $("#updateForm").serializeArray();
 		console.log(formData)
 		$.ajax({
-			"url": "${initParam.rootPath }/common/member/fridger/register.do",
+			"url": "${initParam.rootPath }/common/member/fridger/update.do",
 			"type": "post",
 			"data": formData,
 			"dataType":"text",
 			"beforeSend": function(){
-				$("#fridgerImg").val($(".item.active").find("img").attr("src"))
-				alert($("#fridgerImg").val())
+				alert(!$("#updateFridgerName").val())
+				
+				$("#updateFridgerImg").val($("#updateFridgerCarousel div.item.active").find("img").attr("src"))
+				//alert($("#updateFridgerImg").val())
+				if(!$("#updateFridgerName").val()){
+					$("#updateFridgerName").val($("#updateFridgerName").prop("placeholder"))
+				}			
 			},
 			"success": function(text){
 				if(text == "0"){
 					alert("완료!")
 					resetModal()
-					$("#createFridgerModal").modal("hide");
-				}else if(text =="-1"){
+					$("#updateFridgerModal").modal('hide');
+				}else{
 					alert("실패!")				
-					//회색차유ㅠ
+					//메시지 뿌려주기
 				}
 			
 			}
@@ -42,15 +47,14 @@ $(document).ready(function(){
   })
 		
 	
-	
 })
 
 function resetModal(){
-	document.getElementById("registerForm").reset();
+	document.getElementById("updateForm").reset();
 }
 
 function openModal(){
-	$('#createFridgerModal').modal('show');
+	$('#updateFridgerModal').modal('show');
 }
 
 </script>
@@ -101,67 +105,63 @@ border-radius: 5px;
 
 <div class="container">
 <!-- 
-
-
- trigger of createFridgerModal
+ trigger of updateFridgerModal
  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createFridgerModal">냉장고 만들기</button> -->
 
- <!-- start of createFridgerModal -->
-<div class="modal fade" id="createFridgerModal" tabindex="-1" role="dialog" aria-labelledby="createFridgerModalLabel" aria-hidden="true">
+ <!-- start of updateFridgerModal -->
+<div class="modal fade" id="updateFridgerModal" tabindex="-1" role="dialog" aria-labelledby="createFridgerModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetModal()" ><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title" id="myModalLabel">냉장고 만들기</h3>
+        <h3 class="modal-title" id="myModalLabel">냉장고 수정</h3>
       </div>
       <div class="modal-body" >
  
-
-	<form id="registerForm" class="form-horizontal" action="${initParam.rootPath }/common/member/fridger/register.do" method="post">
+	<form id="updateForm" class="form-horizontal" action="${initParam.rootPath }/common/member/fridger/update.do" method="post">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
         <div class="form-group">
-          <label class="col-sm-2 control-label" for="fridgerName">Name</label>
+          <label class="col-sm-2 control-label" for="updateFridgerName">Name</label>
         <div class="col-sm-6">
-          <input class="form-control" id="fridgerName" name="fridgerName" type="text" placeholder="냉장고의 애칭을 입력하세요">
+          <input class="form-control" id="updateFridgerName" name="fridgerName" type="text" placeholder="">
         </div>
         </div>
         <div class="form-group">    
 	        <sec:authentication property="principal.memberId" var="memberId"/>
-			<label class="col-sm-2 control-label" for="memberId">Owner</label>
+			<label class="col-sm-2 control-label" for="updateMemberId">Owner</label>
         <div class="col-sm-6">
-          <input class="form-control" type="text" id="memberId" name="memberId" value="${ memberId }" readonly="readonly" style="border: none;">
+          <input class="form-control" type="text" id="updatememberId" name="memberId" value="${ memberId }" readonly="readonly" style="border: none;">
         </div>
         </div>
           <div class="form-group">
-              <label class="col-sm-2 control-label" for="fridgerImg">Image</label>
+              <label class="col-sm-2 control-label" for="updateFridgerImg">Image</label>
              <div class="col-sm-9">
-              <input class="form-control"type="hidden" id="fridgerImg" name="fridgerImg">
+              <input class="form-control"type="hidden" id="updateFridgerImg" name="fridgerImg">
               <p class="help-block">냉장고 사진을 선택해주세요</p>
                <!-- start of fridgerCarousel -->
   
-  <div id="fridgerCarousel" class="carousel slide article-slide" data-ride="carousel" data-interval="false" style="position: relative;" align="center">
+  <div id="updateFridgerCarousel" class="carousel slide article-slide" data-ride="carousel" data-interval="false" style="position: relative;" align="center">
     <!-- Indicators -->
     <ol class="carousel-indicators">
-		<li data-target="#fridgerCarousel" data-slide-to="0" class="active"><img src="${initParam.rootPath}/images/fridger/f1.png" alt="fridger1"></li>
-		<li data-target="#fridgerCarousel" data-slide-to="1"><img src="${initParam.rootPath}/images/fridger/f2.png" alt="fridger1"></li>
-		<li data-target="#fridgerCarousel" data-slide-to="2"><img src="${initParam.rootPath}/images/fridger/f3.png" alt="fridger1" ></li>
-		<li data-target="#fridgerCarousel" data-slide-to="3"><img src="${initParam.rootPath}/images/fridger/f4.png" alt="fridger1" ></li>
-		<li data-target="#fridgerCarousel" data-slide-to="4"><img src="${initParam.rootPath}/images/fridger/f5.png" alt="fridger1"></li>
-		<li data-target="#fridgerCarousel" data-slide-to="5"><img src="${initParam.rootPath}/images/fridger/f6.png" alt="fridger1"></li>
-		<li data-target="#fridgerCarousel" data-slide-to="6"><img src="${initParam.rootPath}/images/fridger/f7.png" alt="fridger1"></li>
-		<li data-target="#fridgerCarousel" data-slide-to="7"><img src="${initParam.rootPath}/images/fridger/f8.png" alt="fridger1"></li>
-		<li data-target="#fridgerCarousel" data-slide-to="8"><img src="${initParam.rootPath}/images/fridger/f9.png" alt="fridger1"></li>
-		<li data-target="#fridgerCarousel" data-slide-to="9"><img src="${initParam.rootPath}/images/fridger/f10.png" alt="fridger1"></li>
-		<li data-target="#fridgerCarousel" data-slide-to="10"><img src="${initParam.rootPath}/images/fridger/f11.png" alt="fridger1"></li>
-		<li data-target="#fridgerCarousel" data-slide-to="11"><img src="${initParam.rootPath}/images/fridger/f12.png" alt="fridger1"></li>
-		<li data-target="#fridgerCarousel" data-slide-to="12" ><img src="${initParam.rootPath}/images/fridger/f13.png" alt="fridger1"></li>		
+		<li data-target="#updateFridgerCarousel" data-slide-to="0" class="active"><img src="${initParam.rootPath}/images/fridger/f1.png" alt="fridger1"></li>
+		<li data-target="#updateFridgerCarousel" data-slide-to="1"><img src="${initParam.rootPath}/images/fridger/f2.png" alt="fridger1"></li>
+		<li data-target="#updateFridgerCarousel" data-slide-to="2"><img src="${initParam.rootPath}/images/fridger/f3.png" alt="fridger1" ></li>
+		<li data-target="#updateFridgerCarousel" data-slide-to="3"><img src="${initParam.rootPath}/images/fridger/f4.png" alt="fridger1" ></li>
+		<li data-target="#updateFridgerCarousel" data-slide-to="4"><img src="${initParam.rootPath}/images/fridger/f5.png" alt="fridger1"></li>
+		<li data-target="#updateFridgerCarousel" data-slide-to="5"><img src="${initParam.rootPath}/images/fridger/f6.png" alt="fridger1"></li>
+		<li data-target="#updateFridgerCarousel" data-slide-to="6"><img src="${initParam.rootPath}/images/fridger/f7.png" alt="fridger1"></li>
+		<li data-target="#updateFridgerCarousel" data-slide-to="7"><img src="${initParam.rootPath}/images/fridger/f8.png" alt="fridger1"></li>
+		<li data-target="#updateFridgerCarousel" data-slide-to="8"><img src="${initParam.rootPath}/images/fridger/f9.png" alt="fridger1"></li>
+		<li data-target="#updateFridgerCarousel" data-slide-to="9"><img src="${initParam.rootPath}/images/fridger/f10.png" alt="fridger1"></li>
+		<li data-target="#updateFridgerCarousel" data-slide-to="10"><img src="${initParam.rootPath}/images/fridger/f11.png" alt="fridger1"></li>
+		<li data-target="#updateFridgerCarousel" data-slide-to="11"><img src="${initParam.rootPath}/images/fridger/f12.png" alt="fridger1"></li>
+		<li data-target="#updateFridgerCarousel" data-slide-to="12" ><img src="${initParam.rootPath}/images/fridger/f13.png" alt="fridger1"></li>		
     </ol>
-    
-    
+        
         <!-- Wrapper for slides -->
     <div class="carousel-inner"  style="width:400px;height:250px;position: relative;" align="center">
     
-      <div class="item active">
+      <div class="item">
         <img src="${initParam.rootPath}/images/fridger/f1.png" alt="fridger1" style="width:auto; height:250px;"> 
       </div>
       <div class="item">
@@ -212,11 +212,11 @@ border-radius: 5px;
       </div>
     </div>
     <!-- Left and right controls -->
-    <a class="left carousel-control" href="#fridgerCarousel" data-slide="prev">
+    <a class="left carousel-control" href="#updateFridgerCarousel" data-slide="prev">
       <span style="position:absolute; top: 45%; left:10px;"><img src="${initParam.rootPath}/images/glyphicons/png/glyphicons-225-chevron-left.png"></span>
       <span class="sr-only">Previous</span>
     </a>
-    <a class="right carousel-control" href="#fridgerCarousel" data-slide="next" >
+    <a class="right carousel-control" href="#updateFridgerCarousel" data-slide="next" >
       <span style="position:absolute; top: 45%; bottom:40%; right:10px;"><img src="${initParam.rootPath}/images/glyphicons/png/glyphicons-224-chevron-right.png"></span>
             <span class="sr-only">Next</span>
     </a>
@@ -229,7 +229,7 @@ border-radius: 5px;
         </form>
       </div>
       <div class="modal-footer">
-       <input type="button" id="registerFormBtn" class="btn btn-primary"  value="CREATE">
+       <input type="button" id="updateFormBtn" class="btn btn-primary" value="update">
        
         <input type="button" class="btn btn-default" id="cancel" data-dismiss="modal" onclick="resetModal()" value="CANCEL">
       </div>
@@ -237,8 +237,7 @@ border-radius: 5px;
   </div>
 </div>
 
-
-<!-- end of createFridgerModal -->
+<!-- end of updateFridgerModal -->
 
 
 	</div>
