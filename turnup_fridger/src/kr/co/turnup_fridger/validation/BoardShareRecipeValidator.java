@@ -17,11 +17,18 @@ public class BoardShareRecipeValidator implements Validator{
 	@Override
 	public void validate(Object target, Errors errors) {
 		
-		BoardShareRecipe boardShareRecipe = (BoardShareRecipe)target;
+//		BoardShareRecipe boardShareRecipe = (BoardShareRecipe)target;
 		//title 체크
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "title", "required");
 		// 내용
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "txt", "required");
+		//사진 
+//		ValidationUtils.rejectIfEmpty(errors, "upImage", "required");
+//		//재료
+//		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shareRecipeIrdnt", "required");
+		
+		
+		
 		
 		
 		/*if((boardShareRecipe.getTxt()==null||boardShareRecipe.getTxt().trim().isEmpty())&&boardShareRecipe.getTxt().length()<1000){

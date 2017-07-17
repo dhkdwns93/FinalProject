@@ -15,6 +15,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<div class="container">
 <jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
 <hr>
 
@@ -55,6 +56,6 @@
 	<button type="submit" class="btn btn-default">수정완료</button>
 	<button type="reset" class="btn btn-default">다시작성</button>
 </form>
-
+</div>
 </body>
 </html>

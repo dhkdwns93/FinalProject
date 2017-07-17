@@ -114,27 +114,32 @@ function popup(frm){
 	font-size:small;
 	color: red;
  }
- th{
+th{
 text-align:center
 }
+h1{display:inline}
+h2{display:inline}
 #div{
 	height: auto; 
 	min-height: 100px; 
 	overflow: auto;
 	background-color:#dcdcdc;
-	width: 104%;
+	width: 100%;
 }
-
 </style>
 
 </head>
 <body>
-<h1>자유 게시판 > ${boardFree.memberId}님의 글</h1><br>
-<hr>
 <c:if test="${requestScope.error != null}">
 	<script type="text/javascript">alert('권한이 없습니다.')</script>
 </c:if>
-<div id="table" style="width:800px;">
+
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
+<h1>자유 게시판 ></h1> <h2>${boardFree.memberId}님의 글</h2><br>
+<hr>
 <div style="float:right"><!-- 오른쪽 정렬 -->
 <!-- 회원 수정폼 -->
 <sec:authorize access="hasRole('ROLE_MEMBER')">
@@ -175,7 +180,7 @@ text-align:center
 </sec:authorize>
 </div>
 
-<table class="table table-bordered" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">
+<table class="table table-bordered" style="width:100%; border:1; text-align:center">
 	<tr>
 		<td>제목</td>
 		<td>${boardFree.boardFreeTitle}</td>
@@ -190,7 +195,7 @@ text-align:center
 	</tr>	
 	<tr>
 		<td>내용</td>
-		<td>
+		<td style="width:70%">
 			${boardFree.boardFreeTxt}
 		</td>	
 	</tr>
@@ -202,36 +207,39 @@ text-align:center
 	</tr>
 </table>
 <hr>
+<div>
 <!-- 댓글 목록 -->
-댓글 목록<br>
 <c:if test="${empty commentFree}">
- 해당 게시물에 댓글이 없습니다.
+<h3>댓글 목록</h3><br>
+댓글이 없습니다.
 </c:if>
-
-<div>
+<!-- 댓글 있을 때   -->
 <c:if test="${!empty commentFree}">
-<div>
+<div id="table" style="width:100%; border:1; text-align:center">
+<div style="float:left">
+<h3>댓글 목록</h3><br>
+</div>
 <table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">	
 <thead>
     <tr>
-        <th>내용</th>
-        <th>작성일</th>
-        <th>작성자</th>
-        <th>수정</th>
-        <th>삭제</th>
+        <th style="width:10%;">작성자</th>
+        <th style="width:50%;">내용</th>
+        <th style="width:20%;">작성일</th>
+        <th style="width:10%;">수정</th>
+        <th style="width:10%;">삭제</th>
     </tr>
  </thead>
 <tbody>
 <c:forEach var="list" items="${commentFree}">
 	<tr>
 		<td>
+			${list.memberId}
+		</td>
+		<td>
 			${list.commentFreeTxt}
 		</td>
 		<td>
 			<fmt:formatDate value="${list.commentFreedate}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
-		<td>
-			${list.memberId}
-		</td>
 		<td>
 			<sec:authorize access="hasRole('ROLE_MEMBER')">
 		     	<form  action="${initParam.rootPath}/common/commentfree/commentFreeUploadView.do" method="post">
@@ -275,8 +283,7 @@ text-align:center
 	</tr>   
 	</c:forEach>
  </tbody>
-</table>	
-</div>	
+</table>		
 <p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리
@@ -330,30 +337,37 @@ text-align:center
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/common/boardfree/boardFreeView.do?page=${requestScope.pageBean.totalPage}&boardFreeId=${requestScope.boardFreeId}">마지막페이지</a>
 </p>
+</div>
 </c:if>
 <!-- 댓글 등록 -->
 <div id="div">
 <form action="${initParam.rootPath}/common/commentfree/commentFreeAdd.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
  <sec:authorize access="hasRole('ROLE_MEMBER')">
-	<div id="table" style="width:800px;">
+	<div id="table" style="width:100%;">
 	<table class="table table-bordered" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">
 			<tr>
 				<td>작성자</td>
 				<td>
-					<input type="text" name="memberId" readonly style="float:left" value="<sec:authentication property="principal.memberId"/>">
+					<input type="text" name="memberId" readonly class="form-control" style="float:left;width:30%" value="<sec:authentication property="principal.memberId"/>">
 				</td>
 			</tr>
 			<tr>
 				<td>내용</td>
 				<td>
-					<textarea name="commentFreeTxt" style="float:left" row="120" cols="70" placeholder="내용을 입력해주세요"></textarea><span class="error"><form:errors path="list.commentFreeTxt" delimiter="&nbsp;"/></span>			
+					<textarea name="commentFreeTxt" class="form-control" style="float:left;width:90%;" row="5" cols="70" placeholder="내용을 입력해주세요"></textarea>	
 					<div style="float:right"><!-- 오른쪽 정렬 -->
 				 		<input type="hidden" name="boardFreeId" value="${boardFree.boardFreeId}">
 						<input type="submit" value="등록하기" onclick="insert_event();">	
 					</div>	
 				</td>
-			</tr>	 
+			</tr>	
+			<tr>
+				<td></td>
+				<td>
+					<span class="error"><form:errors path="list.commentFreeTxt" delimiter="&nbsp;"/></span>	
+				</td>
+			</tr>
 	</table>
 	</div>
 	</sec:authorize>
@@ -363,6 +377,7 @@ text-align:center
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		<input type="submit" value="목록으로"/>
 	</form>
+</div>
 </div>
 </body>
 </html>

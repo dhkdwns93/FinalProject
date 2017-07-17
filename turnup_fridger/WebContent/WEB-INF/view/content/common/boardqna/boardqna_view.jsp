@@ -64,26 +64,29 @@ function popup(frm){
 	font-size:small;
 	color: red;
  }
- th{
-text-align:center
+th{
+	text-align:center
 }
+h1{display:inline}
+h2{display:inline}
 #div{
 	height: auto; 
 	min-height: 100px; 
 	overflow: auto;
 	background-color:#dcdcdc;
-	width: 71%;
+	width: 100%;
 }
 
 
 </style>
-
 </head>
 <body>
 
-<h1>QnA 게시판 > ${requestScope.boardQnA.memberId}님의 질문 </h1><br>
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<h1>QnA 게시판 ></h1> <h2>${requestScope.boardQnA.memberId}님의 질문</h2><br>
 <hr>
-<div id="table" style="width:800px;">
 <div style="float:right"><!-- 오른쪽 정렬 -->
 	<form action="${initParam.rootPath}/common/boardqna/boardQnAUploadView.do" method="post">
 			<input type="hidden" name="boardQnAId" id="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
@@ -100,7 +103,7 @@ text-align:center
 		<sec:csrfInput/>
 	</form>
 </div>
-<table class="table table-bordered" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">
+<table class="table table-bordered" style="width:100%; border:1; text-align:center">
 	<tr>
 		<td>제목</td>
 		<td>${requestScope.boardQnA.boardQnATitle}</td>
@@ -115,34 +118,36 @@ text-align:center
 	</tr>	
 	<tr>
 		<td>내용</td>
-		<td>
+		<td style="width:70%">
 			${requestScope.boardQnA.boardQnATxt}
 		</td>
 	</tr>
 </table>
-</div>
+
 
 <!-- 댓글 목록 -->
 <!-- 댓글 없을 때   -->
 
 <c:if test="${empty list}">
-댓글 목록<br>
+<h3>댓글 목록</h3><br>
 댓글이 없습니다.
 </c:if>
 <!-- 댓글 있을 때   -->
 <div>
 
 <c:if test="${!empty list}">
-<div id="table" style="width:800px;">
-댓글 목록<br>
+<div id="table" style="width:100%; border:1; text-align:center">
+<div style="float:left">
+<h3>댓글 목록</h3><br>
+</div>
 <table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">	
 <thead>
     <tr>
-        <th>작성자</th>
-        <th>내용</th>
-        <th>작성일</th>
-        <th>수정</th>
-        <th>삭제</th>
+        <th style="width:10%;">작성자</th>
+        <th style="width:50%;">내용</th>
+        <th style="width:20%;">작성일</th>
+        <th style="width:10%;">수정</th>
+        <th style="width:10%;">삭제</th>
     </tr>
 </thead>
 <tbody>
@@ -158,8 +163,12 @@ text-align:center
 				관리자(${row.adminId})
 			</c:if>	
 		</td>
-		<td>${row.commentQnATxt}</td>
-		<td><fmt:formatDate value="${row.commentQnADate}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
+		<td style="width:50%;">
+			${row.commentQnATxt}
+		</td>
+		<td>
+			<fmt:formatDate value="${row.commentQnADate}" pattern="yyyy-MM-dd a HH:mm:ss"/>
+		</td>
 		<td>
 			<form action="${initParam.rootPath}/common/commentqna/commentQnAUploadView.do" method="post">
 						<input type="hidden" name="commentQnAId" id="commentQnAId" value="${row.commentQnAId}">
@@ -212,48 +221,64 @@ text-align:center
 <form action="${initParam.rootPath}/common/commentqna/commentQnAAdd.do" method="post">
 <!-- 회원 등록  -->
 <sec:authorize access="hasRole('ROLE_MEMBER')">
-	<div id="table" style="width:800px;">
+	<div id="table" style="width:100%;">
 	<table class="table table-bordered" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">
 			<tr>
 				<td>작성자</td>
 				<td>
-					<input type="text" name="memberId" style="float:left" readonly value="<sec:authentication property="principal.memberId"/>">
+					<input  type="text" name="memberId" class="form-control" style="float:left;width:30%" readonly value="<sec:authentication property="principal.memberId"/>">
 				</td>
 			</tr>
 			<tr>
 				<td>내용</td>
 				<td>
-					<textarea name="commentQnATxt" style="float:left" row="120" cols="70" placeholder="내용을 입력해주세요"></textarea><span class="error"><form:errors path="commentQnA.commentQnATxt" delimiter="&nbsp;"/></span>			
+					<textarea name="commentQnATxt" class="form-control" style="float:left;width:90%;" row="5" cols="70" placeholder="내용을 입력해주세요"></textarea>			
 					<div style="float:right"><!-- 오른쪽 정렬 -->
 				 		<input type="hidden" name="adminId" value="">
 						<input type="hidden" name="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
 						<input type="submit" value="등록하기" onclick="insert_event();">		
 					</div>	
 				</td>
-			</tr>	 		
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<div style="float:left">
+						<span class="error"><form:errors path="commentQnA.commentQnATxt" delimiter="&nbsp;"/></span>
+					</div>
+				</td>
+			</tr> 		
 	</table>
 	</div>	
 </sec:authorize>
 		
 <!-- 관리자 등록  -->
 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-	<div id="table" style="width:800px;">
+	<div id="table" style="width:100%;">
 	<table class="table table-bordered" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">
 			<tr>
 				<td>작성자</td>
 				<td>
-					<input type="text" name="adminId" readonly style="float:left" value="<sec:authentication property="principal.adminId"/>">
+					<input class="form-control" type="text" name="adminId" readonly style="float:left;width:30%" value="<sec:authentication property="principal.adminId"/>">
 				</td>
 			</tr>
 			<tr>
 				<td>내용</td>
 				<td>
-					<textarea name="commentQnATxt" style="float:left" row="120" cols="70" placeholder="내용을 입력해주세요"></textarea><span class="error"><form:errors path="commentQnA.commentQnATxt" delimiter="&nbsp;"/></span>			
+					<textarea class="form-control" name="commentQnATxt" style="float:left;width:90%;" row="5" cols="70" placeholder="내용을 입력해주세요"></textarea>		
 					<div style="float:right"><!-- 오른쪽 정렬 -->
 				 		<input type="hidden" name="memberId" value="">
 						<input type="hidden" name="boardQnAId" value="${requestScope.boardQnA.boardQnAId}">
 						<input type="submit" value="등록하기" onclick="insert_event();">		
 					</div>	
+				</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>
+					<div style="float:left">
+						<span class="error"><form:errors path="commentQnA.commentQnATxt" delimiter="&nbsp;"/></span>
+					</div>
 				</td>
 			</tr>	 
 	</table>
@@ -262,11 +287,11 @@ text-align:center
 <sec:csrfInput/>
 </form>
 </div>
-
 <form action="${initParam.rootPath}/common/boardqna/boardQnAList.do" method="post">
 	<input type="submit" value="목록으로"/>
 	<sec:csrfInput/>
 </form>
 </div>	
+</div>
 </body>
 </html>

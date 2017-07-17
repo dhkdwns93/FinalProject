@@ -29,18 +29,29 @@ function closeWindow(){
 }; */
 </script>
 <style type="text/css">
- form{display:inline}
- span, td, th{
+span, td, th{
 	padding: 5px; 
- }
- span.error{
+}
+span.error{
 	font-size:small;
 	color: red;
- }
+}
+form{display:inline}
+h1{display:inline}
+h2{display:inline}
 </style>
 </head>
 <body>
-<h1>QnA 게시판 > 댓글 수정</h1><br>
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
+<h1>QnA 게시판 ></h1>
+				<c:if test="${commentQnA.memberId != null}">
+					<h2>${boardFree.memberId}님의 댓글 수정</h2>
+				</c:if>
+				<c:if test="${commentQnA.adminId != null}">
+					<h2>${boardFree.adminId}님의 댓글 수정</h2>
+				</c:if>
 <hr>
 <form id="upload" method="post" action="${initParam.rootPath}/common/commentqna/commentQnAUploadForm.do" <%-- onsubmit="closeWindow()" --%>>
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">

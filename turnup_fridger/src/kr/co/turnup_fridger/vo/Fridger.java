@@ -11,9 +11,7 @@ public class Fridger implements Serializable{
 	private int fridgerId;
 	private String fridgerName;
 	private String memberId;
-	
 	private String fridgerImg;
-	private MultipartFile fridgerImgSrc;
 	
 	private List<FridgerGroup> fridgerGroupList;
 	private List<MyIrdnt> myIrdntList;
@@ -77,18 +75,7 @@ public class Fridger implements Serializable{
 	}
 
 	
-	
 
-
-	public MultipartFile getFridgerImgSrc() {
-		return fridgerImgSrc;
-	}
-
-
-
-	public void setFridgerImgSrc(MultipartFile fridgerImgSrc) {
-		this.fridgerImgSrc = fridgerImgSrc;
-	}
 
 
 	public int getFridgerId() {

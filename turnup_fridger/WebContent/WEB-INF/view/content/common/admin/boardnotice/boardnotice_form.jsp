@@ -21,7 +21,11 @@ function insert_event(){
 
 </script>
 <style type="text/css">
-form{display:inline}
+form{
+	display:inline
+}
+</style>
+<style type="text/css">
 span, td, th {
 	padding: 5px;
 }
@@ -33,40 +37,54 @@ span.error {
 </style>
 </head>
 <body>
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <h1>공시사항 등록</h1><br>
 <hr>
-	<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeAdd.do?" method="post" enctype="multipart/form-data">
-		<table >
+	<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeAdd.do?" method="post" enctype="multipart/form-data">		
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+	<table>
 			<tr>
-				<th>제목</th>
-				<td><input type="text" name="title"
-					value="${boardNotice.title}" placeholder="제목을 입력해주세요"><span class="error"><form:errors path="boardNotice.title" delimiter="&nbsp;" /></td>
+				<td>제목</td>
+			</tr>
+			<tr>		
+				<td><input type="text" name="title"value="${boardNotice.title}" placeholder="제목을 입력해주세요" class="form-control">
+					<span class="error"><form:errors path="boardNotice.title" delimiter="&nbsp;" /></span>
+				</td>
 			</tr>
 			<tr>
-				<th>말머리</th>
+				<td>말머리</td>
+			</tr>
+			<tr>
 				<td><select name="items" id="items">
 						<option>공지사항</option>
 						<option>뉴스</option>
-				</select></td>
+					</select>
+				</td>
 			</tr>
 			<tr>
-				<th>사진</th>
+				<td>사진</td>
+			</tr>
+			<tr>
 				<td><input type="file" name="upImage"></td>
 			</tr>
 
 			<tr>
-				<th>내용</th>
-				<td><textarea name="txt" row="120" cols="70" placeholder="내용을 입력해주세요">${boardNotice.txt}</textarea><span class="error"><form:errors path="boardNotice.txt" delimiter="&nbsp;" /></td>
+				<td>내용</td>
 			</tr>
 			<tr>
-				<td><input type="submit" value="등록" onclick="return insert_event();"></td>
+				<td>
+					<textarea name="txt" row="5" cols="70" placeholder="내용을 입력해주세요" class="form-control">${boardNotice.txt}</textarea>
+					<span class="error"><form:errors path="boardNotice.txt" delimiter="&nbsp;" /></span>
+				</td>
 			</tr>
-		</table>
-		<sec:csrfInput/>
+	</table>
+		<input type="submit" value="등록" onclick="return insert_event();">
 	</form>
 	<form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
-			<input type="submit" value="뒤로가기">
-			<sec:csrfInput/>
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+		<input type="submit" value="뒤로가기">
 	</form>  
+</div>
 </body>
 </html>

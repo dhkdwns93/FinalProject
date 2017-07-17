@@ -22,6 +22,7 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
+<div class="container">
 <jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
 <hr>
 
@@ -58,5 +59,6 @@ $(document).ready(function(){
 <sec:authorize access="hasRole('ROLE_HEADMASTERADMIN')">
 	<button type="button" id="accessDenied" class="btn btn-default">HeadMaster관리자는 정보수정이 불가합니다.</button>
 </sec:authorize>
+</div>
 </body>
 </html>
