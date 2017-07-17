@@ -1,19 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
-<!-- 합쳐지고 최소화된 최신 자바스크립트 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<!-- 합쳐지고 최소화된 최신 CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-<!-- 부가적인 테마 -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-
+<script src="${ initParam.rootPath }/scripts/jquery.js"></script>
+<script src="${ initParam.rootPath }/scripts/bootstrap.min.js"></script>
+<script src="${ initParam.rootPath }/scripts/mdb.js"></script>
+<link href="${ initParam.rootPath }/css/bootstrap.css" rel="stylesheet">
+<link href="${ initParam.rootPath }/css/mdb.css" rel="stylesheet">
+<link href="${ initParam.rootPath }/css/landing-page.css" rel="stylesheet">
  <script type="text/javascript">
 $(document).ready(function (){
 
@@ -28,7 +20,8 @@ $(document).ready(function (){
 			        	
 			        	var i = index+1;
 			        	console.log(this.processNo+","+i);
-			        	 $("#requestTable>tbody").append($("<tr>").append($("<td>").append(this.processNo))
+			        	
+			        	$("#requestTable>tbody").append($("<tr>").append($("<td>").append(this.processNo))
 												 .append($("<td>").append(this.processFridgerId))
 												 .append($("<td>").append(this.processState))
 												 .append($("<td>").append(this.reqDate))
@@ -144,14 +137,24 @@ $(document).ready(function (){
 	
 });
 </script>
-<body>
+<div class="container">
+
+<h1> 공유 관리</h1>
+가족 구성원끼리 냉장고를 공유하여 관리하세요. 더욱 효율적으로 냉장고를 관리할 수 있을 것입니다.<br>
+
 <p>
-<div id="buttons">
-	<button type="button" id="requestListBtn">요청 리스트</button>
-	<button type="button" id="responseListBtn">응답 리스트</button>
-</div>
-<hr>
-	<div style="width:1000px;">
+<div role="tabpanel" style="padding-top: 30px;">
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#requestTab" aria-controls="home" role="tab" data-toggle="tab">REQUEST</a></li>
+    <li role="presentation"><a href="#responseTab" aria-controls="profile" role="tab" data-toggle="tab">RESPONSE</a></li>
+   </ul>
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="requestTab" align="center">
+    <div class="container">
+		<div style="width:1000px;" >
 		<table id="requestTable" class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
 			<thead>
 				<tr>
@@ -169,10 +172,13 @@ $(document).ready(function (){
 				<!-- 내용 받아올 부분 -->
 			</tbody>
 		</table>
+		</div>
 	</div>
-	
-	
-	<div style="width:1000px;">
+	</div>
+    
+    
+    <div role="tabpanel" class="tab-pane" id="responseTab" align="center">
+    	<div style="width:1000px;">
 		<table id="responseTable" class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
 			<thead>
 				<tr>
@@ -190,7 +196,11 @@ $(document).ready(function (){
 				<!-- 내용 받아올 부분 -->
 			</tbody>
 		</table>
+		</div>
+    </div>
+    </div>
+    
+    
+</div>
 	</div>
-	
-</body>
-</html>
+	</div>

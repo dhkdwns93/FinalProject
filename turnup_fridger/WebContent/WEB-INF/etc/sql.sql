@@ -584,3 +584,23 @@ WHERE recipe_id NOT IN (
 );	
 
 
+	SELECT	f.fridger_id,
+			f.fridger_name,
+			f.member_id,
+			f.fridger_img,
+			i.my_irdnt_key,
+			i.start_date,
+			i.end_date,
+			i.fresh_level,
+			i.irdnt_count,
+			i.irdnt_id,
+			i.irdnt_name,
+			i.fridger_id,
+			i.start_fresh_level,
+			i.storge_place
+	FROM	fridger f, my_Irdnt i
+	WHERE	f.fridger_id = i.fridger_id(+)
+	AND		f.fridger_id = 2
+	ORDER BY	i.irdnt_name
+
+

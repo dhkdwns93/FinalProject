@@ -21,53 +21,7 @@ $(document).ready(function(){
 	getFridgerInfo('${ requestScope.fridgerList[0].fridgerId }')
 	getTypeChart()
 	getPlaceChart()
-	/* $(function () {
-	            var data = [
-	                {
-	                    value: 300,
-	                    color: "#F7464A",
-	                    highlight: "#FF5A5E",
-	                    label: "Red"
-	    },
-	                {
-	                    value: 50,
-	                    color: "#46BFBD",
-	                    highlight: "#5AD3D1",
-	                    label: "Green"
-	    },
-	                {
-	                    value: 100,
-	                    color: "#FDB45C",
-	                    highlight: "#FFC870",
-	                    label: "Yellow"
-	    },
-	                {
-	                    value: 40,
-	                    color: "#949FB1",
-	                    highlight: "#A8B3C5",
-	                    label: "Grey"
-	    },
-	                {
-	                    value: 120,
-	                    color: "#4D5360",
-	                    highlight: "#616774",
-	                    label: "Dark Grey"
-	    }
 	
-	];
-	
-	            var option = {
-	                responsive: true,
-	            };
-	
-	            //Chart 6
-	            var ctx = document.getElementById("doughnutChartEx").getContext('2d');
-	            var myDoughnutChart = new Chart(ctx).Doughnut(data, option);
-	            
-	          
-	
-	}); */
-
 	$("#fridgerNameSelect").on("change", function(){
 		getFridgerInfo($("#fridgerNameSelect>option:selected").val());
 	
@@ -85,7 +39,7 @@ $(document).ready(function(){
 			"dataType" : "json",
 			"success": function(map){
 				console.log(map)
-				getTypeChart()
+				getTypeChart(map.irdntCategory)
 				getPlaceChart(map.myIrdntRoomTempCount, map.myIrdntColdTempCount, map.myIrdntFreezeTempCount)
 				
 				if(map.fridger.fridgerImg != null){
@@ -110,11 +64,15 @@ $(document).ready(function(){
 			     	$("#freshLevelBar").css("width","0%");
 					$("#freshLevelFrame").show();
 					showFreshLevelBar(Math.round(avgFreshLevel));
+					$(".con2").show();
+					
 				}else{
 					$("#freshLevelFrame").hide();
 					$("#fridgerAvgFreshLevel").text("")
 				    $("#freshLevelBar").css("width","0%");
 					$("#fridgerAvgFreshLevelFault").text("*신선도 측정 불가. 식재료가 존재하지 않습니다!");
+					
+					$(".con2").hide();
 				}
 							
 							
@@ -162,33 +120,41 @@ $(document).ready(function(){
 	    }
 	} 
 		 
-	function getTypeChart(){
+	function getTypeChart(map){
+		
 	 var typeData = [
 		    {
-		        value: 200,
+		        value: 5,
 		        color:"#F7464A",
 		        highlight: "#FF5A5E",
 		        label: "육류"
 		    },
 		    {
-		        value: 50,
+		        value: 7,
 		        color: "#46BFBD",
 		        highlight: "#5AD3D1",
 		        label: "채소류"
 		    },
 		    {
-		        value: 100,
+		        value: 4,
 		        color: "#FDB45C",
 		        highlight: "#FFC870",
 		        label: "가공식품류"
 		    },
 		    {
-		        value: 70,
+		        value: 10,
 		        color: "#6aaf8c",
 		        highlight: "#6aca8c",
 		        label: "유제품"
+		    },
+		    {
+		        value: 3,
+		        color: "#6aaf8c",
+		        highlight: "#6aca8c",
+		        label: "곡물류"
 		    } 
-		]
+
+		    ]
 	 
 	 /* $.each(list, function(){
 		 typeData.push({
@@ -202,12 +168,18 @@ $(document).ready(function(){
 			    };
 	//Get the context of the canvas element we want to select
 	var typeCtx = document.getElementById("typeChart").getContext("2d");
+		typeCtx.clearRect(0, 0, 800, 800);
+		typeCtx.beginPath();
+		if(map == null){
+			return false;
+		}
 	var myDoughnutChart = new Chart(typeCtx).Doughnut(typeData,option); 
 	 
 	}
-	
-	
+		
 	function getPlaceChart(roomTemp,coldTemp,freezeTemp){
+		console.log(roomTemp+","+coldTemp+","+freezeTemp)
+		
 		 var placeData = [
 			    {
 			        value: roomTemp,
@@ -235,9 +207,10 @@ $(document).ready(function(){
 				    };
 		//Get the context of the canvas element we want to select
 		var placeCtx = document.getElementById("placeChart").getContext("2d");
-	/* 	placeCtx.clearRect(0, 0, 800, 800);
-		placeCtx.beginPath();
-	 */
+	 		placeCtx.clearRect(0, 0, 800, 800);
+			placeCtx.beginPath();
+	
+		
 		 var myDoughnutChart = new Chart(placeCtx).Doughnut(placeData,option); 
 	
 		 
@@ -323,6 +296,11 @@ $(document).ready(function(){
 </script>
 
 <style> 
+ 
+.container h1,h2,h3,h4{
+font-weight: bold;
+}
+
 header{
     padding: 1em;
 	text-align:left;
@@ -393,17 +371,21 @@ width:100%;
 .con2{
 position: relative;
 width:100%;
-height: auto;
+height: 100%;
 }
+
 
 .inner1{
 float: left;
 display: block;
 position: absolute;
 overflow: hidden;
-max-width:50%;
-height:150px;
-left:0;
+width:70%;
+height:300px;
+
+left:-50px;
+top:50;
+text-align: center;
 }
 
 .inner2{
@@ -411,16 +393,16 @@ float: left;
 display: block;
 position: absolute;
 overflow: hidden;
-max-width:50%;
-height:150px;
-right:0;
+width:70%;
+height:300px;
+right:-50px;
+top:50;
+text-align: center;
 }
 
-
-canvas{
-display: block; /* Otherwise it keeps some space around baseline */
-float: left;
-min-width: 
+.title{
+font-size: 24px;
+font-weight: bold;
 }
 
 
@@ -546,13 +528,20 @@ font-size: 40px;
  <div>총 <span id="myIrdntCount"><!-- 총 개수 --></span>가지의 식재료를 보관 중입니다!</div>
  
  </div>
+<br>
 
  <div class="con2">
   	<div class="inner1">
-  		<canvas id="typeChart" >분류별</canvas>
+  	<span class="title" >카테고리별</span>
+  		<p>
+  		<canvas id="typeChart" style="width: auto; height: 150px; margin-top:10px;"></canvas>
+  		</p>
   	</div>
   	<div class="inner2">
-		<canvas id="placeChart" >보관장소별</canvas>
+  	<span class="title">보관장소별</span>
+  		<p>
+		<canvas id="placeChart" style="width: auto; height: 150px; margin-top:10px;"></canvas>
+		</p>
 	</div>
  </div>
 </article>
@@ -565,8 +554,6 @@ font-size: 40px;
 
 
 </div>
-
-
 
 
 
