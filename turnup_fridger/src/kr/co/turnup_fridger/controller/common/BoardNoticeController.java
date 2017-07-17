@@ -221,22 +221,24 @@ public class BoardNoticeController extends HttpServlet {
 			return new ModelAndView("common/admin/boardnotice/boardnotice_upload.tiles"); 
 		}
 		
+		
 		if(boardNotice.getImg() != null)
 		{
+			
 			service.updateBoardNotice(boardNotice);
-			mav.addObject("boardNotice",boardNotice);
 			mav.addObject("boardNotice", service.findBoardNoticeById(id));
 			mav.setViewName("boardnotice/boardnotice_view.tiles");
 			return mav;	
 		}
 
-		String upImageDir = request.getServletContext().getRealPath("/up_image");
+		String upImageDir = request.getServletContext().getRealPath("/img");
 		MultipartFile upImage = boardNotice.getUpImage();
 		
 		String fname = upImage.getOriginalFilename();
 
 		if (fname.equals("")) 
 		{
+			
 			boardNotice.setSaveImg(null);
 			service.updateBoardNotice(boardNotice);
 	    } 
@@ -245,7 +247,7 @@ public class BoardNoticeController extends HttpServlet {
 			boardNotice.setImg(upImage.getOriginalFilename());
 			String newImageName = UUID.randomUUID().toString();
 			boardNotice.setSaveImg(newImageName);
-			File dest = new File(upImageDir);
+			File dest = new File(upImageDir,newImageName);
 			//파일 이동
 			/************************************
 			 * 이클립스 경로로 카피
@@ -259,8 +261,9 @@ public class BoardNoticeController extends HttpServlet {
 			//저장
 			service.updateBoardNotice(boardNotice);
 		}
-		mav.addObject("boardNotice",boardNotice);
-		mav.addObject("boardNotice", service.findBoardNoticeById(id));
+		boardNotice = service.findBoardNoticeById(id);
+		mav.addObject("boardNotice", boardNotice);
+		mav.addObject("boardNotice",boardNotice);	
 		mav.setViewName("boardnotice/boardnotice_view.tiles");
 		return mav;	
 	}

@@ -25,7 +25,10 @@ input {
 </style>
 </head>
 <body>
-<div id="table" style="width:800px; margin-left: auto; margin-right: auto;">
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+
+
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <h1>자유 게시판</h1><br>	
 <table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
 	<a href="${initParam.rootPath}/index.do"><button style="text-align:right">홈으로</button></a>
@@ -47,12 +50,12 @@ input {
 	</div>
 <thead>
     <tr>
-        <th>번호</th>
-        <th>제목</th>
-        <th>작성일</th>
-        <th>작성자</th>
-        <th>조회수</th>
-        <th>댓글수</th>
+        <th style="width:5%;">번호</th>
+        <th style="width:50%;">제목</th>
+        <th style="width:11%;">작성일</th>
+        <th style="width:11%;">작성자</th>
+        <th style="width:11%;">조회수</th>
+        <th style="width:11%;">댓글수</th>
     </tr>
  </thead>
 
@@ -60,7 +63,7 @@ input {
 <c:forEach var="row" items="${list}" varStatus="status">
     <tr>
         <td>${requestScope.totalCount-((requestScope.pageBean.page -1 ) * 10 + status.index)}</td>
-        <td>
+        <td style="width:50%;">
     		<form action="${initParam.rootPath}/common/boardfree/boardFreeView.do" method="post">
     			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
         		<input type="hidden" name="boardFreeId" value="${row.boardFreeId}">
@@ -87,7 +90,7 @@ input {
 <sec:authorize access="hasRole('ROLE_MEMBER')">
 	<a href="${initParam.rootPath}/common/boardfree/boardfree_form.do"><button>등록</button></a>
 </sec:authorize>
-</div>
+
 <p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리
@@ -141,5 +144,6 @@ input {
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/common/boardfree/boardFreeList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
 </p>
+</div>
 </body>
 </html>

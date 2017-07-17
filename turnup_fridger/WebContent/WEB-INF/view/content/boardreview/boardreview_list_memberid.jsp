@@ -55,13 +55,13 @@ function delete_event(){
 <c:if test="${requestScope.error != null}">
 	<script type="text/javascript">alert('권한이 없습니다.')</script>
 </c:if>
-
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 <c:if test="${empty list}">
-<div id="table" style="width:800px; margin-left: auto; margin-right: auto;">
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <h1>후기 게시판</h1><br>
-<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
-<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
-<div style="float:right">
+<table class="table table-hover table-condensed" style="width:100%;text-align:center;margin-left: auto; margin-right: auto;">
+	<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
+	<div style="float:right">
 	<form action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		<select name="select" id="select">
@@ -79,11 +79,14 @@ function delete_event(){
 <a href="${initParam.rootPath}/boardreview/boardreview_form.do"><button>후기 작성</button></a>
 </sec:authorize>
 </div>
-
 </c:if>
+
+
 <c:if test="${!empty list}">
-<div id="table" style="width:800px; margin-left: auto; margin-right: auto;">
-<h1>후기 게시판</h1><br>
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
+<h1>후기 게시판</h1>
+<hr>
 <a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
 <div style="float:right">
 	<form action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
@@ -97,50 +100,20 @@ function delete_event(){
 		<button>검색</button>
 	</form>
 </div>
-<div style="background-color:#dcdcdc;">
-<table class="table table-hover table-condensed" style="width:100%;text-align:center;">
+
+<table class="table table-hover table-condensed" style="width:100%;text-align:center;margin-left: auto; margin-right: auto;">
 <c:forEach var="row" items="${list}">
 <table>
 	<tr>
-		<td>
-			<c:if test="${row.boardReviewStar == 0}">
-    			<img width="100px"  src="${initParam.rootPath}/img/icon/사진9.png">
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 1}">
-    			<img width="100px"  src="${initParam.rootPath}/img/icon/사진1.png">  		
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 2}">
-    			<img width="100px"  src="${initParam.rootPath}/img/icon/사진3.png">    		
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 3}">
-    			<img width="100px"  src="${initParam.rootPath}/img/icon/사진2.png">  		
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 4}">
-    			<img width="100px"  src="${initParam.rootPath}/img/icon/사진4.png">    		
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 5}">
-    			<img width="100px"  src="${initParam.rootPath}/img/icon/사진6.png">       		
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 6}">
-    			<img width="100px"  src="${initParam.rootPath}/img/icon/사진7.png">       		
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 7}">
-     			<img width="100px"  src="${initParam.rootPath}/img/icon/사진3.png">     		
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 8}">
-     			<img width="100px"  src="${initParam.rootPath}/img/icon/사진1.png">     		
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 9}">
-     			<img width="100px"  src="${initParam.rootPath}/img/icon/사진3.png">     		
-    		</c:if>
-    		<c:if test="${row.boardReviewStar == 10}">
-      			<img width="100px"  src="${initParam.rootPath}/img/icon/사진4.png">    		
-    		</c:if>
+		<td style="width:10%;">
+			<div style="float:right">
+	    		<img width="80%"  src="${initParam.rootPath}/img/icon/요리사3.png">
+	    	</div>
 		</td>	
-		<td style="background-color:white">
+		<td style="width:70%;">
 				<h4>${row.memberId}</h4>님의 후기  |  <fmt:formatDate value="${row.boardReviewDate}" pattern="yyyy-MM-dd"/> 
 		</td>
-		<td  style="background-color:white">
+		<td  style="width:20%;">
 	<!-- 회원 권한 폼 -->
 			<sec:authorize access="hasRole('ROLE_MEMBER')">
    			<form action="${initParam.rootPath}/boardreview/boardReviewUploadView.do" method="post">
@@ -175,7 +148,7 @@ function delete_event(){
 	<tr>
 		<td>
 		</td>
-		<td style="background-color:white">
+		<td style="width:70%;">
 				${row.boardReviewTitle}
 		</td>
 		<td style="background-color:white">
@@ -184,63 +157,63 @@ function delete_event(){
 	<tr>
 		<td>
 		</td>
-		<td style="background-color:white">
+		<td style="width:70%;">
 				${row.recipeName}	|	
 			<c:if test="${row.boardReviewStar == 0}">
-    			<img width="100px" src="${initParam.rootPath}/starimage/rating0.png">
+    			<img width="20%" src="${initParam.rootPath}/starimage/rating0.png">
     		</c:if>
     		<c:if test="${row.boardReviewStar == 1}">
-    			<img width="100px" src="${initParam.rootPath}/starimage/rating01.png">    		
+    			<img width="20%" src="${initParam.rootPath}/starimage/rating01.png">    		
     		</c:if>
     		<c:if test="${row.boardReviewStar == 2}">
-    			<img width="100px" src="${initParam.rootPath}/starimage/rating02.png">    		
+    			<img width="20%" src="${initParam.rootPath}/starimage/rating02.png">    		
     		</c:if>
     		<c:if test="${row.boardReviewStar == 3}">
-    			<img width="100px" src="${initParam.rootPath}/starimage/rating03.png">    		
+    			<img width="20%" src="${initParam.rootPath}/starimage/rating03.png">    		
     		</c:if>
     		<c:if test="${row.boardReviewStar == 4}">
-    			<img width="100px" src="${initParam.rootPath}/starimage/rating04.png">    		
+    			<img width="20%" src="${initParam.rootPath}/starimage/rating04.png">    		
     		</c:if>
     		<c:if test="${row.boardReviewStar == 5}">
-    			<img width="100px"  src="${initParam.rootPath}/starimage/rating05.png">    		
+    			<img width="20%"  src="${initParam.rootPath}/starimage/rating05.png">    		
     		</c:if>
     		<c:if test="${row.boardReviewStar == 6}">
-    			<img width="100px" src="${initParam.rootPath}/starimage/rating06.png">    		
+    			<img width="20%" src="${initParam.rootPath}/starimage/rating06.png">    		
     		</c:if>
     		<c:if test="${row.boardReviewStar == 7}">
-     			<img width="100px"  src="${initParam.rootPath}/starimage/rating07.png">   		
+     			<img width="20%"  src="${initParam.rootPath}/starimage/rating07.png">   		
     		</c:if>
     		<c:if test="${row.boardReviewStar == 8}">
-     			<img width="100px"  src="${initParam.rootPath}/starimage/rating08.png">   		
+     			<img width="20%"  src="${initParam.rootPath}/starimage/rating08.png">   		
     		</c:if>
     		<c:if test="${row.boardReviewStar == 9}">
-     			<img width="100px"  src="${initParam.rootPath}/starimage/rating09.png">   		
+     			<img width="20%"  src="${initParam.rootPath}/starimage/rating09.png">   		
     		</c:if>
     		<c:if test="${row.boardReviewStar == 10}">
-      			<img width="100px" src="${initParam.rootPath}/starimage/rating10.png">  		
+      			<img width="20%" src="${initParam.rootPath}/starimage/rating10.png">  		
     		</c:if>
 		</td>
-		<td  style="background-color:white">
+		<td>
 		</td>
 	</tr>	
 	<tr>
 		<td>
 		</td>
-		<td style="background-color:white;width:100px" >
-				<a style="color:white">&asdfasdfsdfadfasdfasdfasdfasdfasdfasdfasdfasdfsdfasdfadsffsdfsdfffsdf</a>
+		<td style="width:70%;" >
+				<a style="color:white">&asdfasdfsdfadfasdfasdfasdfasdfasdfasdfasdfasdfsdfassfsdfsdfddfffff</a><br>
 				${row.boardReviewTxt}<br>
 			<c:if test="${row.imageName != null}">
-   				<img width="500px" alt="${row.imageName}" src="${initParam.rootPath}/img/${row.imageName}"><br>
+   				<img width="90%" alt="${row.imageName}" src="${initParam.rootPath}/img/${row.imageName}"><br>
    			</c:if>
 		</td>
-		<td  style="background-color:white">
+		<td>
 		</td>
 	</tr>		
 </table>
 <br>
+<br>
 </c:forEach>
 </table>
-</div>
 <sec:authorize access="hasRole('ROLE_MEMBER')">
 <a href="${initParam.rootPath}/boardreview/boardreview_form.do"><button>후기 작성</button></a>
 </sec:authorize>

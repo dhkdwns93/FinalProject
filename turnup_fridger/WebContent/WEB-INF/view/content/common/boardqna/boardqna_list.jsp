@@ -31,7 +31,10 @@ input {
 </c:if>
 
 
-<div id="table" style="width:800px; margin-left: auto; margin-right: auto;">
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+
+
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <h1>QnA 게시판 </h1><br>
 <table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
 <a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
@@ -45,17 +48,17 @@ input {
 </div>
 <thead id="thead">
     <tr>
-        <th>번호</th>
-        <th>제목</th>
-        <th>작성일</th>
-        <th>작성자</th>
-        <th>댓글수</th>
+        <th style="width:5%;">번호</th>
+        <th style="width:50%;">제목</th>
+        <th style="width:10%;">작성일</th>
+        <th style="width:15%;">작성자</th>
+        <th style="width:10%;">댓글수</th>
     </tr>
  </thead>
 <c:forEach var="row" items="${list}" varStatus="status">
     <tr>
         <td>${requestScope.totalCount-((requestScope.pageBean.page -1 ) * 10 + status.index)}</td>
-        <td>
+        <td style="width:50%;">
         <form name="form" action="${initParam.rootPath}/common/boardqna/boardQnAView.do" method="post">
         	<!-- 회원일때 보여줌 -->
         	<sec:authorize access="hasRole('ROLE_MEMBER')">
@@ -99,8 +102,6 @@ input {
 <sec:authorize access="hasRole('ROLE_MEMBER')">
  	<a href="${initParam.rootPath}/common/boardqna/boardqna_form.do"><button>등록</button></a>
 </sec:authorize>
-</div>
-
 <p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리
@@ -156,5 +157,6 @@ input {
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/common/boardqna/boardQnAList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
 </p>
+</div>
 </body>
 </html>

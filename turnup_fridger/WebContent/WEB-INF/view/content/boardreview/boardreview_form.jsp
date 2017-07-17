@@ -63,6 +63,7 @@
 	  });
 	};
 	
+	//레시피 검색
 	function popupRecipeName()
 	{
 		 window.open("/turnup_fridger/boardreview/recipenamesearch.do","recpieName","width=500,height=400")
@@ -72,16 +73,19 @@
 //starRating();
 </script>
 <style type="text/css">
- form{display:inline}
+form{display:inline}
 </style>
 <style type="text/css">
 span, td, th{
 	padding: 5px; 
 }
+spn{display:inline}
 span.error{
 	font-size:small;
 	color: red;
 }
+h1{display:inline}
+h2{display:inline}
 .boardReviewStar>.input,
 .boardReviewStar>.input>label:hover,
 .boardReviewStar>.input>input:focus+label,
@@ -183,32 +187,38 @@ span.error{
 </style>
 </head>
 <body>
-<h1>후기 작성</h1><br>
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
+<h1>후기 ></h1><h2>후기 등록</h2><br>
+<hr>
 <form name="review" action="${initParam.rootPath}/boardreview/boardReviewAdd.do" method="post" enctype="multipart/form-data">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-<table border="1" width="600px"> 
+<table style="width:100%"> 
 	<tr>
 		<td>작성자</td>
 		<td>
-			<input type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>">
+			<input class="form-control" style="width:40%;" type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>">
 		</td>
 	</tr>
 	<tr>
 		<td>제목</td>
 		<td>
-			<input type="text" name="boardReviewTitle" value="${boardReview.boardReviewTitle}">
+			<input class="form-control" type="text" name="boardReviewTitle" value="${boardReview.boardReviewTitle}">
 			<span class="error"><form:errors path="boardReview.boardReviewTitle" delimiter="&nbsp;"/></span>	
 		</td>
 	</tr>
-</table>
-<table border="1" width="600px" id="list"> 	
 	<tr>
     	<td>레시피</td>
     	<td>
-	    	<input type="text" id="recipeId" name="recipeId" readonly value="${boardReview.recipeId}"><span class="error"><form:errors path="boardReview.recipeId" delimiter="&nbsp;"/></span><br>
-	    	<input type="text" id="recipeName" name="recipeName" readonly value="${boardReview.recipeName}"><span class="error"><form:errors path="boardReview.recipeName" delimiter="&nbsp;"/></span>
-	    	<input id="recipeName" type="button" value="레시피 검색" onclick="popupRecipeName()">
+	    	<input style="width:30%;" type="hidden" id="recipeId" name="recipeId" readonly value="${boardReview.recipeId}">
+	    	<input class="form-control" style="width:30%;" type="text" id="recipeName" name="recipeName" readonly value="${boardReview.recipeName}">
+	    	<span class="error"><form:errors path="boardReview.recipeName" delimiter="&nbsp;"/></span>    
+	    	<input id="recipeName" type="button" value="레시피 검색" onclick="popupRecipeName()"> 	
 	    </td>
+	</tr>
+	<tr>	 
     	<td>별점주기</td>
     	<td>			
 				<span class="boardReviewStar">
@@ -228,22 +238,17 @@ span.error{
 				</span>
 		</td>
     </tr>
-</table>
-<table border="1" width="600px" id="list">
-	<tbody id="tbody"></tbody>
-</table>
-<table border="1" width="600px"> 
 	<tr>
 		<td>사진</td>
 		<td>
-			<input type="file" name="upImage">
+			<input  type="file" name="upImage">
 		</td>
 	</tr>
 	<tr>
 		<td>내용</td>
 		<td>
-			<textarea name="boardReviewTxt" row="120" cols="70" placeholder="내용을 입력해주세요">${boardReview.boardReviewTxt}</textarea>
-			<span class="error"><form:errors path="boardReview.boardReviewTxt" delimiter="&nbsp;"/>
+			<textarea class="form-control" name="boardReviewTxt" row="5" cols="70" placeholder="내용을 입력해주세요">${boardReview.boardReviewTxt}</textarea>
+			<span class="error"><form:errors path="boardReview.boardReviewTxt" delimiter="&nbsp;"/></span>
 		</td>
 	</tr>
 </table>
@@ -252,7 +257,7 @@ span.error{
 <form action="${initParam.rootPath}/boardreview/boardReviewList.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<input type="submit" value="뒤로가기">
-	
 </form>
+</div>
 </body>
 </html>

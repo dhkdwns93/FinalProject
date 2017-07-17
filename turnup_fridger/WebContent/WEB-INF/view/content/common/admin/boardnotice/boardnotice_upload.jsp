@@ -31,10 +31,12 @@ span.error{
 </style>
 </head>
 <body>
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <h1>공지사항 수정</h1><br>
 <hr>
 <c:if test="${boardNotice.saveImg != null}">
-<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeImageDelete.do?" method="post">
+<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeImageDelete.do" method="post">
 		<input type="hidden" name="id" value="${boardNotice.id}">
 		<input type="hidden" name="items" value="${boardNotice.items}">
 		<input type="hidden" name="title" value="${boardNotice.title}">
@@ -44,55 +46,77 @@ span.error{
 		<input type="submit" value="이미지 삭제">
 <sec:csrfInput/>
 </form>
-<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadForm.do?" method="post" enctype="multipart/form-data">
+</c:if>
+<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadForm.do" method="post" enctype="multipart/form-data">
 <table>
 	<tr>
-		<th>제목</th>
-		<td><input type="text" name="title" value="${boardNotice.title}" placeholder="제목을 입력해주세요"><span class="error"><form:errors path="boardNotice.title" delimiter="&nbsp;"/></td>
+		<td>제목</td>
 	</tr>
 	<tr>
-		<th>말머리</th>
 		<td>
-			<select name="items" id="items" >
+			<input type="text" name="title" value="${boardNotice.title}" placeholder="제목을 입력해주세요" class="form-control">
+			<span class="error"><form:errors path="boardNotice.title" delimiter="&nbsp;"/></span>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		</td>
+	</tr>
+	<tr>
+		<td>말머리</td>
+	</tr>
+	<tr>
+		<td>
+			<select name="items" id="items">
 			<option>공지사항</option>
 			<option>뉴스</option>
 			</select>
 		</td>
 	</tr>
-	<tr>	
 		<c:if test="${boardNotice.saveImg == null}">
-			<th>사진</th>
+		<tr>
+			<td>사진</td>
+		</tr>
+		<tr>
 			<td>
 				<input type="file" name="upImage">
 			</td>
+		</tr>
 		</c:if>
+		
 		<c:if test="${boardNotice.saveImg != null}">
-			<th>사진</th>
+		<tr>	
+			<td>사진</td>
+		</tr>
+		<tr>
 			<td>
-				<img width="320px" alt="${boardNotice.img}" src="${initParam.rootPath}/up_image/${boardNotice.saveImg}"><br>
+				${boardNotice.img}<br>
 			</td>
-
+		</tr>
 		</c:if>
-	</tr>
-	<tr>
-		<th>내용</th>
-		<td><textarea name="txt" row="120" cols="70" placeholder="내용을 입력해주세요">${boardNotice.txt}</textarea><span class="error"><form:errors path="boardNotice.txt" delimiter="&nbsp;"/></td>
-	</tr>	
 	<tr>
 		<td>
-			<input type="hidden" name="id" value="${boardNotice.id}">
-			<input type="submit" value="등록" onclick="return modify_event();">
 		</td>
 	</tr>
+	<tr>	
+		<td>내용</td>
+	</tr>
+	<tr>
+		<td>
+			<textarea name="txt" row="120" cols="70" placeholder="내용을 입력해주세요" class="form-control">${boardNotice.txt}</textarea>
+			<span class="error"><form:errors path="boardNotice.txt" delimiter="&nbsp;"/></span>
+		</td>
+	</tr>	
 </table>
+	<input type="hidden" name="id" value="${boardNotice.id}">
+	<input type="submit" value="등록" onclick="return modify_event();">
 <sec:csrfInput/>
 </form>
-	<form action="${initParam.rootPath}/boardnotice/boardNoticeView.do" method="post">
-    		<input type="hidden" name="id" value="${boardNotice.id}">
-			<input type="submit" value="뒤로가기">
-			<sec:csrfInput/>
-	</form>
-
-</c:if>
+<form action="${initParam.rootPath}/boardnotice/boardNoticeView.do" method="post">
+    <input type="hidden" name="id" value="${boardNotice.id}">
+	<input type="submit" value="뒤로가기">
+<sec:csrfInput/>
+</form>
+</div>
 </body>
 </html>

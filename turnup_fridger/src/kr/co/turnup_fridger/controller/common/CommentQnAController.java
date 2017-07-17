@@ -47,8 +47,11 @@ public class CommentQnAController extends HttpServlet {
 			if(errors.hasErrors()) 
 			{
 				//errors에 오류가 1개라도 등록되 있으면 true 리턴
-				mav.addObject("commentQnA",commentQnA);
-				mav.addObject("boardQnA", service2.findBoardQnAById(boardQnAId));
+				//mav.addObject("commentQnA",commentQnA);
+				List<CommentQnA> list = service.selectCommentQnAByboardQnAId(boardQnAId);
+				mav.addObject("list", list);
+				BoardQnA boardQnA = service2.findBoardQnAById(boardQnAId);
+				mav.addObject("boardQnA", boardQnA);
 				mav.setViewName("common/boardqna/boardqna_view.tiles");
 				return mav; 
 			}
@@ -59,10 +62,7 @@ public class CommentQnAController extends HttpServlet {
 			
 			map.addAttribute("commentQnA", commentQnA);
 			map.addAttribute("boardQnAId", boardQnA.getBoardQnAId());
-			
-/*			mav.addObject("commentQnA",commentQnA);
-			mav.addObject("boardQnA", service2.findBoardQnAById(boardQnAId));
-			mav.setViewName("redirect:/boardqna/boardqna_view.tiles");*/
+
 			return new ModelAndView("redirect:/common/commentqna/success.do");
 		}
 		
