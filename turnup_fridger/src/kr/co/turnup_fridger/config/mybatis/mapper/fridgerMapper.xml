@@ -27,7 +27,7 @@
 			i.start_fresh_level,
 			i.storge_place
 	FROM	fridger f, my_Irdnt i
-	WHERE	f.fridger_id = i.fridger_id
+	WHERE	f.fridger_id = i.fridger_id(+)
 </sql>
 
 <sql id="select-join-fridgerGroup-sql">
@@ -37,12 +37,10 @@
 			f.fridger_img,
 			g.group_key,
 			g.group_join_seq,
-			g.group_member_id,
-			g.fridger_id
+			g.group_member_id
 	FROM	fridger f, fridger_group g
-	WHERE	f.fridger_id = g.fridger_id
+	WHERE	f.fridger_id = g.fridger_id(+)
 </sql>
-
 
 <!-- result-mapping -->
 <resultMap type="fridger" id="fridger-resultmap">
@@ -62,7 +60,17 @@
 </resultMap>
 
 <resultMap type="fridger" id="fridger-myIrdnt-resultmap" extends="fridger-resultmap">
-	<collection property="myIrdntList" resultMap="MyIrdnt.MyIrdnt-resultmap"/>
+	<collection property="myIrdntList" ofType="myIrdnt">
+		<id column ="my_irdnt_key" property ="myIrdntKey"/>
+		<result column="start_date" property="startDate"/>
+		<result column="end_date" property="endDate"/>
+		<result column="fresh_level" property="freshLevel"/>
+		<result column="irdnt_count" property="irdntCount"/>
+		<result column="irdnt_id" property="irdntId"/>
+		<result column="irdnt_name" property="irdntName"/>
+		<result column="start_fresh_level" property="startFreshLevel"/>
+		<result column="storge_place" property="storgePlace"/>
+	</collection>
 </resultMap>
 
 

@@ -15,6 +15,10 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/turnup_fridger/scripts/jquery.base64.min.js"></script>
 <script src="/turnup_fridger/scripts/jquery.battatech.excelexport.min.js"></script>
 <script type="text/javascript">
@@ -44,7 +48,6 @@ $(document).ready(function(){
 			alert("HeadMaster관리자는 탈퇴처리가 불가합니다.");
 			return false;
 		}
-
 		//Master관리자는 headMaster만 탈퇴처리 할 수 있음.
 		if(originalAuthorityChange==("ROLE_MASTERADMIN")){
 			if(loginAuthority!=("[ROLE_HEADMASTERADMIN]")){
@@ -80,92 +83,173 @@ $(document).ready(function(){
 		
 		$(this).prop('download',fileName).prop('href',uri).prop('target','_blank');;
 	});//end of exportBtn 
+	
+	/******* 관리자등록 modal  *********/
+	$("button#RegisterAdminBtn").on("click",function(){
+			$("#RegisterAdminModal").modal("show");
+	});//end of findIdPwBtn
+	
 });
 </script>
+<style>
+/* contact-form 넓이*/
+.form-page{
+	display:inline-block;
+	width:95%;
+	margin-left:5%;
+}
+/* EXCEL 형식 */
+.ExcelTable2007 {
+	border: 1px solid #B0CBEF;
+	border-width: 1px 0px 0px 1px;
+	font-size: 11pt;
+	font-family: Calibri;
+	font-weight: 100;
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+.ExcelTable2007 TH {
+	background-image: url("${initParam.rootPath }/img/excel-2007-header-bg.gif");
+	background-repeat: repeat-x; 
+	font-weight: normal;
+	font-size: 14px;
+	border: 1px solid #9EB6CE;
+	border-width: 0px 1px 1px 0px;
+	height: 17px;
+}
+.ExcelTable2007 TD {
+	border: 0px;
+	background-color: white;
+	padding: 0px 4px 0px 2px;
+	border: 1px solid #D0D7E5;
+	border-width: 0px 1px 1px 0px;
+}
+.ExcelTable2007 TD B {
+	border: 0px;
+	background-color: white;
+	font-weight: bold;
+}
+.ExcelTable2007 TD.heading {
+	background-color: #E4ECF7;
+	text-align: center;
+	border: 1px solid #9EB6CE;
+	border-width: 0px 1px 1px 0px;
+}
+.ExcelTable2007 TH.heading {
+	background-image: url("${initParam.rootPath }/img/excel-2007-header-left.gif");
+	background-repeat: none;
+}
+</style>
 </head>
 <body>
-<div class="container">
-<jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
-<hr>
-
-
-<h2>전체관리자등록정보</h2>
-<input type="hidden" id="loginId" value='<sec:authentication property="principal.adminId"/>'>
-<input type="hidden" id="loginAuthority" value='<sec:authentication property="authorities"/>'>
-<div id="wrap">
-	<!-- 엑셀로 추출버튼 -->
-	<a id="exportBtn" href="#" download=""><button type="button">(Excel)Download</button></a>
-	<div id="allAdminList"
-		style="border: 1px solid black; overflow-x: hidden; overflow-y: scroll; height: 300px; width: 1000px;">
-		<table id="tblExport" class="table table-hover" width="900px">
-			<thead id="thead">
-				<tr>
-					<th>번호</th>
-					<th>관리자 ID</th>
-					<th>이름</th>
-					<th>전화번호</th>
-					<th>이메일</th>
-					<th>관리자권한</th>
-					<th>Master관리자 기능</th>
-				</tr>
-			</thead>
-			<tbody>
-				<c:forEach var="admin" items="${requestScope.adminList}"
-					varStatus="loop">
-					<tr>
-						<td>${(loop.index)+1}</td>
-						<td>${admin.adminId }</td>
-						<td>${admin.adminName }</td>
-						<td>${admin.adminTel }</td>
-						<td>${admin.adminEmail }</td>
-						<td>${admin.adminAuthority }</td>
-						<td>
-							<!-- 일반 Admin에게 보이는 것 --> <sec:authorize
-								access="hasRole('ROLE_ADMIN')">권한없음</sec:authorize> 
-							<!-- MasterAdmin/HeadMasterAdmin에게 보이는 것  --> <sec:authorize
-								access="hasAnyRole('ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-								<!-- 관리자권한수정 -->
-								<form
-									action="${initParam.rootPath }/common/admin/master/admin_change_authority.do"
-									method="post">
-									<input type="hidden" id="adminId" name="adminId"
-										value="${admin.adminId }"> <input type="hidden"
-										id="originalAuthority" name="originalAuthority"
-										value="${admin.adminAuthority }"> <select
-										name="adminAuthority" value="${admin.adminAuthority}">
-										<option value="${admin.adminAuthority}">--권한선택--</option>
-										<option value="ROLE_ADMIN">일반 Admin</option>
-										<option value="ROLE_MASTERADMIN">MasterAdmin</option>
-									</select>
-									<sec:csrfInput />
-									<button type="submit" id="changeAdminAuthorityBtn">권한수정</button>
-								</form>
-
-								<!-- 관리자탈퇴처리 -->
-								<form
-									action="${initParam.rootPath}/common/admin/master/admin_delete.do"
-									method="post">
-									<input type="hidden" id="adminId" name="adminId"
-										value="${admin.adminId}"> <input type="hidden"
-										id="originalAuthority" name="originalAuthority"
-										value="${admin.adminAuthority }">
-									<sec:csrfInput />
-									<button type="submit" id="deleteAdminBtn">탈퇴</button>
-								</form>
-							</sec:authorize>
-						</td>
-					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
-	</div>
+<div>
+	<jsp:include page="/WEB-INF/view/content/common/admin/master/user/join_admin_form.jsp"/>
 </div>
-		<hr>
- <sec:authorize access="hasAnyRole('ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
- 마스터관리자메뉴(마스터관리자만)
- 	<!-- 관리자 등록 -->
- 	<a href="${initParam.rootPath}/common/admin/master/join_admin_form.do"><button type="button">관리자 등록</button></a>
- </sec:authorize>
- </div>
+
+
+<div class="container">
+<div class='wrapperDiv'>
+	<jsp:include page="/WEB-INF/view/layout/side_menu/adminSideMenu.jsp"/>
+	<div class='right-box-sidemenu'>
+
+	<div class="form-page">
+	
+		<h2>관리자 관리</h2>
+		<input type="hidden" id="loginId" value='<sec:authentication property="principal.adminId"/>'>
+		<input type="hidden" id="loginAuthority" value='<sec:authentication property="authorities"/>'>
+		<div id="wrap">
+			<!-- 엑셀로 추출버튼 -->
+			<a id="exportBtn" href="#" download=""><button type="button">(Excel)Download</button></a>
+			
+		 	<!-- 관리자 등록 -->
+			<sec:authorize access="hasAnyRole('ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+		 	<a href="${initParam.rootPath}/common/admin/master/join_admin_form.do" style="float:right;"><button type="button" id="RegisterAdminBtn" class="btn btn-default" data-toggle="modal"  data-target="#registerAdminModal" style="border:0;outline:0;"><span class="glyphicon glyphicon-ok" aria-hidden="true">관리자등록</span></button></a>
+		 </sec:authorize>
+			
+			<div id="allAdminList" 
+			style="width:100%; border-style:outset; overflow-x:scroll; overflow-y:scroll; height:400px;padding:10px;">
+				<table id="tblExport" border="1" class="ExcelTable2007">
+					<thead id="thead">
+						<tr>
+							<th class="heading">&nbsp;</th>
+							<th>A</th>
+							<th>B</th>
+							<th>C</th>
+							<th>D</th>
+							<th>E</th>
+							<th>F</th>
+							<th>G</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td align="left" valign="middle" class="heading">1</td>
+							<td align="left" valign="middle" ><b>No</b></td>
+							<td align="left" valign="middle" ><b>Admin ID</b></td>
+							<td align="left" valign="middle" ><b>Name</b></td>
+							<td align="left" valign="middle" ><b>Tel</b></td>
+							<td align="left" valign="middle" ><b>Email</b></td>
+							<td align="left" valign="middle" ><b>Authority</b></td>
+							<td align="left" valign="middle" ><b>Control Box</b></td>
+						</tr>
+						
+						<c:forEach var="admin" items="${requestScope.adminList}"
+							varStatus="loop">
+							<tr>
+								<td align="left" valign="middle" class="heading">${(loop.index)+2}</td>
+								<td align="center" valign="middle" >${(loop.index)+1}</td>
+								<td align="left" valign="middle" >${admin.adminId }</td>
+								<td align="left" valign="middle" >${admin.adminName }</td>
+								<td align="left" valign="middle" >${admin.adminTel }</td>
+								<td align="left" valign="middle" >${admin.adminEmail }</td>
+								<td align="left" valign="middle" >${admin.adminAuthority }</td>
+								<td>
+									<!-- 일반 Admin에게 보이는 것 --> <sec:authorize
+										access="hasRole('ROLE_ADMIN')">권한없음</sec:authorize> 
+									<!-- MasterAdmin/HeadMasterAdmin에게 보이는 것  --> <sec:authorize
+										access="hasAnyRole('ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+										<!-- 관리자권한수정 -->
+										<form
+											action="${initParam.rootPath }/common/admin/master/admin_change_authority.do"
+											method="post">
+											<input type="hidden" id="adminId" name="adminId"
+												value="${admin.adminId }"> <input type="hidden"
+												id="originalAuthority" name="originalAuthority"
+												value="${admin.adminAuthority }"> <select
+												name="adminAuthority" value="${admin.adminAuthority}">
+												<option value="${admin.adminAuthority}">--권한선택--</option>
+												<option value="ROLE_ADMIN">일반 Admin</option>
+												<option value="ROLE_MASTERADMIN">MasterAdmin</option>
+											</select>
+											<sec:csrfInput />
+											<button type="submit" id="changeAdminAuthorityBtn"><span class="glyphicon glyphicon-refresh" aria-hidden="true">권한수정</span></button>
+										</form>
+		
+										<!-- 관리자탈퇴처리 -->
+										<form
+											action="${initParam.rootPath}/common/admin/master/admin_delete.do"
+											method="post">
+											<input type="hidden" id="adminId" name="adminId"
+												value="${admin.adminId}"> <input type="hidden"
+												id="originalAuthority" name="originalAuthority"
+												value="${admin.adminAuthority }">
+											<sec:csrfInput />
+											<button type="submit" id="deleteAdminBtn"><span class="glyphicon glyphicon-remove" aria-hidden="true">탈퇴</span></button>
+										</form>
+									</sec:authorize>
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		 
+		 
+		 </div><!-- form-page -->
+ 	</div><!-- rightside menu -->
+</div>
+</div><!-- container -->
 </body>
 </html>

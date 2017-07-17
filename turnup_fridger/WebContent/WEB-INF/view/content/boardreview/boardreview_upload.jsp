@@ -8,6 +8,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" 
+href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 
@@ -178,7 +183,7 @@ h2{display:inline}
 
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>후기 ></h1><h2>${boardReview.memberId}의 게시물 수정</h2><br>
+<h1>후기 ></h1><h2> ${boardReview.memberId}의 게시물 수정</h2><br>
 <hr>
 <c:if test="${boardReview.imageName != null}">
 <form action="${initParam.rootPath}/boardreview/boardReviewImageDelete.do" method="post" enctype="multipart/form-data">
@@ -216,8 +221,11 @@ h2{display:inline}
     	<td>
 	    	<input style="width:30%;" type="hidden" id="recipeId" name="recipeId" readonly value="${boardReview.recipeId}">
 	    	<input class="form-control" style="width:30%;" type="text" id="recipeName" name="recipeName" readonly value="${boardReview.recipeName}">
+	    	<button type="button" id="recipeName" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="popupRecipeName()">
+				<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+			</button>
 	    	<span class="error"><form:errors path="boardReview.recipeName" delimiter="&nbsp;"/></span>    
-	    	<input id="recipeName" type="button" value="레시피 검색" onclick="popupRecipeName()"> 	
+	    		
 	    </td>
 	</tr>
 	<tr>	 
@@ -266,11 +274,15 @@ h2{display:inline}
 	</tr>
 </table>
 <input type="hidden" name="boardReviewId" value="${boardReview.boardReviewId}">
-<input type="submit" value="수정하기" onclick="insert_event();">
+<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="insert_event();">
+	<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+</button>
 </form>
 <form action="${initParam.rootPath}/boardreview/boardReviewList.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<input type="submit" value="목록으로">
+<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+	<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+</button>
 </form>
 </div>
 </body>

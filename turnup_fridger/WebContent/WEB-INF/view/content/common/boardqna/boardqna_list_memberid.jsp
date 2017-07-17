@@ -7,6 +7,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" 
+
+href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+
 <style type="text/css">
 form{display:inline}
 th{
@@ -27,38 +35,62 @@ input:focus {
 <!-- 검색결과가 없을 때 -->
 <c:if test="${empty list}">
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
 	<h1>QnA 게시판 </h1><br>
 	<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
-		<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
+		<a href="${initParam.rootPath}/index.do">
+			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+				<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+			</button>
+		</a>
 		<!-- 회원만 등록 가능 -->
 		<sec:authorize access="hasRole('ROLE_MEMBER')">
-		 	<a href="${initParam.rootPath}/common/boardqna/boardqna_form.do"><button>등록</button></a>
+		 	<a href="${initParam.rootPath}/common/boardqna/boardqna_form.do">
+		 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+				</button>
+			</a>
 		</sec:authorize>
-				
 		<!-- 검색 버튼 -->
 		<div style="float:right">
-			<form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
-				<input type="text" name="memberId" placeholder="아이디를 입력해주세요">
-				<button>검색</button>
-				<sec:csrfInput/>
-			</form>
+		<form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
+			<input type="text" name="memberId" placeholder="아이디를 입력해주세요">
+				<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+			<sec:csrfInput/>
+		</form>
 		</div>
 	</table>
+	<br><h2 style="text-align:center">검색한 아이디가 없습니다.</h2>
 </div>
-	<br><a style="text-align:center"><h2>검색한 아이디가 없습니다.</h2></a>
 </c:if>
-
 <!-- 검색결과가 있을때  -->
 <c:if test="${!empty list}">
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
 <h1>QnA 게시판 </h1><br>
 <table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
-<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
+<a href="${initParam.rootPath}/index.do">
+	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+		<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+	</button>
+</a>
+<!-- 회원만 등록 가능 -->
+<sec:authorize access="hasRole('ROLE_MEMBER')">
+ 	<a href="${initParam.rootPath}/common/boardqna/boardqna_form.do">
+ 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+		</button>
+	</a>
+</sec:authorize>
 <!-- 검색 버튼 -->
 <div style="float:right">
 <form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
 	<input type="text" name="memberId" placeholder="아이디를 입력해주세요">
-	<button>검색</button>
+		<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+			<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+		</button>
 	<sec:csrfInput/>
 </form>
 </div>
@@ -114,10 +146,6 @@ input:focus {
 </c:forEach>
  </tbody>
 </table>
-<!-- 회원만 등록 가능 -->
-<sec:authorize access="hasRole('ROLE_MEMBER')">
- 	<a href="${initParam.rootPath}/common/boardqna/boardqna_form.do"><button>등록</button></a>
-</sec:authorize>
 <p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리

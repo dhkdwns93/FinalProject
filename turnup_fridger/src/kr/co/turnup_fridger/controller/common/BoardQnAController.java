@@ -1,38 +1,26 @@
 package kr.co.turnup_fridger.controller.common;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import kr.co.turnup_fridger.dao.BoardNoticeDao;
-import kr.co.turnup_fridger.service.BoardNoticeService;
 import kr.co.turnup_fridger.service.BoardQnAService;
 import kr.co.turnup_fridger.service.CommentQnAService;
-import kr.co.turnup_fridger.validation.BoardNoticeValidator;
 import kr.co.turnup_fridger.validation.BoardQnAValidator;
-import kr.co.turnup_fridger.vo.BoardNotice;
 import kr.co.turnup_fridger.vo.BoardQnA;
 import kr.co.turnup_fridger.vo.CommentQnA;
 
@@ -68,15 +56,26 @@ public class BoardQnAController extends HttpServlet {
 		public ModelAndView boardQnAByMemberId(@RequestParam String memberId,@RequestParam(defaultValue="1") int page)
 		{
 			ModelAndView mav = new ModelAndView();	
+			Map<String, Object> map = new HashMap<>();
+			if(!memberId.trim().isEmpty())
+			{
+				map  = service.findBoardQnAByMemberId(memberId,page);
+				
+			    mav.addObject("list", map.get("list"));
+			    mav.addObject("totalCount", map.get("totalCount"));
+			    mav.addObject("memberId",  map.get("memberId"));
+			    mav.addObject("pageBean", map.get("pageBean"));
+		        mav.setViewName("common/boardqna/boardqna_list_memberid.tiles"); // 뷰를 list.jsp로 설정
+
+		        return mav; 
+			}
 			
-			Map<String, Object> map  = service.findBoardQnAByMemberId(memberId,page);
-			
+			map = service.findBoardQnAList(page);
+		
 		    mav.addObject("list", map.get("list"));
 		    mav.addObject("totalCount", map.get("totalCount"));
-		    mav.addObject("memberId",  map.get("memberId"));
 		    mav.addObject("pageBean", map.get("pageBean"));
-	        mav.setViewName("common/boardqna/boardqna_list_memberid.tiles"); // 뷰를 list.jsp로 설정
-
+	        mav.setViewName("common/boardqna/boardqna_list.tiles"); // 뷰를 list.jsp로 설정
 	        return mav; 
 		}
 		

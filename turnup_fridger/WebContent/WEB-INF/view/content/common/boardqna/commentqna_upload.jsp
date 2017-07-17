@@ -7,6 +7,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" 
+href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 /* 
@@ -39,6 +45,10 @@ span.error{
 form{display:inline}
 h1{display:inline}
 h2{display:inline}
+/* input 정렬 */
+input {
+   vertical-align:middle;  
+}
 </style>
 </head>
 <body>
@@ -47,10 +57,10 @@ h2{display:inline}
 <br><br>
 <h1>QnA 게시판 ></h1>
 				<c:if test="${commentQnA.memberId != null}">
-					<h2>${boardFree.memberId}님의 댓글 수정</h2>
+					<h2> ${commentQnA.memberId}님의 댓글 수정</h2>
 				</c:if>
 				<c:if test="${commentQnA.adminId != null}">
-					<h2>${boardFree.adminId}님의 댓글 수정</h2>
+					<h2> ${commentQnA.adminId}님의 댓글 수정</h2>
 				</c:if>
 <hr>
 <form id="upload" method="post" action="${initParam.rootPath}/common/commentqna/commentQnAUploadForm.do" <%-- onsubmit="closeWindow()" --%>>
@@ -60,10 +70,10 @@ h2{display:inline}
 			<th>작성자</th>
 			<th>				
 				<c:if test="${commentQnA.memberId != null}">
-					<input type="text" name="memberId" id="memberId" readonly value="${commentQnA.memberId}"><br>
+					<input class="form-control" style="float:left;width:40%;" type="text" name="memberId" id="memberId" readonly value="${commentQnA.memberId}"><br>
 				</c:if>
 				<c:if test="${commentQnA.adminId != null}">
-					<input type="text" name="adminId" id="adminId" readonly value="${commentQnA.adminId}"><br>
+					<input class="form-control" style="float:left;width:40%;" type="text" name="adminId" id="adminId" readonly value="${commentQnA.adminId}"><br>
 				</c:if>
 			</th>
 		</tr>
@@ -72,14 +82,16 @@ h2{display:inline}
 				내용
 			</td>
 			<td>
-				<textarea name="commentQnATxt" id="commentQnATxt" row="120"cols="70">${commentQnA.commentQnATxt}</textarea>
-				<span class="error"><form:errors path="commentQnA.commentQnATxt" delimiter="&nbsp;"/>	
+				<textarea class="form-control" name="commentQnATxt" id="commentQnATxt" row="120"cols="70">${commentQnA.commentQnATxt}</textarea>
+				<span class="error"><form:errors path="commentQnA.commentQnATxt" delimiter="&nbsp;"/></span>	
 			</td>
 		</tr>
 	</table>
 		<input type="hidden" name="commentQnAId" id="commentQnAId" value="${commentQnA.commentQnAId}">
 		<input type="hidden" name="boardQnAId" id="boardQnAId" value="${commentQnA.boardQnAId}">
-		<input id="submit" type="submit" value="수정">
+		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+		</button>
 </form>
         <form name="form" action="${initParam.rootPath}/common/boardqna/boardQnAView.do" method="post">
         	<!-- 회원일때 보여줌 -->
@@ -88,7 +100,9 @@ h2{display:inline}
         		<input type="hidden"  name="admin" value="">
         		<input type="hidden" id="memberId" name="memberId" value="${commentQnA.memberId}">
         		<input type="hidden" id="boardQnAId" name="boardQnAId" value="${commentQnA.boardQnAId}">
- 				<input id="submit" type="submit" value="뒤로가기">
+				<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+				</button>
 			</sec:authorize>
         
      		<!-- 관리자일때 보여줌 -->	
@@ -97,7 +111,9 @@ h2{display:inline}
 				<input type="hidden" name="member" value="">
 				<input type="hidden" name="memberId" value="${commentQnA.memberId}">
 				<input type="hidden" id="boardQnAId" name="boardQnAId" value="${commentQnA.boardQnAId}">
-				<input id="submit" type="submit" value="뒤로가기">
+				<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+				</button>
 			</sec:authorize>
 			<sec:csrfInput/>
 		</form>

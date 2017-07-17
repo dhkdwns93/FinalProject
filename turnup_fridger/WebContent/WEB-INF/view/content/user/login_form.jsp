@@ -14,11 +14,13 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<script src="${ initParam.rootPath }/scripts/jquery.js"></script>
+<script src="${ initParam.rootPath }/scripts/bootstrap.min.js"></script>
+<script src="${ initParam.rootPath }/scripts/mdb.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$("button#findIdPwBtn").on("click",function(){
-			window.open("${initParam.rootPath}/popup_find_IdPw_form.do","find_IdPw_form","width=500,height=400,resizable=yes");
+			$("#findIdPwModal").modal("show");
 		});//end of findIdPwBtn
 		
 	});
@@ -89,13 +91,18 @@ h1 {
 .login-form{
 	display:inline-block;
 	width:50%;
+	margin-left:5%;
 }
 </style>
 </head>
 <body>
 
-<hr>
+<div>
+<jsp:include page="/WEB-INF/view/content/user/popup_find_IdPw_form.jsp"/>
+</div>
 
+<div class="container">
+<div class='wrapperDiv'>
 
 <jsp:include page="/WEB-INF/view/layout/side_menu/nonMemberSideMenu.jsp"/>
 <div class='right-box-sidemenu'>
@@ -118,13 +125,15 @@ h1 {
 	</div>
 	<div class="ccfield-submit-part">
 		<button type="submit" class="btn btn-default">LOGIN</button>
-		<button type="button" id="findIdPwBtn" class="btn btn-default">forget
+		<button type="button" id="findIdPwBtn" class="btn btn-default" data-toggle="modal"  data-target="#findIdPwModal">forget
 			ID/Password</button>
 	</div>
 </form>
 </div><!-- login-form -->
 
 
-</div>
+</div><!-- right-box-sidemenu -->
+</div><!-- wrapperDiv -->
+</div><!-- container -->
 </body>
 </html>

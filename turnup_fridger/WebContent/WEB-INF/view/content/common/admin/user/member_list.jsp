@@ -15,6 +15,10 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/turnup_fridger/scripts/jquery.base64.min.js"></script>
 <script src="/turnup_fridger/scripts/jquery.battatech.excelexport.min.js"></script>
 <script type="text/javascript">
@@ -50,60 +54,130 @@ $(document).ready(function(){
 		$(this).prop('download',fileName).prop('href',uri).prop('target','_blank');;
 	});//end of exportBtn 
 });
-
 </script>
+<style>
+/* contact-form 넓이*/
+.form-page{
+	display:inline-block;
+	width:95%;
+	margin-left:5%;
+}
+/* EXCEL 형식 */
+.ExcelTable2007 {
+	border: 1px solid #B0CBEF;
+	border-width: 1px 0px 0px 1px;
+	font-size: 11pt;
+	font-family: Calibri;
+	font-weight: 100;
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+.ExcelTable2007 TH {
+	background-image: url("${initParam.rootPath }/img/excel-2007-header-bg.gif");
+	background-repeat: repeat-x; 
+	font-weight: normal;
+	font-size: 14px;
+	border: 1px solid #9EB6CE;
+	border-width: 0px 1px 1px 0px;
+	height: 17px;
+}
+.ExcelTable2007 TD {
+	border: 0px;
+	background-color: white;
+	padding: 0px 4px 0px 2px;
+	border: 1px solid #D0D7E5;
+	border-width: 0px 1px 1px 0px;
+}
+.ExcelTable2007 TD B {
+	border: 0px;
+	background-color: white;
+	font-weight: bold;
+}
+.ExcelTable2007 TD.heading {
+	background-color: #E4ECF7;
+	text-align: center;
+	border: 1px solid #9EB6CE;
+	border-width: 0px 1px 1px 0px;
+}
+.ExcelTable2007 TH.heading {
+	background-image: url("${initParam.rootPath }/img/excel-2007-header-left.gif");
+	background-repeat: none;
+}
+</style>
 </head>
 <body>
 <div class="container">
-<jsp:include page="/WEB-INF/view/content/user/layout_menu_security.jsp" />
-<hr>
+<div class='wrapperDiv'>
+	<jsp:include page="/WEB-INF/view/layout/side_menu/adminSideMenu.jsp"/>
+	<div class='right-box-sidemenu'>
 
-<h2>전체개인회원정보</h2>
-	<div id="wrap">
-		<!-- 엑셀로 추출버튼 -->
-		<a id="exportBtn" href="#" download=""><button type="button">(Excel)Download</button></a>
-		<div id="allMemberList"
-			style="border: 1px solid black; overflow-x: hidden; overflow-y: scroll; height: 300px; width: 1000px;">
-			<table class="table table-hover" id="tblExport" width="900px">
-				<thead id="thead">
-					<tr>
-						<th>번호</th>
-						<th>회원 ID</th>
-						<th>이름</th>
-						<th>주소</th>
-						<th>이메일</th>
-						<th>전화번호</th>
-						<th>성별</th>
-						<th>관리자 기능</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="member" items="${requestScope.memberList}"
-						varStatus="loop">
+	<div class="form-page">
+		<h2>회원 관리</h2>
+			<div id="wrap">
+				<!-- 엑셀로 추출버튼 -->
+				<a id="exportBtn" href="#" download=""><button type="button">(Excel)Download</button></a>
+				<div id="allMemberList"
+					style="width:100%; border-style:outset; overflow-x:scroll; overflow-y:scroll; height:400px;padding:10px;">
+				<table id="tblExport" border="1" class="ExcelTable2007">
+						<thead id="thead">
 						<tr>
-							<td>${(loop.index)+1}</td>
-							<td>${member.memberId }</td>
-							<td>${member.memberName }</td>
-							<td>${member.memberAddress }</td>
-							<td>${member.memberEmail }</td>
-							<td>${member.memberTel}</td>
-							<td>${member.memberSex}</td>
-							<td>
-								<!-- 개인회원강제탈퇴처리 -->
-								<form
-									action="${initParam.rootPath}/common/admin/member_delete.do"
-									method="post">
-									<input type="hidden" name="memberId" value="${member.memberId}">
-									<sec:csrfInput />
-									<button type="submit" id="deleteMemberBtn">탈퇴</button>
-								</form>
-							</td>
+							<th class="heading">&nbsp;</th>
+							<th>A</th>
+							<th>B</th>
+							<th>C</th>
+							<th>D</th>
+							<th>E</th>
+							<th>F</th>
+							<th>G</th>
+							<th>H</th>
 						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
+						</thead>
+
+						<tbody>
+							<tr>
+								<td align="left" valign="middle" class="heading">1</td>
+								<td align="left" valign="middle" ><b>No</b></td>
+								<td align="left" valign="middle" ><b>Member ID</b></td>
+								<td align="left" valign="middle" ><b>Name</b></td>
+								<td align="left" valign="middle" ><b>Address</b></td>
+								<td align="left" valign="middle" ><b>Email</b></td>
+								<td align="left" valign="middle" ><b>Tel</b></td>
+								<td align="left" valign="middle" ><b>Gender</b></td>
+								<td align="left" valign="middle" ><b>Control Box</b></td>
+							</tr>
+							
+							<c:forEach var="member" items="${requestScope.memberList}"
+								varStatus="loop">
+								<tr>
+									<td align="left" valign="middle" class="heading">${(loop.index)+2}</td>
+									<td align="left" valign="middle" >${(loop.index)+1}</td>
+									<td align="left" valign="middle" >${member.memberId }</td>
+									<td align="left" valign="middle" >${member.memberName }</td>
+									<td align="left" valign="middle" >${member.memberAddress }</td>
+									<td align="left" valign="middle" >${member.memberEmail }</td>
+									<td align="left" valign="middle" >${member.memberTel}</td>
+									<td align="left" valign="middle" >${member.memberSex}</td>
+									<td align="left" valign="middle">
+										<!-- 개인회원강제탈퇴처리 -->
+										<form
+											action="${initParam.rootPath}/common/admin/member_delete.do"
+											method="post">
+											<input type="hidden" name="memberId" value="${member.memberId}">
+											<sec:csrfInput />
+											<button type="submit" id="deleteMemberBtn"><span class="glyphicon glyphicon-remove" aria-hidden="true">탈퇴</span></button>
+										</form>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
-	</div>
+
+		 </div><!-- form-page -->
+ 	</div><!-- rightside menu -->
 </div>
+</div><!-- container -->
 </body>
 </html>

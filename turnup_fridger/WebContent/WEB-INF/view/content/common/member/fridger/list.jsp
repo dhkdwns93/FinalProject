@@ -4,25 +4,7 @@
  <script type="text/javascript">
 $(document).ready(function () {
 	//냉장고목록검색 페이지 디폴트는 전체 목록번호순으로 
-	$.ajax({
-		"url":"/turnup_fridger/common/member/fridger/show/list.do",
-        "dataType": "json",
-        "success": function(list){
-        	$("tbody").empty();
-	        $.each(list, function(){
-	        	 $("tbody").append($("<tr>").append($("<td>").append(this.fridgerId))
-										 .append($("<td>").prop("class","fridgerName_col").append(this.fridgerName))
-										 .append($("<td>").append(this.memberId))
-										 .append($("<td>").append($("<button>").prop("type","button").prop("id","requestBtn").prop("value",this.fridgerId).append("가입")))
-												 .append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").prop("value",this.fridgerId).append("수정"))))
-												 .append($("<tr>").prop("class","collapse out").prop("id", "info"+ this.fridgerId).append($("<td>").prop("colspan","5").append(" 정보가보여용")));
-        				
-	        });	// end of each
-	      
-		}
-	}); //end of ajax
-	
-	
+		
 	$("#searchByIdBtn").on("click", function(){
 		$.ajax({
 			"url":"/turnup_fridger/common/member/fridger/show/byId.do",
@@ -43,7 +25,6 @@ $(document).ready(function () {
 						 				.append($("<td>").append($("<button>").prop("type","button").prop("id","requestBtn").prop("value",this.fridgerId).append("JOIN")))
 										 .append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").prop("value",this.fridgerId).append("수정"))))
 												 .append($("<tr>").prop("class","collapse out").prop("id", "info"+ fridger.fridgerId).append($("<td>").prop("colspan","5").append(" 정보가보여용")));
-
 	        },
 	        "error":function(xhr, msg, code){
 				//매개변수 : 1. XMLHttpRequest, 2.응답메세지(success/error), 3. HTTP응답 메세지(모두)
@@ -58,7 +39,6 @@ $(document).ready(function () {
 			"url":"/turnup_fridger/common/member/fridger/show/byName.do",
 			"type" : "post",
 			"data" : {'fridgerName' : $("input#fridgerName").val(), '${_csrf.parameterName}':'${_csrf.token}'},
-
 	        "dataType": "json",
 	        "beforeSend":function(){	
 				if(!$("input#fridgerName").val()){
@@ -67,7 +47,6 @@ $(document).ready(function () {
 				}
 			},
 	        "success": function(list){
-
 		        $("tbody").empty();
 		        $.each(list, function(){
 		        	 $("tbody").append($("<tr>").append($("<td>").append(this.fridgerId))
@@ -127,7 +106,6 @@ $(document).ready(function () {
 		$(this).parent().css("background-color", "lightblue");
 		//한번에 여러개 냉장고 정보 열어서 비교가능함
 		//$(".fridgerName_col").next().addClass("out").removeClass("in");
-
 		if($(this).parent().next().hasClass("out")) {
 			$(".fridgerName_col").parent().next().addClass("out").removeClass("in");
 	    	$(this).parent().next().addClass("in");
@@ -207,16 +185,19 @@ $(document).ready(function () {
 });
  </script>
 <div class="container">
-<h3>조회</h3>
-	<div id="search">
-	냉장고ID로 조회
-		<span><input type="text" name="fridgerId" id="fridgerId">
-		<!-- <input type="button" value="조회" id="searchByIdBtn"> -->
-		<button type="button" class="btn btn-default" id="searchByIdBtn">
-      	<span class="glyphicon glyphicon-search"></span> 
-    	</button>
-    	</span>
-		<br>
+<!-- 
+ trigger of updateFridgerModal
+ <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createFridgerModal">냉장고 만들기</button> -->
+
+ <!-- start of updateFridgerModal -->
+<div class="modal fade" id="joinFridgerModal" tabindex="-1" role="dialog" aria-labelledby="createFridgerModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetModal()" ><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">냉장고 수정</h3>
+      </div>
+      <div class="modal-body" >
 		
 	냉장고 이름으로 조회
 		<span><input type="text" name="fridgerName" id="fridgerName">
@@ -246,12 +227,8 @@ $(document).ready(function () {
     	</span>
     	
 		<br>
-	</div>
+
 <hr>
-
-<a href="${initParam.rootPath}/common/member/fridger/register_form2.do"><button type="button">냉장고등록</button></a>
-
-<a href="${initParam.rootPath}/common/member/fridger/invite_form.do"><button type="button">초대하러가기</button></a>
 
 
 	<div id="table" style="width:800px;">
@@ -270,4 +247,15 @@ $(document).ready(function () {
 			</tbody>
 		</table>
 	</div>
-	</div>
+	 </div>
+	
+      <div class="modal-footer">
+       <button type="button" id="updateFormBtn" class="btn btn-yellow" >update</button>
+       
+        <button type="button" class="btn btn-blue-grey" id="cancel" data-dismiss="modal" onclick="resetModal()" >cancel</button>
+      </div>
+    </div>
+  </div>
+   </div>
+</div>
+<!-- end of updateFridgerModal -->
