@@ -1,42 +1,4 @@
-		select 
-				my_irdnt_key,
-				start_date,
-				end_date,
-				fresh_level,
-				irdnt_count,
-				irdnt_id,
-				irdnt_name,
-				fridger_id,
-				start_fresh_level,
-				storge_place
-		from (
-			select 	my_irdnt_key,
-					start_date,
-					end_date,
-					fresh_level,
-					irdnt_count,
-					irdnt_id,
-					irdnt_name,
-					fridger_id,
-					start_fresh_level,
-					storge_place 
-			from my_irdnt 
-			where fridger_id in (
-					select fridger_id 
-					from fridger 
-					where member_id='1111'))
-		where irdnt_id in (
-			select irdnt_id 
-			from recipe_irdnt 
-			where recipe_id=1)	
-			
-select * from (select * from my_irdnt where fridger_id in (select fridger_id from fridger where member_id='user1')) 
-where irdnt_id in
-(select irdnt_id from recipe_irdnt where recipe_id='241');
-
-select * from recipe_info where recipe_id=473
-
-select * from my_irdnt where member_id='user1';
+--select distinct irdnt_category from irdnt_manage
 --select * from recipe_irdnt
 --select * from IRDNT_MANAGE
 
@@ -160,6 +122,8 @@ CREATE TABLE BOARD_SHARE_RECIPE (
    BOARD_SHARE_RECIPE_RECOMMAND NUMBER NOT NULL, /* 추천수 */
    BOARD_SHARE_RECIPE_HITS NUMBER NOT NULL, /* 조회수 */
    BOARD_SHARE_IRDNT_ETC VARCHAR2(500), /* 기타재료 */
+   BOARD_SHARE_RECIPE_SAVE_NAME VARCHAR2(100) NOT NULL,/*저장 이름*/
+   BOARD_SHARE_RECIPE_ORIGINAL VARCHAR2(100) NOT NULL,/*오리지날 이름*/
    MEMBER_ID VARCHAR2(20) NOT NULL, /* 회원ID */
    CONSTRAINT BSR_MEMBER_ID_FK FOREIGN KEY(MEMBER_ID) REFERENCES MEMBER
 );
@@ -168,18 +132,6 @@ CREATE SEQUENCE BOARD_SHARE_RECIPE_ID INCREMENT BY 1 START WITH 1;
 --SELECT BOARD_SHARE_RECIPE_ID.NEXTVAL FROM DUAL;
 
 --insert into board_share_recipe values(2,'test','test',sysdate,0,0,'기타재료','user1');
-/* 레시피 공유 게시판 사진 */
-DROP TABLE BOARD_SHARE_RECIPE_IMG;
-DELETE FROM BOARD_SHARE_RECIPE_IMG;
-CREATE TABLE BOARD_SHARE_RECIPE_IMG (
-   BOARD_SHARE_RECIPE_IMG_KEY NUMBER PRIMARY KEY, /* 공유게시판사진 번호 KEY */
-   BOARD_SHARE_RECIPE_IMG_URL VARCHAR2(1000) NOT NULL, /* 공유게시판 사진 */
-   BOARD_SHARE_RECIPE_ID NUMBER NOT NULL, /* 레시피 공유 ID */
-   CONSTRAINT IMG_BOARD_SHARE_RECIPE_ID_FK FOREIGN KEY(BOARD_SHARE_RECIPE_ID) REFERENCES  BOARD_SHARE_RECIPE
-);
-DROP SEQUENCE BOARD_SHARE_RECIPE_IMG_KEY;
-CREATE SEQUENCE BOARD_SHARE_RECIPE_IMG_KEY INCREMENT BY 1 START WITH 1;  
---SELECT BOARD_SHARE_RECIPE_IMG_KEY.NEXTVAL FROM DUAL;
 
 /* 회원별공유레시피추천현황 */
 DROP TABLE MEMBER_RECIPE_RECOMMAND;
@@ -191,7 +143,7 @@ CREATE TABLE MEMBER_RECIPE_RECOMMAND (
    CONSTRAINT MRR_SHARE_RECIPE_ID_FK FOREIGN KEY(BOARD_SHARE_RECIPE_ID) REFERENCES  BOARD_SHARE_RECIPE,
    CONSTRAINT MRR_MEMBER_ID_FK FOREIGN KEY(MEMBER_ID) REFERENCES MEMBER
 );
-
+insert into MEMBER_RECIPE_RECOMMAND values('0', '252', 'wns');
 DROP SEQUENCE MEMBER_RECIPE_RECOMMAND_KEY;
 CREATE SEQUENCE MEMBER_RECIPE_RECOMMAND_KEY INCREMENT BY 1 START WITH 1;  
 --SELECT MEMBER_RECIPE_RECOMMAND_KEY.NEXTVAL FROM DUAL;
@@ -349,8 +301,8 @@ CREATE TABLE MY_DISLIKE_IRDNT (
    MEMBER_ID VARCHAR2(20) NOT NULL, /* 회원ID */
    IRDNT_ID NUMBER NOT NULL, /* 재료ID */
    /*IRDNT_NAME VARCHAR2(50)*/ /*재료명*/
-   CONSTRAINT MY_DISLIKE_IRDNT_MEMBER_ID_FK FOREIGN KEY(MEMBER_ID) REFERENCES MEMBER on delete cascade,
-   ,CONSTRAINT MY_DISLIKE_IRDNT_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE on delete cascade
+   CONSTRAINT MY_DISLIKE_IRDNT_MEMBER_ID_FK FOREIGN KEY(MEMBER_ID) REFERENCES MEMBER(MEMBER_ID) on delete cascade,
+  CONSTRAINT MY_DISLIKE_IRDNT_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE(IRDNT_ID) on delete cascade
    );
 --   ,CONSTRAINT MY_DISLIKE_IRDNT_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE
 --select * from my_dislike_irdnt;
@@ -592,5 +544,25 @@ WHERE recipe_id NOT IN (
 	where category_name='한식'
 	order by type_code
 );	
+
+
+	SELECT	f.fridger_id,
+			f.fridger_name,
+			f.member_id,
+			f.fridger_img,
+			i.my_irdnt_key,
+			i.start_date,
+			i.end_date,
+			i.fresh_level,
+			i.irdnt_count,
+			i.irdnt_id,
+			i.irdnt_name,
+			i.fridger_id,
+			i.start_fresh_level,
+			i.storge_place
+	FROM	fridger f, my_Irdnt i
+	WHERE	f.fridger_id = i.fridger_id(+)
+	AND		f.fridger_id = 2
+	ORDER BY	i.irdnt_name
 
 

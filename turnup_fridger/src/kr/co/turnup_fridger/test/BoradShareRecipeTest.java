@@ -21,8 +21,8 @@ public class BoradShareRecipeTest {
 		
 		//insert
 //		service.insertBoardShareRecipe(new BoardShareRecipe(3,"밥", "얹히기", new Date(2007-1900,11,07), 1, 1, "콩", "id-1" ));
-		service.insertBoardShareRecipe(new BoardShareRecipe(4 ,"김치찌개", "대한민국정통음식", new Date(2011-1900,02,24), 10, 150, "참치", "id-1" ));
-		System.out.println("레시피공유 게시판 글 등록");
+//		service.insertBoardShareRecipe(new BoardShareRecipe(4 ,"김치찌개", "대한민국정통음식", new Date(2011-1900,02,24), 10, 150, "참치", "id-1" ));
+//		System.out.println("레시피공유 게시판 글 등록");
 		
 		
 		//delete

@@ -13,39 +13,39 @@
 	<table border="1" width="500px">
 		<tr>
 			<th>번호</th>
-			<td>${dataUp.recipeId }</td>
+			<td>${boardShareRecipe.recipeId }</td>
 		</tr>
 		<tr>
 			<th>제목</th>
-			<td>${dataUp.title }</td>
+			<td>${boardShareRecipe.title }</td>
 		</tr>
 		<tr>
 			<th>작성자</th>
-			<td>${dataUp.memberId }</td>
+			<td>${boardShareRecipe.memberId }</td>
 		</tr>
 		<tr>	
 			<th>작성일</th>
-			<td><fmt:formatDate value="${dataUp.date }" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
+			<td><fmt:formatDate value="${boardShareRecipe.date }" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
 		</tr>
 		<tr>
 			<th>내용</th>
-			<td>${dataUp.txt}</td>
+			<td>${boardShareRecipe.txt}</td>
 		</tr>
 		<tr>	
 			<th>조회수</th>
-			<td>${dataUp.recommand}</td>
+			<td>${boardShareRecipe.recommand}</td>
 		</tr>
 		<tr>
 			<th>추천수</th>
-			<td>${dataUp.hits }</td>
+			<td>${boardShareRecipe.hits }</td>
 		</tr>
 		<tr>	
 			<th>사진</th>
-			<td>${dataUp.images }</td>
+			<td>${boardShareRecipe.images }</td>
 		</tr>
 			
 	</table>
-	<input type="hidden" name="recipeId" value="${dataUp.recipeId }"><br>
+	<input type="hidden" name="recipeId" value="${boardShareRecipe.recipeId }"><br>
 	<input type="button" value="확인">
 	<sec:csrfInput/> 
 </form>

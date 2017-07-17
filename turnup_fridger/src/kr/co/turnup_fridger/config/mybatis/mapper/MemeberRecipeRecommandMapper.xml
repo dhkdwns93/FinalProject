@@ -25,7 +25,23 @@
 		<result column="MEMBER_ID" property="memberId"/>
 		
 	</resultMap>
-
+	<!-- 레시피공유게시판 + 추천 -->
+	<resultMap type="memberRecipeRecommand" id="recommand-boardShareRecipe-resultMap" extends="recommand-resultmap">
+		<association property="boardShareRecipe" javaType="BoardShareRecipe">
+			<id property="recipeId" column="BOARD_SHARE_RECIPE_ID"/>
+			<result	property="title" column="BOARD_SHARE_RECIPE_TITLE"/>
+			<result property="txt" column="BOARD_SHARE_RECIPE_TXT"/>
+			<result property="date" column="BOARD_SHARE_RECIPE_DATE"/>
+			<result property="recommand" column="BOARD_SHARE_RECIPE_RECOMMAND"/>
+			<result property="hits" column="BOARD_SHARE_RECIPE_HITS"/>
+			<result property="etc" column="BOARD_SHARE_IRDNT_ETC"/>
+			<result property="saveName" column="BOARD_SHARE_RECIPE_SAVE_NAME"/>
+			<result property="original" column="BOARD_SHARE_RECIPE_ORIGINAL"/>
+			<result property="memberId" column="MEMBER_ID"/>
+		</association>
+	
+	</resultMap>
+	
 	<insert id="insertMemberRecipeRecommand" parameterType="memberRecipeRecommand" >
 		<selectKey keyProperty="recommandKey" resultType="int" order="BEFORE">
 			SELECT MEMBER_RECIPE_RECOMMAND_KEY.NEXTVAL FROM DUAL

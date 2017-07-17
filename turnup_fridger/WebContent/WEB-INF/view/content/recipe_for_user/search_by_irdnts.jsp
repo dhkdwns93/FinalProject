@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>레시피 by 재료</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script type="text/javascript">
 function getList(keyword,page){
 	$("#apiThead").show();
@@ -30,7 +31,6 @@ function getList(keyword,page){
 		"url":"/turnup_fridger/findRecipeByIrdntId.do",
 		"type":"POST",
 		"data":'irdntIds='+likes+'&hateIrdntIds='+dislikes+'&keyword='+keyword+'&page='+page+'&${_csrf.parameterName}=${_csrf.token}',
-		//"data":{'irdntIds':likes, 'hateIrdntIds':dislikes,'keyword':'보통','page':1,'${_csrf.parameterName}':'${_csrf.token}'},
 		"dataType":"json",
 		"success":function(map){
 			$("#apiPageBean").empty();
@@ -137,8 +137,8 @@ $(document).ready(function(){
 			$("#irdntManageTbody").empty();	
 			$.each(list, function(){
 				$("#irdntManageTbody").append($("<tr>").prop("class","irdnt_col").append($("<td>").append(this.irdntName))
-						.append($("<td>").append($("<button>").prop("type","button").prop("class","likeBtn").prop("value",this.irdntId).append("선택")))
-						.append($("<td>").append($("<button>").prop("type","button").prop("class","dislikeBtn").prop("value",this.irdntId).append("기피"))));
+						.append($("<td>").append($("<button>").prop("type","button").prop("id","likeBtn").prop("class","btn btn-default").prop("value",this.irdntId).append("+")))
+						.append($("<td>").append($("<button>").prop("type","button").prop("id","dislikeBtn").prop("class","btn btn-default").prop("value",this.irdntId).append("-"))));
 				 });//each	 		 
 			},//success
 			"error":function(xhr, msg, code){
@@ -159,9 +159,10 @@ $(document).ready(function(){
 				"dataType":"json", 
 				"success":function(list){
 					$("#myFridersThead").show();
+					$("#myFridersTbody").empty();
 					$.each(list, function(){
 						$("#myFridersTbody").append($("<tr>").append($("<td>").append(this.fridgerId)).append($("<td>").append(this.fridgerName))
-								.append($("<td>").append($("<button>").prop("type","button").prop("class","selectFridger").prop("value",this.fridgerId).append("선택"))));
+								.append($("<td>").append($("<button>").prop("type","button").prop("id","selectFridger").prop("class","btn btn-default").prop("value",this.fridgerId).append("선택"))));
 						})
 					},//success
 					"error":function(xhr, msg, code){ 
@@ -176,7 +177,7 @@ $(document).ready(function(){
 	});
 	
 	
-	$(document).on("click",".selectFridger",function(){
+	$(document).on("click","#selectFridger",function(){
 		$("#myIrdnt").show();		
 		var fridgerId = $(this).val();
 		$.ajax({
@@ -192,8 +193,8 @@ $(document).ready(function(){
 				$("#myIrdntTbody").empty();	
 				$.each(list, function(){
 					$("#myIrdntTbody").append($("<tr>").prop("class","irdnt_col").append($("<td>").append(this.irdntName)).append($("<td>").append(this.freshLevel))
-							.append($("<td>").append($("<button>").prop("type","button").prop("class","likeBtn").prop("value",this.irdntId).append("선택")))
-							.append($("<td>").append($("<button>").prop("type","button").prop("class","dislikeBtn").prop("value",this.irdntId).append("기피"))));	 
+							.append($("<td>").append($("<button>").prop("type","button").prop("id","likeBtn").prop("class","btn btn-default").prop("value",this.irdntId).append("+")))
+							.append($("<td>").append($("<button>").prop("type","button").prop("id","dislikeBtn").prop("class","btn btn-default").prop("value",this.irdntId).append("-"))));	 
 					})
 				},//success
 				"error":function(xhr, msg, code){ 
@@ -233,7 +234,7 @@ $(document).ready(function(){
 	});
 	
 	//*******************************************************************************************************************************************************
-	$(document).on("click",(".dislikeBtn"),function(){
+	$(document).on("click",("#dislikeBtn"),function(){
 		var irdntId = $(this).val();
 		var irdntName= $(this).parent().parent().children(":first-child");
 		$("#dislikeResult").show();
@@ -241,7 +242,7 @@ $(document).ready(function(){
 		$(this).parent().parent().remove();
 	});//기피재료버튼
 	
-	$(document).on("click",(".likeBtn"),function(){
+	$(document).on("click",("#likeBtn"),function(){
 		var irdntId = $(this).val();
 		var irdntName= $(this).parent().parent().children(":first-child");
 		$("#likeResult").show();
@@ -283,25 +284,25 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<%-- <input type="hidden" id="memberId" value="<sec:authentication property='principal.memberId'/>">  --%>
-<%-- <sec:authentication property="principal.memberId" var="memberId"/> --%>
-
 <div style="text-align:center;"><h2>재료로 레시피 찾기</h2><br><hr></div>
 
-	<div id="irdntManage" style="width:23%; border:5; float:left; border:5; overflow-x:hidden; overflow-y:scroll; height:600px;width:400px; margin:20px;">
-	기타 재료 :   
-		<table  class="table table-hover table-condensed" style="padding: 10px";>
+<div class="container"style="position:relative;">
+	<button class="btn btn-default" type="button" id="irdntBtn" data-toggle="collapse" data-target="#irdntManage" style="position:absolute; top:0px;left:50px; ">기타 재료 선택 ↓</button>
+	<div id="irdntManage" class="collapse" style="border-style:outset; height:500px; width:400px; margin:20px; padding:10px; position:absolute;top:10px;left:30px;background-color:white;">
+		<div style="overflow-x:hidden; overflow-y:scroll;height:500px;">
+		<table  class="table table-hover table-condensed" style="padding: 10px; background-color:white;">
 			<thead id="irdntManageThead"></thead>
 			<tbody id="irdntManageTbody"></tbody>
 		</table>
+		</div>
 	</div>
 	
-	
-	<div id="myIrdntSection" style="width:23%; float: left; padding:10px;" >
-	<div id="myFridgers" style="border:5; overflow-x:hidden; overflow-y:scroll; height:300px;width:350px;margin:20px;">
+	<button type="button" class="btn btn-default" id="myIrdntBtn" data-toggle="collapse" data-target="#myFridgers" style="position:absolute; top:0px;left:200px; ">나의 냉장고 선택 ↓	</button>
+	<div id="myIrdntSection" style="float: left; padding:10px;" >
+	<div id="myFridgers" class="collapse" style="border-style:outset; height:300px;width:400px;margin:20px;padding:10px;position:absolute;top:10px;left:30px;background-color:white;">
 	나의 냉장고 목록 :
-		<button type="button" id="getMyFridger" >냉장고불러오기</button>   
-		<table class="table table-hover table-condensed" style=" border:5;">
+		<button type="button" class="btn btn-default" id="getMyFridger" >냉장고 불러오기 ↓</button>
+		<table class="table table-hover table-condensed">
 			<thead id="myFridersThead">
 				<tr>
 				<th>냉장고id</th>
@@ -312,8 +313,8 @@ $(document).ready(function(){
 			<tbody id="myFridersTbody">
 			</tbody>
 		</table>
-	</div><hr>
-	<div id="myIrdnt" style="border:5; overflow-x:hidden; overflow-y:scroll; height:300px;width:350px;margin:20px;">
+	
+	<div id="myIrdnt" style="border-style:outset; overflow-x:hidden; overflow-y:scroll; height:300px;width:350px;margin:20px;padding:10px;">
 	냉장고 속 식재료 
 		<table class="table table-hover table-condensed">
 			<thead id="myIrdntThead"></thead>
@@ -321,12 +322,13 @@ $(document).ready(function(){
 		</table>
 	</div>
 	</div>
+	</div>
 
 	
 	<!--컬럼누르면 테이블에서 삭제  -->
-	<div id="dislikeSection" style="width:23%; border:5;float: left;border:5; overflow-x:hidden; overflow-y:scroll; height:350px; margin:20px;">
-	기피재료 : 
-	<button type="button" id="getMydislike" >나의 기피재료 불러오기</button>
+	<div id="dislikeSection" style="width:25%; border-style:ridge;float: right;border:5; overflow-x:hidden; overflow-y:scroll; height:300px; margin:20px;padding:10px;">
+	기피재료
+	<button type="button" class="btn btn-default" id="getMydislike" >나의 기피재료 불러오기</button>
 	<table id="dislikeResult" class="table table-hover table-condensed" >
 		<thead id="dislikeThead">
 			<tr>
@@ -338,8 +340,8 @@ $(document).ready(function(){
 	</table>
 	</div>
 	
-	<div id="likeSeciton" style="width:23%; border:5;float: left;border:5; overflow-x:hidden; overflow-y:scroll; height:350px; margin:20px;">
-	선택재료 : 
+	<div id="likeSeciton" style="width:25%; border-style:ridge; overflow-x:hidden; overflow-y:scroll; height:300px; margin:20px;padding:10px;float: right;">
+	선택재료
 	<table id="likeResult" class="table table-hover table-condensed">
 		<thead id="likeThead">
 			<tr>
@@ -350,20 +352,20 @@ $(document).ready(function(){
 		<tbody id="likeTbody"></tbody>
 	</table>
 	</div><br>
-	<br>
+	<br><br><br><br><br><br><br><br><br>
 	
 	<!--위의 재료들을 리스트에 담아서 재료로 검색하는 핸들러로 보낸다. -->
-	<div style="width:50%; border:5;float: right;">
-	<button type="button" id="searchBtn" style="float:right; margin-top:100px;margin-right:480px;width:200px;height:100px;">레시피검색</button><br>
+	<div style="width:100%;float: right;">
+	<button type="button" id="searchBtn" class="btn btn-warning" style="position:absolute; top:350px;left:780px;">레시피검색</button><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 	</div>
 
 	<div id="recipeSection" style="width:100%; border:5;float: left;">
 	<div id="sortKeyword">
 	<div style="text-align:center;"><hr><br><h3>기본 레시피 검색결과</h3><br><hr></div>
-	<button type="button" id="hitsDesc">최다조회순</button>
-	<button type="button" id="hitsAsc">최저조회순</button>
-	<button type="button" id="calrorieDesc">고칼로리순</button>
-	<button type="button" id="calrorieAsc">저칼로리순</button>
+	<button type="button" class="btn btn-default" id="hitsDesc">최다조회순</button>
+	<button type="button" class="btn btn-default" id="hitsAsc">최저조회순</button>
+	<button type="button" class="btn btn-default" id="calrorieDesc">고칼로리순</button>
+	<button type="button" class="btn btn-default" id="calrorieAsc">저칼로리순</button>
 	<select name="recipeLevel" id="recipeLevel">
 		<option value="전체">전체</option>
 		<option value="초보환영">초보</option>
@@ -411,6 +413,7 @@ $(document).ready(function(){
 		</table>
 	</div><br>
 	<div id="userPageBean" style="text-align:center;"></div>
+	</div>
 	</div>
 </body>
 </html>

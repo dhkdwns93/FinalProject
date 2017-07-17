@@ -29,6 +29,7 @@ $(document).ready(function(){
 				if(text == "0"){
 					alert("완료!")
 					resetModal()
+					$("#createFridgerModal").modal("hide");
 				}else if(text =="-1"){
 					alert("실패!")				
 					//회색차유ㅠ
@@ -228,7 +229,7 @@ border-radius: 5px;
         </form>
       </div>
       <div class="modal-footer">
-       <input type="button" id="registerFormBtn" class="btn btn-primary" data-dismiss="modal" value="CREATE">
+       <input type="button" id="registerFormBtn" class="btn btn-primary"  value="CREATE">
        
         <input type="button" class="btn btn-default" id="cancel" data-dismiss="modal" onclick="resetModal()" value="CANCEL">
       </div>
