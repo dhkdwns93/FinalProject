@@ -7,6 +7,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" 
+href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 function delete_event(){
@@ -29,24 +34,33 @@ h2{display:inline}
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
-<h1>공지사항 ></h1> <h2>${boardNotice.items}</h2><br><br>
+<br><br>
+<h1>공지사항 ></h1> <h2> ${boardNotice.items}</h2><br><br>
+<form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+		<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+	</button>
+</form>
 <div style="float:right">
 <!-- 관리자만 수정 가능 -->
  <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 <form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadView.do?" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<input type="hidden" name="id" id="id" value="${boardNotice.id}">
-	<input type="submit" value="수정하기">
+	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+	  	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+	</button>
 </form>
 </sec:authorize>
-
-
 <!-- 관리자만 삭제 가능 -->
  <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 <form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticRemove.do" method="post">
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<input type="hidden" name="id" value="${boardNotice.id}">
-	<input type="submit" value="삭제하기" onclick="return delete_event();">
+	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return delete_event();">
+		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+	</button>
 </form>
 </sec:authorize>
 </div>
@@ -71,16 +85,12 @@ h2{display:inline}
 		<td>내용</td>
 		<td style="width:70%">
 			<c:if test="${boardNotice.img != null}">
-				<img width="320px" alt="${boardNotice.img}" src="${initParam.rootPath}/img/${boardNotice.saveImg}"><br>
+				<img width="60%" alt="${boardNotice.img}" src="${initParam.rootPath}/img/${boardNotice.saveImg}"><br>
 			</c:if>
 				${boardNotice.txt}
 		</td>
 	</tr>
 </table>
-<form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
-	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<input type="submit" value="목록으로"/>
-</form>
 </div>
 </body>
 </html>

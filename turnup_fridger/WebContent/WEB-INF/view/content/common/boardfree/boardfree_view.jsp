@@ -9,6 +9,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" 
+href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 </script>
@@ -138,8 +143,14 @@ h2{display:inline}
 
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>자유 게시판 ></h1> <h2>${boardFree.memberId}님의 글</h2><br>
+<h1>자유 게시판 ></h1><h2> ${boardFree.memberId}님의 글</h2><br>
 <hr>
+	<form action="${initParam.rootPath}/common/boardfree/boardFreeList.do" method="post">
+		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">	
+		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+			<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+		</button>
+	</form>
 <div style="float:right"><!-- 오른쪽 정렬 -->
 <!-- 회원 수정폼 -->
 <sec:authorize access="hasRole('ROLE_MEMBER')">
@@ -149,7 +160,9 @@ h2{display:inline}
 		<input type="hidden" name="memberId" value="<sec:authentication property="principal.memberId"></sec:authentication>">
 		<input type="hidden" name="writer" value="${boardFree.memberId}">
 		<input type="hidden" name="adminId" value="">
-		<input type="submit" value="수정하기" onclick="return update_event();">
+		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return update_event();">
+			<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+		</button>
 	</form>
 </sec:authorize>
 
@@ -162,7 +175,9 @@ h2{display:inline}
 	<input type="hidden" name="writer" value="${boardFree.memberId}">	
 	<input type="hidden" name="memberId" value="<sec:authentication property="principal.memberId"></sec:authentication>">
 	<input type="hidden" name="adminId" value="">
-	<input type="submit" value="삭제하기" onclick="return delete_event();">
+	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return delete_event();">
+		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+	</button>
 </form>
 </sec:authorize>
 
@@ -175,7 +190,9 @@ h2{display:inline}
 	<input type="hidden" name="writer" value="${boardFree.memberId}">
 	<input type="hidden" name="adminId" value="<sec:authentication property="principal.adminId"></sec:authentication>">
 	<input type="hidden" name="memberId" value="">
-	<input type="submit" value="삭제하기" onclick="return delete_event2();">
+	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return delete_event2();">
+		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+	</button>
 </form>
 </sec:authorize>
 </div>
@@ -249,7 +266,9 @@ h2{display:inline}
 					<input type="hidden" name="writer" id="writer" value="${list.memberId}">
 					<input type="hidden" name="memberId" id="memberId" value="<sec:authentication property="principal.memberId"></sec:authentication>">
 					<input type="hidden" name="boardFreeId" id="boardFreeId" value="${list.boardFreeId}">
-					<input type="submit" value="수정하기" onclick="return comment_upload_event();">
+					<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return comment_upload_event();">
+						<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+					</button>					
 				</form>	
 			</sec:authorize> 
 		</td>
@@ -263,7 +282,9 @@ h2{display:inline}
 				<input type="hidden" name="writer" value="${list.memberId}">
 				<input type="hidden" name="memberId" value="<sec:authentication property="principal.memberId"/>">
 				<input type="hidden" name="adminId" value="">
-				<input type="submit" value="삭제하기" onclick="return comment_delete_event();">
+				<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return comment_delete_event();">
+					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+				</button>
 			 </form>
 			 </sec:authorize>
 			
@@ -276,7 +297,9 @@ h2{display:inline}
 				<input type="hidden" name="writer" value="${list.memberId}">
 				<input type="hidden" name="memberId" value="">
 				<input type="hidden" name="adminId" value="<sec:authentication property="principal.adminId"/>">
-				<input type="submit" value="삭제하기" onclick="return comment_delete_event2();">
+				<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return comment_delete_event2();">
+					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+				</button>
 			 </form>			
 			</sec:authorize>
 		</td>
@@ -358,7 +381,9 @@ h2{display:inline}
 					<textarea name="commentFreeTxt" class="form-control" style="float:left;width:90%;" row="5" cols="70" placeholder="내용을 입력해주세요"></textarea>	
 					<div style="float:right"><!-- 오른쪽 정렬 -->
 				 		<input type="hidden" name="boardFreeId" value="${boardFree.boardFreeId}">
-						<input type="submit" value="등록하기" onclick="insert_event();">	
+				 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="insert_event();">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</button>
 					</div>	
 				</td>
 			</tr>	
@@ -373,10 +398,6 @@ h2{display:inline}
 	</sec:authorize>
 	</form>
 	</div>
-	<form action="${initParam.rootPath}/common/boardfree/boardFreeList.do" method="post">
-		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-		<input type="submit" value="목록으로"/>
-	</form>
 </div>
 </div>
 </body>

@@ -7,6 +7,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" 
+href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 function delete_event(){
@@ -40,8 +45,19 @@ function delete_event(){
 <br><br>
 <h1>후기 게시판</h1>
 <hr>
-<a href="${initParam.rootPath}/index.do"><button>홈으로</button></a>
-<div style="float:right">
+<a href="${initParam.rootPath}/index.do">
+	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+		<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+	</button>
+</a>
+<sec:authorize access="hasRole('ROLE_MEMBER')">
+	<a href="${initParam.rootPath}/boardreview/boardreview_form.do">
+		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+			<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+		</button>
+	</a>
+</sec:authorize>
+<div class="ccfield-prepend" style="float:right">
 	<form action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		<select name="select" id="select">
@@ -49,12 +65,10 @@ function delete_event(){
 			<option value="레시피">레시피</option>
 			<option value="아이디">아이디</option>
 		</select>
-		<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
-		<button>검색</button>
-	</form>
-	<form action="${initParam.rootPath}/boardreview/boardReviewStarList.do" method="post">
-		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-		<button>별점순</button>
+			<input class="form-control" type="text" name="keyword" placeholder="키워드를 입력해주세요">
+			<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+				<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+			</button>
 	</form>
 </div>
 
@@ -78,7 +92,9 @@ function delete_event(){
 				<input type="hidden" name="boardReviewId" value="${row.boardReviewId}">
 				<input type="hidden" name="memberId" value="<sec:authentication property="principal.memberId"></sec:authentication>">
 				<input type="hidden" name="writer" value="${row.memberId}">
-				<button>수정하기</button>
+				<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+				</button>
 			</form>
 				<form action="${initParam.rootPath}/boardreview/boardReviewRemove.do" method="post">
 				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
@@ -86,7 +102,9 @@ function delete_event(){
 					<input type="hidden" name="writer" value="${row.memberId}">	
 					<input type="hidden" name="memberId" value="<sec:authentication property="principal.memberId"></sec:authentication>">
 					<input type="hidden" name="adminId" value="">
-					<input type="submit" value="삭제하기" onclick="return delete_event();">
+					<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return delete_event();">
+						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+					</button>
 				</form>
 			</sec:authorize>
 	<!-- 관리자 권한 폼 -->
@@ -97,7 +115,9 @@ function delete_event(){
 				<input type="hidden" name="writer" value="${row.memberId}">
 				<input type="hidden" name="adminId" value="<sec:authentication property="principal.adminId"></sec:authentication>">
 				<input type="hidden" name="memberId" value="">
-				<input type="submit" value="삭제하기" onclick="return delete_event();">
+				<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return delete_event();">
+					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+				</button>
 			</form>
 			</sec:authorize>
 		</td>
@@ -171,9 +191,6 @@ function delete_event(){
 <br>
 </c:forEach>
 </table>
-<sec:authorize access="hasRole('ROLE_MEMBER')">
-<a href="${initParam.rootPath}/boardreview/boardreview_form.do"><button>후기 작성</button></a>
-</sec:authorize>
 <p style="text-align:center;">
 	<%-- ######################################################
 														페이징 처리
