@@ -129,15 +129,15 @@ $(document).ready(function(){
 	음식분류 :  
 	<select name="typeName" id="typeName">
 		<!--첫번째꺼에 따라서 동적으로 받아서 뿌리자.  -->
-	</select> 
-	<button type="button" id="searchBtn">검색</button><br><br><br><br>
+	</select> &emsp;
+	<button type="button" class="btn btn-warning" id="searchBtn">검색</button><br><br><br><br>
 	</div>
 	
 	<div id="sortKeyword">
-	<button type="button" id="hitsDesc">최다조회순</button>
-	<button type="button" id="hitsAsc">최저조회순</button>
-	<button type="button" id="calorieDesc">고칼로리순</button>
-	<button type="button" id="calorieAsc">저칼로리순</button>
+	<button type="button" class="btn btn-default" id="hitsDesc">최다조회순</button>
+	<button type="button" class="btn btn-default" id="hitsAsc">최저조회순</button>
+	<button type="button" class="btn btn-default" id="calorieDesc">고칼로리순</button>
+	<button type="button" class="btn btn-default" id="calorieAsc">저칼로리순</button>
 	<select name="recipeLevel" id="recipeLevel">
 		<option value="전체">전체</option>
 		<option value="초보환영">초보</option>

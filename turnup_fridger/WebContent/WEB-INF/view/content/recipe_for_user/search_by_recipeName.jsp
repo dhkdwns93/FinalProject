@@ -143,14 +143,14 @@ $(document).ready(function(){
 	<h2>요리이름으로 레시피 찾기</h2><hr>
 	레시피명 검색 : 
 	<input type="text" name ="recipeName" id="recipeName">
-	<button type="button" id="searchBtn">검색</button><br><br><br><br>
+	<button type="button" class="btn btn-warning" id="searchBtn">검색</button><br><br><br><br>
 	</div>
 	
 	<div id="sortKeyword" style="text-align:right;">
-	<button type="button" id="hitsDesc">최다조회순</button>
-	<button type="button" id="hitsAsc">최저조회순</button>
-	<button type="button" id="calrorieDesc">고칼로리순</button>
-	<button type="button" id="calrorieAsc">저칼로리순</button>
+	<button type="button" class="btn btn-default" id="hitsDesc">최다조회순</button>
+	<button type="button" class="btn btn-default" id="hitsAsc">최저조회순</button>
+	<button type="button" class="btn btn-default" id="calrorieDesc">고칼로리순</button>
+	<button type="button" class="btn btn-default" id="calrorieAsc">저칼로리순</button>
 	<select name="recipeLevel" id="recipeLevel">
 		<option value="전체">전체</option>
 		<option value="초보환영">초보</option>
