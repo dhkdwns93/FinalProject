@@ -76,10 +76,13 @@ public class AdminManageController {
 	 */
 	@RequestMapping("/master/join_admin")
 	public ModelAndView registerAdmin(@ModelAttribute Admin admin, BindingResult errors) throws RegisterAdminFailException{
+				
 		//validator
 		validatorJoin.validate(admin, errors);
 		if(errors.hasErrors()){
-			return new ModelAndView("common/admin/master/user/join_admin_form.tiles","admin",admin);
+			return new ModelAndView("common/admin/master/user/join_admin_form","admin",admin);
+			/*return new ModelAndView("common/admin/user/admin_list.tiles","adminError",adminError);*/
+
 		}
 		
 		//관리자등록
@@ -89,7 +92,7 @@ public class AdminManageController {
 	@RequestMapping("/master/join_admin_success")
 	public ModelAndView registerSuccesAdmin(@RequestParam String adminId){
 		Admin admin=adminService.inquiryAdminInfo(adminId);
-		return new ModelAndView("common/admin/master/user/join_admin_success.tiles","admin",admin);
+		return new ModelAndView("common/admin/master/user/join_admin_success","admin",admin);
 	}
 	
 	/**

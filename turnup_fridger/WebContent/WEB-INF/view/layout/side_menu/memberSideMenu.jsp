@@ -50,9 +50,8 @@
 }
 
 </style>
-
-
 <div class='left-box-sidemenu'>
+
 		<div><h5>My Menu</h5></div>
 		<hr>
 		<div class="list-group">
