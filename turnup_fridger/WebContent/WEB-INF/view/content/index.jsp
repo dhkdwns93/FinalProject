@@ -28,9 +28,7 @@
                             	<ul class="submenu">
 						    		<li><a href="${initParam.rootPath}/common/member/fridger/main.do" id="submenuLink">내 냉장고</a></li>
 						    		<li><a href="${initParam.rootPath}/common/member/fridger/my_list.do" id="submenuLink">냉장고 관리</a></li>
-						    		<li><a href="${initParam.rootPath}/common/member/fridger/list.do" id="submenuLink">냉장고 조회</a></li>
 									<li><a href="${initParam.rootPath}/common/member/fridger/joinProcess/list.do" id="submenuLink">공유 관리</a></li>
-									<li><a href="${initParam.rootPath}/" id="submenuLink">공유 냉장고</a></li>
 						    	</ul>
                             </li>
                             </sec:authorize>
@@ -42,7 +40,6 @@
 									<li><a href="${initParam.rootPath}/common/admin/recipe/register_form.do" id="submenuLink">레시피 저장</a></li>
 									<li><a href="${initParam.rootPath}/common/admin/irdntManage/findAllICategory.do" id="submenuLink">재료 조회</a></li>
 									<li><a href="${initParam.rootPath}/common/admin/recipe/recipeList.do" id="submenuLink">재료 등록</a></li>
-									<li><a href="" id="submenuLink">레시피 공유게시판</a></li>
 								</ul>
 						      </li>
 						      <li class="topMenuLi">

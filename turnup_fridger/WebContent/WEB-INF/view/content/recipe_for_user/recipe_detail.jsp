@@ -564,11 +564,12 @@ top: 650px;
 	</div>
 	</sec:authorize>
 
-
+<br><br>
 <!--후기게시판연결  -->
 	<!-- <button type="button" id="reviewBtn" >후기 보기</button> -->
+	<hr>
 	<div id="review"  style= " width: auto;">
-		사용자 후기<hr>
+		<h3 style="text-align: center;">사용자 후기</h3><hr>
 		<table class="table table-hover table-condensed">
 			<thead id="reviewThead">
 				<tr>

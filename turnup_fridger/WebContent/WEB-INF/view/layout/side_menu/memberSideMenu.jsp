@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <!-- 
  (jsp)memberSideMenu
 작성자 :  김경혜
@@ -55,7 +56,10 @@
 		<div><h5>My Menu</h5></div>
 		<hr>
 		<div class="list-group">
-			<a href="${initParam.rootPath}/memo/memoList.do"  class="list-group-item">내 메모보기</a>
+		<sec:authorize access="hasRole('ROLE_MEMBER')">
+		<sec:authentication property='principal.memberId' var='memberId'/>
+			<a href="${initParam.rootPath}/memo/memoList.do?memberId=${memberId}"  class="list-group-item">내 메모보기</a>
+	    </sec:authorize>
 	        <a href="#"  class="list-group-item" onclick="window.open('/turnup_fridger/memo/map.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)">주변 마트보기</a>
 	        <a href="${initParam.rootPath}/common/member/member_mypage_event.do"  class="list-group-item">내정보</a>
 		</div>
