@@ -405,7 +405,7 @@ table tr td{
 
 <!--즐겨찾기버튼  -->
 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN','ROLE_MEMBER')">
-<div id="favoriteSection"></div> 
+<div id="favoriteSection" style="cursor:pointer"></div> 
 </sec:authorize>
 <h1 style="font-weight:bold;">${requestScope.recipe.recipeName}</h1><hr>
 

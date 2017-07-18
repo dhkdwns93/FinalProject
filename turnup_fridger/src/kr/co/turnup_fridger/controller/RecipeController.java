@@ -705,5 +705,11 @@ public class RecipeController {
 	public ModelAndView timer(){
 		return new ModelAndView("recipe_for_user/timer");
 	}
+	
+	@RequestMapping("findIrdntByName")
+	@ResponseBody
+	public List<IrdntManage> findIrdntByName(@RequestParam String irdntName){
+		return imService.findIrdntByName(irdntName);
+	}
 
 }
