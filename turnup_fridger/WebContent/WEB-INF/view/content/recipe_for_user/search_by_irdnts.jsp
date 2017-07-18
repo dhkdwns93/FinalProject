@@ -5,8 +5,13 @@
 <head>
 <meta charset="UTF-8">
 <title>레시피 by 재료</title>
+<link href="${initParam.rootPath }/css/cardList.css" rel="stylesheet" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script type="text/javascript">
 function getApiList(keyword,page){
 	$("#apiThead").show();
@@ -95,14 +100,28 @@ function getUserList(page){
 		"dataType":"json",
 		"success":function(map){
 			$("#userPageBean").empty();
-			 $("#userTbody").empty();
+			
 			 $.each(map.userMap.userList, function(){
-					$("#userTbody").append($("<tr>").prop("class","userRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId))
-							.append($("<td>").prop("id", "title").append($("<a>").prop("href", "${initParam.rootPath}/recipe/show/detailOfBoard.do?recipeId="+this.recipeId).append(this.title)))
-							.append($("<td>").append(this.memberId)).append($("<td>").append(this.date)).append($("<td>").append(this.hits)).append($("<td>").append(this.recommand)));
-			 });//each
+				 $("#userUL").append($("<li>").append($("<a>").prop("href","${initParam.rootPath}/boardRecipe/boardRecipeView.do?recipeId="+this.recipeId).prop("class","inner2")
+							.append($("<div>").prop("class","li-text2").append($("<p>").prop("class","li-sub2").append(this.recipeId)))
+							.append($("<div>").prop("class","li-text2").append($("<p>").prop("class","li-sub2").prop("id",this.recipeId).append("")))
+						.append($("<div>").prop("class","li-img2").append($("<img>").prop("src","${initParam.rootPath}/img/"+this.original).prop("alt",this.original)))
+						.append($("<div>").prop("class","li-text2").append($("<p>").prop("class","li-head2").append(this.title)))
+						.append($("<div>").prop("class","li-text2").append($("<h5>").prop("class","li-head2").append($("<i>").prop("class","glyphicon glyphicon-user")
+								.prop("style","font-size:20px").append(this.memberId))).append($("<br>")).append($("<p>").prop("class","li-sub2")
+										.append($("<i>").prop("class","glyphicon glyphicon-eye-open").prop("style","font-size:20px").append(this.hits)))))
+						.append($("<form>").prop("method","post").prop("action","${initParam.rootPath }/common/boardRecipe/increaseRecommand.do")
+								.append($("<input>").prop("type","hidden").prop("name","${_csrf.parameterName }").prop("value","${_csrf.token }"))
+								.append($("<input>").prop("type","hidden").prop("name","recipeId").prop("value",this.recipeId))
+								.append($("<input>").prop("type","hidden").prop("name","memberId").prop("value",this.memberId))
+								.append($("<input>").prop("type","hidden").prop("name","recommand").prop("value",this.recommand))
+								.append($("<a>").prop("href","#").prop("onClick","this.parentNode.submit()").prop("id","recommand-btn")
+										.append($("<i>").prop("class","glyphicon glyphicon-thumbs-up").prop("style","font-size:20px")
+										.append(this.recommand)))));
+			 });
 			 $.each(map.userMap.countList, function(){
-					$("#"+this.recipeId).children(":first-child").text(this.count);
+				 alert(this.count);
+				 $("#"+this.recipeId).text(this.count+"개 재료일치");
 				});//each
 		
 		//페이징		
@@ -416,20 +435,7 @@ $(document).ready(function(){
 	
 	<div id="userResult" >
 	<div style="text-align:center;"><hr><h3><br>사용자레시피 검색결과</h3><br><hr></div>
-		<table class="table table-hover table-condensed" style="border:5;">
-			<thead id="userThead">
-				<tr>
-					<th>만족 재료수</th>
-					<th>레시피id</th>
-					<th>제목</th>
-					<th>작성자</th>
-					<th>작성일</th>
-					<th>조회수</th>
-					<th>추천수</th>
-				</tr>
-			</thead>
-			<tbody id="userTbody"></tbody>
-		</table>
+		<ul class="list2 img-list2" id="userUL" style="border-style:ridge;"></ul>
 	</div><br>
 	<div id="userPageBean" style="text-align:center;"></div>
 	</div>
