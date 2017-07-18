@@ -30,6 +30,7 @@
 	WHERE	f.fridger_id = i.fridger_id(+)
 </sql>
 
+
 <sql id="select-join-fridgerGroup-sql">
 	SELECT	f.fridger_id,
 			f.fridger_name,
@@ -40,6 +41,14 @@
 			g.group_member_id
 	FROM	fridger f, fridger_group g
 	WHERE	f.fridger_id = g.fridger_id(+)
+</sql>
+
+
+<sql id="all-column">
+	fridger_id,
+	fridger_name,
+	member_id,
+	fridger_img
 </sql>
 
 <!-- result-mapping -->
@@ -143,6 +152,22 @@ WHERE fridger_name = #{value}
 WHERE fridger_name LIKE '%'||#{value}||'%'
 </select>
 
+
+<!-- 페이징 -->
+<select id="selectFridgerByFridgerNamePaging" parameterType="java.util.HashMap" resultMap="fridger-resultmap">
+SELECT	<include refid="all-column"/>
+FROM (	SELECT	rownum rnum, <include refid="all-column"/>
+	FROM (	SELECT	<include refid="all-column"/>
+			FROM	fridger
+			WHERE	fridger_name LIKE '%'||#{value}||'%'
+	)
+)
+WHERE rownum &lt;=#{endIndex}) <!-- &lt;->크다 표시! -->
+WHERE rnum>=#{startIndex}
+</select>
+
+
+
 <select id="selectFridgerAndIrdntByFridgerName" parameterType="java.lang.String" resultMap="fridger-myIrdnt-resultmap">
 	<include refid="select-join-myIrdnt-sql"/>
 AND			f.fridger_name = #{value}
@@ -156,10 +181,25 @@ ORDER BY	g.group_member_id
 </select>
 
 
+
+
 <!-- 냉장고 주인으로 찾기 -->
 <select id="selectFridgerByOwnerId" parameterType="java.lang.String" resultMap="fridger-resultmap">
 	<include refid="select-sql"/>
 WHERE	member_id = #{value}
+</select>
+
+<!-- 페이징 -->
+<select id="selectFridgerByOwnerIdPaging" parameterType="java.util.HashMap" resultMap="fridger-resultmap">
+SELECT	<include refid="all-column"/>
+FROM (	SELECT	rownum rnum, <include refid="all-column"/>
+	FROM (	SELECT	<include refid="all-column"/>
+			FROM	fridger
+			WHERE	member_id = #{value}
+	)
+)
+WHERE rownum &lt;=#{endIndex})
+WHERE rnum>=#{startIndex}
 </select>
 
 <select id="selectFridgerAndIrdntByOwnerId" parameterType="java.lang.String" resultMap="fridger-myIrdnt-resultmap">
@@ -174,5 +214,19 @@ AND			f.member_id = #{value}
 ORDER BY	g.group_member_id
 </select>
 
-	
+
+
+<!-- 페이징을 위한 카운팅  -->
+<select id="selectCountFridgerByOwnerId" parameterType="java.lang.String" resultType="_int">
+SELECT	COUNT(*)
+FROM	fridger
+WHERE	member_id = #{value}
+</select>
+
+<select id="selectCountFridgerByFridgerName" parameterType="java.lang.String" resultType="_int">
+SELECT	COUNT(*)
+FROM	fridger
+WHERE	fridger_name LIKE '%'||#{value}||'%'
+</select>
+
 </mapper>
