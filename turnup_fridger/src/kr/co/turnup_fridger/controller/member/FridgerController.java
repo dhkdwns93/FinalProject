@@ -212,19 +212,18 @@ public class FridgerController {
 	// 이름으로 찾아 뿌려주는 handler
 	@RequestMapping("show/byName")
 	@ResponseBody
-	public List<Fridger> getFridgerByName(String fridgerName){
-		list = fridgerService.findFridgerByFridgerName(fridgerName);
-		return list;
+	public Map<String, Object> getFridgerByName(String fridgerName, int page){
+		Map<String, Object> map = fridgerService.findFridgerByFridgerNamePaging(fridgerName, page);
+		return map;
 	}
 	
 	
 	//냉장고 주인 회원ID으로 찾는 handler
 	@RequestMapping("show/byOwner")
 	@ResponseBody
-	public List<Fridger> getFridgerByOwner(String memberId){
-		System.out.println(memberId);
-		list = fridgerService.findFridgerByOwner(memberId);
-		return list;
+	public Map<String, Object> getFridgerByOwner(String memberId ,int page){
+		Map<String, Object> map = fridgerService.findFridgerByOwnerPaging(memberId, page);
+		return map;
 	}
 	
 	//로그인 된 회원의 소유한 냉장고 찾는 handler

@@ -112,7 +112,7 @@ $(document).ready(function(){
 			}
 		})
 		
-		
+			
 		
 		
 		
@@ -407,6 +407,7 @@ function getFridgerInfo(fridgerId){
 				}
 			}
 		})
+	})
 
 
 function resetRegisterModal(){
