@@ -13,18 +13,18 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="${initParam.rootPath}/scripts/jquery.js"></script>
-<script type="text/javascript">
-
-</script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <style type="text/css">
 @CHARSET "UTF-8";
-
+@import url('https://fonts.googleapis.com/css?family=Julius+Sans+One|Coming+Soon|Philosopher|Kalam|Handlee|Kite+One');
 @import url(http://fonts.googleapis.com/earlyaccess/nanumpenscript.css);
 
 body {
 	background: url('${initParam.rootPath}/img/note-new.jpg') no-repeat center;
 	background-size: cover;
-	color: white;
 }
 
 div {
@@ -48,10 +48,18 @@ table {
 	font-size: 12px;
 	text-align: right;
 }
+
+#submit{
+	font-family: 'Kite One', sans-serif;
+	font-size: 15px;
+}
+#memoName, #memoTxt{
+	font-size: 18px;
+}
 </style>
 </head>
 <body>
-	<div>
+	<div id="memoDate">
 		<fmt:formatDate value="${requestScope.date }" pattern="yyyy년 MM월 dd일" />자 장바구니 메모
 	</div>
 	<form action="${initParam.rootPath}/memo/addMemo.do" method="post">
@@ -59,18 +67,20 @@ table {
 		<table>
 			<tr>
 				<td><span class="error"><form:errors path="myMemo.memoName" /></span><br>
-				<input type="text" name="memoName" value="${param.memoName}" size="50" style="background-color: transparent"></td>
+				<input type="text" id="memoName" name="memoName" value="${param.memoName}" size="41" style="background-color: transparent"></td>
 			</tr>
 			<tr>
 				<td><span class="error"><form:errors path="myMemo.memoTxt" /></span><br>
-				<textarea rows="21" cols="51" name="memoTxt" style="background-color: transparent">${param.memoTxt}</textarea>
+				<textarea rows="12" cols="43" id="memoTxt" name="memoTxt" style="background-color: transparent">${param.memoTxt}</textarea>
 				</td>
 			</tr>
 			<tr>
 				<td>
 					<sec:authentication property="principal.memberId" var="mid" />
 					<input type="hidden" name="memberId" value="${mid}">
-					<input type="submit" id="submit" value="저장">
+					<!-- <input type="submit" id="submit" value="save"> -->
+					<button type="submit" id="submit" class="btn btn-default btn-md"  style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
 				</td>
 			</tr>
 		</table>

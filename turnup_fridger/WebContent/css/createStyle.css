@@ -67,6 +67,57 @@ input[type="button"].btn-block {
   background-color: #d8d8d8 \9;
 }
 
+/* 단 나누기 */
+
+.wrapperDiv{
+	display:-webkit-flex;
+	display:flex;
+}
+.left-box-sidemenu{
+ 	background:#ffcc99;
+ 	float:left;
+ 	width:20%;
+	min-width:200px;
+	max-width:250px;
+ 	height:100%;
+	margin-left:5%;
+	margin-bottom:auto;
+ 	border-radius:10%;
+ 	padding : 2%;
+ 	font-size:100%;
+}
+.right-box-sidemenu{
+	-webkit-flex:none;
+	flex:none;
+	position:relative;
+	background:white;
+	float:right;
+	width:67%;
+	height:100%;
+	margin-right:5%;
+}
+
+.list-group-item {
+	border: none;
+	color: #555;
+	text-decoration: none;
+	background-color: #ffcc99;
+}
+
+.list-group-item:hover, .list-group-item:focus {
+	color: #555;
+	text-decoration: none;
+	background-color: #fff2e6 !important;
+}
+
+/* (오른쪽단)contact-form 넓이*/
+.form-page{
+	display:inline-block;
+	width:70%;
+	margin-left:5%;
+}
+
+
 /* 경혜 form ex. 회원가입페이지 */
 
 .ccfield-prepend{

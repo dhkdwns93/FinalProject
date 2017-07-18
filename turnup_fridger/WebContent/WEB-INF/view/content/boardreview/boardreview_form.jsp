@@ -8,6 +8,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" 
+href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 	//후기 삭제
@@ -79,13 +84,35 @@ form{display:inline}
 span, td, th{
 	padding: 5px; 
 }
-spn{display:inline}
+
 span.error{
 	font-size:small;
 	color: red;
 }
 h1{display:inline}
 h2{display:inline}
+
+.form-controls {
+  padding: 0;
+  padding-bottom: 0.6rem;
+  padding-top: 0.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  background-color: transparent;
+  background-image: none;
+  border-radius: 0;
+  margin-top: 0.2rem;
+  margin-bottom: 1rem; }
+  .form-control:focus {
+    background: transparent; }
+
+#absolute {
+  position: absolute;
+  right: 0;
+}
+
+
+
 .boardReviewStar>.input,
 .boardReviewStar>.input>label:hover,
 .boardReviewStar>.input>input:focus+label,
@@ -184,6 +211,65 @@ h2{display:inline}
     font:bold 18px Helvetica, Arial, sans-serif;
     vertical-align: middle;
 }
+
+/* 버튼 */
+.where {
+  display: block;
+  margin: 25px 15px;
+  font-size: 11px;
+  color: #000;
+  text-decoration: none;
+  font-family: verdana;
+  font-style: italic;
+} 
+
+.filebox input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip:rect(0,0,0,0);
+    border: 0;
+}
+
+.filebox label {
+    display: inline-block;
+    padding: .5em .75em;
+    color: #999;
+    font-size: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #fdfdfd;
+    cursor: pointer;
+    border: 1px solid #ebebeb;
+    border-bottom-color: #e2e2e2;
+    border-radius: .25em;
+}
+
+
+.filebox .upload-name {
+    display: inline-block;
+    padding: .5em .75em;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #f5f5f5;
+  border: 1px solid #ebebeb;
+  border-bottom-color: #e2e2e2;
+  border-radius: .25em;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.filebox.bs3-primary label {
+  color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
 </style>
 </head>
 <body>
@@ -191,7 +277,7 @@ h2{display:inline}
 
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>후기 ></h1><h2>후기 등록</h2><br>
+<h1>후기 ></h1><h2> 후기 등록</h2><br>
 <hr>
 <form name="review" action="${initParam.rootPath}/boardreview/boardReviewAdd.do" method="post" enctype="multipart/form-data">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
@@ -199,27 +285,31 @@ h2{display:inline}
 	<tr>
 		<td>작성자</td>
 		<td>
-			<input class="form-control" style="width:40%;" type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>">
+			<input class="form-control" style="width:20%;" type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>">
 		</td>
 	</tr>
 	<tr>
 		<td>제목</td>
 		<td>
-			<input class="form-control" type="text" name="boardReviewTitle" value="${boardReview.boardReviewTitle}">
+			<input class="form-control" style="width:40%;" type="text" name="boardReviewTitle" value="${boardReview.boardReviewTitle}"  placeholder="제목을 입력해주세요">
 			<span class="error"><form:errors path="boardReview.boardReviewTitle" delimiter="&nbsp;"/></span>	
-		</td>
+		</td>	
 	</tr>
 	<tr>
     	<td>레시피</td>
     	<td>
-	    	<input style="width:30%;" type="hidden" id="recipeId" name="recipeId" readonly value="${boardReview.recipeId}">
-	    	<input class="form-control" style="width:30%;" type="text" id="recipeName" name="recipeName" readonly value="${boardReview.recipeName}">
-	    	<span class="error"><form:errors path="boardReview.recipeName" delimiter="&nbsp;"/></span>    
-	    	<input id="recipeName" type="button" value="레시피 검색" onclick="popupRecipeName()"> 	
+    		<div class="absolute">   			
+		    	<input style="width:20%;" type="hidden" id="recipeId" name="recipeId" readonly value="${boardReview.recipeId}">
+		    	<input class="form-control" style="width:30%;" type="text" id="recipeName" name="recipeName" readonly value="${boardReview.recipeName}">
+		    	<button type="button" class="btn btn-default btn-lg" id="recipeName" style="border:0;outline:0;" onclick="popupRecipeName()">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+		    	<span class="error"><form:errors path="boardReview.recipeName" delimiter="&nbsp;"/></span>    
+		    </div>
 	    </td>
 	</tr>
 	<tr>	 
-    	<td>별점주기</td>
+    	<td>별점</td>
     	<td>			
 				<span class="boardReviewStar">
 				  <span class="input">
@@ -233,30 +323,33 @@ h2{display:inline}
 				    <input type="radio" name="boardReviewStar" id="p8" value="8"><label for="p8">8</label>
 				    <input type="radio" name="boardReviewStar" id="p9" value="9"><label for="p9">9</label>
 				    <input type="radio" name="boardReviewStar" id="p10" value="10"><label for="p10">10</label>
-				  </span>
-				  
+				  </span>			  
 				</span>
 		</td>
     </tr>
 	<tr>
 		<td>사진</td>
 		<td>
-			<input  type="file" name="upImage">
+			<input class="upload-hidden"  type="file" name="upImage">
 		</td>
 	</tr>
 	<tr>
 		<td>내용</td>
 		<td>
-			<textarea class="form-control" name="boardReviewTxt" row="5" cols="70" placeholder="내용을 입력해주세요">${boardReview.boardReviewTxt}</textarea>
+			<textarea class="form-control" style="width:40%;" name="boardReviewTxt" row="5" cols="70" placeholder="내용을 입력해주세요">${boardReview.boardReviewTxt}</textarea>
 			<span class="error"><form:errors path="boardReview.boardReviewTxt" delimiter="&nbsp;"/></span>
 		</td>
 	</tr>
 </table>
-<input type="submit" value="등록하기" onclick="insert_event();">
+	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;"  onclick="insert_event();">
+		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+	</button>
 </form>
 <form action="${initParam.rootPath}/boardreview/boardReviewList.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<input type="submit" value="뒤로가기">
+	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+		<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+	</button>
 </form>
 </div>
 </body>

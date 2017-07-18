@@ -7,15 +7,11 @@
 변경이력 
 170711 회원 개인 탈퇴처리 한번더 화긴
  -->
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	$("button#leaveMemberBtn").on("click",function(){
+	$(document).on("click","#leaveMemberBtn",function(){
 		var submitTrue=false;
 		$.ajax({
 			url:"${initParam.rootPath}/common/member/checkPw.do",
@@ -39,31 +35,73 @@ $(document).ready(function(){
 		}else{
 			return window.confirm("정말 탈퇴 하시겠습니까?");
 		}
-	});
-});//end of leaveMemberBtn
+	});//end of leaveMemberBtn
+});
+
+function resetModal(){
+	document.getElementById("deleteMemberForm").reset();
+}
+
+function openModal(){
+	$('#deleteMemberModal').modal('show');
+}
 </script>
-</head>
-<body>
+<style>
+.font-Viner_Hand_ITC {
+	font-family: "Viner Hand ITC";
+	src: url("/font/VINERITC.TTF");
+	color: #6D6C75;
+}
+</style>
+
 <div class='wrapperDiv'>
 	
-	<jsp:include page="/WEB-INF/view/layout/side_menu/memberSideMenu.jsp"/>
+	
 	<div class='right-box-sidemenu'>
+		<div class="container">
 		
 		
-		<h2>회원탈퇴페이지</h2>
-		<form action="${initParam.rootPath}/common/member/member_delete.do" method="post">
-		Id : [ <sec:authentication property="principal.memberName"/> ]님 정말로 탈퇴하시겠습니까?<br>
-		<input type="hidden" name="memberId" value='<sec:authentication property="principal.memberId"/>' class="form-control">
-		<input type="hidden" id="originalMemberPw" value='<sec:authentication property="principal.memberPw"/>' class="form-control">
-		<label for="inputPw">회원비밀번호 입력</label> <input type="password" id="inputMemberPw" name="inputMemberPw" class="form-control">
+		<div class="modal fade" id="deleteMemberModal" tabindex="-1" role="dialog" aria-labelledby="createFridgerModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		<div class="modal-content">
+		
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetModal()" ><span aria-hidden="true">&times;</span></button>
+			<h3 class="modal-title font-Viner_Hand_ITC" id="myModalLabel">Delete My Account</h3>
+		</div><!-- modal-header -->
+		
+		<form action="${initParam.rootPath}/common/member/member_delete.do" method="post" id="deleteMemberForm" class="form-horizontal">
+		<div class="modal-body">
+		<div class="form-group">
+			<div class="col-sm-6 control-label">Id : [ <sec:authentication property="principal.memberName"/> ]님 정말로 탈퇴하시겠습니까?</div>
+			<input type="hidden" name="memberId" value='<sec:authentication property="principal.memberId"/>' class="form-control">
+		</div><!-- form-group -->
+		
+		<div class="form-group">
+			<input type="hidden" id="originalMemberPw" value='<sec:authentication property="principal.memberPw"/>' class="form-control">
+			<label for="inputPw" class="col-sm-2">Password</label> 
+			<div class="col-sm-6">
+				<input type="password" id="inputMemberPw" name="inputMemberPw" class="form-control">
+			</div>
+		</div><!-- form-group -->
 		<sec:csrfInput/>
-		<div id="checkPwResult"></div>
-		<hr>
-		<a href="${initParam.rootPath}/common/member/member_mypage.do"><button type="button" class="btn btn-default">뒤로 돌아가기</button></a>
-		<button type="submit" id="leaveMemberBtn" class="btn btn-default">탈퇴하기</button>
+		<div class="form-group">
+			<div id="checkPwResult" class="col-sm-6 control-label"></div>
+		</div>
+		
+		</div><!-- modal-body -->
+		<div class="modal-footer">
+		<input type="button" id="cancel" class="btn btn-default" data-dismiss="modal" onclick="resetModal()" value="Cancel">
+		<a href="${initParam.rootPath}/common/member/member_delete.do"><input type="submit" id="leaveMemberBtn" class="btn btn-primary" value="Delete My Account"></a>
+		</div><!-- modal-footer -->
 		</form>
+		</div><!-- .modal-content -->
+		</div><!-- .modal-dialog -->
+		</div><!-- .modal fade -->
+		
+		
+		</div><!-- .container  -->
+		
 		
 	</div><!-- right-box -->
 </div><!-- wrapperDiv -->	
-</body>
-</html>

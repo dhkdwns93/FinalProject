@@ -5,7 +5,9 @@
 <html>
 <head>
 <style type="text/css">
-
+table {
+text-align:center;
+}
 
 form{display:inline}
 input:focus {
@@ -13,7 +15,10 @@ input:focus {
 }
 </style>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>관리자 재료 관리</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script type="text/javascript" src="/turnup_fridger/scripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 function getList(page){
@@ -30,8 +35,10 @@ function getList(page){
 			$.each(map.list, function(){
 				$("#tbody").append($("<tr>").prop("id","irdnt_col").append($("<td>").append(this.irdntId)).append($("<td>").append(this.irdntName)).append($("<td>").append(this.irdntCategory))
 				.append($("<td>").append(this.roomTemPeriod)).append($("<td>").append(this.coldTemPeriod)).append($("<td>").append(this.freezeTemPeriod)).append($("<td>").append(this.note))
-				.append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").append("수정")))
-				.append($("<td>").append($("<button>").prop("type","button").prop("id","deleteBtn").append("삭제"))));
+				.append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").prop("class","btn btn-default btn-lg").prop("style","border:0;outline:0;")
+						.append($("<span>").prop("class","glyphicon glyphicon-pencil").prop("aria-hidden","true"))))
+				.append($("<td>").append($("<button>").prop("type","button").prop("id","deleteBtn").prop("class","btn btn-default btn-lg").prop("style","border:0;outline:0;")
+						.append($("<span>").prop("class","glyphicon glyphicon-trash").prop("aria-hidden","true")))));
 			 	});//each
 			
 			 	$("#pageBean").append($("<a href='javascript:getList(1)'>").append("첫페이지"));
@@ -126,7 +133,7 @@ function getSearchList(page){
 
 		$(document).on("click","#updateBtn",function(){
 			var irdntId = $(this).parent().parent().children(":first-child").text();
-			window.open("/turnup_fridger/common/admin/irdntManage/findIrdntById.do?irdntId="+irdntId,"updateIrdnt","width=500, height=400");
+			window.open("/turnup_fridger/common/admin/irdntManage/findIrdntById.do?irdntId="+irdntId,"updateIrdnt","width=500, height=550");
 
 		});
 
@@ -148,7 +155,7 @@ function getSearchList(page){
 		});//deleteBtn
 		
 		$("#insertBtn").on("click",function(){
-			window.open("/turnup_fridger/common/admin/irdntManage/irdnt_form.do","insertIrdnt","width=500, height=400");
+			window.open("/turnup_fridger/common/admin/irdntManage/irdnt_form.do","insertIrdnt","width=500, height=500");
 		})//insertBtn
 	});
 
@@ -157,8 +164,8 @@ function getSearchList(page){
 <body>
 
 	<div style= "text-align: center;">
-	<h2>재료 목록</h2><hr><br>
-	카테고리 :
+	<h2 style="font-weight:bold;">재료 목록</h2><hr><br>
+	카테고리  
 	<select name="irdntCategory" id="irdntCategory">
 		<option value="전체">전체</option>
 		<c:forEach items="${requestScope.irdntCategory}" var="irdntCategory">
@@ -166,16 +173,18 @@ function getSearchList(page){
 		</c:forEach>
 	</select>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 	
-	재료명검색
+	재료명 
 	<input type="text" name ="irdntName" id="irdntName">
-	<button type="button" id="searchBtn">검색</button>
+	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" id="searchBtn">
+	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+	</button>
 	
 	</div>
 	
 	<br>	
 	<div id="result" class="tableList" style="width:1000px; ">
-		<table class="table table-hover table-condensed" style="width:100%; border:5;">
-			<thead>
+		<table class="table table-hover table-condensed" style="width:100%;">
+			<thead style="text-align:center;">
 				<tr>
 				<th>재료id</th>
 				<th>재료명</th>
@@ -192,7 +201,7 @@ function getSearchList(page){
 		</table>
 	</div><br>
 	
-	<div style="text-align:center;"><button type="button" id="insertBtn">재료추가</button></div><br>
+	<div style="text-align:center;"><button type="button" id="insertBtn" class="btn btn-warning">재료추가</button></div><br>
 	<div id="pageBean" style="text-align:center;"></div>
 
 </body>

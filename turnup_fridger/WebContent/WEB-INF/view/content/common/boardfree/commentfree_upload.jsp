@@ -6,6 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" 
+href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 //댓글 수정
@@ -83,14 +88,19 @@ h2{display:inline}
 </table>
 		<input type="hidden" name="commentFreeId" id="commentFreeId" value="${commentFree.commentFreeId}">
 		<input type="hidden" name="boardFreeId" id="boardFreeId" value="${commentFree.boardFreeId}">
-		<input id="submit" type="submit" value="수정"  onclick="return comment_update_event();">
+		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return comment_update_event();">
+			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+		</button>
 </form>
 <form action="${initParam.rootPath}/common/boardfree/boardFreeView.do" method="post">
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
         <input type="hidden" name="member" value=""> 
         <input type="hidden" name="admin" value="">
         <input type="hidden" name="memberId" value="${commentFree.memberId}">
-<button value="${commentFree.boardFreeId}" name="boardFreeId">뒤로가기</button>
+        <input type="hidden" name="boardFreeId" value="${commentFree.boardFreeId}">
+		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+			<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+		</button>
 </form> 
 </div>
 </body>

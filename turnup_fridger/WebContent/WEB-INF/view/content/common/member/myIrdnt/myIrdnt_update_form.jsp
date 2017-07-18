@@ -9,6 +9,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script type="text/javascript" src="/turnup_fridger/scripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 
@@ -43,24 +45,38 @@ function closeWindow(){
 	self.close();
 	}
 </script>
+<style>
+table {
+	border-collapse: collapse;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+
+table, th, td {
+	border: 0.5px ridge;
+	text-align: center;
+	padding: 10px;
+}
+</style>
 </head>
 <body>
-<h2>나의 식재료 수정</h2>
+<h2 style="text-align:center; font-weight:bold;">재료 상세정보</h2><hr><br>
 <form name="updateMyIrdntForm" method="post" onsubmit="closeWindow()">
 <table>
 	<tr>
 		<th>재료key</th>
-		<td><input type="text" id = "myIrdntKey" name="myIrdntKey" value="${requestScope.myIrdnt.myIrdntKey}" readonly="readonly">
+		<td><input type="text" id = "myIrdntKey" name="myIrdntKey" value="${requestScope.myIrdnt.myIrdntKey}" readonly="readonly" style="width:136.25px; height:24;">
 		<span class="error"><form:errors path="myIrdnt.myIrdntKey" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr>
 		<th>재료id</th>
-		<td><input type="text" id = "irdntId" name="irdntId" value="${requestScope.myIrdnt.irdntId}" readonly="readonly">
+		<td><input type="text" id = "irdntId" name="irdntId" value="${requestScope.myIrdnt.irdntId}" readonly="readonly" style="width:136.25px; height:24;">
 		<span class="error"><form:errors path="myIrdnt.irdntId" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr>
 		<th>재료명</th>
-		<td><input type="text" id = "irdntName" name="irdntName" value="${requestScope.myIrdnt.irdntName}" readonly="readonly">
+		<td><input type="text" id = "irdntName" name="irdntName" value="${requestScope.myIrdnt.irdntName}" readonly="readonly" style="width:136.25px; height:24;">
 		<span class="error"><form:errors path="myIrdnt.irdntName" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr>
@@ -77,7 +93,7 @@ function closeWindow(){
 	</tr>
 	<tr>
 		<th>수량메모</th>
-		<td><input type="text" id = "irdntCount" name="irdntCount" value="${requestScope.myIrdnt.irdntCount}">
+		<td><input type="text" id = "irdntCount" name="irdntCount" value="${requestScope.myIrdnt.irdntCount}" style="width:136.25px; height:24;">
 		<span class="error"><form:errors path="myIrdnt.irdntCount" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	
@@ -93,36 +109,36 @@ function closeWindow(){
 		<c:if test="${requestScope.myIrdnt.startFreshLevel eq '나쁨'}">
 			$("#start_bad").prop("checked","checked");
 		</c:if>--%>
-		좋음 : <input type="radio" name="startFreshLevel" value="좋음" id="start_good"><span class="error">
-		<form:errors path="myIrdnt.startFreshLevel" delimiter="&nbsp;&nbsp;"/></span>
-		보통 : <input type="radio" name="startFreshLevel" value="보통" id="start_normal"><span class="error">
-		<form:errors path="myIrdnt.startFreshLevel" delimiter="&nbsp;&nbsp;"/></span>
-		나쁨 : <input type="radio" name="startFreshLevel" value="나쁨" id="start_bad"><span class="error">
-		<form:errors path="myIrdnt.startFreshLevel" delimiter="&nbsp;&nbsp;"/></span></td>
+		좋음 <input type="radio" name="startFreshLevel" value="좋음" id="start_good">
+		<span class="error"><form:errors path="myIrdnt.startFreshLevel" delimiter="&nbsp;&nbsp;"/></span>
+		보통 <input type="radio" name="startFreshLevel" value="보통" id="start_normal">
+		<span class="error"><form:errors path="myIrdnt.startFreshLevel" delimiter="&nbsp;&nbsp;"/></span>
+		나쁨 <input type="radio" name="startFreshLevel" value="나쁨" id="start_bad">
+		<span class="error"><form:errors path="myIrdnt.startFreshLevel" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr class="storgeRadio">
 		<th>보관장소</th>
 		<td>
-		실온 : <input type="radio" name="storgePlace" value="실온" id="room"><span class="error">
+		실온 <input type="radio" name="storgePlace" value="실온" id="room"><span class="error">
 		<form:errors path="myIrdnt.storgePlace" delimiter="&nbsp;&nbsp;"/></span>
-		냉장 : <input type="radio" name="storgePlace" value="냉장" id="cold"><span class="error">
+		냉장 <input type="radio" name="storgePlace" value="냉장" id="cold"><span class="error">
 		<form:errors path="myIrdnt.storgePlace" delimiter="&nbsp;&nbsp;"/></span>
-		냉동 : <input type="radio" name="storgePlace" value="냉동" id="freeze"><span class="error">
+		냉동 <input type="radio" name="storgePlace" value="냉동" id="freeze"><span class="error">
 		<form:errors path="myIrdnt.storgePlace" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr>
 		<th>신선도</th>
-		<td><input type="text" id = "freshLevel" name="freshLevel" value="${requestScope.myIrdnt.freshLevel}" readonly="readonly">
+		<td><input type="text" id = "freshLevel" name="freshLevel" value="${requestScope.myIrdnt.freshLevel}" readonly="readonly" style="width:136.25px; height:24;">
 		<span class="error"><form:errors path="myIrdnt.freshLevel" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>
 	<tr>
 		<th>냉장고id</th>
-		<td><input type="text" id = "fridgerId" name="fridgerId" value="${requestScope.myIrdnt.fridgerId}" readonly="readonly">
+		<td><input type="text" id = "fridgerId" name="fridgerId" value="${requestScope.myIrdnt.fridgerId}" readonly="readonly" style="width:136.25px; height:24;">
 		<span class="error"><form:errors path="myIrdnt.fridgerId" delimiter="&nbsp;&nbsp;"/></span></td>
 	</tr>	
 	<tr>
 		<td colspan="2">
-			<input type="submit" value="수정" id="updateBtn">
+			<input type="submit" value="수정" id="updateBtn" class="btn btn-warning">
 		</td>
 	</tr>
 </table>

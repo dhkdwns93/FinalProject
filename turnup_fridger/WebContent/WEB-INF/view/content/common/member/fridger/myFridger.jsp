@@ -10,208 +10,365 @@
 <link href="${ initParam.rootPath }/css/bootstrap.css" rel="stylesheet">
 <link href="${ initParam.rootPath }/css/mdb.css" rel="stylesheet">
 <link href="${ initParam.rootPath }/css/landing-page.css" rel="stylesheet">
+
+
+<sec:authentication property="principal.memberId" var="memberId"/>
 <script type="text/javascript">
 $(document).ready(function(){
+	
 	$("#myIrdntBadAlert").hide();
 	$("#freshLevelFrame").hide();
-	getFridgerInfo(${ requestScope.fridgerList[0].fridgerId })
-	
+	getFridgerInfo('${ requestScope.fridgerList[0].fridgerId }')
 	
 	$("#fridgerNameSelect").on("change", function(){
-		alert($("#fridgerNameSelect>option:selected").val());
 		getFridgerInfo($("#fridgerNameSelect>option:selected").val());
+	
+
 	
 	})
 
-
-
-
+	function getFridgerInfo(fridgerId){
+		$.ajax({
+			"url":"${initParam.rootPath}/common/member/fridger/select.do",
+			"type" : "post",
+			"data": {'fridgerId' : fridgerId, '${_csrf.parameterName}':'${_csrf.token}'},
+			"dataType" : "json",
+			"success": function(map){
+				console.log(map)
+				getTypeChart(map.irdntCategoryList)
+				getPlaceChart(map.myIrdntRoomTempCount, map.myIrdntColdTempCount, map.myIrdntFreezeTempCount)
+				
+				if(map.fridger.fridgerImg != null){
+					$("span#fridgerImg").html($("<img>").prop("src", map.fridger.fridgerImg));
+				}
+							
+				$("span#fridgerName").text(map.fridger.fridgerName);
+				$("span#fridgerOwner").text(map.fridger.memberId);
+				$("span#fridgerId").text(map.fridger.fridgerId);
+				$("span#myIrdntCount").text(map.myIrdntCount);
+				$("span#myIrdntBadCount").text(map.myIrdntBadCount);
+			
+				var all = map.myIrdntCount;
+				var good = map.myIrdntGoodCount;
+				var normal = map.myIrdntNormalCount;
+				var bad = map.myIrdntBadCount;
+				var avgFreshLevel = ((bad*0)+(normal*50)+(good*100))/all;
+				var avgLevel = map.myIrdntCount
+				if(!isNaN(avgFreshLevel)){
+					$("#fridgerAvgFreshLevelFault").empty();
+			     	$("#freshLevelBar").css("width","0%");
+					$("#freshLevelFrame").show();
+					showFreshLevelBar(Math.round(avgFreshLevel));
+					$(".con2").show();
+					
+				}else{
+					$("#freshLevelFrame").hide();
+					$("#fridgerAvgFreshLevel").text("")
+				    $("#freshLevelBar").css("width","0%");
+					$("#fridgerAvgFreshLevelFault").text("*신선도 측정 불가. 식재료가 존재하지 않습니다!");
+					$(".con2").hide();
+				}
+							
+							
+				if(bad > 0){
+					$("#myIrdntBadAlert").fadeIn();
+				}else{
+					$("#myIrdntBadAlert").hide();
+				}
+				
+				
+				//위험한 식재료 모달안에 넣기
+				$("#myIrdntBadList ul").empty();
+				$.each(map.myIrdntBadList, function(){
+					var day = Math.round((new Date()-this.startDate)/(1000*60*60*24))
+					$("#myIrdntBadList ul").append($("<li>").append(this.irdntName).append(" (보관한 지 "+ day +"일이 지났습니다.)"));
+				})
+				
+			},
+			"error":function(xhr, msg, code){
+				alert("오류가 떴다고 ㅠㅠㅠㅠ" + code);
+			}
+		})	//end of ajax
+	}	
+		
 	
-function getFridgerInfo(fridgerId){
-	$.ajax({
-		"url":"${initParam.rootPath}/common/member/fridger/select.do",
-		"type" : "post",
-		"data": {'fridgerId' : fridgerId, '${_csrf.parameterName}':'${_csrf.token}'},
-		"dataType" : "json",
-		"success": function(map){
-			getTypeChart();
-			getPlaceChart();
-			console.log(map)
-			if(map.fridger.fridgerImg != null){
-				$("#fridgerImg").html($("<img>").prop("src", map.fridger.fridgerImg));
-			}
-			
-		
-			$("#fridgerName").text(map.fridger.fridgerName);
-			$("#fridgerOwner").text(map.fridger.memberId);
-			$("#myIrdntCount").text(map.myIrdntCount);
-			$("#myIrdntBadCount").text(map.myIrdntBadCount);
-		
-			var all = map.myIrdntCount;
-			var good = map.myIrdntGoodCount;
-			var normal = map.myIrdntNormalCount;
-			var bad = map.myIrdntBadCount;
-			var avgFreshLevel = ((bad*0)+(normal*50)+(good*100))/all;
-			var avgLevel = map.myIrdntCount
-			if(!isNaN(avgFreshLevel)){
-				$("#fridgerAvgFreshLevel").text(Math.round(avgFreshLevel)+"%");
-				$("#freshLevelFrame").show();
-				showFreshLevelBar(Math.round(avgFreshLevel));
-			}else{
-				$("#freshLevelFrame").hide().prop("aria-valuenow","0");
-				$("#fridgerAvgFreshLevel").text("신선도 측정 불가. 식재료가 존재하는지 확인하세요!")
-			}
-			
-			
-
-			
-			
-			if(bad > 0){
-				$("#myIrdntBadAlert").fadeIn();
-			}else{
-				$("#myIrdntBadAlert").hide();
-			}
-			
-			//위험한 식재료 모달안에 넣기
-			$("#myIrdntBadList ul").empty();
-			$.each(map.myIrdntBadList, function(){
-				var day = Math.round((new Date()-this.startDate)/(1000*60*60*24))
-				$("#myIrdntBadList ul").append($("<li>").append(this.irdntName).append(" (보관한 지 "+ day +"일이 지났습니다.)"));
-			})
-			
-		},
-		"error":function(xhr, msg, code){
-			alert("오류가 떴다고 ㅠㅠㅠㅠ" + code);
+	function showFreshLevelBar(avgFreshLevel){
+        $("#freshLevelBar").css("width","0%");
+		if(avgFreshLevel>=70 ){
+			$("#freshLevelBar").prop("class", "progress-bar progress-bar-success")
+		}else if(avgFreshLevel>=40){
+			$("#freshLevelBar").prop("class", "progress-bar progress-bar-warning")
+		}else{
+			$("#freshLevelBar").prop("class", "progress-bar progress-bar-danger")
 		}
-	})	//end of ajax
-}	
-	
-
-function showFreshLevelBar(avgFreshLevel){
-	if(avgFreshLevel>=70 ){
-		$("#freshLevelBar").prop("class", "progress-bar progress-bar-success")
-	}else if(avgFreshLevel>=40){
-		$("#freshLevelBar").prop("class", "progress-bar progress-bar-warning")
-	}else{
-		$("#freshLevelBar").prop("class", "progress-bar progress-bar-danger")
-	}
-    var width = 1;
-    var id = setInterval(frame, 15);
-    function frame() {
-        if (width >= avgFreshLevel) {
-            clearInterval(id);
-        } else {
-            width++; 
-            $("#freshLevelBar").prop("aria-valuenow", width);
-            $("#freshLevelBar").css("width", width+"%");
-            
-            
-        }
-    }
-}
-	 
-	 
-function getTypeChart(){
- var typeData = [
-	    {
-	        value: 200,
-	        color:"#F7464A",
-	        highlight: "#FF5A5E",
-	        label: "육류"
-	    },
-	    {
-	        value: 50,
-	        color: "#46BFBD",
-	        highlight: "#5AD3D1",
-	        label: "채소류"
-	    },
-	    {
-	        value: 100,
-	        color: "#FDB45C",
-	        highlight: "#FFC870",
-	        label: "가공식품류"
-	    },
-	    {
-	        value: 70,
-	        color: "#6aaf8c",
-	        highlight: "#6aca8c",
-	        label: "유제품"
+	    var width = 1;
+	    var id = setInterval(frame, 5);
+	    function frame() {
+	        if (width >= avgFreshLevel) {
+	            clearInterval(id);
+	        } else {
+	            width++; 
+	            $("#freshLevelBar").css("width", width+"%");
+	            $("#fridgerAvgFreshLevel").text(width+"%");       
+	        }
 	    }
-	]
-
- var option = {
-		    responsive: true,
-		    };
-//Get the context of the canvas element we want to select
-var typeCtx = document.getElementById("typeChart").getContext("2d");
-
-typeCtx.clearRect(0, 0, 800, 800);
-typeCtx.beginPath();
-
- var myDoughnutChart = new Chart(typeCtx).Doughnut(typeData,option); 
-
- Chart.defaults.global = {
-		animation: true,
-		animationSteps: 60,
-		animationEasing: "easeOutQuart",
-/* 		showTooltips: true,
-		tooltipEvents: ["mousemove", "touchstart", "touchmove"], */
-	    onAnimationProgress: function(){},
-	    onAnimationComplete: function(){}
-	 }
-
-}
-
-function getPlaceChart(){
-	 var placeData = [
+	} 
+		 
+	function getTypeChart(list){
+		
+	 /* var typeData = [
 		    {
-		        value: 300,
+		        value: 5,
 		        color:"#F7464A",
 		        highlight: "#FF5A5E",
-		        label: "실온"
+		        label: "육류"
 		    },
 		    {
-		        value: 50,
+		        value: 7,
 		        color: "#46BFBD",
 		        highlight: "#5AD3D1",
-		        label: "냉장"
+		        label: "채소류"
 		    },
 		    {
-		        value: 100,
+		        value: 4,
 		        color: "#FDB45C",
 		        highlight: "#FFC870",
-		        label: "냉동"
-		    }
-		]
+		        label: "가공식품류"
+		    },
+		    {
+		        value: 10,
+		        color: "#6aaf8c",
+		        highlight: "#6aca8c",
+		        label: "유제품"
+		    },
+		    {
+		        value: 3,
+		        color: "#6aaf8c",
+		        highlight: "#6aca8c",
+		        label: "곡물류"
+		    } 
+
+		    ] */
 	 
-	 
+		    
+	  var typeData = [];
+	 var colors = ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"];
+	 var highlights = ["#FF5A5E", "#5AD3D1","#FFC870", "#A8B3C5",  "#616774"];
+	  var idx = 0;
+	$.each(list, function(){
+		var obj = {
+				value: this.count,
+				color: colors[idx],
+				highlight:  highlights[idx++],
+				label: this.categoryName
+		}
+		 typeData.push(obj)
+	 }) 
+	 	
 	 var option = {
-			    responsive: true,
+			    responsive: false
 			    };
 	//Get the context of the canvas element we want to select
-	var placeCtx = document.getElementById("placeChart").getContext("2d");
-	placeCtx.clearRect(0, 0, 800, 800);
-	placeCtx.beginPath();
-
-	 var myDoughnutChart = new Chart(placeCtx).Doughnut(placeData,option); 
+	var typeCtx = document.getElementById("typeChart").getContext("2d");
+/* 		typeCtx.clearRect(0, 0, 800, 800);
+		typeCtx.beginPath();
+		if(map == null){
+			return false;
+		} */
+	var myDoughnutChart = new Chart(typeCtx).Doughnut(typeData,option); 
 	 
-	 Chart.defaults.global = {
-			animation: true,
-			animationSteps: 60,
-			animationEasing: "easeOutQuart",
-	/* 		showTooltips: true,
-			tooltipEvents: ["mousemove", "touchstart", "touchmove"], */
-		    onAnimationProgress: function(){},
-		    onAnimationComplete: function(){}
-		 }
-
 	}
+		
+	function getPlaceChart(roomTemp,coldTemp,freezeTemp){
+		console.log(roomTemp+","+coldTemp+","+freezeTemp)
+		
+		 var placeData = [
+			    {
+			        value: roomTemp,
+			        color:"#F7464A",
+			        highlight: "#FF5A5E",
+			        label: "실온"
+			    },
+			    {
+			        value: coldTemp,
+			        color: "#46BFBD",
+			        highlight: "#5AD3D1",
+			        label: "냉장"
+			    },
+			    {
+			        value: freezeTemp,
+			        color: "#FDB45C",
+			        highlight: "#FFC870",
+			        label: "냉동"
+			    }
+			]
+		 
+		 
+		 var option = {
+			responsive: false
+				    };
+		//Get the context of the canvas element we want to select
+		var placeCtx = document.getElementById("placeChart").getContext("2d");
+/* 	 		placeCtx.clearRect(0, 0, 800, 800);
+			placeCtx.beginPath();
+	 */
+		 var myDoughnutChart = new Chart(placeCtx).Doughnut(placeData,option); 
+		
+	}
+	
+	
+	
+	
+	
+	/* 냉장고 컨트롤 기능 */
+	// 냉장고 열어보기
+	$(document).on("click", "#moveInBtn", function(){
+		var fridgerId = $("span#fridgerId").text();
+		var fridgerName=$("span#fridgerName").text();
+		window.location.href="${initParam.rootPath}/common/member/myIrdnt/myIrdntList.do?fridgerId="+fridgerId+"&fridgerName="+fridgerName;
+	});
+	
+	
+	// 냉장고 추가 폼
+	$(document).on("click","#createBtn", function(){
+		var fridgerId = $("span#fridgerId").text();
+		var fridgerOwner = $("span#fridgerOwner").text();
+		
+		$("#createFridgerModal").modal("show");
+	});	// end of click on requstBtn
+	
+	// 냉장고 추가 처리
+	$(document).on("click", "#registerFormBtn",function(){
+		
+		 $("#fridgerImg").val($(".item.active").find("img").attr("src"))
+		//alert($("#fridgerImg").val())
+		 var formData = $("#registerForm").serializeArray();
+		console.log(formData)
+		$.ajax({
+			"url": "${initParam.rootPath }/common/member/fridger/register.do",
+			"type": "post",
+			"data": formData,
+			"dataType":"text",
+			"success": function(text){
+				if(text == "0"){
+					//alert("완료!")
+					$("#createFridgerModal").modal("hide");
+					resetModal("registerForm");
+					window.location.reload();
+				}else if(text =="-1"){
+					alert("실패!")				
+					//회색차유ㅠ
+				}
+			}
+		})
 
+ })
+	
+	
+	
+	// 냉장고 수정폼
+	$(document).on("click","#updateBtn", function(){
+		var fridgerId = $("span#fridgerId").text();
+		var fridgerOwner = $("span#fridgerOwner").text();
+		if("${memberId}" != fridgerOwner){
+			alert("수정 권한이  없습니다!");
+			return false;
+		}
+		alert($("span#fridgerName").text());
+		$("#updateFridgerName").prop("placeholder", $("span#fridgerName").text())
+		$("#updateFridgerId").prop("value",fridgerId)
+		$("#updateFridgerCarousel img").filter("[src='"+$("span#fridgerImg>img").attr("src")+"']").parent().addClass("active")
+		$("#updateFridgerModal").modal("show");
+	});	// end of click on requstBtn
+	
+	//냉장고 수정 처리
+	$(document).on("click", "#updateFormBtn",function(){
+		/*  alert($("#updateFridgerName").val());
+		alert($("#updateFridgerCarousel .item.active").find("img").attr("src")); */
+		var fridgerImg = $("#updateFridgerCarousel .item.active").find("img").attr("src");
+		$("#updateFridgerImg").val(fridgerImg);
+		//alert($("#updateFridgerImg").val())
+		if(!$("#updateFridgerName").val()){
+			$("#updateFridgerName").val($("#updateFridgerName").prop("placeholder"));
+		}	
+			
+		
+		var formData = $("#updateForm").serializeArray();
+		console.log(formData)
+		$.ajax({
+			"url": "${initParam.rootPath }/common/member/fridger/update.do",
+			"type": "post",
+			"data": formData,
+			"dataType":"text",
+			"beforeSend": function(){
+				getFridgerInfo($("#updateFridgerId").val())
+				console.log($("#updateFridgerImg").val());
+				console.log(fridgerImg);				
+				
+						
+			},
+			"success": function(text){
+				if(text == "0"){
+					/* alert("완료!")*/
+					getFridgerInfo($("#updateFridgerId").val())
+					$("#updateFridgerModal").modal('hide');
+					resetModal("updateForm")
+				}else{
+					alert("실패!:"+text)			
+					$(".well").show();
+				}
+			}
+			
+		})
+	
+	})
+	
+	
+	// 냉장고 삭제
+	$(document).on("click","#removeBtn", function(){
+		var fridgerId = $("span#fridgerId").text();
+		var fridgerOwner = $("span#fridgerOwner").text();
+		$.ajax({
+			"url":"/turnup_fridger/common/member/fridger/remove.do",
+			"type":"post",
+			"data":{'fridgerId' : fridgerId, '${_csrf.parameterName}':'${_csrf.token}'},
+			"dataType":"text",
+			"beforeSend":function(){
+				
+				if("${memberId}" != fridgerOwner){
+					alert("삭제 권한이  없습니다!");
+					return false;
+				}
+				
+				if(confirm("삭제하시겠습니까?") != true){
+					return false;
+				}
+			},
+			"success": function(txt){
+		       alert(txt);
+		       window.location.reload();
+		     },
+	        "error":function(xhr, msg, code){
+				alert("오류발생-" + code);
+			}
+			
+		});	//end of ajax
+	});	// end of click on requstBtn
+	
+	
 
+	function resetModal(form){
+		document.getElementById(form).reset();
+	}
 })
-</script>
 
+</script>
 <style> 
+ 
+.container h1,h2,h3,h4{
+font-weight: bold;
+}
+
 header{
     padding: 1em;
 	text-align:left;
@@ -260,6 +417,8 @@ header{
 
 .article.num2 {
     width: 400px;
+    height:auto;
+    
     left: 30%;
     right: 0;
 }
@@ -271,34 +430,59 @@ header{
     right: 0;
 }
 
+
 .con1{
 position: relative;
+width:100%;
 }
 
-.inner.con1{
-	left:0;
-	witdh:250px;
-	text-align: center;	
-    position: absolute;
+.con2{
+position: relative;
+width:100%;
+height: 100%;
 }
 
-.inner.con2{
-	right:0;
-	left:280px;
-	witdh:250px;
-	text-align: center;	
-    position: absolute;
+
+.inner1{
+float: left;
+display: block;
+position: absolute;
+overflow: hidden;
+width:70%;
+height:300px;
+
+left:-50px;
+top:50;
+text-align: center;
 }
+
+.inner2{
+float: left;
+display: block;
+position: absolute;
+overflow: hidden;
+width:70%;
+height:300px;
+right:-50px;
+top:50;
+text-align: center;
+}
+
+.title{
+font-size: 24px;
+font-weight: bold;
+}
+
 
 
 #fridgerImg img{
-height: 250px;
+width : 250px;
 border-radius: 0;
 }
 
 
 #freshLevelFrame {
-  width: 100%;
+  width: 70%;
 }
 
 #freshLevelBar {
@@ -306,6 +490,13 @@ border-radius: 0;
   height: 30px;
 }
 
+
+#fridgerAvgFreshLevel{
+position: absolute; 
+top:0; 
+right:0;
+font-size: 40px;
+}
 
 @media all and (min-width: 768px) {
 	
@@ -331,25 +522,12 @@ border-radius: 0;
     order:2;}
 }
 </style>
-<!-- 위험한 식재료 modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="position; top:0; right:0;">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">위험 상태 식재료 목록</h4>
-      </div>
-      <div class="modal-body" id="myIrdntBadList">
-      <!-- 위험 재료들 -->
-      <ul>
 
-      </ul>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE</button>
-      </div>
-    </div>
-  </div>
+<div>
+<!-- 등록폼 -->
+<jsp:include page="/WEB-INF/view/content/common/member/fridger/register_form2.jsp"/>
+<jsp:include page="/WEB-INF/view/content/common/member/fridger/update_form2.jsp"/>
+
 </div>
 
 
@@ -363,7 +541,7 @@ border-radius: 0;
   <p><strong>당신의 냉장고, 더이상 지저분하게 방치하지 마세요!</strong></p>
 </header>
 
-
+<hr style="margin-bottom: -15px;">
 <div class="articles">
 
 <article class="article num1">
@@ -380,61 +558,70 @@ border-radius: 0;
   <p>
   <span id="fridgerImg"><!-- 사진 들어갈 곳 --></span>
 	</p>
-	<input type="button" class="btn btn-default" data-toggle="modal" data-target="#createFridgerModal" value="+">
-
+	
+	<!-- 냉장고 들어가기 -->
+	<button type="button" id="moveInBtn" class="btn btn-yellow" style="width:235px">Open</button>
+	<br>
+	<!-- 냉장고 삭제하기 -->
+	<button type="button" id="removeBtn" class="btn btn-elegant" style="width:120px">delete</button>
+	<!-- 냉장고 수정하기 -->
+	<button type="button" id="updateBtn" class="btn btn-elegant" data-target="#updateFridgerModal" style="width:100px">Edit</button>
+	<br>
+	<!-- 냉장고 추가 -->
+	<button type="button" id="createBtn" class="btn btn-blue-grey" data-target="#createFridgerModal" style="width:235px">
+	<img src="/turnup_fridger/images/glyphicons/png/glyphicons-433-plus-white.png"></button>
 </article>
 
 
 <article class="article num2">
   <div class="con1">
   <h1><span id="fridgerName"><!-- 냉장고 이름 --></span></h1>
-  <br>
-  <p>주인 : <span id="fridgerOwner"><!-- 냉장고 주인 오는 곳 -->${ requestScope.fridgerList[0].fridger.memberId }</span></p>
-  <p>총 <span id="myIrdntCount"><!-- 총 개수 --></span>가지의 식재료를 보관 중입니다!
+  <div>Owned by <span id="fridgerOwner"><!-- 냉장고 주인 오는 곳 --></span><span id="fridgerId" hidden="true"><!-- 냉장고 아이디--></span></div>
   
-  <p>현재 냉장고의 신선도 : <span id="fridgerAvgFreshLevel"><!-- 냉장고 신선도 --></span>  </p>
+  <hr>
+  <div style="position: relative;">현재 냉장고의 신선도 
+	  <div id="fridgerAvgFreshLevelFault" style="color:#cfcfc9"><!-- 냉장고 신선도 측정불가시 --></div>
  <!-- progress bar -->
     <div id="freshLevelFrame" class="progress">
   		<div id="freshLevelBar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0"  aria-valuemin="0" aria-valuemax="100">
     	</div>
   	</div>
+  	
+  	<span id="fridgerAvgFreshLevel"><!-- 냉장고 신선도 --></span>
+ 	
+ 	
+ </div>
  
-  	<div>
-	<div style="width: 300px; height: 150px; position:absolute; left:-50px;">
-		<canvas id="typeChart">분류별</canvas>
-	</div>
-	<div style="width: 150px; height: 150px; position:absolute; right:0">
-		<canvas id="placeChart">보관장소별</canvas>
-	</div>
-	</div>
-
-
-  </div>
+ <br>
+ <div>총 <span id="myIrdntCount"><!-- 총 개수 --></span>가지의 식재료를 보관 중입니다!</div>
  
+ </div>
+<br>
+
+ <div class="con2">
+  	<div class="inner1">
+  	<span class="title" >카테고리별</span>
+  		<p>
+  		<canvas id="typeChart" style="width: auto; height: 150px; margin-top:10px;"></canvas>
+  		</p>
+  	</div>
+  	<div class="inner2">
+  	<span class="title">보관장소별</span>
+  		<p>
+		<canvas id="placeChart" style="width: auto; height: 150px; margin-top:10px;"></canvas>
+		</p>
+	</div>
+ </div>
 </article>
-
 
 <article class="article num3">
-<!-- 위험경고창 -->
-	<div id="myIrdntBadAlert" class="alert alert-danger alert-dismissible fade in" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-      <h4 id="oh-snap!-you-got-an-error!">*warning!!<a class="anchorjs-link" href="#oh-snap!-you-got-an-error!"><span class="anchorjs-icon"></span></a></h4>
-      <p>지금<span id="myIrdntBadCount"><!-- 보관레벨'위험'인 식재료 --></span>개의 식재료 상태가 위험합니다. 빠른 시간 내에 처리 하십시오.</p>
-      <p>
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">위험한 식재료 확인하기</button>
-        <button type="button" class="btn btn-default" data-dismiss="alert" >닫기</button>
-      </p>
-    </div>
-
+	<!-- 위험한 식재료 경고창 &modal -->
+	<jsp:include page="/WEB-INF/view/content/common/member/fridger/myFridger_alert.jsp"/>
+	
 </article>
 
 
-
 </div>
-<div>
-<jsp:include page="/WEB-INF/view/content/common/member/fridger/register_form2.jsp"/>
-</div>
-
 
 
 
