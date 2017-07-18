@@ -221,7 +221,11 @@ text-align:center;
     </ul>
 </div>
     
-
+   <%-- <li class="disabled">
+      <a href="${initParam.rootPath}/boardnotice/boardNoticeList.do?page=1">
+         <span class="glyphicon glyphicon-chevron-left"/>
+      </a>
+   </li> --%>
 
 <p class="paging">
 	

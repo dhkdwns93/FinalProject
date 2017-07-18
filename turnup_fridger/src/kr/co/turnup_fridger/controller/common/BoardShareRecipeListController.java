@@ -57,7 +57,7 @@ public class BoardShareRecipeListController{
 	IrdntManage irdntManage;
 	
 	//이미지 경로
-	private String eclipseDir ="C:\\Java\\apache-tomcat-8.0.43\\apache-tomcat-8.0.43\\webapps\\turnup_fridger\\img"; 
+	private String eclipseDir ="C:\\Java\\apache-tomcat-8.0.43\\webapps\\turnup_fridger\\img"; 
 
 	//카피
 	private void copyToEclipseDir(String newImageName, MultipartFile upImage) throws IOException{
