@@ -283,7 +283,7 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<div style="text-align:center;"><h2>재료로 레시피 찾기</h2><br><hr></div>
+<h2 style="text-align:center;font-weight:bold;">재료로 레시피 찾기</h2><hr>
 
 <div class="container"style="position:relative;">
 	<button class="btn btn-default" type="button" id="irdntBtn" data-toggle="collapse" data-target="#irdntManage" style="position:absolute; top:0px;left:50px; ">기타 재료 선택 ↓</button>

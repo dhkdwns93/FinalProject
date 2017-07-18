@@ -167,8 +167,8 @@ td {
 </div><br>
 
 <div id="buttons" style="text-align:center;">
-<a href="#" data-toggle="tooltip" title="재료추가"><button type="button" class="btn btn-default" id="addIrdnt" style="width:50px;height:50px;font-size:25px;">+</button></a>&emsp;&emsp;
-<a href="#" data-toggle="tooltip" title="재료삭제"><button type="button" class="btn btn-default" id="deleteOnSelect" style="width:50px;height:50px;font-size:25px;">-</button></a><br><br>
+<a href="#" data-toggle="tooltip" title="재료추가"><button type="button" class="btn btn-warning" id="addIrdnt" style="width:50px;height:50px;font-size:25px;">+</button></a>&emsp;&emsp;&emsp;
+<a href="#" data-toggle="tooltip" title="재료삭제"><button type="button" class="btn btn-warning" id="deleteOnSelect" style="width:50px;height:50px;font-size:25px;">-</button></a><br><br>
 <h4 style="color:lightgray;">재료를 클릭하면 상세정보를 보실 수 있습니다.</h4>
 </div>
 <br>

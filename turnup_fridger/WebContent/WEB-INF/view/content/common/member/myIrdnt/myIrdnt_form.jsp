@@ -7,8 +7,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>식재료 추가</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/bootstrap.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){		
 		//검색버튼을 누르면,myIrdnt_search_result팝업창을 열고-> 팝업창에서 irdntId가 넘어올예정.
@@ -27,9 +28,10 @@
 </script>
 </head>
 <body>
-<h2>나의 식재료 등록</h2>
+<h2 style="text-align:center;">냉장고 속 재료 추가</h2><hr>
 
 <form name="myIrdntForm" method="post" onsubmit="closeWindow()">
+<div style="margin-left:auto; margin-right:auto;">
 <table>
 	<tr>
 		<td>
@@ -80,11 +82,13 @@
 	</tr>
 	<tr>
 		<td colspan="2">
-			<input type="submit" value="등록하기">
+			<input type="submit" value="등록하기" style="align:center;">
 		</td>
 	</tr>
 </table>
+</div>
 <sec:csrfInput/>
+
 </form>
 
 </body>
