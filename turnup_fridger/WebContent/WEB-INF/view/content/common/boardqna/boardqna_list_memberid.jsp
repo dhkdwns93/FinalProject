@@ -36,10 +36,11 @@ input:focus {
 <c:if test="${empty list}">
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-	<h1>QnA 게시판 </h1><br>
+	<h1>QnA 게시판 </h1>
+	<hr>
 	<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
 		<a href="${initParam.rootPath}/index.do">
-			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" >
 				<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 			</button>
 		</a>
@@ -53,13 +54,15 @@ input:focus {
 		</sec:authorize>
 		<!-- 검색 버튼 -->
 		<div style="float:right">
+		<div class="form-inline form-group" >
 		<form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
-			<input type="text" name="memberId" placeholder="아이디를 입력해주세요">
+			<input class="form-control" type="text" name="keyword" placeholder="키워드를 입력해주세요">
 				<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 				</button>
 			<sec:csrfInput/>
 		</form>
+		</div>
 		</div>
 	</table>
 	<br><h2 style="text-align:center">검색한 아이디가 없습니다.</h2>
@@ -69,7 +72,8 @@ input:focus {
 <c:if test="${!empty list}">
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>QnA 게시판 </h1><br>
+<h1>QnA 게시판 </h1>
+<hr>
 <table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
 <a href="${initParam.rootPath}/index.do">
 	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
@@ -86,6 +90,7 @@ input:focus {
 </sec:authorize>
 <!-- 검색 버튼 -->
 <div style="float:right">
+<div class="form-inline form-group" >
 <form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
 	<input type="text" name="memberId" placeholder="아이디를 입력해주세요">
 		<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
@@ -94,13 +99,14 @@ input:focus {
 	<sec:csrfInput/>
 </form>
 </div>
+</div>
 <thead id="thead">
     <tr>
-        <th style="width:5%;">번호</th>
-        <th style="width:50%;">제목</th>
-        <th style="width:10%;">작성일</th>
-        <th style="width:15%;">작성자</th>
-        <th style="width:10%;">댓글수</th>
+        <th style="width:5%;text-align:center;">번호</th>
+        <th style="width:50%;text-align:center;">제목</th>
+        <th style="width:10%;text-align:center;">작성일</th>
+        <th style="width:15%;text-align:center;">작성자</th>
+        <th style="width:10%;text-align:center;">댓글수</th>
     </tr>
  </thead>
 <c:forEach var="row" items="${list}" varStatus="status">
@@ -160,10 +166,10 @@ input:focus {
 	<c:choose>
 		<c:when test="${requestScope.pageBean.previousPageGroup}">
 			<%-- 이전페이지 그룹이 있디면 : previousPageGroup()--%>
-			<a href="${initParam.rootPath }/common/boardqna/boardQnAByMemberId.do?page=${requestScope.pageBean.beginPage - 1}&memberId=${requestScope.memberId}">☜</a>
+			<a href="${initParam.rootPath }/common/boardqna/boardQnAByMemberId.do?page=${requestScope.pageBean.beginPage - 1}&memberId=${requestScope.memberId}">◀</a>
 		</c:when>
 		<c:otherwise>
-				☜	
+				◀	
 		</c:otherwise>
 	</c:choose>
 	
@@ -190,10 +196,10 @@ input:focus {
 	<c:choose>
 		<c:when test="${requestScope.pageBean.nextPageGroup}">
 			<%-- 다음페이지 그룹이 있디면 : nextPageGroup()--%>
-			<a href="${initParam.rootPath }/common/boardqna/boardQnAByMemberId.do?page=${requestScope.pageBean.endPage + 1}&memberId=${requestScope.memberId}">☞</a>
+			<a href="${initParam.rootPath }/common/boardqna/boardQnAByMemberId.do?page=${requestScope.pageBean.endPage + 1}&memberId=${requestScope.memberId}">▶</a>
 		</c:when>
 		<c:otherwise>
-				☞		
+				▶		
 		</c:otherwise>
 	</c:choose>			
 	

@@ -62,6 +62,19 @@ form{display:inline}
  }
  h1{display:inline}
 h2{display:inline}
+th{
+	width:10%;
+}
+td{
+	width:70%;
+}
+.textarea_test {
+    resize:none;
+    line-height:30px;
+    width:100%;
+    overflow-y:hidden;
+    height:100%;
+}
 </style>
 </head>
 <body>
@@ -72,16 +85,19 @@ h2{display:inline}
 <hr>
 <form id="upload" method="post" action="${initParam.rootPath}/common/commentfree/commentFreeUploadForm.do"<%--  onsubmit="closeWindow()" --%>>
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-
-<table>
+<table style="width:100%;">
 	<tr>
 		<th>작성자</th>
-		<td><input type="text" class="form-control" style="float:left;width:40%;" name="memberId" id="memberId" readonly value="${commentFree.memberId }"><br></td>
+		<td>
+			<input type="text" class="form-control" style="float:left;width:40%;" name="memberId" id="memberId" readonly value="${commentFree.memberId }">
+			<br><br>
+		</td>
 	</tr>
 	<tr>
 		<th>내용</th>
 		<td>
-			<textarea class="form-control" name="commentFreeTxt" id="commentFreeTxt" row="120"cols="70">${commentFree.commentFreeTxt}</textarea>
+			<textarea class="form-control textarea_test" style="float:left;width:70%;" onkeyup="this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
+			name="commentFreeTxt" id="commentFreeTxt" row="5"cols="70">${commentFree.commentFreeTxt}</textarea>
 			<span class="error"><form:errors path="commentFree.commentFreeTxt" delimiter="&nbsp;"/></span>
 		</td>
 	</tr>
