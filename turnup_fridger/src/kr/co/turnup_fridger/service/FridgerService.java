@@ -1,8 +1,8 @@
 package kr.co.turnup_fridger.service;
 
 import java.util.List;
+import java.util.Map;
 
-import kr.co.turnup_fridger.exception.DuplicatedFridgerException;
 import kr.co.turnup_fridger.exception.FindFridgerFailException;
 import kr.co.turnup_fridger.exception.FindMemberFailException;
 import kr.co.turnup_fridger.vo.Fridger;
@@ -103,6 +103,11 @@ public interface FridgerService {
 	List<Fridger> findFridgerAndIrdntByOwnerId(String memberId);
 	
 	
+	/**************************페이지 처리*************************/
 	
+	Map<String, Object> findFridgerByOwnerPaging(String memberId, int page);
+	
+	
+	Map<String, Object> findFridgerByFridgerNamePaging(String fridgerName, int page);
 
 }

@@ -104,5 +104,16 @@ public interface FridgerDao {
 	List<Fridger> selectFridgerAndIrdntByOwnerId(String memberId);
 
 	
+	/**************************페이지 처리*************************/
+	
+	List<Fridger> selectFridgerByFridgerNamePaging(String fridgerName, int startIndex,int endIndex);
+	
+	List<Fridger> selectFridgerByOwnerIdPaging(String memberId, int startIndex,int endIndex);
+
+	int selectCountFridgerByFridgerName(String fridgerName);
+	
+	int selectCountFridgerByOwnerId(String memberId);
+	
+	
 }
 
