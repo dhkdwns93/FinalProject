@@ -8,7 +8,7 @@
 <script src="${ initParam.rootPath }/scripts/bootstrap.min.js"></script>
 <script src="${ initParam.rootPath }/scripts/mdb.js"></script>
 <link href="${ initParam.rootPath }/css/bootstrap.css" rel="stylesheet">
-<link href="${ initParam.rootPath }/css/mdb.css" rel="stylesheet">
+<%-- <link href="${ initParam.rootPath }/css/mdb.css" rel="stylesheet"> --%>
 <link href="${ initParam.rootPath }/css/landing-page.css" rel="stylesheet">
 <script>
 // 냉장고 추가
@@ -35,7 +35,7 @@ $(document).on("click","#myModalCloseBtn", function(){
       </ul>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-elegant" id="myModalCloseBtn">CLOSE</button>
+        <button type="button" class="btn btn-elegant" id="myModalCloseBtn" style="background-color:#4c4c34; color:#ffffff; border:5px; border-color:#1e1e15; width:110px; margin: 2px; text-shadow:none; font-weight: bold">CLOSE</button>
       </div>
     </div>
   </div>
@@ -43,12 +43,12 @@ $(document).on("click","#myModalCloseBtn", function(){
 
 
 <!-- 위험경고창 -->
-	<div id="myIrdntBadAlert" class="alert alert-danger alert-dismissible fade in" role="alert">
+	<div id="myIrdntBadAlert" class="alert alert-danger alert-dismissible fade in" role="alert" >
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
       <h4 id="oh-snap!-you-got-an-error!">*warning!!<a class="anchorjs-link" href="#oh-snap!-you-got-an-error!"><span class="anchorjs-icon"></span></a></h4>
       <p>지금<span id="myIrdntBadCount"><!-- 보관레벨'위험'인 식재료 --></span>개의 식재료 상태가 위험합니다. 빠른 시간 내에 처리 하십시오.</p>
       <p>
-        <button type="button" class="btn btn-danger" id="myIrdntBadBtn" data-target="#myModal">위험한 식재료 확인하기</button>
+        <button type="button" class="btn btn-danger" id="myIrdntBadBtn" data-target="#myModal" style="background-color: #e60000; color:#ffffff;  border:5px; margin: 2px; text-shadow:none; font-weight: bold">위험한 식재료 확인하기</button>
 <!--         <button type="button" class="btn btn-default" data-dismiss="alert" >닫기</button> -->
       </p>
     </div>

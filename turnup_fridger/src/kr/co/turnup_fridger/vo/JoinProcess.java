@@ -223,12 +223,15 @@ public class JoinProcess implements Serializable{
 	}
 
 
+
 	@Override
 	public String toString() {
 		return "JoinProcess [processNo=" + processNo + ", processFridgerId=" + processFridgerId + ", processState="
 				+ processState + ", reqDate=" + reqDate + ", respDate=" + respDate + ", reqMemberId=" + reqMemberId
-				+ ", respMemberId=" + respMemberId + "]";
+				+ ", respMemberId=" + respMemberId + ", fridgerName=" + fridger + "]";
 	}
+
+	
 	
 	
 }

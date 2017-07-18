@@ -146,6 +146,7 @@ input[type=search] {
   vertical-align: middle;
   width: 90%;
   padding-right: 1em;
+  
 }
 .li-img3 img {
   display: block;
@@ -183,7 +184,7 @@ input[type=search] {
     display: block;
   }
   .li-img3, .li-text3, .inner3 {
-  	
+  	text-align:center;
     display: block;
     width: auto;
     padding: 0;
