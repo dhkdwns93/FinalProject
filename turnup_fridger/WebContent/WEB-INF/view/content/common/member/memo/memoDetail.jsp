@@ -11,6 +11,10 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="${initParam.rootPath}/scripts/jquery.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 
 $(document).ready(function(){
@@ -101,6 +105,10 @@ body{
 	background: url('${initParam.rootPath}/img/note-new.jpg') no-repeat center;
 	background-size: cover;
 }
+#name, #txt{
+	font-size: 18px;
+}
+
 </style>
 </head>
 <body>
@@ -112,19 +120,31 @@ body{
 	<table id="detail">
 		<tr>
 			<td><span class="error"><form:errors path="myMemo.memoName" /></span><br>
-			<input type="text" id="name" class="box" name="memoName" size="50" value="${requestScope.memo.memoName}" readonly style="background-color: transparent"></td>
+			<input type="text" id="name" class="box" name="memoName" size="41" value="${requestScope.memo.memoName}" readonly style="background-color: transparent"></td>
 		</tr>
 		<tr>
 			<!-- rows : 세로  cols : 가로 -->
 			<td><span class="error"><form:errors path="myMemo.memoTxt" /></span><br> 
-			<textarea id="txt" rows="21" cols="51" class="box" name="memoTxt" readonly style="background-color: transparent">${requestScope.memo.memoTxt }</textarea></td>
+			<textarea id="txt" rows="12" cols="43" class="box" name="memoTxt" readonly style="background-color: transparent">${requestScope.memo.memoTxt }</textarea></td>
 		</tr>
 		<tr>
 			<td>
-				 <button type="button" id="mod" class="one">수정</button>
-				 <button type="button" id="del" class="one">삭제</button>
-				 <button type="button" id="send" class="one">문자전송</button>
-				 <button type="button" id="submit">확인</button>
+				 <!-- <button type="button" id="mod" class="one btn btn-info">수정</button> -->
+				 <button type="button" id="mod" class="btn btn-default btn-md one"  style="border:0;outline:0;paddind:auto;">
+					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+				</button>
+				<!--  <button type="button" id="del" class="one">삭제</button> -->
+				 <button type="button" id="del" class="btn btn-default btn-md one"  style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+				</button>
+				 <!-- <button type="button" id="send" class="one">문자전송</button> -->
+				 <button type="button" id="send" class="btn btn-default btn-md one"  style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+				</button>
+				 <!-- <button type="button" id="submit">확인</button> -->
+				 <button type="button" id="submit" class="btn btn-default btn-md"  style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				 </button>
 			</td>
 		</tr>
 	</table>

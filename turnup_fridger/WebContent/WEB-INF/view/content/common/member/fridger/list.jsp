@@ -25,7 +25,6 @@ $(document).ready(function () {
 						 				.append($("<td>").append($("<button>").prop("type","button").prop("id","requestBtn").prop("value",this.fridgerId).append("JOIN")))
 										 .append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").prop("value",this.fridgerId).append("수정"))))
 												 .append($("<tr>").prop("class","collapse out").prop("id", "info"+ fridger.fridgerId).append($("<td>").prop("colspan","5").append(" 정보가보여용")));
-
 	        },
 	        "error":function(xhr, msg, code){
 				//매개변수 : 1. XMLHttpRequest, 2.응답메세지(success/error), 3. HTTP응답 메세지(모두)
@@ -40,7 +39,6 @@ $(document).ready(function () {
 			"url":"/turnup_fridger/common/member/fridger/show/byName.do",
 			"type" : "post",
 			"data" : {'fridgerName' : $("input#fridgerName").val(), '${_csrf.parameterName}':'${_csrf.token}'},
-
 	        "dataType": "json",
 	        "beforeSend":function(){	
 				if(!$("input#fridgerName").val()){
@@ -49,7 +47,6 @@ $(document).ready(function () {
 				}
 			},
 	        "success": function(list){
-
 		        $("tbody").empty();
 		        $.each(list, function(){
 		        	 $("tbody").append($("<tr>").append($("<td>").append(this.fridgerId))
@@ -109,7 +106,6 @@ $(document).ready(function () {
 		$(this).parent().css("background-color", "lightblue");
 		//한번에 여러개 냉장고 정보 열어서 비교가능함
 		//$(".fridgerName_col").next().addClass("out").removeClass("in");
-
 		if($(this).parent().next().hasClass("out")) {
 			$(".fridgerName_col").parent().next().addClass("out").removeClass("in");
 	    	$(this).parent().next().addClass("in");

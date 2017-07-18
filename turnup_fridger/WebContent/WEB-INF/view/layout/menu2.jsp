@@ -14,7 +14,7 @@ form{display:inline}
 <a href="${initParam.rootPath}/boardreview/boardReviewList.do"><button type="button">후기</button></a>
 <hr>
 <h3>레시피공유게시판</h3>
-<a href="${initParam.rootPath }/boardRecipe/boardRecipeList.do"><button type="button">목록 시이자악</button></a>
+<a href="${initParam.rootPath }/boardRecipe/boardRecipeList.do"><button type="button">레시피공유게시판</button></a>
 
 <hr>
 <!-- 은영 -->

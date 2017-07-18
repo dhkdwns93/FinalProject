@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -13,22 +12,20 @@ import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.co.turnup_fridger.exception.BoardException;
 import kr.co.turnup_fridger.exception.FindMemberFailException;
 import kr.co.turnup_fridger.exception.OverLapException;
 import kr.co.turnup_fridger.service.BoardShareRecipeService;
@@ -38,7 +35,6 @@ import kr.co.turnup_fridger.service.ShareRecipeIrdntService;
 import kr.co.turnup_fridger.validation.BoardShareRecipeValidator;
 import kr.co.turnup_fridger.vo.BoardShareRecipe;
 import kr.co.turnup_fridger.vo.IrdntManage;
-import kr.co.turnup_fridger.vo.Member;
 import kr.co.turnup_fridger.vo.MemberRecipeRecommand;
 import kr.co.turnup_fridger.vo.ShareRecipeIrdnt;
 
@@ -55,11 +51,13 @@ public class BoardShareRecipeListController{
 	@Autowired
 	ShareRecipeIrdntService irdntService;
 	
+	
+	
 	ShareRecipeIrdnt shareRecipeIrdnt;
 	IrdntManage irdntManage;
 	
 	//이미지 경로
-	private String eclipseDir ="C:\\Java\\apache-tomcat-8.0.43\\apache-tomcat-8.0.43\\webapps\\turnup_fridger\\img"; 
+	private String eclipseDir ="C:\\Java\\apache-tomcat-8.0.43\\webapps\\turnup_fridger\\img"; 
 
 	//카피
 	private void copyToEclipseDir(String newImageName, MultipartFile upImage) throws IOException{
@@ -437,48 +435,49 @@ public class BoardShareRecipeListController{
 	//추천수 +1 추가 => 경로문제
 	@RequestMapping("/common/boardRecipe/increaseRecommand")
 	@ResponseBody
-	public ModelAndView recommandByTwoId( @RequestParam int recipeId, 
-																											@RequestParam String memberId
-																											) throws Exception{
+	public ModelAndView recommandByTwoId(@ModelAttribute BoardShareRecipe boardShareRecipe) throws BoardException{
 		ModelAndView mav = new ModelAndView();
 		System.out.println("1차");
 //		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
-		List<MemberRecipeRecommand>  list =  boardShareRecipeService.selectRecommandByRecipeId(recipeId);
+		List<MemberRecipeRecommand>  list =  boardShareRecipeService.selectRecommandByRecipeId(boardShareRecipe.getRecipeId());
 		boolean check = false;
+	
 		for(int i=0 ; i<list.size(); i++){
-			if(memberId.equals(list.get(i).getMemberId())){
+			if(boardShareRecipe.getMemberId().equals(list.get(i).getMemberId())){
+				
 				check=true;
 				break;
 			}
+		
+			/*else if(memberId.equals(list.get(i).getMemberId())){
+				check=true;
+				break;
+			}*/
 		}
 		System.out.println("5차");
 		if(check){
 			return new ModelAndView("redirect:/boareRecipe/boardRecipeList.do");
 		}
 		System.out.println("2차");
-		boardShareRecipeService.updateBoardRecommand(recipeId);//추천수 +1 증가
-
-		boardShareRecipeService.insertRecommandServie(new MemberRecipeRecommand(recipeId, memberId));
-//		mav.addObject("recipeId", recipeId);
+		boardShareRecipeService.updateBoardRecommand(boardShareRecipe.getRecipeId());//추천수 +1 증가
+		boardShareRecipeService.insertRecommandServie(new MemberRecipeRecommand(0, boardShareRecipe.getRecipeId(), boardShareRecipe.getMemberId()));
+		
+		//		mav.addObject("recipeId", recipeId);
 //		mav.addObject("memberId", memberId);
 		System.out.println("6차");
-		mav.setViewName("redirect:/common/boardRecipe/recommand.do");
-		
-	
-			System.out.println("7차");
-	
-		return mav;
+//		mav.setViewName("redirect:/common/boardRecipe/recommand.do");
+		return new ModelAndView("redirect:/common/boardRecipe/recommand.do");
 	}
 	
 	@RequestMapping("/common/boareRecipe/recommand")
 	@ResponseBody
-	public ModelAndView recommand(@RequestParam int recipeId, @RequestParam String memberId) throws OverLapException, FindMemberFailException{
+	public ModelAndView recommand( @RequestParam(value="recipeId") int recipeId, @RequestParam String memberId) throws OverLapException, FindMemberFailException{
 		ModelAndView mav = new ModelAndView();
 		System.out.println("3차");
-		BoardShareRecipe boardShareRecipe = boardShareRecipeService.boardRead(recipeId);
+		 BoardShareRecipe boardShareRecipe = (BoardShareRecipe) boardShareRecipeService.boardRead(recipeId);
 		
-		MemberRecipeRecommand recommand = boardShareRecipeService.selectRecommandService(recipeId, memberId);
+//		MemberRecipeRecommand recommand = boardShareRecipeService.selectRecommandService(recipeId, memberId);
 		System.out.println("4차");
 //		mav.addObject(recommand);//sessionScope.recommand
 		mav.addObject("top", boardShareRecipe);//중복검사?
@@ -502,7 +501,7 @@ public class BoardShareRecipeListController{
 			mav.addObject("list", map.get("list"));
 			mav.addObject("pageBean", map.get("pageBean"));
 			
-			mav.setViewName("boardRecipe/boardRecipe_list");
+			mav.setViewName("boardRecipe/boardRecipe_list.tiles");
 			return mav;
 			
 			//내용 검색
@@ -512,7 +511,7 @@ public class BoardShareRecipeListController{
 			
 			mav.addObject("list", map.get("list"));
 			mav.addObject("pageBean", map.get("pageBean"));
-			mav.setViewName("boardRecipe/boardRecipe_list");
+			mav.setViewName("boardRecipe/boardRecipe_list.tiles");
 			return mav;
 			
 			//memberId로 검색
@@ -521,7 +520,7 @@ public class BoardShareRecipeListController{
 				Map<String, Object> map = boardShareRecipeService.boardSearchByMemberId(page, keyword);
 				mav.addObject("list", map.get("list"));
 				mav.addObject("pageBean", map.get("pageBean"));
-				mav.setViewName("boardRecipe/boardRecipe_list");
+				mav.setViewName("boardRecipe/boardRecipe_list.tiles");
 				return mav;
 			}
 	}

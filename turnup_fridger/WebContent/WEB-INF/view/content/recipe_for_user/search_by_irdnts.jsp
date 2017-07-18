@@ -8,10 +8,72 @@
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script type="text/javascript">
-function getList(keyword,page){
+function getApiList(keyword,page){
 	$("#apiThead").show();
-	$("#userResult").show();
 	$("#apiPageBean").show();
+	$("#sortKeyword").show();
+	
+	if(!page) page = 1;
+	
+	var dislikes = [];
+	var likes = [];
+	
+	$("#dislikeTbody tr").each(function(){
+		dislikes.push($(this).children(":first-child").text());
+	}); 
+	$("#likeTbody tr").each(function(){
+		likes.push($(this).children(":first-child").text());
+	}); 
+	$.ajax({		
+		"url":"/turnup_fridger/findApiRecipeByIrdntId.do",
+		"type":"POST",
+		"data":'irdntIds='+likes+'&hateIrdntIds='+dislikes+'&keyword='+keyword+'&page='+page+'&${_csrf.parameterName}=${_csrf.token}',
+		"dataType":"json",
+		"success":function(map){
+			$("#apiPageBean").empty();
+			$("#apiTbody").empty();	
+			$.each(map.apiMap.apiList, function(){
+				$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId))
+						.append($("<td>").prop("id", "title").append($("<a>").prop("href", "${initParam.rootPath}/recipe/show/detail.do?recipeId="+this.recipeId).append(this.recipeName))).append($("<td>").append(this.sumry))
+						.append($("<td>").append(this.categoryName)).append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel))
+						.append($("<td>").append(this.recipeHits)));
+			 });//each	 
+			$.each(map.apiMap.countList, function(){
+				$("#"+this.recipe_id).children(":first-child").text(this.count);
+			 });//each	 
+		
+		//페이징		
+			 	$("#apiPageBean").append($("<a href='javascript:getApiList(\""+keyword+"\",1)'>").append("첫페이지"));
+			
+			 	if(map.apiMap.pageBean.previousPageGroup!=null){
+			 		$("#apiPageBean").append($("<a href='javascript:getApiList(\""+keyword+"\","+(map.apiMap.pageBean.beginPage-1)+")'>").append("◀"));
+			 		
+				}else{
+					$("#apiPageBean").append("◀");
+				} 	
+			 	for(var index = map.apiMap.pageBean.beginPage ; index <= map.apiMap.pageBean.endPage ; index++){
+			 		if(index !=map.apiMap.pageBean.page){
+			 			$("#apiPageBean").append($("<a href='javascript:getApiList(\""+keyword+"\","+index+")'>").append(index));
+					}else{
+						$("#apiPageBean").append("["+index+"]"+"&nbsp;&nbsp;");
+					}
+			 	}
+			 	if(map.apiMap.pageBean.nextPageGroup!=null){
+			 		$("#apiPageBean").append($("<a href ='javascript:getApiList(\""+keyword+"\","+(map.apiMap.pageBean.endPage+1)+")'>").append("▶"));
+			 	}else{
+			 		$("#apiPageBean").append("▶");
+			 	}
+			 	$("#apiPageBean").append($("<a href = 'javascript:getApiList(\""+keyword+"\","+(map.apiMap.pageBean.totalPage)+")'>").append("마지막 페이지"));
+		
+		},//success
+		"error":function(errorMsg){
+			alert("오류다!");
+		} 
+	})//ajax	
+};//기본레시피 페이징 함수 
+
+function getUserList(page){
+	$("#userResult").show();
 	$("#userPageBean").show();
 	$("#sortKeyword").show();
 	
@@ -26,26 +88,13 @@ function getList(keyword,page){
 	$("#likeTbody tr").each(function(){
 		likes.push($(this).children(":first-child").text());
 	}); 
-
 	$.ajax({		
-		"url":"/turnup_fridger/findRecipeByIrdntId.do",
+		"url":"/turnup_fridger/findUserRecipeByIrdntId.do",
 		"type":"POST",
-		"data":'irdntIds='+likes+'&hateIrdntIds='+dislikes+'&keyword='+keyword+'&page='+page+'&${_csrf.parameterName}=${_csrf.token}',
+		"data":'irdntIds='+likes+'&hateIrdntIds='+dislikes+'&page='+page+'&${_csrf.parameterName}=${_csrf.token}',
 		"dataType":"json",
 		"success":function(map){
-			$("#apiPageBean").empty();
 			$("#userPageBean").empty();
-			$("#apiTbody").empty();	
-			$.each(map.apiMap.apiList, function(){
-				$("#apiTbody").append($("<tr>").prop("class","apiRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId))
-						.append($("<td>").prop("id", "title").append($("<a>").prop("href", "${initParam.rootPath}/recipe/show/detail.do?recipeId="+this.recipeId).append(this.recipeName))).append($("<td>").append(this.sumry))
-						.append($("<td>").append(this.categoryName)).append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel))
-						.append($("<td>").append(this.recipeHits)));
-			 });//each	 
-			$.each(map.apiMap.countList, function(){
-				$("#"+this.recipe_id).children(":first-child").text(this.count);
-			 });//each	 
-			 
 			 $("#userTbody").empty();
 			 $.each(map.userMap.userList, function(){
 					$("#userTbody").append($("<tr>").prop("class","userRecipe_col").prop("id",this.recipeId).append($("<td>").append("")).append($("<td>").append(this.recipeId))
@@ -57,62 +106,34 @@ function getList(keyword,page){
 				});//each
 		
 		//페이징		
-
-			 	$("#apiPageBean").append($("<a href='javascript:getList("+keyword+",1)'>").append("첫페이지"));
-			
-			 	if(map.apiMap.pageBean.previousPageGroup!=null){
-			 		$("#apiPageBean").append($("<a href='javascript:getList("+keyword+","+(map.apiMap.pageBean.beginPage-1)+")'>").append("◀"));
-			 		
-				}else{
-					$("#apiPageBean").append("◀");
-				} 	
-			 	for(var index = map.apiMap.pageBean.beginPage ; index <= map.apiMap.pageBean.endPage ; index++){
-			 		if(index !=map.apiMap.pageBean.page){
-			 			$("#apiPageBean").append($("<a href='javascript:getList("+keyword+","+index+")'>").append(index));
-					}else{
-						$("#apiPageBean").append("["+index+"]"+"&nbsp;&nbsp;");
-					}
-			 	}
-			 	if(map.apiMap.pageBean.nextPageGroup!=null){
-			 		$("#apiPageBean").append($("<a href ='javascript:getList("+keyword+","+(map.apiMap.pageBean.endPage+1)+")'>").append("▶"));
-			 	}else{
-			 		$("#apiPageBean").append("▶");
-			 	}
-			 	$("#apiPageBean").append($("<a href = 'javascript:getList("+keyword+","+(map.apiMap.pageBean.totalPage)+")'>").append("마지막 페이지"));
-			 	
-			 	//============================
-			 	
-			 	$("#userPageBean").append($("<a href='javascript:getList("+keyword+",1)'>").append("첫페이지"));
+			 	$("#userPageBean").append($("<a href='javascript:getUserList(1)'>").append("첫페이지"));
 				
 			 	if(map.userMap.pageBean.previousPageGroup!=null){
-			 		$("#userPageBean").append($("<a href='javascript:getList("+keyword+","+(map.userMap.pageBean.beginPage-1)+")'>").append("◀"));
+			 		$("#userPageBean").append($("<a href='javascript:getUserList("+(map.userMap.pageBean.beginPage-1)+")'>").append("◀"));
 			 		
 				}else{
 					$("#userPageBean").append("◀");
 				} 	
 			 	for(var index = map.userMap.pageBean.beginPage ; index <= map.userMap.pageBean.endPage ; index++){
 			 		if(index !=map.userMap.pageBean.page){
-			 			$("#userPageBean").append($("<a href='javascript:getList("+keyword+","+index+")'>").append(index));
+			 			$("#userPageBean").append($("<a href='javascript:getUserList("+index+")'>").append(index));
 					}else{
 						$("#userPageBean").append("["+index+"]"+"&nbsp;&nbsp;");
 					}
 			 	}
 			 	if(map.userMap.pageBean.nextPageGroup!=null){
-			 		$("#userPageBean").append($("<a href ='javascript:getList("+keyword+","+(map.userMap.pageBean.endPage+1)+")'>").append("▶"));
+			 		$("#userPageBean").append($("<a href ='javascript:getUserList("+(map.userMap.pageBean.endPage+1)+")'>").append("▶"));
 			 	}else{
 			 		$("#userPageBean").append("▶");
 			 	}
-			 	$("#userPageBean").append($("<a href = 'javascript:getList("+keyword+","+(map.userMap.pageBean.totalPage)+")'>").append("마지막 페이지"));
+			 	$("#userPageBean").append($("<a href = 'javascript:getUserList("+(map.userMap.pageBean.totalPage)+")'>").append("마지막 페이지"));
 		
 		},//success
 		"error":function(errorMsg){
 			alert("오류다!");
 		} 
-	})//ajax
-	
-};//페이징 함수 
-
-
+	})//ajax	
+};//사용자 레시피 페이징 함수 
 $(document).ready(function(){
 	
 	$("#sortKeyword").hide();
@@ -147,7 +168,6 @@ $(document).ready(function(){
 	});//ajax1
 	
 	//*******************************************************************************************************************************************************
-
 	$("#getMyFridger").on("click",function(){
 		
 		$.ajax({	
@@ -205,7 +225,6 @@ $(document).ready(function(){
 	});//냉장고선택-> 식재료 보여주기 
 	
 	$("#getMydislike").on("click",function(){
-	
 		$.ajax({
 			//나의 기피재료 받아오기.
 			"url":"/turnup_fridger/getMyDislikeIrdnt.do", 
@@ -214,8 +233,8 @@ $(document).ready(function(){
 			"dataType":"json", 
 			"success":function(map){
 				$("#dislikeResult").show();
+				$("#dislikeTbody").empty();
 				$.each(map.dislikeIrdnt, function(){
-					
 					$("#dislikeTbody").append($("<tr>").prop("class","select_col").prop("id",this.irdntId).append($("<td>").append(this.irdntId)).append($("<td>").append('')));	 
 					})
 				$.each(map.irdntList, function(){
@@ -257,34 +276,34 @@ $(document).ready(function(){
 	
 	$(document).on("click",("#searchBtn"),function(){
 		//선택재료, 기피재료 리스트에 넣어서 핸들러로 보내기 
-		getList(null,1);
+		getApiList(null,1);
+		getUserList(1);
 	});//검색
 	
 	$(document).on("click","#hitsDesc",function(){
-		getList('recipeHitsDesc',1);
+		getApiList('recipeHitsDesc',1);
 	});//최다조회순
 	
 	$(document).on("click","#hitsAsc",function(){
-		getList('recipeHitsAsc',1);
+		getApiList('recipeHitsAsc',1);
 	});//최저조회순
 	
 	$(document).on("click","#calrorieDesc",function(){
-		getList('calorieDesc',1);
+		getApiList('calorieDesc',1);
 	});//고칼로리순
 	
 	$(document).on("click","#calrorieAsc",function(){
-		getList('calorieAsc',1);
+		getApiList('calorieAsc',1);
 	});//저칼로리순
 	
 	$(document).on("change","#recipeLevel",function(){
-		getList($("#recipeLevel").val(),1);
+		getApiList($("#recipeLevel").val(),1);
 	});//난이도 
-
 })//ready
 </script>
 </head>
 <body>
-<div style="text-align:center;"><h2>재료로 레시피 찾기</h2><br><hr></div>
+<h2 style="text-align:center;font-weight:bold;">재료로 레시피 찾기</h2><hr>
 
 <div class="container"style="position:relative;">
 	<button class="btn btn-default" type="button" id="irdntBtn" data-toggle="collapse" data-target="#irdntManage" style="position:absolute; top:0px;left:50px; ">기타 재료 선택 ↓</button>
@@ -377,7 +396,7 @@ $(document).ready(function(){
 		<table class="table table-hover table-condensed" style="border:5;">
 			<thead id="apiThead">
 				<tr>
-					<th>만족하는 재료수</th>
+					<th>만족 재료수</th>
 					<th>레시피id</th>
 					<th>이름</th>
 					<th>간략소개</th>
@@ -400,7 +419,7 @@ $(document).ready(function(){
 		<table class="table table-hover table-condensed" style="border:5;">
 			<thead id="userThead">
 				<tr>
-					<th>만족하는 재료수</th>
+					<th>만족 재료수</th>
 					<th>레시피id</th>
 					<th>제목</th>
 					<th>작성자</th>
