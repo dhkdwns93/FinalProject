@@ -50,7 +50,7 @@
 	</div>
 	</div>
 </footer>
-</div>
-</div>
+</div> <!-- end of container -->
+</div> <!-- end of fridger -->
 
 </html>

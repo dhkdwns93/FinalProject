@@ -3,13 +3,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>재료 검색</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script type="text/javascript" src="/turnup_fridger/scripts/bootstrap.min.js"></script>
 <script type="text/javascript">
+
 
 //재료들을 검색해서 irdntId값을 골라내서 myIrdnt_form으로 되돌려보내는 팝업창.
 
 $(document).ready(function(){
+	$("#thead").hide();
 	
 	$("#searchBtn").on("click",function(){
 		$.ajax({
@@ -18,6 +22,7 @@ $(document).ready(function(){
 			"data":{'irdntName':$("#irdntName").val(),'${_csrf.parameterName}':'${_csrf.token}'},
 			"dataType":"json", 
 			"success":function(list){
+				$("#thead").show();
 				$("#tbody").empty();
 				$.each(list, function(){
 					$("#tbody").append($("<tr>").prop("id","irdnt_col").append($("<td>").append(this.irdntId)).append($("<td>").append(this.irdntName)).append($("<td>").append(this.irdntCategory))
@@ -42,18 +47,6 @@ $(document).ready(function(){
 })//ready	
 </script>
 <style type="text/css">
-table, td {
-	border: 1px solid black;
-}
-
-table {
-	width: 1000px;
-	border-collapse: collapse;
-}
-
-td {
-	padding: 5px;
-}
 
 #tbody {
 	cursor: pointer;
@@ -61,15 +54,20 @@ td {
 </style>
 </head>
 <body>
-<h2>재료명 검색</h2><hr>
+<h2 style="text-align:center;font-weight:bold;">재료명 검색</h2><hr>
 
-	재료명 : 
+<div style="text-align:center;"> 
+	재료명  &emsp;
 	<input type="text" name ="irdntName" id="irdntName">
-	<button type="button" id="searchBtn">검색</button><br><br>
+	<button type="button" id="searchBtn" class="btn btn-default btn-lg" style=" border:0;outline:0;width:40px;height:40px;">
+	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+	</button>
+	<br><br>
+</div>
 
 	<div id="result">
-		<table>
-			<thead>
+		<table class="table table-hover table-condensed" style="width:90%; margin-left:auto;margin-right:auto;">
+			<thead id="thead">
 				<tr>
 				<th>재료id</th>
 				<th>재료명</th>

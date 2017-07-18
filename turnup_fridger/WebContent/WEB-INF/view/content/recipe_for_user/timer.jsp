@@ -5,6 +5,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/bootstrap.min.js"></script>
 <script type="text/javascript">
 var endTime, worker;
 var pause;
@@ -85,9 +86,9 @@ $(document).ready(function(){
 	<input type="number" id="hourInput" placeholder="시간" style="width:60px" value="0">시간&ensp;
 	<input type="number" id="minuteInput" placeholder="분" style="width:60px" value="0">분&ensp;
 	<input type="number" id="secondInput" placeholder="초" style="width:60px" value="0">초<br><br>
-	<button id="start">시작</button>
-	<button id="pause">일시정지</button>
-	<button id="stop">정지</button>
+	<button id="start" class="btn btn-default">시작</button>
+	<button id="pause" class="btn btn-default">일시정지</button>
+	<button id="stop" class="btn btn-default">정지</button>
 </div>
 
 

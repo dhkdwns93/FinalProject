@@ -50,21 +50,24 @@
       <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
       <li class="topMenuLi2"><a href="#" class="navbar-brand">Board & Member</a>
          <ul class="submenu2">
+         <li><a href="${initParam.rootPath}/common/admin/admin_mypage.do" id="submenu2Link">관리자 계정 정보</a></li>
          <li><a href="${initParam.rootPath}/common/admin/member_list.do" id="submenu2Link">회원관리</a></li>
-         <li><a href="${initParam.rootPath}/common/admin/admin_mypage.do" id="submenu2Link">관리자관리</a></li>
+         <li><a href="${initParam.rootPath}/common/admin/admin_list.do" id="submenu2Link">관리자관리</a></li>
          <li><a href="${initParam.rootPath}/boardnotice/boardNoticeList.do" id="submenu2Link">게시판 관리</a></li>
       </ul>
      </li>
       </sec:authorize>
+      <sec:authorize access="!hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
       <li class="topMenuLi2"><a href="#" class="navbar-brand">Board</a>
          <ul class="submenu2">
          <li><a href="${initParam.rootPath}/boardnotice/boardNoticeList.do" id="submenu2Link">공지사항</a></li>
          <li><a href="${initParam.rootPath}/common/boardqna/boardQnAList.do" id="submenu2Link">QnA</a></li>
          <li><a href="${initParam.rootPath}/common/boardfree/boardFreeList.do" id="submenu2Link">자유게시판</a></li>
          <li><a href="${initParam.rootPath}/boardreview/boardReviewList.do" id="submenu2Link">후기</a></li>
-         <li><a href="" id="submenu2Link">레시피 공유게시판</a></li>
+         <li><a href="${initParam.rootPath}/boardRecipe/boardRecipe_list.do" id="submenu2Link">레시피 공유게시판</a></li>
       </ul>
       </li>
+      </sec:authorize>
       <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
       <sec:authorize access="hasRole('ROLE_MEMBER')">
        <li class="topMenuLi2"><a href="#" class="navbar-brand">MyMenu</a>

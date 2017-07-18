@@ -14,7 +14,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<script src="${ initParam.rootPath }/scripts/jquery.js"></script>
+<script src="${ initParam.rootPath }/scripts/bootstrap.min.js"></script>
+<script src="${ initParam.rootPath }/scripts/mdb.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#favoriteSection").hide();
@@ -36,7 +38,11 @@ $(document).ready(function(){
 				//alert("오류발생-" +msg+ ":" +code);
 			}//error
 	});
-		
+	
+	$(document).on("click","#deleteMemberBtn", function(){
+		$("#deleteMemberModal").modal("show");
+	});	// end of click on requstBtn
+	
 })
 </script>
 
@@ -95,7 +101,7 @@ $(document).ready(function(){
 }
 .card.hovercard .info .desc {
 	overflow: hidden;
-	font-size: 12px;
+	font-size: 14px;
 	line-height: 20px;
 	color: #737373;
 	text-overflow: ellipsis;
@@ -167,6 +173,13 @@ input[type="button"].btn-block {
 
 </head>
 <body>
+
+<div>
+<jsp:include page="/WEB-INF/view/content/common/member/user/member_delete_form.jsp"/>
+</div>
+
+
+<div class="container">
 <div class='wrapperDiv'>
 	
 	<jsp:include page="/WEB-INF/view/layout/side_menu/memberSideMenu.jsp"/>
@@ -218,10 +231,10 @@ input[type="button"].btn-block {
 				</div><!-- info  desc -->
 				<div class="bottom-mypage">
 					<a href="${initParam.rootPath }/common/member/member_change_info.do"><button type="button" class="btn btn-block">회원정보수정</button></a>
-					<a href="${initParam.rootPath }/common/member/member_delete_form.do"><button type="button" class="btn btn-block">회원탈퇴하기</button></a>
+					<button type="button" class="btn btn-block" id="deleteMemberBtn" data-toggle="modal"  data-target="#deleteMemberModal" >회원탈퇴하기</button>
 				</div><!-- bottom -->
-		</div><!-- card hovercard -->
-</div><!-- wrapperDiv -->
+		</div><!-- info -->
+		</div><!-- card hover card -->
 		
 		
 		<hr>
@@ -241,5 +254,6 @@ input[type="button"].btn-block {
 		
 	</div><!-- rightside menu -->
 </div>
+</div><!-- container -->
 </body>
 </html>

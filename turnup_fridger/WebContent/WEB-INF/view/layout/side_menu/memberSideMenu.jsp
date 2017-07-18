@@ -12,7 +12,7 @@
 	display:flex;
 }
 .left-box-sidemenu{
- 	background:#ffcc99;
+ 	background:#a6a6a6;
  	float:left;
  	width:20%;
 	min-width:200px;
@@ -39,7 +39,7 @@
 	border: none;
 	color: #555;
 	text-decoration: none;
-	background-color: #ffcc99;
+	background-color: #a6a6a6;
 }
 
 .list-group-item:hover, .list-group-item:focus {
@@ -49,9 +49,8 @@
 }
 
 </style>
-
-
 <div class='left-box-sidemenu'>
+
 		<div><h5>My Menu</h5></div>
 		<hr>
 		<div class="list-group">

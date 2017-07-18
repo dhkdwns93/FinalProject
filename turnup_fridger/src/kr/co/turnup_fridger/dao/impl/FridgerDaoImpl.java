@@ -1,7 +1,8 @@
 package kr.co.turnup_fridger.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -99,6 +100,41 @@ public class FridgerDaoImpl implements FridgerDao{
 	}
 
 
+	
+	/**************************페이지 처리*************************/
 
+	@Override
+	public List<Fridger> selectFridgerByFridgerNamePaging(String fridgerName, int startIndex, int endIndex) {
+		Map<String, Object> input = new HashMap<String,Object>();
+		input.put("fridgerName", fridgerName);
+		input.put("startIndex", startIndex);
+		input.put("endIndex", endIndex);
+		return session.selectList(makeSql("selectFridgerByFridgerNamePaging"), input);
+	}
+
+
+	@Override
+	public List<Fridger> selectFridgerByOwnerIdPaging(String memberId, int startIndex, int endIndex) {
+		Map<String, Object> input = new HashMap<String,Object>();
+		input.put("memberId", memberId);
+		input.put("startIndex", startIndex);
+		input.put("endIndex", endIndex);
+		return session.selectList(makeSql("selectFridgerByOwnerIdPaging"), input);
+	}
+
+
+	@Override
+	public int selectCountFridgerByFridgerName(String fridgerName) {
+		return session.selectOne(makeSql("selectCountFridgerByFridgerName"), fridgerName);
+	}
+
+
+	@Override
+	public int selectCountFridgerByOwnerId(String memberId) {
+		return session.selectOne(makeSql("selectCountFridgerByOwnerId"), memberId);
+	}
+
+
+	
 	
 }
