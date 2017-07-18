@@ -165,7 +165,7 @@ public class UserManageController {
 		
 		
 		//2.응답
-		return "redirect:/popup_find_IdPw_form.do";
+		return "redirect:/login_form.do";
 	}
 
 	

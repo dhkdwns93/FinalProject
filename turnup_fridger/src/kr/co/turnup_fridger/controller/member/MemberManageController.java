@@ -193,7 +193,7 @@ public class MemberManageController {
 		//3.응답
 		ctx.setAuthentication(null);//로그아웃처리
 
-		return "redirect:../../index_kh.do";
+		return "redirect:../../login_form.do";
 	}
 	
 	/**

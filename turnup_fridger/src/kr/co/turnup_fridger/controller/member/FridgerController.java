@@ -18,17 +18,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import kr.co.turnup_fridger.exception.DuplicatedFridgerException;
 import kr.co.turnup_fridger.exception.FindFridgerFailException;
 import kr.co.turnup_fridger.exception.FindMemberFailException;
 import kr.co.turnup_fridger.service.FridgerGroupService;
 import kr.co.turnup_fridger.service.FridgerService;
+import kr.co.turnup_fridger.service.IrdntManageService;
 import kr.co.turnup_fridger.service.JoinProcessService;
 import kr.co.turnup_fridger.service.MyIrdntService;
 import kr.co.turnup_fridger.validation.form.FridgerForm;
@@ -52,7 +51,8 @@ public class FridgerController {
 	private JoinProcessService joinProcessService;
 	@Autowired
 	private MyIrdntService myIrdntService;
-	
+	@Autowired
+	private IrdntManageService irdntManageService;
 	
 	List list;
 	Fridger fridger;
@@ -306,12 +306,16 @@ public class FridgerController {
 		map.put("myIrdntFreezeTempCount", myIrdntFreezeTempCount);
 		
 		Map category = new HashMap<>();
-		category.put("d", myIrdntService.findMyIrdntByCategory(fridgerId, "a"));
-		category.put("d", myIrdntService.findMyIrdntByCategory(fridgerId, "b"));
-		category.put("d", myIrdntService.findMyIrdntByCategory(fridgerId, "c"));
-		category.put("d", myIrdntService.findMyIrdntByCategory(fridgerId, "d"));
+		list = new ArrayList<>();
+		List<String> tempList = irdntManageService.findAllIrdntCategory();
+		for(String categoryName : tempList){
+			int count = myIrdntService.findMyIrdntByCategory(fridgerId, categoryName);
+			category.put("categoryName", categoryName);
+			category.put("count", count);
+			list.add(category);
+		}
+		map.put("irdntCategoryList", list);
 		
-		map.put("irdntCategory", category);
 		return map;
 	}
 	

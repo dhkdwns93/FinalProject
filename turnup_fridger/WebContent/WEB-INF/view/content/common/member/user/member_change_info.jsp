@@ -15,6 +15,10 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 var checkNumCreateMyDislikeIrdnt=0;//기피재료 4개까지 입력받음
 $(document).ready(function(){
@@ -36,10 +40,10 @@ $(document).ready(function(){
 	$("div#showMyDislikeIrdnt").on("click","button#createMyDislikeIrdnt",function(){
 		if(checkNumCreateMyDislikeIrdnt<4){
 			window.open("${initParam.rootPath}/popup_find_irdnt_form.do","find_irdnt_form","width=500,height=300,resizable=yes");
-			var inputTextHtml=$("#showMyDislikeIrdnt").prepend('<div id="myDislikeIrdntText"><span class="ccform-addon"><i class="material-icons">&#xE876;</i></span><input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="-1" class="ccformfield"><input type="text" id="myDislikeIrdntName" name="myDislikeIrdntName" value="${param.irdntName}" readonly="readonly" class="ccformfield">&nbsp&nbsp<button type="button" id="removeMyDislikeIrdnt" class="ccbtn"><i class="material-icons">&#xE15D;</i></button><br></div>');
+			var inputTextHtml=$("#showMyDislikeIrdnt").prepend('<div id="myDislikeIrdntText"><input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="${param.irdntId}" class="ccformfield "><input type="text" id="myDislikeIrdntName" name="myDislikeIrdntName" value="${param.irdntName}" readonly="readonly" class="ccformfield">&nbsp&nbsp<button type="button" id="removeMyDislikeIrdnt" class="btn btn-default btn-lg"  style="border:0;outline:0;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button><br></div>');
 			var irdntId="${param.irdntId}";
 			if(irdntId!=("")){
-				var inputTextHtml=$("#showMyDislikeIrdnt").prepend('<div id="myDislikeIrdntText"><span class="ccform-addon"><i class="material-icons">&#xE876;</i></span><input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="${param.irdntId}" class="ccformfield"><input type="text" id="myDislikeIrdntName" name="myDislikeIrdntName" value="${param.irdntName}" readonly="readonly" class="ccformfield">&nbsp&nbsp<button type="button" id="removeMyDislikeIrdnt class="ccbtn""><i class="material-icons">&#xE15D;</i></button><br></div>');
+				var inputTextHtml=$("#showMyDislikeIrdnt").prepend('<div id="myDislikeIrdntText"><input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="${param.irdntId}" class="ccformfield "><input type="text" id="myDislikeIrdntName" name="myDislikeIrdntName" value="${param.irdntName}" readonly="readonly" class="ccformfield">&nbsp&nbsp<button type="button" id="removeMyDislikeIrdnt" class="btn btn-default btn-lg"  style="border:0;outline:0;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button><br></div>');
 			}
 			checkNumCreateMyDislikeIrdnt=checkNumCreateMyDislikeIrdnt+1;
 		}else{
@@ -57,7 +61,7 @@ $(document).ready(function(){
 	width:100%;
 }
 .ccform-addon{
-	color:#f8ae45; 
+	color:#bfbfbf; 
 	float:left;
 	padding:8px;
 	width:8%;
@@ -84,7 +88,7 @@ $(document).ready(function(){
 .ccbtn{
 	font-size:13px;
 	border:none;
-	background:#f8ae45;
+	background:#a6a6a6;
 	height:28px;
 	color:#FFFFFF;
 	cursor:pointer;
@@ -92,7 +96,7 @@ $(document).ready(function(){
 	font-weight:bold;
 }
 .ccbtn:hover{
-	background:#d8850e;
+	background:#737373;
 }
 .ccfield-submit-part{
 	text-align:center;
@@ -122,6 +126,7 @@ h1 {
 </style>
 </head>
 <body>
+<div class="container">
 <div class='wrapperDiv'>
 	
 	<jsp:include page="/WEB-INF/view/layout/side_menu/memberSideMenu.jsp"/>
@@ -196,8 +201,13 @@ h1 {
 			</div>
 			<sec:csrfInput/>
 			<div class="ccfield-submit-part">
-				<button type="submit" class="btn btn-default">Edit</button>
-				<button type="reset" class="btn btn-default">Reset</button>
+				<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-ok" aria-hidden="true">Edit</span>
+				</button>
+				<button type="button" onclick="location.reload()" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-refresh" aria-hidden="true">Reset</span>
+				</button>
+
 			</div>
 		</form>
 		
@@ -205,5 +215,6 @@ h1 {
 		
 	</div><!-- right-side-menu -->
 </div><!-- wrapperDiv -->
+</div><!-- container -->
 </body>
 </html>

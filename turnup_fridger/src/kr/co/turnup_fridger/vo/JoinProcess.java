@@ -16,8 +16,7 @@ public class JoinProcess implements Serializable{
 	private String reqMemberId;
 	private String respMemberId;
 	
-
-
+	private Fridger fridger;
 
 	public JoinProcess() {
 	}
@@ -74,8 +73,24 @@ public class JoinProcess implements Serializable{
 	}
 
 
+	
 
 	
+
+
+
+	public JoinProcess(int processNo, int processFridgerId, int processState, Date reqDate, Date respDate,
+			String reqMemberId, String respMemberId, Fridger fridger) {
+		super();
+		this.processNo = processNo;
+		this.processFridgerId = processFridgerId;
+		this.processState = processState;
+		this.reqDate = reqDate;
+		this.respDate = respDate;
+		this.reqMemberId = reqMemberId;
+		this.respMemberId = respMemberId;
+		this.fridger = fridger;
+	}
 
 
 
@@ -141,6 +156,18 @@ public class JoinProcess implements Serializable{
 
 
 	
+
+	public Fridger getFridger() {
+		return fridger;
+	}
+
+
+
+	public void setFridger(Fridger fridger) {
+		this.fridger = fridger;
+	}
+
+
 
 	@Override
 	public int hashCode() {
