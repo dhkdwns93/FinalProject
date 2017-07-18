@@ -200,7 +200,6 @@ $(document).ready(function(){
 	});//냉장고선택-> 식재료 보여주기 
 	
 	$("#getMydislike").on("click",function(){
-	
 		$.ajax({
 			//나의 기피재료 받아오기.
 			"url":"/turnup_fridger/getMyDislikeIrdnt.do", 
@@ -209,8 +208,8 @@ $(document).ready(function(){
 			"dataType":"json", 
 			"success":function(map){
 				$("#dislikeResult").show();
+				$("#dislikeTbody").empty();
 				$.each(map.dislikeIrdnt, function(){
-					
 					$("#dislikeTbody").append($("<tr>").prop("class","select_col").prop("id",this.irdntId).append($("<td>").append(this.irdntId)).append($("<td>").append('')));	 
 					})
 				$.each(map.irdntList, function(){
@@ -278,7 +277,7 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-<div style="text-align:center;"><h2>재료로 레시피 찾기</h2><br><hr></div>
+<h2 style="text-align:center;font-weight:bold;">재료로 레시피 찾기</h2><hr>
 
 <div class="container"style="position:relative;">
 	<button class="btn btn-default" type="button" id="irdntBtn" data-toggle="collapse" data-target="#irdntManage" style="position:absolute; top:0px;left:50px; ">기타 재료 선택 ↓</button>
@@ -371,7 +370,7 @@ $(document).ready(function(){
 		<table class="table table-hover table-condensed" style="border:5;">
 			<thead id="apiThead">
 				<tr>
-					<th>만족하는 재료수</th>
+					<th>만족 재료수</th>
 					<th>레시피id</th>
 					<th>이름</th>
 					<th>간략소개</th>
@@ -394,7 +393,7 @@ $(document).ready(function(){
 		<table class="table table-hover table-condensed" style="border:5;">
 			<thead id="userThead">
 				<tr>
-					<th>만족하는 재료수</th>
+					<th>만족 재료수</th>
 					<th>레시피id</th>
 					<th>제목</th>
 					<th>작성자</th>

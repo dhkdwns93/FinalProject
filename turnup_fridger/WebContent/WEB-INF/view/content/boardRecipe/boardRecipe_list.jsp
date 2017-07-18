@@ -1,3 +1,4 @@
+<%@page import="kr.co.turnup_fridger.vo.MemberRecipeRecommand"%>
 <%@page import="kr.co.turnup_fridger.vo.BoardShareRecipe"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -14,18 +15,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<!-- 버튼, table css -->
+<!-- 페이지 번호 버튼 -->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
 <!-- 기본 자바스크립 -->
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <!-- Latest compiled and minified CSS 아이콘 -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script type="text/javascript">
-/* $(document).ready(function(){
-	$('#btn').on('click', function(){
-		location.href="${initParam.rootPath}/common/member/boardRecipe/boardRecipe_write.tiles";
+
+ $(document).ready(function(){
+	$('#recommand-btn').on('click', function(){
+		if(boardShareRecipe.memberId==(memberRecommand.memberId)){
+			alert('이미 추천하신 게시물입니다.');
+		}
 	});
-}); */
+});  
 
 /* 추천 중복 에러 알림창으로 떠서 알려주는거 하기!!
  * 
@@ -46,25 +51,49 @@
 			}
 			
 		}); 
-
-
 		*/
-		
+		function add_event(){
+			
+			return location.href="/turnup_fridger/boardRecipe/boardRecipe_write";
+		}
 </script>
 <style>
 #absolute {
   
-  position: absolute;
+	text-align:center;
+
+  /* position: absolute; */
   right: 0;
 } 
 .paging{
-	 width:300px; left:0; right:0; margin-left:auto; margin-right:auto; 
+	 width:320px; left:0; right:0; margin-left:auto; margin-right:auto; 
 }
-
+.ccformfield {
+	color:#000000; 
+	background:#FFFFFF;
+	border: 1px solid #f1f1f1;
+	padding:15.5px;
+	width:60%;
+	height:34px;
+	font-family: 'Lato',Arial,sans-serif;
+	font-size:14px;
+	margin:0;
+}
+div.part{
+text-align:center;
+}
 </style>
 </head>
-<body class="container">
-
+<c:if test="${requestScope.boardShareRecipe ==null }">
+	<script type="text/javascript">
+		location.href="${initParam.rootPath}/boardRecipe/boardRecipeList.do";
+		/*${initParam.rootPath}/common/member/boardRecipe/boardRecipe_write.do  */
+	</script>
+</c:if>	
+	
+<body>
+<hr>
+<div  class="container">
 <h3>BEST 레시피 4</h3>
 
 <div id="pattern" class="pattern">
@@ -80,7 +109,7 @@
             		</i></p>
             	</div>
                 <div class="li-img">
-                    <img src="${initParam.rootPath }/img/1.jpg" alt="${top.original }" />
+                    <img src="${initParam.rootPath }/img/${top.original}" alt="${top.original }" />
                     <!-- ${top.upImage}-->
                 </div>
                 <div class="li-text">
@@ -93,10 +122,14 @@
                     <p class="li-sub"><i class="glyphicon glyphicon-eye-open" style="font-size:20px">  ${top.hits }</i> </p>
                 </div>    
             </a>
-               	<a href="${initParam.rootPath }/common/boardRecipe/increaseRecommand.do?recipeId=${top.recipeId}&memberId=${top.memberId}">
-               	<p class="li-sub">
-               	<i class="glyphicon glyphicon-thumbs-up" style="font-size:20px"> ${top.recommand }
-               	</i></p></a>
+               	 	<form method="post" action="${initParam.rootPath }/common/boardRecipe/increaseRecommand.do">
+						<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+						<input type="hidden" name="recipeId" value="${top.recipeId }">
+						<input type="hidden" name="memberId" value="${top.memberId }">
+						<input type="hidden" name="recommand" value="${top.recommand }">
+					<a href="#" onClick="this.parentNode.submit()" id="recommand-btn"><i class="glyphicon glyphicon-thumbs-up" style="font-size:20px">&emsp;${top.recommand }</i></a>
+					</form>
+					
         </li>
     </c:forEach>
     </ul>
@@ -116,25 +149,24 @@
 
     <hr>
 	<h3>레시피공유 게시판 전체 목록</h3>
-	
+	<br><br>
+	<div class="form-inline form-group" >
+		<div class="part">
 	<!-- select 검색기능 -->
-	<div id="absolute">
 	<form class="form-search" method="post" action="${initParam.rootPath }/boardRecipe/selectSearch.do" class="form-01">
-		
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-		<select name="searchOption" >
-			<option value="default">선택</option>
-			<option value="title">제목</option>
-			<option value="memberId" >작성자</option>
-			<option value="txt">내용</option>
-		</select>
-		<input type="text" name="keyword" />
-		<button type="submit"><i class="glyphicon glyphicon-search" style="font-size:15px"></i></button>
-		<!-- <input type="reset" value="초기화"/> -->
 		
+		<select name="searchOption" class="ccfield-prepend">
+			<option value="default">선택</option>
+			<option value="title" >제목</option>
+			<option value="memberId"  >작성자</option>
+			<option value="txt" >내용</option>
+		</select>
+		<input type="text" name="keyword" class="ccformfield"/>
+		<button type="submit" ><i class="glyphicon glyphicon-search" style="font-size:15px" ></i></button>
+		<!-- <input type="reset" value="초기화"/> -->
 	</form>
 	</div>
-	
     <!-- 회원 글등록 -->
 	<sec:authorize access="hasRole('ROLE_MEMBER')">
 	<div id="ex1">
@@ -142,38 +174,16 @@
 		<input type="hidden" name="${_csrf.parameterName }" 	value="${_csrf.token }">
 		<input type="hidden" name="memberId" value="<sec:authentication property="principal.memberId"></sec:authentication>">
 		<input type="hidden" name="adminId" value="">
-		<div id="absolute"><button type="submit"><i class="glyphicon glyphicon-pencil" style="font-size:15px"></i></button></div>
+		<div id="absolute">
+		<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="return add_event();">
+		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+		</button></div>
 	</form>	
 	</div>
 	</sec:authorize>
-	
+	</div>
 	&emsp;&emsp;&emsp;&emsp;
 	
-	
-
-   <%--  <ul class="list2 img-list2">
-	<c:forEach var="row" items="${requestScope.list}">
-        <li>
-          <a href="${initParam.rootPath }/boardRecipe/boardRecipeView.do?recipeId=${row.recipeId}" class="inner2">
-            	<div class="li-text2">
-            		<p class="li-sub2">작성일 : <fmt:formatDate value="${row.date}" pattern="yyyy년 MM월 dd일"/></p>
-            	</div>
-                <div class="li-img2">
-                    <img src="${initParam.rootPath }/img/1.jpg" alt="${row.original }" />
-                    <!-- ${top.upImage}-->
-                </div>
-                <div class="li-text2">
-            		<p class="li-head2">${row.recipeId} 제목 : ${row.title} </p>
-            	</div>
-                <div class="li-text2">
-                    <h5 class="li-head2"><i class="glyphicon glyphicon-user" style="font-size:10px"> ${row.memberId }</i></h5>
-                    <p class="li-sub2"><i class="glyphicon glyphicon-eye-open" style="font-size:10px">  ${row.hits }</i> </p>
-                    <p class="li-sub2"><i class="glyphicon glyphicon-thumbs-up" style="font-size:10px;"> ${row.recommand }</i></p>
-                </div>
-            </a>
-        </li>
-    </c:forEach>
-    </ul>  --%>
     
      <ul class="list2 img-list2">
 	<c:forEach var="top" items="${requestScope.list}">
@@ -187,7 +197,7 @@
             		</i></p>
             	</div>
                 <div class="li-img2">
-                    <img src="${initParam.rootPath }/img/1.jpg" alt="${top.original }" />
+                    <img src="${initParam.rootPath }/img/${top.original}" alt="${top.original }" />
                     <!-- ${top.upImage}-->
                 </div>
                 <div class="li-text2">
@@ -195,101 +205,30 @@
             	</div>
                 <div class="li-text2">
                     <h5 class="li-head2"><i class="glyphicon glyphicon-user" style="font-size:20px"> ${top.memberId }</i></h5>
+                    <br>
                     <p class="li-sub2"><i class="glyphicon glyphicon-eye-open" style="font-size:20px">  ${top.hits }</i> </p>
                 </div>
             </a>
-                   <%--  <p class="li-sub2"><i class="glyphicon glyphicon-thumbs-up" style="font-size:20px"> ${top.recommand }</i></p> --%>
-                   	<a href="${initParam.rootPath }/common/boardRecipe/increaseRecommand.do?recipeId=${top.recipeId}&memberId=${top.memberId}">
-	               	<p class="li-sub">
-	               	<i class="glyphicon glyphicon-thumbs-up" style="font-size:20px"> ${top.recommand }
-	               	</i></p></a>
+            	<form method="post" action="${initParam.rootPath }/common/boardRecipe/increaseRecommand.do">
+					<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+					<input type="hidden" name="recipeId" value="${top.recipeId }">
+					<input type="hidden" name="memberId" value="${top.memberId }">
+					<input type="hidden" name="recommand" value="${top.recommand }">
+				<a href="#" onClick="this.parentNode.submit()" id="recommand-btn"><i class="glyphicon glyphicon-thumbs-up" style="font-size:20px">&emsp;${top.recommand }</i></a>
+				</form>
         </li>
     </c:forEach>
     </ul>
 </div>
     
+   <%-- <li class="disabled">
+      <a href="${initParam.rootPath}/boardnotice/boardNoticeList.do?page=1">
+         <span class="glyphicon glyphicon-chevron-left"/>
+      </a>
+   </li> --%>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-	<%-- <a href="${initParam.rootPath }/boardRecipe/boardRecipeList.do">목록</a>
-
-<table border="1" width="600px" >
-	<thead>
-		<tr>
-			<th>번호</th>
-			<th>제목</th>
-			<th>작성자</th>
-			<th>작성일</th>
-			<th>조회수</th>
-			<th>추천수</th>
-			<th>추천?</th>
-		</tr>
-	</thead>
-	<tbody>
-	<c:forEach var="row" items="${requestScope.list}">
-		<tr>
-			<td>${row.recipeId}</td>
-			<td>
-				<a href="${initParam.rootPath }/boardRecipe/boardRecipeView.do?recipeId=${row.recipeId}">${row.title}</a>
-			</td>
-			<td>${row.memberId }</td>
-			<td>${row.date}</td>
-			<td>${row.hits }</td>
-			<td>${row.recommand }</td> 
-			<!-- member 사용 버튼 -->
-			<sec:authorize access="isAuthenticated()">
-			<td>
-			
-		
-			<form action="${initParam.rootPath }/common/boardRecipe/increaseRecommand.do">
-				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-				<input type="hidden" name="recipeId" value="${row.recipeId }">
-				<input type="hidden" name="memberId" value="${row.memberId }">
-				<input type="hidden" name="recommand" value="${row.recommand }">
-				
-				<input type="image" id="image-btn" src="${initParam.rootPath }/img/image_btn.png">
-				
-			</form>
-			
-			
-			</td>
-			</sec:authorize>
-		</tr>
-	</c:forEach>
-	<!-- 회원 글등록 -->
-	<sec:authorize access="hasRole('ROLE_MEMBER')">
-	<form action="${initParam.rootPath }/common/member/boardRecipe/boardRecipe_write.do">
-		<input type="hidden" name="${_csrf.parameterName }" 	value="${_csrf.token }">
-		<input type="hidden" name="memberId" value="<sec:authentication property="principal.memberId"></sec:authentication>">
-		<input type="hidden" name="adminId" value="">
-		<input type="submit" value="글등록">
-	</form>	
-	</sec:authorize>
-	</tbody>
-</table>  --%>
 <p class="paging">
-
+	
 	<%-- ######################################################
 														페이징 처리
 			###################################################### --%>
@@ -364,7 +303,7 @@
 
 
 </p>
-
+</div>
 
 
 </body>

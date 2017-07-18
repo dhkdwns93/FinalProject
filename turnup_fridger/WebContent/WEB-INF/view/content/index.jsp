@@ -59,7 +59,8 @@
 									<li><a href="${initParam.rootPath}/common/boardqna/boardQnAList.do" id="submenuLink">QnA</a></li>
 									<li><a href="${initParam.rootPath}/common/boardfree/boardFreeList.do" id="submenuLink">자유게시판</a></li>
 									<li><a href="${initParam.rootPath}/boardreview/boardReviewList.do" id="submenuLink">후기</a></li>
-						    	</ul>
+									<li><a href="${initParam.rootPath}/boardRecipe/boardRecipeList.do" id="submenuLink">레시피 공유</a></li>
+								</ul>
                             </li>
                             </sec:authorize>
                             <sec:authorize access="hasRole('ROLE_MEMBER')">

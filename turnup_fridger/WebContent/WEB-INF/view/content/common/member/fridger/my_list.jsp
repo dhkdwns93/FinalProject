@@ -115,7 +115,7 @@ $(document).ready(function () {
 	
 	//
 	$(document).on("click", "#moveInBtn", function(){
-		window.location.href="${initParam.rootPath}/common/member/myIrdnt/myIrdntList.do?fridgerId="+$(this).val();
+		window.location.href="${initParam.rootPath}/common/member/myIrdnt/myIrdntList.do?fridgerId="+$(this).val()+"&fridgerName="+$(this).parent().parent().children(":nth-child(2)").text();
 	});
 	
 	

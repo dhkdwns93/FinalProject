@@ -8,9 +8,15 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글작성</title>
+<!-- Latest compiled and minified CSS 아이콘 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 /*/* function popupRecipeName()
 {
@@ -103,14 +109,25 @@ div.ex1{
     background-color: #337ab7;
     border-color: #2e6da4;
 }
+#absolute {
+  
+  position: absolute;
+  right: 0;
+} 
+td, th{
+	padding:30px;
+}
 </style>
 </head>
 <body>
 <c:if test="${requestScope.error != null }">
 	<script type="text/javascript">alert("사진을 등록하세요.");</script>
 </c:if>								
-					
-<legend>글쓰기 </legend>
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">					
+<legend>글쓰기 </legend><div class="absolute">
+	<a href="${initParam.rootPath}/boardRecipe/boardRecipeList.do"><i class="glyphicon glyphicon-menu-hamburger">목록</i>
+	</a>
+	</div>
 	<form method="post" action="${initParam.rootPath}/common/member/boardRecipe/boardRecipeRegister.do" enctype="multipart/form-data" name="boardPopup" >
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		<table class="table table-bordered">
@@ -133,7 +150,6 @@ div.ex1{
 				
 			</tr>
 			
-			</tr>
 			<tr>
 			<th>재료선택</th>
 			
@@ -185,14 +201,14 @@ div.ex1{
 		<input type="hidden" name="recipeId" value="0"> 
 		<input type="hidden" name="recommand" value="0">
 		<input type="hidden" name="hits" value="0" >
-		<button type="submit" id="submit" class="btn">등록</button>
-		<input type="button" name="back" value="취소" onClick="javascript:history.go(-1);" class="btn"/>
-		<%-- <a href="${initParam.rootPath }/boardRecipe/boardRecipeList.do"><input type="button" value="취소" class="btn"/></a> --%>
-		<button type="button" onclick="location.reload()" class="btn">초기화</button><br>
+		<button type="submit" id="submit"><i class="glyphicon glyphicon-pencil" style="font-size:15px"></i></button>
+		<!-- <i class="glyphicon glyphicon-remove" style="font-size:15px"><input type="button" name="back" value="취소" onClick="javascript:history.go(-1);"/></i> -->
+		<a href="${initParam.rootPath }/boardRecipe/boardRecipeList.do"><button type="button"><i class="glyphicon glyphicon-remove" style="font-size:15px"></i></button></a> 
+		<button type="button" onclick="location.reload()"><i class="glyphicon glyphicon-refresh" style="font-size:15px"></i></button><br>
 		</form>
 		
 		
-		
+		</div>
 	
 </body>
 </html>

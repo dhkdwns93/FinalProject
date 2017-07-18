@@ -11,6 +11,8 @@
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<!-- Latest compiled and minified CSS 아이콘 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script type="text/javascript">
 /*/* function popupRecipeName()
 {
@@ -103,10 +105,15 @@ div.ex1{
     background-color: #337ab7;
     border-color: #2e6da4;
 }
+div.align{
+text-align:right;
+}
 </style>
 </head>
 <body>
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <h2>글쓰기</h2>
+		
 <c:if test="${requestScope.error != null }">
 	<script type="text/javascript">alert("사진을 등록하세요.");</script>
 </c:if>																									
@@ -158,7 +165,7 @@ div.ex1{
 					<input type="file" name="upImage" > -->
 					<input type="hidden" name="saveName" value="${boardShareRecipe.saveName}" readonly>
 					<input type="hidden" name="original" value="${boardShareRecipe.original}" readonly>
-				</td>
+				</div></td>
 			</tr>
 			<tr>
 				<th>기타재료</th>
@@ -172,10 +179,21 @@ div.ex1{
 			<input type="hidden" name="recipeId" value="${boardShareRecipe.recipeId}">
 			<input type="hidden" name="recommand" value="${boardShareRecipe.recommand }">
 			<input type="hidden" name="hits" value="${boardShareRecipe.hits }">
-		<button type="submit" class="btn">수정</button>
-		<button type="button" onclick="location.reload()" class="btn" >초기화</button>
-		<input type="button" name="back" value="취소" onClick="javascript:history.go(-1);" class="btn"/>	
-		</form>
+			<div class="form-inline form-group" >
+			<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="return update_event();">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+			</button>
+			<button type="button" class="btn btn-default btn-lg" style="border:0;outline:0;" onClick="location.reload();" >
+				<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+			</button>
+			<!-- 뒤로가기 -->
+			<button type="button" class="btn btn-default btn-lg" style="border:0;outline:0;" onClick="javascript:history.go(-1);" >
+					<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+				</button>
+			</div>
+		</form>	
+		
+</div>
 </body>
 </html>
 

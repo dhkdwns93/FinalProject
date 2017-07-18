@@ -62,7 +62,7 @@
          <li><a href="${initParam.rootPath}/common/boardqna/boardQnAList.do" id="submenu2Link">QnA</a></li>
          <li><a href="${initParam.rootPath}/common/boardfree/boardFreeList.do" id="submenu2Link">자유게시판</a></li>
          <li><a href="${initParam.rootPath}/boardreview/boardReviewList.do" id="submenu2Link">후기</a></li>
-         <li><a href="" id="submenu2Link">레시피 공유게시판</a></li>
+         <li><a href="${initParam.rootPath}/boardRecipe/boardRecipe_list.do" id="submenu2Link">레시피 공유게시판</a></li>
       </ul>
       </li>
       </sec:authorize>
