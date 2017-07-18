@@ -64,46 +64,10 @@ function delete_event(){
 <c:if test="${empty list}">
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>후기 게시판</h1><br>
-<table class="table table-hover table-condensed" style="width:100%;text-align:center;margin-left: auto; margin-right: auto;">
-	<a href="${initParam.rootPath}/index.do">
-		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-		</button>	
-	</a>
-<sec:authorize access="hasRole('ROLE_MEMBER')">
-	<a href="${initParam.rootPath}/boardreview/boardreview_form.do">
-		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-			<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-		</button>
-	</a>
-</sec:authorize>
-	<div style="float:right">
-	<form action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
-		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-		<select name="select" id="select">
-			<option>전체보기</option>
-			<option value="레시피">레시피</option>
-			<option value="아이디">아이디</option>
-		</select>
-		<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
-		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-			<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-		</button>
-	</form>
-	</div>
-	<br><h2 style="text-align:center">검색한 아이디가 없습니다.</a>
-</table>
-
-</div>
-</c:if>
-
-
-<c:if test="${!empty list}">
-<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
-<br><br>
 <h1>후기 게시판</h1>
 <hr>
+<table class="table table-hover table-condensed" style="width:100%;text-align:center;margin-left: auto; margin-right: auto;">
+<div class="form-inline form-group" >
 	<a href="${initParam.rootPath}/index.do">
 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
@@ -116,21 +80,78 @@ function delete_event(){
 			</button>
 		</a>
 	</sec:authorize>
-<div style="float:right">
-	<form action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
-		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-		<select name="select" id="select">
-			<option>전체보기</option>
-			<option value="레시피">레시피</option>
-			<option value="아이디">아이디</option>
-		</select>
-		<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
-		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-			<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-		</button>
-	</form>
-</div>
 
+	<div class="ccfield-prepend" style="float:right">
+		<div style="float:right">
+		<form action="${initParam.rootPath}/boardreview/boardReviewStarList.do" method="post">
+			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+			<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+				<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+			</button>
+		</form>
+		</div>
+		<form class="form-inline" action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
+			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+			<select class="form-control" name="select" id="select">
+				<option>전체보기</option>
+				<option value="레시피">레시피</option>
+				<option value="아이디">아이디</option>
+			</select>
+				<input class="container form-control input-group" type="text" name="keyword" placeholder="키워드를 입력해주세요">
+				<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+		</form>
+	</div>
+</div>
+	<br><h2 style="text-align:center">검색한 아이디가 없습니다.</a>
+</table>
+</div>
+</c:if>
+
+
+<c:if test="${!empty list}">
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
+<h1>후기 게시판</h1>
+<hr>
+<div class="form-inline form-group" >
+	<a href="${initParam.rootPath}/index.do">
+		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+		</button>
+	</a>
+	<sec:authorize access="hasRole('ROLE_MEMBER')">
+		<a href="${initParam.rootPath}/boardreview/boardreview_form.do">
+			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+			</button>
+		</a>
+	</sec:authorize>
+
+	<div class="ccfield-prepend" style="float:right">
+		<div style="float:right">
+		<form action="${initParam.rootPath}/boardreview/boardReviewStarList.do" method="post">
+			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+			<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+				<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+			</button>
+		</form>
+		</div>
+		<form class="form-inline" action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
+			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+			<select class="form-control" name="select" id="select">
+				<option>전체보기</option>
+				<option value="레시피">레시피</option>
+				<option value="아이디">아이디</option>
+			</select>
+				<input class="container form-control input-group" type="text" name="keyword" placeholder="키워드를 입력해주세요">
+				<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+		</form>
+	</div>
+</div>
 <table class="table table-hover table-condensed" style="width:100%;text-align:center;margin-left: auto; margin-right: auto;">
 <c:forEach var="row" items="${list}">
 <table>
@@ -265,10 +286,10 @@ function delete_event(){
 	<c:choose>
 		<c:when test="${requestScope.pageBean.previousPageGroup}">
 			<%-- 이전페이지 그룹이 있디면 : previousPageGroup()--%>
-			<a href="${initParam.rootPath }/boardreview/boardReviewByMemberId.do?page=${requestScope.pageBean.beginPage - 1}&memberId=${requestScope.memberId}">☜</a>
+			<a href="${initParam.rootPath }/boardreview/boardReviewByMemberId.do?page=${requestScope.pageBean.beginPage - 1}&memberId=${requestScope.memberId}">◀</a>
 		</c:when>
 		<c:otherwise>
-				☜	
+				◀
 		</c:otherwise>
 	</c:choose>
 	
@@ -296,10 +317,10 @@ function delete_event(){
 	<c:choose>
 		<c:when test="${requestScope.pageBean.nextPageGroup}">
 			<%-- 다음페이지 그룹이 있디면 : nextPageGroup()--%>
-			<a href="${initParam.rootPath }/boardreview/boardReviewByMemberId.do?page=${requestScope.pageBean.endPage + 1}&memberId=${requestScope.memberId}">☞</a>
+			<a href="${initParam.rootPath }/boardreview/boardReviewByMemberId.do?page=${requestScope.pageBean.endPage + 1}&memberId=${requestScope.memberId}">▶</a>
 		</c:when>
 		<c:otherwise>
-				☞		
+				▶		
 		</c:otherwise>
 	</c:choose>			
 	

@@ -183,7 +183,7 @@ h2{display:inline}
 
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>후기 ></h1><h2> ${boardReview.memberId}의 게시물 수정</h2><br>
+<h1>후기 ></h1><h2> ${boardReview.memberId}님의 게시물 수정</h2><br>
 <hr>
 <c:if test="${boardReview.imageName != null}">
 <form action="${initParam.rootPath}/boardreview/boardReviewImageDelete.do" method="post" enctype="multipart/form-data">
@@ -206,26 +206,27 @@ h2{display:inline}
 	<tr>
 		<td>작성자</td>
 		<td>
-			<input class="form-control" style="width:40%;" type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>">
+			<input class="form-control"  style="width:20%;" type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>">
 		</td>
 	</tr>
 	<tr>
 		<td>제목</td>
 		<td>
-			<input class="form-control" type="text" name="boardReviewTitle" value="${boardReview.boardReviewTitle}">
+			<input class="form-control"  style="width:40%;" type="text" name="boardReviewTitle" value="${boardReview.boardReviewTitle}">
 			<span class="error"><form:errors path="boardReview.boardReviewTitle" delimiter="&nbsp;"/></span>	
 		</td>
 	</tr>
 	<tr>
     	<td>레시피</td>
     	<td>
+    	 <div class="form-inline form-group" >
 	    	<input style="width:30%;" type="hidden" id="recipeId" name="recipeId" readonly value="${boardReview.recipeId}">
 	    	<input class="form-control" style="width:30%;" type="text" id="recipeName" name="recipeName" readonly value="${boardReview.recipeName}">
 	    	<button type="button" id="recipeName" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="popupRecipeName()">
 				<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 			</button>
 	    	<span class="error"><form:errors path="boardReview.recipeName" delimiter="&nbsp;"/></span>    
-	    		
+	    </div>	
 	    </td>
 	</tr>
 	<tr>	 
@@ -268,7 +269,7 @@ h2{display:inline}
 	<tr>
 		<td>내용</td>
 		<td>
-			<textarea class="form-control" name="boardReviewTxt" row="5" cols="70" placeholder="내용을 입력해주세요">${boardReview.boardReviewTxt}</textarea>
+			<textarea class="form-control"  style="width:40%;" name="boardReviewTxt" row="5" cols="70" placeholder="내용을 입력해주세요">${boardReview.boardReviewTxt}</textarea>
 			<span class="error"><form:errors path="boardReview.boardReviewTxt" delimiter="&nbsp;"/></span>
 		</td>
 	</tr>

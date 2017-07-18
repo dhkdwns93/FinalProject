@@ -46,24 +46,21 @@ span.error {
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>공시사항 등록</h1><br>
+<h1>공시사항 등록</h1>
 <hr>
 	<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeAdd.do?" method="post" enctype="multipart/form-data">		
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<table>
-			<tr>
-				<td>제목</td>
-			</tr>
-			<tr>		
+			<tr>	
+				<td>제목</td>	
 				<td><input type="text" name="title"value="${boardNotice.title}" placeholder="제목을 입력해주세요" class="form-control">
 					<span class="error"><form:errors path="boardNotice.title" delimiter="&nbsp;" /></span>
 				</td>
 			</tr>
 			<tr>
 				<td>말머리</td>
-			</tr>
-			<tr>
-				<td><select name="items" id="items">
+				<td>
+					<select class="form-control" name="items" id="items">
 						<option>공지사항</option>
 						<option>뉴스</option>
 					</select>
@@ -71,15 +68,10 @@ span.error {
 			</tr>
 			<tr>
 				<td>사진</td>
-			</tr>
-			<tr>
 				<td><input type="file" name="upImage"></td>
 			</tr>
-
 			<tr>
 				<td>내용</td>
-			</tr>
-			<tr>
 				<td>
 					<textarea name="txt" row="5" cols="70" placeholder="내용을 입력해주세요" class="form-control">${boardNotice.txt}</textarea>
 					<span class="error"><form:errors path="boardNotice.txt" delimiter="&nbsp;" /></span>
