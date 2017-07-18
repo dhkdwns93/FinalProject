@@ -25,9 +25,7 @@
 $(document).ready(function(){
 	var loginId=$("input#loginId").val();
 	var loginAuthority=$("input#loginAuthority").val();
-
-	
-	$(document).on("click","button#changeAdminAuthorityBtn",function(){
+	$("button#changeAdminAuthorityBtn").on("click",function(){
 		var adminIdChange=$(this).parent().children(":nth-child(1)").val();
 		var originalAuthorityChange=$(this).parent().children(":nth-child(2)").val();
 		//headMaster는 권한수정이 불가
@@ -43,7 +41,7 @@ $(document).ready(function(){
 		return window.confirm("정말 이 관리자의 권한을 수정 하시겠습니까?");
 	});//end of changeAdminAuthorityBtn
 	
-	$(document).on("click","button#deleteAdminBtn",function(){
+	$("button#deleteAdminBtn").on("click",function(){
 		var originalAuthorityChange=$(this).parent().children(":nth-child(2)").val();
 		//headMaster는 탈퇴처리 불가
 		if(originalAuthorityChange==("ROLE_HEADMASTERADMIN")){
@@ -68,7 +66,7 @@ $(document).ready(function(){
 		$num<10?$num='0'+$num:$num;
 		return $num.toString();
 	}
-	$(document).on("click","a#exportBtn",function(){
+	$("a#exportBtn").on("click",function(){
 		//파일명 지정
 		var dt=new Date();
 		var year=itoStr(dt.getFullYear());
@@ -173,8 +171,6 @@ $(document).ready(function(){
 			<sec:authorize access="hasAnyRole('ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 		 	<button type="button" id="RegisterAdminBtn" class="btn btn-default" style="border:0;outline:0;float:right;"><span class="glyphicon glyphicon-ok" aria-hidden="true">관리자등록</span></button>
 		 </sec:authorize>
-		 
-	
 			
 			<div id="allAdminList" 
 			style="width:100%; border-style:outset; overflow-x:scroll; overflow-y:scroll; height:400px;padding:10px;">
@@ -191,7 +187,7 @@ $(document).ready(function(){
 							<th>G</th>
 						</tr>
 					</thead>
-					<tbody id="tbody">
+					<tbody>
 						<tr>
 							<td align="left" valign="middle" class="heading">1</td>
 							<td align="left" valign="middle" ><b>No</b></td>
@@ -254,10 +250,8 @@ $(document).ready(function(){
 				</table>
 			</div>
 		</div>
-		 <!-- reload -->
-		 <button type="button" onclick="location.reload()" class="btn btn-default btn-lg"  style="border:0;outline:0;float:right;">
-			<span class="glyphicon glyphicon-refresh" aria-hidden="true">Reset</span>
-		 </button>
+
+		 
 		 
 		 </div><!-- form-page -->
  	</div><!-- rightside menu -->
