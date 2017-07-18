@@ -392,6 +392,14 @@ background:url(/turnup_fridger/starimage/star.png)no-repeat;
 table tr td{
 	padding:15px;
 }
+.floating {
+  position: fixed; 
+  right: 50%; 
+  top: 300px; 
+  margin-right: -720px;
+  text-align:center;
+  width: 120px;
+}
 </style>
 <div class="container" style="position:realative;">
 
@@ -459,13 +467,13 @@ table tr td{
 </div>
 
 <div style="text-align:center;">
-<a href="#" data-toggle="tooltip" title="1인분으로 맞추어 정보를 변환합니다. ">
+<a data-toggle="tooltip" title="1인분으로 맞추어 정보를 변환합니다. ">
 <button type="button" id="changePortionFor1_Btn" class="changePortionBtn btn btn-default" >1인분</button></a>&emsp;
-<a href="#" data-toggle="tooltip" title="2인분으로 맞추어 정보를 변환합니다. ">
+<a data-toggle="tooltip" title="2인분으로 맞추어 정보를 변환합니다. ">
 <button type="button" id="changePortionFor2_Btn" class="changePortionBtn btn btn-default">2인분</button></a>&emsp;
-<a href="#" data-toggle="tooltip" title="3인분으로 맞추어 정보를 변환합니다. ">
+<a data-toggle="tooltip" title="3인분으로 맞추어 정보를 변환합니다. ">
 <button type="button" id="changePortionFor3_Btn" class="changePortionBtn btn btn-default">3인분</button></a>&emsp;
-<a href="#" data-toggle="tooltip" title="4인분으로 맞추어 정보를 변환합니다. ">
+<a data-toggle="tooltip" title="4인분으로 맞추어 정보를 변환합니다. ">
 <button type="button" id="changePortionFor4_Btn" class="changePortionBtn btn btn-default">4인분</button></a>&emsp;
 </div>
 
@@ -505,7 +513,7 @@ table tr td{
 <!--나의 식재료들 가져와서 수정,삭제할수있게 하는 테이블  -->
 	<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN','ROLE_MEMBER')">
 	<br>
-	<a href="#" data-toggle="tooltip" title="${requestScope.recipe.recipeName}를 만들면서 다 쓴 재료를 삭제할 수 있습니다.">
+	<a data-toggle="tooltip" title="${requestScope.recipe.recipeName}를 만들면서 다 쓴 재료를 삭제할 수 있습니다.">
 	<button type="button" id="matchMyIrdnt" data-toggle="collapse" data-target="#myIrdnt" class="btn btn-default">냉장고 속 재료 삭제 ↓</button></a>
 	<div id="myIrdnt" class="collapse">
 		<table class="table table-hover table-condensed" style="width:50%; border:5;">
@@ -575,11 +583,13 @@ table tr td{
 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 <button type="button" id="deleteRecipeBtn">삭제</button> 
 </sec:authorize>
-<button type="button" onclick="window.history.back()">BACK</button>
 
-<button type="button" id="timerBtn">타이머</button>
+<div class="floating" style="padding:10px;">
+ 	<a href="#"><button type="button" id="topBtn" class="btn btn-default">TOP</button></a>
+    <button type="button" id="timerBtn" class="btn btn-warning" style="width:70px;height:40px;">타이머</button>
+	<button type="button" onclick="window.history.back()" class="btn btn-default">BACK</button>
+</div>
 
-<button type="button" id="topBtn">TOP</button>
 </div>
 </body>
 </html>
