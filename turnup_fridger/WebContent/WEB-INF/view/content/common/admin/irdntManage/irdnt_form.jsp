@@ -8,6 +8,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script type="text/javascript" src="/turnup_fridger/scripts/bootstrap.min.js"></script>
 <script type="text/javascript">
 function closeWindow(){
 	//window.opener.name= "parentPage";
@@ -18,10 +21,24 @@ function closeWindow(){
 	//self.close();
 	}
 </script>
+<style>
+table {
+	border-collapse: collapse;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+
+table, th, td {
+	border: 0.5px ridge;
+	text-align: center;
+	padding: 10px;
+}
+</style>
 </head>
 <body>
 
-<h2>재료 등록</h2>
+<h3 style="font-weight:bold; text-align:center;">재료 등록</h3><hr><br>
 
 <form id = "form" name = "insertForm" method="post" onsubmit="closeWindow()">
 <table>
@@ -57,7 +74,7 @@ function closeWindow(){
 	</tr>
 	<tr>
 		<td colspan="2">
-			<input type="submit" value="등록하기"><br>
+			<input type="submit" value="등록하기" class="btn btn-warning"><br>
 		</td>
 	</tr>
 </table>

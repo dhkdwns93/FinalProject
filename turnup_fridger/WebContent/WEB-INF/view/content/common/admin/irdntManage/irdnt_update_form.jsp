@@ -5,8 +5,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>재료 정보 수정</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script type="text/javascript" src="/turnup_fridger/scripts/bootstrap.min.js"></script>
 <script type="text/javascript">
 function closeWindow(){
 	window.opener.name= "parentPage";
@@ -18,10 +21,24 @@ function closeWindow(){
 	};
 	
 </script>
+<style>
+table {
+	border-collapse: collapse;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+
+table, th, td {
+	border: 0.5px ridge;
+	text-align: center;
+	padding: 10px;
+}
+</style>
 </head>
 <body>
 
-<h2>재료 수정</h2>
+<h3 style="text-align:center; font-weight:bold;">재료 수정</h3><hr><br>
 
 <form id = "form" name="updateForm" method="post" onsubmit="closeWindow()">
 <table>
@@ -62,7 +79,7 @@ function closeWindow(){
 	</tr>
 	<tr>
 		<td colspan="2">
-			<input type="submit" value="수정하기" >
+			<input type="submit" class="btn btn-warning" value="수정하기" >
 		</td>
 	</tr>
 </table>

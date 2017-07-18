@@ -165,7 +165,8 @@
 			SELECT ROWNUM RNUM, <include refid="all-column"/>
 			FROM(
 				<include refid="select-boardShareRecipe"/>
-				ORDER BY BOARD_SHARE_RECIPE_ID ASC
+				 ORDER BY BOARD_SHARE_RECIPE_ID DESC
+				
 				)
 			WHERE ROWNUM &lt;=#{endIndex}
 			)
