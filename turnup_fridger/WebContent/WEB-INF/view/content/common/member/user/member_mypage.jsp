@@ -236,11 +236,9 @@ input[type="button"].btn-block {
 		</div><!-- info -->
 		</div><!-- card hover card -->
 		
-		
-		<hr>
-		나의 레시피 즐겨찾기 목록
-		<div id="favoriteSection">
-			<table>
+		<div id="favoriteSection" style=";margin-left:auto;margin-right:auto;"><br>
+		<h3 style="text-align:center;">추가한 즐겨찾기 목록</h3><br><br>
+			<table class="table table-hover table-condensed" style="width:300px;margin-left:230px;">
 				<thead id="fThead">
 					<tr>
 						<th>레시피id</th>

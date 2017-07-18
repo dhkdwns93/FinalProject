@@ -124,6 +124,11 @@ public class RecipeInfoDaoImpl implements RecipeInfoDao{
 	public List<RecipeInfo> selectTypeCodeAndNameByCategoryCode(int caregoryCode){
 		return session.selectList(makeSql("selectTypeCodeAndNameByCategoryCode"), caregoryCode);
 	}
+
+	@Override
+	public int increaseHits(int recipeId) {
+		return session.update(makeSql("increaseHits"),recipeId);
+	}
 	
 	
 }
