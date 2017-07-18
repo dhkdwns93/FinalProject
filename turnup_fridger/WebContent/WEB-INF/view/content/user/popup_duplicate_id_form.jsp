@@ -10,8 +10,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Turnup-fridger ID-Check</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"  rel="stylesheet">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	$("button#duplicateIdBtn").on("click",function(){
@@ -43,16 +48,118 @@ $(document).ready(function(){
 	});//end of useIdBtn
 });
 </script>
+<style>
+.ccfield-prepend {
+	margin-bottom: 20px;
+	width: 100%;
+}
+
+.ccform-addon {
+	color: #bfbfbf;
+	float: left;
+	padding: 8px;
+	width: 8%;
+	height: 34px;
+	background: #FFFFFF;
+	border: 1px solid #f1f1f1;
+	text-align: center;
+}
+
+.ccformfield {
+	color: #000000;
+	background: #FFFFFF;
+	border: 1px solid #f1f1f1;
+	padding: 15.5px;
+	width: 60%;
+	height: 34px;
+	font-family: 'Lato', Arial, sans-serif;
+	font-size: 14px;
+	margin: 0;
+}
+
+.ccformfield {
+	font-family: 'Lato', Arial, sans-serif;
+}
+
+.ccbtn {
+	font-size: 13px;
+	border: none;
+	background: #a6a6a6;
+	height: 28px;
+	color: #FFFFFF;
+	cursor: pointer;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.ccbtn:hover {
+	background: #737373;
+}
+
+.ccfield-submit-part {
+	text-align: center;
+}
+/* 기타 일반 text  */
+h1 {
+	font-family: "Viner Hand ITC";
+	src: url("/font/VINERITC.TTF");
+	font-weight: bold;
+	color: #4d4d4d;
+}
+
+.form-text {
+	font-size: 14px;
+	color: #808080;
+}
+/* 에러메시지 */
+.error-popup {
+	font-size: 100% !important;
+	color: #808080 !important;
+}
+/* popup-body 넓이*/
+.popup-body {
+	width: 100%;
+	display: inline-block;
+	margin-top: 10%;
+	margin-left: auto;
+	margin-right: auto;
+}
+.popup-btn{
+ 	text-align:center;
+}
+</style>
 </head>
 <body>
-<h2>회원아이디 중복검사</h2>
-<input type="text" id="inputId" name="inputId" value="${param.inputId}">
-<button type="button" id="duplicateIdBtn">중복검사</button>
-<div id="duplicateResult"></div>
-<div id="useId" style="display:none">
-<hr>
-	<input type="hidden" id="id" name="id">
-	<button type="submit" id="useIdBtn">아이디 사용하기</button><button type="button" onclick="self.close()">닫기</button>
-</div>
+
+	<div class="container">
+
+		<div class="popup-body">
+			<h1 class="modal-title font-Viner_Hand_ITC">ID Duplication Check</h1>
+			<hr>
+			<div class="ccfield-prepend">
+				<input type="text" id="inputId" name="inputId" value="${param.inputId}" class="ccformfield" placeholder="ID">
+				<button type="button" id="duplicateIdBtn" class="ccbtn"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Check</span></button>
+				<div id="duplicateResult" class="error-popup"></div>
+			</div>
+			<div id="useId" class="popup-btn" style="display: none">
+				<hr>
+				
+				<input type="hidden" id="id" name="id">
+				<button type="submit" id="useIdBtn" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-ok" aria-hidden="true">Use</span>
+				</button>
+			</div>
+			<div class="popup-btn">
+				<button type="button" onclick="self.close()" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true">Close</span>
+				</button>
+			</div>
+
+
+		</div>
+		<!-- popup-body -->
+	</div>
+	<!-- container -->
+
 </body>
 </html>
