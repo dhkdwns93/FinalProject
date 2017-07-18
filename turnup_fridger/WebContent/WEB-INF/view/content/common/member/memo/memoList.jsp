@@ -55,7 +55,6 @@ p{
 	</c:forEach>
 </table>
 </div>
-<a href="${initParam.rootPath}/"><button type="button" id="back" class="one">뒤로가기</button></a>
 </div>
 
 </body>

@@ -274,6 +274,7 @@ nav#head{
 
 div#content2{
 	margin-top: 30px; /* 상세화면들 content부분 상단여백 지정 */
+	margin-bottom: 100px; /* 상세화면들 content부분 하단여백 지정 */
 	font-size: 15px; /* 상세화면들 content 부분 글자크기 */
 }
 
