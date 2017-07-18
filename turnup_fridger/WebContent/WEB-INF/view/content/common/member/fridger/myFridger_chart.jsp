@@ -8,7 +8,7 @@
 <script src="${ initParam.rootPath }/scripts/bootstrap.min.js"></script>
 <script src="${ initParam.rootPath }/scripts/mdb.js"></script>
 <link href="${ initParam.rootPath }/css/bootstrap.css" rel="stylesheet">
-<link href="${ initParam.rootPath }/css/mdb.css" rel="stylesheet">
+<%-- <link href="${ initParam.rootPath }/css/mdb.css" rel="stylesheet"> --%>
 <link href="${ initParam.rootPath }/css/landing-page.css" rel="stylesheet">
 
 <div>

@@ -80,6 +80,7 @@ text-align:right;
 div.pattern{
 text-align:center;
 }
+
 </style>
 <title>Insert title here</title>
 <%
@@ -92,13 +93,14 @@ response.addCookie(hits);
 %>
 </head>
 <body>
-<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+
+<div id="table" style="width:85%; text-align:center; margin-left: auto; margin-right: auto;">
 
 	<button type="button" class="btn btn-default btn-lg" style="border:0;outline:0;" onClick="return back();" >
-			<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+			<span class="glyphicon glyphicon-list" aria-hidden="true">목록</span>
 	</button>
 <hr>
-<h2>View > ${boardShareRecipe.memberId}님의 게시물
+<h2 >View > ${boardShareRecipe.memberId}님의 게시물
 <!-- 회원만 수정/삭제 가능 (자기자신이 올린 게시물만 가능) -->
 <sec:authorize access="hasRole('ROLE_MEMBER')"> <!-- 회원만 볼 수 있게 -->
 <div class="align">
@@ -109,7 +111,7 @@ response.addCookie(hits);
 	<input type="hidden" name="writer" 					value="${boardShareRecipe.memberId}">
  	<input type="hidden" name="memberId" 				value="<sec:authentication property="principal.memberId"/>">
 	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="return update_event();">
-	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+	<span class="glyphicon glyphicon-pencil" aria-hidden="true">수정</span>
 	</button>
 </form>
 
@@ -119,7 +121,7 @@ response.addCookie(hits);
 	<input type="hidden" name="memberId" 					value="<sec:authentication property="principal.memberId"/>">
 	<input type="hidden" name="writer" 						value="${boardShareRecipe.memberId }">
 	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="return delete_event();">
-	<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+	<span class="glyphicon glyphicon-trash" aria-hidden="true">삭제</span>
 	</button>
 </form>
 </div>
@@ -133,18 +135,16 @@ response.addCookie(hits);
 	<input type="hidden" name="adminId" 					value="<sec:authentication property="principal.adminId"/>">
 	<input type="hidden" name="memberId" 					value="">
 	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="return adminDelete_event();">
-	<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+	<span class="glyphicon glyphicon-trash" aria-hidden="true">삭제</span>
 	</button>
 </form>
 </sec:authorize>
 </h2>
 <hr>
-<div id="pattern" class="pattern">
+
+<div id="pattern" class="pattern" >
 	<ul class="list3 img-list3">
-	
         <li>
-         
-          <%-- <a href="${initParam.rootPath }/boardRecipe/boardRecipeView.do?recipeId=${boardShareRecipe.recipeId}" class="inner3"> --%>
             <div class="inner3">	
             	<div class="li-text3">
             		<p class="li-sub3">
@@ -158,7 +158,7 @@ response.addCookie(hits);
                 </div>
                 <hr>
                 <div class="li-text3">
-            		<p class="li-head3">${boardShareRecipe.recipeId } 제목 : ${boardShareRecipe.title } </p>
+            		<p class="li-head3">제목 : ${boardShareRecipe.title } </p>
             	</div>
             	<hr>
                 <div class="li-text3">
@@ -192,14 +192,14 @@ response.addCookie(hits);
                 </div>
                 <hr>
             </div>    
-            <!-- </a> -->
+            
         </li>
    
     </ul>
 </div>
 
-
-
 </div>
+
+
 </body>
 </html>

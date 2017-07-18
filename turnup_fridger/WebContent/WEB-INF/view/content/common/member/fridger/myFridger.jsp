@@ -8,13 +8,12 @@
 <script src="${ initParam.rootPath }/scripts/bootstrap.min.js"></script>
 <script src="${ initParam.rootPath }/scripts/mdb.js"></script>
 <link href="${ initParam.rootPath }/css/bootstrap.css" rel="stylesheet">
-<link href="${ initParam.rootPath }/css/mdb.css" rel="stylesheet">
+<%-- <link href="${ initParam.rootPath }/css/mdb.css" rel="stylesheet"> --%>
 <link href="${ initParam.rootPath }/css/landing-page.css" rel="stylesheet">
-
-
 <sec:authentication property="principal.memberId" var="memberId"/>
 <script type="text/javascript">
 $(document).ready(function(){
+	
 	
 	$("#myIrdntBadAlert").hide();
 	$("#freshLevelFrame").hide();
@@ -27,7 +26,188 @@ $(document).ready(function(){
 	
 	})
 
-	function getFridgerInfo(fridgerId){
+	
+	
+	
+	
+	
+	/* 냉장고 컨트롤 기능 */
+	// 냉장고 열어보기
+	$(document).on("click", "#moveInBtn", function(){
+		var fridgerId = $("span#fridgerId").text();
+		window.location.href="${initParam.rootPath}/common/member/myIrdnt/myIrdntList.do?fridgerId="+fridgerId;
+	});
+	
+	
+	
+	
+	// 냉장고 추가 폼
+	$(document).on("click","#createBtn", function(){
+		var fridgerId = $("span#fridgerId").text();
+		var fridgerOwner = $("span#fridgerOwner").text();
+		
+		$("#createFridgerModal").modal("show");
+	});	// end of click on requstBtn
+	
+	// 냉장고 추가 처리
+	$(document).on("click", "#registerFormBtn",function(){
+		
+		 $("#fridgerImg").val($(".item.active").find("img").attr("src"))
+		//alert($("#fridgerImg").val())
+		 var formData = $("#registerForm").serializeArray();
+		console.log(formData)
+		$.ajax({
+			"url": "${initParam.rootPath }/common/member/fridger/register.do",
+			"type": "post",
+			"data": formData,
+			"dataType":"text",
+			"success": function(text){
+				if(text == "0"){
+					//alert("완료!")
+					$("#createFridgerModal").modal("hide");
+					$(".errorWell").find(".error").empty();
+					$(".errorWell").hide();
+					resetRegisterModal();
+					window.location.reload();
+				}else if(text =="-1"){
+					alert("실패!")
+					$(".errorWell").find(".error").text(text);
+					$(".errorWell").show();
+				}
+			}
+		})
+ 	})
+	
+	
+	
+	// 냉장고 수정폼
+	$(document).on("click","#updateBtn", function(){
+		var fridgerId = $("span#fridgerId").text();
+		var fridgerOwner = $("span#fridgerOwner").text();
+		
+		
+		$.ajax({
+			"url": "${initParam.rootPath }/common/member/fridger/show/detail.do",
+			"type": "post",
+			"data": {'fridgerId':fridgerId, '${_csrf.parameterName}':'${_csrf.token}'},
+			"dataType":"json",
+			"beforeSend": function(){
+				if("${memberId}" != fridgerOwner){
+					alert("수정 권한이  없습니다!");
+					return false;
+				}
+			},
+			"success": function(list){
+				//alert($("span#fridgerName").text());
+				
+				$.each(list,function(){
+					$("#updateOwnerIdList").append($("<option>").prop("value", this.groupMemberId).append(this.groupMemberId))
+				});
+				
+				$("#updateFridgerName").prop("placeholder", $("span#fridgerName").text())
+				$("#updateFridgerId").prop("value",fridgerId)
+				$("#updateFridgerCarousel img").filter("[src='"+$("span#fridgerImg>img").attr("src")+"']").parent().addClass("active")
+				$("#updateFridgerModal").modal("show");
+				
+			}
+		})
+		
+		
+		
+		
+		
+		
+		
+	});	// end of click on requstBtn
+	
+	//냉장고 수정 처리
+	$(document).on("click", "#updateFormBtn",function(){
+		/*  alert($("#updateFridgerName").val());
+		alert($("#updateFridgerCarousel .item.active").find("img").attr("src")); */
+		var fridgerImg = $("#updateFridgerCarousel .item.active").find("img").attr("src");
+		$("#updateFridgerImg").val(fridgerImg);
+		//alert($("#updateFridgerImg").val())
+		if(!$("#updateFridgerName").val()){
+			$("#updateFridgerName").val($("#updateFridgerName").prop("placeholder"));
+		}	
+			
+		
+		var formData = $("#updateForm").serializeArray();
+		console.log(formData)
+		$.ajax({
+			"url": "${initParam.rootPath }/common/member/fridger/update.do",
+			"type": "post",
+			"data": formData,
+			"dataType":"text",
+			"beforeSend": function(){
+				getFridgerInfo($("#updateFridgerId").val())
+				console.log($("#updateFridgerImg").val());
+				console.log(fridgerImg);				
+				
+			},
+			"success": function(text){
+				if(text == "0"){
+					/* alert("완료!")*/
+					getFridgerInfo($("#updateFridgerId").val())
+					$("#updateFridgerModal").modal('hide');
+					resetUpdateModal();
+				}else{
+					alert("실패!:"+text)			
+					$(".errorWell").find(".error").text(text);
+					$(".errorWell").show();
+				}
+			}
+			
+		})
+	
+	})
+	
+	
+	// 냉장고 삭제
+	$(document).on("click","#removeBtn", function(){
+		var fridgerId = $("span#fridgerId").text();
+		var fridgerOwner = $("span#fridgerOwner").text();
+		$.ajax({
+			"url":"/turnup_fridger/common/member/fridger/remove.do",
+			"type":"post",
+			"data":{'fridgerId' : fridgerId, '${_csrf.parameterName}':'${_csrf.token}'},
+			"dataType":"text",
+			"beforeSend":function(){
+				
+				if("${memberId}" != fridgerOwner){
+					alert("삭제 권한이  없습니다!");
+					return false;
+				}
+				
+				if(confirm("삭제하시겠습니까?") != true){
+					return false;
+				}
+			},
+			"success": function(txt){
+		       alert(txt);
+		       window.location.reload();
+		     },
+	        "error":function(xhr, msg, code){
+				alert("오류발생-" + code);
+			}
+			
+		});	//end of ajax
+	});	// end of click on requstBtn
+	
+	
+	$('#createFridgerModal').on('hide.bs.modal', function (e) {
+		resetRegisterModal();
+	})
+	
+	
+	$('#updateFridgerModal').on('hide.bs.modal', function (e) {
+		resetUpdateModal();
+	})
+	
+})
+
+
+function getFridgerInfo(fridgerId){
 		$.ajax({
 			"url":"${initParam.rootPath}/common/member/fridger/select.do",
 			"type" : "post",
@@ -37,6 +217,7 @@ $(document).ready(function(){
 				console.log(map)
 				getTypeChart(map.irdntCategoryList)
 				getPlaceChart(map.myIrdntRoomTempCount, map.myIrdntColdTempCount, map.myIrdntFreezeTempCount)
+				
 				
 				if(map.fridger.fridgerImg != null){
 					$("span#fridgerImg").html($("<img>").prop("src", map.fridger.fridgerImg));
@@ -115,45 +296,11 @@ $(document).ready(function(){
 	} 
 		 
 	function getTypeChart(list){
-		
-	 /* var typeData = [
-		    {
-		        value: 5,
-		        color:"#F7464A",
-		        highlight: "#FF5A5E",
-		        label: "육류"
-		    },
-		    {
-		        value: 7,
-		        color: "#46BFBD",
-		        highlight: "#5AD3D1",
-		        label: "채소류"
-		    },
-		    {
-		        value: 4,
-		        color: "#FDB45C",
-		        highlight: "#FFC870",
-		        label: "가공식품류"
-		    },
-		    {
-		        value: 10,
-		        color: "#6aaf8c",
-		        highlight: "#6aca8c",
-		        label: "유제품"
-		    },
-		    {
-		        value: 3,
-		        color: "#6aaf8c",
-		        highlight: "#6aca8c",
-		        label: "곡물류"
-		    } 
-
-		    ] */
 	 
-		    
+	
 	  var typeData = [];
-	 var colors = ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"];
-	 var highlights = ["#FF5A5E", "#5AD3D1","#FFC870", "#A8B3C5",  "#616774"];
+	 var colors = ["#e64200","#ff9933", "#f5d03d", "#b7e236", "#dce8c9", "#d1d194", "#94946b","#585841"];
+	 var highlights = ["#e6672d","#ffb366", "#f7dc6e","#c7e963", "#f3f7ed", "#e0e0b8", "#a9a989","#757557"];
 	  var idx = 0;
 	$.each(list, function(){
 		var obj = {
@@ -165,60 +312,59 @@ $(document).ready(function(){
 		 typeData.push(obj)
 	 }) 
 	 	
+	 
+	 
 	 var option = {
 			    responsive: false
 			    };
 	//Get the context of the canvas element we want to select
 	var typeCtx = document.getElementById("typeChart").getContext("2d");
-/* 		typeCtx.clearRect(0, 0, 800, 800);
-		typeCtx.beginPath();
-		if(map == null){
-			return false;
-		} */
-	var myDoughnutChart = new Chart(typeCtx).Doughnut(typeData,option); 
-	 
+ 		/* typeCtx.clearRect(0, 0, 800, 800);
+		typeCtx.beginPath(); */
+
+		var myDoughnutChart = new Chart(typeCtx).Doughnut(typeData,option); 
+		$("#typeChart").attr("width","150").attr("height","150");
 	}
 		
+	
 	function getPlaceChart(roomTemp,coldTemp,freezeTemp){
 		console.log(roomTemp+","+coldTemp+","+freezeTemp)
 		
 		 var placeData = [
 			    {
 			        value: roomTemp,
-			        color:"#F7464A",
-			        highlight: "#FF5A5E",
+			        color:"#ff9933",
+			        highlight: "#ffb366",
 			        label: "실온"
 			    },
 			    {
 			        value: coldTemp,
-			        color: "#46BFBD",
-			        highlight: "#5AD3D1",
+			        color: "#f5d03d",
+			        highlight: "#f3f7ed",
 			        label: "냉장"
 			    },
 			    {
 			        value: freezeTemp,
-			        color: "#FDB45C",
-			        highlight: "#FFC870",
+			        color: "#d1d194",
+			        highlight: "#e0e0b8",
 			        label: "냉동"
 			    }
 			]
 		 
-		 
 		 var option = {
 			responsive: false
 				    };
+		
+		
 		//Get the context of the canvas element we want to select
 		var placeCtx = document.getElementById("placeChart").getContext("2d");
-/* 	 		placeCtx.clearRect(0, 0, 800, 800);
+		/* 	placeCtx.clearRect(0, 0, 800, 800);
 			placeCtx.beginPath();
 	 */
 		 var myDoughnutChart = new Chart(placeCtx).Doughnut(placeData,option); 
-		
+		 $("#placeChart").attr("width","150").attr("height","150");
 	}
-	
-	
-	
-	
+
 	
 	/* 냉장고 컨트롤 기능 */
 	// 냉장고 열어보기
@@ -262,105 +408,18 @@ $(document).ready(function(){
 			}
 		})
 
- })
-	
-	
-	
-	// 냉장고 수정폼
-	$(document).on("click","#updateBtn", function(){
-		var fridgerId = $("span#fridgerId").text();
-		var fridgerOwner = $("span#fridgerOwner").text();
-		if("${memberId}" != fridgerOwner){
-			alert("수정 권한이  없습니다!");
-			return false;
-		}
-		alert($("span#fridgerName").text());
-		$("#updateFridgerName").prop("placeholder", $("span#fridgerName").text())
-		$("#updateFridgerId").prop("value",fridgerId)
-		$("#updateFridgerCarousel img").filter("[src='"+$("span#fridgerImg>img").attr("src")+"']").parent().addClass("active")
-		$("#updateFridgerModal").modal("show");
-	});	// end of click on requstBtn
-	
-	//냉장고 수정 처리
-	$(document).on("click", "#updateFormBtn",function(){
-		/*  alert($("#updateFridgerName").val());
-		alert($("#updateFridgerCarousel .item.active").find("img").attr("src")); */
-		var fridgerImg = $("#updateFridgerCarousel .item.active").find("img").attr("src");
-		$("#updateFridgerImg").val(fridgerImg);
-		//alert($("#updateFridgerImg").val())
-		if(!$("#updateFridgerName").val()){
-			$("#updateFridgerName").val($("#updateFridgerName").prop("placeholder"));
-		}	
-			
-		
-		var formData = $("#updateForm").serializeArray();
-		console.log(formData)
-		$.ajax({
-			"url": "${initParam.rootPath }/common/member/fridger/update.do",
-			"type": "post",
-			"data": formData,
-			"dataType":"text",
-			"beforeSend": function(){
-				getFridgerInfo($("#updateFridgerId").val())
-				console.log($("#updateFridgerImg").val());
-				console.log(fridgerImg);				
-				
-						
-			},
-			"success": function(text){
-				if(text == "0"){
-					/* alert("완료!")*/
-					getFridgerInfo($("#updateFridgerId").val())
-					$("#updateFridgerModal").modal('hide');
-					resetModal("updateForm")
-				}else{
-					alert("실패!:"+text)			
-					$(".well").show();
-				}
-			}
-			
-		})
-	
-	})
-	
-	
-	// 냉장고 삭제
-	$(document).on("click","#removeBtn", function(){
-		var fridgerId = $("span#fridgerId").text();
-		var fridgerOwner = $("span#fridgerOwner").text();
-		$.ajax({
-			"url":"/turnup_fridger/common/member/fridger/remove.do",
-			"type":"post",
-			"data":{'fridgerId' : fridgerId, '${_csrf.parameterName}':'${_csrf.token}'},
-			"dataType":"text",
-			"beforeSend":function(){
-				
-				if("${memberId}" != fridgerOwner){
-					alert("삭제 권한이  없습니다!");
-					return false;
-				}
-				
-				if(confirm("삭제하시겠습니까?") != true){
-					return false;
-				}
-			},
-			"success": function(txt){
-		       alert(txt);
-		       window.location.reload();
-		     },
-	        "error":function(xhr, msg, code){
-				alert("오류발생-" + code);
-			}
-			
-		});	//end of ajax
-	});	// end of click on requstBtn
-	
-	
 
-	function resetModal(form){
-		document.getElementById(form).reset();
-	}
-})
+function resetRegisterModal(){
+	document.getElementById("registerForm").reset();
+	$(".errorWell").find(".error").empty();
+	$(".errorWell").hide();
+}
+	
+function resetUpdateModal(){
+	document.getElementById("updateForm").reset();
+	$(".errorWell").find(".error").empty();
+	$(".errorWell").hide();
+}
 
 </script>
 <style> 
@@ -474,9 +533,12 @@ font-weight: bold;
 }
 
 
+.errorWell{
+display: none;
+}
 
 #fridgerImg img{
-width : 250px;
+width : 230px;
 border-radius: 0;
 }
 
@@ -547,10 +609,10 @@ font-size: 40px;
 <article class="article num1">
   <!-- <h1>냉장고 </h1> -->
   <p>
-  	<select id="fridgerNameSelect" name="fridgerId" style="width:200px;">
+  	<select id="fridgerNameSelect" class="form-control" name="fridgerId" style="width:230px;">
    	<c:forEach items="${ requestScope.fridgerList }" var="fridgerGroup">
   		<option value="${fridgerGroup.fridgerId}">
-  		${ fridgerGroup.fridger.fridgerName } (주인: ${ fridgerGroup.fridger.memberId })
+  		${ fridgerGroup.fridger.fridgerName }
   		</option>
   	</c:forEach>
   </select>
@@ -558,18 +620,18 @@ font-size: 40px;
   <p>
   <span id="fridgerImg"><!-- 사진 들어갈 곳 --></span>
 	</p>
-	
+		
 	<!-- 냉장고 들어가기 -->
-	<button type="button" id="moveInBtn" class="btn btn-yellow" style="width:235px">Open</button>
+	<button type="button" id="moveInBtn" class="btn btn-warning" style="background-color:#f7c42d; color:#ffffff; width:230px; border:5px; margin: 2px; text-shadow:none; font-weight: bold">OPEN</button>
 	<br>
 	<!-- 냉장고 삭제하기 -->
-	<button type="button" id="removeBtn" class="btn btn-elegant" style="width:120px">delete</button>
+	<button type="button" id="removeBtn" class="btn btn-warning" style="background-color:#4c4c34; color:#ffffff; border:5px; border-color:#1e1e15; width:110px; margin: 2px; text-shadow:none; font-weight: bold">DELETE</button>
 	<!-- 냉장고 수정하기 -->
-	<button type="button" id="updateBtn" class="btn btn-elegant" data-target="#updateFridgerModal" style="width:100px">Edit</button>
+	<button type="button" id="updateBtn" class="btn btn-warning" data-target="#updateFridgerModal" style="background-color:#ccccb3; color:white; border:5px; border-color:#999966; width:110px; margin: 2px; text-shadow:none;  font-weight: bold">EDIT</button>
 	<br>
 	<!-- 냉장고 추가 -->
-	<button type="button" id="createBtn" class="btn btn-blue-grey" data-target="#createFridgerModal" style="width:235px">
-	<img src="/turnup_fridger/images/glyphicons/png/glyphicons-433-plus-white.png"></button>
+	<button type="button" id="createBtn" class="btn btn-default" style="background-color: #f2f2f2; border:5px; border-color: gray;  width:230px; margin: 2px;" data-target="#createFridgerModal" >
+	<img src="/turnup_fridger/images/glyphicons/png/glyphicons-433-plus.png" style="opacity: 0.7;"></button>
 </article>
 
 
@@ -596,23 +658,26 @@ font-size: 40px;
  <div>총 <span id="myIrdntCount"><!-- 총 개수 --></span>가지의 식재료를 보관 중입니다!</div>
  
  </div>
-<br>
-
+<br>	
  <div class="con2">
   	<div class="inner1">
   	<span class="title" >카테고리별</span>
   		<p>
-  		<canvas id="typeChart" style="width: auto; height: 150px; margin-top:10px;"></canvas>
+  		<canvas id="typeChart" width=150 height=150 ></canvas>
   		</p>
   	</div>
   	<div class="inner2">
   	<span class="title">보관장소별</span>
   		<p>
-		<canvas id="placeChart" style="width: auto; height: 150px; margin-top:10px;"></canvas>
+		<canvas id="placeChart" width = 150 height=150 ></canvas>
 		</p>
 	</div>
  </div>
 </article>
+
+
+
+
 
 <article class="article num3">
 	<!-- 위험한 식재료 경고창 &modal -->
@@ -622,8 +687,6 @@ font-size: 40px;
 
 
 </div>
-
-
 
 </div>
 </div>
