@@ -232,7 +232,7 @@ public class BoardShareRecipeListController{
 		BoardShareRecipe boardRecipe = boardShareRecipeService.selectBoardByShareIrdnt(recipeId);
 		
 		List<ShareRecipeIrdnt> list = irdntService.findShareRecipeIrdntByRecipeId(recipeId);
-		System.out.println(list);
+		//System.out.println(list);
 		mav.addObject("boardShareRecipe",boardRecipe);
 		mav.addObject("list", list);
 		mav.setViewName("boardRecipe/boardRecipe_view.tiles");
