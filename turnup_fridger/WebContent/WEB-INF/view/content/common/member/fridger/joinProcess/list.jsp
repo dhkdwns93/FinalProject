@@ -125,7 +125,7 @@ $(document).ready(function (){
 					$("#inviteFridgerModal").modal("hide");
 					$(".errorWell").find(".error").empty();
 					$(".errorWell").hide();
-					resetModal();
+					resetInviteModal();
 					window.location.reload();
 				
 				}else{
@@ -148,6 +148,42 @@ $(document).ready(function (){
 		
 		
 	});	// end of click on requstBtn
+	
+	// 냉장고 그룹 가입 처리
+	$(document).on("click","#joinBtn", function(){
+		 var formData = $("#inviteForm").serializeArray();
+			console.log(formData)
+			$.ajax({
+				"url": "${initParam.rootPath }/common/member/fridger/invite.do",
+				"type": "post",
+				"data": formData,
+				"dataType":"text",
+				"beforeSend":function(){
+					console.log($(".errorWell").find(".error"));
+					$(".errorWell").find(".error").empty();
+					$(".errorWell").hide();
+				},
+				"success": function(text){
+					if(text == "0"){
+						//alert("완료!")
+						$("#joinFridgerModal").modal("hide");
+						$(".errorWell").find(".error").empty();
+						$(".errorWell").hide();
+						resetJoinModal();
+						window.location.reload();
+					
+					}else{
+						alert("실패!")
+						$(".errorWell").find(".error").append(text);
+						$(".errorWell").show();
+						//회색차유ㅠ
+					}
+				}
+			})
+		
+	});	// end of click on requstBtn
+		
+	
 		
 	
 
@@ -168,7 +204,7 @@ function resetInviteModal(){
 	$(".errorWell").find(".error").empty();
 	$(".errorWell").hide();
 }
-function resetRequestModal(){
+function resetJoinModal(){
 	document.getElementById("requestForm").reset();
 	$(".errorWell").find(".error").empty();
 	$(".errorWell").hide();

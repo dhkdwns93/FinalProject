@@ -1,6 +1,8 @@
 package kr.co.turnup_fridger.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ import kr.co.turnup_fridger.exception.DuplicatedFridgerException;
 import kr.co.turnup_fridger.exception.FindFridgerFailException;
 import kr.co.turnup_fridger.exception.FindMemberFailException;
 import kr.co.turnup_fridger.service.FridgerService;
+import kr.co.turnup_fridger.util.PagingBean;
+import kr.co.turnup_fridger.util.PagingBeanFridger;
 import kr.co.turnup_fridger.vo.Fridger;
 import kr.co.turnup_fridger.vo.FridgerGroup;
 
@@ -140,8 +144,41 @@ public class FridgerServiceImpl implements FridgerService{
 	public List<Fridger> findFridgerAndIrdntByOwnerId(String memberId) {
 		return fDao.selectFridgerAndIrdntByOwnerId(memberId);
 	}
-	
 
+	
+	
+	
+	/**************************페이지 처리*************************/
+	
+	
+	@Override
+	public Map<String, Object> findFridgerByFridgerNamePaging(String fridgerName, int page) {
+		Map<String, Object> map = new HashMap<>();
+		int totalCount=fDao.selectCountFridgerByFridgerName(fridgerName);
+		PagingBeanFridger pagingBean = new PagingBeanFridger(totalCount, page);
+		
+		List<Fridger> list = fDao.selectFridgerByFridgerNamePaging(fridgerName, pagingBean.getBeginItemInPage(),pagingBean.getEndItemInPage());
+		map.put("pagingBean", pagingBean);
+		map.put("list", list);
+		
+		return map;
+	}
+	
+	@Override
+	public Map<String, Object> findFridgerByOwnerPaging(String memberId, int page) {
+		Map<String, Object> map = new HashMap<>();
+		int totalCount=fDao.selectCountFridgerByOwnerId(memberId);
+		PagingBeanFridger pagingBean = new PagingBeanFridger(totalCount, page);
+		
+		List<Fridger> list = fDao.selectFridgerByOwnerIdPaging(memberId, pagingBean.getBeginItemInPage(),pagingBean.getEndItemInPage());
+		map.put("pagingBean", pagingBean);
+		map.put("list", list);
+		
+		return map;
+	}
+
+	
+	
 	
 	
 

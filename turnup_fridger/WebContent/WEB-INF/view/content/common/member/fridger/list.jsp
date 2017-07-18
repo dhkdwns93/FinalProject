@@ -183,82 +183,146 @@ $(document).ready(function () {
 		
 	});	// end of click on requstBtn
 });
+
+
+
+function getFridgerList(page){
+	
+	$.ajax({
+		"url":"/turnup_fridger/findRecipeByCategory.do",
+		"data":{'categoryName' : $("#categoryName").val(),'typeName' : $("#typeName").val(),'keyword' : keyword,'page':page,'${_csrf.parameterName}':'${_csrf.token}'},
+		"dataType":"json",
+		"beforeSend": function(){
+			$("#fridgerList_tbody").empty();
+			$("#pagingBean").empty();
+			if(!page) page = 1;
+		},
+		"success":function(map){
+			$("#fridgerList_thead").show();
+			$("#fridgerList_tbody").empty();
+			/* <th style="width:10%;">NO</th>
+			<th style="width:40%;">Fridger Name</th>
+			<th style="width:20%;">Owner</th>
+			<th style="width:20%;">Join</th> */
+			var no = (map.pagingBean.page-1)
+			$.each(map.list, function(){
+				$("#fridgerList_tbody").append($("<tr>").append($("<td>").append(++1)))
+														.append($("<td>").append(this.fridgerName))
+														.append($("<td>").append(this.memberId))
+														.append($("<td>").append($("<button>").prop("type","button").prop("id","joinBtn").prop("value",this.fridgerId).append("JOIN"))))
+			})//end of each
+			
+			$("#pagingBean").append($("<a href='javascript:getFridgerList(1)'>").append("FIRST"));
+			
+			if(map.pagingBean.previousPageGroup != null){
+				$("#pagingBean").append($("<a href='javascript:getFridgerList("+(map.pagingBean.beginPage-1)+")'>").append("◀"));
+			}else{
+				$("#pagingBean").append("◀");
+			} 
+			
+			for(var idx = map.pagingBean.beginPage ; idx <= map.pagingBean.endPage ; idx++){
+				if(index !=list.pagingBean.page){
+		 			$("#pagingBean").append($("<a href='javascript:getFridgerList("+idx+")'>").append(idx+"&nbsp;&nbsp;"));
+				}else{
+					$("#pagingBean").append("["+idx+"]"+"&nbsp;&nbsp;");
+				}
+			}
+			
+			if(map.pagingBean.nextPageGroup!=null){
+				$("#pagingBean").append($("<a href ='javascript:getFridgerList("+(list.pagingBean.endPage+1)+")'>").append("▶"));
+		 	}else{
+		 		$("#pagingBean").append("▶");
+		 	}
+		 	$("#pagingBean").append($("<a href = 'javascript:getFridgerList("+(list.pagingBean.totalPage)+")'>").append("LAST"));
+	
+		},
+		"error":function(errorMsg){
+			alert("에러발생:"+errorMsg);
+		} 
+		
+	})//end of ajax
+}//end of getFridgerList
+
+
+
  </script>
+ <style>
+ 
+ th{
+ text-align: center;
+ }
+ 
+ </style>
+ 
+ 
+ 
 <div class="container">
 <!-- 
  trigger of updateFridgerModal
  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createFridgerModal">냉장고 만들기</button> -->
 
  <!-- start of updateFridgerModal -->
-<div class="modal fade" id="joinFridgerModal" tabindex="-1" role="dialog" aria-labelledby="createFridgerModalLabel" aria-hidden="true">
+<div class="modal fade" id="joinFridgerModal" tabindex="-1" role="dialog" aria-labelledby="joinFridgerModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetModal(joinFridgerModal)" ><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title" id="myModalLabel">냉장고 수정</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetJoinModal()" ><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="joinFridgerModalLabel">냉장고 가입</h3>
       </div>
       <div class="modal-body" >
-		
-	냉장고 이름으로 조회
-		<span><input type="text" name="fridgerName" id="fridgerName" placeholder="찾으시는 냉장고 이름을 입력하세요">
-		<!-- <input type="button" value="조회" id="searchByNameBtn"> -->
-		<button type="button" class="btn btn-default" id="searchByNameBtn" >search</button>
-    	</span>
-    	
-    	<div class="row">
-  <div class="col-lg-6">
-    <div class="input-group">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Go!</button>
-      </span>
-      <input type="text" class="form-control" placeholder="Search for...">
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
-  <div class="col-lg-6">
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="Search for...">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Go!</button>
-      </span>
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
-</div><!-- /.row -->
-    	
-    	
-		<br>
-	냉장고 주인으로 조회
-	<sec:authentication property="principal.memberId" var="memberId"/>
-		<span><input type="text" name="memberId" id="memberId" placeholder="찾으시는 회원 ID를 입력하세요" size="60">
-		<!-- <input type="button" value="조회" id="searchByOwnerBtn"> -->
-	    <button type="button" class="btn btn-default searchByOwnerBtn" id="searchByOwnerBtn">search</button>
-    	</span>
-    	
-		<br>
-<hr>
-
-
-	<div id="table" style="width:800px;">
-		<table id="fridgerList" class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
-			<thead>
-				<tr>
-					<th style="width:5%;">NO</th>
-					<th style="width:50%;">냉장고명</th>
-					<th style="width:15%;">냉장고주인</th>
-					<th style="width:10%;">가입</th>
-					<th style="width:10%;">변경</th>
-				</tr>
-			</thead>
-			<tbody>
-				<!-- 내용 받아올 부분 -->
-			</tbody>
-		</table>
+	
+	<div class="search-input form-horizontal">
+	<div class="form-group" style="margin: 3px;">
+          <label class="col-sm-3 control-label" for="fridgerName">Fridger Name</label>
+          <div class="col-sm-8">
+		    <div class="input-group">
+		      <input  class="form-control" id="fridgerName" name="fridgerName" type="text" placeholder="찾으시는 냉장고 애칭을 입력하세요">
+		      <span class="input-group-btn">
+		        <button class="btn btn-default" type="button">Go!</button>
+		      </span>
+		    </div><!-- /input-group -->
+		  </div><!-- /.col-sm-8 -->
+	</div>	
+	
+	<div class="form-group" style="margin: 3px;">
+          <label class="col-sm-3 control-label" for="fridgerName">Fridger Owner</label>
+          <div class="col-sm-8">
+		    <div class="input-group">
+		      <input class="form-control" type="text" name="memberId" id="memberId" placeholder="찾으시는 회원 ID를 입력하세요">
+		      <span class="input-group-btn">
+		        <button class="btn btn-default" type="button">Go!</button>
+		      </span>
+		    </div><!-- /input-group -->
+		  </div><!-- /.col-sm-8 -->
 	</div>
-	 </div>
+   </div>
+<hr>
+	
+	
+	<!-- 검색결과 뿌려주는 곳 -->
+		<div id="table" style="width:auto; height: 300px;">
+			<table id="fridgerList" class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
+				<thead id="fridgerList_thaed">
+					<tr>
+						<th style="width:10%;">NO</th>
+						<th style="width:40%;">Fridger Name</th>
+						<th style="width:20%;">Owner</th>
+						<th style="width:20%;">Join</th>
+					</tr>
+				</thead>
+				<tbody id="fridgerList_tbody">
+					<!-- 내용 받아올 부분/페이징 -->
+				</tbody>
+			</table>
+		</div>
+	 	
+		<div id="pagingBean" style = "text-align:center;"><!-- 페이지 네이션오는곳 --></div>
+
+	 
+	 </div><!-- end of body -->
 	
       <div class="modal-footer">
-       <button type="button" id="updateFormBtn" class="btn btn-yellow" >update</button>
-       
-        <button type="button" class="btn btn-blue-grey" id="cancel" data-dismiss="modal" onclick="resetModal()" >cancel</button>
+       <button type="button" class="btn btn-blue-grey" id="cancel" data-dismiss="modal" onclick="resetRegisterModal()" style="background-color:#4c4c34; color:white; border:5px; border-color:#999966; width:100px; margin: 2px; text-shadow:none;  font-weight: bold">CLOSE</button>
       </div>
     </div>
   </div>
