@@ -159,7 +159,7 @@ SELECT	<include refid="all-column"/>
 FROM (	SELECT	rownum rnum, <include refid="all-column"/>
 	FROM (	SELECT	<include refid="all-column"/>
 			FROM	fridger
-			WHERE	fridger_name LIKE '%'||#{value}||'%'
+			WHERE	fridger_name LIKE '%'||#{fridgerName}||'%'
 			ORDER BY member_id, fridger_name
 	)
 	WHERE rownum &lt;=#{endIndex}
@@ -196,7 +196,7 @@ SELECT	<include refid="all-column"/>
 FROM (	SELECT	rownum rnum, <include refid="all-column"/>
 	FROM (	SELECT	<include refid="all-column"/>
 			FROM	fridger
-			WHERE	member_id = #{value}
+			WHERE	member_id = #{memberId}
 			ORDER BY fridger_name
 	)
 	WHERE rownum &lt;=#{endIndex}

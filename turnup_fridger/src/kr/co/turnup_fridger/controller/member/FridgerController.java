@@ -214,6 +214,8 @@ public class FridgerController {
 	@ResponseBody
 	public Map<String, Object> getFridgerByName(String fridgerName, int page){
 		Map<String, Object> map = fridgerService.findFridgerByFridgerNamePaging(fridgerName, page);
+		System.out.println(map.get("list"));
+		System.out.println(map.get("pagingBean"));
 		return map;
 	}
 	
