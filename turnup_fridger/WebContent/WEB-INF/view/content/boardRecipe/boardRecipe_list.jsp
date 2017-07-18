@@ -118,7 +118,7 @@ text-align:center;
                 <div class="li-text">
                     <h5 class="li-head"><i class="glyphicon glyphicon-user" style="font-size:20px"> ${top.memberId }</i></h5>
                 </div>
-                <div class="li-text">
+                <div class="li-text">"WebContent/WEB-INF/view/content/boardreview/boardreview_list_star.jsp"
                     <p class="li-sub"><i class="glyphicon glyphicon-eye-open" style="font-size:20px">  ${top.hits }</i> </p>
                 </div>    
             </a>
