@@ -216,7 +216,7 @@ border-radius: 5px;
       <span style="position:absolute; top: 45%; left:10px;"><img src="${initParam.rootPath}/images/glyphicons/png/glyphicons-225-chevron-left.png"></span>
       <span class="sr-only">Previous</span>
     </a>
-    <a class="right carousel-control" href="#fridgerCarousel" data-slide="next" >
+    <a class="right carousel-control" href="#fridgerCarousel" data-slide="next" style="background-color: none">
       <span style="position:absolute; top: 45%; bottom:40%; right:10px;"><img src="${initParam.rootPath}/images/glyphicons/png/glyphicons-224-chevron-right.png"></span>
             <span class="sr-only">Next</span>
     </a>
