@@ -56,6 +56,10 @@
 			
 			return location.href="/turnup_fridger/boardRecipe/boardRecipe_write";
 		}
+		function search_event(){
+			
+			return location.href="/turnup_fridger/boardRecipe/selectSearch.do";
+		}
 </script>
 <style>
 #absolute {
@@ -162,11 +166,14 @@ text-align:center;
 			<option value="memberId"  >작성자</option>
 			<option value="txt" >내용</option>
 		</select>
+		
 		<input type="text" name="keyword" class="ccformfield"/>
-		<button type="submit" ><i class="glyphicon glyphicon-search" style="font-size:15px" ></i></button>
-		<!-- <input type="reset" value="초기화"/> -->
+		<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="return search_event();">
+		<span class="glyphicon glyphicon-search" aria-hidden="true">검색</span>
+		</button>
 	</form>
 	</div>
+	<br>
     <!-- 회원 글등록 -->
 	<sec:authorize access="hasRole('ROLE_MEMBER')">
 	<div id="ex1">
@@ -176,7 +183,7 @@ text-align:center;
 		<input type="hidden" name="adminId" value="">
 		<div id="absolute">
 		<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="return add_event();">
-		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+		<span class="glyphicon glyphicon-pencil" aria-hidden="true">글쓰기</span>
 		</button></div>
 	</form>	
 	</div>
@@ -220,7 +227,7 @@ text-align:center;
     </c:forEach>
     </ul>
 </div>
-    
+    <br><br>
    <%-- <li class="disabled">
       <a href="${initParam.rootPath}/boardnotice/boardNoticeList.do?page=1">
          <span class="glyphicon glyphicon-chevron-left"/>
@@ -272,7 +279,6 @@ text-align:center;
 			   	</c:otherwise>
 			   </c:choose>
 	</c:forEach>
-	
 	
 	
 	<!-- 

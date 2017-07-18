@@ -501,7 +501,7 @@ public class BoardShareRecipeListController{
 			mav.addObject("list", map.get("list"));
 			mav.addObject("pageBean", map.get("pageBean"));
 			
-			mav.setViewName("boardRecipe/boardRecipe_list");
+			mav.setViewName("boardRecipe/boardRecipe_list.tiles");
 			return mav;
 			
 			//내용 검색
@@ -511,7 +511,7 @@ public class BoardShareRecipeListController{
 			
 			mav.addObject("list", map.get("list"));
 			mav.addObject("pageBean", map.get("pageBean"));
-			mav.setViewName("boardRecipe/boardRecipe_list");
+			mav.setViewName("boardRecipe/boardRecipe_list.tiles");
 			return mav;
 			
 			//memberId로 검색
@@ -520,7 +520,7 @@ public class BoardShareRecipeListController{
 				Map<String, Object> map = boardShareRecipeService.boardSearchByMemberId(page, keyword);
 				mav.addObject("list", map.get("list"));
 				mav.addObject("pageBean", map.get("pageBean"));
-				mav.setViewName("boardRecipe/boardRecipe_list");
+				mav.setViewName("boardRecipe/boardRecipe_list.tiles");
 				return mav;
 			}
 	}

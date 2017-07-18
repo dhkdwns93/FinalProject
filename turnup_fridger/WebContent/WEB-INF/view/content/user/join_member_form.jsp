@@ -64,6 +64,20 @@ $(document).ready(function(){
 });
 </script>
 <style>
+.ccformfield2 {
+	color:#000000; 
+	background:#FFFFFF;
+	border: 1px solid #f1f1f1;
+	padding:15.5px;
+	width:70%;
+	height:80px;
+	font-family: 'Lato',Arial,sans-serif;
+	font-size:14px;
+	margin:0;
+}
+.ccformfield2 {
+	font-family: 'Lato',Arial,sans-serif;
+}
 .ccfield-prepend{
 	margin-bottom:20px;
 	width:100%;
