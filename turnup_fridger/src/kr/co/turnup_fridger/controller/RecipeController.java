@@ -468,14 +468,22 @@ public class RecipeController {
 		return list;
 	}
 	
-	@RequestMapping(value="findRecipeByRecipeName")
+	@RequestMapping(value="findApiRecipeByRecipeName")
 	@ResponseBody
-	public Map findRecipeByRecipeName(@RequestParam String recipeName, @RequestParam String keyword,@RequestParam(defaultValue = "1") int page ){
+	public Map findApiRecipeByRecipeName(@RequestParam String recipeName, @RequestParam String keyword,@RequestParam(defaultValue = "1") int page ){
 		
 		Map apiList = recipeService.findRecipeByRecipeName(recipeName, keyword,page);
-		Map userList = shareService.selectBoardShareRecipeByTitle(recipeName,page);
 		HashMap map = new HashMap();
 		map.put("apiList", apiList); // 이안에 페이징빈이랑 리스트 두개 들어있다.
+		return map;
+	}
+	
+	@RequestMapping(value="findUserRecipeByRecipeName")
+	@ResponseBody
+	public Map findUserRecipeByRecipeName(@RequestParam String recipeName,@RequestParam(defaultValue = "1") int page ){
+	
+		Map userList = shareService.selectBoardShareRecipeByTitle(recipeName,page);
+		HashMap map = new HashMap();
 		map.put("userList", userList); // 이거 안에도 페이징빈이랑 리스트 두개 
 		return map;
 	}
@@ -488,16 +496,23 @@ public class RecipeController {
 		return list;
 	}
 	
-	@RequestMapping(value="findRecipeByIrdntId")
+	@RequestMapping(value="findApiRecipeByIrdntId")
 	@ResponseBody
-	public Map<String,Object> findRecipeByIrdntId(@RequestParam List<Integer> irdntIds, @RequestParam List<Integer> hateIrdntIds, @RequestParam String keyword,
+	public Map<String,Object> findApiRecipeByIrdntId(@RequestParam List<Integer> irdntIds, @RequestParam List<Integer> hateIrdntIds, @RequestParam String keyword,
 			@RequestParam(defaultValue = "1") int page ){
 
 		Map apiMap = recipeService.findRecipeByIrdntId(irdntIds, hateIrdntIds, keyword,page);
-		Map userMap = shareService.findUserRecipeByIds(irdntIds, hateIrdntIds,page);
-	
 		HashMap map = new HashMap();
 		map.put("apiMap", apiMap);//여기안에 count랑 리스트, 페이징빈 들어있다. 
+		return map;
+	}
+	
+	@RequestMapping(value="findUserRecipeByIrdntId")
+	@ResponseBody
+	public Map<String,Object> findUserRecipeByIrdntId(@RequestParam List<Integer> irdntIds, @RequestParam List<Integer> hateIrdntIds,@RequestParam(defaultValue = "1") int page ){
+
+		Map userMap = shareService.findUserRecipeByIds(irdntIds, hateIrdntIds,page);
+		HashMap map = new HashMap();
 		map.put("userMap", userMap);//여기에 리스트랑 페이징빈 들어있다. 
 		return map;
 	}

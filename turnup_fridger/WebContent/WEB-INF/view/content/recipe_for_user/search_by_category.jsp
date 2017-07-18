@@ -26,27 +26,27 @@ function getList(keyword,page){
 						.append($("<td>").append(this.categoryName)).append($("<td>").append(this.typeName)).append($("<td>").append(this.cookingTime)).append($("<td>").append(this.calorie)).append($("<td>").append(this.recipeLevel))
 						.append($("<td>").append(this.recipeHits)));
 				});//each
-			 	$("#pageBean").append($("<a href='javascript:getList("+keyword+",1)'>").append("첫페이지"));
+			 	$("#pageBean").append($("<a href='javascript:getList(\""+keyword+"\",1)'>").append("첫페이지"));
 			
 			 	if(list.pageBean.previousPageGroup!=null){
-			 		$("#pageBean").append($("<a href='javascript:getList("+keyword+","+(list.pageBean.beginPage-1)+")'>").append("◀"));
+			 		$("#pageBean").append($("<a href='javascript:getList(\""+keyword+"\","+(list.pageBean.beginPage-1)+")'>").append("◀"));
 			 		
 				}else{
 					$("#pageBean").append("◀");
 				} 	
 			 	for(var index = list.pageBean.beginPage ; index <= list.pageBean.endPage ; index++){
 			 		if(index !=list.pageBean.page){
-			 			$("#pageBean").append($("<a href='javascript:getList("+keyword+","+index+")'>").append(index));
+			 			$("#pageBean").append($("<a href='javascript:getList(\""+keyword+"\","+index+")'>").append(index));
 					}else{
 						$("#pageBean").append("["+index+"]"+"&nbsp;&nbsp;");
 					}
 			 	}
 			 	if(list.pageBean.nextPageGroup!=null){
-			 		$("#pageBean").append($("<a href ='javascript:getList("+keyword+","+(list.pageBean.endPage+1)+")'>").append("▶"));
+			 		$("#pageBean").append($("<a href ='javascript:getList(\""+keyword+"\","+(list.pageBean.endPage+1)+")'>").append("▶"));
 			 	}else{
 			 		$("#pageBean").append("▶");
 			 	}
-			 	$("#pageBean").append($("<a href = 'javascript:getList("+keyword+","+(list.pageBean.totalPage)+")'>").append("마지막 페이지"));
+			 	$("#pageBean").append($("<a href = 'javascript:getList(\""+keyword+"\","+(list.pageBean.totalPage)+")'>").append("마지막 페이지"));
 		},//success
 		"error":function(errorMsg){
 			alert("오류다!");
