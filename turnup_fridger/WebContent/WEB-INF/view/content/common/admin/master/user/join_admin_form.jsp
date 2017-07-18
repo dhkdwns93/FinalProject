@@ -8,25 +8,24 @@
 변경이력 
 170712 validator 에러메시지 추가
  -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"  rel="stylesheet">
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	$("button#registerAdminModalBtn").on("click",function(){
-		$('#registerAdminModal').modal('hide');
+	$("button#registerAdminPopBtn").on("click",function(){
+		window.open("${initParam.rootPath}/common/admin/master/join_admin_form.do","join_admin_form","width=450,height=650,resizable=no");
 	});
-});
+});//end of ready(function)
 
-function resetModal(){
-	document.getElementById("findIdPwForm").reset();
-}
-
-function openModal(){
-	$('#registerAdminModal').modal('show');
-}
 </script>
 
 
@@ -93,29 +92,29 @@ h1 {
   font-size:80% !important;
   color:#808080 !important;
 }
-/* contact-form 넓이*/
-.form-page{
+/* popup-body 넓이*/
+.popup-body{
+	width:100%;
 	display:inline-block;
-	width:70%;
-	margin-left:5%;
+	margin-top:10%;
+	margin-left:auto;
+	margin-right:auto;
 }
-</style>
 
+
+</style>
+</head>
+<body>
 
 <div class="container">
-<div class="modal fade" id="registerAdminModal" tabindex="-1" role="dialog" aria-labelledby="createFridgerModalLabel" aria-hidden="true">
-<div class="modal-dialog">
-<div class="modal-content">
 
-<div class="modal-header">
-	<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetModal()" ><span aria-hidden="true">&times;</span></button>
-	<h3 class="modal-title font-Viner_Hand_ITC" id="myModalLabel">Register Admin</h3>
-</div>
+<div class="popup-body">
+	<h1 class="modal-title font-Viner_Hand_ITC" >Register Admin</h1>
 <%-- controller.admin패키지 --%>
+<hr>
 <form action="${initParam.rootPath}/common/admin/master/join_admin.do" method="post">
-	<div class="modal-body">
 	<div class="ccfield-prepend">
-		<span class="ccform-addon"><i class="material-icons">&#xE150;</i></span>
+		<span class="ccform-addon"><span class="material-icons">&#xE150;</span></span>
 		<input type="text" id="id" name="adminId" class="ccformfield" placeholder="ID">
 		<div class="error"><form:errors path="admin.adminId" delimiter="&nbsp;&nbsp"/></div>
 	</div>
@@ -141,21 +140,20 @@ h1 {
 	</div>
 	<sec:csrfInput/>
 
-</div><!-- modal-body -->
-<div class="modal-footer">
-	<button type="button" id="registerAdminModalBtn" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+
+	<hr>
+	<div style="text-align:center">
+	<button type="submit" id="registerAdminPopBtn" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 		<span class="glyphicon glyphicon-ok" aria-hidden="true">Register</span>
 	</button>
-	
-	<button type="button" onclick="location.reload()" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-		<span class="glyphicon glyphicon-refresh" aria-hidden="true">Reset</span>
+	<button type="button" onclick="self.close()" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+		<span class="glyphicon glyphicon-remove" aria-hidden="true">Close</span>
 	</button>
-
-	<input type="button" id="cancel" class="btn btn-default" data-dismiss="modal" onclick="resetModal()" value="Close">
-</div><!-- modal-footer -->
+	</div>
 </form>
-</div><!-- .modal-content -->
-</div><!-- .modal-dialog -->
-</div><!-- .modal fade -->
 
+</div><!-- popup-body -->
 </div><!-- container -->
+
+</body>
+</html>

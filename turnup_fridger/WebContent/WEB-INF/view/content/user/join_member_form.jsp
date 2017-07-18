@@ -33,7 +33,7 @@ $(document).ready(function(){
 	
 	$("button#duplicateEmailBtn").on("click",function(){
 		var inputEmail=$("input#inputEmail").val();
-		window.open("${initParam.rootPath}/popup_duplicate_email_form.do?inputEmail="+inputEmail,"duplicate_email_form","width=800,height=300,resizable=yes");
+		window.open("${initParam.rootPath}/popup_duplicate_email_form.do?inputEmail="+inputEmail,"duplicate_email_form","width=600,height=380,resizable=yes");
 		$("span#duplicateEmailBefore").hide();
 		$("span#duplicateEmailError").hide();
 		$("span#duplicateEmailAfter").show();
@@ -46,7 +46,7 @@ $(document).ready(function(){
 	
 	$("div#showMyDislikeIrdnt").on("click","button#createMyDislikeIrdnt",function(){
 		if(checkNumCreateMyDislikeIrdnt<4){
-			window.open("${initParam.rootPath}/popup_find_irdnt_form.do","find_irdnt_form","width=500,height=400,resizable=yes");
+			window.open("${initParam.rootPath}/popup_find_irdnt_form.do","find_irdnt_form","width=500,height=600,resizable=yes");
 			var inputTextHtml=$("#showMyDislikeIrdnt").prepend('<div id="myDislikeIrdntText"><input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="${param.irdntId}" class="ccformfield"><input type="text" id="myDislikeIrdntName" name="myDislikeIrdntName" value="${param.irdntName}" readonly="readonly" class="ccformfield">&nbsp&nbsp<button type="button" id="removeMyDislikeIrdnt" class="btn btn-default btn-lg"  style="border:0;outline:0;"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button><br></div>');
 			var irdntId="${param.irdntId}";
 			if(irdntId!=("")){
@@ -64,6 +64,20 @@ $(document).ready(function(){
 });
 </script>
 <style>
+.ccformfield2 {
+	color:#000000; 
+	background:#FFFFFF;
+	border: 1px solid #f1f1f1;
+	padding:15.5px;
+	width:70%;
+	height:80px;
+	font-family: 'Lato',Arial,sans-serif;
+	font-size:14px;
+	margin:0;
+}
+.ccformfield2 {
+	font-family: 'Lato',Arial,sans-serif;
+}
 .ccfield-prepend{
 	margin-bottom:20px;
 	width:100%;

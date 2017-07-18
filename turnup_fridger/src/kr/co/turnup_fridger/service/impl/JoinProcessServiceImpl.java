@@ -8,13 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.turnup_fridger.dao.FridgerDao;
+import kr.co.turnup_fridger.dao.FridgerGroupDao;
 import kr.co.turnup_fridger.dao.JoinProcessDao;
 import kr.co.turnup_fridger.dao.MemberDao;
+import kr.co.turnup_fridger.exception.FindFridgerFailException;
 import kr.co.turnup_fridger.exception.FindMemberFailException;
 import kr.co.turnup_fridger.exception.JoinProcessFailException;
-import kr.co.turnup_fridger.exception.FindFridgerFailException;
 import kr.co.turnup_fridger.service.JoinProcessService;
-import kr.co.turnup_fridger.vo.Fridger;
+import kr.co.turnup_fridger.vo.FridgerGroup;
 import kr.co.turnup_fridger.vo.JoinProcess;
 
 @Service("joinProcessService")
@@ -26,6 +27,9 @@ public class JoinProcessServiceImpl implements JoinProcessService{
 	
 	@Autowired
 	private FridgerDao fdao;
+	
+	@Autowired
+	private FridgerGroupDao fgdao;
 	
 	@Autowired
 	private MemberDao mdao;
@@ -59,7 +63,7 @@ public class JoinProcessServiceImpl implements JoinProcessService{
 	public void inviteJoinFridgerGroup(JoinProcess joinProcess) throws JoinProcessFailException, FindMemberFailException {
 		// 존재하는 회원인지 체크
 		if (mdao.selectMemberById(joinProcess.getRespMemberId()) == null){
-			throw new FindMemberFailException("존재하지 회원 ID입니다.");
+			throw new FindMemberFailException("존재하지 않는 회원 ID입니다.");
 		}
 		// 회원이 자기의 냉장고  초대로 접근했을 때
 		if(joinProcess.getReqMemberId().equals(joinProcess.getRespMemberId())){
@@ -67,11 +71,23 @@ public class JoinProcessServiceImpl implements JoinProcessService{
 		}
 		
 		// 같은 회원(그룹)에 대해 중복요청인지 체크
+		List<FridgerGroup> fgList = fgdao.selectFridgerGroupByFridgerId(joinProcess.getProcessFridgerId());
+		if(fgList != null && fgList.size() > 0 && !fgList.isEmpty()){
+			for(FridgerGroup fg : fgList){
+				if(joinProcess.getReqMemberId().equals(fg.getGroupMemberId())){
+					throw new JoinProcessFailException("이미 공유 멤버인 회원입니다!");
+				}
+			}
+		}
+		
 		// (1)냉장고 id로 검색된 가입처리 목록 가져오기
-		for (JoinProcess jp : jdao.selectJoinProcessByFridgerId(joinProcess.getProcessFridgerId())) {
-			if (jp.getRespMemberId().equals(joinProcess.getRespMemberId()) && jp.getProcessState() == 20) {
-				//목록의 응답자에 초대할 회원id가 있고, 처리상태가 20(초대승인대기)일 때
-				throw new JoinProcessFailException("이미 초대승인대기중인 회원입니다.");
+		List<JoinProcess> jpList = jdao.selectJoinProcessByFridgerId(joinProcess.getProcessFridgerId());
+		if(jpList != null && jpList.size() > 0 && !jpList.isEmpty()){
+			for (JoinProcess jp : jpList) {
+				if (jp.getRespMemberId().equals(joinProcess.getRespMemberId()) && jp.getProcessState() == 20) {
+					//목록의 응답자에 초대할 회원id가 있고, 처리상태가 20(초대승인대기)일 때
+					throw new JoinProcessFailException("이미 초대승인대기중인 회원입니다.");
+				}
 			}
 		}
 		// (2)목록의 응답자가 아니라면 -> 가입처리 목록에 초대승인대기(20) 상태로 추가

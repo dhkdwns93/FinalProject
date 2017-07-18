@@ -15,7 +15,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +36,6 @@ import kr.co.turnup_fridger.validation.form.FridgerForm;
 import kr.co.turnup_fridger.validation.form.JoinProcessForm;
 import kr.co.turnup_fridger.vo.Fridger;
 import kr.co.turnup_fridger.vo.FridgerGroup;
-import kr.co.turnup_fridger.vo.IrdntManage;
 import kr.co.turnup_fridger.vo.JoinProcess;
 import kr.co.turnup_fridger.vo.Member;
 import kr.co.turnup_fridger.vo.MyIrdnt;
@@ -68,7 +69,13 @@ public class FridgerController {
 		System.out.println(fridgerForm);//log
 		// 요청 파라미터 검증 끝
 		if(errors.hasErrors()){
-			return "-1";
+			List<FieldError> list = errors.getFieldErrors();
+			StringBuffer sb = new StringBuffer();
+			for(FieldError e : list){
+				sb.append(e.getDefaultMessage()+"\n");
+			}
+			System.out.println(sb);//log
+			return sb.toString();
 		}
 		
 		// 비즈니스 로직 처리
@@ -126,7 +133,13 @@ public class FridgerController {
 		System.out.println(fridgerForm);//log
 		// 요청 파라미터 검증 끝
 		if(errors.hasErrors()){
-			return "-1";
+			List<FieldError> list = errors.getFieldErrors();
+			StringBuffer sb = new StringBuffer();
+			for(FieldError e : list){
+				sb.append(e.getDefaultMessage()+"\n");
+			}
+			System.out.println(sb);//log
+			return sb.toString();
 		}
 		
 		// 1) 빈 냉장고 생성해서  검증된 fridgerForm 넣기
@@ -329,9 +342,15 @@ public class FridgerController {
 	@ResponseBody
 	public String requestFridgerGroup(@ModelAttribute("joinProcess") @Valid JoinProcessForm joinProcessForm, BindingResult errors){
 		// 요청 파라미터 검증 끝
-				if(errors.hasErrors()){
-					return errors.getObjectName()+"에서 오류 발생";
-				}
+		if(errors.hasErrors()){
+			List<FieldError> list = errors.getFieldErrors();
+			StringBuffer sb = new StringBuffer();
+			for(FieldError e : list){
+				sb.append(e.getDefaultMessage()+"\n");
+			}
+			System.out.println(sb);//log
+			return sb.toString();
+		}
 		// 0) 권한 ID 체크(지금 로그인한 회원)
 		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		// 1) 빈 냉장고 생성 해서 검증된 joinProess 넣기
@@ -347,17 +366,23 @@ public class FridgerController {
 			return e.getMessage();
 		}
 
-		return "가입신청을 완료했습니다.";
+		return "0";
 	}
 	
 	
 	//냉장고 그룹으로 초대 요청 handler
 	@RequestMapping(value="invite",produces="text/html;charset=UTF-8")
 	@ResponseBody
-	public ModelAndView inviteFridgerGroup(@ModelAttribute("joinProcess") @Valid JoinProcessForm joinProcessForm, BindingResult errors){
+	public String inviteFridgerGroup(@ModelAttribute("joinProcess") @Valid JoinProcessForm joinProcessForm, BindingResult errors, ModelMap map){
 		// 요청 파라미터 검증 끝
 		if(errors.hasErrors()){
-			return new ModelAndView("common/member/fridger/invite_form");
+			List<FieldError> list = errors.getFieldErrors();
+			StringBuffer sb = new StringBuffer();
+			for(FieldError e : list){
+				sb.append(e.getDefaultMessage()+"\n");
+			}
+			System.out.println(sb);//log
+			return sb.toString();
 		}
 	
 		// 0) 권한 ID 체크(지금 로그인한 회원)
@@ -372,19 +397,19 @@ public class FridgerController {
 		try {
 			joinProcessService.inviteJoinFridgerGroup(joinProcess);
 		} catch (Exception e) {
-			return new ModelAndView("common/member/fridger/invite_form.tiles", "errorMsg", e.getMessage());
+			return e.getMessage();
 		}
-
-		return new ModelAndView("redirect:invite/success.do", "processNo", joinProcess.getProcessNo());
+		
+		return "0";
 	}
 	
-	@RequestMapping("invite/success")
+	/*@RequestMapping("invite/success")
 	public ModelAndView inviteSuccess(@RequestParam int processNo){
 		joinProcess = joinProcessService.findJoinProcessByProcessNo(processNo);
 
 		return new ModelAndView("common/member/fridger/invite_success.tiles", "joinProcess", joinProcess);
 	}
-	
+	*/
 	
 	
 	
@@ -508,7 +533,7 @@ public class FridgerController {
 	
 	
 	/*************************업로드 완성<-필요없어짐(ㅠㅠ)**************************/
-	
+/*	
 	//@RequestMapping(value="register", method={RequestMethod.POST,RequestMethod.GET} )	// input type="file"으로 전송받는 변수는 MultipartFile 타입으로 선언
 	public ModelAndView regisgerFridgerWithImgs(@RequestParam String fridgerName,
 												@RequestParam String memberId,
@@ -547,6 +572,6 @@ public class FridgerController {
 		
 		return new ModelAndView("redirect:register/success.do", "fridgerId", fridger.getFridgerId());
 	}
-	
+	*/
 	
 }

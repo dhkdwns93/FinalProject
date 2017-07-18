@@ -263,7 +263,7 @@ html, #container{
 .fridger{
 	min-height: 100%; /* content 높이가 브라우저 높이보다 짧은 경우를 대비해 최소값 100%로 지정 */
 	position: relative;
-	padding-bottom: 200px; /* content와 footer겹치지않게 전체 하단여백을 footer높이보다 크게 줌 */
+	padding-bottom: 400px; /* content와 footer겹치지않게 전체 하단여백을 footer높이보다 크게 줌 */
 	padding-top: 50px; /* content와 head가 겹치지않게 전체 상단여백을 head 높이보다 크게 설정 */
 }
 
@@ -274,6 +274,7 @@ nav#head{
 
 div#content2{
 	margin-top: 30px; /* 상세화면들 content부분 상단여백 지정 */
+	margin-bottom: 100px; /* 상세화면들 content부분 하단여백 지정 */
 	font-size: 15px; /* 상세화면들 content 부분 글자크기 */
 }
 

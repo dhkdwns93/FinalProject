@@ -11,6 +11,8 @@
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script src="http://code.jquery.com/jquery.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<!-- Latest compiled and minified CSS 아이콘 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script type="text/javascript">
 /*/* function popupRecipeName()
 {
@@ -97,33 +99,109 @@ div.ex1{
   -moz-appearance: none;
   appearance: none;
 }
-
-.filebox.bs3-primary label {
-  color: #fff;
-    background-color: #337ab7;
-    border-color: #2e6da4;
+.ccformfield {
+	color:#000000; 
+	background:#FFFFFF;
+	border: 1px solid #f1f1f1;
+	padding:15.5px;
+	width:60%;
+	height:34px;
+	font-family: 'Lato',Arial,sans-serif;
+	font-size:14px;
+	margin:0;
+}
+.ccfield-prepend{
+	margin-bottom:20px;
+	width:100%;
+}
+.ccform-addon{
+	color:#bfbfbf; 
+	float:left;
+	padding:8px;
+	width:8%;
+	height:34px;
+	background:#FFFFFF;
+	border: 1px solid #f1f1f1;
+	text-align:center;
+	
+}
+.ccformfield {
+	color:#000000; 
+	background:#FFFFFF;
+	border: 1px solid #f1f1f1;
+	padding:15.5px;
+	width:60%;
+	height:34px;
+	font-family: 'Lato',Arial,sans-serif;
+	font-size:14px;
+	margin:0;
+}
+.ccformfield2 {
+	color:#000000; 
+	background:#FFFFFF;
+	border: 1px solid #f1f1f1;
+	padding:15.5px;
+	width:70%;
+	height:80px;
+	font-family: 'Lato',Arial,sans-serif;
+	font-size:14px;
+	margin:0;
+}
+.ccformfield2 {
+	font-family: 'Lato',Arial,sans-serif;
+}
+.ccformfield {
+	font-family: 'Lato',Arial,sans-serif;
+}
+.ccbtn{
+	font-size:13px;
+	border:none;
+	background:#a6a6a6;
+	height:28px;
+	color:#FFFFFF;
+	cursor:pointer;
+	text-decoration:none;
+	font-weight:bold;
+}
+.ccbtn:hover{
+	background:#737373;
+}
+.ccfield-submit-part{
+	text-align:center;
+}
+div.align{
+text-align:right;
+}
+/* 에러메시지 */
+.error{
+  font-size:80% !important;
+  color:#808080 !important;
 }
 </style>
 </head>
 <body>
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <h2>글쓰기</h2>
+<hr>
+		
 <c:if test="${requestScope.error != null }">
 	<script type="text/javascript">alert("사진을 등록하세요.");</script>
 </c:if>																									
 
 <form method="post" action="${initParam.rootPath }/common/boardRecipe/boardRecipeUpdateOk.do"<%--  enctype="multipart/form-data" --%> name="boardPopup" >
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-		<table class="table table-bordered">
+		<table class="table table-bordered"  style="width:100%; border:1; ">
 			<tr>
 				<th>작성자</th>
 				<td>
-					<input type="text" name="memberId" value="${boardShareRecipe.memberId}" readonly>
+					<input type="text" name="memberId" value="${boardShareRecipe.memberId}" class="ccformfield" readonly>
+				
 				</td>
 			</tr>
 			<tr>
 				<th>제목</th>
 				<td>
-					<input type="text" name="title" size="20" value="${boardShareRecipe.title}">
+					<input type="text" name="title" size="20" value="${boardShareRecipe.title}" class="ccformfield">
 					<span class="error"><form:errors path="boardShareRecipe.title" delimiter="&nbsp;&nbsp;"/></span>
 				</td>
 			</tr>
@@ -143,14 +221,14 @@ div.ex1{
 			<tr>
 				<th>내용</th>
 				<td>
-					<textarea rows="4" cols="80" name="txt">${boardShareRecipe.txt}</textarea>
-					<span class="error"><form:errors path="boardShareRecipe.txt" delimiter="&nbsp;&nbsp;"/></span>
+					<textarea rows="4" cols="80" name="txt" class="ccformfield2">${boardShareRecipe.txt}</textarea>
+					<span class="error"><form:errors path="boardShareRecipe.txt" delimiter="&nbsp;&nbsp;" class="ccformfield"/></span>
 				</td>
 			</tr>
 			<tr>
 				<th>사진</th>
 				<td><div class="filebox bs3-primary">
-                            <input class="upload-name" value="사진선택" disabled="disabled">
+                            <input value="${boardShareRecipe.original}" class="ccformfield" value="사진선택" disabled="disabled">
 
                             <label for="ex_filename">업로드</label> 
                           <input type="file" id="ex_filename" name="upImage" class="upload-hidden">
@@ -158,12 +236,13 @@ div.ex1{
 					<input type="file" name="upImage" > -->
 					<input type="hidden" name="saveName" value="${boardShareRecipe.saveName}" readonly>
 					<input type="hidden" name="original" value="${boardShareRecipe.original}" readonly>
-				</td>
+				</div></td>
 			</tr>
 			<tr>
 				<th>기타재료</th>
 				<td>
-				<input type="text" name="etc" row="10" cols="80"value="${boardShareRecipe.etc}">
+				<textarea rows="4" cols="80" name="etc" class="ccformfield2">${boardShareRecipe.etc}</textarea>
+				<%-- <input type="text" name="etc" value="${boardShareRecipe.etc}" class="ccformfield2"> --%>
 				</td>
 			</tr>
 			
@@ -172,10 +251,21 @@ div.ex1{
 			<input type="hidden" name="recipeId" value="${boardShareRecipe.recipeId}">
 			<input type="hidden" name="recommand" value="${boardShareRecipe.recommand }">
 			<input type="hidden" name="hits" value="${boardShareRecipe.hits }">
-		<button type="submit" class="btn">수정</button>
-		<button type="button" onclick="location.reload()" class="btn" >초기화</button>
-		<input type="button" name="back" value="취소" onClick="javascript:history.go(-1);" class="btn"/>	
-		</form>
+			<div class="form-inline form-group" >
+			<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="return update_event();">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true">수정</span>
+			</button>
+			<button type="button" class="btn btn-default btn-lg" style="border:0;outline:0;" onClick="location.reload();" >
+				<span class="glyphicon glyphicon-refresh" aria-hidden="true">초기화</span>
+			</button>
+			<!-- 뒤로가기 -->
+			<button type="button" class="btn btn-default btn-lg" style="border:0;outline:0;" onClick="javascript:history.go(-1);" >
+					<span class="glyphicon glyphicon-arrow-left" aria-hidden="true">뒤로가기</span>
+				</button>
+			</div>
+		</form>	
+		
+</div>
 </body>
 </html>
 
