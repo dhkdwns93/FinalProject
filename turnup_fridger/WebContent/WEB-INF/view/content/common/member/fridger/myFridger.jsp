@@ -224,7 +224,8 @@ $(document).ready(function(){
 	// 냉장고 열어보기
 	$(document).on("click", "#moveInBtn", function(){
 		var fridgerId = $("span#fridgerId").text();
-		window.location.href="${initParam.rootPath}/common/member/myIrdnt/myIrdntList.do?fridgerId="+fridgerId;
+		var fridgerName=$("span#fridgerName").text();
+		window.location.href="${initParam.rootPath}/common/member/myIrdnt/myIrdntList.do?fridgerId="+fridgerId+"&fridgerName="+fridgerName;
 	});
 	
 	

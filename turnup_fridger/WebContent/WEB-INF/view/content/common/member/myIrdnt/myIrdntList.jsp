@@ -52,7 +52,7 @@
 		$(document).on("click","#irdntName_col",function(){
 			var myIrdntKey = $(this).parent().children(":first-child").text();
 			//var myIrdntKey=$(this).val();
-			window.open("/turnup_fridger/common/member/myIrdnt/findIrdntByKey.do?myIrdntKey="+myIrdntKey,"detail","width=500, height=400");
+			window.open("/turnup_fridger/common/member/myIrdnt/findIrdntByKey.do?myIrdntKey="+myIrdntKey,"detail","width=500, height=700");
 		
 		});//
 				
@@ -127,8 +127,8 @@
 		});//searchBtn
 		
 		$("#addIrdnt").on("click",function(){
-			window.open("/turnup_fridger/common/member/myIrdnt/myIrdnt_form.do?fridgerId=${param.fridgerId}","insertIrdnt","width=500, height=400");
-		});//재료추가
+			window.open("/turnup_fridger/common/member/myIrdnt/myIrdnt_form.do?fridgerId=${param.fridgerId}","insertIrdnt","width=500, height=500");
+		});//재료추가 
 		
 	})//ready
 
@@ -167,11 +167,18 @@ td {
 </div><br>
 
 <div id="buttons" style="text-align:center;">
-<a href="#" data-toggle="tooltip" title="재료추가"><button type="button" class="btn btn-warning" id="addIrdnt" style="width:50px;height:50px;font-size:25px;">+</button></a>&emsp;&emsp;&emsp;
-<a href="#" data-toggle="tooltip" title="재료삭제"><button type="button" class="btn btn-warning" id="deleteOnSelect" style="width:50px;height:50px;font-size:25px;">-</button></a><br><br>
+<a href="#" data-toggle="tooltip" title="재료 추가">
+<button type="button" class="btn btn-warning" id="addIrdnt" style="width:50px;height:50px;font-size:25px;">+</button>
+</a>&emsp;&emsp;&emsp;
+<a href="#" data-toggle="tooltip" title="선택재료 삭제"><button type="button" class="btn btn-warning" id="deleteOnSelect" style="width:50px;height:50px;font-size:25px;">-</button></a><br><br>
 <h4 style="color:lightgray;">재료를 클릭하면 상세정보를 보실 수 있습니다.</h4>
 </div>
 <br>
+
+<!--************************************************modale  -->
+
+
+<!--************************************************modale  -->
 
 <div id="roomSection" style="width:30%; float:left; height:600px; border-style:ridge; margin:10px;">
 <h5 style="color:gray;margin-left:5px;">실온</h5>
