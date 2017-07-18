@@ -209,8 +209,9 @@ border-radius: 5px;
          <img src="${initParam.rootPath}/images/fridger/f13.png" alt="fridger13" style="width:auto;height:250px;">
       </div>
     </div>
+    
     <!-- Left and right controls -->
-    <a class="left carousel-control" href="#fridgerCarousel" data-slide="prev">
+    <a class="left carousel-control" href="#fridgerCarousel" data-slide="prev" style="background-color: none">
       <span style="position:absolute; top: 45%; left:10px;"><img src="${initParam.rootPath}/images/glyphicons/png/glyphicons-225-chevron-left.png"></span>
       <span class="sr-only">Previous</span>
     </a>
