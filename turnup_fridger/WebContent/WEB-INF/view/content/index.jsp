@@ -54,6 +54,7 @@
 								</ul>
 							  </li>
                             </sec:authorize>
+                            <sec:authorize access="!hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
                             <li class="topMenuLi">
                                 <a href="#" class="btn btn-default btn-lg"><span class="network-name">Board</span></a>
                             	<ul class="submenu">
@@ -61,9 +62,9 @@
 									<li><a href="${initParam.rootPath}/common/boardqna/boardQnAList.do" id="submenuLink">QnA</a></li>
 									<li><a href="${initParam.rootPath}/common/boardfree/boardFreeList.do" id="submenuLink">자유게시판</a></li>
 									<li><a href="${initParam.rootPath}/boardreview/boardReviewList.do" id="submenuLink">후기</a></li>
-									<li><a href="" id="submenuLink">레시피 공유게시판</a></li>
 						    	</ul>
                             </li>
+                            </sec:authorize>
                             <sec:authorize access="hasRole('ROLE_MEMBER')">
                              <li class="topMenuLi">
                                 <a href="#" class="btn btn-default btn-lg"><span class="network-name">MyMenu</span></a>

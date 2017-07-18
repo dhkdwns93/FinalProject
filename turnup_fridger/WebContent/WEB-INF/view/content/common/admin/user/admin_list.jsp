@@ -48,7 +48,6 @@ $(document).ready(function(){
 			alert("HeadMaster관리자는 탈퇴처리가 불가합니다.");
 			return false;
 		}
-
 		//Master관리자는 headMaster만 탈퇴처리 할 수 있음.
 		if(originalAuthorityChange==("ROLE_MASTERADMIN")){
 			if(loginAuthority!=("[ROLE_HEADMASTERADMIN]")){
@@ -93,14 +92,12 @@ $(document).ready(function(){
 });
 </script>
 <style>
-
 /* contact-form 넓이*/
 .form-page{
 	display:inline-block;
 	width:95%;
 	margin-left:5%;
 }
-
 /* EXCEL 형식 */
 .ExcelTable2007 {
 	border: 1px solid #B0CBEF;
@@ -111,7 +108,6 @@ $(document).ready(function(){
 	border-spacing: 0px;
 	border-collapse: collapse;
 }
-
 .ExcelTable2007 TH {
 	background-image: url("${initParam.rootPath }/img/excel-2007-header-bg.gif");
 	background-repeat: repeat-x; 
@@ -121,7 +117,6 @@ $(document).ready(function(){
 	border-width: 0px 1px 1px 0px;
 	height: 17px;
 }
-
 .ExcelTable2007 TD {
 	border: 0px;
 	background-color: white;
@@ -129,25 +124,21 @@ $(document).ready(function(){
 	border: 1px solid #D0D7E5;
 	border-width: 0px 1px 1px 0px;
 }
-
 .ExcelTable2007 TD B {
 	border: 0px;
 	background-color: white;
 	font-weight: bold;
 }
-
 .ExcelTable2007 TD.heading {
 	background-color: #E4ECF7;
 	text-align: center;
 	border: 1px solid #9EB6CE;
 	border-width: 0px 1px 1px 0px;
 }
-
 .ExcelTable2007 TH.heading {
 	background-image: url("${initParam.rootPath }/img/excel-2007-header-left.gif");
 	background-repeat: none;
 }
-
 </style>
 </head>
 <body>

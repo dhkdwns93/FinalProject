@@ -414,7 +414,7 @@ width: auto;
 top: 650px;
 }
 </style>
-
+<div class="container">
 <div style="text-align:center;"><h2>레시피 상세화면</h2><br><hr></div>
 
 
@@ -431,7 +431,7 @@ top: 650px;
 
 <button type="button" id="timerBtn">타이머</button>
 
-<div class="container">
+
 
 <div id="whole">
 	<div id="recipe_info">
@@ -567,9 +567,9 @@ top: 650px;
 
 <!--후기게시판연결  -->
 	<!-- <button type="button" id="reviewBtn" >후기 보기</button> -->
-	<div id="review"  style= "margin-right: 50px; padding:500px; width: auto;  right:0; position: absolute;">
+	<div id="review"  style= " width: auto;">
 		사용자 후기<hr>
-		<table class="table table-hover table-condensed" style="width:100%; border:5;">
+		<table class="table table-hover table-condensed">
 			<thead id="reviewThead">
 				<tr>
 					<th>글번호</th>
@@ -586,12 +586,9 @@ top: 650px;
 		</table>
 	<div id="reviewPageBean"></div>
 	</div>
-</div>
-
-
-
 
 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 <button type="button" id="deleteRecipeBtn">삭제</button> 
 </sec:authorize>
 <button type="button" onclick="window.history.back()">뒤로가기</button>
+</div>

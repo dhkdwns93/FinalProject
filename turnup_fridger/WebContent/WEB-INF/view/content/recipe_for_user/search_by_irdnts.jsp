@@ -26,7 +26,6 @@ function getList(keyword,page){
 	$("#likeTbody tr").each(function(){
 		likes.push($(this).children(":first-child").text());
 	}); 
-
 	$.ajax({		
 		"url":"/turnup_fridger/findRecipeByIrdntId.do",
 		"type":"POST",
@@ -57,7 +56,6 @@ function getList(keyword,page){
 				});//each
 		
 		//페이징		
-
 			 	$("#apiPageBean").append($("<a href='javascript:getList("+keyword+",1)'>").append("첫페이지"));
 			
 			 	if(map.apiMap.pageBean.previousPageGroup!=null){
@@ -111,8 +109,6 @@ function getList(keyword,page){
 	})//ajax
 	
 };//페이징 함수 
-
-
 $(document).ready(function(){
 	
 	$("#sortKeyword").hide();
@@ -147,7 +143,6 @@ $(document).ready(function(){
 	});//ajax1
 	
 	//*******************************************************************************************************************************************************
-
 	$("#getMyFridger").on("click",function(){
 		
 		$.ajax({	
@@ -278,7 +273,6 @@ $(document).ready(function(){
 	$(document).on("change","#recipeLevel",function(){
 		getList($("#recipeLevel").val(),1);
 	});//난이도 
-
 })//ready
 </script>
 </head>
