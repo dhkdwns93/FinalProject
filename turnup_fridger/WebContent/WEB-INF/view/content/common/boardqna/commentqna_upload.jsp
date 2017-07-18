@@ -49,11 +49,24 @@ h2{display:inline}
 input {
    vertical-align:middle;  
 }
+th{
+	width:10%;
+}
+td{
+	width:70%;
+}
+.textarea_test {
+    resize:none;
+    line-height:30px;
+    width:100%;
+    overflow-y:hidden;
+    height:100%;
+}
 </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
-<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<div style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>QnA 게시판 ></h1>
 				<c:if test="${commentQnA.memberId != null}">
@@ -65,28 +78,29 @@ input {
 <hr>
 <form id="upload" method="post" action="${initParam.rootPath}/common/commentqna/commentQnAUploadForm.do" <%-- onsubmit="closeWindow()" --%>>
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-<table>
-		<tr>
-			<th>작성자</th>
-			<th>				
-				<c:if test="${commentQnA.memberId != null}">
-					<input class="form-control" style="float:left;width:40%;" type="text" name="memberId" id="memberId" readonly value="${commentQnA.memberId}"><br>
-				</c:if>
-				<c:if test="${commentQnA.adminId != null}">
-					<input class="form-control" style="float:left;width:40%;" type="text" name="adminId" id="adminId" readonly value="${commentQnA.adminId}"><br>
-				</c:if>
-			</th>
-		</tr>
-		<tr>	
-			<td>	
-				내용
-			</td>
-			<td>
-				<textarea class="form-control" name="commentQnATxt" id="commentQnATxt" row="120"cols="70">${commentQnA.commentQnATxt}</textarea>
-				<span class="error"><form:errors path="commentQnA.commentQnATxt" delimiter="&nbsp;"/></span>	
-			</td>
-		</tr>
-	</table>
+<table style="width:100%;">
+	<tr>
+		<th>작성자</th>
+		<td>
+			<c:if test="${commentQnA.memberId != null}">
+					<input class="form-control" style="float:left;width:40%;" type="text" name="memberId" id="memberId" readonly value="${commentQnA.memberId}">
+					<br><br>
+			</c:if>
+			<c:if test="${commentQnA.adminId != null}">
+					<input class="form-control" style="float:left;width:40%;" type="text" name="adminId" id="adminId" readonly value="${commentQnA.adminId}">
+					<br><br>
+			</c:if>
+		</td>
+	</tr>
+	<tr>
+		<th>내용</th>
+		<td>
+			<textarea class="form-control textarea_test" style="float:left;width:70%;"  onkeyup="this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
+				name="commentQnATxt" row="5"cols="70">${commentQnA.commentQnATxt}</textarea>
+			<span class="error"><form:errors path="commentQnA.commentQnATxt" delimiter="&nbsp;"/></span>	
+		</td>
+	</tr>	
+</table>
 		<input type="hidden" name="commentQnAId" id="commentQnAId" value="${commentQnA.commentQnAId}">
 		<input type="hidden" name="boardQnAId" id="boardQnAId" value="${commentQnA.boardQnAId}">
 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
@@ -117,6 +131,7 @@ input {
 			</sec:authorize>
 			<sec:csrfInput/>
 		</form>
+</div>
 </body>
 </html>
 

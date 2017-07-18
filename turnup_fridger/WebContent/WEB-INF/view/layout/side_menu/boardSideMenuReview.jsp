@@ -37,13 +37,13 @@
 	border: none;
 	color: #555;
 	text-decoration: none;
-	background-color: white;
+	background-color: #ffcc99;
 }
 
 .list-group-item:hover, .list-group-item:focus {
 	color: #555;
 	text-decoration: none;
-	background-color: #EAE7E7 !important;
+	background-color: #fff2e6 !important;
 }
 
 </style>

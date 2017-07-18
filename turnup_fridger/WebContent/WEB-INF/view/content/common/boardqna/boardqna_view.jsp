@@ -95,9 +95,7 @@ input {
 </style>
 </head>
 <body>
-
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
-
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>QnA 게시판 ></h1> <h2> ${requestScope.boardQnA.memberId}님의 질문</h2><br>

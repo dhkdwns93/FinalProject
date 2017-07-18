@@ -298,14 +298,14 @@ h2{display:inline}
 	<tr>
     	<td>레시피</td>
     	<td>
-    		<div class="absolute">   			
+    	 <div class="form-inline form-group" > 			
 		    	<input style="width:20%;" type="hidden" id="recipeId" name="recipeId" readonly value="${boardReview.recipeId}">
 		    	<input class="form-control" style="width:30%;" type="text" id="recipeName" name="recipeName" readonly value="${boardReview.recipeName}">
 		    	<button type="button" class="btn btn-default btn-lg" id="recipeName" style="border:0;outline:0;" onclick="popupRecipeName()">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 				</button>
 		    	<span class="error"><form:errors path="boardReview.recipeName" delimiter="&nbsp;"/></span>    
-		    </div>
+		   </div>
 	    </td>
 	</tr>
 	<tr>	 

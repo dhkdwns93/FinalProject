@@ -41,30 +41,48 @@ h2{display:inline}
 input {
    vertical-align:middle;  
 }
+.textarea_test {
+    resize:none;
+    line-height:30px;
+    width:100%;
+    overflow-y:hidden;
+    height:100%;
+}
+th{
+	width:10%;
+}
+td{
+	width:70%;
+}
 </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
-<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<div style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>QnA 게시판 ></h1><h2> 질문 등록</h2><br>
 <hr>
 <form action="${initParam.rootPath}/common/boardqna/boardQnAAdd.do" method="POST">
-<table>
+<table style="width:100%;">
 	<tr>
 		<th>작성자</th>
-		<td><input class="form-control" style="float:left;width:40%;" type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>"></td>
+		<td>
+			<input class="form-control" style="float:left;width:40%;" type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>">
+			<br><br>			
+		</td>
 	</tr>
 	<tr>
 		<th>제목</th>
-		<td><input class="form-control" type="text" name="boardQnATitle" value="${boardQnA.boardQnATitle}" placeholder="제목을 입력해주세요">
+		<td>
+			<input class="form-control" style="float:left;width:50%;" type="text" name="boardQnATitle" value="${boardQnA.boardQnATitle}" placeholder="제목을 입력해주세요">
 			<span class="error"><form:errors path="boardQnA.boardQnATitle" delimiter="&nbsp;"/></span>
 		</td>
 	</tr>
 	<tr>
 		<th>내용</th>
 		<td>
-			<textarea class="form-control" name="boardQnATxt" row="120" cols="70" placeholder="내용을 입력해주세요">${boardQnA.boardQnATxt}</textarea>
+			<textarea class="form-control textarea_test" onkeyup="this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
+				name="boardQnATxt" row="5" cols="70" placeholder="내용을 입력해주세요">${boardQnA.boardQnATxt}</textarea>
 			<span class="error"><form:errors path="boardQnA.boardQnATxt" delimiter="&nbsp;"/></span>
 		</td>
 	</tr>	

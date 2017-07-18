@@ -44,7 +44,7 @@ public class BoardQnAController extends HttpServlet {
 		    mav.addObject("list", map.get("list"));
 		    mav.addObject("totalCount", map.get("totalCount"));
 		    mav.addObject("pageBean", map.get("pageBean"));
-	        mav.setViewName("common/boardqna/boardqna_list.tiles"); // 뷰를 list.jsp로 설정
+	        mav.setViewName("common/boardqna/boardqna_list.tiles");
 	        return mav; 
 		} 
 	
@@ -65,7 +65,7 @@ public class BoardQnAController extends HttpServlet {
 			    mav.addObject("totalCount", map.get("totalCount"));
 			    mav.addObject("memberId",  map.get("memberId"));
 			    mav.addObject("pageBean", map.get("pageBean"));
-		        mav.setViewName("common/boardqna/boardqna_list_memberid.tiles"); // 뷰를 list.jsp로 설정
+		        mav.setViewName("common/boardqna/boardqna_list_memberid.tiles");
 
 		        return mav; 
 			}
@@ -75,7 +75,7 @@ public class BoardQnAController extends HttpServlet {
 		    mav.addObject("list", map.get("list"));
 		    mav.addObject("totalCount", map.get("totalCount"));
 		    mav.addObject("pageBean", map.get("pageBean"));
-	        mav.setViewName("common/boardqna/boardqna_list.tiles"); // 뷰를 list.jsp로 설정
+	        mav.setViewName("common/boardqna/boardqna_list.tiles"); 
 	        return mav; 
 		}
 		
@@ -152,7 +152,7 @@ public class BoardQnAController extends HttpServlet {
 		    mav.addObject("list", map.get("list"));
 		    mav.addObject("totalCount", map.get("totalCount"));
 		    mav.addObject("pageBean", map.get("pageBean"));
-	        mav.setViewName("common/boardqna/boardqna_list.tiles"); // 뷰를 list.jsp로 설정
+	        mav.setViewName("common/boardqna/boardqna_list.tiles");
 	        return mav; 
 
 		}	
@@ -187,7 +187,6 @@ public class BoardQnAController extends HttpServlet {
 			ModelAndView mav = new ModelAndView();
 			
 			service.updateBoardQnA(boardQnA);
-			//BoardQnA bq = new BoardQnA(0,boardQnA.getBoardQnATitle(),boardQnA.getBoardQnATxt(),boardQnA.getBoardQnAdate(),boardQnA.getMemberId());
 			mav.addObject("boardQnA",boardQnA);
 			List<CommentQnA> list = comment.selectCommentQnAByboardQnAId(boardQnA.getBoardQnAId());
 			mav.addObject("list", list);
