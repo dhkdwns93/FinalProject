@@ -485,6 +485,7 @@ public class RecipeController {
 		Map userList = shareService.selectBoardShareRecipeByTitle(recipeName,page);
 		HashMap map = new HashMap();
 		map.put("userList", userList); // 이거 안에도 페이징빈이랑 리스트 두개 
+		System.out.println("찍어보자:"+userList.get("list"));
 		return map;
 	}
 	
@@ -513,6 +514,7 @@ public class RecipeController {
 
 		Map userMap = shareService.findUserRecipeByIds(irdntIds, hateIrdntIds,page);
 		HashMap map = new HashMap();
+		//System.out.println(userMap.get(list));
 		map.put("userMap", userMap);//여기에 리스트랑 페이징빈 들어있다. 
 		return map;
 	}

@@ -194,40 +194,46 @@ $(document).ready(function () {
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetModal()" ><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetModal(joinFridgerModal)" ><span aria-hidden="true">&times;</span></button>
         <h3 class="modal-title" id="myModalLabel">냉장고 수정</h3>
       </div>
       <div class="modal-body" >
 		
 	냉장고 이름으로 조회
-		<span><input type="text" name="fridgerName" id="fridgerName">
+		<span><input type="text" name="fridgerName" id="fridgerName" placeholder="찾으시는 냉장고 이름을 입력하세요">
 		<!-- <input type="button" value="조회" id="searchByNameBtn"> -->
-		<button type="button" class="btn btn-default" id="searchByNameBtn">
-      	<span class="glyphicon glyphicon-search"></span> 
-    	</button>
+		<button type="button" class="btn btn-default" id="searchByNameBtn" >search</button>
     	</span>
+    	
+    	<div class="row">
+  <div class="col-lg-6">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Go!</button>
+      </span>
+      <input type="text" class="form-control" placeholder="Search for...">
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+  <div class="col-lg-6">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Search for...">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Go!</button>
+      </span>
+    </div><!-- /input-group -->
+  </div><!-- /.col-lg-6 -->
+</div><!-- /.row -->
+    	
+    	
 		<br>
-		
 	냉장고 주인으로 조회
 	<sec:authentication property="principal.memberId" var="memberId"/>
-		<span><input type="text" name="memberId" id="memberId" placeholder="현재회원 : ${ memberId }">
+		<span><input type="text" name="memberId" id="memberId" placeholder="찾으시는 회원 ID를 입력하세요" size="60">
 		<!-- <input type="button" value="조회" id="searchByOwnerBtn"> -->
-	    <button type="button" class="btn btn-default searchByOwnerBtn" id="searchByOwnerBtn">
-      	<span class="glyphicon glyphicon-search"></span> 
-    	</button>
+	    <button type="button" class="btn btn-default searchByOwnerBtn" id="searchByOwnerBtn">search</button>
     	</span>
     	
 		<br>
-		<sec:authentication property="principal.memberId" var="memberId"/>
-		내 냉장고 조회 : ${ memberId }
-		<span><input type="hidden" name="memberId" id="memberId" value="${ memberId }">
-	    <button type="button" class="btn btn-default searchByOwnerBtn" id="searchByOwnerBtn">
-      	<span class="glyphicon glyphicon-search"></span> 
-    	</button>
-    	</span>
-    	
-		<br>
-
 <hr>
 
 

@@ -7,67 +7,39 @@
 <script src="${ initParam.rootPath }/scripts/bootstrap.min.js"></script>
 <link href="${ initParam.rootPath }/css/bootstrap.css" rel="stylesheet">
 <link href="${ initParam.rootPath }/css/landing-page.css" rel="stylesheet">
+<script type="text/javascript">
 
-<!-- <script type="text/javascript">
-
-$(document).ready(function(){	
- $(document).on("click", "#updateFormBtn",function(){
-		/*  alert($("#updateFridgerName").val());
-		alert($("#updateFridgerCarousel .item.active").find("img").attr("src")); */
-		var fridgerImg = $("#updateFridgerCarousel .item.active").find("img").attr("src");
-		$("#updateFridgerImg").val(fridgerImg);
-		//alert($("#updateFridgerImg").val())
-		if(!$("#updateFridgerName").val()){
-			$("#updateFridgerName").val($("#updateFridgerName").prop("placeholder"));
-		}	
-			
-		
-		var formData = $("#updateForm").serializeArray();
-		console.log(formData)
-		$.ajax({
-			"url": "${initParam.rootPath }/common/member/fridger/update.do",
-			"type": "post",
-			"data": formData,
-			"dataType":"text",
-			"beforeSend": function(){
-				
-				console.log($("#updateFridgerImg").val());
-				console.log(fridgerImg);				
-				
-						
-			},
-			"success": function(text){
-				if(text == "0"){
-					/* alert("완료!")*/
-					$("#updateFridgerModal").modal('hide');
-					resetModal()
-				}else{
-					alert("실패!:"+text)			
-					$(".well").show();
-				}
-			}
-			
-		})
-
-  })
-		
+$(document).on("click", "#ownerChangeBtn", function(){
+	$("#updateOwnerId").removeAttr("name").hide();
+	$("#ownerChangeBtn").hide();
+	$("#updateOwnerIdList").prop("name", "memberId").fadeIn();
+	$("#ownerChangeCancelBtn").fadeIn();
+	
 	
 })
 
-function resetModal(){
-	document.getElementById("updateForm").reset();
-}
+$(document).on("click", "#ownerChangeCancelBtn", function(){
+	$("#updateOwnerIdList").removeAttr("name").hide();
+	$("#ownerChangeCancelBtn").hide();
+	$("#updateOwnerId").prop("name", "memberId").fadeIn();
+	$("#ownerChangeBtn").fadeIn();
+})
 
-function openModal(){
-	$('#updateFridgerModal').modal('show');
-	}
-
-</script> -->
+</script>
 
 <style>
 img{
 border-radius: 5px;
 }
+
+#updateOwnerIdList{
+display: none;
+}
+
+#ownerChangeCancelBtn{
+display: none;
+}
+
 .article-slide .carousel-indicators {
     bottom: 0;
     left: 0;
@@ -121,20 +93,15 @@ display: none;
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetModal()" ><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetUpdateModal()" ><span aria-hidden="true">&times;</span></button>
         <h3 class="modal-title" id="myModalLabel">냉장고 수정</h3>
       </div>
       <div class="modal-body" >
+      
       <!-- 에러메시지 -->
-      <div class="well">
-      	<span class="error">
-        <form:errors path="fridger.frigerName" delimiter="&nbsp;" />
-      	<form:errors path="fridger.frigerImg" delimiter="&nbsp;" />
-      	<form:errors path="fridger.frigerId" delimiter="&nbsp;" />
-      	</span>
+      <div class="well errorWell">
+      	<span class="error"><!-- 에러메시지 올곳  --></span>
       </div>   
-      
-      
       
       
          
@@ -150,10 +117,17 @@ display: none;
         </div>
         <div class="form-group">    
 	        <sec:authentication property="principal.memberId" var="memberId"/>
-			<label class="col-sm-2 control-label" for="updateMemberId">Owner</label>
-        <div class="col-sm-6">
-          <input class="form-control" type="text" id="updatememberId" name="memberId" value="${ memberId }" readonly="readonly" style="border: none;">
-        </div>
+			<label class="col-sm-2 control-label" for="updateOwnerId">Owner</label>
+	        <div class="col-sm-4">
+	          	<input class="form-control" type="text" id="updateOwnerId" name="memberId" value="${ memberId }" readonly="readonly" style="border: none;">   
+	          	<select class="form-control" id="updateOwnerIdList"><!-- 그룹멤버들 오는곳 --></select>
+	        </div>
+	         <div class="col-sm-2" style="margin-left: -20px; margin-bottom: 2px">
+	       		<button type="button" id="ownerChangeBtn" class="btn btn-default" style="background-color: #f2f2f2; border:5px; border-color: gray; width:100px; margin: 2px; text-shadow:none; font-weight: bold">
+	       		CHANGE</button>
+	       		<button type="button" id="ownerChangeCancelBtn" class="btn btn-default" style="background-color: #f2f2f2; border:5px; border-color: gray; width:100px; margin: 2px; text-shadow:none; font-weight: bold">
+	       		CANCEL</button>
+	         </div>
         </div>
         
           <div class="form-group">
@@ -252,10 +226,10 @@ display: none;
         </form>
       </div>
       <div class="modal-footer">
-       <button type="button" id="updateFormBtn" class="btn btn-yellow" >update</button>
+       <button type="button" id="updateFormBtn" class="btn btn-yellow" style="background-color:#f7c42d; color:#ffffff; width:100px; border:5px; margin: 2px; text-shadow:none; font-weight: bold">UPDATE</button>
        
-        <button type="button" class="btn btn-blue-grey" id="cancel" data-dismiss="modal" onclick="resetModal()" >cancel</button>
-      </div>
+        <button type="button" class="btn btn-blue-grey" id="cancel" data-dismiss="modal" onclick="resetUpdateModal()" style="background-color:#4c4c34; color:white; border:5px; border-color:#999966; width:100px; margin: 2px; text-shadow:none;  font-weight: bold">cancel</button>
+     </div>
     </div>
   </div>
 </div>
