@@ -81,7 +81,8 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 
 
 </script>
-<h2>레시피 등록</h2>
+<div class="container">
+<h2 style="text-align: center;">레시피 등록</h2><hr><br>
 
 <form id="recipe_register_form" 
 	action="${ initParam.rootPath }/common/admin/recipe/register.do" 
@@ -237,7 +238,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				</tr>
 			</tbody>
 		</table>
-		<button type="button" class="nextBtn">NEXT >></button>
+		<button type="button" class="btn btn-default nextBtn">NEXT >></button>
 	</div>
 	
 <!-- next버튼을 누르면 기본정보 세션에 저장하고 재료정보를 등록하는 부분 나오개 함-->
@@ -251,7 +252,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
 							${ requestScope.errorMsg_fridgerImgSrc }
 							</c:if> </span>
-		<button type="button" id="irdntBtn" onclick="openPopup('${initParam.rootPath}/irdntList_pop.do')">+재료추가</button>
+		<button type="button" id="irdntBtn" class="btn btn-default" onclick="openPopup('${initParam.rootPath}/irdntList_pop.do')">+재료추가</button>
 		<table id="recipe_irdnt_table" style="margin-bottom: 10px">
 			<tbody>
 				<tr>
@@ -261,7 +262,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				</tr>
 			</tbody>
 		</table>
-		<button type="button" class="nextBtn" >NEXT >></button>
+		<button type="button" class="btn btn-default nextBtn" >NEXT >></button>
 	</div>
 <!-- next버튼을 누르면 기본정보+재료정보를 세션에 저장하고 과정정보를 등록하는 부분 나오개 함-->
 
@@ -275,7 +276,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
 							${ requestScope.errorMsg_fridgerImgSrc }
 							</c:if> </span>
-	<button type="button" id="crseBtn">+과정추가</button>
+	<button type="button" class="btn btn-default " id="crseBtn">+과정추가</button>
 		<table id="recipe_crse_table" style="margin-bottom: 10px">
 			<tbody>
 			</tbody>
@@ -287,3 +288,4 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 	<input type="reset" value="초기화">
 	
 </form>
+</div>
