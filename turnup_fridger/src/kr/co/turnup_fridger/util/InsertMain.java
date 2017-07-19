@@ -18,16 +18,16 @@ public class InsertMain {
 		
 		
 		
-		
 		///////은영이가 //////////////////
 		//레시피재료정보
-		//insertMethod.insertAPI("D:\\Eunyoung\\java\\api\\","recipe_irdnt");//(파일루트, txt파일명)
-		insertMethod.insertAPI("D:\\Eunyoung\\java\\api\\","irdnt_manage");//(파일루트, txt파일명)
+		//insertMethod.insertAPI("G:\\P_Final_Project\\DB\\","recipe_irdnt");//(파일루트, txt파일명)
+		//insertMethod.insertAPI("G:\\P_Final_Project\\DB\\","irdnt_manage");//(파일루트, txt파일명)
 		
 		//레시피기본정보
-		//insertMethod.insertAPI("D:\\Eunyoung\\java\\api\\","recipe_info");
+		//insertMethod.insertAPI("G:\\P_Final_Project\\DB\\","recipe_info");
 		
-		//재료관리 
-		//insertMethod.insertAPI("D:\\Eunyoung\\java\\api\\","recipe_crse");//(파일루트, txt파일명)
+
+		//재료과정
+		//insertMethod.insertAPI("G:\\P_Final_Project\\DB\\","recipe_crse");//(파일루트, txt파일명)
 	}//end of main
 }

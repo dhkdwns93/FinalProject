@@ -243,7 +243,7 @@ $(document).ready(function(){
 			var amt = $(this).text();
 			if(!isNaN(amt)){	//정수일때
 			 	//console.log(amt/qnt*1)
-			 	$(this).text(amt/qnt*1);
+			 	$(this).text((amt/qnt).toFixed(1)*1);
 			}
 			if(amt.includes("/")){	//분수인경우
 				console.log(amt);
@@ -271,7 +271,7 @@ $(document).ready(function(){
 			var amt = $(this).text();
 			if(!isNaN(amt)){	//정수일때
 			 	//console.log(amt/qnt*2)
-			 	$(this).text(amt/qnt*2);
+				$(this).text((amt/qnt).toFixed(1)*2);
 			}
 			if(amt.includes("/")){	//분수인경우
 				console.log(amt);
@@ -300,7 +300,7 @@ $(document).ready(function(){
 			var amt = $(this).text();
 			if(!isNaN(amt)){	//정수일때
 			 	//console.log(amt/qnt*3)
-			 	$(this).text(amt/qnt*3);
+				$(this).text((amt/qnt).toFixed(1)*3);
 			}
 			if(amt.includes("/")){	//분수인경우
 				console.log(amt);
@@ -329,7 +329,7 @@ $(document).ready(function(){
 			var amt = $(this).text();
 			if(!isNaN(amt)){	//정수일때
 			 	//console.log(amt/qnt*4)
-			 	$(this).text(amt/qnt*4);
+				$(this).text((amt/qnt).toFixed(1)*4);
 			}
 			if(amt.includes("/")){	//분수인경우
 				console.log(amt);
@@ -506,10 +506,10 @@ table tr td{
 		</sec:authorize>
 		
 		<div style="padding:10px;">
-		주재료 -
+		주재료 - 
 		<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
 		<c:if test="${recipeIrdnt.irdntTypeCode == 3060001}">
-		${ recipeIrdnt.irdntName }, 
+		${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount }&nbsp;&nbsp;
 		</c:if>
 		</c:forEach>
 		</div>
@@ -517,7 +517,7 @@ table tr td{
 		부재료 - 
 		<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
 		<c:if test="${recipeIrdnt.irdntTypeCode == 3060002}">
-		${ recipeIrdnt.irdntName }, 
+		${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount },
 		</c:if>
 		</c:forEach>
 		</div>
@@ -525,12 +525,11 @@ table tr td{
 		양념 - 
 		<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
 		<c:if test="${recipeIrdnt.irdntTypeCode == 3060003}">
-		${ recipeIrdnt.irdntName }, 
+		${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount },
 		</c:if>
 		</c:forEach>
 		</div>
 	</div>
-
 <!--나의 식재료들 가져와서 수정,삭제할수있게 하는 테이블  -->
 	<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN','ROLE_MEMBER')">
 	<br>
