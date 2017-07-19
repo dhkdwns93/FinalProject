@@ -538,6 +538,18 @@ public class FridgerController {
 	}
 	
 	
+	@RequestMapping(value="group/out", produces="text/html;charset=UTF-8")
+	@ResponseBody
+	public String removeFromFridgerGroup(@RequestParam int fridgerId, @RequestParam String groupMemberId) {
+		
+		try {
+			fridgerGroupService.deleteFridgerGroupByFridgerIdAndMemberId(fridgerId, groupMemberId);
+		} catch (Exception e) {
+			return e.getMessage();
+		}
+		
+		return "0";
+	}
 	
 	
 	/*************************업로드 완성<-필요없어짐(ㅠㅠ)**************************/

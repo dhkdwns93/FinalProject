@@ -580,10 +580,14 @@ font-size: 40px;
    	<c:forEach items="${ requestScope.fridgerList }" var="fridgerGroup">
   		<option value="${fridgerGroup.fridgerId}">
   		${ fridgerGroup.fridger.fridgerName }
+  		<c:if test="${ fridgerGroup.groupMemberId eq fridgerGroup.fridger.memberId }">
+  			${ fridgerGroup.fridger.fridgerName } [★Owner]
+  		</c:if>
   		</option>
   	</c:forEach>
   </select>
   </p>
+  
   <p>
   <span id="fridgerImg"><!-- 사진 들어갈 곳 --></span>
 	</p>

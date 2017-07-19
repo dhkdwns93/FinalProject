@@ -45,7 +45,7 @@ public class FridgerGroupServiceImpl implements FridgerGroupService{
 	}
 	
 	@Override
-	public void insertFridgerGroup(FridgerGroup fg) throws Exception {
+	public int insertFridgerGroup(FridgerGroup fg) throws Exception {
 		List<FridgerGroup> list = dao.selectFridgerGroupByFridgerId(fg.getFridgerId());
 		for(FridgerGroup f : list){
 			if(f.getGroupMemberId() == fg.getGroupMemberId()){
@@ -53,17 +53,25 @@ public class FridgerGroupServiceImpl implements FridgerGroupService{
 			}
 		}
 		fg.setGroupJoinSeq(list.size()+1);
-		dao.insertFridgerGroup(fg);
+		return dao.insertFridgerGroup(fg);
 	}
 
 	@Override
-	public void deleteFridgerGroup(String groupMemberId) throws Exception {
-		if(dao.selectFridgerGroupByGroupMemberId(groupMemberId) == null){
+	public int deleteFridgerGroupByFridgerId(int fridgerId) throws Exception {
+		if(dao.deleteFridgerGroupByFridgerId(fridgerId) == 0){
 			throw new Exception("삭제할 그룹멤버가 없습니다");
 		}
-		dao.deleteFridgerGroup(groupMemberId);
+		return dao.deleteFridgerGroupByFridgerId(fridgerId);
 	}
-
+	
+	;
+	@Override
+	public int deleteFridgerGroupByFridgerIdAndMemberId(int fridgerId, String groupMemberId) throws Exception{
+		if(dao.deleteFridgerGroupByFridgerIdAndMemberId(fridgerId, groupMemberId) == 0){
+			throw new Exception("삭제할 그룹멤버가 없습니다");
+		}
+		return dao.deleteFridgerGroupByFridgerIdAndMemberId(fridgerId, groupMemberId);
+	}
 	@Override
 	public List<FridgerGroup> selectFridgerGroupByGroupMemberId(String groupMemberId) {
 		return dao.selectFridgerGroupByGroupMemberId(groupMemberId);
