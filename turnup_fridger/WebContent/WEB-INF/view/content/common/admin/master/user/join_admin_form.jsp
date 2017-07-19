@@ -144,10 +144,10 @@ h1 {
 	<hr>
 	<div style="text-align:center">
 	<button type="submit" id="registerAdminPopBtn" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-		<span class="glyphicon glyphicon-ok" aria-hidden="true">Register</span>
+		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Register
 	</button>
 	<button type="button" onclick="self.close()" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-		<span class="glyphicon glyphicon-remove" aria-hidden="true">Close</span>
+		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Close
 	</button>
 	</div>
 </form>
