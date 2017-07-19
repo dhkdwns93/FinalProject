@@ -13,7 +13,7 @@
 .left-box-sidemenu{
     background:white;
     float:left;
-    width:30%;
+    width:20%;
    min-width:200px;
    max-width:250px;
     height:100%;
