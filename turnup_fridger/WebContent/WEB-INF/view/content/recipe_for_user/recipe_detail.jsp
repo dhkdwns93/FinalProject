@@ -236,9 +236,9 @@ $(document).ready(function(){
 			var amt = $(this).text();
 			if(!isNaN(amt)){	//정수일때
 			 	//console.log(amt/qnt*1)
-			 	$(this).text((amt/qnt).toFixed(1)*1);
+				$(this).text(((amt/qnt)*1).toFixed(1));
 			}
-			if(amt.includes("/")){	//분수인경우
+			else if(amt.includes("/")){	//분수인경우
 				console.log(amt);
 				var frct = amt.split('/');
 				console.log(frct[1]*qnt);
@@ -247,7 +247,11 @@ $(document).ready(function(){
 				frct[0] = frct[0]*1;
 				console.log(getFrct(frct))
 				$(this).text(getFrct(frct));
-			}if(!amt || amt ==''){
+			}else if(amt.includes(".")){
+				var amtlong= amt.split('.');
+				amtlong[0] = ((amtlong[0]/qnt)*1).toFixed(1);
+				amtlong[1] = (((amtlong[1]/qnt)/10)*1).toFixed(1);
+			}else if(!amt || amt ==''){
 				$(this).remove();
 			}
 		})
@@ -263,9 +267,9 @@ $(document).ready(function(){
 			var amt = $(this).text();
 			if(!isNaN(amt)){	//정수일때
 			 	//console.log(amt/qnt*2)
-				$(this).text((amt/qnt).toFixed(1)*2);
+				$(this).text(((amt/qnt)*2).toFixed(1));
 			}
-			if(amt.includes("/")){	//분수인경우
+			else if(amt.includes("/")){	//분수인경우
 				console.log(amt);
 				var frct = amt.split('/');
 				console.log(frct[1]*qnt);
@@ -274,7 +278,11 @@ $(document).ready(function(){
 				frct[0] = frct[0]*2;
 				console.log(getFrct(frct))
 				$(this).text(getFrct(frct));
-			}if(!amt || amt ==''){
+			}else if(amt.includes("\.")){
+				var amtlong= amt.split('\.');
+				amtlong[0] = ((amtlong[0]/qnt)*2).toFixed(1);
+				amtlong[1] = (((amtlong[1]/qnt)/10)*2).toFixed(1)
+			}else if(!amt || amt ==''){
 				$(this).remove();
 			}
 		})
@@ -292,7 +300,7 @@ $(document).ready(function(){
 			var amt = $(this).text();
 			if(!isNaN(amt)){	//정수일때
 			 	//console.log(amt/qnt*3)
-				$(this).text((amt/qnt).toFixed(1)*3);
+				$(this).text(((amt/qnt)*3).toFixed(1));
 			}
 			if(amt.includes("/")){	//분수인경우
 				console.log(amt);
@@ -303,7 +311,11 @@ $(document).ready(function(){
 				frct[0] = frct[0]*3;
 				console.log(getFrct(frct))
 				$(this).text(getFrct(frct));
-			}if(!amt || amt ==''){
+			}else if(amt.includes("\.")){
+				var amtlong= amt.split('\.');
+				amtlong[0] = ((amtlong[0]/qnt)*3).toFixed(1);
+				amtlong[1] = (((amtlong[1]/qnt)/10)*3).toFixed(1)
+			}else if(!amt || amt ==''){
 				$(this).remove();
 			}
 		})
@@ -319,9 +331,9 @@ $(document).ready(function(){
 			var amt = $(this).text();
 			if(!isNaN(amt)){	//정수일때
 			 	//console.log(amt/qnt*4)
-				$(this).text((amt/qnt).toFixed(1)*4);
+				$(this).text(((amt/qnt)*4).toFixed(1));
 			}
-			if(amt.includes("/")){	//분수인경우
+			else if(amt.includes("/")){	//분수인경우
 				console.log(amt);
 				var frct = amt.split('/');
 				console.log(frct[1]*qnt);
@@ -330,7 +342,12 @@ $(document).ready(function(){
 				frct[0] = frct[0]*4;
 				console.log(getFrct(frct))
 				$(this).text(getFrct(frct));
-			}if(!amt || amt ==''){
+			}else if(amt.includes("\.")){
+				var amtlong= amt.split('\.');
+				amtlong[0] = ((amtlong[0]/qnt)*4).toFixed(1);
+				amtlong[1] = (((amtlong[1]/qnt)/10)*4).toFixed(1)
+			}
+			else if(!amt || amt ==''){
 				$(this).remove();
 			}
 		})
@@ -341,6 +358,7 @@ $(document).ready(function(){
 	$("#timerBtn").on("click",function(){
 		window.open("/turnup_fridger/timer.do","timer","width=500, height=200");
 	});
+	
 })//ready	
 //숫자 추출
 function getNumber(str){

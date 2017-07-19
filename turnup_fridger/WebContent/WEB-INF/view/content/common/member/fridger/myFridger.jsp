@@ -29,8 +29,6 @@ $(document).ready(function(){
 	
 	
 	
-	
-	
 	/* 냉장고 컨트롤 기능 */
 	// 냉장고 열어보기
 	$(document).on("click", "#moveInBtn", function(){
@@ -373,48 +371,9 @@ function getFridgerInfo(fridgerId){
 	}
 
 	
-	/* 냉장고 컨트롤 기능 */
-	// 냉장고 열어보기
-	$(document).on("click", "#moveInBtn", function(){
-		var fridgerId = $("span#fridgerId").text();
-		var fridgerName=$("span#fridgerName").text();
-		window.location.href="${initParam.rootPath}/common/member/myIrdnt/myIrdntList.do?fridgerId="+fridgerId+"&fridgerName="+fridgerName;
-	});
 	
 	
-	// 냉장고 추가 폼
-	$(document).on("click","#createBtn", function(){
-		var fridgerId = $("span#fridgerId").text();
-		var fridgerOwner = $("span#fridgerOwner").text();
-		
-		$("#createFridgerModal").modal("show");
-	});	// end of click on requstBtn
 	
-	// 냉장고 추가 처리
-	$(document).on("click", "#registerFormBtn",function(){
-		
-		 $("#fridgerImg").val($(".item.active").find("img").attr("src"))
-		//alert($("#fridgerImg").val())
-		 var formData = $("#registerForm").serializeArray();
-		console.log(formData)
-		$.ajax({
-			"url": "${initParam.rootPath }/common/member/fridger/register.do",
-			"type": "post",
-			"data": formData,
-			"dataType":"text",
-			"success": function(text){
-				if(text == "0"){
-					//alert("완료!")
-					$("#createFridgerModal").modal("hide");
-					resetModal("registerForm");
-					window.location.reload();
-				}else if(text =="-1"){
-					alert("실패!")				
-					//회색차유ㅠ
-				}
-			}
-		})
-	})
 
 
 function resetRegisterModal(){

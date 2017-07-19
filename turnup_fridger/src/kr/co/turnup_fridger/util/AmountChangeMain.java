@@ -6,8 +6,8 @@ import java.util.regex.Pattern;
 
 public class AmountChangeMain {
 	public static void main(String[] args){
-		String str = "* 땅콩버터개소스 : 땅콩버터 2큰술, 꿀 1큰술, 설탕 1큰술, 식초 3/2큰술, 깨소금 1큰술, 레몬즙 123큰술";
-		//str = "100g";
+		String str = "* 땅콩버터소스 : 땅콩버터 2큰술, 꿀 1큰술, 설탕 1큰술, 식초 3/2큰술, 깨소금 1큰술, 레몬즙 123큰술";
+		str = "100kg";
 		String result = amountChange(str);
 		System.out.println("결과 출력은!!!!--->"+result);
 		
@@ -69,7 +69,7 @@ public class AmountChangeMain {
 	
 	public static String amountChange(String str){
 		//단위 조사한 것
-		String danwi = "개/T/컵/잎/대/g/장/공기/마리/알/ml/쪽/모/줄기/큐브/단/토막/조각/뿌리/큰술/작은술/포기/톨/kg/ml/봉/통/L/묶음/되/덩이/캔/cc/관/단/근/C/쪽";
+		String danwi = "kg/개/T/컵/잎/대/g/장/공기/마리/알/ml/쪽/모/줄기/큐브/단/토막/조각/뿌리/큰술/작은술/포기/톨/ml/봉/통/L/묶음/되/덩이/캔/cc/관/단/근/C/쪽";
 		String[] danwiArr = danwi.split("/");
 		//System.out.println("danwiArr:"+Arrays.toString(danwiArr));
 		StringBuffer sb = new StringBuffer(str);
