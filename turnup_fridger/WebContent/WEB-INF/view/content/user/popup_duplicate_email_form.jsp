@@ -135,8 +135,8 @@ h1 {
 			<hr>
 			<div class="form-text">*이메일은 ID/PW찾을 때 사용되니 실제 사용 이메일을 작성해주시기 바랍니다.</div>
 			<div class="ccfield-prepend">
-			<input type="text" id="inputEmail" name="inputEmail" value="${param.inputEmail}" class="ccformfield" placeholder="Email">
-			<button type="button" id="duplicateEmailBtn"class="ccbtn"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Check</span></button>
+			<input type="email" id="inputEmail" name="inputEmail email" value="${param.inputEmail}" class="ccformfield" placeholder="Email">
+			<button type="button" id="duplicateEmailBtn" class="ccbtn"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Check</span></button>
 			<div id="duplicateResult" class="error-popup"></div>
 			</div>
 			
