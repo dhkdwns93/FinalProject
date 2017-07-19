@@ -29,6 +29,16 @@
 		<result column="storge_place" property="storgePlace"/>
 	</resultMap>
 	
+	<resultMap type="myIrdnt" id="MyIrdnt-IrdntManage-resultmap" extends="MyIrdnt-resultmap">
+		<association property="irdntManage" javaType="kr.co.turnup_fridger.vo.IrdntManage">
+			<result column="irdnt_category"  property="irdntCategory"/>
+			<result column="room_tem_period" property="roomTemPeriod"/>
+			<result column="cold_tem_period" property="coldTemPeriod"/>
+			<result column="freeze_tem_period" property="freezeTemPeriod"/>
+			<result column="note" property="note"/>
+		</association>
+	</resultMap>
+	
 	<insert id="insertMyIrdnt" parameterType="MyIrdnt">
 		<selectKey resultType="_int" keyProperty="myIrdntKey" order="BEFORE">
 			SELECT MY_IRDNT_KEY.nextval FROM dual

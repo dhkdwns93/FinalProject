@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -288,6 +290,25 @@ public class RecipeServiceImpl implements RecipeService{
 			return sb.toString();
 		}
 
+		@Override
+		public void increaseHits(int recipeId, HttpSession session) {
+			//세션에 저장된 조회시간 검색
+			long updateTime = 0;
+			//최초로 조회할 경우 세션에 저장된 값이 없기때문에 if문은 실행x
+			if(session.getAttribute("updateTime"+recipeId)!=null){
+				updateTime = (long)session.getAttribute("updateTime"+recipeId);
+			}
+			//시스템의 현재시간을 currentTime에 저장
+			long currentTime= System.currentTimeMillis();
+			//시스템 현재시간 - 열람시간 > 일정시간(조회수 증가가 가능하도록 지정한 시간)
+			if(currentTime - updateTime > 5*1000){
+				infoDao.increaseHits(recipeId);
+				//세션에 시간을 저장 : updateTime+recipeId는 다른변수와 중복되지 않게 정한것.
+				session.setAttribute("updateTime"+recipeId, currentTime);
+			}
+		}
+		
+		
 	
 	
 }

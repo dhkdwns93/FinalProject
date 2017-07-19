@@ -120,7 +120,6 @@ function getUserList(page){
 										.append(this.recommand)))));
 			 });
 			 $.each(map.userMap.countList, function(){
-				 alert(this.count);
 				 $("#"+this.recipeId).text(this.count+"개 재료일치");
 				});//each
 		
@@ -185,6 +184,29 @@ $(document).ready(function(){
 				alert("오류발생-" +msg+ ":" +code);
 			}//error
 	});//ajax1
+	
+	$(document).on("click","#irdntSearchBtn",function(){
+		$.ajax({
+			"url":"/turnup_fridger/findIrdntByNameInSearch.do",
+			"type":"POST",
+			"data":{'irdntName':$("#irdntSearchName").val(),'${_csrf.parameterName}':'${_csrf.token}'},
+			"dataType":"json",
+			"success":function(list){
+				$("#irdntManageThead").empty();	
+				$("#irdntManageThead").append($("<tr>").append($("<th>").append("재료명")).append($("<th>").append("선택")).append($("<th>").append("기피")));
+				$("#irdntManageTbody").empty();	
+				$.each(list, function(){
+					$("#irdntManageTbody").append($("<tr>").prop("class","irdnt_col").append($("<td>").append(this.irdntName))
+							.append($("<td>").append($("<button>").prop("type","button").prop("id","likeBtn").prop("class","btn btn-default").prop("value",this.irdntId).append("+")))
+							.append($("<td>").append($("<button>").prop("type","button").prop("id","dislikeBtn").prop("class","btn btn-default").prop("value",this.irdntId).append("-"))));
+					 });//each	 		 
+				},//success
+				"error":function(xhr, msg, code){
+					alert("오류발생-" +msg+ ":" +code);
+				}//error
+		});
+	});//기타재료검색.
+	
 	
 	//*******************************************************************************************************************************************************
 	$("#getMyFridger").on("click",function(){
@@ -326,7 +348,17 @@ $(document).ready(function(){
 
 <div class="container"style="position:relative;">
 	<button class="btn btn-default" type="button" id="irdntBtn" data-toggle="collapse" data-target="#irdntManage" style="position:absolute; top:0px;left:50px; ">기타 재료 선택 ↓</button>
+	 
+	<div class="alert alert-info alert-dismissable" style="width:400px;height:200px;position:absolute; top:100px;left:50px;">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+    <strong>알림!</strong><br><br>재료를 직접 선택하여 <br>레시피를 검색할 수 있는 페이지입니다.<br>위의 재료 선택버튼을 눌러서 재료를 선택해보세요. 
+  	</div>	
+
 	<div id="irdntManage" class="collapse" style="border-style:outset; height:500px; width:400px; margin:20px; padding:10px; position:absolute;top:10px;left:30px;background-color:white;">
+		&emsp;&emsp;재료명&emsp;<input type="text" name ="irdntSearchName" id="irdntSearchName">
+		<button type="button" id="irdntSearchBtn" class="btn btn-default btn-lg" style=" border:0;outline:0;width:40px;height:40px;">
+		<span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+		
 		<div style="overflow-x:hidden; overflow-y:scroll;height:500px;">
 		<table  class="table table-hover table-condensed" style="padding: 10px; background-color:white;">
 			<thead id="irdntManageThead"></thead>

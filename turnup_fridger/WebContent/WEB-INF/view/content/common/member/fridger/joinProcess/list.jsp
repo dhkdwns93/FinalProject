@@ -83,9 +83,8 @@ $(document).ready(function (){
 		});	//end of ajax
 	});
 	
-	
 	// 냉장고 그룹 초대 폼
-	$(document).on("click","#inviteBtn", function(){
+	$(document).on("click","#inviteModalBtn", function(){
 		$("#inviteFridgerModal").modal("show");
 		$.ajax({
 			"url":"/turnup_fridger/common/member/fridger/show/mine.do",
@@ -143,7 +142,7 @@ $(document).ready(function (){
 	
 	
 	// 냉장고 그룹 가입 폼
-	$(document).on("click","#joinBtn", function(){
+	$(document).on("click","#joinModalBtn", function(){
 		$("#joinFridgerModal").modal("show");
 		
 		
@@ -205,7 +204,7 @@ function resetInviteModal(){
 	$(".errorWell").hide();
 }
 function resetJoinModal(){
-	document.getElementById("requestForm").reset();
+	document.getElementById("joinFridgerModal").reset();
 	$(".errorWell").find(".error").empty();
 	$(".errorWell").hide();
 }
@@ -357,8 +356,8 @@ display: none;
 
 가족 구성원끼리 냉장고를 공유하여 관리하세요. 더욱 효율적으로 냉장고를 관리할 수 있을 것입니다.
 
-<button type="button" class="btn btn-warning" id="inviteBtn" style="background-color:#f7c42d; color:#ffffff; width:70px; border:5px; margin: 2px; text-shadow:none; font-weight: bold">INVITE</button>
-<button type="button" class="btn btn-default" id="joinBtn" style="background-color:#ccccb3; color:white; border:5px; border-color:#999966; width:70px; margin: 2px; text-shadow:none;  font-weight: bold">JOIN</button>
+<button type="button" class="btn btn-warning" id="inviteModalBtn" style="background-color:#f7c42d; color:#ffffff; width:70px; border:5px; margin: 2px; text-shadow:none; font-weight: bold">INVITE</button>
+<button type="button" class="btn btn-default" id="joinModalBtn" style="background-color:#ccccb3; color:white; border:5px; border-color:#999966; width:70px; margin: 2px; text-shadow:none;  font-weight: bold">JOIN</button>
 <br>
 <p>
 <div role="tabpanel" style="padding-top: 30px;">

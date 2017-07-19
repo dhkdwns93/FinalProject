@@ -1,14 +1,14 @@
 package kr.co.turnup_fridger.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import kr.co.turnup_fridger.exception.DuplicateRecipeException;
 import kr.co.turnup_fridger.exception.NoneRecipeException;
 import kr.co.turnup_fridger.vo.RecipeCrse;
 import kr.co.turnup_fridger.vo.RecipeInfo;
-import kr.co.turnup_fridger.vo.RecipeIrdnt;
 
 public interface RecipeService {
 
@@ -112,5 +112,12 @@ public interface RecipeService {
 	 * @return
 	 */
 	List<RecipeInfo> findTypeCodeAndNameByCategoryCode(int caragoryCode);
+	
+	/**
+	 * 조회수 증가 
+	 * @param recipeId
+	 */
+	void increaseHits (int recipeId,HttpSession session);
+	
 	
 }

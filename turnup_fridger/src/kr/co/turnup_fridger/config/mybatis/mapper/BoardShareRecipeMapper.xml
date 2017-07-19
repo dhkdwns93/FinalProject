@@ -107,6 +107,7 @@
 			MEMBER_ID = #{memberId}
 		WHERE BOARD_SHARE_RECIPE_ID = #{recipeId}
 	</update>	
+	
 	<!-- 조회수  -->
 	<update id="increaseHit" parameterType="int">
 	UPDATE BOARD_SHARE_RECIPE 
