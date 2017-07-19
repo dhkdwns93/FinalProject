@@ -55,7 +55,7 @@
 </style>
 <div class='left-box-sidemenu'>
 		<div>
-			<h5 style="text-align:center;">Welcome to Turnup-fridger</h5>
+			<h2 style="text-align:center;">Welcome</h2>
 		</div>
 		<hr style="border:0;height:3px;background:#ccc;">
 		<div class="list-group">

@@ -58,15 +58,15 @@ $(document).ready(function(){
 <style>
 /* contact-form 넓이*/
 .form-page{
-	display:inline-block;
-	width:95%;
+	width:110%;
 	margin-left:5%;
 }
 /* EXCEL 형식 */
 .ExcelTable2007 {
 	border: 1px solid #B0CBEF;
 	border-width: 1px 0px 0px 1px;
-	font-size: 11pt;
+	width:100%;
+	font-size: 15px;
 	font-family: Calibri;
 	font-weight: 100;
 	border-spacing: 0px;
@@ -103,6 +103,13 @@ $(document).ready(function(){
 	background-image: url("${initParam.rootPath }/img/excel-2007-header-left.gif");
 	background-repeat: none;
 }
+
+h1 {
+	font-family: "Viner Hand ITC" !important;
+	src: url("/font/VINERITC.TTF");
+	font-weight:bold !important;
+	color:#4d4d4d !important;
+}
 </style>
 </head>
 <body>
@@ -112,7 +119,7 @@ $(document).ready(function(){
 	<div class='right-box-sidemenu'>
 
 	<div class="form-page">
-		<h2>회원 관리</h2>
+		<h1>Member Management</h1>
 			<div id="wrap">
 				<!-- 엑셀로 추출버튼 -->
 				<a id="exportBtn" href="#" download=""><button type="button">(Excel)Download</button></a>

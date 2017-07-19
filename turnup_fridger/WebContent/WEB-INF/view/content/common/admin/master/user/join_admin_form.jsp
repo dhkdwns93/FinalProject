@@ -78,10 +78,10 @@ $(document).ready(function(){
 }
 /* 기타 일반 text  */
 h1 {
-	font-family: "Viner Hand ITC";
+	font-family: "Viner Hand ITC" !important;
 	src: url("/font/VINERITC.TTF");
-	font-weight:bold;
-	color:#4d4d4d;
+	font-weight:bold !important;
+	color:#4d4d4d !important;
 }
 .form-text{
 	font-size:14px;
@@ -144,10 +144,10 @@ h1 {
 	<hr>
 	<div style="text-align:center">
 	<button type="submit" id="registerAdminPopBtn" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-		<span class="glyphicon glyphicon-ok" aria-hidden="true">Register</span>
+		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Register
 	</button>
 	<button type="button" onclick="self.close()" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-		<span class="glyphicon glyphicon-remove" aria-hidden="true">Close</span>
+		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Close
 	</button>
 	</div>
 </form>
