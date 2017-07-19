@@ -259,6 +259,7 @@ public class FridgerController {
 	@RequestMapping("show/detail")
 	@ResponseBody
 	public List<FridgerGroup> getFriderInDetail(int fridgerId){
+		System.out.println("show/detail:"+fridgerId);
 		list = fridgerService.findFridgerAndFridgerGroupByFridgerId(fridgerId).getFridgerGroupList();
 		/*로그*/
 		for(Object f : list){
