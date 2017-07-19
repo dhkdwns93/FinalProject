@@ -42,9 +42,8 @@
          <ul class="submenu2">
          <li><a href="${initParam.rootPath}/common/admin/recipe/recipeList.do" id="submenu2Link">레시피 조회</a></li>
          <li><a href="${initParam.rootPath}/common/admin/recipe/register_form.do" id="submenu2Link">레시피 저장</a></li>
-         <li><a href="${initParam.rootPath}/common/admin/irdntManage/findAllICategory.do" id="submenu2Link">재료 조회</a></li>
-         <li><a href="${initParam.rootPath}/common/admin/recipe/recipeList.do" id="submenu2Link">재료 등록</a></li>
-         <li><a href="" id="submenu2Link">레시피 공유게시판</a></li>
+         <li><a href="${initParam.rootPath}/common/admin/irdntManage/findAllICategory.do" id="submenu2Link">재료 조회 및 등록</a></li>
+         <li><a href="${initParam.rootPath}/boardRecipe/boardRecipeList.do" id="submenu2Link">레시피 공유게시판</a></li>
       </ul>
       </li>
       <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>

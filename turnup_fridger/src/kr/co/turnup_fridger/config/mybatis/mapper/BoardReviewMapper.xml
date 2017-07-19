@@ -243,5 +243,7 @@
 			WHERE ROWNUM &lt;=#{endIndex}	
 			)
 		WHERE RNUM>=#{startIndex}	
-	</select>	
+	</select>
+	
+		
 </mapper>

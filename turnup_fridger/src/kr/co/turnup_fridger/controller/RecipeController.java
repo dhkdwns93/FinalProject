@@ -40,6 +40,7 @@ import kr.co.turnup_fridger.service.impl.RecipeServiceImpl;
 import kr.co.turnup_fridger.validation.form.RecipeCrseForm;
 import kr.co.turnup_fridger.validation.form.RecipeInfoForm;
 import kr.co.turnup_fridger.validation.form.RecipeIrdntForm;
+import kr.co.turnup_fridger.vo.BoardReview;
 import kr.co.turnup_fridger.vo.FavoriteRecipe;
 import kr.co.turnup_fridger.vo.Fridger;
 import kr.co.turnup_fridger.vo.FridgerGroup;
@@ -710,6 +711,12 @@ public class RecipeController {
 	@ResponseBody
 	public List<IrdntManage> findIrdntByNameInSearch(@RequestParam String irdntName){
 		return imService.findIrdntByName(irdntName);
+	}
+	
+	@RequestMapping("findReviewByboardReviewId")
+	public ModelAndView findReviewByboardReviewId(@RequestParam int boardReviewId){
+		BoardReview review = rvService.selecetBoardReviewByBoardReviewId(boardReviewId);
+		return new ModelAndView("boardreview/form_success.tiles","boardReview",review);
 	}
 
 }
