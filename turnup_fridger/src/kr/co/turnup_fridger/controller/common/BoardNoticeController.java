@@ -16,7 +16,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,7 +25,8 @@ import kr.co.turnup_fridger.dao.BoardNoticeDao;
 import kr.co.turnup_fridger.service.BoardNoticeService;
 import kr.co.turnup_fridger.validation.BoardNoticeValidator;
 import kr.co.turnup_fridger.vo.BoardNotice;
-import kr.co.turnup_fridger.vo.BoardReview;
+import kr.co.turnup_fridger.vo.BoardQnA;
+import kr.co.turnup_fridger.vo.CommentQnA;
 
 @Controller
 @RequestMapping
@@ -113,8 +113,6 @@ public class BoardNoticeController extends HttpServlet {
 	@ResponseBody
 	public ModelAndView boardNoticeView(@RequestParam int id)
 	{
-		
-		System.out.println(id);
 		ModelAndView mav = new ModelAndView();
 		
 		mav.setViewName("boardnotice/boardnotice_view.tiles");
@@ -128,7 +126,9 @@ public class BoardNoticeController extends HttpServlet {
 	//등록
 	@RequestMapping("/common/admin/boardnotice/boardNoticeAdd")
 	@ResponseBody
-	 public ModelAndView boardNoticeAdd(@ModelAttribute BoardNotice boardNotice,BindingResult errors, HttpServletRequest request) throws Exception
+	 public ModelAndView boardNoticeAdd(@ModelAttribute BoardNotice boardNotice,BindingResult errors, HttpServletRequest request,
+			 ModelMap model
+			 ) throws Exception
 	{
 			BoardNoticeValidator validator = new BoardNoticeValidator();
 			validator.validate(boardNotice, errors);
@@ -169,11 +169,31 @@ public class BoardNoticeController extends HttpServlet {
 				//저장
 				service.addBoardNotice(boardNotice);
 			}
-			mav.addObject("boardNotice",boardNotice);
+/*			mav.addObject("boardNotice",boardNotice);
 			mav.setViewName("boardnotice/boardnotice_view.tiles");
 			mav.addObject("boardNotice", service.findBoardNoticeById(boardNotice.getId()));
-			return mav;	
+			return mav;	*/
+			boardNotice = service.findBoardNoticeById(boardNotice.getId());
+
+			model.addAttribute("boardNotice",boardNotice);			
+			model.addAttribute("id", boardNotice.getId());
+			
+			return new ModelAndView("redirect:/success.do");
 	}
+	
+	@RequestMapping("success")
+	public ModelAndView registerSuccess(@RequestParam int id,ModelMap map)
+	{
+		ModelAndView mav = new ModelAndView();
+	
+		mav.setViewName("boardnotice/boardnotice_view.tiles");
+				
+		mav.addObject("boardNotice", service.findBoardNoticeById(id));
+	    
+		return mav;
+	}
+	
+	
 	
 	
 	

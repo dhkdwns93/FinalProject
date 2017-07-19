@@ -25,7 +25,7 @@ function getReview(page){
 			$("#reviewTbody").empty();
 			$.each(reviewMap.list, function(){
 				$("#reviewTbody").append($("<tr>").prop("class","review_col").append($("<td>").append(this.boardReviewId)).append($("<td>").append(this.boardReviewTitle))
-						.append($("<td>").append(this.boardReviewTxt)).append($("<td>").append(this.imageName)).append($("<td>").append(this.memberId))
+						.append($("<td>").append(this.boardReviewTxt)).append($("<td>").append(this.memberId))
 						.append($("<td>").append(this.boardReviewDate)).append($("<td>")
 								.append($("<span>").prop("class","star-rating").append($("<span>").prop("style","width:"+(this.boardReviewStar)*10+"%")))));
 			});//each				
@@ -61,10 +61,7 @@ function getReview(page){
 	})//ajax
 	
 };//페이징 함수 
-
-
 $(document).ready(function(){
-
 	getReview(1);
 	
 	$("#updateBtn").on("click", function(){
@@ -74,7 +71,6 @@ $(document).ready(function(){
 				"fullscreen=yes, height=700, width=500, resizable=no, scrollbars=no, location=no, toolbar=no, directories=no, menubar=no"
 				);
 	});
-
 /* 	$("#deleteBtn").on("click", function(){
 		$.ajax({
 			"url":"/turnup_fridger/common/admin/recipe/update.do",
@@ -93,10 +89,31 @@ $(document).ready(function(){
 		})
 	}); */
 	
+	$(document).on("click",".review_col",function(){
+		var reviewId=$(this).children(":first-child").text();
+		//alert(reviewId);
+		$.ajax({
+			"url":"/turnup_fridger/findReviewByboardReviewId.do",
+			//"type":"POST",		
+			"data":{'boardReviewId' :reviewId},
+			"dataType":"text",
+			"beforeSend":function(){
+				if(confirm("레시피 후기 게시판으로 이동하시겠습니까?") != true){
+					return false;
+				}
+			},
+			"success":function(text){
+				window.location.href="${initParam.rootPath}/boardreview/boardReviewList.do"
+			},
+			"error":function(xhr, msg, code){
+				alert("오류발생-" +msg+ ":" +code);
+			}
+		});
+		
+	});//후기게시판페이지로 이동.
+	
 	$(document).on("click" ,"#deleteRecipeBtn", function(){
-
 		console.log(${ requestScope.recipe.recipeId});
-
 		$.ajax({
 			"url":"/turnup_fridger/common/admin/recipe/remove.do",
 			"type":"POST",		
@@ -139,7 +156,6 @@ $(document).ready(function(){
 			}//error	
 		});//일치하는 식재료 보여주기 
 	});
-
 	 
 	$(document).on("click",".deleteIrdnt",function(){
 		//alert($(this).val());
@@ -159,7 +175,6 @@ $(document).ready(function(){
 	});//재료삭제버튼클릭
 	
 	//********************************************************************************************************************
-
 	$.ajax({
 		"url":"/turnup_fridger/findFavoriteRecipeByIds.do", 
 		"data":'recipeId='+${requestScope.recipe.recipeId}, 
@@ -212,7 +227,6 @@ $(document).ready(function(){
 				}//error	
 		});
 	});//하트 클릭하면 
-
 	
 	$("#changePortionFor1_Btn").on("click",function(){
 		var qnt = getNumber($("#standardQnt").text())
@@ -240,7 +254,6 @@ $(document).ready(function(){
 		$(".changePortionBtn").removeAttr("disabled");
 		$("#changePortionFor1_Btn").prop("disabled","disabled");
 	});//단위변환:1인분
-
 	
 	$("#changePortionFor2_Btn").on("click",function(){
 		var qnt = getNumber($("#standardQnt").text())
@@ -298,8 +311,6 @@ $(document).ready(function(){
 		$("#changePortionFor3_Btn").prop("disabled","disabled");
 		
 	});//단위변환:3인분
-
-
 	$("#changePortionFor4_Btn").on("click",function(){
 		var qnt = getNumber($("#standardQnt").text())
 		$("#standardQnt").text('4인분');
@@ -330,7 +341,6 @@ $(document).ready(function(){
 	$("#timerBtn").on("click",function(){
 		window.open("/turnup_fridger/timer.do","timer","width=500, height=200");
 	});
-
 })//ready	
 //숫자 추출
 function getNumber(str){
@@ -339,7 +349,6 @@ function getNumber(str){
 		target = target.replace(regex, '');
 	  return target;
 }
-
 //분수추출
 function getFrct(frct){
 	var bunja = frct[0];
@@ -356,7 +365,6 @@ function getFrct(frct){
 	return bunja+"/"+bunmo;
 	
 }
-
 function getGcd(a,b){ //최대공약수 계산
 	while(b != 0){
 		var temp = a%b;
@@ -365,8 +373,6 @@ function getGcd(a,b){ //최대공약수 계산
 	}
 	return Math.abs(a);
 }
-
-
 //이동
 function moveTo(url,recipeId){
 		window.open(
@@ -376,7 +382,6 @@ function moveTo(url,recipeId){
 				);
 		
 }
-
 </script>
 <style>
 .star-rating { width:130px; }
@@ -388,7 +393,6 @@ overflow:hidden;
 background:url(/turnup_fridger/starimage/star.png)no-repeat; 
 }
 .star-rating span{ background-position:left bottom; line-height:0; vertical-align:top; }
-
 table tr td{
 	padding:15px;
 }
@@ -568,7 +572,6 @@ table tr td{
 					<th>글번호</th>
 					<th>제목</th>
 					<th>글</th>
-					<th>사진</th>
 					<th>작성자</th> 
 					<th>작성일</th>
 					<th>별점</th>

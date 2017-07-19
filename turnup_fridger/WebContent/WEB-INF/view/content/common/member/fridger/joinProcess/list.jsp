@@ -50,8 +50,9 @@ $(document).ready(function (){
 				}
 			},
 			"success": function(txt){
-		       alert(txt);
-		       window.location.reload();
+		       	alert(txt);
+		       	getRequestList();
+				getResponseList();
 		     },
 	        "error":function(xhr, msg, code){
 				alert("오류발생-" + code);
@@ -73,8 +74,9 @@ $(document).ready(function (){
 				}
 			},
 			"success": function(txt){
-		       alert(txt);
-		       window.location.reload();
+		       alert(txt );
+		   		getRequestList();
+				getResponseList();
 		     },
 	        "error":function(xhr, msg, code){
 				alert("오류발생-" + code);
@@ -120,15 +122,15 @@ $(document).ready(function (){
 			},
 			"success": function(text){
 				if(text == "0"){
-					//alert("완료!")
+					alert("가입신청이 완료되었습니다.")
 					$("#inviteFridgerModal").modal("hide");
 					$(".errorWell").find(".error").empty();
 					$(".errorWell").hide();
 					resetInviteModal();
-					window.location.reload();
+					getRequestList();
+					getResponseList();
 				
 				}else{
-					alert("실패!")
 					$(".errorWell").find(".error").append(text);
 					$(".errorWell").show();
 					//회색차유ㅠ
@@ -136,7 +138,6 @@ $(document).ready(function (){
 			}
 		})
 	})
-	
 	
 	
 	
@@ -149,49 +150,58 @@ $(document).ready(function (){
 	});	// end of click on requstBtn
 	
 	// 냉장고 그룹 가입 처리
+	// 냉장고 가입신청 
 	$(document).on("click","#joinBtn", function(){
-		 var formData = $("#inviteForm").serializeArray();
-			console.log(formData)
-			$.ajax({
-				"url": "${initParam.rootPath }/common/member/fridger/invite.do",
-				"type": "post",
-				"data": formData,
-				"dataType":"text",
-				"beforeSend":function(){
-					console.log($(".errorWell").find(".error"));
+		alert($(this).parent().parent().children(":nth-child(3)").text());
+		$.ajax({
+			"url":"/turnup_fridger/common/member/fridger/request.do",
+			"type":"post",
+			"data":{'processFridgerId' : $(this).val(),
+					'processState':10,
+					'respMemberId': $(this).parent().parent().children(":nth-child(3)").text(),
+					'${_csrf.parameterName}':'${_csrf.token}'
+					},
+			"dataType":"text",
+			"beforeSend":function(){	
+				if(confirm("가입신청하시겠습니까?") != true){
+					return false;
+				}
+				console.log($(".errorWell").find(".error"));
+				$(".errorWell").find(".error").empty();
+				$(".errorWell").hide();
+			},
+			"success": function(text){
+				if(text == "0"){
+					alert("가입신청이 완료되었습니다.")
+					$("#joinFridgerModal").modal("hide");
 					$(".errorWell").find(".error").empty();
 					$(".errorWell").hide();
-				},
-				"success": function(text){
-					if(text == "0"){
-						//alert("완료!")
-						$("#joinFridgerModal").modal("hide");
-						$(".errorWell").find(".error").empty();
-						$(".errorWell").hide();
-						resetJoinModal();
-						window.location.reload();
+					resetJoinModal();
+					getRequestList();
+					getResponseList();
 					
-					}else{
-						alert("실패!")
-						$(".errorWell").find(".error").append(text);
-						$(".errorWell").show();
-						//회색차유ㅠ
-					}
+				}else{
+					$(".errorWell").find(".error").append(text);
+					$(".errorWell").show();
+					//회색차유ㅠ
 				}
-			})
-		
-	});	// end of click on requstBtn
+			}
+			
+		});	//end of ajax
+	});	// end of click on joinBtn
 		
 	
 		
 	
-
 	$('#inviteFridgerModal').on('hide.bs.modal', function (e) {
 		resetInviteModal();
+		
 	})
 	
-	$('#requestFridgerModal').on('hide.bs.modal', function (e) {
-		resetRequestModal();
+	$('#joinFridgerModal').on('hide.bs.modal', function (e) {
+		resetJoinModal();
+		
+		
 	})
 			
 	
@@ -200,11 +210,14 @@ $(document).ready(function (){
 
 function resetInviteModal(){
 	document.getElementById("inviteForm").reset();
+	$("#fridgerList_tbody").empty();
 	$(".errorWell").find(".error").empty();
 	$(".errorWell").hide();
 }
+
 function resetJoinModal(){
-	document.getElementById("joinFridgerModal").reset();
+	document.getElementById("joinForm").reset();
+	$("#fridgerList_tbody").empty();
 	$(".errorWell").find(".error").empty();
 	$(".errorWell").hide();
 }
@@ -371,7 +384,7 @@ display: none;
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="requestTab" align="center">
     <div class="container">
-		<div style="width:1000px;" >
+		<div style="width:1000px;" >	
 		<table id="requestTable" class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
 			<thead>
 				<tr>

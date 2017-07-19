@@ -56,7 +56,7 @@ input:focus {
 		<div style="float:right">
 		<div class="form-inline form-group" >
 		<form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
-			<input class="form-control" type="text" name="keyword" placeholder="키워드를 입력해주세요">
+			<input class="form-control" type="text" name="memberId" placeholder="아이디를 입력해주세요">
 				<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 				</button>

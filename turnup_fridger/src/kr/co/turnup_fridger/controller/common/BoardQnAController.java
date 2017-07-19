@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -114,7 +115,8 @@ public class BoardQnAController extends HttpServlet {
 		//등록
 		@RequestMapping("boardQnAAdd")
 		@ResponseBody
-		 public ModelAndView insert(@ModelAttribute BoardQnA boardQnA,BindingResult errors)
+		 public ModelAndView insert(@ModelAttribute BoardQnA boardQnA,BindingResult errors,
+				 ModelMap model)
 		{
 			BoardQnAValidator validator = new BoardQnAValidator();
 			
@@ -128,16 +130,35 @@ public class BoardQnAController extends HttpServlet {
 			
 			service.addBoardQnA(boardQnA);
 			
-			mav.addObject("boardQnA",boardQnA);
+/*			mav.addObject("boardQnA",boardQnA);
 			
 			List<CommentQnA> list = comment.selectCommentQnAByboardQnAId(boardQnA.getBoardQnAId());
 			mav.addObject("list", list);
 			mav.addObject("boardQnA", service.findBoardQnAById(boardQnA.getBoardQnAId()));
-			mav.setViewName("common/boardqna/boardqna_view.tiles");
+			mav.setViewName("common/boardqna/boardqna_view.tiles");	
+			return mav;			*/
+			boardQnA = service.findBoardQnAById(boardQnA.getBoardQnAId());
+			List<CommentQnA> list = comment.selectCommentQnAByboardQnAId(boardQnA.getBoardQnAId());
+
+			model.addAttribute("list",list);
+			model.addAttribute("boardQnA",boardQnA);			
+			model.addAttribute("boardQnAId", boardQnA.getBoardQnAId());
 			
+			return new ModelAndView("redirect:/common/boardqna/success.do");
+		}
 		
+		@RequestMapping("success")
+		public ModelAndView registerSuccess(@RequestParam int boardQnAId,ModelMap map)
+		{
+			ModelAndView mav = new ModelAndView();
+		
+			List<CommentQnA> list = comment.selectCommentQnAByboardQnAId(boardQnAId);
+			mav.addObject("list", list);
+			mav.addObject("boardQnA", service.findBoardQnAById(boardQnAId));
+			mav.setViewName("common/boardqna/boardqna_view.tiles");	
 			return mav;
 		}
+		
 		
 		//삭제
 		@RequestMapping("boardQnARemove")

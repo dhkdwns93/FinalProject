@@ -220,7 +220,9 @@ CREATE SEQUENCE SHOP_ID INCREMENT BY 1 START WITH 1;
 --SELECT SHOP_ID.NEXTVAL FROM DUAL;
 
 /* 재료 관리 */
-DROP TABLE IRDNT_MANAGE;
+select count(*) from irdnt_manage;
+SELECT * FROM IRDNT_MANAGE;
+DROP TABLE IRDNT_MANAGE cascade constraint;
 --ALTER TABLE IRDNT_MANAGE ADD(NOTE VARCHAR2(50));
 DELETE FROM IRDNT_MANAGE;
 CREATE TABLE IRDNT_MANAGE (
@@ -295,7 +297,7 @@ CREATE SEQUENCE MY_DISLIKE_IRDNT_KEY INCREMENT BY 1 START WITH 1;
 --SELECT MY_DISLIKE_IRDNT_KEY.NEXTVAL FROM DUAL;
 --select * from MY_DISLIKE_IRDNT;
 --insert into MY_DISLIKE_IRDNT values(1,'id',2);
-
+select * from my_dislike_irdnt;
 DROP TABLE MY_DISLIKE_IRDNT;
 DELETE FROM MY_DISLIKE_IRDNT;
 CREATE TABLE MY_DISLIKE_IRDNT (
@@ -368,8 +370,8 @@ CREATE TABLE RECIPE_INFO (
    DET_URL VARCHAR2(300) NOT NULL, /* 상세 URL */
    RECIPE_HITS NUMBER NOT NULL /* 조회수 */
 );
-
-CREATE SEQUENCE RECIPE_ID_seq INCREMENT BY 1 START WITH 1;  
+DROP SEQUENCE RECIPE_ID_seq;
+CREATE SEQUENCE RECIPE_ID_seq INCREMENT BY 1 START WITH 200000;  
 --select * from RECIPE_INFO 
 --select distinct category_name from RECIPE_INFO
 --select distinct type_name from recipe_info
@@ -378,6 +380,7 @@ CREATE SEQUENCE RECIPE_ID_seq INCREMENT BY 1 START WITH 1;
 --select distinct category_CODE, category_name from RECIPE_INFO order by category_CODE;
 
 /* 레시피 과정정보 */
+SELECT * FROM RECIPE_CRSE;
 DROP TABLE RECIPE_CRSE;
 DELETE FROM RECIPE_CRSE;
 CREATE TABLE RECIPE_CRSE (
@@ -389,9 +392,12 @@ CREATE TABLE RECIPE_CRSE (
    PRIMARY KEY(recipe_id, cooking_no),
    CONSTRAINT VTRC_RECIPE_ID_FK FOREIGN KEY(RECIPE_ID) REFERENCES RECIPE_INFO on delete cascade
 );
-
+select count (*) from recipe_crse;
+select count (*) from RECIPE_IRDNT_TEMP;
 --select * from recipe_crse WHERE STEP_IMAGE_URL = 'null';
 --select * from recipe_crse where recipe_id = 386;
+select * from recipe_irdnt_temp;
+select * from RECIPE_IRDNT;
 
 /* 레시피 재료정보 */
 DROP TABLE RECIPE_IRDNT CASCADE CONSTRAINT;
@@ -407,7 +413,8 @@ CREATE TABLE RECIPE_IRDNT (
    CONSTRAINT VTRI_RECIPE_ID_FK FOREIGN KEY(RECIPE_ID) REFERENCES RECIPE_INFO on delete cascade,
    CONSTRAINT VTRI_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE on delete cascade
 );
-CREATE SEQUENCE IRDNT_NO_seq INCREMENT BY 1 START WITH 1;  
+DROP SEQUENCE IRDNT_NO_seq;
+CREATE SEQUENCE IRDNT_NO_seq INCREMENT BY 1 START WITH 7000;  
 
 --select distinct irdnt_name from RECIPE_IRDNT order by irdnt_name;
 --select count(*) from recipe_crse;
@@ -497,7 +504,7 @@ CREATE SEQUENCE BOARD_REVIEW_ID INCREMENT BY 1 START WITH 1;
 --SELECT BOARD_FREE_ID.NEXTVAL FROM DUAL;
 select * from board_review
 
-
+DROP TABLE RECIPE_IRDNT_temp;
 DELETE FROM RECIPE_IRDNT_temp;
 CREATE TABLE recipe_irdnt_temp (
 IRDNT_no NUMBER PRIMARY KEY, /* 재료순번 */
@@ -517,14 +524,19 @@ SELECT * FROM recipe_irdnt WHERE recipe_id = 1;
 SELECT * FROM irdnt_manage;
 SELECT * FROM recipe_irdnt where irdnt_id=321;
 
+drop table recipe_irdnt;
 INSERT INTO recipe_irdnt
 SELECT 	i.IRDNT_no, i.IRDNT_name, i.IRDNT_amount, i.IRDNT_type_CODE, i.IRDNT_type_name, i.RECIPE_ID,
 		m.IRDNT_ID
 FROM	recipe_irdnt_temp i, irdnt_manage m
-WHERE	m.IRDNT_name = i.IRDNT_name 
-AND 	i.RECIPE_ID = 5836
+WHERE	m.IRDNT_name = i.IRDNT_name;
 
+delete from recipe_irdnt
 
+select count(*) from irdnt_manage;
+select count(*) from RECIPE_CRSE;
+select count(*) from RECIPE_IRDNT
+select count(*) from recipe_info;
 select distinct irdnt_name from recipe_irdnt_temp
 where irdnt_no NOT IN ( select irdnt_no
 from recipe_irdnt)

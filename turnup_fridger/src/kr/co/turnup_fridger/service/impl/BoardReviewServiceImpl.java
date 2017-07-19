@@ -135,7 +135,6 @@ public class BoardReviewServiceImpl implements BoardReviewService{
 		return map;
 	}
 	
-	
 	public static void main(String[] args) {
 		//ApplicationContext 객체 생성
 		ApplicationContext container = new ClassPathXmlApplicationContext("kr/co/turnup_fridger/config/spring/model-context.xml");
@@ -149,5 +148,6 @@ public class BoardReviewServiceImpl implements BoardReviewService{
 				
 		System.out.println(map);
 	}
+
 	
 }
