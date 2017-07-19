@@ -10,6 +10,7 @@
 	pageContext.setAttribute("cn", "\n");
 
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -152,8 +153,11 @@ input {
 		</td>
 	</tr>
 </table>
+
+
 <!-- 댓글 목록 -->
 <!-- 댓글 없을 때   -->
+
 <c:if test="${empty list}">
 <h3>댓글 목록</h3>
 <hr>
