@@ -530,13 +530,15 @@ public class RecipeController {
 		
 		//레시피 재료 중량변환
 		for(RecipeIrdnt ri : recipe.getRecipeIrdntList()){
-			ri.setIrdntName(recipeService.amountChange(ri.getirdntAmount()));
+			ri.setirdntAmount(recipeService.amountChange(ri.getirdntAmount()));
+
 		}
 		//레시피 과정 중량변환
 		for(RecipeCrse rc : recipe.getRecipeCrseList()){
 			rc.setCookingDc(recipeService.amountChange(rc.getCookingDc()));
 			rc.setStepTip(recipeService.amountChange(rc.getStepTip()));
 		}
+		
 		return new ModelAndView("recipe_for_user/recipe_detail.tiles","recipe",recipe);
 	}
 	
