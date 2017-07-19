@@ -37,6 +37,42 @@ input {
 	<script type="text/javascript">alert('권한이 없습니다.')</script>
 </c:if>
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+<c:if test="${empty list}">
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
+	<h1>QnA 게시판 </h1>
+	<hr>
+	<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+		<a href="${initParam.rootPath}/index.do">
+			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" >
+				<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+			</button>
+		</a>
+		<!-- 회원만 등록 가능 -->
+		<sec:authorize access="hasRole('ROLE_MEMBER')">
+		 	<a href="${initParam.rootPath}/common/boardqna/boardqna_form.do">
+		 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+				</button>
+			</a>
+		</sec:authorize>
+		<!-- 검색 버튼 -->
+		<div style="float:right">
+		<div class="form-inline form-group" >
+		<form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
+			<input class="form-control" type="text" name="memberId" placeholder="키워드를 입력해주세요">
+				<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+			<sec:csrfInput/>
+		</form>
+		</div>
+		</div>
+	</table>
+	<br><h2 style="text-align:center">등록된 게시물이 없습니다.</h2>
+</div>
+</c:if>
+<c:if test="${!empty list}">
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>QnA 게시판 </h1>
@@ -119,7 +155,6 @@ input {
 </c:forEach>
  </tbody>
 </table>
-<c:if test="${!empty list}">
 <p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리

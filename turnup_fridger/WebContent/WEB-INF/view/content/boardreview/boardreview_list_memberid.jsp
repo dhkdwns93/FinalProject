@@ -2,6 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%
+	//줄 바꿈
+	pageContext.setAttribute("br", "<br/>");
+	pageContext.setAttribute("cn", "\n");
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -104,8 +111,8 @@ function delete_event(){
 		</form>
 	</div>
 </div>
-	<br><h2 style="text-align:center">검색한 아이디가 없습니다.</a>
 </table>
+		<br><h2 style="text-align:center">검색한 아이디가 없습니다.</h2>
 </div>
 </c:if>
 
@@ -130,14 +137,6 @@ function delete_event(){
 	</sec:authorize>
 
 	<div class="ccfield-prepend" style="float:right">
-		<div style="float:right">
-		<form action="${initParam.rootPath}/boardreview/boardReviewStarList.do" method="post">
-			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-			<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
-				<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-			</button>
-		</form>
-		</div>
 		<form class="form-inline" action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
 			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 			<select class="form-control" name="select" id="select">
@@ -258,7 +257,7 @@ function delete_event(){
 		</td>
 		<td style="width:70%;" >
 				<a style="color:white">&asdfasdfsdfadfasdfasdfasdfasdfasdfasdfasdfasdfsdfassfsdfsdfddfffff</a><br>
-				${row.boardReviewTxt}<br>
+				${fn:replace(row.boardReviewTxt, cn, br)}<br>
 			<c:if test="${row.imageName != null}">
    				<img width="90%" alt="${row.imageName}" src="${initParam.rootPath}/img/${row.imageName}"><br>
    			</c:if>
