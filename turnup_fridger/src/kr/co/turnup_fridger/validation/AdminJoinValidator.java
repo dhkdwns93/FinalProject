@@ -6,6 +6,9 @@
 */
 package kr.co.turnup_fridger.validation;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -22,6 +25,16 @@ public class AdminJoinValidator implements Validator {
 	private AuthorityService authorityService;
 	@Autowired
 	private AdminService adminService;
+	
+	 private Pattern pattern;  
+	 private Matcher matcher;  
+	  
+	 private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"  
+	   + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";  
+	 String ID_PATTERN = "[0-9]+";  
+	 String STRING_PATTERN = "[a-zA-Z]+";  
+	 String MOBILE_PATTERN = "[0-9]{10}";  
+	
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -49,6 +62,14 @@ public class AdminJoinValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "adminName", "requiredJoin");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "adminTel", "requiredJoin");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "adminEmail", "requiredJoin");
+		if (!(admin.getAdminEmail() != null && admin.getAdminEmail().isEmpty())) {  
+			   pattern = Pattern.compile(EMAIL_PATTERN);  
+			   matcher = pattern.matcher(admin.getAdminEmail());  
+			   if (!matcher.matches()) {  ;
+			    errors.rejectValue("adminEmail", "email.incorrect",  
+			      "*이메일 형식으로 작성하여 주세요.");  
+			   }  
+		}
 	}
 
 }

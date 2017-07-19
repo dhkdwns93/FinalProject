@@ -6,6 +6,9 @@
 */
 package kr.co.turnup_fridger.validation;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -19,6 +22,16 @@ import kr.co.turnup_fridger.validation.form.AdminChangeForm;
 public class AdminChangeInfoValidator implements Validator{
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+
+	 private Pattern pattern;  
+	 private Matcher matcher;  
+	  
+	 private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"  
+	   + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";  
+	 String ID_PATTERN = "[0-9]+";  
+	 String STRING_PATTERN = "[a-zA-Z]+";  
+	 String MOBILE_PATTERN = "[0-9]{10}";  
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -35,6 +48,14 @@ public class AdminChangeInfoValidator implements Validator{
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "adminName", "requiredChange");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "adminTel", "requiredChange");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "adminEmail", "requiredChange");
+		if (!(adminChangeForm.getAdminEmail() != null && adminChangeForm.getAdminEmail().isEmpty())) {  
+			   pattern = Pattern.compile(EMAIL_PATTERN);  
+			   matcher = pattern.matcher(adminChangeForm.getAdminEmail());  
+			   if (!matcher.matches()) {  ;
+			    errors.rejectValue("adminEmail", "email.incorrect",  
+			      "*이메일 형식으로 작성하여 주세요.");  
+			   }  
+		}
 		
 	}
 	

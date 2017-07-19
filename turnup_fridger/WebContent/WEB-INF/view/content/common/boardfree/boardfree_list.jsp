@@ -34,8 +34,46 @@ text-align:center
 </head>
 <body>
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
-
-
+<c:if test="${empty list}">
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
+<h1>자유 게시판</h1>
+<hr>
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+<div class="form-inline form-group" >
+	<a href="${initParam.rootPath}/index.do">
+		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+		</button>
+	</a>
+	<sec:authorize access="hasRole('ROLE_MEMBER')">
+		<a href="${initParam.rootPath}/common/boardfree/boardfree_form.do">
+			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+			</button>
+		</a>
+	</sec:authorize>
+	<!-- 검색버튼 -->
+	<div style="float:right">
+		<form class="form-inline" action="${initParam.rootPath}/common/boardfree/boardFreeBySelect.do" method="post">
+			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+			<select class="form-control" name="select" id="select">
+				<option>전체보기</option>
+				<option value="레시피">레시피</option>
+				<option value="아이디">아이디</option>
+			</select>
+				<input class="container form-control input-group" type="text" name="keyword" placeholder="키워드를 입력해주세요">
+				<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+		</form>
+	</div>
+</div>
+</table>
+<br><h2 style="text-align:center">등록된 게시물이 없습니다.</h2>
+</div>
+</c:if>
+<c:if test="${!empty list}">
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>자유 게시판</h1>
@@ -55,14 +93,6 @@ text-align:center
 	</sec:authorize>
 	<!-- 검색버튼 -->
 	<div class="ccfield-prepend" style="float:right">
-		<div style="float:right">
-			<form action="${initParam.rootPath}/common/boardfree/boardFreeByBoardFreeHits.do" method="post">
-				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-				<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
-					<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-				</button>
-			</form>
-		</div>
 		<form class="form-inline" action="${initParam.rootPath}/common/boardfree/boardFreeBySelect.do" method="post">
 			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 			<select class="form-control" name="select" id="select">
@@ -116,7 +146,6 @@ text-align:center
 </c:forEach>
  </tbody>
 </table>
-<c:if test="${!empty list}">
 <p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리

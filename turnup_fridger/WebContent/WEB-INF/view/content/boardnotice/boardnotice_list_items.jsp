@@ -34,6 +34,47 @@ input {
 <body>
 
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+<c:if test="${empty list}">
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
+<h1>공지사항</h1>
+<hr>
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+<div class="form-inline form-group" >
+<a href="${initParam.rootPath}/index.do">
+	<button type="button" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+	</button>
+</a>
+<!-- 관리자만 등록 가능 -->
+ <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+ <a href="${initParam.rootPath}/common/admin/boardnotice/boardnotice_form.do">
+	 <button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+	 </button>
+ </a>
+ </sec:authorize>
+	<!-- 검색 버튼 -->
+	<div style="float:right">
+		<div style="float:right">
+			<form class="form-inline" action="${initParam.rootPath}/boardnotice/boardNoticeByItems.do" method="post">
+					<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+					<select class="form-control" name="items" id="items">
+						<option>전체보기</option>
+						<option value="공지사항">공지사항</option>
+						<option value="뉴스">뉴스</option>
+					</select>
+				<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+			</form>
+		</div>
+	</div>
+</div>
+</table>
+	<br><h2 style="text-align:center">등록된 게시물이 없습니다.</a>
+</c:if>
+<c:if test="${!empty list}">
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>공지사항</h1>
@@ -104,7 +145,6 @@ input {
 </c:forEach>
  </tbody>
 </table>
-<c:if test="${!empty list}">
 <p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리

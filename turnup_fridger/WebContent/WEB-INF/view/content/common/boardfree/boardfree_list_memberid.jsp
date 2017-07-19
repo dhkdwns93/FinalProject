@@ -30,7 +30,7 @@ input {
 </style>
 </head>
 <body>
-<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenuFree.jsp"/>
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 
 <c:if test="${empty list}">
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
@@ -68,7 +68,7 @@ input {
 	</div>
 </div>
 </table>
-<br><h2 style="text-align:center">검색한 제목이 없습니다.</a>
+<br><h2 style="text-align:center">검색한 아이디가 없습니다.</h2>
 </div>
 </c:if>
 

@@ -51,7 +51,7 @@
 
 <div class='left-box-sidemenu'>
 		<div>
-			<h2 style="text-align:center;">Borad & &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	Member</h2>
+			<h2 style="text-align:center;">Board & &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	Member</h2>
 		</div>
 		<hr style="border:0;height:3px;background:#ccc;">
 		<div class="list-group">

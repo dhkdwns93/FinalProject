@@ -1,12 +1,16 @@
 /**
- (Validator)AdminChangeInfoValidator
+ (Validator)MemberChangeInfoValidator
 작성자 :  김경혜
 최초 작성일 170709
 변경이력
+170719 이메일 형식 추가
 */
 package kr.co.turnup_fridger.validation;
 
 
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +26,15 @@ public class MemberChangeInfoValidator implements Validator {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	 private Pattern pattern;  
+	 private Matcher matcher;  
+	  
+	 private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"  
+	   + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";  
+	 String ID_PATTERN = "[0-9]+";  
+	 String STRING_PATTERN = "[a-zA-Z]+";  
+	 String MOBILE_PATTERN = "[0-9]{10}";  
+	  
 	@Override
 	public boolean supports(Class<?> clazz) {
 		return clazz.isAssignableFrom(MemberChangeForm.class);
@@ -42,6 +55,15 @@ public class MemberChangeInfoValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberName", "requiredChange");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberAddress", "requiredChange");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberEmail", "requiredChange");
+		if (!(memberChangeForm.getMemberEmail() != null && memberChangeForm.getMemberEmail().isEmpty())) {  
+			   pattern = Pattern.compile(EMAIL_PATTERN);  
+			   matcher = pattern.matcher(memberChangeForm.getMemberEmail());  
+			   if (!matcher.matches()) {  ;
+			    errors.rejectValue("memberEmail", "email.incorrect",  
+			      "*이메일 형식으로 작성하여 주세요.");  
+			   }  
+		} 
+               
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memberTel", "requiredChange");
 		if(memberChangeForm.getMemberTel().length()!=11){
 			errors.rejectValue("memberTel", "length","*사용하시는 휴대폰번호 11자리를 입력해주십시오. 문자서비스를 받기 위함입니다.");

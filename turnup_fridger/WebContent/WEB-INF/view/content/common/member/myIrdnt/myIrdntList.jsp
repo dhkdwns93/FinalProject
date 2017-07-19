@@ -147,6 +147,21 @@ td {
 #tbody {
 	cursor: pointer;
 }
+#roomSection{
+	background: url(/turnup_fridger/img/tpbanana.png) no-repeat ;
+	background-position: bottom;
+    background-size: 522px;
+}
+#freezeSection{
+	background: url(/turnup_fridger/img/icecream2.png) no-repeat ;
+	background-position: bottom;
+    background-size: 290px;
+}
+#coldSection{
+	background: url(/turnup_fridger/img/brocoli.png) no-repeat ;
+	background-position: bottom;
+    background-size: contain;
+}
 </style>
 </head>
 <body>
@@ -183,7 +198,7 @@ td {
 <div id="roomSection" style="width:30%; float:left; height:600px; border-style:ridge; margin:10px;">
 <h5 style="color:gray;margin-left:5px;">실온</h5>
 <div style="overflow-x:hidden; overflow-y:scroll; width: 300px;height:500px;margin-left: auto;margin-right: auto;">
-<table id = "room" class="table table-hover table-condensed" style="width:280px;background-color:white;">
+<table id = "room" class="table table-hover table-condensed" style="width:280px;">
 	<thead>
 		<tr>
 			<th>key</th>
@@ -200,7 +215,7 @@ td {
 <div id="freezeSection" style="width:30%; float:left; height:600px;border-style:ridge;margin:10px;">
 <h5 style="color:gray;margin-left:5px;">냉동</h5>
 <div style="overflow-x:hidden; overflow-y:scroll; width: 300px;height:500px;margin-left: auto;margin-right: auto;">
-<table id = "freeze" class="table table-hover table-condensed" style="width:280px;background-color:white;">
+<table id = "freeze" class="table table-hover table-condensed" style="width:280px;">
 	<thead>
 		<tr>
 			<th>key</th>
@@ -217,7 +232,7 @@ td {
 <div id="coldSection" style="width:30%; float:left; height:600px;border-style:ridge;margin:10px;">
 <h5 style="color:gray;margin-left:5px;">냉장</h5>
 <div style="overflow-x:hidden; overflow-y:scroll; width: 300px;height:500px;margin-left: auto;margin-right: auto;">
-<table id = "cold" class="table table-hover table-condensed" style="width:280px;background-color:white;">
+<table id = "cold" class="table table-hover table-condensed" style="width:280px;">
 	<thead>
 		<tr>
 			<th>key</th>

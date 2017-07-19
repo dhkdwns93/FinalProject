@@ -43,18 +43,32 @@ public class JoinProcessServiceImpl implements JoinProcessService{
 		
 		//회원이 자기의 냉장고 가입신청으로 접근했을 때
 		if(joinProcess.getReqMemberId().equals(joinProcess.getRespMemberId())){
-			throw new JoinProcessFailException("이미 주인인 냉장고입니다!");
+			throw new JoinProcessFailException("이미 회원님이 소유한 냉장고입니다!");
 		}
 		
-		//한 냉장고(그룹)에 대해 중복요청인지 체크
-		// (1)냉장고 id로 검색된 가입처리 목록 가져오기
-		for(JoinProcess jp : jdao.selectJoinProcessByFridgerId(joinProcess.getProcessFridgerId())){
-			if(jp.getReqMemberId().equals(joinProcess.getReqMemberId()) && jp.getProcessState() == 10){
-				//목록의 요청자에 신청하는 회원 id가 있고, 처리상태가 10(가입승인대기)일 때
-				throw new JoinProcessFailException("이미 가입승인대기중인 냉장고입니다!");
+		//한 냉장고(그룹)에 대해 이미 존재하는 회원인지 체크
+		List<FridgerGroup> fgList = fgdao.selectFridgerGroupByFridgerId(joinProcess.getProcessFridgerId());
+		if(fgList != null && fgList.size() > 0 && !fgList.isEmpty()){
+			for(FridgerGroup fg : fgdao.selectFridgerGroupByFridgerId(joinProcess.getProcessFridgerId())){
+				if(fg.getGroupMemberId().equals(joinProcess.getReqMemberId())){
+					throw new JoinProcessFailException("이미 회원님이 공유하고 있는 냉장고입니다!");
+				}
 			}
 		}
-		//(2)목록의 신청자가 아니라면 -> 가입처리 목록에 가입승인대기(10) 상태로 추가
+		
+		
+		//한 냉장고(그룹)에 대해 중복요청인지 체크
+		List<JoinProcess> jpList = jdao.selectJoinProcessByFridgerId(joinProcess.getProcessFridgerId());
+		if(jpList != null && jpList.size() > 0 && !jpList.isEmpty()){
+			for(JoinProcess jp : jdao.selectJoinProcessByFridgerId(joinProcess.getProcessFridgerId())){
+				if(jp.getReqMemberId().equals(joinProcess.getReqMemberId()) && jp.getProcessState() == 10){
+					//목록의 요청자에 신청하는 회원 id가 있고, 처리상태가 10(가입승인대기)일 때
+					throw new JoinProcessFailException("이미 가입승인대기중인 냉장고입니다!");
+				}
+			}
+		}
+		
+		//가입처리 목록에 가입승인대기(10) 상태로 추가
 		joinProcess.setReqDate(new Date());
 		jdao.insertJoinProcess(joinProcess);
 	}
@@ -67,20 +81,21 @@ public class JoinProcessServiceImpl implements JoinProcessService{
 		}
 		// 회원이 자기의 냉장고  초대로 접근했을 때
 		if(joinProcess.getReqMemberId().equals(joinProcess.getRespMemberId())){
-			throw new JoinProcessFailException("이미 주인인 냉장고입니다!");
+			throw new JoinProcessFailException("이미 회원님이 소유한 냉장고입니다!");
 		}
+
 		
-		// 같은 회원(그룹)에 대해 중복요청인지 체크
+		//한 냉장고(그룹)에 대해 이미 존재하는 회원인지 체크
 		List<FridgerGroup> fgList = fgdao.selectFridgerGroupByFridgerId(joinProcess.getProcessFridgerId());
 		if(fgList != null && fgList.size() > 0 && !fgList.isEmpty()){
 			for(FridgerGroup fg : fgList){
-				if(joinProcess.getReqMemberId().equals(fg.getGroupMemberId())){
-					throw new JoinProcessFailException("이미 공유 멤버인 회원입니다!");
+				if(joinProcess.getRespMemberId().equals(fg.getGroupMemberId())){
+					throw new JoinProcessFailException("이미 냉장고를 공유하고 있는 회원입니다!");
 				}
 			}
 		}
 		
-		// (1)냉장고 id로 검색된 가입처리 목록 가져오기
+		// 같은 회원(그룹)에 대해 중복요청인지 체크
 		List<JoinProcess> jpList = jdao.selectJoinProcessByFridgerId(joinProcess.getProcessFridgerId());
 		if(jpList != null && jpList.size() > 0 && !jpList.isEmpty()){
 			for (JoinProcess jp : jpList) {
