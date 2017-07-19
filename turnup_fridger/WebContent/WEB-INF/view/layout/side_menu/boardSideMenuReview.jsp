@@ -12,7 +12,7 @@
 .left-box-sidemenu{
  	background:white;
  	float:left;
- 	width:30%;
+ 	width:20%;
 	min-width:200px;
 	max-width:250px;
  	height:100%;
@@ -37,13 +37,13 @@
 	border: none;
 	color: #555;
 	text-decoration: none;
-	background-color: white;
+	background-color: #ffcc99;
 }
 
 .list-group-item:hover, .list-group-item:focus {
 	color: #555;
 	text-decoration: none;
-	background-color: #EAE7E7 !important;
+	background-color: #fff2e6 !important;
 }
 
 </style>
@@ -51,38 +51,37 @@
 
 <div class='left-box-sidemenu'>
 		<div>
-			<h2 style="text-align:center;">Borad & &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	Member</h2>
+			<h2>게시판</h2>
 		</div>
 		<hr style="border:0;height:3px;background:#ccc;">
 		<div class="list-group">
-			<a href="${initParam.rootPath}/common/admin/admin_mypage.do" class="list-group-item" style="text-align:right;">
-				관리자 계정 정보
-				<button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
-					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-				</button>
-			</a>
-			
-			<a href="${initParam.rootPath}/common/admin/member_list.do" class="list-group-item" style="text-align:right;">
-				회원관리
-				<button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
-					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-				</button>
-			</a>
-			
-			<a href="${initParam.rootPath}/common/admin/admin_list.do"class="list-group-item" style="text-align:right;">
-				관리자관리
-				<button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
-					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-				</button>
-			</a>
-		
 			<a href="${initParam.rootPath}/boardnotice/boardNoticeList.do" class="list-group-item" style="text-align:right;">
-				게시판관리
+				공지사항
+				<button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
+					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				</button>
+			</a>
+			
+			<a href="${initParam.rootPath}/common/boardqna/boardQnAList.do" class="list-group-item" style="text-align:right;">
+				QnA
+				<button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
+					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				</button>
+			</a>
+			
+			
+			<a href="${initParam.rootPath}/common/boardfree/boardFreeList.do" class="list-group-item" style="text-align:right;">
+				자유게시판
+				<button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
+					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				</button>
+			</a>
+				
+			<a href="${initParam.rootPath}/boardreview/boardReviewList.do" class="list-group-item"  style="text-align:right;">
+				후기
 				<button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
 					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 				</button>
 			</a>
 		</div>
 </div>
-
-

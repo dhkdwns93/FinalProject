@@ -23,6 +23,20 @@ public class BoardNoticeServiceImpl implements BoardNoticeService
 	
 	@Override
 	public void addBoardNotice(BoardNotice boardNotice) {
+/*       		String title = boardNotice.getTitle();
+	       	String txt = boardNotice.getTxt();
+	        // *태그문자 처리 (< ==> &lt; > ==> &gt;)
+	        // replace(A, B) A를 B로 변경
+	        title = title.replace("<", "&lt;");
+	        title = title.replace("<", "&gt;");
+	        txt = txt.replace("<", "&lt;");
+	        // *공백문자 처리
+	        title = title.replace("  ",    "&nbsp;&nbsp;");
+	        txt = txt.replace("  ",    "&nbsp;&nbsp;");
+	        // *줄바꿈 문자처리
+	        txt = txt.replace("\n", "<br>");
+	        boardNotice.setTitle(title);
+	        boardNotice.setTxt(txt);*/
 		dao.insertBoardNotice(boardNotice);
 	}
 
@@ -52,6 +66,7 @@ public class BoardNoticeServiceImpl implements BoardNoticeService
 	@Override
 	public BoardNotice findBoardNoticeById(int id) {
 		// TODO Auto-generated method stub
+		
 		return dao.selectBoardNoticeById(id);
 	}
 

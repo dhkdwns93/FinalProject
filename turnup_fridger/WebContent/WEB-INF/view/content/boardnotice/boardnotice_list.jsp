@@ -8,11 +8,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" 
-href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+
 
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <style type="text/css">
@@ -34,8 +35,9 @@ input {
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>공지사항</h1><br>
-<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+<h1 style="text-align:left;">공지사항</h1>
+<hr>
+<div class="form-inline form-group" >
 <a href="${initParam.rootPath}/index.do">
 	<button type="button" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
@@ -49,28 +51,31 @@ input {
 	 </button>
  </a>
  </sec:authorize>
-
 	<!-- 검색 버튼 -->
 	<div style="float:right">
-	<form action="${initParam.rootPath}/boardnotice/boardNoticeByItems.do" method="post">
-		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-			<select name="items" id="items" value="${requestScope.items}">
-				<option value="전체보기">전체보기</option>
-				<option value="공지사항" >공지사항</option>
-				<option value="뉴스" >뉴스</option>
-			</select>
-			<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
-				<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-			</button>
-	</form>
+		<div style="float:right">
+			<form class="form-inline" action="${initParam.rootPath}/boardnotice/boardNoticeByItems.do" method="post">
+					<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+					<select class="form-control" name="items" id="items">
+						<option>전체보기</option>
+						<option value="공지사항">공지사항</option>
+						<option value="뉴스">뉴스</option>
+					</select>
+				<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+			</form>
+		</div>
 	</div>
+</div>
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
 <thead>
     <tr>
-        <th style="width:5%;">번호</th>
-        <th style="width:10%;">말머리</th>
-        <th style="width:50%;">제목</th>
-        <th style="width:15%;">작성일</th>
-        <th style="width:10%;">작성자</th>
+        <th style="width:5%;text-align:center;">번호</th>
+        <th style="width:10%;text-align:center;">말머리</th>
+        <th style="width:50%;text-align:center;">제목</th>
+        <th style="width:15%;text-align:center;">작성일</th>
+        <th style="width:10%;text-align:center;">작성자</th>
     </tr>
  </thead>
 <tbody>
@@ -98,6 +103,7 @@ input {
 </c:forEach>
  </tbody>
 </table>
+<c:if test="${!empty list}">
 <p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리
@@ -112,10 +118,10 @@ input {
 	<c:choose>
 		<c:when test="${requestScope.pageBean.previousPageGroup}">
 			<%-- 이전페이지 그룹이 있디면 : previousPageGroup()--%>
-			<a href="${initParam.rootPath }/boardnotice/boardNoticeList.do?page=${requestScope.pageBean.beginPage - 1}">☜</a>
+			<a href="${initParam.rootPath }/boardnotice/boardNoticeList.do?page=${requestScope.pageBean.beginPage - 1}">◀</a>
 		</c:when>
 		<c:otherwise>
-				☜	
+				◀	
 		</c:otherwise>
 	</c:choose>
 	
@@ -141,15 +147,16 @@ input {
 	<c:choose>
 		<c:when test="${requestScope.pageBean.nextPageGroup}">
 			<%-- 다음페이지 그룹이 있디면 : nextPageGroup()--%>
-			<a href="${initParam.rootPath }/boardnotice/boardNoticeList.do?page=${requestScope.pageBean.endPage + 1}">☞</a>
+			<a href="${initParam.rootPath }/boardnotice/boardNoticeList.do?page=${requestScope.pageBean.endPage + 1}">▶</a>
 		</c:when>
 		<c:otherwise>
-				☞		
+				▶		
 		</c:otherwise>
 	</c:choose>			
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/boardnotice/boardNoticeList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
 </p>
+</c:if>
 </div>
 </body>
 </html>

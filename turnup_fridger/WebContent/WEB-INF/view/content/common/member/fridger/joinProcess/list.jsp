@@ -83,9 +83,8 @@ $(document).ready(function (){
 		});	//end of ajax
 	});
 	
-	
 	// 냉장고 그룹 초대 폼
-	$(document).on("click","#inviteBtn", function(){
+	$(document).on("click","#inviteModalBtn", function(){
 		$("#inviteFridgerModal").modal("show");
 		$.ajax({
 			"url":"/turnup_fridger/common/member/fridger/show/mine.do",
@@ -125,7 +124,7 @@ $(document).ready(function (){
 					$("#inviteFridgerModal").modal("hide");
 					$(".errorWell").find(".error").empty();
 					$(".errorWell").hide();
-					resetModal();
+					resetInviteModal();
 					window.location.reload();
 				
 				}else{
@@ -143,11 +142,47 @@ $(document).ready(function (){
 	
 	
 	// 냉장고 그룹 가입 폼
-	$(document).on("click","#joinBtn", function(){
+	$(document).on("click","#joinModalBtn", function(){
 		$("#joinFridgerModal").modal("show");
 		
 		
 	});	// end of click on requstBtn
+	
+	// 냉장고 그룹 가입 처리
+	$(document).on("click","#joinBtn", function(){
+		 var formData = $("#inviteForm").serializeArray();
+			console.log(formData)
+			$.ajax({
+				"url": "${initParam.rootPath }/common/member/fridger/invite.do",
+				"type": "post",
+				"data": formData,
+				"dataType":"text",
+				"beforeSend":function(){
+					console.log($(".errorWell").find(".error"));
+					$(".errorWell").find(".error").empty();
+					$(".errorWell").hide();
+				},
+				"success": function(text){
+					if(text == "0"){
+						//alert("완료!")
+						$("#joinFridgerModal").modal("hide");
+						$(".errorWell").find(".error").empty();
+						$(".errorWell").hide();
+						resetJoinModal();
+						window.location.reload();
+					
+					}else{
+						alert("실패!")
+						$(".errorWell").find(".error").append(text);
+						$(".errorWell").show();
+						//회색차유ㅠ
+					}
+				}
+			})
+		
+	});	// end of click on requstBtn
+		
+	
 		
 	
 
@@ -168,8 +203,8 @@ function resetInviteModal(){
 	$(".errorWell").find(".error").empty();
 	$(".errorWell").hide();
 }
-function resetRequestModal(){
-	document.getElementById("requestForm").reset();
+function resetJoinModal(){
+	document.getElementById("joinFridgerModal").reset();
 	$(".errorWell").find(".error").empty();
 	$(".errorWell").hide();
 }
@@ -321,8 +356,8 @@ display: none;
 
 가족 구성원끼리 냉장고를 공유하여 관리하세요. 더욱 효율적으로 냉장고를 관리할 수 있을 것입니다.
 
-<button type="button" class="btn btn-warning" id="inviteBtn" style="background-color:#f7c42d; color:#ffffff; width:70px; border:5px; margin: 2px; text-shadow:none; font-weight: bold">INVITE</button>
-<button type="button" class="btn btn-default" id="joinBtn" style="background-color:#ccccb3; color:white; border:5px; border-color:#999966; width:70px; margin: 2px; text-shadow:none;  font-weight: bold">JOIN</button>
+<button type="button" class="btn btn-warning" id="inviteModalBtn" style="background-color:#f7c42d; color:#ffffff; width:70px; border:5px; margin: 2px; text-shadow:none; font-weight: bold">INVITE</button>
+<button type="button" class="btn btn-default" id="joinModalBtn" style="background-color:#ccccb3; color:white; border:5px; border-color:#999966; width:70px; margin: 2px; text-shadow:none;  font-weight: bold">JOIN</button>
 <br>
 <p>
 <div role="tabpanel" style="padding-top: 30px;">

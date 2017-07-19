@@ -118,4 +118,11 @@ public interface RecipeInfoDao {
 	 * @return
 	 */
 	List<RecipeInfo> selectTypeCodeAndNameByCategoryCode(int caregoryCode);
+	
+	/**
+	 * 조회수 추가 
+	 * @param recipeId
+	 * @return
+	 */
+	int increaseHits (int recipeId);
 }

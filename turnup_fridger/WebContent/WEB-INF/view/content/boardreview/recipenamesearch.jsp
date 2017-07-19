@@ -36,10 +36,10 @@ $(document).ready(function(){
 					return false;
 				}
 				var txt = "";
+				$("#thead").empty().append("<tr><td>레시피 번호</td><td>레시피 이름</td></tr>");
 				$("#tbody").empty();
 				$.each(list, function()
 				{
-					
 					$("#tbody").append($("<tr>").prop("id","col").append($("<td>").append(this.recipeId)).append($("<td>").append(this.recipeName)));
 
 				});
@@ -76,12 +76,14 @@ td{
 </style>
 </head>
 <body>
-<h1>레시피 검색</h1><br>
+<h1>레시피 검색</h1>
 <hr>
-
 <input type="text" id="recipeName">
-<button type="button" id="textBtn">검색</button>
-<table>
+<button id="textBtn" type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+</button>
+<table class="table table-hover table-condensed" style="width:100%;text-align:center;margin-left: auto; margin-right: auto;">
+	<thead id="thead"></thead>
 	<tbody id="tbody"></tbody>
 </table>
 </body>
