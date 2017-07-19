@@ -154,10 +154,27 @@ INSERT INTO BOARD_NOTICE VALUES (BOARD_NOTICE_ID.nextval,'뉴스',
 썰어진 고기는 스테이크로 먹을 수도 있고, 샌드위치, 타코, 케밥, 샐러드에도 응용할 수 있다.',
 '','',to_date('20170715', 'yyyy-mm-dd'));
 INSERT INTO BOARD_NOTICE VALUES (BOARD_NOTICE_ID.nextval,'공지사항','서버 오류 안내',
-'14시 15분 부터 16시까지 서버 오류로 인한 사용자들의 불편하게 된점  죄송하다는 말씀 전합니다. 앞으로 빠른 조치하도록 노력하겠습니다. 감사하니다',
+'14시 15분 부터 16시까지 서버 오류로 인한 사용자들의 불편하게 된점  죄송하다는 말씀 전합니다. 
+앞으로 빠른 조치하도록 노력하겠습니다. 감사하니다',
 '','',to_date('20170715', 'yyyy-mm-dd'));
 INSERT INTO BOARD_NOTICE VALUES (BOARD_NOTICE_ID.nextval,'공지사항','서버 점검 안내',
-'2017년 07월 15일 9시부터 10시, 약 1시간 가량 서버점이 있습니다. 사용자들의 이용 불편한점 양해 부탁 드리니다. 감사합니다'.,
+'2017년 07월 15일 9시부터 10시, 약 1시간 가량 서버점이 있습니다. 
+사용자들의 이용 불편한점 양해 부탁 드리니다. 감사합니다'.,
 '','',to_date('20170714','yyyy-mm-dd'));
+INSERT INTO BOARD_NOTICE VALUES (BOARD_NOTICE_ID.nextval,'공지사항','','','','',to_date('20170715', 'yyyy-mm-dd'));
 INSERT INTO BOARD_NOTICE VALUES (BOARD_NOTICE_ID.nextval,'','','','','',to_date('20170715', 'yyyy-mm-dd'));
-INSERT INTO BOARD_NOTICE VALUES (BOARD_NOTICE_ID.nextval,'','','','','',to_date('20170715', 'yyyy-mm-dd'));
+
+
+CREATE TABLE BOARD_QNA (
+   BOARD_QNA_ID NUMBER PRIMARY KEY, /* Q&A ID */
+   BOARD_QNA_TITLE VARCHAR2(300) NOT NULL, /* 제목 */
+   BOARD_QNA_TXT VARCHAR2(3000) NOT NULL, /* 내용 */
+   BOARD_QNA_DATE DATE DEFAULT SYSDATE NOT NULL, /* 작성일 */
+   COMMENT_COUNT NUMBER, /* 댓글 수 */
+   MEMBER_ID VARCHAR2(20) NOT NULL, /* 회원ID */
+   CONSTRAINT BOARD_QNA_MEMBER_ID_FK FOREIGN KEY(MEMBER_ID) REFERENCES MEMBER
+);
+
+INSERT INTO BOARD_QNA VALUES (BOARD_QNA_ID.nextval,'jang님의 질문입니다.','',to_date('20170715', 'yyyy-mm-dd'),'','jang');
+
+
