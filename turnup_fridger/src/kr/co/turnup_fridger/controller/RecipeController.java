@@ -706,9 +706,9 @@ public class RecipeController {
 		return new ModelAndView("recipe_for_user/timer");
 	}
 	
-	@RequestMapping("findIrdntByName")
+	@RequestMapping("findIrdntByNameInSearch")
 	@ResponseBody
-	public List<IrdntManage> findIrdntByName(@RequestParam String irdntName){
+	public List<IrdntManage> findIrdntByNameInSearch(@RequestParam String irdntName){
 		return imService.findIrdntByName(irdntName);
 	}
 

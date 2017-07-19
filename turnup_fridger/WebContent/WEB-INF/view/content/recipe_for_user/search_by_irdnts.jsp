@@ -187,7 +187,7 @@ $(document).ready(function(){
 	
 	$(document).on("click","#irdntSearchBtn",function(){
 		$.ajax({
-			"url":"/turnup_fridger/findIrdntByName.do",
+			"url":"/turnup_fridger/findIrdntByNameInSearch.do",
 			"type":"POST",
 			"data":{'irdntName':$("#irdntSearchName").val(),'${_csrf.parameterName}':'${_csrf.token}'},
 			"dataType":"json",
