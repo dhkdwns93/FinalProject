@@ -67,11 +67,11 @@ table {
 		<table>
 			<tr>
 				<td><span class="error"><form:errors path="myMemo.memoName" /></span><br>
-				<input type="text" id="memoName" name="memoName" value="${param.memoName}" size="41" style="background-color: transparent"></td>
+				<input type="text" id="memoName" class="form-control" name="memoName" value="${param.memoName}" size="41" style="background-color: transparent; color:black;"></td>
 			</tr>
 			<tr>
 				<td><span class="error"><form:errors path="myMemo.memoTxt" /></span><br>
-				<textarea rows="12" cols="43" id="memoTxt" name="memoTxt" style="background-color: transparent">${param.memoTxt}</textarea>
+				<textarea rows="12" cols="43" id="memoTxt" class="form-control" name="memoTxt" style="background-color: transparent; color:black;">${param.memoTxt}</textarea>
 				</td>
 			</tr>
 			<tr>

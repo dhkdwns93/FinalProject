@@ -11,14 +11,22 @@ public interface FridgerGroupService {
 	 * @param fg - 냉장고그룹
 	 * @throws Exception
 	 */
-	void insertFridgerGroup(FridgerGroup fg) throws Exception;
+	int insertFridgerGroup(FridgerGroup fg) throws Exception;
+	
+	/**
+	 * 냉장고삭제로 인한 삭제 
+	 * @param groupMemberId
+	 * @throws Exception
+	 */
+	int deleteFridgerGroupByFridgerId(int fridgerId) throws Exception;
+	
 	
 	/**
 	 * 냉장고그룹 탈퇴
 	 * @param groupMemberId
 	 * @throws Exception
 	 */
-	void deleteFridgerGroup(String groupMemberId) throws Exception;
+	int deleteFridgerGroupByFridgerIdAndMemberId(int fridgerId, String groupMemberId) throws Exception;
 	
 	/**
 	 * 회원id로 공유멤버 조회
@@ -40,5 +48,6 @@ public interface FridgerGroupService {
 	 * @return
 	 */
 	int selectFridgerGroupCount(int fridgerId);
+
 	
 }

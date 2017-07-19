@@ -51,23 +51,22 @@
       </div>
       <hr style="border:0;height:3px;background:#ccc;">
       <div class="list-group">
-      <sec:authorize access="hasRole('ROLE_MEMBER')">
       <sec:authentication property='principal.memberId' var='memberId'/>
-         <a href="${initParam.rootPath}/memo/memoList.do"  class="list-group-item" style="text-align:right;"> 
-            내 메모보기
+         <a href="javascript:getRequestList()"  class="list-group-item" style="text-align:right;">
+        요청한 공유
             <button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             </button>
          </a>         
-       </sec:authorize>
-         <a href="#" class="list-group-item" style="text-align:right;" onclick="window.open('/turnup_fridger/memo/map.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)">
-            주변 마트보기
+
+         <a href="javascript:getResponseList()" class="list-group-item" style="text-align:right;" >
+        요청받은 공유   
             <button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             </button>
          </a>         
          <a href="${initParam.rootPath}/common/member/member_mypage_event.do" class="list-group-item" style="text-align:right;">
-            회원정보보기
+       그룹관리     
             <button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             </button>

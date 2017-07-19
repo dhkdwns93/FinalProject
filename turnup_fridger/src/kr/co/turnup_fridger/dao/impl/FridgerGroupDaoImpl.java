@@ -1,6 +1,8 @@
 package kr.co.turnup_fridger.dao.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +25,17 @@ public class FridgerGroupDaoImpl implements FridgerGroupDao{
 	}
 	
 	@Override
-	public int deleteFridgerGroup(String groupMemberId) {
-		return session.delete(sql+"deleteFridgerGroup", groupMemberId);
+	public int deleteFridgerGroupByFridgerId(int fridgerId) {
+		return session.delete(sql+"deleteFridgerGroupByFridgerId", fridgerId);
 	}
 
 	
 	@Override
-	public int deleteFridgerGroupByFridgerId(int groupFridgerId) {
-		return session.delete(sql+"deleteFridgerGroupByFridgerId", groupFridgerId);
+	public int deleteFridgerGroupByFridgerIdAndMemberId(int fridgerId, String groupMemberId) {
+		Map map = new HashMap();
+		map.put("fridgerId", fridgerId);
+		map.put("groupMemberId", groupMemberId);
+		return session.delete(sql+"deleteFridgerGroupByFridgerId", map);
 	}
 
 	@Override

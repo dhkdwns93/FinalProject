@@ -110,14 +110,15 @@ border-radius: 5px;
       </div>
       <div class="modal-body" >
       
-      <!-- 에러메시지 -->
-      <div class="well errorWell">
-      	<span class="error"><!-- 에러메시지 올곳  --></span>
-      </div>   
- 
 
 	<form id="registerForm" class="form-horizontal" action="${initParam.rootPath }/common/member/fridger/register.do" method="post">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
+        
+         <!-- 에러메시지 -->
+      <div class="well errorWell">
+      	<span class="error"><!-- 메시지 찍히는 곳 --></span>
+      </div>  
+         
         <div class="form-group">
           <label class="col-sm-2 control-label" for="fridgerName">Name</label>
         <div class="col-sm-6">
