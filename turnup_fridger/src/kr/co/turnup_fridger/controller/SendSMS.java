@@ -21,31 +21,27 @@ public class SendSMS {
     public String sendMsg(@RequestParam String memoName, @RequestParam String memoTxt, @RequestParam String memberTel){
         sms.appversion("TEST/1.0");
         sms.charset("UTF-8");
-        sms.setuser("qms1109", "violet0814");	// coolsms 계정 
+        sms.setuser("qms1109", "violet0814");	 // coolsms 계정 
 
-        String number[] = new String[2];		// 받을 사람 폰번호
-        number[0] = memberTel;
-        /*number[1] = "01066380357";*/		
+        String number = memberTel;				// 받을 사람 폰번호
 
-        
-        for( int i = 0 ; i < number.length ; i ++ ) {
-	        SmsMessagePdu pdu = new SmsMessagePdu();
-	        pdu.type = "SMS";
-	        pdu.destinationAddress = number[i];
-	        pdu.scAddress = "01041841109";				// 발신자 번호(등록된 번호여야 함)
-	        pdu.text = memoName+"\n"+memoTxt;	// 보낼 메세지 내용
-	        sms.add(pdu);
-	
-	        try {
-	            sms.connect();
-	            sms.send();
-	            sms.disconnect();
-	        } catch (IOException e) {
-	            System.out.println(e.toString());
-	        }
-	        sms.printr();
-	        sms.emptyall();
-	    }
+		SmsMessagePdu pdu = new SmsMessagePdu();
+		pdu.type = "SMS";
+		pdu.destinationAddress = number;
+		pdu.scAddress = "01041841109"; 	// 발신자 번호(등록된 번호여야 함)
+		pdu.text = "<" + memoName + ">\n" + memoTxt; // 보낼 메세지 내용
+		sms.add(pdu);
+
+		try {
+			sms.connect();
+			sms.send();
+			sms.disconnect();
+		} catch (IOException e) {
+			System.out.println(e.toString());
+			return "전송 실패";
+		}
+		sms.printr();
+		sms.emptyall();
         
         return "전송 완료";
     }

@@ -82,6 +82,12 @@
 				)
 	</insert>
 	
+	<update id="increaseHits" parameterType="_int">
+	UPDATE RECIPE_INFO 
+	SET recipe_hits = recipe_hits + 1
+	WHERE recipe_id = #{value}
+	</update>
+	
 	<!-- id랑 hit빼고 업뎃 -->
 	<update id="updateRecipeInfo" parameterType="RecipeInfo">
 		update 	Recipe_Info

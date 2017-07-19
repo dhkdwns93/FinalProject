@@ -35,6 +35,19 @@ span.error{
 form{display:inline}
 h1{display:inline}
 h2{display:inline}
+th{
+	width:10%;
+}
+td{
+	width:70%;
+}
+.textarea_test {
+    resize:none;
+    line-height:30px;
+    width:100%;
+    overflow-y:hidden;
+    height:100%;
+}
 </style>
 </head>
 <body>
@@ -49,19 +62,24 @@ h2{display:inline}
 	<table>
 		<tr>
 			<th>작성자</th>
-			<td><input class="form-control" style="float:left;width:40%;" type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>"></td>
+			<td>
+				<input class="form-control" style="float:left;width:40%;" type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>">
+				<br><br>
+			</td>
 		</tr>
 		<tr>
 			<th>제목</th>
 			<td>
-				<input class="form-control" type="text" name="boardFreeTitle" value="${boardFree.boardFreeTitle}" placeholder="제목을 입력해주세요">
+				<input class="form-control" style="float:left;width:50%;" type="text" name="boardFreeTitle" value="${boardFree.boardFreeTitle}" placeholder="제목을 입력해주세요">
 				<span class="error"><form:errors path="boardFree.boardFreeTitle" delimiter="&nbsp;"/></span>
+				<br><br>
 			</td>
 		</tr>
 		<tr>
 			<th>내용</th>
 			<td>
-				<textarea class="form-control" name="boardFreeTxt" row="5" cols="70" placeholder="내용을 입력해주세요">${boardFree.boardFreeTxt}</textarea>
+				<textarea class="form-control textarea_test"style="float:left;width:70%;" onkeyup="this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
+					 name="boardFreeTxt" row="5" cols="70" placeholder="내용을 입력해주세요">${boardFree.boardFreeTxt}</textarea>
 				<span class="error"><form:errors path="boardFree.boardFreeTxt" delimiter="&nbsp;"/></span>
 			</td>
 		</tr>	

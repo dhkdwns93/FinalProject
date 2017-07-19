@@ -104,8 +104,8 @@ text-align:center;
 }
 @media all and (min-width: 40em) {
   .list2 {
-    padding: 0.5em;
-    max-width: 62em;
+    padding: 0.1em;
+    max-width: 90em;
     margin: 0 auto;
     overflow: hidden;
   }

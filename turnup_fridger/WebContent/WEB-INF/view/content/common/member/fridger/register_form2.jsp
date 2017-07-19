@@ -46,10 +46,6 @@ $(document).ready(function(){
 	
 })
 
-function resetModal(){
-	document.getElementById("registerForm").reset();
-}
-
 
 </script>
 
@@ -109,10 +105,15 @@ border-radius: 5px;
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetModal()" ><span aria-hidden="true">&times;</span></button>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetRegisterModal()" ><span aria-hidden="true">&times;</span></button>
         <h3 class="modal-title" id="myModalLabel">냉장고 만들기</h3>
       </div>
       <div class="modal-body" >
+      
+      <!-- 에러메시지 -->
+      <div class="well errorWell">
+      	<span class="error"><!-- 에러메시지 올곳  --></span>
+      </div>   
  
 
 	<form id="registerForm" class="form-horizontal" action="${initParam.rootPath }/common/member/fridger/register.do" method="post">
@@ -209,12 +210,13 @@ border-radius: 5px;
          <img src="${initParam.rootPath}/images/fridger/f13.png" alt="fridger13" style="width:auto;height:250px;">
       </div>
     </div>
+    
     <!-- Left and right controls -->
-    <a class="left carousel-control" href="#fridgerCarousel" data-slide="prev">
+    <a class="left carousel-control" href="#fridgerCarousel" data-slide="prev" style="background-color: none">
       <span style="position:absolute; top: 45%; left:10px;"><img src="${initParam.rootPath}/images/glyphicons/png/glyphicons-225-chevron-left.png"></span>
       <span class="sr-only">Previous</span>
     </a>
-    <a class="right carousel-control" href="#fridgerCarousel" data-slide="next" >
+    <a class="right carousel-control" href="#fridgerCarousel" data-slide="next" style="background-color: none">
       <span style="position:absolute; top: 45%; bottom:40%; right:10px;"><img src="${initParam.rootPath}/images/glyphicons/png/glyphicons-224-chevron-right.png"></span>
             <span class="sr-only">Next</span>
     </a>
@@ -227,8 +229,8 @@ border-radius: 5px;
         </form>
       </div>
       <div class="modal-footer">
-       <button type="button" id="registerFormBtn" class="btn btn-yellow" >CREATE</button>
-        <button type="button" class="btn btn-blue-grey" id="cancel" data-dismiss="modal" onclick="resetModal()" >CANCEL</button>
+       <button type="button" id="registerFormBtn" class="btn btn-yellow" style="background-color:#f7c42d; color:#ffffff; width:100px; border:5px; margin: 2px; text-shadow:none; font-weight: bold">CREATE</button>
+        <button type="button" class="btn btn-blue-grey" id="cancel" data-dismiss="modal" onclick="resetRegisterModal()" style="background-color:#4c4c34; color:white; border:5px; border-color:#999966; width:100px; margin: 2px; text-shadow:none;  font-weight: bold">CANCEL</button>
       </div>
     </div>
   </div>

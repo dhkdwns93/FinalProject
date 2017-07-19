@@ -107,6 +107,7 @@
 			MEMBER_ID = #{memberId}
 		WHERE BOARD_SHARE_RECIPE_ID = #{recipeId}
 	</update>	
+	
 	<!-- 조회수  -->
 	<update id="increaseHit" parameterType="int">
 	UPDATE BOARD_SHARE_RECIPE 
@@ -121,23 +122,10 @@
 	WHERE BOARD_SHARE_RECIPE_TITLE LIKE '%'||#{title}||'%' -->
 
 	<select id="selectBoardShareRecipeByTitle" parameterType="java.util.HashMap" resultMap="boardShareRecipe-resultmap">
-	SELECT BOARD_SHARE_RECIPE_ID,
-		BOARD_SHARE_RECIPE_TITLE,
-		BOARD_SHARE_RECIPE_TXT,
-		BOARD_SHARE_RECIPE_DATE,
-		BOARD_SHARE_RECIPE_RECOMMAND,
-		BOARD_SHARE_RECIPE_HITS,
-		BOARD_SHARE_IRDNT_ETC,
-		MEMBER_ID
+	SELECT 
+	<include refid="all-column"/>
 	FROM (
-		SELECT rownum rnum, BOARD_SHARE_RECIPE_ID,
-			BOARD_SHARE_RECIPE_TITLE,
-			BOARD_SHARE_RECIPE_TXT,
-			BOARD_SHARE_RECIPE_DATE,
-			BOARD_SHARE_RECIPE_RECOMMAND,
-			BOARD_SHARE_RECIPE_HITS,
-			BOARD_SHARE_IRDNT_ETC,
-			MEMBER_ID
+		SELECT rownum rnum, <include refid="all-column"/>
 		FROM(
 			<include refid="select-boardShareRecipe" />
 			WHERE BOARD_SHARE_RECIPE_TITLE LIKE '%'||#{title}||'%')
@@ -342,23 +330,9 @@
 	<!--레시피 공유게시판 id들로 조회한거-->
 	<select id="selectBoardShareRecipeById" resultMap="boardShareRecipe-resultmap" parameterType="java.util.HashMap">
 		
-		   SELECT 		BOARD_SHARE_RECIPE_ID, 
-		BOARD_SHARE_RECIPE_TITLE, 
-		BOARD_SHARE_RECIPE_TXT, 
-		BOARD_SHARE_RECIPE_DATE, 
-		BOARD_SHARE_RECIPE_RECOMMAND, 
-		BOARD_SHARE_RECIPE_HITS, 
-		BOARD_SHARE_IRDNT_ETC, 
-		MEMBER_ID
+		   SELECT <include refid="all-column"/>		
      FROM (	
-     	SELECT rownum rnum,		BOARD_SHARE_RECIPE_ID, 
-		BOARD_SHARE_RECIPE_TITLE, 
-		BOARD_SHARE_RECIPE_TXT, 
-		BOARD_SHARE_RECIPE_DATE, 
-		BOARD_SHARE_RECIPE_RECOMMAND, 
-		BOARD_SHARE_RECIPE_HITS, 
-		BOARD_SHARE_IRDNT_ETC, 
-		MEMBER_ID
+     	SELECT rownum rnum,<include refid="all-column"/>
      	FROM(
 		
 		SELECT

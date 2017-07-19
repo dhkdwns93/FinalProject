@@ -56,4 +56,6 @@ public interface BoardReviewService {
 	
 	//레시피 아이디로 리스트 조회
 	Map<String, Object> findBoardReviewByRecipeId(int recipeId,int page);
+	
+	
 }

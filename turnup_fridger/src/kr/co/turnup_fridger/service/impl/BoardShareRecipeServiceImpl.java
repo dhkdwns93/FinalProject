@@ -216,9 +216,6 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 		// TODO Auto-generated method stub
 		dao.updateImageNull(boardShareRecipe);
 	}
-	
-	
-
 
 	//연수
 	@Override

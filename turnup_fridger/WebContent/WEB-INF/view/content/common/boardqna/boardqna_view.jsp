@@ -3,7 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%
+	//줄 바꿈
+	pageContext.setAttribute("br", "<br/>");
+	pageContext.setAttribute("cn", "\n");
+
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -95,9 +102,7 @@ input {
 </style>
 </head>
 <body>
-
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
-
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>QnA 게시판 ></h1> <h2> ${requestScope.boardQnA.memberId}님의 질문</h2><br>
@@ -144,7 +149,7 @@ input {
 	<tr>
 		<td>내용</td>
 		<td style="width:70%">
-			${requestScope.boardQnA.boardQnATxt}
+			${fn:replace(requestScope.boardQnA.boardQnATxt, cn, br)}
 		</td>
 	</tr>
 </table>

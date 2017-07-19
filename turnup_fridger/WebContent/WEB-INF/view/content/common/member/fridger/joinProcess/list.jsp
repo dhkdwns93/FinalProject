@@ -4,103 +4,13 @@
 <script src="${ initParam.rootPath }/scripts/bootstrap.min.js"></script>
 <script src="${ initParam.rootPath }/scripts/mdb.js"></script>
 <link href="${ initParam.rootPath }/css/bootstrap.css" rel="stylesheet">
-<link href="${ initParam.rootPath }/css/mdb.css" rel="stylesheet">
+<%-- <link href="${ initParam.rootPath }/css/mdb.css" rel="stylesheet"> --%>
 <link href="${ initParam.rootPath }/css/landing-page.css" rel="stylesheet">
  <script type="text/javascript">
 $(document).ready(function (){
-
+	getRequestList();
+	getResponseList();
 	
-	$.ajax({
-				"url":"/turnup_fridger/common/member/fridger/joinProcess/show/list/request.do",
-				"type":"post",
-				"data":{'${_csrf.parameterName}':'${_csrf.token}'},
-				"dataType":"json",
-				"success": function(list){
-		        	$("#requestTable>tbody").empty();
-			        $.each(list, function(index){
-			        	var processStateStr ="";
-			        	var i = index+1;
-			        	/* console.log(this.processNo+","+i); */
-				        	/*처리상태: 10-가입승인대기,11-가입승인완료, 12-가입승인거절,20-초대승인대기,21-초대승인완료, 22-초대승인거절*/
-			        	if(this.processState == 10){
-			        		processStateStr = "가입승인대기";
-			        	}else if(this.processState == 11){
-			        		processStateStr = "가입승인완료";
-			        	}else if(this.processState == 12){
-			        		processStateStr = "가입승인거절";
-			        	}else if(this.processState == 20){
-			        		processStateStr = "초대승인대기";
-			        	}else if(this.processState == 21){
-			        		processStateStr = "초대승인완료";
-			        	}else if(this.processState == 22){
-			        		processStateStr = "초대승인거절";
-			        	}		        	
-
-			        	
-			        	$("#requestTable>tbody").append($("<tr>").append($("<td>").append(this.processNo))
-												 .append($("<td>").append(this.fridger.fridgerName))
-												 .append($("<td>").append(processStateStr))
-												 .append($("<td>").append(getTimeStamp(this.reqDate)))
-												 .append($("<td>").append((this.respDate == null ? "":getTimeStamp(this.respDate))))
-												 .append($("<td>").append(this.reqMemberId))
-												 .append($("<td>").append(this.respMemberId))
-												 .append($("<td>").append($("<button>").prop("type","button").prop("id", "cancelBtn").prop("class","btn btn-blue-grey").append("요청취소"))));
- 
-	        });	// end of each        
-		}
-	});
-	
-	
-	
-	
-		$.ajax({
-			"url":"/turnup_fridger/common/member/fridger/joinProcess/show/list/response.do",
-			"type":"post",
-			"data":{'${_csrf.parameterName}':'${_csrf.token}'},
-			"dataType":"json",
-			"success": function(list){
-	        	$("#responseTable>tbody").empty();
-		        $.each(list, function(index){
-		        	var i = index+1;
-		        	var processStateStr ="";
-		        	/* console.log(this.processNo+","+i); */
-		        	console.log(this.processState);
-		        	
-		        	if(this.processState == 10){
-		        		processStateStr = "가입승인대기";
-		        	}else if(this.processState == 11){
-		        		processStateStr = "가입승인완료";
-		        	}else if(this.processState == 12){
-		        		processStateStr = "가입승인거절";
-		        	}else if(this.processState == 20){
-		        		processStateStr = "초대승인대기";
-		        	}else if(this.processState == 21){
-		        		processStateStr = "초대승인완료";
-		        	}else if(this.processState == 22){
-		        		processStateStr = "초대승인거절";
-		        	}		        	
-		        	
-		        
-		        	 $("#responseTable>tbody").append($("<tr>").append($("<td>").append(this.processNo))
-											 .append($("<td>").append(this.fridger.fridgerName))
-											 .append($("<td>").append(processStateStr))
-											 .append($("<td>").append(getTimeStamp(this.reqDate)))
-											 .append($("<td>").append((this.respDate == null ? "":getTimeStamp(this.respDate))))
-											 .append($("<td>").append(this.reqMemberId))
-											 .append($("<td>").append(this.respMemberId))
-											 .append($("<td>").append($("<button>").prop("type","button").prop("id", "acceptBtn").prop("class","btn btn-yellow").prop("value",this.processNo).append("승인"))
-													 		  .append($("<button>").prop("type","button").prop("id", "rejectBtn").prop("class","btn btn-blue-grey").prop("value",this.processNo).append("거절"))));
-		        	
-		        	 
-		        if(this.processState == 11 || this.processState == 21){
-		        	 $("#responseTable>tbody>tr:nth-child("+i+")").children(":last-child").html("승인함");
-		        }else if(this.processState == 12 || this.processState == 22){
-		        	 $("#responseTable>tbody>tr:nth-child("+i+")").children(":last-child").html("거절함");
-		        }
-
-		        });	// end of each
-			}
-		});
 	
 	$(document).on("click", "#cancelBtn", function(){
 		//alert($(this).parent().parent().children(":first-child").text());
@@ -140,8 +50,9 @@ $(document).ready(function (){
 				}
 			},
 			"success": function(txt){
-		       alert(txt);
-		       window.location.reload();
+		       	alert(txt);
+		       	getRequestList();
+				getResponseList();
 		     },
 	        "error":function(xhr, msg, code){
 				alert("오류발생-" + code);
@@ -163,8 +74,9 @@ $(document).ready(function (){
 				}
 			},
 			"success": function(txt){
-		       alert(txt);
-		       window.location.reload();
+		       alert(txt );
+		   		getRequestList();
+				getResponseList();
 		     },
 	        "error":function(xhr, msg, code){
 				alert("오류발생-" + code);
@@ -173,21 +85,238 @@ $(document).ready(function (){
 		});	//end of ajax
 	});
 	
-	
-	
 	// 냉장고 그룹 초대 폼
-	$(document).on("click","#inviteBtn", function(){
+	$(document).on("click","#inviteModalBtn", function(){
 		$("#inviteFridgerModal").modal("show");
+		$.ajax({
+			"url":"/turnup_fridger/common/member/fridger/show/mine.do",
+			"type":"post",
+			"data":{'${_csrf.parameterName}':'${_csrf.token}'},
+			"dataType": "json",
+		    "success": function(list){
+		        	$("#inviteFridgerList").empty();
+			        $.each(list, function(){
+			        	$("#inviteFridgerList").append($("<option>").prop("value",this.fridgerId).text(this.fridgerName));
+			        });	// end of each
+		     },
+		    "error":function(xhr, msg, code){
+					alert("오류발생-" + code);
+			}
+		}); //end of ajax
 	});	// end of click on requstBtn
+	
+	// 냉장고 그룹 초대 처리
+	$(document).on("click", "#inviteFormBtn",function(){
+
+		 var formData = $("#inviteForm").serializeArray();
+		console.log(formData)
+		$.ajax({
+			"url": "${initParam.rootPath }/common/member/fridger/invite.do",
+			"type": "post",
+			"data": formData,
+			"dataType":"text",
+			"beforeSend":function(){
+				console.log($(".errorWell").find(".error"));
+				$(".errorWell").find(".error").empty();
+				$(".errorWell").hide();
+			},
+			"success": function(text){
+				if(text == "0"){
+					alert("가입신청이 완료되었습니다.")
+					$("#inviteFridgerModal").modal("hide");
+					$(".errorWell").find(".error").empty();
+					$(".errorWell").hide();
+					resetInviteModal();
+					getRequestList();
+					getResponseList();
+				
+				}else{
+					$(".errorWell").find(".error").append(text);
+					$(".errorWell").show();
+					//회색차유ㅠ
+				}
+			}
+		})
+	})
+	
+	
 	
 	
 	// 냉장고 그룹 가입 폼
-	$(document).on("click","#joinBtn", function(){
+	$(document).on("click","#joinModalBtn", function(){
 		$("#joinFridgerModal").modal("show");
+		
+		
 	});	// end of click on requstBtn
+	
+	// 냉장고 그룹 가입 처리
+	// 냉장고 가입신청 
+	$(document).on("click","#joinBtn", function(){
+		alert($(this).parent().parent().children(":nth-child(3)").text());
+		$.ajax({
+			"url":"/turnup_fridger/common/member/fridger/request.do",
+			"type":"post",
+			"data":{'processFridgerId' : $(this).val(),
+					'processState':10,
+					'respMemberId': $(this).parent().parent().children(":nth-child(3)").text(),
+					'${_csrf.parameterName}':'${_csrf.token}'
+					},
+			"dataType":"text",
+			"beforeSend":function(){	
+				if(confirm("가입신청하시겠습니까?") != true){
+					return false;
+				}
+				console.log($(".errorWell").find(".error"));
+				$(".errorWell").find(".error").empty();
+				$(".errorWell").hide();
+			},
+			"success": function(text){
+				if(text == "0"){
+					alert("가입신청이 완료되었습니다.")
+					$("#joinFridgerModal").modal("hide");
+					$(".errorWell").find(".error").empty();
+					$(".errorWell").hide();
+					resetJoinModal();
+					getRequestList();
+					getResponseList();
+					
+				}else{
+					$(".errorWell").find(".error").append(text);
+					$(".errorWell").show();
+					//회색차유ㅠ
+				}
+			}
+			
+		});	//end of ajax
+	});	// end of click on joinBtn
 		
 	
+		
+	
+	$('#inviteFridgerModal').on('hide.bs.modal', function (e) {
+		resetInviteModal();
+		
+	})
+	
+	$('#joinFridgerModal').on('hide.bs.modal', function (e) {
+		resetJoinModal();
+		
+		
+	})
+			
+	
 });
+
+
+function resetInviteModal(){
+	document.getElementById("inviteForm").reset();
+	$("#fridgerList_tbody").empty();
+	$(".errorWell").find(".error").empty();
+	$(".errorWell").hide();
+}
+
+function resetJoinModal(){
+	document.getElementById("joinForm").reset();
+	$("#fridgerList_tbody").empty();
+	$(".errorWell").find(".error").empty();
+	$(".errorWell").hide();
+}
+
+function getRequestList(){
+	$.ajax({
+				"url":"/turnup_fridger/common/member/fridger/joinProcess/show/list/request.do",
+				"type":"post",
+				"data":{'${_csrf.parameterName}':'${_csrf.token}'},
+				"dataType":"json",
+				"success": function(list){
+		        	$("#requestTable>tbody").empty();
+			        $.each(list, function(index){
+			        	var processStateStr ="";
+			        	var i = index+1;
+			        	/* console.log(this.processNo+","+i); */
+				        	/*처리상태: 10-가입승인대기,11-가입승인완료, 12-가입승인거절,20-초대승인대기,21-초대승인완료, 22-초대승인거절*/
+			        	if(this.processState == 10){
+			        		processStateStr = "가입승인대기";
+			        	}else if(this.processState == 11){
+			        		processStateStr = "가입승인완료";
+			        	}else if(this.processState == 12){
+			        		processStateStr = "가입승인거절";
+			        	}else if(this.processState == 20){
+			        		processStateStr = "초대승인대기";
+			        	}else if(this.processState == 21){
+			        		processStateStr = "초대승인완료";
+			        	}else if(this.processState == 22){
+			        		processStateStr = "초대승인거절";
+			        	}		        	
+
+			        	
+			        	$("#requestTable>tbody").append($("<tr>").append($("<td>").append(this.processNo))
+												 .append($("<td>").append(this.fridger.fridgerName))
+												 .append($("<td>").append(processStateStr))
+												 .append($("<td>").append(getTimeStamp(this.reqDate)))
+												 .append($("<td>").append((this.respDate == null ? "":getTimeStamp(this.respDate))))
+												 .append($("<td>").append(this.reqMemberId))
+												 .append($("<td>").append(this.respMemberId))
+												 .append($("<td>").append($("<button>").prop("type","button").prop("id", "cancelBtn").prop("class","btn btn-default").append("요청취소"))));
+ 
+	        });	// end of each        
+		}
+	});
+}	
+	
+	
+function getResponseList(){
+		$.ajax({
+			"url":"/turnup_fridger/common/member/fridger/joinProcess/show/list/response.do",
+			"type":"post",
+			"data":{'${_csrf.parameterName}':'${_csrf.token}'},
+			"dataType":"json",
+			"success": function(list){
+	        	$("#responseTable>tbody").empty();
+		        $.each(list, function(index){
+		        	var i = index+1;
+		        	var processStateStr ="";
+		        	/* console.log(this.processNo+","+i); */
+		        	console.log(this.processState);
+		        	
+		        	if(this.processState == 10){
+		        		processStateStr = "가입승인대기";
+		        	}else if(this.processState == 11){
+		        		processStateStr = "가입승인완료";
+		        	}else if(this.processState == 12){
+		        		processStateStr = "가입승인거절";
+		        	}else if(this.processState == 20){
+		        		processStateStr = "초대승인대기";
+		        	}else if(this.processState == 21){
+		        		processStateStr = "초대승인완료";
+		        	}else if(this.processState == 22){
+		        		processStateStr = "초대승인거절";
+		        	}		        	
+		        	
+		        
+		        	 $("#responseTable>tbody").append($("<tr>").append($("<td>").append(this.processNo))
+											 .append($("<td>").append(this.fridger.fridgerName))
+											 .append($("<td>").append(processStateStr))
+											 .append($("<td>").append(getTimeStamp(this.reqDate)))
+											 .append($("<td>").append((this.respDate == null ? "":getTimeStamp(this.respDate))))
+											 .append($("<td>").append(this.reqMemberId))
+											 .append($("<td>").append(this.respMemberId))
+											 .append($("<td>").append($("<button>").prop("type","button").prop("id", "acceptBtn").prop("class","btn btn-warning").prop("value",this.processNo).append("승인"))
+													 		  .append($("<button>").prop("type","button").prop("id", "rejectBtn").prop("class","btn btn-default").prop("value",this.processNo).append("거절"))));
+		        	 	 
+		        if(this.processState == 11 || this.processState == 21){
+		        	 $("#responseTable>tbody>tr:nth-child("+i+")").children(":last-child").html("승인함");
+		        }else if(this.processState == 12 || this.processState == 22){
+		        	 $("#responseTable>tbody>tr:nth-child("+i+")").children(":last-child").html("거절함");
+		        }
+
+		        });	// end of each
+			}
+		});
+		
+		
+}
+
 
 /*  날짜포맷변환  */
 function getTimeStamp(millis) {
@@ -217,6 +346,15 @@ function leadingZeros(n, digits) {
 
 </script>
 
+<style>
+.errorWell{
+display: none;
+}
+
+</style>
+
+
+
 <div>
 <!-- 가입펌 -->
 <jsp:include page="/WEB-INF/view/content/common/member/fridger/list.jsp"/>
@@ -230,10 +368,10 @@ function leadingZeros(n, digits) {
 <h1> 공유 관리</h1>
 
 가족 구성원끼리 냉장고를 공유하여 관리하세요. 더욱 효율적으로 냉장고를 관리할 수 있을 것입니다.
-<button type="button" class="btn btn-elegant" id="inviteBtn">invite</button>
-<button type="button" class="btn btn-elegant" id="joinBtn">join</button>
-<br>
 
+<button type="button" class="btn btn-warning" id="inviteModalBtn" style="background-color:#f7c42d; color:#ffffff; width:70px; border:5px; margin: 2px; text-shadow:none; font-weight: bold">INVITE</button>
+<button type="button" class="btn btn-default" id="joinModalBtn" style="background-color:#ccccb3; color:white; border:5px; border-color:#999966; width:70px; margin: 2px; text-shadow:none;  font-weight: bold">JOIN</button>
+<br>
 <p>
 <div role="tabpanel" style="padding-top: 30px;">
   <!-- Nav tabs -->
@@ -246,7 +384,7 @@ function leadingZeros(n, digits) {
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="requestTab" align="center">
     <div class="container">
-		<div style="width:1000px;" >
+		<div style="width:1000px;" >	
 		<table id="requestTable" class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
 			<thead>
 				<tr>

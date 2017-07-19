@@ -5,22 +5,6 @@
 
  <script type="text/javascript">
 $(document).ready(function(){
-	 
-	$.ajax({
-		"url":"/turnup_fridger/common/member/fridger/show/mine.do",
-		"type":"post",
-		"data":{'${_csrf.parameterName}':'${_csrf.token}'},
-		"dataType": "json",
-	    "success": function(list){
-	        	$("#fridgerList").empty();
-		        $.each(list, function(){
-		        	$("#fridgerList").append($("<option>").prop("value",this.fridgerId).text(this.fridgerId+"-"+this.fridgerName));
-		        });	// end of each
-	     },
-	    "error":function(xhr, msg, code){
-				alert("오류발생-" + code);
-		}
-	}); //end of ajax
 	
 });
  
@@ -30,55 +14,56 @@ $(document).ready(function(){
 
 <div class="container">
 <!-- 
- trigger of updateFridgerModal
+
+
+ trigger of createFridgerModal
  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createFridgerModal">냉장고 만들기</button> -->
 
- <!-- start of updateFridgerModal -->
-<div class="modal fade" id="inviteFridgerModal" tabindex="-1" role="dialog" aria-labelledby="createFridgerModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+ <!-- start of createFridgerModal -->
+<div class="modal fade" id="inviteFridgerModal" tabindex="-1" role="dialog" aria-labelledby="inviteFridgerModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetModal()" ><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title" id="myModalLabel">냉장고 수정</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetInviteModal()" ><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="inviteFridgerModalLabel">냉장고 초대</h3>
       </div>
       <div class="modal-body" >
 
-	<h2>냉장고 초대폼</h2>
-	<form action="${ initParam.rootPath }/common/member/fridger/invite.do"
+	      <!-- 에러메시지 -->
+      <div class="well errorWell">
+      	<span class="error"><!-- 메시지 찍히는 곳 --></span>
+      </div>   
+
+	<form id="inviteForm" class="form-horizontal" action="${ initParam.rootPath }/common/member/fridger/invite.do"
 		method="post">
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-		<table>
-			<tr>
-				<th colspan="2">현재 로그인한 회원은"<sec:authentication property="principal.memberId"/>"님 입니다</th>
-			</tr>
-			<tr>
-				<th>내 냉장고 목록</th>
-				<td><select name="processFridgerId" id="fridgerList"></select>
-			</tr>
-			<tr>
-				<th>초대할 회원ID</th>
-			 	<td><input type="text" name="respMemberId">
-			 	<span class="error"><form:errors
-							path="joinProcess.respMemberId" delimiter="&nbsp;"/>
-							<c:if test="${ requestScope.errorMsg != null }">
-							${ requestScope.errorMsg }
-							</c:if>
-							</span>
-			 	
-			 	
-		</table>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
+       	<sec:authentication property="principal.memberId" var="memberId"/>	
+		<input type="hidden" name="reqMemberId" value="${memberid}">
 		<input type="hidden" name="processState" value="20">
-	    </form>
+       
+        <div class="form-group">
+          <label class="col-sm-3 control-label" for="inviteFridgerList">Fridger</label>
+        <div class="col-sm-8">
+          <select class="form-control" id="inviteFridgerList" name="processFridgerId"	>
+          </select>
+        </div>
+        </div>
+        <div class="form-group">    
+			<label class="col-sm-3 control-label" for="inviteRespMemberId">For</label>
+        <div class="col-sm-8">
+          <input class="form-control" type="text" id="inviteRespMemberId" name="respMemberId" >
+          
+        </div>
+        </div>
+          
+        </form>
       </div>
       <div class="modal-footer">
-      <input type="submit"value="초대하기">
-       <button type="button" id="inviteFormBtn" class="btn btn-yellow" >invite</button>
-       
-        <button type="button" class="btn btn-blue-grey" id="inviteFormCancel" data-dismiss="modal" onclick="resetModal()" >cancel</button>
+       <button type="button" id="inviteFormBtn" class="btn btn-yellow" style="background-color:#f7c42d; color:#ffffff; width:100px; border:5px; margin: 2px; text-shadow:none; font-weight: bold">REQUEST</button>
+        <button type="button" class="btn btn-blue-grey" id="cancel" data-dismiss="modal" onclick="resetInviteModal()" style="background-color:#4c4c34; color:white; border:5px; border-color:#999966; width:100px; margin: 2px; text-shadow:none;  font-weight: bold">CANCEL</button>
       </div>
     </div>
   </div>
 </div>
-
-<!-- end of updateFridgerModal -->
+	</div>
 	

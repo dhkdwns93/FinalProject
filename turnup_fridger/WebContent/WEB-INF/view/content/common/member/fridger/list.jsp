@@ -1,102 +1,28 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
+<sec:authentication property="principal.memberId" var="memberId"/>
+      
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+ 
  <script type="text/javascript">
 $(document).ready(function () {
+	$('#joinFridgerModal').on('show.bs.modal', function (e) {
+		getFridgerListByName("" , 1);	
+	})
 	//냉장고목록검색 페이지 디폴트는 전체 목록번호순으로 
-		
-	$("#searchByIdBtn").on("click", function(){
-		$.ajax({
-			"url":"/turnup_fridger/common/member/fridger/show/byId.do",
-			"type" : "post",
-			"data" : {'fridgerId' : $("input#fridgerId").val(), '${_csrf.parameterName}':'${_csrf.token}'},
-	        "dataType": "json",
-	        "beforeSend":function(){	
-				if(!$("input#fridgerId").val()){
-					alert("조회할 냉장고ID를 입력하세요");
-					return false;
-				}
-			},
-	        "success": function(fridger){
-	        	$("tbody").empty();
-	        	 $("tbody").append($("<tr>").append($("<td>").append(fridger.fridgerId))
-						 				.append($("<td>").prop("class","fridgerName_col").append(fridger.fridgerName))
-						 				.append($("<td>").append(fridger.memberId))
-						 				.append($("<td>").append($("<button>").prop("type","button").prop("id","requestBtn").prop("value",this.fridgerId).append("JOIN")))
-										 .append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").prop("value",this.fridgerId).append("수정"))))
-												 .append($("<tr>").prop("class","collapse out").prop("id", "info"+ fridger.fridgerId).append($("<td>").prop("colspan","5").append(" 정보가보여용")));
-	        },
-	        "error":function(xhr, msg, code){
-				//매개변수 : 1. XMLHttpRequest, 2.응답메세지(success/error), 3. HTTP응답 메세지(모두)
-			alert("오류발생-" +msg+ ":" +code);
-			}
-		});	//end of ajax
-	}); //end of click on searchById
 	
 	
 	$("#searchByNameBtn").on("click", function(){
-		$.ajax({
-			"url":"/turnup_fridger/common/member/fridger/show/byName.do",
-			"type" : "post",
-			"data" : {'fridgerName' : $("input#fridgerName").val(), '${_csrf.parameterName}':'${_csrf.token}'},
-	        "dataType": "json",
-	        "beforeSend":function(){	
-				if(!$("input#fridgerName").val()){
-					alert("조회할 냉장고이름를 입력하세요");
-					return false;
-				}
-			},
-	        "success": function(list){
-		        $("tbody").empty();
-		        $.each(list, function(){
-		        	 $("tbody").append($("<tr>").append($("<td>").append(this.fridgerId))
-												 .append($("<td>").prop("class","fridgerName_col").append(this.fridgerName))
-												 .append($("<td>").append(this.memberId))
-												.append($("<td>").append($("<button>").prop("type","button").prop("id","requestBtn").prop("value",this.fridgerId).append("JOIN"))) 
-												 .append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").prop("value",this.fridgerId).append("수정"))))
-												 .append($("<tr>").prop("class","collapse out").prop("id", "info"+ this.fridgerId).append($("<td>").prop("colspan","5").append(" 정보가보여용")));
-		        });	// end of each
-	        },
-	        "error":function(xhr, msg, code){
-			alert("오류발생-" + code);
-			}
-		});	//end of ajax
+		alert($("#joinFridgerName").val());
+		getFridgerListByName($("#joinFridgerName").val(), 1);
 	}); //end of click on searchByName
 	
-	
-	$(".searchByOwnerBtn").on("click", function(){
-		var memberId = $(this).parent().children("input#memberId").val();
-		$.ajax({
-			"url":"/turnup_fridger/common/member/fridger/show/byOwner.do",
-			/* "type" : "post", */
-			"data" : {'memberId' :  memberId,  '${_csrf.parameterName}':'${_csrf.token}'},
-	        "dataType": "json",
-	        "beforeSend":function(){	
-	        	
-				if(memberId===''){
-					alert("조회할 회원ID를 입력하세요");
-					return false;
-				}
-			},
-	        "success": function(list){
-	
-		        $("tbody").empty();
-		        $.each(list, function(){
-		        	 $("tbody").append($("<tr>").append($("<td>").append(this.fridgerId))
-												 .append($("<td>").prop("class","fridgerName_col").append(this.fridgerName))
-												 .append($("<td>").append(this.memberId))
-												 .append($("<td>").append($("<button>").prop("type","button").prop("id","requestBtn").prop("value",this.fridgerId).append("JOIN")))										
-												 .append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").prop("value",this.fridgerId).append("수정"))))
-								.append($("<tr>").prop("class","collapse out").prop("id", "info"+ this.fridgerId).append($("<td>").prop("colspan","5").append(" 정보가보여용")));
-						
-		        });	// end of each
-	        },
-	        "error":function(xhr, msg, code){
-			alert("오류발생-" + code);
-			}
-		});	//end of ajax
-	}); //end of click on searchByOwnerBtn
-	
+	$("#searchByOwnerBtn").on("click", function(){
+		alert($("#joinMemberId").val());
+		getFridgerListByOwner($("#joinMemberId").val(), 1);
+	}); //end of click on searchByName
 	
 	
 	/*냉장고명 클릭시 냉장고 공유 멤버 보여주기*/
@@ -116,7 +42,7 @@ $(document).ready(function () {
 	    	$(this).parent().next().removeClass("in");
 	    }
 		
-	    var fridgerId = $(this).parent().children(":first-child").text();
+	    var fridgerId = $(this).parent().children(":first-child").attr("id");
 		var ownerId = $(this).parent().children(":nth-child(3)").text();
 	    //alert(ownerId);
 	    
@@ -145,117 +71,234 @@ $(document).ready(function () {
 	}) // end of click on fridgerName_col
 	
 	
-	// 냉장고 가입신청 
-	$(document).on("click","#requestBtn", function(){
-		alert($(this).parent().parent().children(":nth-child(3)").text());
-		$.ajax({
-			"url":"/turnup_fridger/common/member/fridger/request.do",
-			"type":"post",
-			"data":{'processFridgerId' : $(this).val(),
-					'processState':10,
-					'respMemberId': $(this).parent().parent().children(":nth-child(3)").text(),
-					'${_csrf.parameterName}':'${_csrf.token}'
-					},
-			"dataType":"text",
-			"beforeSend":function(){	
-				if(confirm("가입신청하시겠습니까?") != true){
-					return false;
+	
+});
+
+
+	
+
+function getFridgerListByName(fridgerName, page){
+	$("#fridgerList_tbody").empty();
+	$("#pagingBean").empty();
+	if(!page || page==0) page = 1;
+	
+	$.ajax({
+		"url":"${initParam.rootPath}/common/member/fridger/show/byName.do",
+		"type":"post",
+		"data":{'fridgerName' : fridgerName,'page':page,'${_csrf.parameterName}':'${_csrf.token}'},
+		"dataType":"json",
+		"success":function(map){
+			$("#fridgerList_thead").show();
+			$("#fridgerList_tbody").empty();
+			/* <th style="width:10%;">NO</th>
+			<th style="width:40%;">Fridger Name</th>
+			<th style="width:20%;">Owner</th>
+			<th style="width:20%;">Join</th> */
+			var no = (map.pagingBean.page-1)*5
+			$.each(map.list, function(){
+				$("#fridgerList_tbody").append($("<tr>").append($("<td>").prop("id",this.fridgerId).append(++no))
+														.append($("<td>").prop("class","fridgerName_col").append(this.fridgerName))
+														.append($("<td>").append(this.memberId))
+														.append($("<td>").append($("<button>").prop("type","button").prop("id","joinBtn").prop("value",this.fridgerId).append("JOIN"))))
+										.append($("<tr>").prop("class","collapse out").prop("id", "info"+ this.fridgerId).append($("<td>").prop("colspan","4").append(" 정보가보여용")));
+			})//end of each
+			$("#pagingBean").append($("<a href='javascript:getFridgerListByName(\""+fridgerName+"\",1)'>").append("FIRST"));
+			
+			if(map.pagingBean.previousPageGroup != null){
+				$("#pagingBean").append($("<a href='javascript:getFridgerListByName(\""+fridgerName+"\","+(map.pagingBean.beginPage-1)+")'>").append("◀"));
+			}else{
+				$("#pagingBean").append("◀");
+			} 
+			
+			for(var idx = map.pagingBean.beginPage ; idx <= map.pagingBean.endPage ; idx++){
+				if(idx !=map.pagingBean.page){
+		 			$("#pagingBean").append($("<a href='javascript:getFridgerListByName(\""+fridgerName+"\","+idx+")'>").append(idx));
+				}else{
+					$("#pagingBean").append("["+idx+"]"+"&nbsp;&nbsp;");
 				}
-			},
-			"success": function(txt){
-		       alert(txt);
-		     },
-	        "error":function(xhr, msg, code){
-				alert("오류발생-" + code);
 			}
 			
-		});	//end of ajax
-	});	// end of click on requstBtn
+			
+			if(map.pagingBean.nextPageGroup!=null){
+				if(map.pagingBean.totalPage == map.pagingBean.endPage){
+					$("#pagingBean").append($("<a href ='javascript:getFridgerListByName(\""+fridgerName+"\","+(map.pagingBean.endPage)+")'>").append("▶"));
+				}else{
+					$("#pagingBean").append($("<a href ='javascript:getFridgerListByName(\""+fridgerName+"\","+(map.pagingBean.endPage+1)+")'>").append("▶"));
+				}
+		 	}else{
+		 		$("#pagingBean").append("▶");
+		 	}
+		 	$("#pagingBean").append($("<a href = 'javascript:getFridgerListByName(\""+fridgerName+"\","+(map.pagingBean.totalPage)+")'>").append("LAST"));
 	
-	// 냉장고 수정
-	$(document).on("click","#updateBtn", function(){
-		alert($(this).val());
-		window.open(
-				"${ initParam.rootPath }/common/member/fridger/update_chk.do?fridgerId="+$(this).val(),
-				"_blank",
-				"fullscreen=yes, height=700, width=500, resizable=no, scrollbars=no, location=no, toolbar=no, directories=no, menubar=no"
-				);
+		},
+		"error":function(errorMsg){
+			alert("에러발생:"+errorMsg);
+		} 
 		
-	});	// end of click on requstBtn
-});
+	})//end of ajax
+}//end of getFridgerListByName
+
+function getFridgerListByOwner(memberId, page){
+	$("#fridgerList_tbody").empty();
+	$("#pagingBean").empty();
+	if(!page || page==0) page = 1;
+	
+	$.ajax({
+		"url":"${initParam.rootPath}/common/member/fridger/show/byOwner.do",
+		"type":"post",
+		"data":{'memberId' : memberId,'page':page,'${_csrf.parameterName}':'${_csrf.token}'},
+		"type":"post",
+		"dataType":"json",
+		"success":function(map){
+			$("#fridgerList_thead").show();
+			$("#fridgerList_tbody").empty();
+			/* <th style="width:10%;">NO</th>
+			<th style="width:40%;">Fridger Name</th>
+			<th style="width:20%;">Owner</th>
+			<th style="width:20%;">Join</th> */
+			var no = (map.pagingBean.page-1)*5
+			$.each(map.list, function(){
+				$("#fridgerList_tbody").append($("<tr>").append($("<td>").append(++no))
+														.append($("<td>").prop("class","fridgerName_col").append(this.fridgerName))
+														.append($("<td>").append(this.memberId))
+														.append($("<td>").append($("<button>").prop("type","button").prop("id","joinBtn").prop("value",this.fridgerId).append("JOIN"))))
+			})//end of each
+			
+			$("#pagingBean").append($("<a href='javascript:getFridgerListByOwner(\""+memberId+"\",1)'>").append("FIRST"));
+			
+			if(map.pagingBean.previousPageGroup != null){
+				$("#pagingBean").append($("<a href='javascript:getFridgerListByOwner(\""+memberId+"\","+(map.pagingBean.beginPage-1)+")'>").append("◀"));
+			}else{
+				$("#pagingBean").append("◀");
+			} 
+			
+			
+			for(var idx = map.pagingBean.beginPage ; idx <= map.pagingBean.endPage ; idx++){
+				if(idx !=map.pagingBean.page){
+		 			$("#pagingBean").append($("<a href='javascript:getFridgerListByOwner(\""+memberId+"\","+idx+")'>").append(idx));
+				}else{
+					$("#pagingBean").append("["+idx+"]"+"&nbsp;&nbsp;");
+				}
+			}
+			
+			
+			if(map.pagingBean.nextPageGroup!=null){
+				if(map.pagingBean.totalPage == map.pagingBean.endPage){
+					$("#pagingBean").append($("<a href ='javascript:getFridgerListByOwner(\""+memberId+"\","+(map.pagingBean.endPage)+")'>").append("▶"));
+				}else{
+					$("#pagingBean").append($("<a href ='javascript:getFridgerListByOwner(\""+memberId+"\","+(map.pagingBean.endPage+1)+")'>").append("▶"));
+				}
+				
+				
+		 	}else{
+		 		$("#pagingBean").append("▶");
+		 	}
+		 	$("#pagingBean").append($("<a href = 'javascript:getFridgerListByOwner(\""+memberId+"\","+(map.pagingBean.totalPage)+")'>").append("LAST"));
+	
+		},
+		"error":function(errorMsg){
+			alert("에러발생:"+errorMsg);
+		} 
+		
+	})//end of ajax
+}//end of getFridgerListByOwner
+
  </script>
+ <style>
+ 
+ 
+ th{
+ text-align: center;
+ }
+ 
+ </style>
+ 
+ 
+ 
 <div class="container">
 <!-- 
  trigger of updateFridgerModal
  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createFridgerModal">냉장고 만들기</button> -->
 
  <!-- start of updateFridgerModal -->
-<div class="modal fade" id="joinFridgerModal" tabindex="-1" role="dialog" aria-labelledby="createFridgerModalLabel" aria-hidden="true">
+<div class="modal fade" id="joinFridgerModal" tabindex="-1" role="dialog" aria-labelledby="joinFridgerModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetModal()" ><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title" id="myModalLabel">냉장고 수정</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="resetJoinModal()" ><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="joinFridgerModalLabel">냉장고 가입</h3>
       </div>
       <div class="modal-body" >
-		
-	냉장고 이름으로 조회
-		<span><input type="text" name="fridgerName" id="fridgerName">
-		<!-- <input type="button" value="조회" id="searchByNameBtn"> -->
-		<button type="button" class="btn btn-default" id="searchByNameBtn">
-      	<span class="glyphicon glyphicon-search"></span> 
-    	</button>
-    	</span>
-		<br>
-		
-	냉장고 주인으로 조회
-	<sec:authentication property="principal.memberId" var="memberId"/>
-		<span><input type="text" name="memberId" id="memberId" placeholder="현재회원 : ${ memberId }">
-		<!-- <input type="button" value="조회" id="searchByOwnerBtn"> -->
-	    <button type="button" class="btn btn-default searchByOwnerBtn" id="searchByOwnerBtn">
-      	<span class="glyphicon glyphicon-search"></span> 
-    	</button>
-    	</span>
-    	
-		<br>
-		<sec:authentication property="principal.memberId" var="memberId"/>
-		내 냉장고 조회 : ${ memberId }
-		<span><input type="hidden" name="memberId" id="memberId" value="${ memberId }">
-	    <button type="button" class="btn btn-default searchByOwnerBtn" id="searchByOwnerBtn">
-      	<span class="glyphicon glyphicon-search"></span> 
-    	</button>
-    	</span>
-    	
-		<br>
-
-<hr>
-
-
-	<div id="table" style="width:800px;">
-		<table id="fridgerList" class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
-			<thead>
-				<tr>
-					<th style="width:5%;">NO</th>
-					<th style="width:50%;">냉장고명</th>
-					<th style="width:15%;">냉장고주인</th>
-					<th style="width:10%;">가입</th>
-					<th style="width:10%;">변경</th>
-				</tr>
-			</thead>
-			<tbody>
-				<!-- 내용 받아올 부분 -->
-			</tbody>
-		</table>
+      
+       <!-- 에러메시지 -->
+      <div class="well errorWell">
+      	<span class="error"><!-- 메시지 찍히는 곳 --></span>
+      </div>   
+      
+      
+      
+	<form id="joinForm">
+	<div class="search-input form-horizontal">
+	<div class="form-group" style="margin: 3px;">
+          <label class="col-sm-3 control-label" for="joinFridgerName">Fridger Name</label>
+          <div class="col-sm-8">
+		    <div class="input-group">	
+		      <input  class="form-control" id="joinFridgerName" name="fridgerName" type="text" placeholder="찾으시는 냉장고 애칭을 입력하세요">
+		      <span class="input-group-btn">
+		        <button class="btn btn-default" type="button" id="searchByNameBtn">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+		      </span>
+		    </div><!-- /input-group -->
+		  </div><!-- /.col-sm-8 -->
+	</div>	
+	
+	<div class="form-group" style="margin: 3px;">
+          <label class="col-sm-3 control-label" for="joinMemberId">Fridger Owner</label>
+          <div class="col-sm-8">
+		    <div class="input-group">
+		      <input class="form-control" type="text" name="memberId" id="joinMemberId" placeholder="찾으시는 회원 ID를 입력하세요">
+		      <span class="input-group-btn">
+		        <button class="btn btn-default" type="button" id="searchByOwnerBtn">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+		      </span>
+		    </div><!-- /input-group -->
+		  </div><!-- /.col-sm-8 -->
 	</div>
-	 </div>
+   </div>
+   </form>
+<hr>
+	
+	
+	<!-- 검색결과 뿌려주는 곳 -->
+		<div id="table" style="width:auto; height: 300px;">
+			<table id="fridgerList" class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
+				<thead id="fridgerList_thaed">
+					<tr>
+						<th style="width:10%;">NO</th>
+						<th style="width:40%;">Fridger Name</th>
+						<th style="width:20%;">Owner</th>
+						<th style="width:20%;">Join</th>
+					</tr>
+				</thead>
+				<tbody id="fridgerList_tbody">
+					<!-- 내용 받아올 부분/페이징 -->
+				</tbody>
+			</table>
+		</div>
+	 	
+		<div id="pagingBean" style = "text-align:center;"><!-- 페이지 네이션오는곳 --></div>
+
+
+	 </div><!-- end of body -->
 	
       <div class="modal-footer">
-       <button type="button" id="updateFormBtn" class="btn btn-yellow" >update</button>
-       
-        <button type="button" class="btn btn-blue-grey" id="cancel" data-dismiss="modal" onclick="resetModal()" >cancel</button>
+       <button type="button" class="btn btn-blue-grey" id="cancel" data-dismiss="modal" onclick="resetJoinModal()" style="background-color:#4c4c34; color:white; border:5px; border-color:#999966; width:100px; margin: 2px; text-shadow:none;  font-weight: bold">CLOSE</button>
       </div>
     </div>
   </div>
    </div>
 </div>
+
 <!-- end of updateFridgerModal -->

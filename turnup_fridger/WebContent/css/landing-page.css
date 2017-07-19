@@ -283,8 +283,8 @@ footer {
     height: 100px;
     width: 100%;
     background-color: #f8f8f8;
-	position: absolute; /* 위치 고정 */
-	bottom: 0px; /* 아래 여백 0으로 세팅 */
+	position: absolute !important; /* 위치 고정 */
+	bottom: 0px !important; /* 아래 여백 0으로 세팅 */
 }
 
 p.copyright {

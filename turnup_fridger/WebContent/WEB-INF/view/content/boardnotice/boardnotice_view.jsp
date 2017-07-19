@@ -2,6 +2,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%
+	//줄 바꿈
+	pageContext.setAttribute("br", "<br/>");
+	pageContext.setAttribute("cn", "\n");
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +42,8 @@ h2{display:inline}
 
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>공지사항 ></h1> <h2> ${boardNotice.items}</h2><br><br>
+<h1>공지사항 ></h1><h2>&nbsp;${boardNotice.items}</h2>
+<hr>
 <form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
@@ -75,19 +83,19 @@ h2{display:inline}
 	</tr>
 	<tr>
 		<td>작성날짜</td>
-		<td><fmt:formatDate value="${boardNotice.date}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
+		<td><fmt:formatDate value="${boardNotice.date}" pattern="yyyy-MM-dd"/></td>
 	</tr>
 	<tr>
 		<td>작성자</td>
 		<td>관리자</td>
 	</tr>	
 	<tr>
-		<td>내용</td>
-		<td style="width:70%">
+		<td>내용</td>	
+		<td style="width:70%;text-align:left">
 			<c:if test="${boardNotice.img != null}">
-				<img width="60%" alt="${boardNotice.img}" src="${initParam.rootPath}/img/${boardNotice.saveImg}"><br>
+				<img width="70%" alt="${boardNotice.img}" src="${initParam.rootPath}/img/board/${boardNotice.img}"><br>
 			</c:if>
-				${boardNotice.txt}
+				${fn:replace(boardNotice.txt, cn, br)}
 		</td>
 	</tr>
 </table>

@@ -15,6 +15,11 @@ href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
+$(document).ready(function(){
+	$("#img").on("click",function(){
+		$("#image").empty().append("<input type='file' name='upImage'>");
+	});
+});
 
 //후기 수정
 function insert_event(){
@@ -26,6 +31,8 @@ function insert_event(){
 	    return false;
 	}
 };
+
+
 //별점
 var starRating = function(){
   var $star = $(".boardReviewStar"),
@@ -176,6 +183,13 @@ h2{display:inline}
     font:bold 18px Helvetica, Arial, sans-serif;
     vertical-align: middle;
 }
+.textarea_test {
+    resize:none;
+    line-height:30px;
+    width:100%;
+    overflow-y:hidden;
+    height:100%;
+}
 </style>
 </head>
 <body>
@@ -183,10 +197,10 @@ h2{display:inline}
 
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>후기 ></h1><h2> ${boardReview.memberId}의 게시물 수정</h2><br>
+<h1>후기 ></h1><h2> ${boardReview.memberId}님의 게시물 수정</h2><br>
 <hr>
 <c:if test="${boardReview.imageName != null}">
-<form action="${initParam.rootPath}/boardreview/boardReviewImageDelete.do" method="post" enctype="multipart/form-data">
+<%-- <form action="${initParam.rootPath}/boardreview/boardReviewImageDelete.do" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	    <input type="hidden" name="boardReviewId" value="${boardReview.boardReviewId}">
 		<input type="hidden" name="memberId" value="${boardReview.memberId}">
@@ -198,7 +212,7 @@ h2{display:inline}
 		<input type="hidden" name="imageName" value="${boardReview.imageName}">
 		<input type="hidden" name="imageSaveName" value="${boardReview.imageSaveName}">
 		<input type="submit" value="이미지 삭제">
-</form>
+</form> --%>
 </c:if>
 <form name="review"action="${initParam.rootPath}/boardreview/boardReviewUploadForm.do" method="post" enctype="multipart/form-data">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
@@ -206,30 +220,33 @@ h2{display:inline}
 	<tr>
 		<td>작성자</td>
 		<td>
-			<input class="form-control" style="width:40%;" type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>">
+			<input class="form-control"  style="width:20%;" type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>">
+			<br>
 		</td>
 	</tr>
 	<tr>
 		<td>제목</td>
 		<td>
-			<input class="form-control" type="text" name="boardReviewTitle" value="${boardReview.boardReviewTitle}">
+			<input class="form-control"  style="width:40%;" type="text" name="boardReviewTitle" value="${boardReview.boardReviewTitle}">
 			<span class="error"><form:errors path="boardReview.boardReviewTitle" delimiter="&nbsp;"/></span>	
+			<br>
 		</td>
 	</tr>
 	<tr>
     	<td>레시피</td>
     	<td>
+    	 <div class="form-inline form-group" >
 	    	<input style="width:30%;" type="hidden" id="recipeId" name="recipeId" readonly value="${boardReview.recipeId}">
-	    	<input class="form-control" style="width:30%;" type="text" id="recipeName" name="recipeName" readonly value="${boardReview.recipeName}">
+	    	<input class="form-control" style="width:20%;" type="text" id="recipeName" name="recipeName" readonly value="${boardReview.recipeName}">
 	    	<button type="button" id="recipeName" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="popupRecipeName()">
 				<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 			</button>
 	    	<span class="error"><form:errors path="boardReview.recipeName" delimiter="&nbsp;"/></span>    
-	    		
+	    </div>	
 	    </td>
 	</tr>
 	<tr>	 
-    	<td>별점주기</td>
+    	<td>별점</td>
     	<td>			
 				<span class="boardReviewStar">
 				  <span class="input">
@@ -244,8 +261,8 @@ h2{display:inline}
 				    <input type="radio" name="boardReviewStar" id="p9" value="9"><label for="p9">9</label>
 				    <input type="radio" name="boardReviewStar" id="p10" value="10"><label for="p10">10</label>
 				  </span>
-				  
 				</span>
+				<br><br>
 		</td>
     </tr>
 		<c:if test="${boardReview.imageName == null}">
@@ -253,6 +270,7 @@ h2{display:inline}
 			<td>사진</td>
 			<td>
 				<input type="file" name="upImage">
+				<br>
 			</td>
 		</tr>
 		</c:if>
@@ -261,14 +279,23 @@ h2{display:inline}
 		<tr>	
 			<td>사진</td>
 			<td>
-				${boardReview.imageName}<br>
+				<div id="image">
+					<input type="hidden" name="imageName" value="${boardReview.imageName}">
+					<input type="hidden" name="imageSaveName" value="${boardReview.imageSaveName}">
+					${boardReview.imageName}
+					<button type="button" class="btn btn-default btn-lg" id="img"  style="border:0;outline:0;">
+						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+					</button>
+				</div>
+				<br>
 			</td>
 		</tr>
 		</c:if>
 	<tr>
 		<td>내용</td>
 		<td>
-			<textarea class="form-control" name="boardReviewTxt" row="5" cols="70" placeholder="내용을 입력해주세요">${boardReview.boardReviewTxt}</textarea>
+			<textarea class="form-control textarea_test"style="float:left;width:70%;" onkeyup="this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
+			 name="boardReviewTxt" row="5" cols="70" placeholder="내용을 입력해주세요">${boardReview.boardReviewTxt}</textarea>
 			<span class="error"><form:errors path="boardReview.boardReviewTxt" delimiter="&nbsp;"/></span>
 		</td>
 	</tr>

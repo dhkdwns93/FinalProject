@@ -23,7 +23,7 @@ input:focus {
 }
 /* th 가운데 정렬 정렬 */
 th{
-text-align:center
+text-align:center;
 }
 /* input 정렬 */
 input {
@@ -34,10 +34,13 @@ input {
 <body>
 
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+<c:if test="${empty list}">
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>공지사항</h1><br>
+<h1>공지사항</h1>
+<hr>
 <table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+<div class="form-inline form-group" >
 <a href="${initParam.rootPath}/index.do">
 	<button type="button" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
@@ -45,33 +48,76 @@ input {
 </a>
 <!-- 관리자만 등록 가능 -->
  <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
- 	<a href="${initParam.rootPath}/common/admin/boardnotice/boardnotice_form.do">
- 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-			<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-		</button>
- 	</a>
+ <a href="${initParam.rootPath}/common/admin/boardnotice/boardnotice_form.do">
+	 <button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+	 </button>
+ </a>
  </sec:authorize>
 	<!-- 검색 버튼 -->
 	<div style="float:right">
-	<form action="${initParam.rootPath}/boardnotice/boardNoticeByItems.do" method="post">
-		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-			<select name="items" id="items" value="${requestScope.items}">
-				<option value="전체보기">전체보기</option>
-				<option value="공지사항" >공지사항</option>
-				<option value="뉴스" >뉴스</option>
-			</select>
-			<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
-				<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-			</button>
-	</form>
+		<div style="float:right">
+			<form class="form-inline" action="${initParam.rootPath}/boardnotice/boardNoticeByItems.do" method="post">
+					<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+					<select class="form-control" name="items" id="items">
+						<option>전체보기</option>
+						<option value="공지사항">공지사항</option>
+						<option value="뉴스">뉴스</option>
+					</select>
+				<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+			</form>
+		</div>
 	</div>
+</div>
+</table>
+	<br><h2 style="text-align:center">등록된 게시물이 없습니다.</a>
+</c:if>
+<c:if test="${!empty list}">
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
+<h1>공지사항</h1>
+<hr>
+<div class="form-inline form-group" >
+<a href="${initParam.rootPath}/index.do">
+	<button type="button" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+	</button>
+</a>
+<!-- 관리자만 등록 가능 -->
+ <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+ <a href="${initParam.rootPath}/common/admin/boardnotice/boardnotice_form.do">
+	 <button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+	 </button>
+ </a>
+ </sec:authorize>
+	<!-- 검색 버튼 -->
+	<div style="float:right">
+		<div style="float:right">
+			<form class="form-inline" action="${initParam.rootPath}/boardnotice/boardNoticeByItems.do" method="post">
+					<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+					<select class="form-control" name="items" id="items">
+						<option>전체보기</option>
+						<option value="공지사항">공지사항</option>
+						<option value="뉴스">뉴스</option>
+					</select>
+				<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+			</form>
+		</div>
+	</div>
+</div>
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
 <thead>
     <tr>
-        <th style="width:5%;">번호</th>
-        <th style="width:10%;">말머리</th>
-        <th style="width:50%;">제목</th>
-        <th style="width:15%;">작성일</th>
-        <th style="width:10%;">작성자</th>
+        <th style="width:5%;text-align:center;">번호</th>
+        <th style="width:10%;text-align:center;">말머리</th>
+        <th style="width:50%;text-align:center;">제목</th>
+        <th style="width:15%;text-align:center;">작성일</th>
+        <th style="width:10%;text-align:center;">작성자</th>
     </tr>
  </thead>
 <tbody>
@@ -116,7 +162,7 @@ input {
 			<a href="${initParam.rootPath }/boardnotice/boardNoticeByItems.do?page=${requestScope.pageBean.beginPage - 1}&items=${requestScope.items}">☜</a>
 		</c:when>
 		<c:otherwise>
-				☜	
+				◀
 		</c:otherwise>
 	</c:choose>
 	
@@ -143,10 +189,10 @@ input {
 	<c:choose>
 		<c:when test="${requestScope.pageBean.nextPageGroup}">
 			<%-- 다음페이지 그룹이 있디면 : nextPageGroup()--%>
-			<a href="${initParam.rootPath }/boardnotice/boardNoticeByItems.do?page=${requestScope.pageBean.endPage + 1}&items=${requestScope.items}">☞</a>
+			<a href="${initParam.rootPath }/boardnotice/boardNoticeByItems.do?page=${requestScope.pageBean.endPage + 1}&items=${requestScope.items}">▶</a>
 		</c:when>
 		<c:otherwise>
-				☞		
+				▶		
 		</c:otherwise>
 	</c:choose>			
 	
@@ -154,6 +200,7 @@ input {
 	<a href="${initParam.rootPath}/boardnotice/boardNoticeByItems.do?page=${requestScope.pageBean.totalPage}&items=${requestScope.items}">마지막페이지</a>
 
 </p>
+</c:if>
 </div>
 </body>
 </html>

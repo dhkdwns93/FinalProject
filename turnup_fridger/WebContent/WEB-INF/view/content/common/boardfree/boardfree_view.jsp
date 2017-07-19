@@ -3,7 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%
+	//줄 바꿈
+	pageContext.setAttribute("br", "<br/>");
+	pageContext.setAttribute("cn", "\n");
 
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -211,15 +217,15 @@ h2{display:inline}
 		<td>${boardFree.memberId}</td>
 	</tr>	
 	<tr>
-		<td>내용</td>
-		<td style="width:70%">
-			${boardFree.boardFreeTxt}
-		</td>	
-	</tr>
-	<tr>
 		<td>조회수</td>
 		<td>
 			${boardFree.boardFreeHits}
+		</td>	
+	</tr>
+	<tr>
+		<td>내용</td>
+		<td style="width:70%">
+			${fn:replace(boardFree.boardFreeTxt, cn, br)}
 		</td>	
 	</tr>
 </table>
@@ -321,10 +327,10 @@ h2{display:inline}
 	<c:choose>
 		<c:when test="${requestScope.pageBean.previousPageGroup}">
 			<%-- 이전페이지 그룹이 있디면 : previousPageGroup()--%>
-			<a href="${initParam.rootPath }/common/boardfree/boardFreeView.do?page=${requestScope.pageBean.beginPage - 1}&boardFreeId=${requestScope.boardFreeId}">☜</a>
+			<a href="${initParam.rootPath }/common/boardfree/boardFreeView.do?page=${requestScope.pageBean.beginPage - 1}&boardFreeId=${requestScope.boardFreeId}">◀</a>
 		</c:when>
 		<c:otherwise>
-				☜	
+				◀	
 		</c:otherwise>
 	</c:choose>
 	
@@ -351,10 +357,10 @@ h2{display:inline}
 	<c:choose>
 		<c:when test="${requestScope.pageBean.nextPageGroup}">
 			<%-- 다음페이지 그룹이 있디면 : nextPageGroup()--%>
-			<a href="${initParam.rootPath }/common/boardfree/boardFreeView.do?page=${requestScope.pageBean.endPage + 1}&boardFreeId=${requestScope.boardFreeId}">☞</a>
+			<a href="${initParam.rootPath }/common/boardfree/boardFreeView.do?page=${requestScope.pageBean.endPage + 1}&boardFreeId=${requestScope.boardFreeId}">▶</a>
 		</c:when>
 		<c:otherwise>
-				☞		
+				▶		
 		</c:otherwise>
 	</c:choose>			
 	<!-- 마지막 페이지로 이동 -->

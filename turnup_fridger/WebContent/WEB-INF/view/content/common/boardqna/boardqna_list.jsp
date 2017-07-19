@@ -36,14 +36,47 @@ input {
 <c:if test="${requestScope.error != null}">
 	<script type="text/javascript">alert('권한이 없습니다.')</script>
 </c:if>
-
-
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
-
-
+<c:if test="${empty list}">
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>QnA 게시판 </h1><br>
+	<h1>QnA 게시판 </h1>
+	<hr>
+	<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+		<a href="${initParam.rootPath}/index.do">
+			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" >
+				<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+			</button>
+		</a>
+		<!-- 회원만 등록 가능 -->
+		<sec:authorize access="hasRole('ROLE_MEMBER')">
+		 	<a href="${initParam.rootPath}/common/boardqna/boardqna_form.do">
+		 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+				</button>
+			</a>
+		</sec:authorize>
+		<!-- 검색 버튼 -->
+		<div style="float:right">
+		<div class="form-inline form-group" >
+		<form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
+			<input class="form-control" type="text" name="memberId" placeholder="키워드를 입력해주세요">
+				<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+			<sec:csrfInput/>
+		</form>
+		</div>
+		</div>
+	</table>
+	<br><h2 style="text-align:center">등록된 게시물이 없습니다.</h2>
+</div>
+</c:if>
+<c:if test="${!empty list}">
+<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<br><br>
+<h1>QnA 게시판 </h1>
+<hr>
 <table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
 <a href="${initParam.rootPath}/index.do">
 	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
@@ -60,21 +93,23 @@ input {
 </sec:authorize>
 <!-- 검색 버튼 -->
 <div style="float:right">
+<div class="form-inline form-group" >
 <form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
-	<input type="text" name="memberId" placeholder="아이디를 입력해주세요">
+	<input class="form-control" type="text" name="memberId" placeholder="키워드를 입력해주세요">
 	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 	</button>
 	<sec:csrfInput/>
 </form>
 </div>
+</div>
 <thead id="thead">
     <tr>
-        <th style="width:5%;">번호</th>
-        <th style="width:50%;">제목</th>
-        <th style="width:10%;">작성일</th>
-        <th style="width:15%;">작성자</th>
-        <th style="width:10%;">댓글수</th>
+        <th style="width:5%;text-align:center;">번호</th>
+        <th style="width:50%;text-align:center;">제목</th>
+        <th style="width:10%;text-align:center;">작성일</th>
+        <th style="width:15%;text-align:center;">작성자</th>
+        <th style="width:10%;text-align:center;">댓글수</th>
     </tr>
  </thead>
 <c:forEach var="row" items="${list}" varStatus="status">
@@ -134,10 +169,10 @@ input {
 	<c:choose>
 		<c:when test="${requestScope.pageBean.previousPageGroup}">
 			<%-- 이전페이지 그룹이 있디면 : previousPageGroup()--%>
-			<a href="${initParam.rootPath }/common/boardqna/boardQnAList.do?page=${requestScope.pageBean.beginPage - 1}">☜</a>
+			<a href="${initParam.rootPath }/common/boardqna/boardQnAList.do?page=${requestScope.pageBean.beginPage - 1}">◀</a>
 		</c:when>
 		<c:otherwise>
-				☜	
+				◀	
 		</c:otherwise>
 	</c:choose>
 	
@@ -164,10 +199,10 @@ input {
 	<c:choose>
 		<c:when test="${requestScope.pageBean.nextPageGroup}">
 			<%-- 다음페이지 그룹이 있디면 : nextPageGroup()--%>
-			<a href="${initParam.rootPath }/common/boardqna/boardQnAList.do?page=${requestScope.pageBean.endPage + 1}">☞</a>
+			<a href="${initParam.rootPath }/common/boardqna/boardQnAList.do?page=${requestScope.pageBean.endPage + 1}">▶</a>
 		</c:when>
 		<c:otherwise>
-				☞		
+				▶		
 		</c:otherwise>
 	</c:choose>			
 	
@@ -175,6 +210,7 @@ input {
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/common/boardqna/boardQnAList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
 </p>
+</c:if>
 </div>
 </body>
 </html>
