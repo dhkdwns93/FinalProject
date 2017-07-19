@@ -17,7 +17,7 @@ href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h2>후기 등록 완료</h2>
+<h2>${boardReview.memberId}님의 레시피 후기</h2>
 <div id="table" style="width:800px;">
 <form action="${initParam.rootPath}/boardreview/boardReviewList.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">

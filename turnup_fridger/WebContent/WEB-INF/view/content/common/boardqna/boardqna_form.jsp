@@ -74,8 +74,8 @@ td{
 	<tr>
 		<th>제목</th>
 		<td>
-			<input class="form-control" style="float:left;width:50%;" type="text" name="boardQnATitle" value="${boardQnA.boardQnATitle}" placeholder="제목을 입력해주세요">
-			<span class="error"><form:errors path="boardQnA.boardQnATitle" delimiter="&nbsp;"/></span>
+			<input class="form-control" style="float:left;width:50%;" type="text" name="boardQnATitle" value="<sec:authentication property="principal.memberId"></sec:authentication>님의 질문입니다." readOnly>
+			<br><br>
 		</td>
 	</tr>
 	<tr>
