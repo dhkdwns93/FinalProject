@@ -67,8 +67,16 @@ public class FridgerGroupServiceImpl implements FridgerGroupService{
 	;
 	@Override
 	public int deleteFridgerGroupByFridgerIdAndMemberId(int fridgerId, String groupMemberId) throws Exception{
-		if(dao.deleteFridgerGroupByFridgerIdAndMemberId(fridgerId, groupMemberId) == 0){
-			throw new Exception("삭제할 그룹멤버가 없습니다");
+		boolean validChk = false;
+		if(dao.selectFridgerGroupByFridgerId(fridgerId) != null && dao.selectFridgerGroupByFridgerId(fridgerId).size()>0){
+			for(FridgerGroup fg:dao.selectFridgerGroupByFridgerId(fridgerId)){
+				if(fg.getGroupMemberId().equals(groupMemberId)){
+					validChk = true;
+				}
+			}
+		}
+		if(!validChk){
+			throw new Exception("존재하지 않는 멤버입니다.");
 		}
 		return dao.deleteFridgerGroupByFridgerIdAndMemberId(fridgerId, groupMemberId);
 	}
