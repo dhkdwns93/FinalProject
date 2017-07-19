@@ -35,7 +35,9 @@ $(document).ready(function(){
 	// 냉장고 열어보기
 	$(document).on("click", "#moveInBtn", function(){
 		var fridgerId = $("span#fridgerId").text();
-		window.location.href="${initParam.rootPath}/common/member/myIrdnt/myIrdntList.do?fridgerId="+fridgerId;
+		var fridgerName = $("span#fridgerName").text();
+		
+		window.location.href="${initParam.rootPath}/common/member/myIrdnt/myIrdntList.do?fridgerId="+fridgerId+"&fridgerName="+fridgerName;
 	});
 	
 	
@@ -318,17 +320,20 @@ function getFridgerInfo(fridgerId){
 			    responsive: false
 			    };
 	//Get the context of the canvas element we want to select
-	var typeCtx = document.getElementById("typeChart").getContext("2d");
- 		/* typeCtx.clearRect(0, 0, 800, 800);
-		typeCtx.beginPath(); */
+	var typeCnv = document.getElementById("typeChart");
+	var typeCtx= typeCnv.getContext("2d");
+	if(typeCnv){
+		typeCtx.clearRect(0, 0, typeCnv.width, typeCnv.height);
+		typeCtx.beginPath();
+	}
 
 		var myDoughnutChart = new Chart(typeCtx).Doughnut(typeData,option); 
 		$("#typeChart").attr("width","150").attr("height","150");
 	}
 		
-	
 	function getPlaceChart(roomTemp,coldTemp,freezeTemp){
 		console.log(roomTemp+","+coldTemp+","+freezeTemp)
+		
 		
 		 var placeData = [
 			    {
@@ -340,7 +345,7 @@ function getFridgerInfo(fridgerId){
 			    {
 			        value: coldTemp,
 			        color: "#f5d03d",
-			        highlight: "#f3f7ed",
+			        highlight: "#f7dc6e",
 			        label: "냉장"
 			    },
 			    {
@@ -355,12 +360,14 @@ function getFridgerInfo(fridgerId){
 			responsive: false
 				    };
 		
-		
 		//Get the context of the canvas element we want to select
-		var placeCtx = document.getElementById("placeChart").getContext("2d");
-		/* 	placeCtx.clearRect(0, 0, 800, 800);
+		var placeCnv= document.getElementById("placeChart");
+		var placeCtx= placeCnv.getContext("2d");
+		if(placeCnv){
+			placeCtx.clearRect(0, 0, placeCnv.width, placeCnv.height);
 			placeCtx.beginPath();
-	 */
+		}
+		 	
 		 var myDoughnutChart = new Chart(placeCtx).Doughnut(placeData,option); 
 		 $("#placeChart").attr("width","150").attr("height","150");
 	}

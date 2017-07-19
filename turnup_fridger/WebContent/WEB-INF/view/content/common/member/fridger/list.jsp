@@ -4,18 +4,19 @@
  <script type="text/javascript">
 $(document).ready(function () {
 	//냉장고목록검색 페이지 디폴트는 전체 목록번호순으로 
-	getFridgerListByName(null, 1);	
+	getFridgerListByName("" , 1);	
 	
 	$("#searchByNameBtn").on("click", function(){
-		getFridgerListByName($("#joinFridgerName").val(),1);
+		alert($("#joinFridgerName").val());
+		getFridgerListByName($("#joinFridgerName").val(), 1);
 	}); //end of click on searchByName
 	
 	$("#searchByOwnerBtn").on("click", function(){
-		getFridgerListByOwner($("#joinMemberId").val(),1);
+		alert($("#joinMemberId").val());
+		getFridgerListByOwner($("#joinMemberId").val(), 1);
 	}); //end of click on searchByName
 	
-	
-	
+		
 	$(".searchByOwnerBtn").on("click", function(){
 		var memberId = $(this).parent().children("input#memberId").val();
 		$.ajax({
@@ -124,31 +125,21 @@ $(document).ready(function () {
 		});	//end of ajax
 	});	// end of click on requstBtn
 	
-	// 냉장고 수정
-	$(document).on("click","#updateBtn", function(){
-		alert($(this).val());
-		window.open(
-				"${ initParam.rootPath }/common/member/fridger/update_chk.do?fridgerId="+$(this).val(),
-				"_blank",
-				"fullscreen=yes, height=700, width=500, resizable=no, scrollbars=no, location=no, toolbar=no, directories=no, menubar=no"
-				);
-		
-	});	// end of click on requstBtn
+	
 });
 
 
 
 function getFridgerListByName(fridgerName, page){
+	$("#fridgerList_tbody").empty();
+	$("#pagingBean").empty();
+	if(!page || page==0) page = 1;
+	
 	$.ajax({
 		"url":"${initParam.rootPath}/common/member/fridger/show/byName.do",
 		"type":"post",
 		"data":{'fridgerName' : fridgerName,'page':page,'${_csrf.parameterName}':'${_csrf.token}'},
 		"dataType":"json",
-		"beforeSend": function(){
-			$("#fridgerList_tbody").empty();
-			$("#pagingBean").empty();
-			if(!page) page = 1;
-		},
 		"success":function(map){
 			$("#fridgerList_thead").show();
 			$("#fridgerList_tbody").empty();
@@ -159,12 +150,11 @@ function getFridgerListByName(fridgerName, page){
 			var no = (map.pagingBean.page-1)*5
 			$.each(map.list, function(){
 				$("#fridgerList_tbody").append($("<tr>").append($("<td>").append(++no))
-														.append($("<td>").append(this.fridgerName))
+														.append($("<td>").prop("class","fridgerName_col").append(this.fridgerName))
 														.append($("<td>").append(this.memberId))
 														.append($("<td>").append($("<button>").prop("type","button").prop("id","joinBtn").prop("value",this.fridgerId).append("JOIN"))))
 			})//end of each
-			
-			$("#pagingBean").append($("<a href='javascript:getFridgerListByName(\""+fridgerName+"\"1)'>").append("FIRST"));
+			$("#pagingBean").append($("<a href='javascript:getFridgerListByName(\""+fridgerName+"\",1)'>").append("FIRST"));
 			
 			if(map.pagingBean.previousPageGroup != null){
 				$("#pagingBean").append($("<a href='javascript:getFridgerListByName(\""+fridgerName+"\","+(map.pagingBean.beginPage-1)+")'>").append("◀"));
@@ -174,7 +164,7 @@ function getFridgerListByName(fridgerName, page){
 			
 			for(var idx = map.pagingBean.beginPage ; idx <= map.pagingBean.endPage ; idx++){
 				if(idx !=map.pagingBean.page){
-		 			$("#pagingBean").append($("<a href='javascript:getFridgerListByName(\""+fridgerName+"\","+idx+")'>").append(idx+"&nbsp;&nbsp;"));
+		 			$("#pagingBean").append($("<a href='javascript:getFridgerListByName(\""+fridgerName+"\","+idx+")'>").append(idx));
 				}else{
 					$("#pagingBean").append("["+idx+"]"+"&nbsp;&nbsp;");
 				}
@@ -196,17 +186,16 @@ function getFridgerListByName(fridgerName, page){
 }//end of getFridgerListByName
 
 function getFridgerListByOwner(memberId, page){
+	$("#fridgerList_tbody").empty();
+	$("#pagingBean").empty();
+	if(!page || page==0) page = 1;
+	
 	$.ajax({
 		"url":"${initParam.rootPath}/common/member/fridger/show/byOwner.do",
 		"type":"post",
 		"data":{'memberId' : memberId,'page':page,'${_csrf.parameterName}':'${_csrf.token}'},
 		"type":"post",
 		"dataType":"json",
-		"beforeSend": function(){
-			$("#fridgerList_tbody").empty();
-			$("#pagingBean").empty();
-			if(!page) page = 1;
-		},
 		"success":function(map){
 			$("#fridgerList_thead").show();
 			$("#fridgerList_tbody").empty();
@@ -217,7 +206,7 @@ function getFridgerListByOwner(memberId, page){
 			var no = (map.pagingBean.page-1)*5
 			$.each(map.list, function(){
 				$("#fridgerList_tbody").append($("<tr>").append($("<td>").append(++no))
-														.append($("<td>").append(this.fridgerName))
+														.append($("<td>").prop("class","fridgerName_col").append(this.fridgerName))
 														.append($("<td>").append(this.memberId))
 														.append($("<td>").append($("<button>").prop("type","button").prop("id","joinBtn").prop("value",this.fridgerId).append("JOIN"))))
 			})//end of each
@@ -230,9 +219,10 @@ function getFridgerListByOwner(memberId, page){
 				$("#pagingBean").append("◀");
 			} 
 			
+			
 			for(var idx = map.pagingBean.beginPage ; idx <= map.pagingBean.endPage ; idx++){
 				if(idx !=map.pagingBean.page){
-		 			$("#pagingBean").append($("<a href='javascript:getFridgerListByOwner(\""+memberId+"\","+idx+")'>").append(idx+"&nbsp;&nbsp;"));
+		 			$("#pagingBean").append($("<a href='javascript:getFridgerListByOwner(\""+memberId+"\","+idx+")'>").append(idx));
 				}else{
 					$("#pagingBean").append("["+idx+"]"+"&nbsp;&nbsp;");
 				}
@@ -331,10 +321,11 @@ function getFridgerListByOwner(memberId, page){
 	 </div><!-- end of body -->
 	
       <div class="modal-footer">
-       <button type="button" class="btn btn-blue-grey" id="cancel" data-dismiss="modal" onclick="resetRegisterModal()" style="background-color:#4c4c34; color:white; border:5px; border-color:#999966; width:100px; margin: 2px; text-shadow:none;  font-weight: bold">CLOSE</button>
+       <button type="button" class="btn btn-blue-grey" id="cancel" data-dismiss="modal" onclick="resetJoinModal()" style="background-color:#4c4c34; color:white; border:5px; border-color:#999966; width:100px; margin: 2px; text-shadow:none;  font-weight: bold">CLOSE</button>
       </div>
     </div>
   </div>
    </div>
 </div>
+
 <!-- end of updateFridgerModal -->

@@ -3,9 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script type="text/javascript" src="/turnup_fridger/scripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -20,8 +17,12 @@ $(document).ready(function(){
 			"url":"/turnup_fridger/getTypeCodeAndName.do",
 			"type":"POST",
 			"data":{'categoryCode' : $(this).find(":selected").val(),'${_csrf.parameterName}':'${_csrf.token}'},
-			"dataType":"json", 
+			"dataType":"json",
 			"success":function(list){
+				$("#typeCode").empty().append($("<option>").append("선택하세요"))
+				
+				$.each(list, function(){
+					$("#typeCode").append($("<option>").prop("value",this.typeCode).append(this.typeName));
 				});//each
 			},
 			"error":function(xhr, msg, code){
@@ -53,10 +54,13 @@ $(document).ready(function(){
 		var row = $("<input>").prop("type", "hidden").prop("name", "CategoryName" ).prop("value", $(this).find(":selected").text());
 		row.appendTo($("form"));
 	});
+
+
 	$(document).on("click", ".deleteIrdntBtn", function(){
 		$(this).parent().parent().remove();	
 	})
 });
+
 function openPopup(url){
 	window.open(
 			url,
@@ -74,6 +78,8 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 								  					.append($("<td>").append($("<input>").prop("type", "text").prop("name", "recipeIrdntList["+irdnt_idx+"].irdntAmount").prop("value",irdntAmount).prop("readonly", "readonly")))
 								  					.append($("<td>").append($("<button>").prop("type", "button").prop("class","deleteIrdntBtn").append("삭제"))));
 }
+
+
 </script>
 <div class="container">
 <h2 style="text-align: center;">레시피 등록</h2><hr><br>

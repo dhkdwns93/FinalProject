@@ -14,6 +14,11 @@ href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
+$(document).ready(function(){
+	$("#img").on("click",function(){
+		$("#image").empty().append("<input type='file' name='upImage'>");
+	});
+});
 function modify_event(){
 	if (confirm("수정 하시겠습니까??") == true){    
 		//확인
@@ -33,6 +38,19 @@ span.error{
 	font-size:small;
 	color: red;
 }
+th{
+	width:10%;
+}
+td{
+	width:70%;
+}
+.textarea_test {
+    resize:none;
+    line-height:30px;
+    width:100%;
+    overflow-y:hidden;
+    height:100%;
+}
 </style>
 </head>
 <body>
@@ -41,56 +59,56 @@ span.error{
 <br><br>
 <h1>공지사항 수정</h1>
 <hr>
-<c:if test="${boardNotice.saveImg != null}">
-<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeImageDelete.do" method="post">
-		<input type="hidden" name="id" value="${boardNotice.id}">
-		<input type="hidden" name="items" value="${boardNotice.items}">
-		<input type="hidden" name="title" value="${boardNotice.title}">
-		<input type="hidden" name="txt" value="${boardNotice.txt}">
-		<input type="hidden" name="img" value="${boardNotice.img}">
-		<input type="hidden" name="saveImg" value="${boardNotice.saveImg}">
-		<input class="btn btn-default" type="submit" value="이미지 삭제">
-<sec:csrfInput/>
-</form>
-</c:if>
 <form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadForm.do" method="post" enctype="multipart/form-data">
 <table>
 	<tr>
-		<td>제목</td>
+		<th>제목</th>
 		<td>
-			<input type="text" name="title" value="${boardNotice.title}" placeholder="제목을 입력해주세요" class="form-control">
+			<input style="float:left;width:50%;" type="text" name="title" value="${boardNotice.title}" placeholder="제목을 입력해주세요" class="form-control">
 			<span class="error"><form:errors path="boardNotice.title" delimiter="&nbsp;"/></span>
+			<br><br>
 		</td>
 	</tr>
 	<tr>
-		<td>말머리</td>
+		<th>말머리</th>
 		<td>
-			<select class="form-control" name="items" id="items">
-			<option>공지사항</option>
-			<option>뉴스</option>
+			<select class="form-control" style="float:left;width:20%;" name="items" id="items">
+				<option>공지사항</option>
+				<option>뉴스</option>
 			</select>
+			<br><br>
 		</td>
 	</tr>
 		<c:if test="${boardNotice.saveImg == null}">
 		<tr>
-			<td>사진</td>
+			<th>사진</th>
 			<td>
 				<input type="file" name="upImage">
+				<br>
 			</td>
 		</tr>
 		</c:if>		
 		<c:if test="${boardNotice.saveImg != null}">
 		<tr>	
-			<td>사진</td>
+			<th>사진</th>
 			<td>
-				${boardNotice.img}<br>
+				<div id="image">
+					<input type="hidden" name="img" value="${boardNotice.img}">
+					<input type="hidden" name="saveImg" value="${boardNotice.saveImg}">
+					${boardNotice.img}
+					<button type="button" class="btn btn-default btn-lg" id="img"  style="border:0;outline:0;">
+						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+					</button>
+				</div>
+				<br>
 			</td>
 		</tr>
 		</c:if>
 	<tr>	
-		<td>내용</td>
+		<th>내용</th>
 		<td>
-			<textarea name="txt" row="120" cols="70" placeholder="내용을 입력해주세요" class="form-control">${boardNotice.txt}</textarea>
+			<textarea class="form-control textarea_test"style="float:left;width:70%;" onkeyup="this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
+					name="txt" row="5" cols="70" placeholder="내용을 입력해주세요" class="form-control">${boardNotice.txt}</textarea>
 			<span class="error"><form:errors path="boardNotice.txt" delimiter="&nbsp;"/></span>
 		</td>
 	</tr>	

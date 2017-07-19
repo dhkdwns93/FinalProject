@@ -40,6 +40,7 @@ import kr.co.turnup_fridger.service.impl.RecipeServiceImpl;
 import kr.co.turnup_fridger.validation.form.RecipeCrseForm;
 import kr.co.turnup_fridger.validation.form.RecipeInfoForm;
 import kr.co.turnup_fridger.validation.form.RecipeIrdntForm;
+import kr.co.turnup_fridger.vo.BoardReview;
 import kr.co.turnup_fridger.vo.FavoriteRecipe;
 import kr.co.turnup_fridger.vo.Fridger;
 import kr.co.turnup_fridger.vo.FridgerGroup;
@@ -521,8 +522,12 @@ public class RecipeController {
 	
 	//상세화면 handler
 	@RequestMapping("recipe/show/detail")
-	public ModelAndView showDetailOfRecipe(@RequestParam int recipeId){
+	public ModelAndView showDetailOfRecipe(@RequestParam int recipeId, HttpSession session){
+		
+		//System.out.println(recipeId);
+		recipeService.increaseHits(recipeId, session);
 		RecipeInfo recipe = recipeService.showDetailOfRecipe(recipeId);
+		
 		//레시피 재료 중량변환
 		for(RecipeIrdnt ri : recipe.getRecipeIrdntList()){
 			ri.setIrdntName(recipeService.amountChange(ri.getirdntAmount()));
@@ -538,9 +543,7 @@ public class RecipeController {
 	@RequestMapping("recipe/show/detail/review")
 	@ResponseBody
 	public Map showDetailOfRecipeReview(@RequestParam int recipeId, @RequestParam(defaultValue="1") int page ){
-		//System.out.println("컨트롤러 : " +recipeId+","+page);
 		Map<String,Object> map =  rvService.findBoardReviewByRecipeId(recipeId, page);
-		//System.out.println(map);
 		return map;
 	}			
 	
@@ -702,6 +705,18 @@ public class RecipeController {
 	@RequestMapping("timer")
 	public ModelAndView timer(){
 		return new ModelAndView("recipe_for_user/timer");
+	}
+	
+	@RequestMapping("findIrdntByNameInSearch")
+	@ResponseBody
+	public List<IrdntManage> findIrdntByNameInSearch(@RequestParam String irdntName){
+		return imService.findIrdntByName(irdntName);
+	}
+	
+	@RequestMapping("findReviewByboardReviewId")
+	public ModelAndView findReviewByboardReviewId(@RequestParam int boardReviewId){
+		BoardReview review = rvService.selecetBoardReviewByBoardReviewId(boardReviewId);
+		return new ModelAndView("boardreview/form_success.tiles","boardReview",review);
 	}
 
 }

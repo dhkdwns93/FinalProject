@@ -116,6 +116,7 @@ text-align:center
 </c:forEach>
  </tbody>
 </table>
+<c:if test="${!empty list}">
 <p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리
@@ -169,6 +170,7 @@ text-align:center
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/common/boardfree/boardFreeList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
 </p>
+</c:if>
 </div>
 </body>
 </html>

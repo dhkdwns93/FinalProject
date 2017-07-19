@@ -22,16 +22,11 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 	private String makeSqlId(String id){
 		return "kr.co.turnup_fridger.config.mybatis.mapper.BoardShareRecipeMapper."+id;
 	}
-	
-	
-
 
 	@Override
 	public int insertBoardShareRecipe(BoardShareRecipe boardShareRecipe) {
-		
 		return session.insert(makeSqlId("insertBoardShareRecipe"), boardShareRecipe);
 	}
-	
 	
 	@Override
 	public int increaseHit(int recipeId) {

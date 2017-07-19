@@ -3,17 +3,13 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <html>
 <title>레시피 상세화면</title>
-
-<style>
-.star-rating { width:130px; }
-.star-rating,.star-rating span{ 
-display:inline-block; 
-height:24px; 
-overflow:hidden; 
-background:url(/turnup_fridger/starimage/star.png)no-repeat; 
-}
-.star-rating span{ background-position:left bottom; line-height:0; vertical-align:top; }
-</style>
+<% 
+	Cookie hits = new Cookie("hits",request.getParameter("hits"));
+	hits.setMaxAge(60*60*24);
+	response.addCookie(hits);
+%>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/bootstrap.min.js"></script>
 <script type="text/javascript">
@@ -29,7 +25,7 @@ function getReview(page){
 			$("#reviewTbody").empty();
 			$.each(reviewMap.list, function(){
 				$("#reviewTbody").append($("<tr>").prop("class","review_col").append($("<td>").append(this.boardReviewId)).append($("<td>").append(this.boardReviewTitle))
-						.append($("<td>").append(this.boardReviewTxt)).append($("<td>").append(this.imageName)).append($("<td>").append(this.memberId))
+						.append($("<td>").append(this.boardReviewTxt)).append($("<td>").append(this.memberId))
 						.append($("<td>").append(this.boardReviewDate)).append($("<td>")
 								.append($("<span>").prop("class","star-rating").append($("<span>").prop("style","width:"+(this.boardReviewStar)*10+"%")))));
 			});//each				
@@ -65,10 +61,7 @@ function getReview(page){
 	})//ajax
 	
 };//페이징 함수 
-
-
 $(document).ready(function(){
-
 	getReview(1);
 	
 	$("#updateBtn").on("click", function(){
@@ -78,7 +71,6 @@ $(document).ready(function(){
 				"fullscreen=yes, height=700, width=500, resizable=no, scrollbars=no, location=no, toolbar=no, directories=no, menubar=no"
 				);
 	});
-
 /* 	$("#deleteBtn").on("click", function(){
 		$.ajax({
 			"url":"/turnup_fridger/common/admin/recipe/update.do",
@@ -97,10 +89,31 @@ $(document).ready(function(){
 		})
 	}); */
 	
+	$(document).on("click",".review_col",function(){
+		var reviewId=$(this).children(":first-child").text();
+		//alert(reviewId);
+		$.ajax({
+			"url":"/turnup_fridger/findReviewByboardReviewId.do",
+			//"type":"POST",		
+			"data":{'boardReviewId' :reviewId},
+			"dataType":"text",
+			"beforeSend":function(){
+				if(confirm("레시피 후기 게시판으로 이동하시겠습니까?") != true){
+					return false;
+				}
+			},
+			"success":function(text){
+				window.location.href="${initParam.rootPath}/boardreview/boardReviewList.do"
+			},
+			"error":function(xhr, msg, code){
+				alert("오류발생-" +msg+ ":" +code);
+			}
+		});
+		
+	});//후기게시판페이지로 이동.
+	
 	$(document).on("click" ,"#deleteRecipeBtn", function(){
-
 		console.log(${ requestScope.recipe.recipeId});
-
 		$.ajax({
 			"url":"/turnup_fridger/common/admin/recipe/remove.do",
 			"type":"POST",		
@@ -143,7 +156,6 @@ $(document).ready(function(){
 			}//error	
 		});//일치하는 식재료 보여주기 
 	});
-
 	 
 	$(document).on("click",".deleteIrdnt",function(){
 		//alert($(this).val());
@@ -163,7 +175,6 @@ $(document).ready(function(){
 	});//재료삭제버튼클릭
 	
 	//********************************************************************************************************************
-
 	$.ajax({
 		"url":"/turnup_fridger/findFavoriteRecipeByIds.do", 
 		"data":'recipeId='+${requestScope.recipe.recipeId}, 
@@ -172,11 +183,11 @@ $(document).ready(function(){
 			//alert(text);
 			if(text=="0"){
 				//빈하트출력.
-				$("#favoriteSection").append($("<img>").prop("width","70").prop("id","heart").prop("class","img-rounded")
+				$("#favoriteSection").append($("<img>").prop("width","30").prop("id","heart").prop("class","img-rounded")
 						.prop("src","/turnup_fridger/starimage/emptyHeart.png"));
 			}else{
 				//빨간하트 출력.
-				$("#favoriteSection").append($("<img>").prop("width","70").prop("id","heart").prop("class","img-rounded")
+				$("#favoriteSection").append($("<img>").prop("width","30").prop("id","heart").prop("class","img-rounded")
 						.prop("src","/turnup_fridger/starimage/fullHeart.png"));
 			}
 		},
@@ -216,7 +227,6 @@ $(document).ready(function(){
 				}//error	
 		});
 	});//하트 클릭하면 
-
 	
 	$("#changePortionFor1_Btn").on("click",function(){
 		var qnt = getNumber($("#standardQnt").text())
@@ -244,7 +254,6 @@ $(document).ready(function(){
 		$(".changePortionBtn").removeAttr("disabled");
 		$("#changePortionFor1_Btn").prop("disabled","disabled");
 	});//단위변환:1인분
-
 	
 	$("#changePortionFor2_Btn").on("click",function(){
 		var qnt = getNumber($("#standardQnt").text())
@@ -302,8 +311,6 @@ $(document).ready(function(){
 		$("#changePortionFor3_Btn").prop("disabled","disabled");
 		
 	});//단위변환:3인분
-
-
 	$("#changePortionFor4_Btn").on("click",function(){
 		var qnt = getNumber($("#standardQnt").text())
 		$("#standardQnt").text('4인분');
@@ -334,7 +341,6 @@ $(document).ready(function(){
 	$("#timerBtn").on("click",function(){
 		window.open("/turnup_fridger/timer.do","timer","width=500, height=200");
 	});
-
 })//ready	
 //숫자 추출
 function getNumber(str){
@@ -343,7 +349,6 @@ function getNumber(str){
 		target = target.replace(regex, '');
 	  return target;
 }
-
 //분수추출
 function getFrct(frct){
 	var bunja = frct[0];
@@ -360,7 +365,6 @@ function getFrct(frct){
 	return bunja+"/"+bunmo;
 	
 }
-
 function getGcd(a,b){ //최대공약수 계산
 	while(b != 0){
 		var temp = a%b;
@@ -369,8 +373,6 @@ function getGcd(a,b){ //최대공약수 계산
 	}
 	return Math.abs(a);
 }
-
-
 //이동
 function moveTo(url,recipeId){
 		window.open(
@@ -380,71 +382,51 @@ function moveTo(url,recipeId){
 				);
 		
 }
-
-</script>
-<script type="text/javascript">
-
 </script>
 <style>
-div#whole{
-margin:10px;
-width:auto;
+.star-rating { width:130px; }
+.star-rating,.star-rating 
+span{ 
+display:inline-block; 
+height:24px; 
+overflow:hidden; 
+background:url(/turnup_fridger/starimage/star.png)no-repeat; 
 }
-div#recipe_info{
-padding:15px;
-background-color:lightgray;
-position:relative;
-margin:10px;
-width: auto;
-height: auto;
+.star-rating span{ background-position:left bottom; line-height:0; vertical-align:top; }
+table tr td{
+	padding:15px;
 }
-
-div#recipe_irdnt{
-position: absolute;
-top:0;
-width: 350px;
-right: 0;
-}
-
-div#recipe_crse{
-padding:15px;
-background-color:lightgray;
-margin:10px;
-width: auto;
-top: 650px;
+.floating {
+  position: fixed; 
+  right: 50%; 
+  top: 300px; 
+  margin-right: -720px;
+  text-align:center;
+  width: 120px;
 }
 </style>
-<div class="container">
-<div style="text-align:center;"><h2>레시피 상세화면</h2><br><hr></div>
-
+<div class="container" style="position:realative;">
 
 <!--즐겨찾기버튼  -->
 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN','ROLE_MEMBER')">
-<div id="favoriteSection"></div><br>
+<div id="favoriteSection" style="cursor:pointer"></div> 
 </sec:authorize>
-
-<!--단위변환  -->
-<button type="button" id="changePortionFor1_Btn" class="changePortionBtn">1인분</button>
-<button type="button" id="changePortionFor2_Btn" class="changePortionBtn">2인분</button>
-<button type="button" id="changePortionFor3_Btn" class="changePortionBtn">3인분</button>
-<button type="button" id="changePortionFor4_Btn" class="changePortionBtn">4인분</button><hr>
-
-<button type="button" id="timerBtn">타이머</button>
-
-
+<h1 style="font-weight:bold;">${requestScope.recipe.recipeName}</h1><hr>
 
 <div id="whole">
 	<div id="recipe_info">
-		<h3>레시피 기본정보</h3>
 		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 		<button type="button" onclick="moveTo('/turnup_fridger/common/admin/recipe/info/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
 		</sec:authorize>
-		<table>
+
+		<div style="width:50%;float:left;">
+		<!-- <div style="position:absolute;top:10px;left:10px;"> -->
+ 		<img src="${ requestScope.recipe.imgUrl }" alt="photo" style="width:500px;height:400px;">
+		</div>
+
+		<div style="width:50%;float:right;margin-top:50px;">
+		<table class="table table-hover table-condensed"> 
 			<tbody>
-				<tr>
-					<th>레시피명</th>
-					<td>${ requestScope.recipe.recipeName }</td>
-				</tr>
 				<tr>
 					<th>유형분류</th>
 					<td>${ requestScope.recipe.categoryName }</td>
@@ -477,41 +459,53 @@ top: 650px;
 					<th>기준가격</th>
 					<td>${ requestScope.recipe.price }</td>
 				</tr>
-				<tr>
-					<th>사진</th>
-					<td><img src="${ requestScope.recipe.imgUrl }" width="400px"></td>
-				</tr>
+
 				<tr>
 					<th>조회수</th>
 					<td>${ requestScope.recipe.recipeHits }</td>
 				</tr>
 			</tbody>
 		</table>
-	
-	<div id="recipe_irdnt">
-	
-		<h3>레시피 재료정보</h3>
+		</div>
+	<!--단위변환  -->
+</div>
+
+<div style="text-align:center;">
+<a data-toggle="tooltip" title="1인분으로 맞추어 정보를 변환합니다. ">
+<button type="button" id="changePortionFor1_Btn" class="changePortionBtn btn btn-default" >1인분</button></a>&emsp;
+<a data-toggle="tooltip" title="2인분으로 맞추어 정보를 변환합니다. ">
+<button type="button" id="changePortionFor2_Btn" class="changePortionBtn btn btn-default">2인분</button></a>&emsp;
+<a data-toggle="tooltip" title="3인분으로 맞추어 정보를 변환합니다. ">
+<button type="button" id="changePortionFor3_Btn" class="changePortionBtn btn btn-default">3인분</button></a>&emsp;
+<a data-toggle="tooltip" title="4인분으로 맞추어 정보를 변환합니다. ">
+<button type="button" id="changePortionFor4_Btn" class="changePortionBtn btn btn-default">4인분</button></a>&emsp;
+</div>
+
+	<div id="recipe_irdnt" style="width:100%;">
+		<br><hr>	
+		<h3 style="font-weight:bold;">재료정보</h3>
 		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 		<button type="button" onclick="moveTo('/turnup_fridger/common/admin/recipe/irdnt/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
 		</sec:authorize>
-		<div>
-		주재료 :
+		
+		<div style="padding:10px;">
+		주재료 -
 		<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
 		<c:if test="${recipeIrdnt.irdntTypeCode == 3060001}">
 		${ recipeIrdnt.irdntName }, 
 		</c:if>
 		</c:forEach>
 		</div>
-		<div>
-		부재료 : 
+		<div style="padding:10px;">
+		부재료 - 
 		<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
 		<c:if test="${recipeIrdnt.irdntTypeCode == 3060002}">
 		${ recipeIrdnt.irdntName }, 
 		</c:if>
 		</c:forEach>
 		</div>
-		<div>
-		양념 : 
+		<div style="padding:10px;" >
+		양념 - 
 		<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
 		<c:if test="${recipeIrdnt.irdntTypeCode == 3060003}">
 		${ recipeIrdnt.irdntName }, 
@@ -519,10 +513,31 @@ top: 650px;
 		</c:forEach>
 		</div>
 	</div>
-	</div>
 
-	<div id="recipe_crse">
-	<h3>레시피 과정정보</h3>
+<!--나의 식재료들 가져와서 수정,삭제할수있게 하는 테이블  -->
+	<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN','ROLE_MEMBER')">
+	<br>
+	<a data-toggle="tooltip" title="${requestScope.recipe.recipeName}를 만들면서 다 쓴 재료를 삭제할 수 있습니다.">
+	<button type="button" id="matchMyIrdnt" data-toggle="collapse" data-target="#myIrdnt" class="btn btn-default">냉장고 속 재료 삭제 ↓</button></a>
+	<div id="myIrdnt" class="collapse">
+		<table class="table table-hover table-condensed" style="width:50%; border:5;">
+			<thead id="myIrdntThead">
+				<tr>
+					<th>냉장고id</th>
+					<th>재료명</th>
+					<th>신선도</th>
+					<th>수량메모</th>
+					<th>삭제</th>
+				</tr>
+			</thead>
+			<tbody id="myIrdntTbody"></tbody>
+		</table>
+	</div>
+	</sec:authorize>
+
+	<div id="recipe_crse" style="width:100%;">
+	<br><hr>
+	<h3 style="font-weight:bold;">상세과정</h3>
 	<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 	<button type="button" onclick="moveTo('/turnup_fridger/common/admin/recipe/crse/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
 	</sec:authorize>
@@ -545,38 +560,18 @@ top: 650px;
 </div>
 
 
-<!--나의 식재료들 가져와서 수정,삭제할수있게 하는 테이블  -->
-	<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN','ROLE_MEMBER')">
-	<button type="button" id="matchMyIrdnt" data-toggle="collapse" data-target="#myIrdnt">다 쓴  재료 삭제하기</button>
-	<div id="myIrdnt" class="collapse">
-		<table class="table table-hover table-condensed" style="width:100%; border:5;">
-			<thead id="myIrdntThead">
-				<tr>
-					<th>냉장고id</th>
-					<th>재료명</th>
-					<th>신선도</th>
-					<th>수량메모</th>
-					<th>삭제</th>
-				</tr>
-			</thead>
-			<tbody id="myIrdntTbody"></tbody>
-		</table>
-	</div>
-	</sec:authorize>
 
-<br><br>
 <!--후기게시판연결  -->
 	<!-- <button type="button" id="reviewBtn" >후기 보기</button> -->
-	<hr>
-	<div id="review"  style= " width: auto;">
-		<h3 style="text-align: center;">사용자 후기</h3><hr>
+	<div id="review"  style= " width:90%;">
+	<br><hr>
+		<h3 style="font-weight:bold;">레시피 후기</h3> 
 		<table class="table table-hover table-condensed">
 			<thead id="reviewThead">
 				<tr>
 					<th>글번호</th>
 					<th>제목</th>
 					<th>글</th>
-					<th>사진</th>
 					<th>작성자</th> 
 					<th>작성일</th>
 					<th>별점</th>
@@ -585,11 +580,19 @@ top: 650px;
 			<tbody id="reviewTbody">
 			</tbody>
 		</table>
-	<div id="reviewPageBean"></div>
+	<div id="reviewPageBean" style="text-align:center;"></div>
 	</div>
 
 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
 <button type="button" id="deleteRecipeBtn">삭제</button> 
 </sec:authorize>
-<button type="button" onclick="window.history.back()">뒤로가기</button>
+
+<div class="floating" style="padding:10px;">
+ 	<a href="#"><button type="button" id="topBtn" class="btn btn-default">TOP</button></a>
+    <button type="button" id="timerBtn" class="btn btn-warning" style="width:70px;height:40px;">타이머</button>
+	<button type="button" onclick="window.history.back()" class="btn btn-default">BACK</button>
 </div>
+
+</div>
+</body>
+</html>

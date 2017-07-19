@@ -64,7 +64,7 @@ function delete_event(){
 <c:if test="${empty list}">
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>후기 게시판</h1>
+<h1>후기</h1>
 <hr>
 <table class="table table-hover table-condensed" style="width:100%;text-align:center;margin-left: auto; margin-right: auto;">
 <div class="form-inline form-group" >

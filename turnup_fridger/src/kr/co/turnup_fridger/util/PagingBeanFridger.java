@@ -14,6 +14,9 @@ package kr.co.turnup_fridger.util;
  *
  */
 public class PagingBeanFridger {
+	
+	final static int ITEMS_PER_PAGE = 5;//한 페이지당 보여줄 item의 수.
+	final static int PAGES_PER_PAGEGROUP =5;
 	/**
 	 * 총 데이터(항목)의 개수
 	 */
@@ -25,11 +28,12 @@ public class PagingBeanFridger {
 	/**
 	 * 한 페이지에 보여질 데이터(항목)개수
 	 */
-	private int itemsPerPage = 5;
+	private int itemsPerPage = ITEMS_PER_PAGE;
 	/**
 	 * Page Group 내 Page 수.  페이지 그룹에 들어갈 페이지 개수
 	 */
-	private int pagesPerPagegroup = 10;
+	private int pagesPerPagegroup = PAGES_PER_PAGEGROUP;
+		
 	
 	/**
 	 * 총 데이터 개수, 현재 페이지를 받아 member variable에 할당

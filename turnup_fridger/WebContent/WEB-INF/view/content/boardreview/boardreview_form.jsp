@@ -270,6 +270,14 @@ h2{display:inline}
     background-color: #337ab7;
     border-color: #2e6da4;
 }
+
+.textarea_test {
+    resize:none;
+    line-height:30px;
+    width:100%;
+    overflow-y:hidden;
+    height:100%;
+}
 </style>
 </head>
 <body>
@@ -286,6 +294,7 @@ h2{display:inline}
 		<td>작성자</td>
 		<td>
 			<input class="form-control" style="width:20%;" type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>">
+			<br>
 		</td>
 	</tr>
 	<tr>
@@ -293,6 +302,7 @@ h2{display:inline}
 		<td>
 			<input class="form-control" style="width:40%;" type="text" name="boardReviewTitle" value="${boardReview.boardReviewTitle}"  placeholder="제목을 입력해주세요">
 			<span class="error"><form:errors path="boardReview.boardReviewTitle" delimiter="&nbsp;"/></span>	
+			<br>
 		</td>	
 	</tr>
 	<tr>
@@ -325,18 +335,21 @@ h2{display:inline}
 				    <input type="radio" name="boardReviewStar" id="p10" value="10"><label for="p10">10</label>
 				  </span>			  
 				</span>
+				<br><br>
 		</td>
     </tr>
 	<tr>
 		<td>사진</td>
 		<td>
 			<input class="upload-hidden"  type="file" name="upImage">
+			<br>
 		</td>
 	</tr>
 	<tr>
 		<td>내용</td>
 		<td>
-			<textarea class="form-control" style="width:40%;" name="boardReviewTxt" row="5" cols="70" placeholder="내용을 입력해주세요">${boardReview.boardReviewTxt}</textarea>
+			<textarea class="form-control textarea_test"style="float:left;width:70%;" onkeyup="this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
+			 name="boardReviewTxt" row="5" cols="70" placeholder="내용을 입력해주세요">${boardReview.boardReviewTxt}</textarea>
 			<span class="error"><form:errors path="boardReview.boardReviewTxt" delimiter="&nbsp;"/></span>
 		</td>
 	</tr>
