@@ -67,4 +67,11 @@ public interface BoardReviewDao {
 	//레시피 아이디로 리스트 조회
 	List<BoardReview> selectBoardReviewByRecipeId(int recipeId,int startIndex,int endIndex);
 	
+	/**
+	 * id 넣어서 게시글 객체 하나를 반환하는 메서드.
+	 * @param boardReviewId
+	 * @return
+	 */
+	BoardReview selectBoardReviewByBoardReviewId(int boardReviewId);
+	
 }

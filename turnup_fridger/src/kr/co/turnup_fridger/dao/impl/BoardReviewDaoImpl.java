@@ -145,5 +145,11 @@ public class BoardReviewDaoImpl implements BoardReviewDao {
 		input.put("endIndex",endIndex);		
 		return session.selectList(makeSqlId("selectBoardReviewByRecipeId"), input);
 	}
+
+	@Override
+	public BoardReview selectBoardReviewByBoardReviewId(int boardReviewId) {
+		return session.selectOne(makeSqlId("selectBoardReviewByBoardReviewId"),boardReviewId);
+	}
+
 	
 }

@@ -228,7 +228,7 @@ $(document).ready(function(){
 					},//success
 					"error":function(xhr, msg, code){ 
 						if(msg=='error'&&code=='Internal Server Error'){
-							alert("비회원은 불러올 수 없습니다.");
+							alert("회원만 불러올 수 있습니다.");
 						}else{
 							alert("오류발생-" +msg+ ":" +code);	
 						}
@@ -284,7 +284,7 @@ $(document).ready(function(){
 				},//success
 				"error":function(xhr, msg, code){ 
 					if(msg=='error'&&code=='Internal Server Error'){
-						alert("비회원은 불러올 수 없습니다.");
+						alert("회원만 불러올 수 있습니다.");
 					}else{
 						alert("오류발생-" +msg+ ":" +code);	
 					}
@@ -355,7 +355,7 @@ $(document).ready(function(){
   	</div>	
 
 	<div id="irdntManage" class="collapse" style="border-style:outset; height:500px; width:400px; margin:20px; padding:10px; position:absolute;top:10px;left:30px;background-color:white;">
-		&emsp;&emsp;재료명&emsp;<input type="text" name ="irdntSearchName" id="irdntSearchName">
+		&emsp;&emsp;재료명&emsp;<input type="text" name ="irdntSearchName" id="irdntSearchName" >
 		<button type="button" id="irdntSearchBtn" class="btn btn-default btn-lg" style=" border:0;outline:0;width:40px;height:40px;">
 		<span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
 		

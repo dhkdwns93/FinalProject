@@ -25,7 +25,7 @@ function getReview(page){
 			$("#reviewTbody").empty();
 			$.each(reviewMap.list, function(){
 				$("#reviewTbody").append($("<tr>").prop("class","review_col").append($("<td>").append(this.boardReviewId)).append($("<td>").append(this.boardReviewTitle))
-						.append($("<td>").append(this.boardReviewTxt)).append($("<td>").append(this.imageName)).append($("<td>").append(this.memberId))
+						.append($("<td>").append(this.boardReviewTxt)).append($("<td>").append(this.memberId))
 						.append($("<td>").append(this.boardReviewDate)).append($("<td>")
 								.append($("<span>").prop("class","star-rating").append($("<span>").prop("style","width:"+(this.boardReviewStar)*10+"%")))));
 			});//each				
@@ -93,10 +93,31 @@ $(document).ready(function(){
 		})
 	}); */
 	
+	$(document).on("click",".review_col",function(){
+		var reviewId=$(this).children(":first-child").text();
+		//alert(reviewId);
+		$.ajax({
+			"url":"/turnup_fridger/findReviewByboardReviewId.do",
+			//"type":"POST",		
+			"data":{'boardReviewId' :reviewId},
+			"dataType":"text",
+			"beforeSend":function(){
+				if(confirm("레시피 후기 게시판으로 이동하시겠습니까?") != true){
+					return false;
+				}
+			},
+			"success":function(text){
+				window.location.href="${initParam.rootPath}/boardreview/boardReviewList.do"
+			},
+			"error":function(xhr, msg, code){
+				alert("오류발생-" +msg+ ":" +code);
+			}
+		});
+		
+	});//후기게시판페이지로 이동.
+	
 	$(document).on("click" ,"#deleteRecipeBtn", function(){
-
 		console.log(${ requestScope.recipe.recipeId});
-
 		$.ajax({
 			"url":"/turnup_fridger/common/admin/recipe/remove.do",
 			"type":"POST",		
@@ -568,7 +589,6 @@ table tr td{
 					<th>글번호</th>
 					<th>제목</th>
 					<th>글</th>
-					<th>사진</th>
 					<th>작성자</th> 
 					<th>작성일</th>
 					<th>별점</th>
