@@ -28,7 +28,6 @@
                             	<ul class="submenu">
 						    		<li><a href="${initParam.rootPath}/common/member/fridger/main.do" id="submenuLink">나의 냉장고</a></li>
 									<li><a href="${initParam.rootPath}/common/member/fridger/joinProcess/list.do" id="submenuLink">공유 관리</a></li>
-									<li><a href="${initParam.rootPath}/" id="submenuLink">공유 냉장고</a></li>
 						    	</ul>
                             </li>
                             </sec:authorize>

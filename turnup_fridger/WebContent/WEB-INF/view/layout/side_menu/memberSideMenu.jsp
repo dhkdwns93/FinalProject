@@ -13,7 +13,7 @@
 .left-box-sidemenu{
     background:white;
     float:left;
-    width:30%;
+    width:20%;
    min-width:200px;
    max-width:250px;
     height:100%;
@@ -33,20 +33,17 @@
    height:100%;
    margin-right:5%;
 }
-
 .list-group-item {
    border: none;
    color: #555;
    text-decoration: none;
    background-color: white;
 }
-
 .list-group-item:hover, .list-group-item:focus {
    color: #555;
    text-decoration: none;
    background-color: #EAE7E7 !important;
 }
-
 </style>
 <div class='left-box-sidemenu'>
       <div>
