@@ -104,6 +104,7 @@ input {
 </c:forEach>
  </tbody>
 </table>
+<c:if test="${!empty list}">
 <p style="text-align:center">
 	<%-- ######################################################
 														페이징 처리
@@ -159,6 +160,7 @@ input {
 	<a href="${initParam.rootPath}/boardnotice/boardNoticeByItems.do?page=${requestScope.pageBean.totalPage}&items=${requestScope.items}">마지막페이지</a>
 
 </p>
+</c:if>
 </div>
 </body>
 </html>

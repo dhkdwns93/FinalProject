@@ -47,7 +47,7 @@ span.error{
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>후기 게시판</h1>
+<h1>후기</h1>
 <hr>
 <div class="form-inline form-group" >
 	<a href="${initParam.rootPath}/index.do">
@@ -205,6 +205,7 @@ span.error{
 <br>
 </c:forEach>
 </table>
+<c:if test="${!empty list}">
 <p style="text-align:center;">
 	<%-- ######################################################
 														페이징 처리
@@ -258,6 +259,7 @@ span.error{
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/boardreview/boardReviewList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
 </p>
+</c:if>
 </div>
 </body>
 </html>

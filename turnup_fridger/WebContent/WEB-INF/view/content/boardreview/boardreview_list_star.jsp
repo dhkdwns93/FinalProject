@@ -43,7 +43,7 @@ function delete_event(){
 
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>후기 게시판</h1>
+<h1>후기</h1>
 <hr>
 <div class="form-inline form-group" >
 	<a href="${initParam.rootPath}/index.do">

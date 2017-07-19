@@ -1,20 +1,18 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
-<!-- 
- (jsp)memberSideMenu
-작성자 :  김경혜
-최초 작성일 170717
-변경이력 
--->
-<style>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
+<style>
 .wrapperDiv{
 	display:-webkit-flex;
 	display:flex;
 }
 .left-box-sidemenu{
- 	background:#a6a6a6;
+ 	background:white;
  	float:left;
- 	width:20%;
+ 	width:30%;
 	min-width:200px;
 	max-width:250px;
  	height:100%;
@@ -39,24 +37,40 @@
 	border: none;
 	color: #555;
 	text-decoration: none;
-	background-color: #a6a6a6;
+	background-color: white;
 }
 
 .list-group-item:hover, .list-group-item:focus {
 	color: #555;
 	text-decoration: none;
-	background-color: #fff2e6 !important;
+	background-color: #EAE7E7 !important;
 }
 
 </style>
 <div class='left-box-sidemenu'>
-
-		<div><h5>My Menu</h5></div>
-		<hr>
+		<div>
+			<h2 style="text-align:center;">My Menu</h2>
+		</div>
+		<hr style="border:0;height:3px;background:#ccc;">
 		<div class="list-group">
-			<a href="${initParam.rootPath}/memo/memoList.do"  class="list-group-item">내 메모보기</a>
-	        <a href="#"  class="list-group-item" onclick="window.open('/turnup_fridger/memo/map.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)">주변 마트보기</a>
-	        <a href="${initParam.rootPath}/common/member/member_mypage_event.do"  class="list-group-item">내정보</a>
+			<a href="#"  class="list-group-item" onclick="window.open('/turnup_fridger/memo/map.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)"> 
+				내 메모보기
+				<button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
+					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				</button>
+			</a>			
+			<a href="${initParam.rootPath}/join_member_form.do" class="list-group-item" style="text-align:right;">
+				주변 마트보기
+				<button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
+					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				</button>
+			</a>			
+			<a href="${initParam.rootPath}/common/member/member_mypage_event.do" class="list-group-item" style="text-align:right;">
+				내정보
+				<button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
+					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+				</button>
+			</a>
 		</div>
 </div>
 
