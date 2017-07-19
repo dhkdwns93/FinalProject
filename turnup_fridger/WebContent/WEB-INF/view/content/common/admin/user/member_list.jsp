@@ -105,10 +105,10 @@ $(document).ready(function(){
 }
 
 h1 {
-	font-family: "Viner Hand ITC";
+	font-family: "Viner Hand ITC" !important;
 	src: url("/font/VINERITC.TTF");
-	font-weight:bold;
-	color:#4d4d4d;
+	font-weight:bold !important;
+	color:#4d4d4d !important;
 }
 </style>
 </head>

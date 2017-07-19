@@ -1,3 +1,5 @@
+select * from user_tab_columns;
+
 --select distinct irdnt_category from irdnt_manage
 --select * from recipe_irdnt
 --select * from IRDNT_MANAGE
@@ -318,7 +320,7 @@ CREATE TABLE ADMIN (
    ADMIN_NAME VARCHAR2(30) NOT NULL, /* 이름 */
    ADMIN_TEL VARCHAR2(20) NOT NULL, /* 핸드폰번호 */
    ADMIN_EMAIL VARCHAR2(100) NOT NULL, /* 이메일 */
-   ADMIN_AUTHORITY VARCHAR2(50), /* 권한 */
+   ADMIN_AUTHORITY VARCHAR2(50) NOT NULL, /* 권한 */
    CONSTRAINT ADMIN_LOGIN_ID_FK FOREIGN KEY(ADMIN_ID) REFERENCES AUTHORITY(LOGIN_ID)
 );
 --관리자권한줄때 반드시 ROLE_**** 이런식으로 대문자!!

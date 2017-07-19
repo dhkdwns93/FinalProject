@@ -169,12 +169,14 @@ public class AdminManageController {
 		//2.Business Logic
 		if((adminService.inquiryAdminInfo(adminId).getAdminAuthority()).equals("ROLE_HEADMASTERADMIN")){
 			System.out.println("Head Master는 권한수정이 불가합니다.");
-			throw new RuntimeException("Head Master는 권한수정이 불가합니다.");
+			return "redirect:/common/admin/admin_list.do";
+			//throw new RuntimeException("Head Master는 권한수정이 불가합니다.");
 		}
 		//수정필요
 		if(adminId.equals(((Admin)authentication.getPrincipal()).getAdminId())){
 			System.out.println("로그인한 관리자는 권한수정이 불가합니다.");
-			throw new RuntimeException("로그인한 관리자는 권한수정이 불가합니다.");
+			return "redirect:/common/admin/admin_list.do";
+			//throw new RuntimeException("로그인한 관리자는 권한수정이 불가합니다.");
 		}
 		adminService.changeAdminAuthority(adminId, adminAuthority);
 		

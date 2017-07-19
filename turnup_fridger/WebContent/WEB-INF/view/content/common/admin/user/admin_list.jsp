@@ -143,10 +143,10 @@ $(document).ready(function(){
 }
 
 h1 {
-	font-family: "Viner Hand ITC";
+	font-family: "Viner Hand ITC" !important;
 	src: url("/font/VINERITC.TTF");
-	font-weight:bold;
-	color:#4d4d4d;
+	font-weight:bold !important;
+	color:#4d4d4d !important;
 }
 </style>
 </head>
@@ -231,9 +231,8 @@ h1 {
 												<option value="ROLE_MASTERADMIN">MasterAdmin</option>
 											</select>
 											<sec:csrfInput />
-											<div>
 											<button type="submit" id="changeAdminAuthorityBtn"><span class="glyphicon glyphicon-refresh" aria-hidden="true">권한수정</span></button>
-											</div>
+											<br>
 										</form>
 		
 										<!-- 관리자탈퇴처리 -->
