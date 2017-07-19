@@ -2,15 +2,13 @@
 <ul class="list-inline">
 	<li>
 		<div class="footerImg">
-		<img class="img-responsive mainImg" src="${initParam.rootPath}/img/브로콜리.jpg" style="width: 80px; height: 80px; margin: auto; border-radius: 50em;">
+		<img class="img-responsive mainImg" src="${initParam.rootPath}/img/브로콜리.jpg" style="width: 80px; height: 80px; border-radius: 50em;">
 		</div>
 	</li>
 	<li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
 	<li>
 		<ul class="list-inline">
-			<li><a href="#">Home</a></li>
-			<li class="footer-menu-divider">&sdot;</li>
-			<li><a href="#about">About</a></li>
+			<li><a href="#">Top</a></li>
 			<li class="footer-menu-divider">&sdot;</li>
 			<li><a href="https://github.com/dhkdwns93/FinalProject">Github</a>
 			</li>

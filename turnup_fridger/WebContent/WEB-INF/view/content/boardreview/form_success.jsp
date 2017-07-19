@@ -2,6 +2,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%
+	//줄 바꿈
+	pageContext.setAttribute("br", "<br/>");
+	pageContext.setAttribute("cn", "\n");
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -80,11 +87,11 @@ href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 		<td>내용</td>
 		<td style="width:70%">
 			<c:if test="${boardReview.imageName == null}">
- 				${boardReview.boardReviewTxt}
+ 				${fn:replace(boardReview.boardReviewTxt, cn, br)}
  			</c:if>
    			<c:if test="${boardReview.imageName != null}">
    				<img width="60%" alt="${boardReview.imageName}" src="${initParam.rootPath}/img/${boardReview.imageSaveName}"><br>
-   				${boardReview.boardReviewTxt}
+   				${fn:replace(boardReview.boardReviewTxt, cn, br)}
    			</c:if>
 		</td>
 	</tr>

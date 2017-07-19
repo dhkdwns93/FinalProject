@@ -78,6 +78,9 @@ $(document).ready(function(){
 			"data" : {'memoName' :$("#name").val(), 'memoTxt' : $("#txt").val(), 'memberTel' : $("#memberTel").val(), '${_csrf.parameterName}' : '${_csrf.token}'},
 			"success" : function(){
 				alert('전송 완료');
+			},
+			"error": function(xhr, msg, code){
+				alert('전송 실패');
 			}
 		});
 	});
