@@ -49,9 +49,9 @@ $(document).ready(function(){
         </div>
         </div>
         <div class="form-group">    
-			<label class="col-sm-3 control-label" for="respMemberId">For</label>
+			<label class="col-sm-3 control-label" for="inviteRespMemberId">For</label>
         <div class="col-sm-8">
-          <input class="form-control" type="text" id="respMemberId" name="respMemberId" >
+          <input class="form-control" type="text" id="inviteRespMemberId" name="respMemberId" >
           
         </div>
         </div>

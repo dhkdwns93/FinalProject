@@ -1,8 +1,19 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+<<<<<<< HEAD
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<!-- 
+ (jsp)memberSideMenu
+작성자 :  김경혜
+최초 작성일 170717
+변경이력 
+-->
+<style>
+=======
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+>>>>>>> branch 'master' of https://github.com/dhkdwns93/FinalProject.git
 
 <style>
 .wrapperDiv{
@@ -53,6 +64,14 @@
 		</div>
 		<hr style="border:0;height:3px;background:#ccc;">
 		<div class="list-group">
+<<<<<<< HEAD
+		<sec:authorize access="hasRole('ROLE_MEMBER')">
+		<sec:authentication property='principal.memberId' var='memberId'/>
+			<a href="${initParam.rootPath}/memo/memoList.do?memberId=${memberId}"  class="list-group-item">내 메모보기</a>
+	    </sec:authorize>
+	        <a href="#"  class="list-group-item" onclick="window.open('/turnup_fridger/memo/map.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)">주변 마트보기</a>
+	        <a href="${initParam.rootPath}/common/member/member_mypage_event.do"  class="list-group-item">내정보</a>
+=======
 			<a href="#"  class="list-group-item" onclick="window.open('/turnup_fridger/memo/map.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)"> 
 				내 메모보기
 				<button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
@@ -71,6 +90,7 @@
 					<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
 				</button>
 			</a>
+>>>>>>> branch 'master' of https://github.com/dhkdwns93/FinalProject.git
 		</div>
 </div>
 
