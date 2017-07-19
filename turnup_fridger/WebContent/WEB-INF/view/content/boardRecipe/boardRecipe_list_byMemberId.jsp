@@ -26,17 +26,11 @@
 
  $(document).ready(function(){
 	$('#recommand-btn').on('click', function(){
-		if(boardShareRecipe.memberId==memberRecommand.memberId){
+		if(boardShareRecipe.memberId==(memberRecommand.memberId)){
 			alert('이미 추천하신 게시물입니다.');
-			return location.href="/turnup_fridger/boardRecipe/boardRecipeList.do";
-		}
-		else if(boardShareRecipe.memberId!=memberRecommand.memberId){
-			alert('추천하시겠습니까?');
-			document.submit();
 		}
 	});
 });  
-
 
 /* 추천 중복 에러 알림창으로 떠서 알려주는거 하기!!
  * 
@@ -63,11 +57,8 @@
 			return location.href="/turnup_fridger/boardRecipe/boardRecipe_write";
 		}
 		function search_event(){
-			if(document.search.keyword.value == ""){
-				alert("검색어를 입력하세요");
-				return;
-			}
-			document.search.submit();
+			
+			return location.href="/turnup_fridger/boardRecipe/selectSearch.do";
 		}
 </script>
 <style>
@@ -92,23 +83,8 @@ div.paging{
 	font-size:14px;
 	margin:0;
 }
-/* #container { 
-    width: 780px; 
-    background: #FFFFFF; 
-    margin: 0 auto; 
-    border: 1px solid #000000; 
-    text-align: left; 
-} */
 div.part{
 text-align:center;
-}
-@media all and (min-width: 40em) {
-  .list2 {
-    padding: 0.5em;
-    max-width: 62em;
-    margin: 0 auto;
-    overflow: hidden;
-  }
 }
 </style>
 </head>
@@ -154,14 +130,23 @@ text-align:center;
 						<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 						<input type="hidden" name="recipeId" value="${top.recipeId }">
 						<input type="hidden" name="memberId" value="${top.memberId }">
-					
+						<input type="hidden" name="recommand" value="${top.recommand }">
 					<a href="#" onClick="this.parentNode.submit()" id="recommand-btn"><i class="glyphicon glyphicon-thumbs-up" style="font-size:20px">&emsp;${top.recommand }</i></a>
 					</form>
 					
         </li>
     </c:forEach>
     </ul>
-
+	<%-- <form action="${initParam.rootPath }/common/boardRecipe/increaseRecommand.do">
+				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+				<input type="hidden" name="recipeId" value="${row.recipeId }">
+				<input type="hidden" name="memberId" value="${row.memberId }">
+				<input type="hidden" name="recommand" value="${row.recommand }">
+				
+				<input type="image" id="image-btn" src="${initParam.rootPath }/img/image_btn.png">
+				
+			</form>
+ --%>
 
 
 
@@ -172,17 +157,17 @@ text-align:center;
 	<div class="form-inline form-group" >
 		<div class="part">
 	<!-- select 검색기능 -->
-	<form name="search" method="post" action="${initParam.rootPath }/boardRecipe/selectSearch.do">
+	<form class="form-search" method="post" action="${initParam.rootPath }/boardRecipe/selectSearch.do">
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		
 		<select name="searchOption" id="searchOption" >
-			<option>선택</option>
+			<option value="default">선택</option>
 			<option value="제목" >제목</option>
 			<option value="아이디">작성자</option>
 			<option value="내용" >내용</option>
 		</select>
 		
-		<input type="text" name="keyword" class="ccformfield" placeholder="키워드를 입력해주세요"/>
+		<input type="text" name="keyword" class="ccformfield"/>
 		<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="return search_event();">
 		<span class="glyphicon glyphicon-search" aria-hidden="true">검색</span>
 		</button>
@@ -207,7 +192,7 @@ text-align:center;
 	&emsp;&emsp;&emsp;&emsp;
 	
     
-  	<ul class="list2 img-list2">
+     <ul class="list2 img-list2">
 	<c:forEach var="top" items="${requestScope.list}">
         <li>
           <a href="${initParam.rootPath }/boardRecipe/boardRecipeView.do?recipeId=${top.recipeId}" class="inner2">
@@ -231,15 +216,13 @@ text-align:center;
                     <p class="li-sub2"><i class="glyphicon glyphicon-eye-open" style="font-size:20px">  ${top.hits }</i> </p>
                 </div>
             </a>
-           
             	<form method="post" action="${initParam.rootPath }/common/boardRecipe/increaseRecommand.do">
 					<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 					<input type="hidden" name="recipeId" value="${top.recipeId }">
 					<input type="hidden" name="memberId" value="${top.memberId }">
-					
+					<input type="hidden" name="recommand" value="${top.recommand }">
 				<a href="#" onClick="this.parentNode.submit()" id="recommand-btn"><i class="glyphicon glyphicon-thumbs-up" style="font-size:20px">&emsp;${top.recommand }</i></a>
 				</form>
-			
         </li>
     </c:forEach>
     </ul>

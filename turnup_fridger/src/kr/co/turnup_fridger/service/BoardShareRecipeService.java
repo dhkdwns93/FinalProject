@@ -27,7 +27,7 @@ public interface BoardShareRecipeService {
 
 	void updateBoardShareRecipe(BoardShareRecipe boardShareRecipe );
 	
-	Map selectBoardShareRecipeByTitle(String title, int page);
+	Map selectBoardShareRecipeByTitle(int page, String title);
 	
 	BoardShareRecipe boardRead(int recipeId);
 	
@@ -45,11 +45,11 @@ public interface BoardShareRecipeService {
 	 */
 	MemberRecipeRecommand selectRecommandOne(int recipeId);
 	/***************************검색기능******************************************/
-	Map<String, Object> boardSearchByTitle(int page, String keyword);
+	Map<String, Object> boardSearchByTitle(int page, String title);
 	
-	Map<String, Object> boardSearchByTxt(int page, String keyword);
+	Map<String, Object> boardSearchByTxt(int page, String txt );
 	
-	Map<String, Object> boardSearchByMemberId(int page, String keyword);
+	Map<String, Object> boardSearchByMemberId(int page, String memberId);
 	
 	List<BoardShareRecipe> selectBoardTop4();
 	
@@ -68,6 +68,9 @@ public interface BoardShareRecipeService {
 	 * @return
 	 */
 	Map findUserRecipeByIds(List<Integer> irdntIds, List<Integer> hateIrdntsIds,int page);
+
+
+	
 	
 	
 	

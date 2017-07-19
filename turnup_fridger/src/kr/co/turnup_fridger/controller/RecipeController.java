@@ -482,7 +482,7 @@ public class RecipeController {
 	@ResponseBody
 	public Map findUserRecipeByRecipeName(@RequestParam String recipeName,@RequestParam(defaultValue = "1") int page ){
 	
-		Map userList = shareService.selectBoardShareRecipeByTitle(recipeName,page);
+		Map userList = shareService.selectBoardShareRecipeByTitle(page,recipeName);
 		HashMap map = new HashMap();
 		map.put("userList", userList); // 이거 안에도 페이징빈이랑 리스트 두개 
 		return map;

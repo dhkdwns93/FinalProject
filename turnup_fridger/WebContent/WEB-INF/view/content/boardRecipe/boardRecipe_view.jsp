@@ -3,6 +3,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%
+   //줄 바꿈
+   pageContext.setAttribute("br", "<br/>");
+   pageContext.setAttribute("cn", "\n");
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +39,7 @@ function update_event(){
 	}
 
 	
-	return location.href="/turnup_fridger/boardRecipe/boardRecipe_view";
+	return location.href="/turnup_fridger/boardRecipe/boardRecipe_view.do";
 	
 };
 //작성자의 삭제 권한
@@ -44,8 +51,13 @@ function delete_event(){
 		alert("권한이 없습니다.");
 		return false;
 	}
-	return location.href="/turnup_fridger/boardRecipe/boardRecipe_view";
-}
+	if(confirm("확실하게 삭제 하시겠습니까?")==true){
+		location.href="/turnup_fridger/boardRecipe/boardRecipe_list.do";
+		
+	}else{
+		return false;
+	}
+};
 //관리자의 삭제 권한
 function adminDelete_event(){
 	var writer = $('input[name=writer]').val();
@@ -55,7 +67,13 @@ function adminDelete_event(){
 		alert("권한이 없습니다.");
 		return false;
 	}
-	return location.href="/turnup_fridger/boardRecipe/boardRecipe_view";
+	if(confirm("확실하게 삭제 하시겠습니까?")==true){
+		location.href="/turnup_fridger/boardRecipe/boardRecipe_list.do";
+		
+	}else{
+		return false;
+	}
+
 }
 
 //목록 버튼
@@ -81,6 +99,7 @@ div.pattern{
 text-align:center;
 }
 
+
 </style>
 <title>Insert title here</title>
 <%
@@ -100,10 +119,10 @@ response.addCookie(hits);
 			<span class="glyphicon glyphicon-list" aria-hidden="true">목록</span>
 	</button>
 <hr>
-<h2 >View > ${boardShareRecipe.memberId}님의 게시물
+<h2 >View > ${boardShareRecipe.memberId}님의 게시물</h2>
 <!-- 회원만 수정/삭제 가능 (자기자신이 올린 게시물만 가능) -->
-<sec:authorize access="hasRole('ROLE_MEMBER')"> <!-- 회원만 볼 수 있게 -->
 <div class="align">
+<sec:authorize access="hasRole('ROLE_MEMBER')"> <!-- 회원만 볼 수 있게 -->
 <form action="${initParam.rootPath }/common/boardReipce/boardRecipeUpdate.do" method="post">
 
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
@@ -114,21 +133,26 @@ response.addCookie(hits);
 	<span class="glyphicon glyphicon-pencil" aria-hidden="true">수정</span>
 	</button>
 </form>
+</sec:authorize>
 
+
+<sec:authorize access="hasRole('ROLE_MEMBER')">
 <form action="${initParam.rootPath }/common/boardRecipe/boardRecipeDelete.do" method="post">
 	<input type="hidden" name="${_csrf.parameterName }" 	value="${_csrf.token }">
 	<input type="hidden" name="recipeId"					value="${boardShareRecipe.recipeId }">
 	<input type="hidden" name="memberId" 					value="<sec:authentication property="principal.memberId"/>">
 	<input type="hidden" name="writer" 						value="${boardShareRecipe.memberId }">
-	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="return delete_event();">
+	<input type="hidden" name="adminId" 					value="">
+	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="return delete_event();"> 
 	<span class="glyphicon glyphicon-trash" aria-hidden="true">삭제</span>
 	</button>
 </form>
-</div>
 </sec:authorize>
+</div>
+<div class="align">
 <!-- 관리자 권한 폼 -->
 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-<form action="${initParam.rootPath}/common/member/boardRecipe/boardRecipeDelete.do" method="post">
+<form action="${initParam.rootPath}/common/boardRecipe/boardRecipeDelete.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" 		value="${_csrf.token }">
 	<input type="hidden" name="recipeId" 					value="${boardShareRecipe.recipeId }">
 	<input type="hidden" name="writer" 						value="${boardShareRecipe.memberId}">
@@ -139,12 +163,12 @@ response.addCookie(hits);
 	</button>
 </form>
 </sec:authorize>
-</h2>
+</div>
 <hr>
 
 <div id="pattern" class="pattern" >
-	<ul class="list3 img-list3">
-        <li>
+	<ul >
+        <li class="list3 img-list3">
             <div class="inner3">	
             	<div class="li-text3">
             		<p class="li-sub3">
@@ -173,16 +197,16 @@ response.addCookie(hits);
 	                	<hr>
 	                	<c:forEach items="${list}" var="row">
 							<c:forEach items="${irdntId }" var="list">
-							${list.irdntName}
+							${row }
 							</c:forEach>
 						</c:forEach>
                 	</div>
                 </div>
                 <hr>
                 <div class="li-text3">
-                	<p>내용</p>
+                	<p>내용 Contents</p>
                 	<hr>
-                	<p class="li-sub3">${boardShareRecipe.txt } </p>
+                	<p class="li-sub3">${fn:replace(boardShareRecipe.txt, cn, br)} </p>
                 </div>
                 <hr>
                 <div class="li-head3">

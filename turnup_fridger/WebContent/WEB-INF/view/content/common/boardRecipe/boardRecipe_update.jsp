@@ -181,7 +181,7 @@ text-align:right;
 </head>
 <body>
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
-<h2>글쓰기</h2>
+<h2>글수정</h2>
 <hr>
 		
 <c:if test="${requestScope.error != null }">

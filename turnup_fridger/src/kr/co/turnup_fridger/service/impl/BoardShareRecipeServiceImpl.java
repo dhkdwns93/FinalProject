@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import kr.co.turnup_fridger.dao.BoardShareRecipeDao;
 import kr.co.turnup_fridger.dao.ShareRecipeIrdntDao;
+import kr.co.turnup_fridger.exception.OverLapException;
 import kr.co.turnup_fridger.service.BoardShareRecipeService;
 import kr.co.turnup_fridger.util.PagingBean;
 import kr.co.turnup_fridger.vo.BoardShareRecipe;
@@ -81,7 +82,7 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 		int totalCount= dao.selectBoardCount();
 		PagingBean pageBean = new PagingBean(totalCount, page);
 		map.put("pageBean",	pageBean);
-//		System.out.println("rrrrr");
+		map.put("totalCount", totalCount);
 		List<BoardShareRecipe> list = dao.selectBoardShareRecipeByAll(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
 		
 		System.out.println(list);
@@ -94,24 +95,29 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 	}
 	@Override
 	public void updateBoardRecommand(int recipeId) {
+		 dao.updateBoardRecommand(recipeId);
 		
-		dao.updateBoardRecommand(recipeId);
+		
 	}
 
 
 
 	@Override
 	public void insertRecommandServie(MemberRecipeRecommand memberRecipeRecommand) {
-		// TODO Auto-generated method stub
-		dao.insertRecommand(memberRecipeRecommand);
+		
+	 dao.insertRecommand(memberRecipeRecommand);
 	
+
 	}
 
 
 
 	@Override
 	public MemberRecipeRecommand selectRecommandService(int recipeId, String memberId) {
-		
+		 HashMap<String, Object> map = new HashMap<>();
+		 MemberRecipeRecommand memberRecipeRecommand
+		  = dao.selectRecommand(recipeId, memberId);
+		 
 		/*MemberRecipeRecommand overLap = dao.selectRecommand(recipeId, memberId);	
 		//중복 추천 했을 경우 
 		if(overLap.getRecipeId()==recipeId&&overLap.getMemberId().equals(memberId)){
@@ -120,7 +126,7 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 		}else if(memberId.trim().isEmpty()||memberId==null){
 			throw new FindMemberFailException("회원에게만 추천 기능이 부여됩니다.");
 		}*/
-		return dao.selectRecommand(recipeId, memberId);
+		return memberRecipeRecommand;
 	}
 
 	
@@ -140,16 +146,18 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 	}
 
 
-
+	//제목으로 조회
 	@Override
-	public Map<String, Object> boardSearchByTitle(int page, String keyword) {
-		System.out.println(keyword);//
+	public Map<String, Object> boardSearchByTitle(int page, String title) {
+		
 		HashMap<String, Object> map = new HashMap<>();
-		int totalCount = dao.selectBoardCount();
+		int totalCount = dao.selectBoardByTitileCount(title);
+		
 		PagingBean pageBean = new PagingBean(totalCount, page);
 		map.put("pageBean",	pageBean);
-		List<BoardShareRecipe> list = dao.boardSearchByTitle(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage(), keyword);
-		System.out.println("Service log" + list);
+		map.put("totalCount", totalCount);
+		List<BoardShareRecipe> list = dao.boardSearchByTitle(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage(), title);
+		map.put("title",title);
 		map.put("list", list);
 		return map;
 	}
@@ -162,13 +170,14 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 	}
 
 	@Override
-	public Map<String, Object> boardSearchByTxt(int page, String keyword) {
+	public Map<String, Object> boardSearchByTxt(int page, String txt) {
 		HashMap<String, Object> map = new HashMap<>();
-		int totalCount = dao.selectBoardCount();
+		int totalCount = dao.selectBoardByTxtCount(txt);
 		PagingBean pageBean = new PagingBean(totalCount, page);
 		map.put("pageBean",	pageBean);
-		
-		List<BoardShareRecipe> list = dao.boardSearchByTxt(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage(), keyword);
+		map.put("totalCount", totalCount);
+		List<BoardShareRecipe> list = dao.boardSearchByTxt(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage(), txt);
+		map.put("txt",txt);
 		map.put("list", list);
 		return map;
 	}
@@ -176,13 +185,14 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 
 
 	@Override
-	public Map<String, Object> boardSearchByMemberId(int page, String keyword) {
+	public Map<String, Object> boardSearchByMemberId(int page, String memberId) {
 		HashMap<String, Object> map = new HashMap<>();
-		int totalCount = dao.selectBoardCount();
+		int totalCount = dao.selectBoardByMemberIdCount(memberId);
 		PagingBean pageBean = new PagingBean(totalCount, page);
 		map.put("pageBean",	pageBean);
-		
-		List<BoardShareRecipe> list = dao.boardSearchByMemberId(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage(), keyword);
+		map.put("totalCount", totalCount);
+		List<BoardShareRecipe> list = dao.boardSearchByMemberId(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage(), memberId);
+		map.put("memberId",memberId);
 		map.put("list", list);
 		return map;
 	
@@ -241,7 +251,7 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 	
 	//연수
 	@Override
-	public Map selectBoardShareRecipeByTitle(String title, int page) {
+	public Map selectBoardShareRecipeByTitle(int page, String title) {
 		HashMap map = new HashMap();
 		
 		int totalCount = dao.selectBoardShareRecipeByTitleCount(title);

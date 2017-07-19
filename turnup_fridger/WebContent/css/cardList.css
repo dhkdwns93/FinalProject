@@ -13,7 +13,7 @@ html, body, div, object, iframe, fieldset {
     border: 0;
 } 
 ol, ul { 
-
+	
     list-style: none;
     margin: 0;
     padding: 0;
@@ -267,12 +267,7 @@ input[type=search] {
   }
 }
 
-=======
-	
-    list-style: none;
-    margin: 0;
-    padding: 0;
-} 
+
 table { 
     border-collapse: collapse; 
     border-spacing: 0; 
@@ -428,7 +423,7 @@ input[type=search] {
   .list li {
     padding: 1em;
     display: block;
-    width: 50%;
+    width: 5.0%;
     float: left;
     background: none;
     border: 0;
@@ -492,7 +487,7 @@ input[type=search] {
 @media all and (min-width: 40em) {
   .list2 {
     padding: 0.5em;
-    max-width: 90em;
+    max-width: 62em;
     margin: 0 auto;
     overflow: hidden;
   }
