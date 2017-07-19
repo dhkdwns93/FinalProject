@@ -160,9 +160,10 @@ FROM (	SELECT	rownum rnum, <include refid="all-column"/>
 	FROM (	SELECT	<include refid="all-column"/>
 			FROM	fridger
 			WHERE	fridger_name LIKE '%'||#{value}||'%'
+			ORDER BY member_id, fridger_name
 	)
-)
-WHERE rownum &lt;=#{endIndex}) <!-- &lt;->크다 표시! -->
+	WHERE rownum &lt;=#{endIndex}
+) <!-- &lt;->크다 표시! -->
 WHERE rnum>=#{startIndex}
 </select>
 
@@ -196,9 +197,10 @@ FROM (	SELECT	rownum rnum, <include refid="all-column"/>
 	FROM (	SELECT	<include refid="all-column"/>
 			FROM	fridger
 			WHERE	member_id = #{value}
+			ORDER BY fridger_name
 	)
+	WHERE rownum &lt;=#{endIndex}
 )
-WHERE rownum &lt;=#{endIndex})
 WHERE rnum>=#{startIndex}
 </select>
 

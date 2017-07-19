@@ -35,7 +35,8 @@ h2{display:inline}
 
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>공지사항 ></h1> <h2> ${boardNotice.items}</h2><br><br>
+<h1>공지사항 ></h1><h2>&nbsp;${boardNotice.items}</h2>
+<hr>
 <form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
 	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">

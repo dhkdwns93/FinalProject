@@ -35,8 +35,9 @@ input {
 
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>자유 게시판</h1><br>	
-<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+<h1>자유 게시판</h1>
+<hr>
+<div class="form-inline form-group" >
 	<a href="${initParam.rootPath}/index.do">
 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
@@ -49,28 +50,31 @@ input {
 			</button>
 		</a>
 	</sec:authorize>
+	<!-- 검색버튼 -->
 	<div style="float:right">
-	<form action="${initParam.rootPath}/common/boardfree/boardFreeBySelect.do" method="post">
-	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-		<select name="select" id="select">
-			<option>전체보기</option>
-			<option value="제목">제목</option>
-			<option value="아이디">아이디</option>
-		</select>
-		<input type="text" name="keyword" placeholder="키워드를 입력해주세요">
-		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-			<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-		</button>
-	</form>
+		<form class="form-inline" action="${initParam.rootPath}/common/boardfree/boardFreeBySelect.do" method="post">
+			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+			<select class="form-control" name="select" id="select">
+				<option>전체보기</option>
+				<option value="제목">제목</option>
+				<option value="아이디">아이디</option>
+			</select>
+				<input class="container form-control input-group" type="text" name="keyword" placeholder="키워드를 입력해주세요">
+				<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+		</form>
 	</div>
+</div>
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
 <thead>
     <tr>
-        <th style="width:5%;">번호</th>
-        <th style="width:50%;">제목</th>
-        <th style="width:11%;">작성일</th>
-        <th style="width:11%;">작성자</th>
-        <th style="width:11%;">조회수</th>
-        <th style="width:11%;">댓글수</th>
+        <th style="width:5%;text-align:center;">번호</th>
+        <th style="width:50%;text-align:center;">제목</th>
+        <th style="width:12%;text-align:center;">작성일</th>
+        <th style="width:11%;text-align:center;">작성자</th>
+        <th style="width:11%;text-align:center;">조회수</th>
+        <th style="width:11%;text-align:center;">댓글수</th>
     </tr>
  </thead>
 
@@ -116,10 +120,10 @@ input {
 	<c:choose>
 		<c:when test="${requestScope.pageBean.previousPageGroup}">
 			<%-- 이전페이지 그룹이 있디면 : previousPageGroup()--%>
-			<a href="${initParam.rootPath }/common/boardfree/boardFreeByBoardFreeHits.do?page=${requestScope.pageBean.beginPage - 1}">☜</a>
+			<a href="${initParam.rootPath }/common/boardfree/boardFreeByBoardFreeHits.do?page=${requestScope.pageBean.beginPage - 1}">◀</a>
 		</c:when>
 		<c:otherwise>
-				☜	
+				◀	
 		</c:otherwise>
 	</c:choose>
 	
@@ -147,10 +151,10 @@ input {
 	<c:choose>
 		<c:when test="${requestScope.pageBean.nextPageGroup}">
 			<%-- 다음페이지 그룹이 있디면 : nextPageGroup()--%>
-			<a href="${initParam.rootPath }/common/boardfree/boardFreeByBoardFreeHits.do?page=${requestScope.pageBean.endPage + 1}">☞</a>
+			<a href="${initParam.rootPath }/common/boardfree/boardFreeByBoardFreeHits.do?page=${requestScope.pageBean.endPage + 1}">▶</a>
 		</c:when>
 		<c:otherwise>
-				☞		
+				▶		
 		</c:otherwise>
 	</c:choose>			
 	

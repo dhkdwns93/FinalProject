@@ -41,6 +41,19 @@ h2{display:inline}
 input {
    vertical-align:middle;  
 }
+.textarea_test {
+    resize:none;
+    line-height:30px;
+    width:100%;
+    overflow-y:hidden;
+    height:100%;
+}
+th{
+	width:10%;
+}
+td{
+	width:70%;
+}
 </style>
 </head>
 <body>
@@ -51,18 +64,29 @@ input {
 <hr>
 <form action="${initParam.rootPath}/common/boardqna/boardQnAUploadForm.do" method="POST">
 <input type="hidden" name="boardQnAId" value="${boardQnA.boardQnAId}">
-<table>
+<table style="width:100%;">
 	<tr>
 		<th>작성자</th>
-		<td><input type="text" class="form-control" style="float:left;width:40%;" name="memberId" readonly value="${boardQnA.memberId}"></td>
+		<td>
+			<input type="text" class="form-control" style="float:left;width:40%;" name="memberId" readonly value="${boardQnA.memberId}">
+			<br><br>
+		</td>
 	</tr>
 	<tr>
 		<th>제목</th>
-		<td><input type="text" class="form-control"  name="boardQnATitle" value="${boardQnA.boardQnATitle}" placeholder="제목을 입력해주세요"><span class="error"><form:errors path="boardQnA.boardQnATitle" delimiter="&nbsp;"/></td>
+		<td><input type="text" class="form-control" style="float:left;width:50%;"  name="boardQnATitle" value="${boardQnA.boardQnATitle}" placeholder="제목을 입력해주세요">
+			<span class="error"><form:errors path="boardQnA.boardQnATitle" delimiter="&nbsp;"/>
+			<br><br>
+		</td>
+	
 	</tr>
 	<tr>
 		<th>내용</th>
-		<td><textarea class="form-control"  name="boardQnATxt" row="120" cols="70" placeholder="내용을 입력해주세요">${boardQnA.boardQnATxt}</textarea><span class="error"><form:errors path="boardQnA.boardQnATxt" delimiter="&nbsp;"/></td>
+		<td>
+			<textarea class="form-control textarea_test" style="float:left;width:70%;" onkeyup="this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
+				name="boardQnATxt" row="5" cols="70" placeholder="내용을 입력해주세요">${boardQnA.boardQnATxt}</textarea>
+			<span class="error"><form:errors path="boardQnA.boardQnATxt" delimiter="&nbsp;"/></span>
+		</td>
 	</tr>	
 </table>
 	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return insert_event();">
