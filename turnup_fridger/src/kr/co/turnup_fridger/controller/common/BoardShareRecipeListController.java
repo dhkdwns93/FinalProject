@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +53,7 @@ public class BoardShareRecipeListController{
 	ShareRecipeIrdntService irdntService;
 	
 	
-	
+	MemberRecipeRecommand memberRecipeRecommand;
 	ShareRecipeIrdnt shareRecipeIrdnt;
 	IrdntManage irdntManage;
 	
@@ -200,10 +201,8 @@ public class BoardShareRecipeListController{
 		map.addAttribute("recipeId", recipeId);
 		map.addAttribute("boardShareRecipeList",shareRecipeIrdnt);
 		map.addAttribute("shareRecipeIrdntList", shareRecipeIrdntList);
-//		boardShareRecipeService.insertBoardShareRecipe(boardShareRecipe);
-	
-//		System.out.println("5차 :"+ shareRecipeIrdntList);
-		return new ModelAndView("common/member/boardRecipe/boardRecipe_success.tiles");
+
+		return new ModelAndView("redirect:/boardRecipe/boardRecipeList.do");
 	}
 	
 	
@@ -223,16 +222,22 @@ public class BoardShareRecipeListController{
 	@RequestMapping("/boardRecipe/boardRecipeView")
 	public ModelAndView boardRecipeView(@RequestParam int recipeId, 
 			HttpSession session) throws Exception{
-		//System.out.println("들어왓니?");
+		
 		ModelAndView mav = new ModelAndView();
 		//조회수 증가처리
 		boardShareRecipeService.increaseHit(recipeId, session);
-		//System.out.println("조회수 증가햇니?");
+		
 		//recipeId로 3개 조인한 값 상세조회
 		BoardShareRecipe boardRecipe = boardShareRecipeService.selectBoardByShareIrdnt(recipeId);
 		
 		List<ShareRecipeIrdnt> list = irdntService.findShareRecipeIrdntByRecipeId(recipeId);
-		//System.out.println(list);
+		
+		List<ShareRecipeIrdnt> share = irdntService.selectShareRecipeIrdntByRecipeId(recipeId);
+		mav.addObject("share", share);
+		for(int i=0; i<share.size();i++){
+			mav.addObject("irdntList",  share.get(i).getIrdntManage().getIrdntName());
+		}
+		
 		mav.addObject("boardShareRecipe",boardRecipe);
 		mav.addObject("list", list);
 		mav.setViewName("boardRecipe/boardRecipe_view.tiles");
@@ -284,8 +289,6 @@ public class BoardShareRecipeListController{
 		System.out.println("수정의 시작");
 		BoardShareRecipeValidator validator = new BoardShareRecipeValidator();
 		validator.validate(boardShareRecipe, errors);
-		
-		
 		
 		if(errors.hasErrors()){//에러가 하나라도 있으면 실행
 			System.out.println("ddddd");
@@ -400,17 +403,24 @@ public class BoardShareRecipeListController{
 	
 	
 	//게시글 삭제
-	@RequestMapping("/common/member/boardRecip/boardRecipeDelete")
-	public ModelAndView delete(@RequestParam int recipeId, 
+	@RequestMapping("/common/boardRecipe/boardRecipeDelete")
+	@ResponseBody
+	public ModelAndView delete(@RequestParam int recipeId, @RequestParam String memberId,
 			@RequestParam String writer, @RequestParam String adminId,
 			@RequestParam(defaultValue="1") int page){
 		ModelAndView mav = new ModelAndView();
+		irdntService.deleteShareRecipeIrdntByRecipeId(recipeId);
+		boardShareRecipeService.deleteRecommandService(recipeId);
 		boardShareRecipeService.deleteBoardShareRecipe(recipeId);
+		
+		
+		List<BoardShareRecipe> top = boardShareRecipeService.selectBoardTop4();
 		Map<String, Object> map = boardShareRecipeService.selectBoardShareRecipeAll(page);
 		
+		mav.addObject("top", top);
 		mav.addObject("list", map.get("list"));
-		mav.addObject("pageBean", map.get("pageBean"));
-		mav.setViewName("redirect:/boardRecipe/boardRecipeList");
+		mav.addObject("recipeId", map.get("recipeId"));
+		mav.setViewName("boardRecipe/boardRecipe_list.tiles");
 		
 		return mav;
 	}
@@ -428,104 +438,155 @@ public class BoardShareRecipeListController{
 		mav.addObject("list", map.get("list"));
 		mav.addObject("pageBean", map.get("pageBean"));
 		
-		mav.setViewName("boardRecipe/boardRecipe_list");
+		mav.setViewName("boardRecipe/boardRecipe_list.tiles");
 		return mav;
 	}
 	
-	//추천수 +1 추가 => 경로문제
+	//추천수 +1 추가 
 	@RequestMapping("/common/boardRecipe/increaseRecommand")
 	@ResponseBody
-	public ModelAndView recommandByTwoId(@ModelAttribute BoardShareRecipe boardShareRecipe) throws BoardException{
+	public ModelAndView recommandByTwoId(@RequestParam int recipeId, @RequestParam String memberId ) throws Exception{
 		ModelAndView mav = new ModelAndView();
-		System.out.println("1차");
-//		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		
-		List<MemberRecipeRecommand>  list =  boardShareRecipeService.selectRecommandByRecipeId(boardShareRecipe.getRecipeId());
-		boolean check = false;
 	
-		for(int i=0 ; i<list.size(); i++){
-			if(boardShareRecipe.getMemberId().equals(list.get(i).getMemberId())){
-				
-				check=true;
-				break;
-			}
+				boardShareRecipeService.updateBoardRecommand(recipeId);
+				boardShareRecipeService.insertRecommandServie(new MemberRecipeRecommand(0, recipeId, memberId));
+			
 		
-			/*else if(memberId.equals(list.get(i).getMemberId())){
-				check=true;
-				break;
-			}*/
-		}
-		System.out.println("5차");
-		if(check){
-			return new ModelAndView("redirect:/boareRecipe/boardRecipeList.do");
-		}
-		System.out.println("2차");
-		boardShareRecipeService.updateBoardRecommand(boardShareRecipe.getRecipeId());//추천수 +1 증가
-		boardShareRecipeService.insertRecommandServie(new MemberRecipeRecommand(0, boardShareRecipe.getRecipeId(), boardShareRecipe.getMemberId()));
 		
-		//		mav.addObject("recipeId", recipeId);
-//		mav.addObject("memberId", memberId);
-		System.out.println("6차");
-//		mav.setViewName("redirect:/common/boardRecipe/recommand.do");
-		return new ModelAndView("redirect:/common/boardRecipe/recommand.do");
+		mav.setViewName("boardRecipe/boardRecipe_list.tiles");
+		return mav;
 	}
 	
-	@RequestMapping("/common/boareRecipe/recommand")
+/*	@RequestMapping("/common/boareRecipe/recommand")
 	@ResponseBody
 	public ModelAndView recommand( @RequestParam(value="recipeId") int recipeId, @RequestParam String memberId) throws OverLapException, FindMemberFailException{
 		ModelAndView mav = new ModelAndView();
 		System.out.println("3차");
 		 BoardShareRecipe boardShareRecipe = (BoardShareRecipe) boardShareRecipeService.boardRead(recipeId);
-		
+		 boardShareRecipe = boardShareRecipeService.selectBoardByShareIrdnt(recipeId);
 //		MemberRecipeRecommand recommand = boardShareRecipeService.selectRecommandService(recipeId, memberId);
-		System.out.println("4차");
+		
+		 System.out.println("4차");
 //		mav.addObject(recommand);//sessionScope.recommand
 		mav.addObject("top", boardShareRecipe);//중복검사?
 		mav.addObject("list", boardShareRecipe);
 		mav.setViewName("boardRecipe/boardRecipe_list.tiles");
 		return mav;
+	}*/
+	
+	//제목 조회
+	@RequestMapping("/boardRecipe/boardSearchByTitle")
+	@ResponseBody
+	public ModelAndView boardSearchByTitle(@RequestParam(defaultValue="1") int page, @RequestParam String title){
+		ModelAndView mav = new ModelAndView();
+		
+		Map<String, Object> map = boardShareRecipeService.boardSearchByTitle(page, title);
+		
+		mav.addObject("list", map.get("list"));
+		mav.addObject("totalCount", map.get("totalCount"));
+		mav.addObject("title",map.get( title));
+		mav.addObject("pageBean", map.get("pageBean"));
+		mav.setViewName("boardRecipe/boardRecipe_list_byTitle.tiles");
+		return mav;
 	}
 	
+	//아이디조회
+	@RequestMapping("/boardRecipe/boardSearchByMemberId")
+	@ResponseBody
+	public ModelAndView boardSearchByMemberId(@ModelAttribute BoardShareRecipe boardShareRecipe ,@RequestParam(defaultValue="1") int page, @RequestParam String memberId){
+		ModelAndView mav = new ModelAndView();
+		
+		Map<String, Object> map = boardShareRecipeService.boardSearchByMemberId(page, memberId);
+		
+		map = boardShareRecipeService.selectBoardShareRecipeAll(page);
+		
+		List<BoardShareRecipe> boardTop = boardShareRecipeService.selectBoardTop4();
+		
+		mav.addObject("top", boardTop);
+//		mav.addObject("list", map.get("list"));
+//		mav.addObject("pageBean", map.get("pageBean"));
+//		
+//		mav.setViewName("boardRecipe/boardRecipe_list.tiles");
+		
+		
+		
+		mav.addObject("list", map.get("list"));
+		mav.addObject("totalCount", map.get("totalCount"));
+		mav.addObject("memberId", map.get(memberId));
+		mav.addObject("pageBean", map.get("pageBean"));
+		mav.setViewName("boardRecipe/boardRecipe_list_byMemberId.tiles");
+		return mav;
+	}
+	
+	//내용조회
+		@RequestMapping("/boardRecipe/boardSearchByTxt")
+		@ResponseBody
+		public ModelAndView boardSearchByTxt(@RequestParam(defaultValue="1") int page, @RequestParam String txt){
+			ModelAndView mav = new ModelAndView();
+			
+			Map<String, Object> map = boardShareRecipeService.boardSearchByTxt(page, txt);
+			
+			mav.addObject("list", map.get("list"));
+			mav.addObject("totalCount", map.get("totalCount"));
+			mav.addObject("txt", map.get(txt));
+			mav.addObject("pageBean", map.get("pageBean"));
+			mav.setViewName("boardRecipe/boardRecipe_list_byTxt.tiles");
+			return mav;
+		}
 	
 	//선택 검색 
-	@RequestMapping("/boardRecip/selectSearch")
+	@RequestMapping("/boardRecipe/selectSearch")
 	@ResponseBody
 	public ModelAndView selectSearch(@RequestParam(defaultValue="1") int page, @RequestParam String keyword, @RequestParam String searchOption){
 		ModelAndView mav = new ModelAndView();
+		Map<String, Object> map = new HashMap<>();
+		System.out.println(keyword);
+		String id = "아이디";
+		String title = "제목";
+		String txt = "내용";
 		
 		//제목 검색
-		if(searchOption.equals("title")){
-
-			Map<String, Object> map = boardShareRecipeService.boardSearchByTitle(page, keyword);
-			
+		if(searchOption.equals(title)){
+			System.out.println(searchOption+title+"123");
+			 map = boardShareRecipeService.boardSearchByTitle(page, keyword);
+			System.out.println(title);
 			mav.addObject("list", map.get("list"));
+			mav.addObject("totalCount", map.get("totalCount"));
 			mav.addObject("pageBean", map.get("pageBean"));
-			
-			mav.setViewName("boardRecipe/boardRecipe_list.tiles");
+			mav.setViewName("boardRecipe/boardRecipe_list.do");
 			return mav;
 			
 			//내용 검색
-			}else if(searchOption.equals("txt")){
+			}else if(searchOption.equals(txt)){
 			
-			Map<String, Object> map = boardShareRecipeService.boardSearchByTxt(page, keyword);
-			
+			 map = boardShareRecipeService.boardSearchByTxt(page, keyword);
+		
 			mav.addObject("list", map.get("list"));
+			mav.addObject("totalCount", map.get("totalCount"));
 			mav.addObject("pageBean", map.get("pageBean"));
 			mav.setViewName("boardRecipe/boardRecipe_list.tiles");
 			return mav;
 			
 			//memberId로 검색
-			}else {
-				
-				Map<String, Object> map = boardShareRecipeService.boardSearchByMemberId(page, keyword);
+			}else if(searchOption.equals(id)){
+				map = boardShareRecipeService.boardSearchByMemberId(page, keyword);
 				mav.addObject("list", map.get("list"));
+				mav.addObject("totalCount", map.get("totalCount"));
 				mav.addObject("pageBean", map.get("pageBean"));
 				mav.setViewName("boardRecipe/boardRecipe_list.tiles");
 				return mav;
 			}
+		map = boardShareRecipeService.selectBoardShareRecipeAll(page);
+		mav.addObject("list", map.get("list"));
+		mav.addObject("totalCount", map.get("totalCount"));
+		mav.addObject("pageBean", map.get("pageBean"));
+		mav.setViewName("boardRecipe/boardRecipe_list.tiles");
+		return mav;
 	}
-	
-	
+/*	@RequestMapping("")
+	@Response
+	public ModelAndView 
+	*/
 }
 	
 	

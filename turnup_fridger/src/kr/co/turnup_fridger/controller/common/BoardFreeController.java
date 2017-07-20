@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +20,7 @@ import kr.co.turnup_fridger.service.BoardFreeService;
 import kr.co.turnup_fridger.service.CommentFreeService;
 import kr.co.turnup_fridger.validation.BoardFreeValidator;
 import kr.co.turnup_fridger.vo.BoardFree;
-import kr.co.turnup_fridger.vo.CommentQnA;
+import kr.co.turnup_fridger.vo.CommentFree;
 
 @Controller
 @RequestMapping("/common/boardfree/")
@@ -173,7 +172,7 @@ public class BoardFreeController extends HttpServlet {
 		//등록
 		@RequestMapping("boardFreeAdd")
 		@ResponseBody
-		 public ModelAndView boardFreeAdd(@ModelAttribute BoardFree boradFree,BindingResult errors,ModelMap model,@RequestParam(defaultValue="1") int page)
+		 public ModelAndView boardFreeAdd(@ModelAttribute BoardFree boradFree,BindingResult errors)
 		{
 			BoardFreeValidator validator = new BoardFreeValidator();
 			validator.validate(boradFree, errors);
@@ -181,44 +180,13 @@ public class BoardFreeController extends HttpServlet {
 			{
 				return new ModelAndView("common/boardfree/boardfree_form.tiles"); //errors에 오류가 1개라도 등록되 있으면 true 리턴
 			}
-			
-/*			ModelAndView mav = new ModelAndView();
+			ModelAndView mav = new ModelAndView();
 			service.addBoardFree(boradFree);//등록
 			mav.addObject("boardFree",service.selectBoardFreeByboardFreeId(boradFree.getBoardFreeId()));//상세페이지 필요 정보
 			mav.setViewName("common/boardfree/boardfree_view.tiles");
-			return mav;*/
-			service.addBoardFree(boradFree);
-			
-			boradFree = service.selectBoardFreeByboardFreeId(boradFree.getBoardFreeId());
-			model.addAttribute("boardFree",boradFree);
-			
-			Map<String, Object> map = commentFree.selectCommentFreeListbyId(boradFree.getBoardFreeId(),page);
-			model.addAttribute("commentFree", map.get("list"));
-			model.addAttribute("boardFreeId",  map.get("boardFreeId"));
-			model.addAttribute("pageBean", map.get("pageBean"));
-
-			return new ModelAndView("redirect:/common/boardfree/success.do");
-		}
-		
-		@RequestMapping("success")
-		public ModelAndView registerSuccess(@RequestParam int boardFreeId,@RequestParam(defaultValue="1") int page)
-		{
-			ModelAndView mav = new ModelAndView();
-		
-			BoardFree boradFree = service.selectBoardFreeByboardFreeId(boardFreeId);
-			mav.addObject("boardFree",boradFree);
-			
-			Map<String, Object> map = commentFree.selectCommentFreeListbyId(boardFreeId,page);
-			mav.addObject("commentFree", map.get("list"));
-			mav.addObject("boardFreeId",  map.get("boardFreeId"));
-		    mav.addObject("pageBean", map.get("pageBean"));
-		   
-			mav.setViewName("common/boardfree/boardfree_view.tiles");
-			
 			return mav;
 		}
-		
-		
+			
 		//삭제
 		@RequestMapping("boardFreeRemove")
 		@ResponseBody

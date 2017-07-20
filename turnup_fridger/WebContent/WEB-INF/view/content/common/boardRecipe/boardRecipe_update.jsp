@@ -31,7 +31,7 @@ $(document).ready(function(){
 		$(document).on("click", "button#insertShareRecipeIrdnt", function(){
 			if(numberAddInsert<20){
 				window.open("${initParam.rootPath}/common/member/boardRecipe/boardRecipe_search_result.do", "search_result", "width=500,height=400,resizable=yes");
-				var inputTextHtml=$('#seeIrdnt').append('<div id="ShareRecipeIrdntText"><input type="hidden" id="irdntId" name="irdntId" value="${param.irdntId}" ><input type="text" id="irdntName" name="irdntName" value=${param.irdntName}>&nbsp&nbsp<button type="button" id="deleteIrdnt">재료삭제</button><br></div>');
+				var inputTextHtml=$('#seeIrdnt').append('<div id="ShareRecipeIrdntText"><input type="hidden" id="irdntId" name="irdntId" value="${param.irdntId}" ><input type="text" id="irdntName" name="irdntName" value=${param.irdntName}>&nbsp&nbsp<button type="button" id="deleteIrdnt" class="btn btn-default">재료삭제</button><br></div>');
 				numberAddInsert=numberAddInsert+1;
 			}else{
 				$('span#irdnterror').text("재료선택은 20개까지 선택가능합니다.");
@@ -181,7 +181,7 @@ text-align:right;
 </head>
 <body>
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
-<h2>글쓰기</h2>
+<h2>글수정</h2>
 <hr>
 		
 <c:if test="${requestScope.error != null }">
@@ -210,11 +210,11 @@ text-align:right;
 				<td>
 				<div id="seeIrdnt">
 					<button type="button" id="insertShareRecipeIrdnt" class="btn">사용한재료추가</button><br>
-					<%-- <c:forEach items="${boardShareRecipe.shareRecipeIrdnt }" var="share">
+					<c:forEach items="${boardShareRecipe.shareRecipeIrdnt }" var="share">
 						<c:forEach items="${share.irdntId }" var="myIrdntName">
 							<input type="text" name="irdntId" value="${myIrdntName.irdntName }">
 						</c:forEach>
-					</c:forEach> --%>
+					</c:forEach>
 				</div> 
 				</td>
 			</tr>
