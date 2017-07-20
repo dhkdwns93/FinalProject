@@ -47,11 +47,19 @@
 </style>
 <div class='left-box-sidemenu'>
       <div>
-         <h2 style="text-align:center;">My Menu</h2>
+         <h2 style="text-align:center;">냉장고 공유</h2>
       </div>
       <hr style="border:0;height:3px;background:#ccc;">
       <div class="list-group">
       <sec:authentication property='principal.memberId' var='memberId'/>
+      
+      	<a href="${initParam.rootPath}/common/member/member_mypage_event.do" class="list-group-item" style="text-align:right;">
+       그룹관리     
+            <button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
+               <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            </button>
+         </a>
+         
          <a href="javascript:getRequestList()"  class="list-group-item" style="text-align:right;">
         요청한 공유
             <button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
@@ -65,11 +73,6 @@
                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             </button>
          </a>         
-         <a href="${initParam.rootPath}/common/member/member_mypage_event.do" class="list-group-item" style="text-align:right;">
-       그룹관리     
-            <button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
-               <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            </button>
-         </a>
+         
       </div>
 </div>
