@@ -166,7 +166,7 @@ td {
 </head>
 <body>
 
-<div style="text-align:center;"><h2>${param.fridgerName} 냉장고 속</h2><br></div><hr>
+<div style="text-align:center;"><h2>${param.fridgerName} 속</h2><br></div><hr>
 <div class="container">
 <div style="text-align:center;">
 신선도
