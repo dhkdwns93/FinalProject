@@ -17,7 +17,7 @@
 	max-width:250px;
  	height:100%;
 	margin-left:5%;
-	margin-bottom:auto;
+	margin-bottom:100%;
  	border-radius:10%;
  	padding : 2%;
  	font-size:100%;
@@ -51,7 +51,7 @@
 
 <div class='left-box-sidemenu'>
 		<div>
-			<h2>게시판</h2>
+			<h2 style="text-align:center;">게시판</h2>
 		</div>
 		<hr style="border:0;height:3px;background:#ccc;">
 		<div class="list-group">

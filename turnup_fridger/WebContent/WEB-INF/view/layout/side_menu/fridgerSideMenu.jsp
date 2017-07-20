@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
 
 <style>
 .wrapperDiv{
@@ -45,7 +45,7 @@
    background-color: #EAE7E7 !important;
 }
 </style>
-<div class='left-box-sidemenu'>
+<div class='left-box-sidemenu' >
       <div>
          <h2 style="text-align:center;">냉장고 공유</h2>
       </div>
@@ -53,8 +53,8 @@
       <div class="list-group">
       <sec:authentication property='principal.memberId' var='memberId'/>
       
-      	<a href="${initParam.rootPath}/common/member/member_mypage_event.do" class="list-group-item" style="text-align:right;">
-       그룹관리     
+      	<a href="javascript:window.location.reload();" class="list-group-item" style="text-align:right;">
+       공유하기   
             <button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             </button>

@@ -29,13 +29,26 @@ text-align:center;
 input {
    vertical-align:middle;  
 }
+.blink {
+    -webkit-animation: blink 2.5s linear infinite;
+} 
+@-webkit-keyframes blink {
+    0% { color: red; }
+    33% { color: yellow; }
+    66% { color: blue; }
+    100% { color: green; }
+}
 </style>
 </head>
 <body>
-
+<div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+
+<jsp:useBean id="now" class="java.util.Date" />
+<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />  
+
 <c:if test="${empty list}">
-<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>공지사항</h1>
 <hr>
@@ -71,11 +84,12 @@ input {
 		</div>
 	</div>
 </div>
+	<br><h2 style="text-align:center;">등록된 게시물이 없습니다.</h2>
 </table>
-	<br><h2 style="text-align:center">등록된 게시물이 없습니다.</a>
+</div>
 </c:if>
 <c:if test="${!empty list}">
-<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>공지사항</h1>
 <hr>
@@ -110,13 +124,14 @@ input {
 		</div>
 	</div>
 </div>
-<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+<table class="table table-hover table-condensed" style="width:auto; border:1; text-align:center;">
 <thead>
     <tr>
         <th style="width:5%;text-align:center;">번호</th>
         <th style="width:10%;text-align:center;">말머리</th>
         <th style="width:50%;text-align:center;">제목</th>
-        <th style="width:15%;text-align:center;">작성일</th>
+        <th style="width:5%;text-align:center;"></th>
+        <th style="width:10%;text-align:center;">작성일</th>
         <th style="width:10%;text-align:center;">작성자</th>
     </tr>
  </thead>
@@ -134,8 +149,15 @@ input {
     		<form action="${initParam.rootPath}/boardnotice/boardNoticeView.do" method="post">
     			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
     			<input type="hidden" name="id" value="${row.id}">
-    			<input type="submit" value="${row.title}" style="background-color:white;border:0;WIDTH:100%;HEIGHT:100%"> 
+    			<input type="submit" value="${row.title}" style="background-color:white;border:0;WIDTH:90%;HEIGHT:100%"> 
+
 			</form>           
+        </td>
+        <td>
+      			<fmt:formatDate value="${row.date}" pattern="yyyy-MM-dd" var="date"/>
+    			<c:if test="${today == date }">
+					<a class="blink">new</a>
+				</c:if>      
         </td>
         <td>
             <fmt:formatDate value="${row.date}" pattern="yyyy-MM-dd"/>
@@ -200,6 +222,7 @@ input {
 	<a href="${initParam.rootPath}/boardnotice/boardNoticeByItems.do?page=${requestScope.pageBean.totalPage}&items=${requestScope.items}">마지막페이지</a>
 
 </p>
+</div>
 </c:if>
 </div>
 </body>

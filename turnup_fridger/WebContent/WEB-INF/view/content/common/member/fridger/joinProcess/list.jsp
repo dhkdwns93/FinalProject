@@ -12,8 +12,7 @@
 <link href="${ initParam.rootPath }/css/landing-page.css" rel="stylesheet">
  <script type="text/javascript">
 $(document).ready(function (){
-	getRequestList();
-	
+	getIntro();
 	
 	$(document).on("click", "#cancelBtn", function(){
 		//alert($(this).parent().parent().children(":first-child").text());
@@ -77,7 +76,7 @@ $(document).ready(function (){
 				}
 			},
 			"success": function(txt){
-		       alert(txt );
+		       alert(txt);
 		   		getRequestList();
 				getResponseList();
 		     },
@@ -90,6 +89,7 @@ $(document).ready(function (){
 	
 	// 냉장고 그룹 초대 폼
 	$(document).on("click","#inviteModalBtn", function(){
+
 		$("#inviteFridgerModal").modal("show");
 		$.ajax({
 			"url":"/turnup_fridger/common/member/fridger/show/mine.do",
@@ -125,7 +125,7 @@ $(document).ready(function (){
 			},
 			"success": function(text){
 				if(text == "0"){
-					alert("가입신청이 완료되었습니다.")
+					alert("초대신청이 완료되었습니다.")
 					$("#inviteFridgerModal").modal("hide");
 					$(".errorWell").find(".error").empty();
 					$(".errorWell").hide();
@@ -225,7 +225,47 @@ function resetJoinModal(){
 	$(".errorWell").hide();
 }
 
+
+function getIntro(){
+	$.ajax({
+		"url":"/turnup_fridger/common/member/fridger/joinProcess/intro.do",
+		"dataType":"json",
+		"success": function(map){
+			 showCount(map.allFridgerCount, map.allFridgerGroupCount);
+        	    
+		}
+	});
+}
+
+function showCount(allFridgerCount, allFridgerGroupCount){
+    
+    var countFridger = 0;
+    var countFridgerGroup = 0;
+    var id = setInterval(frame, 10);
+    function frame() {
+        if (countFridger >= allFridgerCount) {
+            clearInterval(id);
+        } else {
+        	countFridger++; 
+            $("#allFridgerCount").text(countFridger);
+    	          
+        }
+        
+        if (countFridgerGroup >= allFridgerGroupCount) {
+            clearInterval(id);
+        } else {
+        	countFridgerGroup++; 
+            $("#allFridgerGroupCount").text(countFridgerGroup);    
+        }
+    }
+}
+
+
 function getRequestList(){
+	$("#listHeader").hide();
+	$("#listTable").hide();
+	$("#listTable").fadeIn();
+	
 	$.ajax({
 				"url":"/turnup_fridger/common/member/fridger/joinProcess/show/list/request.do",
 				"type":"post",
@@ -269,6 +309,10 @@ function getRequestList(){
 	
 	
 function getResponseList(){
+	$("#listHeader").hide();
+	$("#listTable").hide();
+	$("#listTable").fadeIn();
+	
 		$.ajax({
 			"url":"/turnup_fridger/common/member/fridger/joinProcess/show/list/response.do",
 			"type":"post",
@@ -347,9 +391,16 @@ function leadingZeros(n, digits) {
   return zero + n;
 }
 
+
+
 </script>
 
 <style>
+
+#listTable{
+display: none;
+}
+
 .errorWell{
 display: none;
 }
@@ -364,29 +415,52 @@ margin-right: 2px;
 
 <div>
 <!-- 가입펌 -->
-<jsp:include page="/WEB-INF/view/content/common/member/fridger/list.jsp"/>
+<jsp:include page="/WEB-INF/view/content/common/member/fridger/join_form.jsp"/>
 <!-- 초대폼 -->
 <jsp:include page="/WEB-INF/view/content/common/member/fridger/invite_form.jsp"/>
 
 </div>
-
+	
 <div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/fridgerSideMenu.jsp"/>
 <div class='right-box-sidemenu'>
 
-<h1> 공유 관리</h1>
+<div class='inner-page' style="margin-top: 60px">
 
-가족 구성원끼리 냉장고를 공유하여 관리하세요. 더욱 효율적으로 냉장고를 관리할 수 있을 것입니다.
+<div id="listHeader" style="position: relative" align="center">
 
-<button type="button" class="btn btn-warning" id="inviteModalBtn" style="background-color:#f7c42d; color:#ffffff; width:70px; border:5px; margin: 2px; text-shadow:none; font-weight: bold">INVITE</button>
-<button type="button" class="btn btn-default" id="joinModalBtn" style="background-color:#ccccb3; color:white; border:5px; border-color:#999966; width:70px; margin: 2px; text-shadow:none;  font-weight: bold">JOIN</button>
+지금,<span style="font-size: 35px">Turnup Fridger</span>에서는  <br>
+
+<span id="allFridgerCount" style="font-size: 35px"><!-- 냉장고 수 --></span>개의 냉장고를<br>
+<span id="allFridgerGroupCount" style="font-size: 35px"><!-- 냉장고 수 --></span>명의 회원이 공유하고 있습니다.<br>
 <br>
+<hr>
+<br>
+가족 구성원끼리 냉장고를 공유하여 관리하세요. <br>
+더욱 효율적으로 냉장고를 관리할 수 있을 것입니다.
+
+<div id="inviteModal" style="position: absolute; border:1px solid lightgray; border-radius:5px; padding:20px; width:300px; height:220px; top:300px; left:35px; text-align: center;">
+	<h3 style="font-weight: bold;">냉장고로 초대하기</h3>
+	당신의 냉장고를 공유할 <br>
+	회원을 초대합니다. <br>
+	<br>
+	<button type="button" class="btn btn-warning" id="inviteModalBtn" style="background-color:#f7c42d; color:#ffffff; width:70px; border:5px; margin: 2px; text-shadow:none; font-weight: bold">INVITE</button>
+</div>
+<div id="joinModal" style="position: absolute; border:1px solid lightgray; border-radius:5px; padding:20px; width:300px; height:220px; top:300px; right:35px; text-align: center;">
+	<h3 style="font-weight: bold;">냉장고에 가입하기</h3>
+	공유를 원하는 다른 회원의 <br>
+	냉장고에 가입합니다.<br>
+	<br>
+	<button type="button" class="btn btn-default" id="joinModalBtn" style="background-color:#ccccb3; color:white; border:5px; border-color:#999966; width:70px; margin: 2px; text-shadow:none;  font-weight: bold">JOIN</button>
+</div>
+</div>
+
+
 <p>
 
   <!-- table -->
-   	<div style="width:800px;">
- 
-		<table  class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
+   	<div id="listTable" style="width:850px;">
+ 		<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
 			<thead>
 				<tr>
 					<th style="width:5%;">NO</th>
@@ -406,6 +480,6 @@ margin-right: 2px;
 		</div>
   
     
-    
+    </div>
 </div>
 	</div>
