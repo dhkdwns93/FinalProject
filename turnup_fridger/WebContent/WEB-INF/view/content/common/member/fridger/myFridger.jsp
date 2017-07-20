@@ -69,8 +69,7 @@ $(document).ready(function(){
 					$(".errorWell").hide();
 					resetRegisterModal();
 					window.location.reload();
-				}else if(text =="-1"){
-					alert("실패!")
+				}else{
 					$(".errorWell").find(".error").text(text);
 					$(".errorWell").show();
 				}
@@ -151,8 +150,7 @@ $(document).ready(function(){
 					getFridgerInfo($("#updateFridgerId").val())
 					$("#updateFridgerModal").modal('hide');
 					resetUpdateModal();
-				}else{
-					alert("실패!:"+text)			
+				}else{		
 					$(".errorWell").find(".error").text(text);
 					$(".errorWell").show();
 				}
@@ -195,6 +193,36 @@ $(document).ready(function(){
 	});	// end of click on requstBtn
 	
 	
+	// 냉장고 탈퇴
+	$(document).on("click","#outBtn", function(){
+
+		$.ajax({
+			"url":"/turnup_fridger/common/member/fridger/fridgerGroup/out.do",
+			"type":"post",
+			"data":{'fridgerId' : $("span#fridgerId").text(), 'groupMemberId': ${memberId},'${_csrf.parameterName}':'${_csrf.token}'},
+			"dataType":"text",
+			"beforeSend":function(){
+				if(confirm("정말로 그룹에서 나가시겠습니까?") != true){
+					return false;
+				}
+			},
+			"success": function(txt){
+				if(txt==0){
+					alert("완료되었습니다.")
+			       window.location.reload();
+				}else{
+					alert("실패: "+txt);
+				}
+		       
+		     },
+	        "error":function(xhr, msg, code){
+				alert("오류발생-" + code);
+			}
+			
+		});	//end of ajax
+	});	// end of click on requstBtn
+	
+	
 	$('#createFridgerModal').on('hide.bs.modal', function (e) {
 		resetRegisterModal();
 	})
@@ -214,7 +242,16 @@ function getFridgerInfo(fridgerId){
 			"data": {'fridgerId' : fridgerId, '${_csrf.parameterName}':'${_csrf.token}'},
 			"dataType" : "json",
 			"success": function(map){
-				console.log(map)
+				if(map.fridger.memberId == ${memberId}){
+					$("#removeBtn").show();
+					$("#updateBtn").show();
+					$("#outBtn").hide();
+				}else{
+					$("#removeBtn").hide();
+					$("#updateBtn").hide();
+					$("#outBtn").show();
+				}
+				
 				getTypeChart(map.irdntCategoryList)
 				getPlaceChart(map.myIrdntRoomTempCount, map.myIrdntColdTempCount, map.myIrdntFreezeTempCount)
 				
@@ -302,16 +339,15 @@ function getFridgerInfo(fridgerId){
 	 var colors = ["#e64200","#ff9933", "#f5d03d", "#b7e236", "#dce8c9", "#d1d194", "#94946b","#585841"];
 	 var highlights = ["#e6672d","#ffb366", "#f7dc6e","#c7e963", "#f3f7ed", "#e0e0b8", "#a9a989","#757557"];
 	  var idx = 0;
-	$.each(list, function(){
-		var obj = {
-				value: this.count,
-				color: colors[idx],
-				highlight:  highlights[idx++],
-				label: this.categoryName
-		}
-		 typeData.push(obj)
-	 }) 
-	 	
+		$.each(list, function(){
+			var obj = {
+					value: this.count,
+					color: colors[idx],
+					highlight:  highlights[idx++],
+					label: this.categoryName
+			}
+			 typeData.push(obj)
+		 });
 	 
 	 
 	 var option = {
@@ -320,14 +356,14 @@ function getFridgerInfo(fridgerId){
 	//Get the context of the canvas element we want to select
 	var typeCnv = document.getElementById("typeChart");
 	var typeCtx= typeCnv.getContext("2d");
-	if(typeCnv){
-		typeCtx.clearRect(0, 0, typeCnv.width, typeCnv.height);
+		typeCtx.clearRect(0, 0, 1500, 1000);
 		typeCtx.beginPath();
-	}
+		//typeCtx.fillStyle = "white";
+		//typeCtx.fillRect(0, 0, typeCnv.width, typeCnv.height);
 
 		var myDoughnutChart = new Chart(typeCtx).Doughnut(typeData,option); 
 		$("#typeChart").attr("width","150").attr("height","150");
-	}
+	};
 		
 	function getPlaceChart(roomTemp,coldTemp,freezeTemp){
 		console.log(roomTemp+","+coldTemp+","+freezeTemp)
@@ -361,14 +397,14 @@ function getFridgerInfo(fridgerId){
 		//Get the context of the canvas element we want to select
 		var placeCnv= document.getElementById("placeChart");
 		var placeCtx= placeCnv.getContext("2d");
-		if(placeCnv){
-			placeCtx.clearRect(0, 0, placeCnv.width, placeCnv.height);
+			placeCtx.clearRect(0, 0, 1500, 1000);
 			placeCtx.beginPath();
-		}
+			/* placeCtx.fillStyle = "white";
+			placeCtx.fillRect(0, 0, placeCnv.width, placeCnv.height); */
 		 	
 		 var myDoughnutChart = new Chart(placeCtx).Doughnut(placeData,option); 
 		 $("#placeChart").attr("width","150").attr("height","150");
-	}
+	};
 
 	
 	
@@ -527,6 +563,11 @@ right:0;
 font-size: 40px;
 }
 
+#removeBtn, #updateBtn, #outBtn{
+display: none;
+}
+
+
 @media all and (min-width: 768px) {
 	
     .nav {
@@ -580,21 +621,33 @@ font-size: 40px;
    	<c:forEach items="${ requestScope.fridgerList }" var="fridgerGroup">
   		<option value="${fridgerGroup.fridgerId}">
   		${ fridgerGroup.fridger.fridgerName }
+  		<c:if test="${ fridgerGroup.groupMemberId eq fridgerGroup.fridger.memberId }">
+  			${ fridgerGroup.fridger.fridgerName } [★Owner]
+  		</c:if>
   		</option>
   	</c:forEach>
   </select>
   </p>
+  
   <p>
   <span id="fridgerImg"><!-- 사진 들어갈 곳 --></span>
 	</p>
 		
-	<!-- 냉장고 들어가기 -->
-	<button type="button" id="moveInBtn" class="btn btn-warning" style="background-color:#f7c42d; color:#ffffff; width:230px; border:5px; margin: 2px; text-shadow:none; font-weight: bold">OPEN</button>
+	<!-- 냉장고 열어보기 -->
+	<button type="button" id="moveInBtn" class="btn btn-warning" style="background-color:#f7c42d; color:#ffffff; width:230px; border:5px; margin: 2px; text-shadow:none; font-weight: bold">냉장고 열어보기</button>
 	<br>
+	
+	<!-- 주인냉장고 일 때: 삭제/ 수정 -->
 	<!-- 냉장고 삭제하기 -->
-	<button type="button" id="removeBtn" class="btn btn-warning" style="background-color:#4c4c34; color:#ffffff; border:5px; border-color:#1e1e15; width:110px; margin: 2px; text-shadow:none; font-weight: bold">DELETE</button>
+	<button type="button" id="removeBtn" class="btn btn-warning" style="background-color:#4c4c34; color:#ffffff; border:5px; border-color:#1e1e15; width:110px; margin: 2px; text-shadow:none; font-weight: bold">삭제</button>
 	<!-- 냉장고 수정하기 -->
-	<button type="button" id="updateBtn" class="btn btn-warning" data-target="#updateFridgerModal" style="background-color:#ccccb3; color:white; border:5px; border-color:#999966; width:110px; margin: 2px; text-shadow:none;  font-weight: bold">EDIT</button>
+	<button type="button" id="updateBtn" class="btn btn-warning" data-target="#updateFridgerModal" style="background-color:#ccccb3; color:white; border:5px; border-color:#999966; width:110px; margin: 2px; text-shadow:none;  font-weight: bold">수정</button>
+	
+	<!-- 주인냉장고 아닐 때: 삭제/ 수정 -->
+	<!-- 냉장고 그룹 나가기 -->
+	<button type="button" id="outBtn" class="btn btn-warning" style="background-color:#4c4c34; color:#ffffff; border:5px; border-color:#1e1e15; width:230px; margin: 2px; text-shadow:none; font-weight: bold;">냉장고 그룹 나가기</button>
+	
+	
 	<br>
 	<!-- 냉장고 추가 -->
 	<button type="button" id="createBtn" class="btn btn-default" style="background-color: #f2f2f2; border:5px; border-color: gray;  width:230px; margin: 2px;" data-target="#createFridgerModal" >

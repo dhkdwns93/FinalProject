@@ -240,7 +240,7 @@ public class RecipeServiceImpl implements RecipeService{
 		 ****************************************************************/
 		public String amountChange(String str){
 			//단위 조사한 것
-			String danwi = "개/T/컵/잎/대/g/장/공기/마리/알/ml/쪽/모/줄기/큐브/단/토막/조각/뿌리/큰술/작은술/포기/톨/kg/ml/봉/통/L/묶음/되/덩이/캔/cc/관/단/근/C/쪽";
+			String danwi = "kg/ml/개/T/컵/잎/대/g/장/공기/마리/알/쪽/모/줄기/큐브/단/토막/조각/뿌리/큰술/작은술/포기/톨/봉/통/L/묶음/되/덩이/캔/cc/관/단/근/C/쪽";
 			String[] danwiArr = danwi.split("/");
 			//System.out.println("danwiArr:"+Arrays.toString(danwiArr));
 			StringBuffer sb = new StringBuffer(str);

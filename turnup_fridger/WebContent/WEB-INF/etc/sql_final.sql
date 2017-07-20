@@ -184,7 +184,7 @@ CREATE TABLE fridger_GROUP (
 DROP SEQUENCE GROUP_KEY;
 CREATE SEQUENCE GROUP_KEY INCREMENT BY 1 START WITH 1; 
 --SELECT GROUP_KEY.NEXTVAL FROM DUAL;
-select * from fridger_group where group_member_id = '2222';
+select * from fridger_group where fridger_id = '4';
 
 /* 공지사항 */
 DROP TABLE BOARD_NOTICE;
