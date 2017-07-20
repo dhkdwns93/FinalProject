@@ -7,7 +7,7 @@ body,html { /* 전체화면 비율 */
 }
 
 body, h2, h3, h4, h5, h6 {
-    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif !important;
     font-weight: 700;
 }
 
@@ -31,7 +31,7 @@ body, h2, h3, h4, h5, h6 {
 
 .topnav { /* 상단바 부분 */
     font-size: 14px;
-    font-family: 'Philosopher', sans-serif;
+    font-family: 'Philosopher', sans-serif !important;
 }
 
 .lead { /* 이달의 레시피 소개글*/
@@ -59,7 +59,7 @@ body, h2, h3, h4, h5, h6 {
     margin: 0;
     text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
     font-size: 7.5em;
-    font-family: 'Philosopher', sans-serif;
+    font-family: 'Philosopher', sans-serif !important;
     font-weight: 600;
 }
 
@@ -74,7 +74,7 @@ body, h2, h3, h4, h5, h6 {
 }
 
 .tf{ /* 메인 마지막 섹션 Turnup-Fridger글자 부분 */
-	font-family: 'Philosopher', sans-serif;
+	font-family: 'Philosopher', sans-serif !important;
 }
 
 /* ================= 메뉴드롭다운부분 =================== */
@@ -225,7 +225,7 @@ body, h2, h3, h4, h5, h6 {
     font-size: 14px;
     font-weight: 400;
     letter-spacing: 2px;
-    font-family: 'Philosopher', sans-serif;
+    font-family: 'Philosopher', sans-serif !important;
     font-weight: bold;
 }
 

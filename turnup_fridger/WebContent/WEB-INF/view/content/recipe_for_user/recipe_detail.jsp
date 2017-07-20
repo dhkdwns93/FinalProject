@@ -429,7 +429,7 @@ function moveTo(url,recipeId){
 		window.open(
 				url+"?recipeId="+recipeId,
 				"_blank",
-				"fullscreen=yes, height=700, width=500, resizable=no, scrollbars=no, location=no, toolbar=no, directories=no, menubar=no"
+				"fullscreen=yes, height=600, width=600, resizable=no, scrollbars=no, location=no, toolbar=no, directories=no, menubar=no"
 				);
 		
 }
@@ -469,7 +469,7 @@ table tr td{
 <div id="whole">
 	<div id="recipe_info">
 		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-		<button type="button" onclick="moveTo('/turnup_fridger/common/admin/recipe/info/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
+		<button type="button" class="btn btn-default" onclick="moveTo('/turnup_fridger/common/admin/recipe/info/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
 		</sec:authorize>
 
 		<div style="width:50%;float:left;">
@@ -556,7 +556,7 @@ table tr td{
 		<br><hr>	
 		<h3 style="font-weight:bold;">재료정보</h3>
 		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-		<button type="button" onclick="moveTo('/turnup_fridger/common/admin/recipe/irdnt/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
+		<button type="button" class="btn btn-default" onclick="moveTo('/turnup_fridger/common/admin/recipe/irdnt/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
 		</sec:authorize>
 		
 		<div style="padding:10px;">
@@ -609,7 +609,7 @@ table tr td{
 	<br><hr>
 	<h3 style="font-weight:bold;">상세과정</h3>
 	<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-	<button type="button" onclick="moveTo('/turnup_fridger/common/admin/recipe/crse/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
+	<button type="button" class="btn btn-default" onclick="moveTo('/turnup_fridger/common/admin/recipe/crse/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
 	</sec:authorize>
 	<table>
 	<c:forEach items="${ requestScope.recipe.recipeCrseList }" var="recipeCrse">
@@ -654,7 +654,7 @@ table tr td{
 	</div>
 
 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-<button type="button" id="deleteRecipeBtn">삭제</button> 
+<button type="button" class="btn btn-default" id="deleteRecipeBtn">삭제</button> 
 </sec:authorize>
 
 <div class="floating" style="padding:10px;">

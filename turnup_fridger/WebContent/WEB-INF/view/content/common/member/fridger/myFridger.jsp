@@ -241,8 +241,8 @@ function getFridgerInfo(fridgerId){
 			"type" : "post",
 			"data": {'fridgerId' : fridgerId, '${_csrf.parameterName}':'${_csrf.token}'},
 			"dataType" : "json",
-			"success": function(map){
-				if(map.fridger.memberId == ${memberId}){
+			"success": function(map){ 
+				if(map.fridger.memberId == "${memberId}"){
 					$("#removeBtn").show();
 					$("#updateBtn").show();
 					$("#outBtn").hide();

@@ -2,7 +2,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 
-
     <a id="about"></a>
     <div class="intro-header">
     <div class="container">
@@ -49,6 +48,9 @@
 									<li><a href="${initParam.rootPath}/common/admin/admin_mypage.do" id="submenuLink">관리자관리</a></li>
 									<li><a href="${initParam.rootPath}/boardnotice/boardNoticeList.do" id="submenuLink">게시판 관리</a></li>
 								</ul>
+							  </li>
+							  <li class="topMenuLi">
+							  	<a href="${initParam.rootPath}/common/shop/shopList_for_admin.do" class="btn btn-default btn-lg"><span class="network-name">Shop</span></a>
 							  </li>
                             </sec:authorize>
                             <sec:authorize access="!hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
@@ -123,7 +125,7 @@
                     <div class="clearfix"></div>
                     <h2 class="section-heading">음식물 보관 팁</h2>
                     <p class="lead"><b>식중독 위험구간인<br> 5ºC ~ 60ºC 사이의 음식들을 주의하세요!</b><br><br>뜨거운 음식을 보관할 때에는 60ºC이상!<br> 실온음식을 보관할 때에는 5ºC이하의 서늘한 곳!<br> 차가운 음식은 -15ºC이하의 냉장 또는 냉동구간에!<br>
-                    					 <b>뜨거운 기온과 습한 날씨로 인해 평소보다 더 주의깊은<br>식재료 관리가 필요합니다</b> </p>
+                    					 <b>뜨거운 기온과 습한 날씨로 인해 평소보다 더 주의깊은<br>식재료 관리가 필요합니다</b></p>
                 </div>
                 <div class="col-lg-5 col-sm-pull-6  col-sm-6">
                     <img class="img-responsive mainImg" src="img/rose.jpg"  style="border-radius: 50em;">

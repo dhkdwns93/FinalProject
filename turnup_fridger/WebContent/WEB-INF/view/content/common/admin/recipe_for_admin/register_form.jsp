@@ -4,9 +4,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script type="text/javascript" src="/turnup_fridger/scripts/bootstrap.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<!-- <script type="text/javascript" src="/turnup_fridger/scripts/bootstrap.min.js"></script> -->
+
 <script type="text/javascript">
 $(document).ready(function(){
 	$("div#recipe_irdnt").hide();
@@ -75,8 +75,17 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 								  					.append($("<td>").append($("<button>").prop("type", "button").prop("class","deleteIrdntBtn").append("삭제"))));
 }
 </script>
+<style>
+/* #recipe_info{
+	align:center !important;
+	padding-left:auto !important; 
+	padding-right: auto !important; 
+	margin-left:auto !important; 
+	margin-right: auto !important; 
+} */
+</style>
 <div class="container">
-<h2 style="text-align: center;">레시피 등록</h2><hr><br>
+<h2 style="font-weight:bold; text-align:center; ">레시피 등록</h2><hr><br>
 
 <form id="recipe_register_form" 
 	action="${ initParam.rootPath }/common/admin/recipe/register.do" 
@@ -84,14 +93,13 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"> 
 		<!-- 레시피 기본정보 -->
-	<div id="innerFrom">
-	<div id="recipe_info" style="padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 10px;  background-color: lightgray; margin-bottom: 20px">
+	<div id="recipe_info" style="border-bottom: 1px solid orange;  margin: 20px;  padding: 10px;">
 	<h3 style="margin:10px">레시피 기본정보</h3>
-		<table id="recipe_info_table" style="margin-bottom: 10px">
+		<table id="recipe_info_table">
 			<tbody>
 				<tr>
 					<th>레시피 이름</th>
-					<td><input type="text" name="recipeName" id="recipeName"
+					<td><input type="text" class="form-control" name="recipeName" id="recipeName"
 						value="${ param.recipeName }"> <span class="error"><form:errors
 								path="recipeInfo.recipeName" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_duplicateId != null }">
@@ -100,7 +108,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				</tr>
 				<tr>
 					<th>레시피설명</th>
-					<td><input type="text" name="sumry" id="sumry"
+					<td><input type="text" class="form-control" name="sumry" id="sumry"
 						value="${ param.sumry }"> <span class="error"><form:errors
 								path="recipeInfo.sumry" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
@@ -109,7 +117,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				</tr>
 				<tr>
 					<th>레시피사진</th>
-					<td><input type="file" id="imgUrlSrc" name="imgUrlSrc"
+					<td><input type="file" class="form-control" id="imgUrlSrc" name="imgUrlSrc"
 						value="${ param.imgUrlSrc }">
 						
 						<span class="error"><form:errors
@@ -187,7 +195,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				</tr>
 				<tr>
 					<th>소요시간</th>
-					<td><input type="number" id="cookingTime" name="cookingTime"
+					<td><input type="number" class="form-control" id="cookingTime" name="cookingTime"
 						value="${ param.cookingTime }"> 분 <span class="error"><form:errors
 								path="recipeInfo.cookingTime" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
@@ -196,7 +204,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				</tr>
 				<tr>
 					<th>칼로리</th>
-					<td><input type="number" id="calorie" name="calorie"
+					<td><input type="number" class="form-control" id="calorie" name="calorie"
 						value="${ param.calorie }"> kcal <span class="error"><form:errors
 								path="recipeInfo.calorie" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
@@ -205,7 +213,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				</tr>
 				<tr>
 					<th>기준인분수</th>
-					<td><input type="number" id="qnt" name="qnt"
+					<td><input type="number" class="form-control" id="qnt" name="qnt"
 						value="${ param.qnt }"> 인분 <span class="error"><form:errors
 								path="recipeInfo.qnt" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
@@ -214,7 +222,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				</tr>
 				<tr>
 					<th>가격정보</th>
-					<td><input type="number" id="price" name="price"
+					<td><input type="number" class="form-control" id="price" name="price"
 						value="${ param.price }"> 원 <span class="error"><form:errors
 								path="recipeInfo.price" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
@@ -223,7 +231,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 				</tr>
 				<tr>
 					<th>참조페이지</th>
-					<td><input type="text" id="detUrl" name="detUrl"
+					<td><input type="text" class="form-control" id="detUrl" name="detUrl"
 						value="${ param.detUrl }"> <span class="error"><form:errors
 								path="recipeInfo.detUrl" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
@@ -239,7 +247,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 
 		
 		<!-- 레시피 재료정보 -->
-	<div id="recipe_irdnt" style="padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 10px;  background-color: lightgray; margin-bottom: 20px">
+	<div id="recipe_irdnt" style="border-bottom: 1px solid orange; padding-left: 10px; padding: 10px; margin: 20px">
 	<h3 style="margin:10px">레시피 재료</h3>
 		<span class="error"><form:errors
 								path="recipeInfo.recipeIrdntList" delimiter="&nbsp;" /> <c:if
@@ -263,7 +271,7 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 
 
 	<!-- 레시피 과정정보 -->
-	<div id="recipe_crse" style="padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 10px;  background-color: lightgray; margin-bottom: 20px">
+	<div id="recipe_crse" style="border-bottom: 1px solid orange; padding: 10px; margin: 20px">
 	<h3 style="margin:10px">레시피 과정정보</h3>
 	<span class="error"><form:errors
 								path="recipeInfo.recipeCrseList" delimiter="&nbsp;" /> <c:if
@@ -277,9 +285,9 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 			
 		</table>
 	</div>
+	<div style="padding: 10px; margin: 20px">
+	<input type="submit" id="registerBtn" value="등록" class="btn btn-warning">
+	<input type="reset" value="초기화" class="btn btn-warning">
 	</div>
-	<input type="submit" id="registerBtn" value="등록">
-	<input type="reset" value="초기화">
-	
 </form>
 </div>
