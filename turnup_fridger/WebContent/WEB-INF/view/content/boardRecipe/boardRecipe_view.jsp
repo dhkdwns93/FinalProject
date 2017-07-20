@@ -1,3 +1,8 @@
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
+<%@page import="kr.co.turnup_fridger.service.ShareRecipeIrdntService"%>
+<%@page import="kr.co.turnup_fridger.vo.ShareRecipeIrdnt"%>
+<%@page import="kr.co.turnup_fridger.service.IrdntManageService"%>
 <%@page import="kr.co.turnup_fridger.vo.BoardShareRecipe"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -39,7 +44,7 @@ function update_event(){
 	}
 
 	
-	return location.href="/turnup_fridger/boardRecipe/boardRecipe_view.do";
+	return location.href="/turnup_fridger/boardRecipe/boardRecipe_list.do";
 	
 };
 //작성자의 삭제 권한
@@ -52,6 +57,7 @@ function delete_event(){
 		return false;
 	}
 	if(confirm("확실하게 삭제 하시겠습니까?")==true){
+		
 		location.href="/turnup_fridger/boardRecipe/boardRecipe_list.do";
 		
 	}else{
@@ -112,14 +118,14 @@ response.addCookie(hits);
 %>
 </head>
 <body>
-
+<div class="container">
 <div id="table" style="width:85%; text-align:center; margin-left: auto; margin-right: auto;">
 
 	<button type="button" class="btn btn-default btn-lg" style="border:0;outline:0;" onClick="return back();" >
 			<span class="glyphicon glyphicon-list" aria-hidden="true">목록</span>
 	</button>
 <hr>
-<h2 >View > ${boardShareRecipe.memberId}님의 게시물</h2>
+<h1 >View > ${boardShareRecipe.memberId}님의 게시물</h1>
 <!-- 회원만 수정/삭제 가능 (자기자신이 올린 게시물만 가능) -->
 <div class="align">
 <sec:authorize access="hasRole('ROLE_MEMBER')"> <!-- 회원만 볼 수 있게 -->
@@ -143,7 +149,7 @@ response.addCookie(hits);
 	<input type="hidden" name="memberId" 					value="<sec:authentication property="principal.memberId"/>">
 	<input type="hidden" name="writer" 						value="${boardShareRecipe.memberId }">
 	<input type="hidden" name="adminId" 					value="">
-	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="return delete_event();"> 
+	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="this.parentNode.submit();"> 
 	<span class="glyphicon glyphicon-trash" aria-hidden="true">삭제</span>
 	</button>
 </form>
@@ -158,7 +164,7 @@ response.addCookie(hits);
 	<input type="hidden" name="writer" 						value="${boardShareRecipe.memberId}">
 	<input type="hidden" name="adminId" 					value="<sec:authentication property="principal.adminId"/>">
 	<input type="hidden" name="memberId" 					value="">
-	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="return adminDelete_event();">
+	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="this.parentNode.submit();">
 	<span class="glyphicon glyphicon-trash" aria-hidden="true">삭제</span>
 	</button>
 </form>
@@ -182,30 +188,32 @@ response.addCookie(hits);
                 </div>
                 <hr>
                 <div class="li-text3">
-            		<p class="li-head3">제목 : ${boardShareRecipe.title } </p>
+            		<p class="li-head3" style="font-size: 40px; font-weight: bold;">${boardShareRecipe.title } </p>
             	</div>
             	<hr>
                 <div class="li-text3">
-                    <h5 class="li-head3"><i class="glyphicon glyphicon-user" style="font-size:20px"> ${boardShareRecipe.memberId }</i>&emsp;
-                    <i class="glyphicon glyphicon-eye-open" style="font-size:20px">  ${boardShareRecipe.hits }</i>&emsp;
-                    <i class="glyphicon glyphicon-thumbs-up" style="font-size:20px"> ${boardShareRecipe.recommand }</i></h5>
+                    <h5 class="li-head3"><i class="glyphicon glyphicon-user" style="font-size:30px"> ${boardShareRecipe.memberId }</i>&emsp;
+                    <i class="glyphicon glyphicon-eye-open" style="font-size:30px">  ${boardShareRecipe.hits }</i>&emsp;
+                    <i class="glyphicon glyphicon-thumbs-up" style="font-size:30px"> ${boardShareRecipe.recommand }</i></h5>
                 </div>
                 <hr>
                 <div class="li-text3">
                 	<div class="li-sub3">
-	                	<p>재료 Ingredients </p>
+	                	<h2>재료 Ingredients </h2>
 	                	<hr>
-	                	<c:forEach items="${list}" var="row">
-							<c:forEach items="${irdntId }" var="list">
-							${row }
-							</c:forEach>
-						</c:forEach>
+	                	<%-- <c:forEach items="${share}" var="row">
+	                		${row.irdntId}
+						</c:forEach> --%>
+				
+						<li>${irdntList }</li>
+						
                 	</div>
                 </div>
                 <hr>
                 <div class="li-text3">
-                	<p>내용 Contents</p>
+                	<h2>내용 Contents</h2>
                 	<hr>
+                	<!-- 띄어쓰기, 엔터  -->
                 	<p class="li-sub3">${fn:replace(boardShareRecipe.txt, cn, br)} </p>
                 </div>
                 <hr>
@@ -221,7 +229,7 @@ response.addCookie(hits);
    
     </ul>
 </div>
-
+</div>
 </div>
 
 

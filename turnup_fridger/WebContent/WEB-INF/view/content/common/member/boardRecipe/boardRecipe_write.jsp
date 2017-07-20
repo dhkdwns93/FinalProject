@@ -39,7 +39,7 @@ var numberAddInsert=0;
 $(document).ready(function(){
 		$(document).on("click", "button#insertShareRecipeIrdnt", function(){
 			if(numberAddInsert<20){
-				window.open("${initParam.rootPath}/common/member/boardRecipe/boardRecipe_search_result.do", "search_result", "width=500,height=400,resizable=yes");
+				window.open("${initParam.rootPath}/common/member/boardRecipe/boardRecipe_search_result.do", "search_result", "width=1000,height=400,resizable=yes");
 				var inputTextHtml=$('#seeIrdnt').append('<div id="ShareRecipeIrdntText"><input type="hidden" id="irdntId" name="irdntId" value="${param.irdntId}" ><input type="text" id="irdntName" name="meIrdntName" value=${param.irdntName}>&nbsp&nbsp<button type="button" id="deleteIrdnt" class="btn">재료삭제</button><br></div>');
 				numberAddInsert=numberAddInsert+1;
 			}else{

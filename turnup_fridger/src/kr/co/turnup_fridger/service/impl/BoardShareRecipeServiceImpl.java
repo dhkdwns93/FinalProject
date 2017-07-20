@@ -141,7 +141,7 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 
 	@Override
 	public void deleteRecommandService(int recipeId) {
-		// TODO Auto-generated method stub
+		
 		dao.deleteRecommand(recipeId);
 	}
 

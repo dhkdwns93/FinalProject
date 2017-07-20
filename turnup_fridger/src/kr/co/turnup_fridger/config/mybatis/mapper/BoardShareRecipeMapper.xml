@@ -45,6 +45,13 @@
 		<result column="MEMBER_ID" 						property="memberId"/>
 	</resultMap>
 	
+	<!-- 회원 추천 현황 resultMap -->
+	<resultMap type="memberRecipeRecommand" id="memberRecommand-resultMap">
+		<id column="MEMBER_RECIPE_RECOMMAND_KEY" 		property="recommandKey"/>
+		<result column="BOARD_SHARE_RECIPE_ID" 			property="recipeId"/>
+		<result column="MEMBER_ID" 						property="memberId"/>
+	</resultMap>
+	
 	<!-- 레시피공유게시판 + 추천현황 resultMap -->
 	<resultMap type="boardShareRecipe" id="boardShareRecipe-recommand-resultMap" extends="boardShareRecipe-resultmap">
 		<collection ofType="MemberRecipeRecommand" 		property="memberRecommand">
@@ -213,7 +220,7 @@
 	
 	
 	<!-- 쓸지안쓸지 다시한번 확인 -->
-	<delete id="deleteRecommandService" parameterType="int">
+	<delete id="deleteRecommand" parameterType="int">
 	DELETE FROM MEMBER_RECIPE_RECOMMAND
 	WHERE BOARD_SHARE_RECIPE_ID = #{recipeId}
 	</delete>
@@ -231,7 +238,7 @@
 		FROM (
 		 	<include refid="select-boardShareRecipe"/>
 			WHERE BOARD_SHARE_RECIPE_TITLE LIKE '%'||#{title}||'%'
-			ORDER BY BOARD_SHARE_RECIPE_ID ASC
+			ORDER BY BOARD_SHARE_RECIPE_DATE DESC
 		)
 		WHERE ROWNUM &lt;=#{endIndex}
 	)
@@ -247,7 +254,7 @@
 		FROM (
 		 	<include refid="select-boardShareRecipe"/> 
 			WHERE BOARD_SHARE_RECIPE_TXT LIKE '%'||#{txt}||'%'
-			ORDER BY BOARD_SHARE_RECIPE_ID ASC
+			ORDER BY BOARD_SHARE_RECIPE_DATE DESC
 		)
 		WHERE ROWNUM &lt;=#{endIndex}
 	)
@@ -267,7 +274,7 @@
 		FROM (
 		 	<include refid="select-boardShareRecipe"/>
 			WHERE MEMBER_ID LIKE '%'||#{memberId}||'%'
-			ORDER BY BOARD_SHARE_RECIPE_ID ASC
+			ORDER BY BOARD_SHARE_RECIPE_DATE DESC
 		)
 		WHERE ROWNUM &lt;=#{endIndex}
 	)

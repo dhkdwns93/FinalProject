@@ -24,19 +24,15 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script type="text/javascript">
 
- $(document).ready(function(){
+/*  $(document).ready(function(){
 	$('#recommand-btn').on('click', function(){
-		if(boardShareRecipe.memberId==memberRecommand.memberId){
-			alert('이미 추천하신 게시물입니다.');
-			return location.href="/turnup_fridger/boardRecipe/boardRecipeList.do";
-		}
-		else if(boardShareRecipe.memberId!=memberRecommand.memberId){
+		
 			alert('추천하시겠습니까?');
 			document.submit();
 		}
-	});
-});  
 
+});  
+ */
 
 /* 추천 중복 에러 알림창으로 떠서 알려주는거 하기!!
  * 
@@ -58,6 +54,7 @@
 			
 		}); 
 		*/
+		
 		function add_event(){
 			
 			return location.href="/turnup_fridger/boardRecipe/boardRecipe_write";
@@ -120,7 +117,7 @@ text-align:center;
 </c:if>	
 	
 <body>
-<hr>
+
 <div  class="container">
 <h3>BEST 레시피 4</h3>
 
@@ -175,7 +172,7 @@ text-align:center;
 	<form name="search" method="post" action="${initParam.rootPath }/boardRecipe/selectSearch.do">
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		
-		<select name="searchOption" id="searchOption" >
+		<select name="searchOption" class="form-control" id="searchOption" >
 			<option>선택</option>
 			<option value="제목" >제목</option>
 			<option value="아이디">작성자</option>
@@ -232,7 +229,7 @@ text-align:center;
                 </div>
             </a>
            
-            	<form method="post" action="${initParam.rootPath }/common/boardRecipe/increaseRecommand.do">
+            	<form name="add" method="post" action="${initParam.rootPath }/common/boardRecipe/increaseRecommand.do">
 					<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 					<input type="hidden" name="recipeId" value="${top.recipeId }">
 					<input type="hidden" name="memberId" value="${top.memberId }">

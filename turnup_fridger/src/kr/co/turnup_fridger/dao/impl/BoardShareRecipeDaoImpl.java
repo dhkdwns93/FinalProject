@@ -127,16 +127,18 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 		recommandMap.put("memberId", memberId);
 		return session.selectOne(makeSqlId("selectRecommand"), recommandMap);
 	}
+	
+	//레시피 ID로 삭제
 	@Override
 	public int deleteRecommand(int recipeId) {
-		// TODO Auto-generated method stub
+	
 		return session.delete(makeSqlId("deleteRecommand"), recipeId);
 	}
 	
 
 	@Override
 	public MemberRecipeRecommand selectRecommandOne(int recipeId) {
-		// TODO Auto-generated method stub
+		
 		return session.selectOne(makeSqlId("selectRecommandOne"), recipeId);
 	}
 	

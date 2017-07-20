@@ -153,7 +153,7 @@ span.error{
 	    	</div>
 		</td>	
 		<td style="width:70%;">
-				<h4>${row.memberId}</h4>님의 후기  |  <fmt:formatDate value="${row.boardReviewDate}" pattern="yyyy-MM-dd"/> 
+				<h4>${row.memberId}</h4>님의 후기 &nbsp; |  <fmt:formatDate value="${row.boardReviewDate}" pattern="yyyy-MM-dd"/> 
 		</td>
 		<td  style="width:20%;">
 	<!-- 회원 권한 폼 -->
@@ -206,7 +206,7 @@ span.error{
 		<td>
 		</td>
 		<td style="width:70%;">
-				${row.recipeName}	|	
+				<a href="${initParam.rootPath}/recipe/show/detail.do?recipeId=${row.recipeId}">${row.recipeName}</a>	|	
 			<c:if test="${row.boardReviewStar == 0}">
     			<img width="20%" src="${initParam.rootPath}/starimage/rating0.png">
     		</c:if>

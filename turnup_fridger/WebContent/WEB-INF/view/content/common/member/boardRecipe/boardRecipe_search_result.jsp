@@ -27,7 +27,7 @@ $(document).ready(function(){
 							append($("<td>").append("<input type='hidden' id='irdntId' value="+this.irdntId+">"+(idx+1))).
 							append($("<td>").append("<input type='hidden' id='irdntName2' name='irdntName2' value="+this.irdntName+">"+(this.irdntName))).
 							append($("<td>").append(this.irdntCategory)).
-							append($("<td>").append("<button type='button' id='selectIrdntBtn'>재료추가</button>")));
+							append($("<td>").append("<button type='button' id='selectIrdntBtn' class='btn btn-default'>재료추가</button>")));
 							
 					
 				 	});//each
@@ -79,7 +79,7 @@ td {
 
 	재료명 : 
 	<input type="text" name ="irdntName" id="irdntName">
-	<button type="button" id="searchBtn">검색</button><br><br>
+	<button type="button" id="searchBtn" class="btn btn-default">검색</button><br><br>
 
 	<div id="result">
 		<table>
@@ -94,6 +94,6 @@ td {
 			<tbody id="tbody"></tbody>
 		</table>
 	</div>
-	<button type="button" onclick="window.close();">닫기</button>
+	<button type="button" class="btn btn-default" onclick="window.close();">닫기</button>
 </body>
 </html>

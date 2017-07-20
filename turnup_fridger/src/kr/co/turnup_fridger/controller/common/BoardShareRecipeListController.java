@@ -53,7 +53,7 @@ public class BoardShareRecipeListController{
 	ShareRecipeIrdntService irdntService;
 	
 	
-	
+	MemberRecipeRecommand memberRecipeRecommand;
 	ShareRecipeIrdnt shareRecipeIrdnt;
 	IrdntManage irdntManage;
 	
@@ -222,16 +222,22 @@ public class BoardShareRecipeListController{
 	@RequestMapping("/boardRecipe/boardRecipeView")
 	public ModelAndView boardRecipeView(@RequestParam int recipeId, 
 			HttpSession session) throws Exception{
-		//System.out.println("들어왓니?");
+		
 		ModelAndView mav = new ModelAndView();
 		//조회수 증가처리
 		boardShareRecipeService.increaseHit(recipeId, session);
-		//System.out.println("조회수 증가햇니?");
+		
 		//recipeId로 3개 조인한 값 상세조회
 		BoardShareRecipe boardRecipe = boardShareRecipeService.selectBoardByShareIrdnt(recipeId);
 		
 		List<ShareRecipeIrdnt> list = irdntService.findShareRecipeIrdntByRecipeId(recipeId);
-		//System.out.println(list);
+		
+		List<ShareRecipeIrdnt> share = irdntService.selectShareRecipeIrdntByRecipeId(recipeId);
+		mav.addObject("share", share);
+		for(int i=0; i<share.size();i++){
+			mav.addObject("irdntList",  share.get(i).getIrdntManage().getIrdntName());
+		}
+		
 		mav.addObject("boardShareRecipe",boardRecipe);
 		mav.addObject("list", list);
 		mav.setViewName("boardRecipe/boardRecipe_view.tiles");
@@ -403,20 +409,10 @@ public class BoardShareRecipeListController{
 			@RequestParam String writer, @RequestParam String adminId,
 			@RequestParam(defaultValue="1") int page){
 		ModelAndView mav = new ModelAndView();
-		if(writer.equals(memberId)&&adminId.trim().isEmpty()||!adminId.trim().isEmpty()){
-			
-//			boardShareRecipeService.deleteRecommandService(recipeId);
-			irdntService.deleteShareRecipeIrdntByRecipeId(recipeId);
-			boardShareRecipeService.deleteBoardShareRecipe(recipeId);
-			Map<String, Object> map = boardShareRecipeService.selectBoardShareRecipeAll(page);
-			List<BoardShareRecipe> top = boardShareRecipeService.selectBoardTop4();
-			mav.addObject("top", top);
-			mav.addObject("list", map.get("list"));
-			mav.addObject("pageBean", map.get("pageBean"));
-			mav.addObject("totalCount", map.get("totalCount"));
-			mav.setViewName("boardRecipe/boardRecipe_list.tiles");
-			return mav;
-		}
+		irdntService.deleteShareRecipeIrdntByRecipeId(recipeId);
+		boardShareRecipeService.deleteRecommandService(recipeId);
+		boardShareRecipeService.deleteBoardShareRecipe(recipeId);
+		
 		
 		List<BoardShareRecipe> top = boardShareRecipeService.selectBoardTop4();
 		Map<String, Object> map = boardShareRecipeService.selectBoardShareRecipeAll(page);
@@ -424,7 +420,7 @@ public class BoardShareRecipeListController{
 		mav.addObject("top", top);
 		mav.addObject("list", map.get("list"));
 		mav.addObject("recipeId", map.get("recipeId"));
-		mav.setViewName("boardRecipe/boardRecipe_view.tiles");
+		mav.setViewName("boardRecipe/boardRecipe_list.tiles");
 		
 		return mav;
 	}
@@ -449,16 +445,14 @@ public class BoardShareRecipeListController{
 	//추천수 +1 추가 
 	@RequestMapping("/common/boardRecipe/increaseRecommand")
 	@ResponseBody
-	public ModelAndView recommandByTwoId(@RequestParam int recipeId, @RequestParam String memberId ) throws BoardException{
+	public ModelAndView recommandByTwoId(@RequestParam int recipeId, @RequestParam String memberId ) throws Exception{
 		ModelAndView mav = new ModelAndView();
-		System.out.println("1차");
+	
+				boardShareRecipeService.updateBoardRecommand(recipeId);
+				boardShareRecipeService.insertRecommandServie(new MemberRecipeRecommand(0, recipeId, memberId));
+			
 		
-		boardShareRecipeService.updateBoardRecommand(recipeId);
-		boardShareRecipeService.insertRecommandServie(new MemberRecipeRecommand(0, recipeId, memberId));
-		System.out.println("5차");
 		
-		System.out.println("2차");
-
 		mav.setViewName("boardRecipe/boardRecipe_list.tiles");
 		return mav;
 	}
