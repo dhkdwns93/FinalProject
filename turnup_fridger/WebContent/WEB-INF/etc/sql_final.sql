@@ -2,6 +2,7 @@
 --select * from recipe_irdnt
 --select * from IRDNT_MANAGE
 
+
 --headMaster한명 input(테이블 생성후 넣으세용)
 insert into authority values('headAdmin1','headAdmin1','ROLE_HEADMASTERADMIN');
 insert into admin values('headAdmin1','headAdmin1','HeadMasterAdmin','01012345678','headadmin@kosta.or.kr','ROLE_HEADMASTERADMIN');
