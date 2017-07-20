@@ -185,6 +185,6 @@ h1 {
 		 </div><!-- form-page -->
  	</div><!-- rightside menu -->
 </div>
-</div><!-- container -->
+
 </body>
 </html>
