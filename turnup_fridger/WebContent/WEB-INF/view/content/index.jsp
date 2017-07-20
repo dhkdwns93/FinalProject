@@ -96,7 +96,7 @@
                 <div class="col-lg-5 col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                    <h2 class="section-heading">이달의 추천레시피&nbsp;&nbsp;<a target="_blank" href="소갈비찜 상세정보보기화면">소갈비찜</a></h2>
+                    <h2 class="section-heading">이달의 추천레시피&nbsp;&nbsp;<a target="_blank" href="${initParam.rootPath}/recipe/show/detail.do?recipeId=50">소갈비찜</a></h2>
                     <p class="lead">
                     특별한 날, 기념할만한 날을 위한 든든하고 정갈한 음식 소갈비찜을 추천드립니다. 짭짤하고 달달한 맛으로 남녀노소 누구나 맛있게 즐길 수 있는 요리인데요, 요즘같이 무더운 여름철 보양식으로도 손색없습니다!<br>
                     저희 <span class="tf"><b>Turnup-Fridger</b></span>에서 강력추천 드리는 이달의 추천 레시피 소갈비찜을 직접 만들어 드시고 게시판을 통해 후기를 올려주시면 추첨을 통해 다양한 상품을 드립니다. </p>
@@ -120,8 +120,9 @@
                 <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
                     <hr class="section-heading-spacer">
                     <div class="clearfix"></div>
-                    <h2 class="section-heading">3D Device Mockups<br>by PSDCovers</h2>
-                    <p class="lead">Turn your 2D designs into high quality, 3D product shots in seconds using free Photoshop actions by <a target="_blank" href="http://www.psdcovers.com/">PSDCovers</a>! Visit their website to download some of their awesome, free photoshop actions!</p>
+                    <h2 class="section-heading">음식물 보관 팁</h2>
+                    <p class="lead"><b>식중독 위험구간인<br> 5ºC ~ 60ºC 사이의 음식들을 주의하세요!</b><br><br>뜨거운 음식을 보관할 때에는 60ºC이상!<br> 실온음식을 보관할 때에는 5ºC이하의 서늘한 곳!<br> 차가운 음식은 -15ºC이하의 냉장 또는 냉동구간에!<br>
+                    					 <b>뜨거운 기온과 습한 날씨로 인해 평소보다 더 주의깊은<br>식재료 관리가 필요합니다</b> </p>
                 </div>
                 <div class="col-lg-5 col-sm-pull-6  col-sm-6">
                     <img class="img-responsive mainImg" src="img/rose.jpg"  style="border-radius: 50em;">
