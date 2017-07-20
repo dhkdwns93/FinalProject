@@ -595,8 +595,8 @@ display: none;
 
 <div>
 <!-- 등록폼 -->
-<jsp:include page="/WEB-INF/view/content/common/member/fridger/register_form2.jsp"/>
-<jsp:include page="/WEB-INF/view/content/common/member/fridger/update_form2.jsp"/>
+<jsp:include page="/WEB-INF/view/content/common/member/fridger/register_form.jsp"/>
+<jsp:include page="/WEB-INF/view/content/common/member/fridger/update_form.jsp"/>
 
 </div>
 
