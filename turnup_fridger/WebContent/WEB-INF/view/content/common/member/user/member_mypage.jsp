@@ -43,6 +43,10 @@ $(document).ready(function(){
 		$("#deleteMemberModal").modal("show");
 	});	// end of click on requstBtn
 	
+	
+	$("button#favoriteSectionBtn").on("click",function(){
+		$("#favoriteSectionModal").modal("show");
+	});//end of favorateSectionBtn
 })
 </script>
 
@@ -169,6 +173,17 @@ input[type="button"].btn-block {
 .btn-block.active {
   background-color: #d8d8d8 \9;
 }
+
+.ccbtn{
+	font-size:13px;
+	border:none;
+	background:#f8ae45;
+	height:28px;
+	color:#FFFFFF;
+	cursor:pointer;
+	text-decoration:none;
+	font-weight:bold;
+}
 </style>
 
 </head>
@@ -228,6 +243,9 @@ input[type="button"].btn-block {
 							</td>
 						</tr>
 					</table>
+					
+					<button type="button" class="ccbtn"  id="favoriteSectionBtn"  data-toggle="modal"  data-target="#favoriteSectionModal">등록된 즐겨찾기</button>
+					
 				</div><!-- info  desc -->
 				<div class="bottom-mypage">
 					<a href="${initParam.rootPath }/common/member/member_change_info.do"><button type="button" class="btn btn-block">회원정보수정</button></a>
@@ -236,9 +254,17 @@ input[type="button"].btn-block {
 		</div><!-- info -->
 		</div><!-- card hover card -->
 		
-		<div id="favoriteSection" style=";margin-left:auto;margin-right:auto;"><br>
+		
+		<div class="modal fade" id="favoriteSectionModal" tabindex="-1" role="dialog" aria-labelledby="createFridgerModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		<div class="modal-content">
+		
+		<div class="modal-header">
+			<h3 class="modal-title font-Viner_Hand_ITC" id="myModalLabel">Favorite Recipe</h3>
+		</div>
+		<div class="modal-body">
 		<h3 style="text-align:center;">추가한 즐겨찾기 목록</h3><br><br>
-			<table class="table table-hover table-condensed" style="width:300px;margin-left:230px;">
+			<table class="table table-hover table-condensed" style="width:300px;margin-left:auto;margin-right:auto;">
 				<thead id="fThead">
 					<tr>
 						<th>레시피id</th>
@@ -248,7 +274,18 @@ input[type="button"].btn-block {
 				<tbody id="fTbody">
 				</tbody>
 			</table>
-		</div>
+		</div><!--modal-body  -->
+		
+		<div class="modal-footer">
+			<input type="button" id="cancel" class="btn btn-default" data-dismiss="modal" onclick="resetModal()" value="Close">
+		</div><!-- modal footer -->
+
+		
+		</div><!-- .modal-content -->
+		</div><!-- .modal-dialog -->
+		</div><!-- .modal fade -->
+		
+		
 		
 	</div><!-- rightside menu -->
 </div>

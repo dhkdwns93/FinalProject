@@ -531,6 +531,7 @@ public class RecipeController {
 		//레시피 재료 중량변환
 		for(RecipeIrdnt ri : recipe.getRecipeIrdntList()){
 			ri.setirdntAmount(recipeService.amountChange(ri.getirdntAmount()));
+			System.out.println("recipe/show/detail:"+ri.getirdntAmount());
 
 		}
 		//레시피 과정 중량변환

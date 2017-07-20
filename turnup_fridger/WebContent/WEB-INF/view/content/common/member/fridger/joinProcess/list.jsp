@@ -1,4 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <script src="${ initParam.rootPath }/scripts/jquery.js"></script>
 <script src="${ initParam.rootPath }/scripts/bootstrap.min.js"></script>
@@ -8,9 +12,6 @@
 <link href="${ initParam.rootPath }/css/landing-page.css" rel="stylesheet">
  <script type="text/javascript">
 $(document).ready(function (){
-	getRequestList();
-	getResponseList();
-	
 	
 	$(document).on("click", "#cancelBtn", function(){
 		//alert($(this).parent().parent().children(":first-child").text());
@@ -74,7 +75,7 @@ $(document).ready(function (){
 				}
 			},
 			"success": function(txt){
-		       alert(txt );
+		       alert(txt);
 		   		getRequestList();
 				getResponseList();
 		     },
@@ -87,6 +88,7 @@ $(document).ready(function (){
 	
 	// 냉장고 그룹 초대 폼
 	$(document).on("click","#inviteModalBtn", function(){
+
 		$("#inviteFridgerModal").modal("show");
 		$.ajax({
 			"url":"/turnup_fridger/common/member/fridger/show/mine.do",
@@ -131,7 +133,7 @@ $(document).ready(function (){
 					getResponseList();
 				
 				}else{
-					$(".errorWell").find(".error").append(text);
+					$(".errorWell").find(".error").text(text);
 					$(".errorWell").show();
 					//회색차유ㅠ
 				}
@@ -181,7 +183,7 @@ $(document).ready(function (){
 					getResponseList();
 					
 				}else{
-					$(".errorWell").find(".error").append(text);
+					$(".errorWell").find(".error").text(text);
 					$(".errorWell").show();
 					//회색차유ㅠ
 				}
@@ -223,13 +225,17 @@ function resetJoinModal(){
 }
 
 function getRequestList(){
+	$("#listHeader").hide();
+	$("#listTable").hide();
+	$("#listTable").fadeIn();
+	
 	$.ajax({
 				"url":"/turnup_fridger/common/member/fridger/joinProcess/show/list/request.do",
 				"type":"post",
 				"data":{'${_csrf.parameterName}':'${_csrf.token}'},
 				"dataType":"json",
 				"success": function(list){
-		        	$("#requestTable>tbody").empty();
+		        	$("tbody").empty();
 			        $.each(list, function(index){
 			        	var processStateStr ="";
 			        	var i = index+1;
@@ -250,7 +256,7 @@ function getRequestList(){
 			        	}		        	
 
 			        	
-			        	$("#requestTable>tbody").append($("<tr>").append($("<td>").append(this.processNo))
+			        	$("tbody").append($("<tr>").append($("<td>").append(this.processNo))
 												 .append($("<td>").append(this.fridger.fridgerName))
 												 .append($("<td>").append(processStateStr))
 												 .append($("<td>").append(getTimeStamp(this.reqDate)))
@@ -266,13 +272,17 @@ function getRequestList(){
 	
 	
 function getResponseList(){
+	$("#listHeader").hide();
+	$("#listTable").hide();
+	$("#listTable").fadeIn();
+	
 		$.ajax({
 			"url":"/turnup_fridger/common/member/fridger/joinProcess/show/list/response.do",
 			"type":"post",
 			"data":{'${_csrf.parameterName}':'${_csrf.token}'},
 			"dataType":"json",
 			"success": function(list){
-	        	$("#responseTable>tbody").empty();
+	        	$("tbody").empty();
 		        $.each(list, function(index){
 		        	var i = index+1;
 		        	var processStateStr ="";
@@ -294,7 +304,7 @@ function getResponseList(){
 		        	}		        	
 		        	
 		        
-		        	 $("#responseTable>tbody").append($("<tr>").append($("<td>").append(this.processNo))
+		        	 $("tbody").append($("<tr>").append($("<td>").append(this.processNo))
 											 .append($("<td>").append(this.fridger.fridgerName))
 											 .append($("<td>").append(processStateStr))
 											 .append($("<td>").append(getTimeStamp(this.reqDate)))
@@ -347,90 +357,84 @@ function leadingZeros(n, digits) {
 </script>
 
 <style>
+
+#listTable{
+display: none;
+}
+
 .errorWell{
 display: none;
+}
+
+button{
+margin-left: 2px;
+margin-right: 2px;
 }
 
 </style>
 
 
-
 <div>
 <!-- 가입펌 -->
-<jsp:include page="/WEB-INF/view/content/common/member/fridger/list.jsp"/>
+<jsp:include page="/WEB-INF/view/content/common/member/fridger/join_form.jsp"/>
 <!-- 초대폼 -->
 <jsp:include page="/WEB-INF/view/content/common/member/fridger/invite_form.jsp"/>
 
 </div>
-
+	
 <div class="container">
+<jsp:include page="/WEB-INF/view/layout/side_menu/fridgerSideMenu.jsp"/>
+<div class='right-box-sidemenu'>
 
-<h1> 공유 관리</h1>
+<div class='inner-page' style="margin-top: 60px">
 
+<div id="listHeader" style="position: relative">
+<h1>공유 하기</h1>
+지금, 우리의 Turnup Fridger에서<br>
+<span class="allFridgerCount"><!-- 냉장고 수 --></span>
 가족 구성원끼리 냉장고를 공유하여 관리하세요. 더욱 효율적으로 냉장고를 관리할 수 있을 것입니다.
-
-<button type="button" class="btn btn-warning" id="inviteModalBtn" style="background-color:#f7c42d; color:#ffffff; width:70px; border:5px; margin: 2px; text-shadow:none; font-weight: bold">INVITE</button>
-<button type="button" class="btn btn-default" id="joinModalBtn" style="background-color:#ccccb3; color:white; border:5px; border-color:#999966; width:70px; margin: 2px; text-shadow:none;  font-weight: bold">JOIN</button>
 <br>
-<p>
-<div role="tabpanel" style="padding-top: 30px;">
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#requestTab" aria-controls="home" role="tab" data-toggle="tab">REQUEST</a></li>
-    <li role="presentation"><a href="#responseTab" aria-controls="profile" role="tab" data-toggle="tab">RESPONSE</a></li>
-   </ul>
 
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="requestTab" align="center">
-    <div class="container">
-		<div style="width:1000px;" >	
-		<table id="requestTable" class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
-			<thead>
-				<tr>
-					<th style="width:5%;">NO</th>
-					<th style="width:20%;">냉장고명</th>
-					<th style="width:10%;">처리상태</th>
-					<th style="width:10%;">최초요청일</th>
-					<th style="width:10%;">승인응답일</th>
-					<th style="width:10%;">요청회원</th>
-					<th style="width:10%;">응답회원</th>
-					<th style="width:25%;">처리</th>
-				</tr>
-			</thead>
-			<tbody>
-				<!-- 내용 받아올 부분 -->
-			</tbody>
-		</table>
-		</div>
-	</div>
-	</div>
-    
-    
-    <div role="tabpanel" class="tab-pane" id="responseTab" align="center">
-    	<div style="width:1000px;">
-		<table id="responseTable" class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
-			<thead>
-				<tr>
-					<th style="width:5%;">NO</th>
-					<th style="width:20%;">냉장고명</th>
-					<th style="width:10%;">처리상태</th>
-					<th style="width:10%;">최초요청일</th>
-					<th style="width:10%;">승인응답일</th>
-					<th style="width:10%;">요청회원</th>
-					<th style="width:10%;">응답회원</th>
-					<th style="width:25%;">처리</th>
-				</tr>
-			</thead>
-			<tbody>
-				<!-- 내용 받아올 부분 -->
-			</tbody>
-		</table>
-		</div>
-    </div>
-    </div>
-    
-    
+
+<div id="inviteModal" style="position: absolute; border:1px solid lightgray; border-radius:5px; padding:20px; width:300px; height:220px; top:100px; left:30px; text-align: center;">
+	<h3 style="font-weight: bold;">냉장고로 초대하기</h3>
+	당신의 냉장고를 공유할 <br>
+	회원을 초대합니다. <br>
+	<br>
+	<button type="button" class="btn btn-warning" id="inviteModalBtn" style="background-color:#f7c42d; color:#ffffff; width:70px; border:5px; margin: 2px; text-shadow:none; font-weight: bold">INVITE</button>
 </div>
-	</div>
+<div id="joinModal" style="position: absolute; border:1px solid lightgray; border-radius:5px; padding:20px; width:300px; height:220px; top:100px; right:30px; text-align: center;">
+	<h3 style="font-weight: bold;">냉장고에 가입하기</h3>
+	공유를 원하는 다른 회원의 <br>
+	냉장고에 가입합니다.<br>
+	<br>
+	<button type="button" class="btn btn-default" id="joinModalBtn" style="background-color:#ccccb3; color:white; border:5px; border-color:#999966; width:70px; margin: 2px; text-shadow:none;  font-weight: bold">JOIN</button>
+</div>
+</div>
+<p>
+
+  <!-- table -->
+   	<div id="listTable" style="width:800px;">
+ 		<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
+			<thead>
+				<tr>
+					<th style="width:5%;">NO</th>
+					<th style="width:18%;">냉장고명</th>
+					<th style="width:12%;">처리상태</th>
+					<th style="width:12%;">요청일</th>
+					<th style="width:12%;">응답일</th>
+					<th style="width:10%;">요청회원</th>
+					<th style="width:10%;">응답회원</th>
+					<th style="width:21%;">처리</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- 내용 받아올 부분 -->
+			</tbody>
+		</table>
+		</div>
+  
+    
+    </div>
+</div>
 	</div>

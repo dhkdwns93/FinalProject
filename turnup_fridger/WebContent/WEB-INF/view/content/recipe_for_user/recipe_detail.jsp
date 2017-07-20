@@ -12,6 +12,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/bootstrap.min.js"></script>
+<script src="${ initParam.rootPath }/scripts/mdb.js"></script>
+
 <script type="text/javascript">
 function getReview(page){
 	if(!page) page = 1;
@@ -228,27 +230,37 @@ $(document).ready(function(){
 		});
 	});//하트 클릭하면 
 	
+	
+	
+	
 	$("#changePortionFor1_Btn").on("click",function(){
+		$("#standardQnt").fadeOut();
 		var qnt = getNumber($("#standardQnt").text())
-		$("#standardQnt").text('1인분');
+		
+		$("#standardQnt").fadeIn().text('1인분');
 		$("span.amountChangable").each(function(){
-			//console.log($(this).text());
+			$(this).fadeOut();
 			var amt = $(this).text();
-			if(!isNaN(amt)){	//정수일때
-			 	//console.log(amt/qnt*1)
-			 	$(this).text((amt/qnt).toFixed(1)*1);
-			}
-			if(amt.includes("/")){	//분수인경우
-				console.log(amt);
-				var frct = amt.split('/');
-				console.log(frct[1]*qnt);
-				frct[1] = frct[1]*qnt;
-				console.log(frct[0]*1);
-				frct[0] = frct[0]*1;
-				console.log(getFrct(frct))
-				$(this).text(getFrct(frct));
-			}if(!amt || amt ==''){
+			if(!amt || amt ==''){
 				$(this).remove();
+			}else{
+			
+				if(!isNaN(amt)){	//정수일때
+				 	//console.log(amt/qnt*4)
+					amt = ((amt/qnt)*1);
+					if(!is_integer(amt)){
+						amt = amt.toFixed(1);
+					}
+				}
+				else if(amt.includes("/")){	//분수인경우
+					var frct = amt.split('/');
+					frct[1] = frct[1]*qnt;
+					frct[0] = frct[0]*1;
+					amt = getFrct(frct);
+				}
+				
+				
+				$(this).fadeIn().text(amt);
 			}
 		})
 		$(".changePortionBtn").removeAttr("disabled");
@@ -256,26 +268,36 @@ $(document).ready(function(){
 	});//단위변환:1인분
 	
 	$("#changePortionFor2_Btn").on("click",function(){
+		$("#standardQnt").fadeOut();
+		
 		var qnt = getNumber($("#standardQnt").text())
+		$("#standardQnt").fadeIn().text('2인분');
 		$("#standardQnt").text('2인분');
 		$("span.amountChangable").each(function(){ 
-			//console.log($(this).text());
+			$(this).fadeOut();
 			var amt = $(this).text();
-			if(!isNaN(amt)){	//정수일때
-			 	//console.log(amt/qnt*2)
-				$(this).text((amt/qnt).toFixed(1)*2);
-			}
-			if(amt.includes("/")){	//분수인경우
-				console.log(amt);
-				var frct = amt.split('/');
-				console.log(frct[1]*qnt);
-				frct[1] = frct[1]*qnt;
-				console.log(frct[0]*2);
-				frct[0] = frct[0]*2;
-				console.log(getFrct(frct))
-				$(this).text(getFrct(frct));
-			}if(!amt || amt ==''){
+			if(!amt || amt ==''){
 				$(this).remove();
+			}else{
+			
+				if(!isNaN(amt)){	//정수일때
+				 	//console.log(amt/qnt*4)
+					amt = ((amt/qnt)*2);
+
+					if(!is_integer(amt)){
+						amt = amt.toFixed(1);
+					}					
+				}
+				else if(amt.includes("/")){	//분수인경우
+					var frct = amt.split('/');
+					frct[1] = frct[1]*qnt;
+					frct[0] = frct[0]*2;
+					amt = getFrct(frct);
+				}
+				
+				
+				
+				$(this).fadeIn().text(amt);
 			}
 		})
 		$(".changePortionBtn").removeAttr("disabled");
@@ -285,26 +307,36 @@ $(document).ready(function(){
 	
 	$("#changePortionFor3_Btn").on("click",function(){
 		//원상복귀 과정 필요
+		$("#standardQnt").fadeOut();
 		var qnt = getNumber($("#standardQnt").text())
-		$("#standardQnt").text('3인분');
+		$("#standardQnt").fadeIn().text('3인분');
 		$("span.amountChangable").each(function(){
 			//console.log($(this).text());
+			$(this).fadeOut();
 			var amt = $(this).text();
-			if(!isNaN(amt)){	//정수일때
-			 	//console.log(amt/qnt*3)
-				$(this).text((amt/qnt).toFixed(1)*3);
-			}
-			if(amt.includes("/")){	//분수인경우
-				console.log(amt);
-				var frct = amt.split('/');
-				console.log(frct[1]*qnt);
-				frct[1] = frct[1]*qnt;
-				console.log(frct[0]*3);
-				frct[0] = frct[0]*3;
-				console.log(getFrct(frct))
-				$(this).text(getFrct(frct));
-			}if(!amt || amt ==''){
+			if(!amt || amt ==''){
 				$(this).remove();
+			}else{
+			
+				if(!isNaN(amt)){	//정수일때
+				 	//console.log(amt/qnt*4)
+					amt = ((amt/qnt)*3);
+				
+					if(!is_integer(amt)){
+						amt = amt.toFixed(1);
+					}
+				}
+				else if(amt.includes("/")){	//분수인경우
+					var frct = amt.split('/');
+					frct[1] = frct[1]*qnt;
+					frct[0] = frct[0]*3;
+					amt = getFrct(frct);
+				}
+				
+				
+				
+				
+				$(this).fadeIn().text(amt);
 			}
 		})
 		$(".changePortionBtn").removeAttr("disabled");
@@ -312,26 +344,32 @@ $(document).ready(function(){
 		
 	});//단위변환:3인분
 	$("#changePortionFor4_Btn").on("click",function(){
+		$("#standardQnt").fadeOut();
 		var qnt = getNumber($("#standardQnt").text())
-		$("#standardQnt").text('4인분');
+		$("#standardQnt").fadeIn().text('4인분');
 		$("span.amountChangable").each(function(){
-			//console.log($(this).text());
+			$(this).fadeOut();
 			var amt = $(this).text();
-			if(!isNaN(amt)){	//정수일때
-			 	//console.log(amt/qnt*4)
-				$(this).text((amt/qnt).toFixed(1)*4);
-			}
-			if(amt.includes("/")){	//분수인경우
-				console.log(amt);
-				var frct = amt.split('/');
-				console.log(frct[1]*qnt);
-				frct[1] = frct[1]*qnt;
-				console.log(frct[0]*4);
-				frct[0] = frct[0]*4;
-				console.log(getFrct(frct))
-				$(this).text(getFrct(frct));
-			}if(!amt || amt ==''){
+			if(!amt || amt ==''){
 				$(this).remove();
+			}else{
+			
+				if(!isNaN(amt)){	//정수일때
+				 	//console.log(amt/qnt*4)
+					amt = ((amt/qnt)*4);
+				
+					if(!is_integer(amt)){
+						amt = amt.toFixed(1);
+					}
+				}
+				else if(amt.includes("/")){	//분수인경우
+					var frct = amt.split('/');
+					frct[1] = frct[1]*qnt;
+					frct[0] = frct[0]*4;
+					amt = getFrct(frct);
+				}
+				
+				$(this).fadeIn().text(amt);
 			}
 		})
 		$(".changePortionBtn").removeAttr("disabled");
@@ -341,7 +379,10 @@ $(document).ready(function(){
 	$("#timerBtn").on("click",function(){
 		window.open("/turnup_fridger/timer.do","timer","width=500, height=200");
 	});
-})//ready	
+	
+	
+})
+
 //숫자 추출
 function getNumber(str){
 		var target = str;
@@ -373,6 +414,16 @@ function getGcd(a,b){ //최대공약수 계산
 	}
 	return Math.abs(a);
 }
+
+function is_integer(n){
+
+    var reg = /^\d+$/;
+
+    return reg.test(n);
+
+}
+
+
 //이동
 function moveTo(url,recipeId){
 		window.open(
@@ -405,14 +456,16 @@ table tr td{
   width: 120px;
 }
 </style>
-<div class="container" style="position:realative;">
+<div class="container" style="position:relative;">
 
 <!--즐겨찾기버튼  -->
-<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN','ROLE_MEMBER')">
-<div id="favoriteSection" style="cursor:pointer"></div> 
-</sec:authorize>
-<h1 style="font-weight:bold;">${requestScope.recipe.recipeName}</h1><hr>
 
+
+<h1 style="font-weight:bold;">${requestScope.recipe.recipeName}</h1>
+<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN','ROLE_MEMBER')">
+	<div id="favoriteSection" style="cursor:pointer;position:absolute; right:30px;top:40px"></div>
+</sec:authorize>
+<hr>
 <div id="whole">
 	<div id="recipe_info">
 		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
@@ -424,8 +477,17 @@ table tr td{
  		<img src="${ requestScope.recipe.imgUrl }" alt="photo" style="width:500px;height:400px;">
 		</div>
 
-		<div style="width:50%;float:right;margin-top:50px;">
-		<table class="table table-hover table-condensed"> 
+		<div style="width:50%;float:right;margin-top:10px;">
+		<table class="table table-hover table-condensed">
+			<thead>
+			<tr>
+				<th colspan="2">
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN','ROLE_MEMBER')">
+<div id="favoriteSection" style="cursor:pointer;float:right"></div> 
+</sec:authorize>
+				</th>
+			</tr>
+			</thead>
 			<tbody>
 				<tr>
 					<th>유형분류</th>
@@ -453,7 +515,16 @@ table tr td{
 				</tr>
 				<tr>
 					<th>재료별분류</th>
-					<td>${ requestScope.recipe.irdntCode }</td>
+					<td>
+					<c:choose>
+						<c:when test="${ requestScope.recipe.irdntCode != 'null' && !empty requestScope.recipe.irdntCode}">
+						${ requestScope.recipe.irdntCode }
+						</c:when>
+						<c:otherwise>
+						없음
+						</c:otherwise>
+					</c:choose>
+					</td>
 				</tr>
 				<tr>
 					<th>기준가격</th>

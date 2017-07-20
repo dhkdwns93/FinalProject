@@ -87,7 +87,6 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 	public String getFreshLevel(MyIrdnt myirdnt) {
 	      // 해당냉장고에서의 재료마다의 신선도 계산하는 메서드.
 
-		System.out.println("신선도시작~"+myirdnt);
 	      int irdntId = myirdnt.getIrdntId();
 	      Long leftDay; // 남은 일수 밀리초변환.
 	      
@@ -119,7 +118,7 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 	            period = period * 1;
 	            break;
 	         case "보통":
-	            period = (int) (period * 0.7);
+	            period = (int) (period * 0.8);
 	            break;
 	         case "나쁨":
 	            period = (int) (period * 0.5);

@@ -32,12 +32,18 @@ $(document).ready(function(){
 p{
 	text-align: center;
 }
+.tableListScroll{
+	width: 600px;
+}
 </style>
 </head>
 <body>
-<input type="hidden" id="id" value="<sec:authentication property='principal.memberId'/>">
 <div class="container">
-<h2>나의 메모</h2>
+<jsp:include page="/WEB-INF/view/layout/side_menu/memberSideMenu.jsp"/>
+<div class='right-box-sidemenu'>
+<input type="hidden" id="id" value="<sec:authentication property='principal.memberId'/>">
+
+<div style="text-align: center;"><h2>나의 메모</h2></div><br>
 <p id="memoNum">현재 <span id="count"></span> 개의 메모가 있습니다</p>
 <div class="tableListScroll">
 <table id="tt" class="table table-hover">
@@ -56,6 +62,6 @@ p{
 </table>
 </div>
 </div>
-
+</div>
 </body>
 </html>

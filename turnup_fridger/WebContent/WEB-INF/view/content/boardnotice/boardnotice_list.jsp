@@ -42,6 +42,7 @@ input {
 </head>
 <body>
 <div class="container">
+
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 
 <jsp:useBean id="now" class="java.util.Date" />

@@ -1,3 +1,5 @@
+select * from user_tab_columns;
+
 --select distinct irdnt_category from irdnt_manage
 --select * from recipe_irdnt
 --select * from IRDNT_MANAGE
@@ -184,7 +186,7 @@ CREATE TABLE fridger_GROUP (
 DROP SEQUENCE GROUP_KEY;
 CREATE SEQUENCE GROUP_KEY INCREMENT BY 1 START WITH 1; 
 --SELECT GROUP_KEY.NEXTVAL FROM DUAL;
-select * from fridger_group where fridger_id = '4';
+select * from fridger_group where group_member_id = '2222';
 
 /* 공지사항 */
 DROP TABLE BOARD_NOTICE;
@@ -218,7 +220,9 @@ CREATE SEQUENCE SHOP_ID INCREMENT BY 1 START WITH 1;
 --SELECT SHOP_ID.NEXTVAL FROM DUAL;
 
 /* 재료 관리 */
-DROP TABLE IRDNT_MANAGE cascade constraint
+select count(*) from irdnt_manage;
+SELECT * FROM IRDNT_MANAGE;
+DROP TABLE IRDNT_MANAGE cascade constraint;
 --ALTER TABLE IRDNT_MANAGE ADD(NOTE VARCHAR2(50));
 DELETE FROM IRDNT_MANAGE;
 CREATE TABLE IRDNT_MANAGE (
@@ -230,7 +234,7 @@ CREATE TABLE IRDNT_MANAGE (
    FREEZE_TEM_PERIOD NUMBER, /*냉동보관기간*/
    NOTE VARCHAR2(50)
 );
---select * from irdnt_manage;
+--select distinct irdnt_category from irdnt_manage;
 
 DROP SEQUENCE IRDNT_ID;
 CREATE SEQUENCE IRDNT_ID INCREMENT BY 1000 START WITH 1;  
@@ -293,7 +297,7 @@ CREATE SEQUENCE MY_DISLIKE_IRDNT_KEY INCREMENT BY 1 START WITH 1;
 --SELECT MY_DISLIKE_IRDNT_KEY.NEXTVAL FROM DUAL;
 --select * from MY_DISLIKE_IRDNT;
 --insert into MY_DISLIKE_IRDNT values(1,'id',2);
-
+select * from my_dislike_irdnt;
 DROP TABLE MY_DISLIKE_IRDNT;
 DELETE FROM MY_DISLIKE_IRDNT;
 CREATE TABLE MY_DISLIKE_IRDNT (
@@ -318,7 +322,7 @@ CREATE TABLE ADMIN (
    ADMIN_NAME VARCHAR2(30) NOT NULL, /* 이름 */
    ADMIN_TEL VARCHAR2(20) NOT NULL, /* 핸드폰번호 */
    ADMIN_EMAIL VARCHAR2(100) NOT NULL, /* 이메일 */
-   ADMIN_AUTHORITY VARCHAR2(50), /* 권한 */
+   ADMIN_AUTHORITY VARCHAR2(50) NOT NULL, /* 권한 */
    CONSTRAINT ADMIN_LOGIN_ID_FK FOREIGN KEY(ADMIN_ID) REFERENCES AUTHORITY(LOGIN_ID)
 );
 --관리자권한줄때 반드시 ROLE_**** 이런식으로 대문자!!
@@ -366,7 +370,6 @@ CREATE TABLE RECIPE_INFO (
    DET_URL VARCHAR2(300) NOT NULL, /* 상세 URL */
    RECIPE_HITS NUMBER NOT NULL /* 조회수 */
 );
-
 DROP SEQUENCE RECIPE_ID_seq;
 CREATE SEQUENCE RECIPE_ID_seq INCREMENT BY 1 START WITH 200000;  
 --select * from RECIPE_INFO 
@@ -377,6 +380,7 @@ CREATE SEQUENCE RECIPE_ID_seq INCREMENT BY 1 START WITH 200000;
 --select distinct category_CODE, category_name from RECIPE_INFO order by category_CODE;
 
 /* 레시피 과정정보 */
+SELECT * FROM RECIPE_CRSE;
 DROP TABLE RECIPE_CRSE;
 DELETE FROM RECIPE_CRSE;
 CREATE TABLE RECIPE_CRSE (
@@ -388,13 +392,16 @@ CREATE TABLE RECIPE_CRSE (
    PRIMARY KEY(recipe_id, cooking_no),
    CONSTRAINT VTRC_RECIPE_ID_FK FOREIGN KEY(RECIPE_ID) REFERENCES RECIPE_INFO on delete cascade
 );
-
+select count (*) from recipe_crse;
+select count (*) from RECIPE_IRDNT_TEMP;
 --select * from recipe_crse WHERE STEP_IMAGE_URL = 'null';
 --select * from recipe_crse where recipe_id = 386;
---select count(*) from recipe_crse 
+select * from recipe_irdnt_temp;
+select * from RECIPE_IRDNT;
+
 /* 레시피 재료정보 */
 DROP TABLE RECIPE_IRDNT CASCADE CONSTRAINT;
-DELETE FROM RECIPE_IRDNT
+DELETE FROM RECIPE_IRDNT;
 CREATE TABLE RECIPE_IRDNT (
    IRDNT_no NUMBER PRIMARY KEY, /* 재료순번 */
    IRDNT_name VARCHAR2(280) NOT NULL, /* 재료명 */
@@ -406,8 +413,7 @@ CREATE TABLE RECIPE_IRDNT (
    CONSTRAINT VTRI_RECIPE_ID_FK FOREIGN KEY(RECIPE_ID) REFERENCES RECIPE_INFO on delete cascade,
    CONSTRAINT VTRI_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE on delete cascade
 );
-
-DROP SEQUENCE IRDNT_NO_seq
+DROP SEQUENCE IRDNT_NO_seq;
 CREATE SEQUENCE IRDNT_NO_seq INCREMENT BY 1 START WITH 7000;  
 
 --select distinct irdnt_name from RECIPE_IRDNT order by irdnt_name;
@@ -498,8 +504,7 @@ CREATE SEQUENCE BOARD_REVIEW_ID INCREMENT BY 1 START WITH 1;
 --SELECT BOARD_FREE_ID.NEXTVAL FROM DUAL;
 select * from board_review
 
-
-
+DROP TABLE RECIPE_IRDNT_temp;
 DELETE FROM RECIPE_IRDNT_temp;
 CREATE TABLE recipe_irdnt_temp (
 IRDNT_no NUMBER PRIMARY KEY, /* 재료순번 */
@@ -519,15 +524,19 @@ SELECT * FROM recipe_irdnt WHERE recipe_id = 1;
 SELECT * FROM irdnt_manage;
 SELECT * FROM recipe_irdnt where irdnt_id=321;
 
-
-
+drop table recipe_irdnt;
 INSERT INTO recipe_irdnt
 SELECT 	i.IRDNT_no, i.IRDNT_name, i.IRDNT_amount, i.IRDNT_type_CODE, i.IRDNT_type_name, i.RECIPE_ID,
 		m.IRDNT_ID
 FROM	recipe_irdnt_temp i, irdnt_manage m
-WHERE	m.IRDNT_name = i.IRDNT_name 
+WHERE	m.IRDNT_name = i.IRDNT_name;
 
+delete from recipe_irdnt
 
+select count(*) from irdnt_manage;
+select count(*) from RECIPE_CRSE;
+select count(*) from RECIPE_IRDNT
+select count(*) from recipe_info;
 select distinct irdnt_name from recipe_irdnt_temp
 where irdnt_no NOT IN ( select irdnt_no
 from recipe_irdnt)
@@ -587,4 +596,3 @@ WHERE recipe_id NOT IN (
 	UPDATE fridger
 	SET fridger_img = '/turnup_fridger/images/fridger/f1.png'
 	where fridger_id=1
-

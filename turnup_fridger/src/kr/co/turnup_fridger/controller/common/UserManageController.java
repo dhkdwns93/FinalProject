@@ -124,18 +124,17 @@ public class UserManageController {
 	public String sendEmail(@RequestParam String inputName, @RequestParam String inputEmail) throws Exception{
 		//1.요청파라미터 조회
 		Member member=memberService.findMemberByEmail(inputEmail);
-		
-		//2.BusinessLogic
-		//임시 비밀번호 생성(10자리수)
+		//2.Business Logic
+		//임시 비밀번호 생성(영문대소문자와 숫자로 이루어진 10자리 난수 생성)
 		StringBuffer randString=new StringBuffer();
 		Random rnd=new Random();
 		for(int i=0;i<10;i++){
-			int rIndex=rnd.nextInt(3);//0-2까지 난수 생성
+			int rIndex=rnd.nextInt(3);//영문대문자, 영문소문자, 숫자의 순서를 랜덤으로 설정
 			switch(rIndex){
 			case 0: //a-z(ASCII code이용)
 				randString.append((char)((int)(rnd.nextInt(26))+97));
 				break;
-			case 1: //A-Z
+			case 1: //A-Z(ASCII code이용)
 				randString.append((char)((int)(rnd.nextInt(26))+65));
 				break;
 			case 2: //0-9
@@ -152,6 +151,8 @@ public class UserManageController {
 		member.setMemberPw(newMemberPw);
 		memberService.changeMemberInfo(member);
 		
+		//해당 사용자의 가입 이메일로 아이디와 생성한 새 비밀번호 전송
+		//설정
 		SimpleMailMessage simpleMailMessage=new SimpleMailMessage();
 		simpleMailMessage.setFrom("kosta156_2@naver.com");
 		simpleMailMessage.setTo(inputEmail);//이메일 inputEmail입력
@@ -160,11 +161,9 @@ public class UserManageController {
 				+ "ID :"+memberId+"\n"
 						+ "Password : "+newMemberPw+"\n\n"
 								+ "*로그인 하신후 비밀번호를 재설정해주세요.");
+		mailSender.send(simpleMailMessage);//전송	
 		
-		mailSender.send(simpleMailMessage);
-		
-		
-		//2.응답
+		//3.응답
 		return "redirect:/login_form.do";
 	}
 

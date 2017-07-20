@@ -123,12 +123,12 @@ body{
 	<table id="detail">
 		<tr>
 			<td><span class="error"><form:errors path="myMemo.memoName" /></span><br>
-			<input type="text" id="name" class="box" name="memoName" size="41" value="${requestScope.memo.memoName}" readonly style="background-color: transparent"></td>
+			<input type="text" id="name" class="box" name="memoName" size="41" value="${requestScope.memo.memoName}" readonly style="background-color: transparent; color:black;"></td>
 		</tr>
 		<tr>
 			<!-- rows : 세로  cols : 가로 -->
 			<td><span class="error"><form:errors path="myMemo.memoTxt" /></span><br> 
-			<textarea id="txt" rows="12" cols="43" class="box" name="memoTxt" readonly style="background-color: transparent">${requestScope.memo.memoTxt }</textarea></td>
+			<textarea id="txt" rows="12" cols="43" class="box" name="memoTxt" readonly style="background-color: transparent; color:black;">${requestScope.memo.memoTxt }</textarea></td>
 		</tr>
 		<tr>
 			<td>
