@@ -97,7 +97,7 @@ body, h2, h3, h4, h5, h6 {
     .submenu {
         position: absolute; /* 고정 위치에 표시 */
 		top: 480px; /* 부모 요소로부터 아래로 떨어진거리(부모요소가 상단바) */
-        left: 26.5%;
+        left: 29%;
         height: 0px;
         overflow: hidden;
         transition: height .3s;		/* 하위메뉴가 서서히 나오게하는 설정 */
@@ -105,7 +105,7 @@ body, h2, h3, h4, h5, h6 {
         -moz-transition: height .2s; 
         -o-transition: height .2s; 
         display: inline-block;
-        width: 500px !important;
+        width: auto;
         background-color: #FFFFFF;
 		background: rgba(255, 255, 255, 0.3); /* 하위메뉴박스 배경 투명도 */
     }
