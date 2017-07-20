@@ -111,7 +111,7 @@
 						</otherwise>
 					</choose>
 		GROUP BY recipe_id
-		HAVING COUNT(*) >= 1
+		HAVING COUNT(*) >= 2
 		ORDER BY COUNT(*) DESC, recipe_id
 	</select>
 	

@@ -530,7 +530,7 @@ public class RecipeController {
 		
 		//레시피 재료 중량변환
 		for(RecipeIrdnt ri : recipe.getRecipeIrdntList()){
-			ri.setirdntAmount(recipeService.amountChange(ri.getirdntAmount()));
+			ri.setirdntAmount(recipeService.amountIrdntChange(ri.getirdntAmount()));
 			System.out.println("recipe/show/detail:"+ri.getirdntAmount());
 
 		}
@@ -538,6 +538,7 @@ public class RecipeController {
 		for(RecipeCrse rc : recipe.getRecipeCrseList()){
 			rc.setCookingDc(recipeService.amountChange(rc.getCookingDc()));
 			rc.setStepTip(recipeService.amountChange(rc.getStepTip()));
+			
 		}
 		
 		return new ModelAndView("recipe_for_user/recipe_detail.tiles","recipe",recipe);

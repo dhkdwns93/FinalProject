@@ -246,10 +246,9 @@ $(document).ready(function(){
 			}else{
 			
 				if(!isNaN(amt)){	//정수일때
-				 	//console.log(amt/qnt*4)
 					amt = ((amt/qnt)*1);
 					if(!is_integer(amt)){
-						amt = amt.toFixed(1);
+						amt = amt.toFixed(2);
 					}
 				}
 				else if(amt.includes("/")){	//분수인경우
@@ -258,8 +257,6 @@ $(document).ready(function(){
 					frct[0] = frct[0]*1;
 					amt = getFrct(frct);
 				}
-				
-				
 				$(this).fadeIn().text(amt);
 			}
 		})
@@ -285,7 +282,7 @@ $(document).ready(function(){
 					amt = ((amt/qnt)*2);
 
 					if(!is_integer(amt)){
-						amt = amt.toFixed(1);
+						amt = amt.toFixed(2);
 					}					
 				}
 				else if(amt.includes("/")){	//분수인경우
@@ -294,8 +291,6 @@ $(document).ready(function(){
 					frct[0] = frct[0]*2;
 					amt = getFrct(frct);
 				}
-				
-				
 				
 				$(this).fadeIn().text(amt);
 			}
@@ -323,7 +318,7 @@ $(document).ready(function(){
 					amt = ((amt/qnt)*3);
 				
 					if(!is_integer(amt)){
-						amt = amt.toFixed(1);
+						amt = amt.toFixed(2);
 					}
 				}
 				else if(amt.includes("/")){	//분수인경우
@@ -359,7 +354,7 @@ $(document).ready(function(){
 					amt = ((amt/qnt)*4);
 				
 					if(!is_integer(amt)){
-						amt = amt.toFixed(1);
+						amt = amt.toFixed(2);
 					}
 				}
 				else if(amt.includes("/")){	//분수인경우
@@ -390,6 +385,7 @@ function getNumber(str){
 		target = target.replace(regex, '');
 	  return target;
 }
+
 //분수추출
 function getFrct(frct){
 	var bunja = frct[0];
@@ -416,11 +412,8 @@ function getGcd(a,b){ //최대공약수 계산
 }
 
 function is_integer(n){
-
     var reg = /^\d+$/;
-
     return reg.test(n);
-
 }
 
 
@@ -560,27 +553,27 @@ table tr td{
 		
 		<div style="padding:10px;">
 		주재료 :  
-		<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
-		<c:if test="${recipeIrdnt.irdntTypeCode == 3060001}">
-		${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount }&nbsp;&nbsp;
-		</c:if>
-		</c:forEach>
+			<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
+				<c:if test="${recipeIrdnt.irdntTypeCode == 3060001}">
+					${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount }&nbsp;&nbsp;
+				</c:if>
+			</c:forEach>
 		</div>
 		<div style="padding:10px;">
 		부재료 :  
-		<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
-		<c:if test="${recipeIrdnt.irdntTypeCode == 3060002}">
-		${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount }&nbsp;&nbsp;
-		</c:if>
-		</c:forEach>
+			<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
+				<c:if test="${recipeIrdnt.irdntTypeCode == 3060002}">
+					${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount }&nbsp;&nbsp;
+				</c:if>
+			</c:forEach>
 		</div>
 		<div style="padding:10px;" >
 		양념 : 
-		<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
-		<c:if test="${recipeIrdnt.irdntTypeCode == 3060003}">
-		${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount }&nbsp;&nbsp;
-		</c:if>
-		</c:forEach>
+			<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
+				<c:if test="${recipeIrdnt.irdntTypeCode == 3060003}">
+					${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount }&nbsp;&nbsp;
+				</c:if>
+			</c:forEach>
 		</div>
 	</div>
 <!--나의 식재료들 가져와서 수정,삭제할수있게 하는 테이블  -->
@@ -616,7 +609,7 @@ table tr td{
 		<td>
 			${recipeCrse.cookingNo} - ${recipeCrse.cookingDc}<br>
 			<c:if test="${recipeCrse.stepTip !='null'}">
-				(팁: ${recipeCrse.stepTip} )<br>
+				*팁: ${recipeCrse.stepTip} <br>
 			</c:if>
 			<c:if test="${recipeCrse.stepImageUrl != 'null'}">
 				<img src="${ recipeCrse.stepImageUrl }"><br>
