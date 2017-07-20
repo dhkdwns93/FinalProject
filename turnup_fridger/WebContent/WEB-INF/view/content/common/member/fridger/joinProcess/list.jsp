@@ -1,4 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <script src="${ initParam.rootPath }/scripts/jquery.js"></script>
 <script src="${ initParam.rootPath }/scripts/bootstrap.min.js"></script>
@@ -9,7 +13,6 @@
  <script type="text/javascript">
 $(document).ready(function (){
 	getRequestList();
-	getResponseList();
 	
 	
 	$(document).on("click", "#cancelBtn", function(){
@@ -131,7 +134,7 @@ $(document).ready(function (){
 					getResponseList();
 				
 				}else{
-					$(".errorWell").find(".error").append(text);
+					$(".errorWell").find(".error").text(text);
 					$(".errorWell").show();
 					//회색차유ㅠ
 				}
@@ -181,7 +184,7 @@ $(document).ready(function (){
 					getResponseList();
 					
 				}else{
-					$(".errorWell").find(".error").append(text);
+					$(".errorWell").find(".error").text(text);
 					$(".errorWell").show();
 					//회색차유ㅠ
 				}
@@ -229,7 +232,7 @@ function getRequestList(){
 				"data":{'${_csrf.parameterName}':'${_csrf.token}'},
 				"dataType":"json",
 				"success": function(list){
-		        	$("#requestTable>tbody").empty();
+		        	$("tbody").empty();
 			        $.each(list, function(index){
 			        	var processStateStr ="";
 			        	var i = index+1;
@@ -250,7 +253,7 @@ function getRequestList(){
 			        	}		        	
 
 			        	
-			        	$("#requestTable>tbody").append($("<tr>").append($("<td>").append(this.processNo))
+			        	$("tbody").append($("<tr>").append($("<td>").append(this.processNo))
 												 .append($("<td>").append(this.fridger.fridgerName))
 												 .append($("<td>").append(processStateStr))
 												 .append($("<td>").append(getTimeStamp(this.reqDate)))
@@ -272,7 +275,7 @@ function getResponseList(){
 			"data":{'${_csrf.parameterName}':'${_csrf.token}'},
 			"dataType":"json",
 			"success": function(list){
-	        	$("#responseTable>tbody").empty();
+	        	$("tbody").empty();
 		        $.each(list, function(index){
 		        	var i = index+1;
 		        	var processStateStr ="";
@@ -294,7 +297,7 @@ function getResponseList(){
 		        	}		        	
 		        	
 		        
-		        	 $("#responseTable>tbody").append($("<tr>").append($("<td>").append(this.processNo))
+		        	 $("tbody").append($("<tr>").append($("<td>").append(this.processNo))
 											 .append($("<td>").append(this.fridger.fridgerName))
 											 .append($("<td>").append(processStateStr))
 											 .append($("<td>").append(getTimeStamp(this.reqDate)))
@@ -351,8 +354,12 @@ function leadingZeros(n, digits) {
 display: none;
 }
 
-</style>
+button{
+margin-left: 2px;
+margin-right: 2px;
+}
 
+</style>
 
 
 <div>
@@ -364,6 +371,8 @@ display: none;
 </div>
 
 <div class="container">
+<jsp:include page="/WEB-INF/view/layout/side_menu/fridgerSideMenu.jsp"/>
+<div class='right-box-sidemenu'>
 
 <h1> 공유 관리</h1>
 
@@ -373,29 +382,21 @@ display: none;
 <button type="button" class="btn btn-default" id="joinModalBtn" style="background-color:#ccccb3; color:white; border:5px; border-color:#999966; width:70px; margin: 2px; text-shadow:none;  font-weight: bold">JOIN</button>
 <br>
 <p>
-<div role="tabpanel" style="padding-top: 30px;">
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#requestTab" aria-controls="home" role="tab" data-toggle="tab">REQUEST</a></li>
-    <li role="presentation"><a href="#responseTab" aria-controls="profile" role="tab" data-toggle="tab">RESPONSE</a></li>
-   </ul>
 
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="requestTab" align="center">
-    <div class="container">
-		<div style="width:1000px;" >	
-		<table id="requestTable" class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
+  <!-- table -->
+   	<div style="width:800px;">
+ 
+		<table  class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
 			<thead>
 				<tr>
 					<th style="width:5%;">NO</th>
-					<th style="width:20%;">냉장고명</th>
-					<th style="width:10%;">처리상태</th>
-					<th style="width:10%;">최초요청일</th>
-					<th style="width:10%;">승인응답일</th>
+					<th style="width:18%;">냉장고명</th>
+					<th style="width:12%;">처리상태</th>
+					<th style="width:12%;">요청일</th>
+					<th style="width:12%;">응답일</th>
 					<th style="width:10%;">요청회원</th>
 					<th style="width:10%;">응답회원</th>
-					<th style="width:25%;">처리</th>
+					<th style="width:21%;">처리</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -403,34 +404,8 @@ display: none;
 			</tbody>
 		</table>
 		</div>
-	</div>
-	</div>
-    
-    
-    <div role="tabpanel" class="tab-pane" id="responseTab" align="center">
-    	<div style="width:1000px;">
-		<table id="responseTable" class="table table-hover table-condensed" style="width:100%; border:1; text-align:center">
-			<thead>
-				<tr>
-					<th style="width:5%;">NO</th>
-					<th style="width:20%;">냉장고명</th>
-					<th style="width:10%;">처리상태</th>
-					<th style="width:10%;">최초요청일</th>
-					<th style="width:10%;">승인응답일</th>
-					<th style="width:10%;">요청회원</th>
-					<th style="width:10%;">응답회원</th>
-					<th style="width:25%;">처리</th>
-				</tr>
-			</thead>
-			<tbody>
-				<!-- 내용 받아올 부분 -->
-			</tbody>
-		</table>
-		</div>
-    </div>
-    </div>
+  
     
     
 </div>
-	</div>
 	</div>

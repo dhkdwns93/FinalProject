@@ -26,9 +26,6 @@ $(document).ready(function(){
 		var memberId=$("input#id").val();
 		var inputEmail=$("input#inputEmail").val();
 		window.open("${initParam.rootPath}/popup_duplicate_email_form.do?inputEmail="+inputEmail,"duplicate_email_form","width=600,height=380,resizable=yes");
-		$("span#duplicateEmailBefore").hide();
-		$("span#duplicateEmailError").hide();
-		$("span#duplicateEmailAfter").show();
 		$("input#inputEmail").val("");
 		$("input#memberEmail").val("${param.email}");
 	});//end of duplicateEmailBtn
@@ -103,10 +100,10 @@ $(document).ready(function(){
 }
 /* 기타 일반 text  */
 h1 {
-	font-family: "Viner Hand ITC";
+	font-family: "Viner Hand ITC" !important;
 	src: url("/font/VINERITC.TTF");
-	font-weight:bold;
-	color:#4d4d4d;
+	font-weight:bold !important;
+	color:#4d4d4d !important;
 }
 .form-text{
 	font-size:14px;
@@ -170,10 +167,10 @@ h1 {
 			<div class="ccfield-prepend">
 				<div><label for="inputEmail" class="form-text">Email</label></div>
 				<span class="ccform-addon"><i class="material-icons">&#xE0BE;</i></span>
-				<span id="duplicateEmailBefore">
+				<span id="duplicateEmailBefore" style="display:none">
 				<input type="text" id="inputEmail" name="inputEmail" value='<sec:authentication property="principal.memberEmail"/>' readonly="readonly" class="ccformfield" >
 				</span>
-				<span id="duplicateEmailAfter" style="display:none">
+				<span id="duplicateEmailAfter">
 				<input type="text" id="memberEmail" name="memberEmail" value='<sec:authentication property="principal.memberEmail"/>' readonly="readonly" class="ccformfield">
 				</span>
 				<button type="button" id="duplicateEmailBtn" class="ccbtn">Email 중복검사</button>

@@ -54,6 +54,18 @@
 			
 		}); 
 		*/
+	/* 	function recommand_event(){
+			var recipeId = $('input[name=recipeId]').val();
+			var memberId = $('input[name=memberId]').val();
+			
+			if(confirm("확실하게 삭제 하시겠습니까?")==true){
+				
+				location.href="/turnup_fridger/common/boardRecipe/increaseRecommand.do";
+				
+			}else{
+				return false;
+			}
+		}; */
 		
 		function add_event(){
 			
@@ -89,6 +101,7 @@ div.paging{
 	font-size:14px;
 	margin:0;
 }
+
 /* #container { 
     width: 780px; 
     background: #FFFFFF; 
@@ -134,7 +147,7 @@ text-align:center;
             		</i></p>
             	</div>
                 <div class="li-img">
-                    <img src="${initParam.rootPath }/img/${top.original}" alt="${top.original }" />
+                    <img src="${initParam.rootPath }/img/${top.original}" alt="${top.original }" style="width:130%; height:250px;" />
                     <!-- ${top.upImage}-->
                 </div>
                 <div class="li-text">
@@ -153,7 +166,7 @@ text-align:center;
 						<input type="hidden" name="memberId" value="${top.memberId }">
 					
 					<a href="#" onClick="this.parentNode.submit()" id="recommand-btn"><i class="glyphicon glyphicon-thumbs-up" style="font-size:20px">&emsp;${top.recommand }</i></a>
-					</form>
+					</form><!-- return recommand_event(); -->
 					
         </li>
     </c:forEach>
@@ -203,32 +216,42 @@ text-align:center;
 	</div>
 	&emsp;&emsp;&emsp;&emsp;
 	
-    
-  	<ul class="list2 img-list2">
-	<c:forEach var="top" items="${requestScope.list}">
+    <!-- lst_pet -->
+  	<ul class="list2 img-list2"style="width:110%; height:1000px;" ><!--  style="width:110%; height:2000px ; " -->
+	<c:forEach var="top" items="${requestScope.list}" >
+      
         <li>
+        <div class="li-text2" >
+          
           <a href="${initParam.rootPath }/boardRecipe/boardRecipeView.do?recipeId=${top.recipeId}" class="inner2">
-            	<div class="li-text2">
-            		<p class="li-sub2">${top.recipeId} </p>
-            		<p class="li-sub2">
-            		<i class="glyphicon glyphicon-calendar" style="font-size:13px">
-            		<fmt:formatDate value="${top.date}" pattern="yyyy년 MM월 dd일"/>
-            		</i></p>
+            	
+            	<div class="li-text2" style="height:50px">
+            		<p class="li-sub2" >${top.recipeId} </p>
             	</div>
-                <div class="li-img2">
-                    <img src="${initParam.rootPath }/img/${top.original}" alt="${top.original }" />
+            	<div class="li-text2" style="height:50px">	
+            		<p class="li-sub2" style="height:80px;">
+            		<i class="glyphicon glyphicon-calendar" style="font-size:13px; height:50px;">
+            		<fmt:formatDate value="${top.date}" pattern="yyyy년 MM월 dd일" />
+            		</i>
+            	</p>
+            	</div>
+                <div class="li-img2" style="height:150px">
+                    <img src="${initParam.rootPath }/img/${top.original}" alt="${top.original }" style="width:80%; height:150px;"/>
                     <!-- ${top.upImage}-->
                 </div>
-                <div class="li-text2">
+                <div class="li-text2" style="height:50px">
             		<p class="li-head2"> ${top.title} </p>
             	</div>
-                <div class="li-text2">
+                <div class="li-text2" style="height:50px">
                     <h5 class="li-head2"><i class="glyphicon glyphicon-user" style="font-size:20px"> ${top.memberId }</i></h5>
-                    <br>
-                    <p class="li-sub2"><i class="glyphicon glyphicon-eye-open" style="font-size:20px">  ${top.hits }</i> </p>
                 </div>
+                <div class="li-text2" style="height:50px">
+                    <p class="li-sub2"><i class="glyphicon glyphicon-eye-open" style="font-size:20px">  ${top.hits }</i> </p>
+               	</div>
+               
             </a>
-           
+             
+            
             	<form name="add" method="post" action="${initParam.rootPath }/common/boardRecipe/increaseRecommand.do">
 					<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 					<input type="hidden" name="recipeId" value="${top.recipeId }">
@@ -237,6 +260,7 @@ text-align:center;
 				<a href="#" onClick="this.parentNode.submit()" id="recommand-btn"><i class="glyphicon glyphicon-thumbs-up" style="font-size:20px">&emsp;${top.recommand }</i></a>
 				</form>
 			
+        </div>
         </li>
     </c:forEach>
     </ul>

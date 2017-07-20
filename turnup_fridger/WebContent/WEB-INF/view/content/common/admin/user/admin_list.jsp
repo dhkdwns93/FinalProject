@@ -96,15 +96,15 @@ $(document).ready(function(){
 <style>
 /* contact-form 넓이*/
 .form-page{
-
-	width:95%;
+	width:110%;
 	margin-left:5%;
 }
 /* EXCEL 형식 */
 .ExcelTable2007 {
 	border: 1px solid #B0CBEF;
 	border-width: 1px 0px 0px 1px;
-	font-size: 11pt;
+	width:100%;
+	font-size: 15px;
 	font-family: Calibri;
 	font-weight: 100;
 	border-spacing: 0px;
@@ -141,6 +141,13 @@ $(document).ready(function(){
 	background-image: url("${initParam.rootPath }/img/excel-2007-header-left.gif");
 	background-repeat: none;
 }
+
+h1 {
+	font-family: "Viner Hand ITC" !important;
+	src: url("/font/VINERITC.TTF");
+	font-weight:bold !important;
+	color:#4d4d4d !important;
+}
 </style>
 </head>
 <body>
@@ -153,7 +160,8 @@ $(document).ready(function(){
 
 	<div class="form-page">
 	
-		<h2>관리자 관리</h2>
+		<h1>Manager Management</h1>
+		<hr>
 		<input type="hidden" id="loginId" value='<sec:authentication property="principal.adminId"/>'>
 		<input type="hidden" id="loginAuthority" value='<sec:authentication property="authorities"/>'>
 		<div id="wrap">
@@ -224,6 +232,7 @@ $(document).ready(function(){
 											</select>
 											<sec:csrfInput />
 											<button type="submit" id="changeAdminAuthorityBtn"><span class="glyphicon glyphicon-refresh" aria-hidden="true">권한수정</span></button>
+											<br>
 										</form>
 		
 										<!-- 관리자탈퇴처리 -->

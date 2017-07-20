@@ -15,27 +15,21 @@
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"  rel="stylesheet">
-<!-- confirm창 css -->
-<link rel="stylesheet" href="https://myclabs.github.io/jquery.confirm/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://myclabs.github.io/jquery.confirm/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://myclabs.github.io/jquery.confirm/css/highlight.dark.css">
-<link rel="stylesheet" href="https://myclabs.github.io/jquery.confirm/css/main.css">
-<!-- ------------ -->
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <!-- confirm창 js -->
-<script src="jquery.confirm.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
+<script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js" type="text/javascript"></script>
+<script src="https://m-e-conroy.github.io/angular-dialog-service/javascripts/dialogs.min.js" type="text/javascript"></script>
 
 <script type="text/javascript" src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
 <script type="text/javascript">
-/* $(function(){
-	$("button#useAddressAPIBtn").postcodifyPopUp();
-}); */
+
 $(document).ready(function(){
 	$(function(){
 			$("button#useAddressAPIBtn").postcodifyPopUp();
 	});//end of useAddressAPIBtn 
-	
+
 	$("button#useAddressBtn").on("click",function(){
 		var inputAddress=$(this).parent().children(":nth-child(3)").val();
 		if(confirm(inputAddress+"를 입력하시겠습니까?")==true){
@@ -45,6 +39,8 @@ $(document).ready(function(){
 			return false;
 		}
 	});//end of useAddressBtn
+
+
 });
 </script>
 <style>
@@ -138,6 +134,27 @@ h1 {
 .popup-btn{
  	text-align:center;
 }
+
+/* confirm창  */
+/* Fix for Bootstrap 3 with Angular UI Bootstrap */
+
+.modal { 
+	display: block;
+}
+
+/* Custom dialog/modal headers */
+
+.dialog-header-error { background-color: #d2322d; }
+.dialog-header-wait { background-color: #428bca; }
+.dialog-header-notify { background-color: #eeeeee; }
+.dialog-header-confirm { background-color: #333333; }
+	.dialog-header-error span, .dialog-header-error h4,
+	.dialog-header-wait span, .dialog-header-wait h4,
+	.dialog-header-confirm span, .dialog-header-confirm h4 { color: #ffffff; }
+
+/* Ease Display */
+
+.pad { padding: 25px; }
 </style>
 </head>
 <body>

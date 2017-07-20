@@ -153,7 +153,9 @@ input[type=search] {
   display: block;
   width: 80%;
   height: auto;
+  
 }
+img.landscape {width: auto; height: 100%;}
 .li-text3 {
   display: table-cell;
   vertical-align: middle;

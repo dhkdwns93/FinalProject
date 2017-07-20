@@ -52,6 +52,30 @@ function openModal(){
 	src: url("/font/VINERITC.TTF");
 	color: #6D6C75;
 }
+.ccformfield {
+	color:#000000; 
+	background:#FFFFFF;
+	border: 1px solid #f1f1f1;
+	padding:15.5px;
+	width:60%;
+	height:34px;
+	font-family: 'Lato',Arial,sans-serif;
+	font-size:14px;
+	margin:0;
+}
+.ccformfield {
+	font-family: 'Lato',Arial,sans-serif;
+}
+
+.form-text{
+	font-size:14px;
+	color:#808080;
+}
+/* 에러메시지 */
+.error{
+  font-size:80% !important;
+  color:#808080 !important;
+}
 </style>
 
 <div class='wrapperDiv'>
@@ -73,20 +97,18 @@ function openModal(){
 		<form action="${initParam.rootPath}/common/member/member_delete.do" method="post" id="deleteMemberForm" class="form-horizontal">
 		<div class="modal-body">
 		<div class="form-group">
-			<div class="col-sm-6 control-label">Id : [ <sec:authentication property="principal.memberName"/> ]님 정말로 탈퇴하시겠습니까?</div>
+			<div class="col-sm-6 form-text">[ <sec:authentication property="principal.memberName"/> ]님 정말로 탈퇴하시겠습니까?</div>
 			<input type="hidden" name="memberId" value='<sec:authentication property="principal.memberId"/>' class="form-control">
 		</div><!-- form-group -->
 		
 		<div class="form-group">
 			<input type="hidden" id="originalMemberPw" value='<sec:authentication property="principal.memberPw"/>' class="form-control">
-			<label for="inputPw" class="col-sm-2">Password</label> 
-			<div class="col-sm-6">
-				<input type="password" id="inputMemberPw" name="inputMemberPw" class="form-control">
-			</div>
+			<label for="inputPw" class="col-sm-2 form-text">Password</label> 
+			<input type="password" id="inputMemberPw" name="inputMemberPw" class="ccformfield col-sm-8">
 		</div><!-- form-group -->
 		<sec:csrfInput/>
 		<div class="form-group">
-			<div id="checkPwResult" class="col-sm-6 control-label"></div>
+			<div id="checkPwResult" class="col-sm-6 control-label error"></div>
 		</div>
 		
 		</div><!-- modal-body -->

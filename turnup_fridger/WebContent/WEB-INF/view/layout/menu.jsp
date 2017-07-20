@@ -30,7 +30,6 @@
       	<ul class="submenu2">
 			<li><a href="${initParam.rootPath}/common/member/fridger/main.do" id="submenu2Link">나의 냉장고</a></li>
 			<li><a href="${initParam.rootPath}/common/member/fridger/joinProcess/list.do" id="submenu2Link">공유 관리</a></li>
-			<li><a href="${initParam.rootPath}/" id="submenu2Link">공유 냉장고</a></li>
 		</ul>
       </li>
       <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
@@ -67,15 +66,15 @@
       </sec:authorize>
       <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
       <sec:authorize access="hasRole('ROLE_MEMBER')">
-       <li class="topMenuLi2"><a href="#" class="navbar-brand">MyMenu</a>
+<%--        <li class="topMenuLi2"><a href="#" class="navbar-brand">MyMenu</a>
           <ul class="submenu2">
-         <sec:authentication property='principal.memberId' var='memberId'/>
-         <li><a href="${initParam.rootPath}/memo/memoList.do?memberId=${memberId}" id="submenu2Link">내 메모보기</a></li>
-         <li><a href="#" onClick="window.open('${initParam.rootPath}/memo/map.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)" id="submenu2Link">주변 마트보기</a></li>
-         <li><a href="${initParam.rootPath}/common/member/member_mypage_event.do" id="submenu2Link">회원정보보기</a></li>
-      </ul>
+	         <sec:authentication property='principal.memberId' var='memberId'/>
+	         <li><a href="${initParam.rootPath}/memo/memoList.do?memberId=${memberId}" id="submenu2Link">내 메모보기</a></li>
+	         <li><a href="#" onClick="window.open('${initParam.rootPath}/memo/map.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)" id="submenu2Link">주변 마트보기</a></li>
+	         <li><a href="${initParam.rootPath}/common/member/member_mypage_event.do" id="submenu2Link">회원정보보기</a></li>
+	      </ul>
        </li>
-       <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+       <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li> --%>
      <li class="topMenuLi2"><a href="${initParam.rootPath}/shop/findShopList.do" class="navbar-brand">Shop</a></li>
        </sec:authorize>
 </ul>

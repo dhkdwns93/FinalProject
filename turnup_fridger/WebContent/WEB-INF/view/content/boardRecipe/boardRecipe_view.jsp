@@ -57,7 +57,7 @@ function delete_event(){
 		return false;
 	}
 	if(confirm("확실하게 삭제 하시겠습니까?")==true){
-		
+		alert('삭제되었습니다.')
 		location.href="/turnup_fridger/boardRecipe/boardRecipe_list.do";
 		
 	}else{
@@ -74,6 +74,7 @@ function adminDelete_event(){
 		return false;
 	}
 	if(confirm("확실하게 삭제 하시겠습니까?")==true){
+		alert('삭제되었습니다.');
 		location.href="/turnup_fridger/boardRecipe/boardRecipe_list.do";
 		
 	}else{
@@ -91,13 +92,7 @@ function back(){
 
 <style type="text/css">
 form{display:inline}
-#rcorners2{
-	boarder-radius:25px;
-	border: 2px solid #73AD21;
-    padding: 20px; 
-    width: 200px;
-    height: 150px; 
-}
+
 div.align{
 text-align:right;
 }
@@ -119,7 +114,7 @@ response.addCookie(hits);
 </head>
 <body>
 <div class="container">
-<div id="table" style="width:85%; text-align:center; margin-left: auto; margin-right: auto;">
+ <div id="table" style="width:50%; text-align:center; margin-left: auto; margin-right: auto;">
 
 	<button type="button" class="btn btn-default btn-lg" style="border:0;outline:0;" onClick="return back();" >
 			<span class="glyphicon glyphicon-list" aria-hidden="true">목록</span>
@@ -127,6 +122,7 @@ response.addCookie(hits);
 <hr>
 <h1 >View > ${boardShareRecipe.memberId}님의 게시물</h1>
 <!-- 회원만 수정/삭제 가능 (자기자신이 올린 게시물만 가능) -->
+<br><br>
 <div class="align">
 <sec:authorize access="hasRole('ROLE_MEMBER')"> <!-- 회원만 볼 수 있게 -->
 <form action="${initParam.rootPath }/common/boardReipce/boardRecipeUpdate.do" method="post">
@@ -149,7 +145,7 @@ response.addCookie(hits);
 	<input type="hidden" name="memberId" 					value="<sec:authentication property="principal.memberId"/>">
 	<input type="hidden" name="writer" 						value="${boardShareRecipe.memberId }">
 	<input type="hidden" name="adminId" 					value="">
-	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="this.parentNode.submit();"> 
+	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onClick="return delete_event();"><!-- onclick="this.parentNode.submit();" --> 
 	<span class="glyphicon glyphicon-trash" aria-hidden="true">삭제</span>
 	</button>
 </form>
@@ -164,7 +160,7 @@ response.addCookie(hits);
 	<input type="hidden" name="writer" 						value="${boardShareRecipe.memberId}">
 	<input type="hidden" name="adminId" 					value="<sec:authentication property="principal.adminId"/>">
 	<input type="hidden" name="memberId" 					value="">
-	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="this.parentNode.submit();">
+	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="return adminDelete_event()"><!-- this.parentNode.submit(); -->
 	<span class="glyphicon glyphicon-trash" aria-hidden="true">삭제</span>
 	</button>
 </form>
@@ -194,7 +190,15 @@ response.addCookie(hits);
                 <div class="li-text3">
                     <h5 class="li-head3"><i class="glyphicon glyphicon-user" style="font-size:30px"> ${boardShareRecipe.memberId }</i>&emsp;
                     <i class="glyphicon glyphicon-eye-open" style="font-size:30px">  ${boardShareRecipe.hits }</i>&emsp;
-                    <i class="glyphicon glyphicon-thumbs-up" style="font-size:30px"> ${boardShareRecipe.recommand }</i></h5>
+                    
+                    <form method="post" action="${initParam.rootPath }/common/boardRecipe/increaseRecommand.do">
+						<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+						<input type="hidden" name="recipeId" value="${top.recipeId }">
+						<input type="hidden" name="memberId" value="${top.memberId }">
+					
+					<a href="#" onClick="this.parentNode.submit()" id="recommand-btn"><i class="glyphicon glyphicon-thumbs-up" style="font-size:30px">&emsp;${boardShareRecipe.recommand }</i></a>
+					</form></h5>
+                    <%-- <i class="glyphicon glyphicon-thumbs-up" style="font-size:30px"> ${boardShareRecipe.recommand }</i> --%>
                 </div>
                 <hr>
                 <div class="li-text3">
@@ -218,7 +222,7 @@ response.addCookie(hits);
                 </div>
                 <hr>
                 <div class="li-head3">
-                	<p>기타재료 Other materials</p>
+                	<h2>기타재료 Other materials</h2>
                 	<hr>
                 	<p class="li-sub3">${boardShareRecipe.etc }</p>
                 </div>
@@ -230,7 +234,8 @@ response.addCookie(hits);
     </ul>
 </div>
 </div>
-</div>
+ </div>
+
 
 
 </body>

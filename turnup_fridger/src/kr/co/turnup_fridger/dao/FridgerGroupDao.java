@@ -20,14 +20,16 @@ public interface FridgerGroupDao {
 	 * @param groupJoinSeq
 	 * @return
 	 */
-	public int deleteFridgerGroup(String groupMemberId);
+	public int deleteFridgerGroupByFridgerIdAndMemberId(int fridgerId, String groupMemberId);
 	
 	/**
 	 * 냉장고 삭제로인한 모든 공유 멤버 삭제
 	 * @param groupJoinSeq
 	 * @return
 	 */
-	public int deleteFridgerGroupByFridgerId(int groupFridgerId);
+	public int deleteFridgerGroupByFridgerId(int fridgerId);
+	
+	
 	
 	/**
 	 * 회원id로 공유멤버 조회
