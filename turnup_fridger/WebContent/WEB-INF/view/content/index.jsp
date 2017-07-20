@@ -26,7 +26,7 @@
                                 <a href="#fridger" class="btn btn-default btn-lg"><span class="network-name">Fridger</span></a>
                             	<ul class="submenu">
 						    		<li><a href="${initParam.rootPath}/common/member/fridger/main.do" id="submenuLink">나의 냉장고</a></li>
-									<li><a href="${initParam.rootPath}/common/member/fridger/joinProcess/list.do" id="submenuLink">공유 관리</a></li>
+									<li><a href="${initParam.rootPath}/common/member/fridger/joinProcess/list.do" id="submenuLink">냉장고 공유</a></li>
 						    	</ul>
                             </li>
                             </sec:authorize>

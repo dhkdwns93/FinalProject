@@ -17,7 +17,10 @@ $(document).ready(function(){
 	
 	$("#myIrdntBadAlert").hide();
 	$("#freshLevelFrame").hide();
-	getFridgerInfo('${ requestScope.fridgerList[0].fridgerId }')
+	if(!${ requestScope.fridgerList == null || requestScope.fridgerList.size() == 0} ){
+		getFridgerInfo('${ requestScope.fridgerList[0].fridgerId }')
+	}
+	
 	
 	$("#fridgerNameSelect").on("change", function(){
 		getFridgerInfo($("#fridgerNameSelect>option:selected").val());
@@ -241,8 +244,8 @@ function getFridgerInfo(fridgerId){
 			"type" : "post",
 			"data": {'fridgerId' : fridgerId, '${_csrf.parameterName}':'${_csrf.token}'},
 			"dataType" : "json",
-			"success": function(map){ 
-				if(map.fridger.memberId == "${memberId}"){
+			"success": function(map){
+				if(map.fridger.memberId == '${memberId}'){ 
 					$("#removeBtn").show();
 					$("#updateBtn").show();
 					$("#outBtn").hide();
@@ -299,9 +302,13 @@ function getFridgerInfo(fridgerId){
 				$("#myIrdntBadList ul").empty();
 				$.each(map.myIrdntBadList, function(){
 					var day = Math.round((new Date()-this.startDate)/(1000*60*60*24))
-					$("#myIrdntBadList ul").append($("<li>").append(this.irdntName).append(" (보관한 지 "+ day +"일이 지났습니다.)"));
+					var endStr ="";
+					if(this.endDate != null && this.endDate!=""){
+						var end = Math.round((this.endDate-new Date())/(1000*60*60*24));
+						endStr = " 유통기한 "+end+"일 남음.";
+					}
+					$("#myIrdntBadList ul").append($("<li>").append(this.irdntName).append(" (보관한 지 "+ day +"일 지남."+endStr+")"));
 				})
-				
 			},
 			"error":function(xhr, msg, code){
 				alert("오류가 떴다고 ㅠㅠㅠㅠ" + code);
@@ -461,8 +468,9 @@ header{
 .articles {
     position: relative;
     margine:50px;
-	padding-bottom: 50px;
+	padding-bottom: 10px;
 }
+
 
 .article {
     text-align: left;	
@@ -501,9 +509,8 @@ width:100%;
 .con2{
 position: relative;
 width:100%;
-height: 100%;
+height: 80%;
 }
-
 
 .inner1{
 float: left;
@@ -511,8 +518,7 @@ display: block;
 position: absolute;
 overflow: hidden;
 width:70%;
-height:300px;
-
+height:200px;
 left:-50px;
 top:50;
 text-align: center;
@@ -524,11 +530,12 @@ display: block;
 position: absolute;
 overflow: hidden;
 width:70%;
-height:300px;
+height:200px;
 right:-50px;
 top:50;
 text-align: center;
 }
+
 
 .title{
 font-size: 24px;
@@ -595,8 +602,8 @@ display: none;
 
 <div>
 <!-- 등록폼 -->
-<jsp:include page="/WEB-INF/view/content/common/member/fridger/register_form2.jsp"/>
-<jsp:include page="/WEB-INF/view/content/common/member/fridger/update_form2.jsp"/>
+<jsp:include page="/WEB-INF/view/content/common/member/fridger/register_form.jsp"/>
+<jsp:include page="/WEB-INF/view/content/common/member/fridger/update_form.jsp"/>
 
 </div>
 
@@ -614,99 +621,118 @@ display: none;
 <hr style="margin-bottom: -15px;">
 <div class="articles">
 
-<article class="article num1">
-  <!-- <h1>냉장고 </h1> -->
-  <p>
-  	<select id="fridgerNameSelect" class="form-control" name="fridgerId" style="width:230px;">
-   	<c:forEach items="${ requestScope.fridgerList }" var="fridgerGroup">
-  		<option value="${fridgerGroup.fridgerId}">
-  		${ fridgerGroup.fridger.fridgerName }
-  		<c:if test="${ fridgerGroup.groupMemberId eq fridgerGroup.fridger.memberId }">
-  			${ fridgerGroup.fridger.fridgerName } [★Owner]
-  		</c:if>
-  		</option>
-  	</c:forEach>
-  </select>
-  </p>
-  
-  <p>
-  <span id="fridgerImg"><!-- 사진 들어갈 곳 --></span>
-	</p>
+<c:choose>
+	<c:when test="${ requestScope.fridgerList == null || empty requestScope.fridgerList }">
+		<!-- 냉장고가 없을 때  -->
+		<div class="articles_none" align="center">
+			<img src="/turnup_fridger/images/logo-black.png" width="200px" height="200px"> 
+			<h1>존재하는 냉장고가 없습니다!</h1>
+			<br><br>
+			<!-- 냉장고 추가 -->
+			<button type="button" id="createBtn" class="btn btn-default" style="background-color: #f2f2f2; border:5px; border-color: gray;  width:230px; margin: 2px; font-weight: bold" data-target="#createFridgerModal" >
+			<img src="/turnup_fridger/images/glyphicons/png/glyphicons-433-plus.png" style="opacity: 0.7;">&nbsp;&nbsp;냉장고 만들기</button>
+			
+			
+		</div>
+	</c:when>
+	<c:otherwise>
+		<!-- 냉장고가 있을 때  -->
+	
+			
+		<article class="article num1">
+		  <!-- <h1>냉장고 </h1> -->
+		  <p>
+		  	<select id="fridgerNameSelect" class="form-control" name="fridgerId" style="width:230px;">
+		   	<c:forEach items="${ requestScope.fridgerList }" var="fridgerGroup">
+		  		<option value="${fridgerGroup.fridgerId}">
+		  		${ fridgerGroup.fridger.fridgerName }
+		  		<c:if test="${ fridgerGroup.groupMemberId eq fridgerGroup.fridger.memberId }">
+		  		[★Owner]
+		  		</c:if>
+		  		</option>
+		  	</c:forEach>
+		  </select>
+		  </p>
+		  
+		  <p>
+		  <span id="fridgerImg"><!-- 사진 들어갈 곳 --></span>
+			</p>
+				
+			<!-- 냉장고 열어보기 -->
+			<button type="button" id="moveInBtn" class="btn btn-warning" style="background-color:#f7c42d; color:#ffffff; width:230px; border:5px; margin: 2px; text-shadow:none; font-weight: bold">냉장고 열어보기</button>
+			<br>
+			
+			<!-- 주인냉장고 일 때: 삭제/ 수정 -->
+			<!-- 냉장고 삭제하기 -->
+			<button type="button" id="removeBtn" class="btn btn-warning" style="background-color:#4c4c34; color:#ffffff; border:5px; border-color:#1e1e15; width:110px; margin: 2px; text-shadow:none; font-weight: bold">삭제</button>
+			<!-- 냉장고 수정하기 -->
+			<button type="button" id="updateBtn" class="btn btn-warning" data-target="#updateFridgerModal" style="background-color:#ccccb3; color:white; border:5px; border-color:#999966; width:110px; margin: 2px; text-shadow:none;  font-weight: bold">수정</button>
+			
+			<!-- 주인냉장고 아닐 때: 삭제/ 수정 -->
+			<!-- 냉장고 그룹 나가기 -->
+			<button type="button" id="outBtn" class="btn btn-warning" style="background-color:#4c4c34; color:#ffffff; border:5px; border-color:#1e1e15; width:230px; margin: 2px; text-shadow:none; font-weight: bold;">냉장고 그룹 나가기</button>
+			
+			
+			<br>
+			<!-- 냉장고 추가 -->
+			<button type="button" id="createBtn" class="btn btn-default" style="background-color: #f2f2f2; border:5px; border-color: gray;  width:230px; margin: 2px;" data-target="#createFridgerModal" >
+			<img src="/turnup_fridger/images/glyphicons/png/glyphicons-433-plus.png" style="opacity: 0.7;"></button>
+		</article>
 		
-	<!-- 냉장고 열어보기 -->
-	<button type="button" id="moveInBtn" class="btn btn-warning" style="background-color:#f7c42d; color:#ffffff; width:230px; border:5px; margin: 2px; text-shadow:none; font-weight: bold">냉장고 열어보기</button>
-	<br>
-	
-	<!-- 주인냉장고 일 때: 삭제/ 수정 -->
-	<!-- 냉장고 삭제하기 -->
-	<button type="button" id="removeBtn" class="btn btn-warning" style="background-color:#4c4c34; color:#ffffff; border:5px; border-color:#1e1e15; width:110px; margin: 2px; text-shadow:none; font-weight: bold">삭제</button>
-	<!-- 냉장고 수정하기 -->
-	<button type="button" id="updateBtn" class="btn btn-warning" data-target="#updateFridgerModal" style="background-color:#ccccb3; color:white; border:5px; border-color:#999966; width:110px; margin: 2px; text-shadow:none;  font-weight: bold">수정</button>
-	
-	<!-- 주인냉장고 아닐 때: 삭제/ 수정 -->
-	<!-- 냉장고 그룹 나가기 -->
-	<button type="button" id="outBtn" class="btn btn-warning" style="background-color:#4c4c34; color:#ffffff; border:5px; border-color:#1e1e15; width:230px; margin: 2px; text-shadow:none; font-weight: bold;">냉장고 그룹 나가기</button>
-	
-	
-	<br>
-	<!-- 냉장고 추가 -->
-	<button type="button" id="createBtn" class="btn btn-default" style="background-color: #f2f2f2; border:5px; border-color: gray;  width:230px; margin: 2px;" data-target="#createFridgerModal" >
-	<img src="/turnup_fridger/images/glyphicons/png/glyphicons-433-plus.png" style="opacity: 0.7;"></button>
-</article>
+		
+		<article class="article num2">
+		  <div class="con1">
+		  <h1><span id="fridgerName"><!-- 냉장고 이름 --></span></h1>
+		  <div>Owned by <span id="fridgerOwner"><!-- 냉장고 주인 오는 곳 --></span><span id="fridgerId" hidden="true"><!-- 냉장고 아이디--></span></div>
+		  
+		  <hr>
+		  <div style="position: relative;">현재 냉장고의 신선도 
+			  <div id="fridgerAvgFreshLevelFault" style="color:#cfcfc9"><!-- 냉장고 신선도 측정불가시 --></div>
+		 <!-- progress bar -->
+		    <div id="freshLevelFrame" class="progress">
+		  		<div id="freshLevelBar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0"  aria-valuemin="0" aria-valuemax="100">
+		    	</div>
+		  	</div>
+		  	
+		  	<span id="fridgerAvgFreshLevel"><!-- 냉장고 신선도 --></span>
+		 	
+		 	
+		 </div>
+		 
+		 <br>
+		 <div>총 <span id="myIrdntCount"><!-- 총 개수 --></span>가지의 식재료를 보관 중입니다!</div>
+		 
+		 </div>
+		<br>	
+		 <div class="con2">
+		  	<div class="inner1">
+		  	<span class="title" >카테고리별</span>
+		  		<p>
+		  		<canvas id="typeChart" width=150 height=150 ></canvas>
+		  		</p>
+		  	</div>
+		  	<div class="inner2">
+		  	<span class="title">보관장소별</span>
+		  		<p>
+				<canvas id="placeChart" width = 150 height=150 ></canvas>
+				</p>
+			</div>
+		 </div>
+		</article>
+		
+		
+		
+		
+		
+		<article class="article num3">
+			<!-- 위험한 식재료 경고창 &modal -->
+			<jsp:include page="/WEB-INF/view/content/common/member/fridger/myFridger_alert.jsp"/>
+			
+		</article>
 
-
-<article class="article num2">
-  <div class="con1">
-  <h1><span id="fridgerName"><!-- 냉장고 이름 --></span></h1>
-  <div>Owned by <span id="fridgerOwner"><!-- 냉장고 주인 오는 곳 --></span><span id="fridgerId" hidden="true"><!-- 냉장고 아이디--></span></div>
-  
-  <hr>
-  <div style="position: relative;">현재 냉장고의 신선도 
-	  <div id="fridgerAvgFreshLevelFault" style="color:#cfcfc9"><!-- 냉장고 신선도 측정불가시 --></div>
- <!-- progress bar -->
-    <div id="freshLevelFrame" class="progress">
-  		<div id="freshLevelBar" class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0"  aria-valuemin="0" aria-valuemax="100">
-    	</div>
-  	</div>
-  	
-  	<span id="fridgerAvgFreshLevel"><!-- 냉장고 신선도 --></span>
- 	
- 	
- </div>
- 
- <br>
- <div>총 <span id="myIrdntCount"><!-- 총 개수 --></span>가지의 식재료를 보관 중입니다!</div>
- 
- </div>
-<br>	
- <div class="con2">
-  	<div class="inner1">
-  	<span class="title" >카테고리별</span>
-  		<p>
-  		<canvas id="typeChart" width=150 height=150 ></canvas>
-  		</p>
-  	</div>
-  	<div class="inner2">
-  	<span class="title">보관장소별</span>
-  		<p>
-		<canvas id="placeChart" width = 150 height=150 ></canvas>
-		</p>
-	</div>
- </div>
-</article>
-
-
-
-
-
-<article class="article num3">
-	<!-- 위험한 식재료 경고창 &modal -->
-	<jsp:include page="/WEB-INF/view/content/common/member/fridger/myFridger_alert.jsp"/>
-	
-</article>
-
+		</c:otherwise>
+	</c:choose>
 
 </div>
-
 </div>
 </div>

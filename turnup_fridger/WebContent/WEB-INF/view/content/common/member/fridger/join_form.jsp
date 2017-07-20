@@ -9,7 +9,7 @@
  <script type="text/javascript">
 $(document).ready(function () {
 	$('#joinFridgerModal').on('show.bs.modal', function (e) {
-		getFridgerListByName("" , 1);	
+		getFridgerListByName("", 1);	
 	})
 	//냉장고목록검색 페이지 디폴트는 전체 목록번호순으로 
 	

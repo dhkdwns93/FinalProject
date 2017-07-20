@@ -139,7 +139,10 @@ margin-bottom: 10px;
 position: absolute;
 top:5px;
 right: 50px;
+}
 
+h2, h3{
+	text-align: center;
 }
 </style>
 

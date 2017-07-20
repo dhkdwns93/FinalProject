@@ -53,7 +53,8 @@
       <div class="list-group">
       <sec:authorize access="hasRole('ROLE_MEMBER')">
       <sec:authentication property='principal.memberId' var='memberId'/>
-         <a href="${initParam.rootPath}/memo/memoList.do?memberId=${memberId}"  class="list-group-item" style="text-align:right;"> 
+         <a href="${initParam.rootPath}/memo/memoList.do?memberId=${memberId}" class="list-group-item" style="text-align:right;"> 
+
             내 메모보기
             <button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>

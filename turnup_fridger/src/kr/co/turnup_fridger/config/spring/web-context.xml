@@ -105,8 +105,8 @@
 	<mvc:view-controller path="/common/member/boardRecipe/boardRecipe_write.do" view-name="common/member/boardRecipe/boardRecipe_write.tiles"/>
 	<!-- 검색 폼 -->
 	<mvc:view-controller path="/common/member/boardRecipe/boardRecipe_search_result.do" view-name="common/member/boardRecipe/boardRecipe_search_result"/>
-	<!-- 게시물 작성 성공폼 링크 -->
-	<mvc:view-controller path="/common/member/boardRecipe/boardRecipe_success.do" view-name="common/member/boardRecipe/boardRecipe_success.tiles"/>
+	<!-- 게시물 memberId 조회 링크 -->
+	<mvc:view-controller path="/boardRecipe/boardRecipe_list_byMemberId.do" view-name="boardRecipe/boardRecipe_list_byMemberId.tiles"/>
 	<!-- 게시물 보기  -->
 	<mvc:view-controller path="/boardRecipe/boardRecipe_view.do" view-name="boardRecipe/boardRecipe_view.tiles"/>
 	<!-- 등록 상세페이지 -->
@@ -117,7 +117,7 @@
 	<mvc:view-controller path="/common/boardRecipe/boardRecipe_updateOk.do" view-name="common/boardRecipe/boardRecipe_updateOk.tiles"/>
 	<!-- 게시물 삭제 -->
 	<mvc:view-controller path="/common/boardRecipe/boardRecipe_delete.do" view-name="common/boardRecipe/boardRecipe_delete.tiles"/>
-
+	
 
 	<!-- 경혜 view controller등록-->
 	<!--  공용으로 사용 가능 -->
@@ -169,8 +169,8 @@
 	<mvc:view-controller path="/common/admin/master/join_admin_success.do" view-name="common/admin/master/user/join_admin_success"/>
 	
 	
-	<!-- 냉장고 리스트 페이지 (검색) -->
-	<mvc:view-controller path="/common/member/fridger/list.do" view-name="common/member/fridger/list.tiles"/>
+	<!-- 냉장고 가입을 위한 리스트 페이지 (검색) -->
+	<mvc:view-controller path="/common/member/fridger/join_form.do" view-name="common/member/fridger/join_form.tiles"/>
 	<!-- 내냉장고 목록 -->
 	<mvc:view-controller path="/common/member/fridger/my_list.do" view-name="common/member/fridger/my_list.tiles"/>
 	<!-- 내냉장고 메인-->

@@ -41,7 +41,7 @@ function delete_event(){
 	color: red;
  }
 /* https://codepen.io/johanLee/pen/vOJLdM */
-.lst_erai{
+/* .lst_erai{
     width:100%;margin:0;padding:0;
     font-size:0;
     letter-spacing:-5px
@@ -60,20 +60,36 @@ function delete_event(){
     color:black;
     *display:inline;
     zoom:1;
+} */
+.blink {
+    -webkit-animation: blink 2.5s linear infinite;
+} 
+@-webkit-keyframes blink {
+    0% { color: red; }
+    33% { color: yellow; }
+    66% { color: blue; }
+    100% { color: green; }
 }
 </style>
 </head>
 <body>
+
 <c:if test="${requestScope.error != null}">
 	<script type="text/javascript">alert('권한이 없습니다.')</script>
 </c:if>
+
+<div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+
+<jsp:useBean id="now" class="java.util.Date" />
+<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />  
+
 <c:if test="${empty list}">
-<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+	<div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>후기</h1>
 <hr>
-<table class="table table-hover table-condensed" style="width:100%;text-align:center;margin-left: auto; margin-right: auto;">
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
 <div class="form-inline form-group" >
 	<a href="${initParam.rootPath}/index.do">
 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
@@ -89,14 +105,6 @@ function delete_event(){
 	</sec:authorize>
 
 	<div class="ccfield-prepend" style="float:right">
-		<div style="float:right">
-		<form action="${initParam.rootPath}/boardreview/boardReviewStarList.do" method="post">
-			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-			<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
-				<span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-			</button>
-		</form>
-		</div>
 		<form class="form-inline" action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
 			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 			<select class="form-control" name="select" id="select">
@@ -111,14 +119,14 @@ function delete_event(){
 		</form>
 	</div>
 </div>
-</table>
 		<br><h2 style="text-align:center">검색한 아이디가 없습니다.</h2>
+</table>
 </div>
 </c:if>
 
 
 <c:if test="${!empty list}">
-<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>후기 게시판</h1>
 <hr>
@@ -151,7 +159,7 @@ function delete_event(){
 		</form>
 	</div>
 </div>
-<table class="table table-hover table-condensed" style="width:100%;text-align:center;margin-left: auto; margin-right: auto;">
+<table class="table table-hover table-condensed" style="width:auto; border:1; text-align:center;">
 <c:forEach var="row" items="${list}">
 <table>
 	<tr>
@@ -162,6 +170,10 @@ function delete_event(){
 		</td>	
 		<td style="width:70%;">
 				<h4>${row.memberId}</h4>님의 후기  |  <fmt:formatDate value="${row.boardReviewDate}" pattern="yyyy-MM-dd"/> 
+				<fmt:formatDate value="${row.boardReviewDate}" pattern="yyyy-MM-dd" var="date"/>  
+				<c:if test="${today == date }">
+					&nbsp;&nbsp;&nbsp;<a class="blink">new</a>
+				</c:if>
 		</td>
 		<td  style="width:20%;">
 	<!-- 회원 권한 폼 -->
@@ -214,7 +226,7 @@ function delete_event(){
 		<td>
 		</td>
 		<td style="width:70%;">
-				${row.recipeName}	|	
+				<a href="${initParam.rootPath}/recipe/show/detail.do?recipeId=${row.recipeId}">${row.recipeName}</a>	|	
 			<c:if test="${row.boardReviewStar == 0}">
     			<img width="20%" src="${initParam.rootPath}/starimage/rating0.png">
     		</c:if>
@@ -259,7 +271,7 @@ function delete_event(){
 				<a style="color:white">&asdfasdfsdfadfasdfasdfasdfasdfasdfasdfasdfasdfsdfassfsdfsdfddfffff</a><br>
 				${fn:replace(row.boardReviewTxt, cn, br)}<br>
 			<c:if test="${row.imageName != null}">
-   				<img width="90%" alt="${row.imageName}" src="${initParam.rootPath}/img/${row.imageName}"><br>
+   				<img width="90%" alt="${row.imageName}" src="${initParam.rootPath}/img/board/${row.imageName}"><br>
    			</c:if>
 		</td>
 		<td>
@@ -328,5 +340,6 @@ function delete_event(){
 </p>
 </div>
 </c:if>
+</div>
 </body>
 </html>

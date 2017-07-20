@@ -10,9 +10,10 @@ EDIT ON
 html, body, div, object, iframe, fieldset { 
     margin: 0; 
     padding: 0; 
+    border: 0;
 } 
 ol, ul { 
-
+	
     list-style: none;
     margin: 0;
     padding: 0;
@@ -171,7 +172,7 @@ input[type=search] {
   .list li {
     padding: 1em;
     display: block;
-    width: 50%;
+    width: 70%;
     float: left;
     background: none;
     border: 0;
@@ -266,12 +267,7 @@ input[type=search] {
   }
 }
 
-=======
-	
-    list-style: none;
-    margin: 0;
-    padding: 0;
-} 
+
 table { 
     border-collapse: collapse; 
     border-spacing: 0; 
@@ -427,7 +423,7 @@ input[type=search] {
   .list li {
     padding: 1em;
     display: block;
-    width: 50%;
+    width: 5.0%;
     float: left;
     background: none;
     border: 0;
@@ -479,7 +475,7 @@ input[type=search] {
 .li-text2 {
   display: table-cell;
   vertical-align: middle;
-  width: 60%;
+  width: 80%;
 }
 .li-head2 {
   margin: 0;

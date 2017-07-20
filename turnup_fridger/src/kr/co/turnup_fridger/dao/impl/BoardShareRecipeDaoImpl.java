@@ -23,6 +23,7 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 		return "kr.co.turnup_fridger.config.mybatis.mapper.BoardShareRecipeMapper."+id;
 	}
 
+
 	@Override
 	public int insertBoardShareRecipe(BoardShareRecipe boardShareRecipe) {
 		return session.insert(makeSqlId("insertBoardShareRecipe"), boardShareRecipe);
@@ -66,6 +67,35 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 
 		return session.selectOne(makeSqlId("selectBoardCount"));
 	}
+	
+	
+	@Override
+	public int selectBoardByTitileCount(String title) {
+	
+		return session.selectOne(makeSqlId("selectBoardByTitileCount"), title);
+	}
+
+
+
+
+	@Override
+	public int selectBoardByMemberIdCount(String memberId) {
+	
+		return session.selectOne(makeSqlId("selectBoardByMemberIdCount"), memberId);
+	}
+
+
+
+
+	@Override
+	public int selectBoardByTxtCount(String txt) {
+		
+		return session.selectOne(makeSqlId("selectBoardByTxtCount"), txt);
+	}
+
+
+
+
 	@Override
 	public List<BoardShareRecipe> selectBoardShareRecipeByAll(int startIndex, int endIndex) {
 		Map<String, Integer> input = new HashMap<String, Integer>();
@@ -97,16 +127,18 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 		recommandMap.put("memberId", memberId);
 		return session.selectOne(makeSqlId("selectRecommand"), recommandMap);
 	}
+	
+	//레시피 ID로 삭제
 	@Override
 	public int deleteRecommand(int recipeId) {
-		// TODO Auto-generated method stub
+	
 		return session.delete(makeSqlId("deleteRecommand"), recipeId);
 	}
 	
 
 	@Override
 	public MemberRecipeRecommand selectRecommandOne(int recipeId) {
-		// TODO Auto-generated method stub
+		
 		return session.selectOne(makeSqlId("selectRecommandOne"), recipeId);
 	}
 	
@@ -116,27 +148,27 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 		return session.selectList(makeSqlId("selectRecommandByRecipeId"), recipeId);
 	}
 	@Override
-	public List<BoardShareRecipe> boardSearchByTitle(int startIndex, int endIndex, String keyword) {
+	public List<BoardShareRecipe> boardSearchByTitle(int startIndex, int endIndex, String title) {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("startIndex", startIndex);
 		map.put("endIndex", endIndex);
-		map.put("keyword", keyword);
+		map.put("title", title);
 		return session.selectList(makeSqlId("boardSearchByTitle"), map);
 	}
 	@Override
-	public List<BoardShareRecipe> boardSearchByTxt(int startIndex, int endIndex, String keyword) {
+	public List<BoardShareRecipe> boardSearchByTxt(int startIndex, int endIndex, String txt) {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("startIndex", startIndex);
 		map.put("endIndex", endIndex);
-		map.put("keyword", keyword);
+		map.put("txt", txt);
 		return session.selectList(makeSqlId("boardSearchByTxt"), map);
 	}
 	@Override
-	public List<BoardShareRecipe> boardSearchByMemberId(int startIndex, int endIndex, String keyword) {
+	public List<BoardShareRecipe> boardSearchByMemberId(int startIndex, int endIndex, String memberId) {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("startIndex", startIndex);
 		map.put("endIndex", endIndex);
-		map.put("keyword", keyword);
+		map.put("memberId", memberId);
 		return session.selectList(makeSqlId("boardSearchByMemberId"), map);
 	}
 	@Override

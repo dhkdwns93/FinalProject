@@ -44,9 +44,10 @@ p{
 <p id="memoNum">현재 <span id="count"></span> 개의 메모가 있습니다</p>
 <div class="tableListScroll">
 <table id="tt" class="table table-hover">
+
 	<tr>
 		<td>NO</td>
-		<td>제목</td>
+		<td>제목</td>	
 		<td>작성일</td>
 	</tr>
 	<c:forEach items="${requestScope.list }" var="memo">

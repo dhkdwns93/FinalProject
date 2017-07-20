@@ -38,67 +38,70 @@ h2{display:inline}
 </style>
 </head>
 <body>
-<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+<div class="container">
 
-<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
-<br><br>
-<h1>공지사항 ></h1><h2>&nbsp;${boardNotice.items}</h2>
-<hr>
-<form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
-	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-		<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-	</button>
-</form>
-<div style="float:right">
-<!-- 관리자만 수정 가능 -->
- <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadView.do?" method="post" enctype="multipart/form-data">
-	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<input type="hidden" name="id" id="id" value="${boardNotice.id}">
-	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
-	  	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-	</button>
-</form>
-</sec:authorize>
-<!-- 관리자만 삭제 가능 -->
- <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticRemove.do" method="post">
-	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<input type="hidden" name="id" value="${boardNotice.id}">
-	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return delete_event();">
-		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-	</button>
-</form>
-</sec:authorize>
-</div>
-<table class="table table-bordered" style="width:100%; border:1; text-align:center">
-	<tr>
-		<td>말머리</td>
-		<td>${boardNotice.items}</td>
-	</tr>
-	<tr>
-		<td>제목</td>
-		<td>${boardNotice.title}</td>
-	</tr>
-	<tr>
-		<td>작성날짜</td>
-		<td><fmt:formatDate value="${boardNotice.date}" pattern="yyyy-MM-dd"/></td>
-	</tr>
-	<tr>
-		<td>작성자</td>
-		<td>관리자</td>
-	</tr>	
-	<tr>
-		<td>내용</td>	
-		<td style="width:70%;text-align:left">
-			<c:if test="${boardNotice.img != null}">
-				<img width="70%" alt="${boardNotice.img}" src="${initParam.rootPath}/img/board/${boardNotice.img}"><br>
-			</c:if>
-				${fn:replace(boardNotice.txt, cn, br)}
-		</td>
-	</tr>
-</table>
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+	<div style="width:auto; margin-left: auto; margin-right: auto;"><br><br>
+		<div class="form-inline form-group" >
+		<h1>공지사항 ></h1><h2>&nbsp;${boardNotice.items}</h2>
+		<hr>
+		<form action="${initParam.rootPath}/boardnotice/boardNoticeList.do" method="post">
+			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+				<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+			</button>
+		</form>
+		<div style="float:right">
+			<!-- 관리자만 수정 가능 -->
+			 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+			<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadView.do?" method="post" enctype="multipart/form-data">
+				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+				<input type="hidden" name="id" id="id" value="${boardNotice.id}">
+				<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+				  	<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+				</button>
+			</form>
+			</sec:authorize>
+			<!-- 관리자만 삭제 가능 -->
+			 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+			<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticRemove.do" method="post">
+				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+				<input type="hidden" name="id" value="${boardNotice.id}">
+				<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return delete_event();">
+					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+				</button>
+			</form>
+			</sec:authorize>
+		</div>
+			<table class="table table-bordered" style="width:70%; border:1; text-align:center">
+				<tr>
+					<td>말머리</td>
+					<td>${boardNotice.items}</td>
+				</tr>
+				<tr>
+					<td>제목</td>
+					<td>${boardNotice.title}</td>
+				</tr>
+				<tr>
+					<td>작성날짜</td>
+					<td><fmt:formatDate value="${boardNotice.date}" pattern="yyyy-MM-dd"/></td>
+				</tr>
+				<tr>
+					<td>작성자</td>
+					<td>관리자</td>
+				</tr>	
+				<tr>
+					<td>내용</td>	
+					<td style="width:70%;text-align:left">
+						<c:if test="${boardNotice.img != null}">
+							<img width="70%" alt="${boardNotice.img}" src="${initParam.rootPath}/img/board/${boardNotice.img}"><br>
+						</c:if>
+							${fn:replace(boardNotice.txt, cn, br)}
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
 </div>
 </body>
 </html>

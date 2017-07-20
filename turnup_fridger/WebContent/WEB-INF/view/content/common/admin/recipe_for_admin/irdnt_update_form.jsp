@@ -5,6 +5,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <link href="${ initParam.rootPath }/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script type="text/javascript">
 $(document).ready(function(){
 
@@ -203,7 +204,7 @@ left:5px;
 						<td><input type="hidden" value="${recipeIrdnt.irdntTypeCode}"></td>
 						<td><input type="text" size="5" value="${recipeIrdnt.irdntTypeName}" readonly></td>
 						<td><input type="text" size="5" value="${recipeIrdnt.irdntAmount}" readonly></td>
-						<td><button type="button" class="btn btn-default" class="deleteOldIrdntBtn">삭제</button></td>
+						<td style="padding-left:10px"><button type="button" class="btn btn-default" class="deleteOldIrdntBtn"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>
 					</tr>
 				</c:forEach>
 
