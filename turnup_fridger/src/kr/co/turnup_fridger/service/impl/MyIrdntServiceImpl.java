@@ -47,18 +47,14 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 			throw new NoneMyIrdntException("없는 식재료입니다.");
 		}
 		//재료id를 제외한 다른것들을 수정, 다시 계산해야함
-		System.out.println("신선도 전");
 		String FreshLevel = getFreshLevel(myIrdnt);
-		System.out.println("신선도 후");
 		//String IrdntName = irdntDao.selectIrdntById(myIrdnt.getIrdntId()).getIrdntName();
 		
 		//key값은 jsp쪽에서 고정되도록 처리해야겠다. 
 		MyIrdnt newMyIrdnt= new MyIrdnt(myIrdnt.getMyIrdntKey(),myIrdnt.getStartDate(),myIrdnt.getEndDate(),FreshLevel,
 				myIrdnt.getIrdntCount(),myIrdnt.getIrdntId(),myIrdnt.getIrdntName(),myIrdnt.getFridgerId(),myIrdnt.getStartFreshLevel(),myIrdnt.getStorgePlace());
 		
-		System.out.println("dao 가기전");
 		dao.updateMyIrdnt(newMyIrdnt);
-		System.out.println("dao간후");
 		
 	}
 
