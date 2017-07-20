@@ -176,28 +176,28 @@ response.addCookie(hits);
             	<div class="li-text3">
             		<p class="li-sub3">
             		<i class="glyphicon glyphicon-calendar" style="font-size:20px">
-            		<fmt:formatDate value="${boardShareRecipe.date}" pattern="yyyy년 MM월 dd일"/></i></p>
+            		2017년 07월 21일</i></p>
             	</div>
             	<hr>
                 <div class="li-img3">
-                    <img src="${initParam.rootPath }/img/${boardShareRecipe.original}" alt="${boardShareRecipe.original }" />
+                    <img src="${initParam.rootPath }/img/goguma.jpg" alt="goguma.jpg" />
                     <!-- ${top.upImage}-->
                 </div>
                 <hr>
                 <div class="li-text3">
-            		<p class="li-head3" style="font-size: 40px; font-weight: bold;">${fn:replace(boardShareRecipe.title, cn, br)} </p>
+            		<p class="li-head3" style="font-size: 40px; font-weight: bold;">수정 </p>
             	</div>
             	<hr>
                 <div class="li-text3">
-                    <h5 class="li-head3"><i class="glyphicon glyphicon-user" style="font-size:30px"> ${boardShareRecipe.memberId }</i>&emsp;
-                    <i class="glyphicon glyphicon-eye-open" style="font-size:30px">  ${boardShareRecipe.hits }</i>&emsp;
+                    <h5 class="li-head3"><i class="glyphicon glyphicon-user" style="font-size:30px"> dhkd</i>&emsp;
+                    <i class="glyphicon glyphicon-eye-open" style="font-size:30px">  20</i>&emsp;
                     
                     <form method="post" action="${initParam.rootPath }/common/boareRecipe/recommand.do">
 						<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 						<input type="hidden" name="recipeId" value="${boardShareRecipe.recipeId }">
 						<input type="hidden" name="memberId" value="${boardShareRecipe.memberId }">
 					
-					<a href="#" onClick="this.parentNode.submit()"><i class="glyphicon glyphicon-thumbs-up" style="font-size:30px">&emsp;${boardShareRecipe.recommand }</i></a>
+					<a href="#" onClick="this.parentNode.submit()"><i class="glyphicon glyphicon-thumbs-up" style="font-size:30px">&emsp;3</i></a>
 					</form></h5>
                     <%-- <i class="glyphicon glyphicon-thumbs-up" style="font-size:30px"> ${boardShareRecipe.recommand }</i> --%>
                 </div>
@@ -206,10 +206,11 @@ response.addCookie(hits);
                 	<div class="li-sub3">
 	                	<h2>재료 Ingredients </h2>
 	                	<hr>
-	                	<c:forEach items="${share}" var="row">
-	                		<dl style="font-size:18px">${row.irdntManage.irdntName}</dl>
-	                	</c:forEach>
-						<br><br>
+	                	
+	                		<dl style="font-size:18px">비엔나소시지</dl>
+	                		<dl style="font-size:18px">냉동만두</dl>
+	                	
+						<br><br><br>
                 	</div>
                 </div>
                 <div class="li-text3">
@@ -217,14 +218,19 @@ response.addCookie(hits);
                 	<hr>
                 	<br><br>
                 	<!-- 띄어쓰기, 엔터  -->
-                	<p class="li-sub3" style="font-size:18px">${fn:replace(boardShareRecipe.txt, cn, br)} </p>
+                	<p class="li-sub3" style="text-align:center;font-size:18px;">
+						재료를 준비한다.<br>
+						냄비에 물을 넣고 양념을 풀어준다.<br>
+						물이 끓으면 라면을 넣어준다.<br>
+						국물이 졸아들면 치즈를 넣는다.<br>
+						<약불></p>
                 </div>
                 
                 <div class="li-head3">
-                	<h2>기타재료 Other Materials</h2>
+                	<h2 >기타재료 Other Materials</h2>
                 	<hr>
                 	<br><br><br>
-                	<p class="li-sub3" style="font-size:18px">${boardShareRecipe.etc }</p>
+                	<p class="li-sub3" style="font-size:18px">수정완료</p>
                 </div>
                 
             </div>    

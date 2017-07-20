@@ -128,7 +128,7 @@ public interface BoardShareRecipeDao {
 		 * @param keyword
 		 * @return
 		 */
-		List<BoardShareRecipe> boardSearchByTitle(int startIndex, int endIndex ,String title);
+		List<BoardShareRecipe> boardSearchByTitle(String title, int startIndex, int endIndex);
 		
 		
 		/**
@@ -138,7 +138,7 @@ public interface BoardShareRecipeDao {
 		 * @param keyword
 		 * @return
 		 */
-		List<BoardShareRecipe> boardSearchByTxt(int startIndex, int endIndex ,String txt);
+		List<BoardShareRecipe> boardSearchByTxt(String txt,int startIndex, int endIndex);
 		
 		/**
 		 * 게시판 회원 id로 조회 메소드
@@ -147,7 +147,7 @@ public interface BoardShareRecipeDao {
 		 * @param keyword
 		 * @return
 		 */
-		List<BoardShareRecipe> boardSearchByMemberId(int startIndex, int endIndex ,String memberId);
+		List<BoardShareRecipe> boardSearchByMemberId(String memberId,int startIndex, int endIndex );
 		/**
 		 * TOP4 조회 메소드
 		 * @return

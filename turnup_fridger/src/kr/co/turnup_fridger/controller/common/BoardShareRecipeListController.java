@@ -52,7 +52,7 @@ public class BoardShareRecipeListController{
 	@Autowired
 	ShareRecipeIrdntService irdntService;
 	
-	
+	BoardShareRecipe boardShareRecipe;
 	MemberRecipeRecommand memberRecipeRecommand;
 	ShareRecipeIrdnt shareRecipeIrdnt;
 	IrdntManage irdntManage;
@@ -451,28 +451,22 @@ public class BoardShareRecipeListController{
 				boardShareRecipeService.updateBoardRecommand(recipeId);
 				boardShareRecipeService.insertRecommandServie(new MemberRecipeRecommand(0, recipeId, memberId));
 			
-		
-		
 		mav.setViewName("boardRecipe/boardRecipe_list.tiles");
 		return mav;
 	}
-	
-/*	@RequestMapping("/common/boareRecipe/recommand")
+	//상세페이지에서 추천수 추가
+	@RequestMapping("/common/boareRecipe/recommand")
 	@ResponseBody
-	public ModelAndView recommand( @RequestParam(value="recipeId") int recipeId, @RequestParam String memberId) throws OverLapException, FindMemberFailException{
+	public ModelAndView recommandByTwo(@RequestParam int recipeId, @RequestParam String memberId ) throws Exception{
 		ModelAndView mav = new ModelAndView();
-		System.out.println("3차");
-		 BoardShareRecipe boardShareRecipe = (BoardShareRecipe) boardShareRecipeService.boardRead(recipeId);
-		 boardShareRecipe = boardShareRecipeService.selectBoardByShareIrdnt(recipeId);
-//		MemberRecipeRecommand recommand = boardShareRecipeService.selectRecommandService(recipeId, memberId);
-		
-		 System.out.println("4차");
-//		mav.addObject(recommand);//sessionScope.recommand
-		mav.addObject("top", boardShareRecipe);//중복검사?
-		mav.addObject("list", boardShareRecipe);
-		mav.setViewName("boardRecipe/boardRecipe_list.tiles");
+	
+		 	boardShareRecipeService.updateBoardRecommand(recipeId);
+			boardShareRecipeService.insertRecommandServie(new MemberRecipeRecommand(0, recipeId, memberId));
+			 boardShareRecipe = boardShareRecipeService.selectBoardByShareIrdnt(recipeId);
+			mav.addObject("boardShareRecipe", boardShareRecipe);
+		mav.setViewName("boardRecipe/boardRecipe_view.tiles");
 		return mav;
-	}*/
+	}
 	
 	//제목 조회
 	@RequestMapping("/boardRecipe/boardSearchByTitle")
@@ -480,41 +474,32 @@ public class BoardShareRecipeListController{
 	public ModelAndView boardSearchByTitle(@RequestParam(defaultValue="1") int page, @RequestParam String title){
 		ModelAndView mav = new ModelAndView();
 		
-		Map<String, Object> map = boardShareRecipeService.boardSearchByTitle(page, title);
+		Map<String, Object> map = boardShareRecipeService.boardSearchByTitle(title,page);
 		
 		mav.addObject("list", map.get("list"));
 		mav.addObject("totalCount", map.get("totalCount"));
-		mav.addObject("title",map.get( title));
+		mav.addObject("title",map.get( "title"));
 		mav.addObject("pageBean", map.get("pageBean"));
-		mav.setViewName("boardRecipe/boardRecipe_list_byTitle.tiles");
+		mav.setViewName("boardRecipe/boardRecipe_list_title.tiles");
 		return mav;
 	}
 	
 	//아이디조회
 	@RequestMapping("/boardRecipe/boardSearchByMemberId")
 	@ResponseBody
-	public ModelAndView boardSearchByMemberId(@ModelAttribute BoardShareRecipe boardShareRecipe ,@RequestParam(defaultValue="1") int page, @RequestParam String memberId){
+	public ModelAndView boardSearchByMemberId(@RequestParam String memberId ,@RequestParam(defaultValue="1") int page){
 		ModelAndView mav = new ModelAndView();
 		
-		Map<String, Object> map = boardShareRecipeService.boardSearchByMemberId(page, memberId);
+		Map<String, Object> map = boardShareRecipeService.boardSearchByMemberId(memberId, page );
 		
 		map = boardShareRecipeService.selectBoardShareRecipeAll(page);
-		
-		List<BoardShareRecipe> boardTop = boardShareRecipeService.selectBoardTop4();
-		
-		mav.addObject("top", boardTop);
-//		mav.addObject("list", map.get("list"));
-//		mav.addObject("pageBean", map.get("pageBean"));
-//		
-//		mav.setViewName("boardRecipe/boardRecipe_list.tiles");
-		
 		
 		
 		mav.addObject("list", map.get("list"));
 		mav.addObject("totalCount", map.get("totalCount"));
-		mav.addObject("memberId", map.get(memberId));
+		mav.addObject("memberId", map.get("memberId"));
 		mav.addObject("pageBean", map.get("pageBean"));
-		mav.setViewName("boardRecipe/boardRecipe_list_byMemberId.tiles");
+		mav.setViewName("boardRecipe/boardRecipe_list_memberId.tiles");
 		return mav;
 	}
 	
@@ -524,13 +509,13 @@ public class BoardShareRecipeListController{
 		public ModelAndView boardSearchByTxt(@RequestParam(defaultValue="1") int page, @RequestParam String txt){
 			ModelAndView mav = new ModelAndView();
 			
-			Map<String, Object> map = boardShareRecipeService.boardSearchByTxt(page, txt);
+			Map<String, Object> map = boardShareRecipeService.boardSearchByTxt(txt, page );
 			
 			mav.addObject("list", map.get("list"));
 			mav.addObject("totalCount", map.get("totalCount"));
-			mav.addObject("txt", map.get(txt));
+			mav.addObject("txt", map.get("txt"));
 			mav.addObject("pageBean", map.get("pageBean"));
-			mav.setViewName("boardRecipe/boardRecipe_list_byTxt.tiles");
+			mav.setViewName("boardRecipe/boardRecipe_list_txt.tiles");
 			return mav;
 		}
 	
@@ -541,39 +526,42 @@ public class BoardShareRecipeListController{
 		ModelAndView mav = new ModelAndView();
 		Map<String, Object> map = new HashMap<>();
 		System.out.println(keyword);
-		String id = "아이디";
+		String memberId = "아이디";
 		String title = "제목";
 		String txt = "내용";
 		
 		//제목 검색
 		if(searchOption.equals(title)){
 			System.out.println(searchOption+title+"123");
-			 map = boardShareRecipeService.boardSearchByTitle(page, keyword);
+			 map = boardShareRecipeService.boardSearchByTitle(keyword, page );
 			System.out.println(title);
 			mav.addObject("list", map.get("list"));
 			mav.addObject("totalCount", map.get("totalCount"));
+			mav.addObject("title", map.get("boardRecipe/boardSearchByTitle.tiles"));
 			mav.addObject("pageBean", map.get("pageBean"));
-			mav.setViewName("boardRecipe/boardRecipe_list.do");
+			mav.setViewName("boardRecipe/boardRecipe_list_title.tiles");
 			return mav;
 			
 			//내용 검색
 			}else if(searchOption.equals(txt)){
 			
-			 map = boardShareRecipeService.boardSearchByTxt(page, keyword);
+			 map = boardShareRecipeService.boardSearchByTxt(keyword, page );
 		
 			mav.addObject("list", map.get("list"));
 			mav.addObject("totalCount", map.get("totalCount"));
+			mav.addObject("txt", map.get("boardRecipe/boardSearchByTxt.tiles"));
 			mav.addObject("pageBean", map.get("pageBean"));
-			mav.setViewName("boardRecipe/boardRecipe_list.tiles");
+			mav.setViewName("boardRecipe/boardRecipe_list_txt.tiles");
 			return mav;
 			
 			//memberId로 검색
-			}else if(searchOption.equals(id)){
-				map = boardShareRecipeService.boardSearchByMemberId(page, keyword);
+			}else if(searchOption.equals(memberId)){
+				map = boardShareRecipeService.boardSearchByMemberId(keyword, page );
 				mav.addObject("list", map.get("list"));
 				mav.addObject("totalCount", map.get("totalCount"));
+				mav.addObject("memberId", map.get("boardRecipe/boardSearchByMemberId.tiles"));
 				mav.addObject("pageBean", map.get("pageBean"));
-				mav.setViewName("boardRecipe/boardRecipe_list.tiles");
+				mav.setViewName("boardRecipe/boardRecipe_list_memberId.tiles");
 				return mav;
 			}
 		map = boardShareRecipeService.selectBoardShareRecipeAll(page);

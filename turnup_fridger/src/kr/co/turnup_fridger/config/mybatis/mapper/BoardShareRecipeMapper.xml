@@ -225,13 +225,13 @@
 	WHERE BOARD_SHARE_RECIPE_ID = #{recipeId}
 	</delete>
 	
-	<select id="selectBoardByTitileCount" parameterType="java.util.HashMap" resultMap="boardShareRecipe-resultmap">
+	<select id="selectBoardByTitileCount" parameterType="map" resultType="int">
 		SELECT COUNT(*)
 		FROM BOARD_SHARE_RECIPE
 		WHERE BOARD_SHARE_RECIPE_TITLE LIKE '%'||#{title}||'%'
 	</select>
 	
-	<select id="boardSearchByTitle" parameterType="java.util.HashMap" resultMap="boardShareRecipe-resultmap">
+	<select id="boardSearchByTitle" parameterType="map" resultMap="boardShareRecipe-resultmap">
 	SELECT<include refid="all-column"/>
 	FROM(
 		SELECT ROWNUM RNUM, <include refid="all-column"/>
@@ -245,35 +245,47 @@
 	WHERE RNUM>=#{startIndex}
 	</select>
 	
-	
-	
-	<select id="boardSearchByTxt" parameterType="java.util.HashMap" resultMap="boardShareRecipe-resultmap">
-	SELECT<include refid="all-column"/>
-	FROM(
-		SELECT ROWNUM RNUM, <include refid="all-column"/>
-		FROM (
-		 	<include refid="select-boardShareRecipe"/> 
-			WHERE BOARD_SHARE_RECIPE_TXT LIKE '%'||#{txt}||'%'
-			ORDER BY BOARD_SHARE_RECIPE_DATE DESC
-		)
-		WHERE ROWNUM &lt;=#{endIndex}
-	)
-	WHERE RNUM>=#{startIndex}
-	</select>
-	
-	<select id="selectBoardByTxtCount" parameterType="java.util.HashMap" resultMap="boardShareRecipe-resultmap">
-		SELECT COUNT(*)
-		FROM BOARD_SHARE_RECIPE
-		WHERE BOARD_SHARE_RECIPE_TXT LIKE '%'||#{txt}||'%'
-	</select>
-	
-	<select id="boardSearchByMemberId" parameterType="java.util.HashMap" resultMap="boardShareRecipe-resultmap">
+	<!-- <select id="boardSearchByTitle" parameterType="map" resultMap="boardShareRecipe-resultmap">
 	SELECT<include refid="all-column"/>
 	FROM(
 		SELECT ROWNUM RNUM, <include refid="all-column"/>
 		FROM (
 		 	<include refid="select-boardShareRecipe"/>
-			WHERE MEMBER_ID LIKE '%'||#{memberId}||'%'
+			WHERE BOARD_SHARE_RECIPE_TITLE LIKE '%'||#{title}||'%'
+			ORDER BY BOARD_SHARE_RECIPE_DATE DESC
+		)
+		WHERE ROWNUM &lt;=#{endIndex}
+	)
+	WHERE RNUM>=#{startIndex}
+	</select> -->
+	
+	<select id="boardSearchByTxt" parameterType="map" resultMap="boardShareRecipe-resultmap">
+	SELECT <include refid="all-column"/>
+	FROM(
+		SELECT ROWNUM RNUM, <include refid="all-column"/>
+		FROM (
+			 	<include refid="select-boardShareRecipe"/> 
+				WHERE BOARD_SHARE_RECIPE_TXT LIKE '%'||#{txt}||'%'
+				ORDER BY BOARD_SHARE_RECIPE_DATE DESC
+		)
+		WHERE ROWNUM &lt;=#{endIndex}
+	)
+	WHERE RNUM>=#{startIndex}
+	</select>
+	
+	<select id="selectBoardByTxtCount" parameterType="map" resultType="int">
+		SELECT COUNT(*)
+		FROM BOARD_SHARE_RECIPE
+		WHERE BOARD_SHARE_RECIPE_TXT LIKE '%'||#{txt}||'%'
+	</select>
+	
+	<select id="boardSearchByMemberId" parameterType="map" resultMap="boardShareRecipe-resultmap">
+	SELECT<include refid="all-column"/>
+	FROM(
+		SELECT ROWNUM RNUM, <include refid="all-column"/>
+		FROM (
+		 	<include refid="select-boardShareRecipe"/>
+			WHERE MEMBER_ID = #{memberId}
 			ORDER BY BOARD_SHARE_RECIPE_DATE DESC
 		)
 		WHERE ROWNUM &lt;=#{endIndex}
@@ -281,10 +293,10 @@
 	WHERE RNUM>=#{startIndex}
 	</select>
 	
-	<select id="selectBoardByMemberIdCount" parameterType="java.util.HashMap" resultMap="boardShareRecipe-resultmap">
+	<select id="selectBoardByMemberIdCount" parameterType="map" resultType="int">
 		SELECT COUNT(*)
 		FROM BOARD_SHARE_RECIPE
-		WHERE MEMBER_ID LIKE '%'||#{memberId}||'%'
+		WHERE MEMBER_ID LIKE #{memberId}
 	</select>
 	
 	<select id="selectBoardTop4" resultMap="boardShareRecipe-resultmap">
