@@ -45,12 +45,13 @@ public interface BoardShareRecipeService {
 	 */
 	MemberRecipeRecommand selectRecommandOne(int recipeId);
 	/***************************검색기능******************************************/
-	Map<String, Object> boardSearchByTitle(int page, String title);
-	
-	Map<String, Object> boardSearchByTxt(int page, String txt );
-	
-	Map<String, Object> boardSearchByMemberId(int page, String memberId);
-	
+	//제목으로 조회
+	Map<String, Object> boardSearchByTitle( String title,int page);
+	//내용으로 조회
+	Map<String, Object> boardSearchByTxt(String txt ,int page );
+	//회원 ID로 조회
+	Map<String, Object> boardSearchByMemberId(String memberId,int page );
+	//TOP4 조회
 	List<BoardShareRecipe> selectBoardTop4();
 	
 	/**

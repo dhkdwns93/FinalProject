@@ -106,7 +106,11 @@
 	<!-- 검색 폼 -->
 	<mvc:view-controller path="/common/member/boardRecipe/boardRecipe_search_result.do" view-name="common/member/boardRecipe/boardRecipe_search_result"/>
 	<!-- 게시물 memberId 조회 링크 -->
-	<mvc:view-controller path="/boardRecipe/boardRecipe_list_byMemberId.do" view-name="boardRecipe/boardRecipe_list_byMemberId.tiles"/>
+	<mvc:view-controller path="/boardRecipe/boardRecipe_list_memberId.do" view-name="boardRecipe/boardRecipe_list_memberId.tiles"/>
+	<!-- 게시물 title 조회 링크 -->
+	<mvc:view-controller path="/boardRecipe/boardRecipe_list_title.do" view-name="boardRecipe/boardRecipe_list_title.tiles"/>
+	<!-- 게시물 txt 조회 링크 -->
+	<mvc:view-controller path="/boardRecipe/boardRecipe_list_txt.do" view-name="boardRecipe/boardRecipe_list_txt.tiles"/>
 	<!-- 게시물 보기  -->
 	<mvc:view-controller path="/boardRecipe/boardRecipe_view.do" view-name="boardRecipe/boardRecipe_view.tiles"/>
 	<!-- 등록 상세페이지 -->
@@ -114,7 +118,7 @@
 	<!-- 게시물 수정 폼  -->
 	<mvc:view-controller path="/common/boardRecipe/boardRecipe_update.do" view-name="common/boardRecipe/boardRecipe_update.tiles"/>
 	<!-- 게시물 수정 성공폼 -->
-	<mvc:view-controller path="/common/boardRecipe/boardRecipe_updateOk.do" view-name="common/boardRecipe/boardRecipe_updateOk.tiles"/>
+	<mvc:view-controller path="/boardRecipe/boardRecipe_updateOk.do" view-name="boardRecipe/boardRecipe_updateOk.tiles"/>
 	<!-- 게시물 삭제 -->
 	<mvc:view-controller path="/common/boardRecipe/boardRecipe_delete.do" view-name="common/boardRecipe/boardRecipe_delete.tiles"/>
 	

@@ -82,8 +82,7 @@ $(document).ready(function(){
 		var uri=$("#tblExport").btechco_excelexport({
 			containerid:tbl, datatype:$datatype.Table, worksheetName:fileName, encoding:"UTF-8", returnUri:true
 		});//end of uri
-		
-		$(this).prop('download',fileName).prop('href',uri).prop('target','_blank');;
+		$(this).prop('download',fileName).prop('href',uri).prop('target','_blank');
 	});//end of exportBtn 
 	
 	/******* 관리자등록 popup *********/

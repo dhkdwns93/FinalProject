@@ -88,8 +88,10 @@ function getSearchList(page){
 			$.each(map.list, function(){
 				$("#tbody").append($("<tr>").prop("id","irdnt_col").append($("<td>").append(this.irdntId)).append($("<td>").append(this.irdntName)).append($("<td>").append(this.irdntCategory))
 				.append($("<td>").append(this.roomTemPeriod)).append($("<td>").append(this.coldTemPeriod)).append($("<td>").append(this.freezeTemPeriod)).append($("<td>").append(this.note))
-				.append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").append("수정")))
-				.append($("<td>").append($("<button>").prop("type","button").prop("id","deleteBtn").append("삭제"))));
+				.append($("<td>").append($("<button>").prop("type","button").prop("id","updateBtn").prop("class","btn btn-default btn-lg").prop("style","border:0;outline:0;")
+						.append($("<span>").prop("class","glyphicon glyphicon-pencil").prop("aria-hidden","true"))))
+				.append($("<td>").append($("<button>").prop("type","button").prop("id","deleteBtn").prop("class","btn btn-default btn-lg").prop("style","border:0;outline:0;")
+						.append($("<span>").prop("class","glyphicon glyphicon-trash").prop("aria-hidden","true")))));
 			 	});//each
 			
 			 	$("#pageBean").append($("<a href='javascript:getSearchList(1)'>").append("첫페이지"));
