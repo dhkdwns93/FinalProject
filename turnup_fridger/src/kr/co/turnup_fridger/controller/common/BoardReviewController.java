@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.turnup_fridger.service.BoardReviewService;
 import kr.co.turnup_fridger.validation.BoardReviewValidator;
+import kr.co.turnup_fridger.vo.BoardFree;
 import kr.co.turnup_fridger.vo.BoardReview;
 import kr.co.turnup_fridger.vo.RecipeInfo;
 
@@ -166,7 +167,7 @@ public class BoardReviewController extends HttpServlet {
 		//등록
 		@RequestMapping("boardReviewAdd")
 		@ResponseBody
-		 public ModelAndView boardReviewAdd(@ModelAttribute BoardReview boardReview,BindingResult errors, HttpServletRequest request,@RequestParam(defaultValue="1") int page) throws Exception
+		 public ModelAndView boardReviewAdd(@ModelAttribute BoardReview boardReview,BindingResult errors, HttpServletRequest request,@RequestParam(defaultValue="1") int page,ModelMap model) throws Exception
 		{
 			ModelAndView mav = new ModelAndView();
 			
@@ -206,13 +207,28 @@ public class BoardReviewController extends HttpServlet {
 				//저장
 				service.addBoardReview(boardReview);
 			}
+			boardReview = service.selecetBoardReviewByBoardReviewId(boardReview.getBoardReviewId());
+			model.addAttribute("boardReview",boardReview);
 			
 			Map<String, Object> map = service.selectBoardReviewList(page);
-			 
-			mav.addObject("list", map.get("list"));
+			model.addAttribute("boardReviewId", boardReview.getBoardReviewId());
+			return new ModelAndView("redirect:/boardreview/success.do");
+			/*mav.addObject("list", map.get("list"));
 			mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("boardreview/form_success.tiles");
-	        return mav; 
+	        return mav; */
+		}
+		@RequestMapping("success")
+		public ModelAndView registerSuccess(@RequestParam int boardReviewId,@RequestParam(defaultValue="1") int page)
+		{
+			ModelAndView mav = new ModelAndView();
+		
+			BoardReview boardReview = service.selecetBoardReviewByBoardReviewId(boardReviewId);
+			
+			Map<String, Object> map = service.selectBoardReviewList(page);
+			mav.addObject("boardReview",boardReview);
+	        mav.setViewName("boardreview/form_success.tiles");
+	        return mav;
 		}
 			
 		//삭제

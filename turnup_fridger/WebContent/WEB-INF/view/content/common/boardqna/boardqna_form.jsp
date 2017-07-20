@@ -57,6 +57,7 @@ td{
 </style>
 </head>
 <body>
+<div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 <div style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
@@ -98,6 +99,7 @@ td{
 	</button>
 	<sec:csrfInput/>
 </form>
+</div>
 </div>
 </body>
 </html>

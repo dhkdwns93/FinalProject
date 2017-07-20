@@ -30,54 +30,69 @@ text-align:center
 input {
    vertical-align:middle;  
 }
+.blink {
+    -webkit-animation: blink 2.5s linear infinite;
+} 
+@-webkit-keyframes blink {
+    0% { color: red; }
+    33% { color: yellow; }
+    66% { color: blue; }
+    100% { color: green; }
+}
 </style>
 </head>
 <body>
 <c:if test="${requestScope.error != null}">
 	<script type="text/javascript">alert('권한이 없습니다.')</script>
 </c:if>
+<div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+
+<jsp:useBean id="now" class="java.util.Date" />
+<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />  
+
+
 <c:if test="${empty list}">
-<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
-<br><br>
-	<h1>QnA 게시판 </h1>
-	<hr>
-	<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
-		<a href="${initParam.rootPath}/index.do">
-			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" >
-				<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-			</button>
-		</a>
-		<!-- 회원만 등록 가능 -->
-		<sec:authorize access="hasRole('ROLE_MEMBER')">
-		 	<a href="${initParam.rootPath}/common/boardqna/boardqna_form.do">
-		 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+	<div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
+	<br><br>
+		<h1>QnA 게시판 </h1>
+		<hr>
+		<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+			<a href="${initParam.rootPath}/index.do">
+				<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" >
+					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 				</button>
 			</a>
-		</sec:authorize>
-		<!-- 검색 버튼 -->
-		<div style="float:right">
-		<div class="form-inline form-group" >
-		<form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
-			<input class="form-control" type="text" name="memberId" placeholder="키워드를 입력해주세요">
-				<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-				</button>
-			<sec:csrfInput/>
-		</form>
-		</div>
-		</div>
-	</table>
-	<br><h2 style="text-align:center">등록된 게시물이 없습니다.</h2>
-</div>
+			<!-- 회원만 등록 가능 -->
+			<sec:authorize access="hasRole('ROLE_MEMBER')">
+			 	<a href="${initParam.rootPath}/common/boardqna/boardqna_form.do">
+			 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+					</button>
+				</a>
+			</sec:authorize>
+			<!-- 검색 버튼 -->
+			<div style="float:right">
+				<div class="form-inline form-group" >
+					<form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
+						<input class="form-control" type="text" name="memberId" placeholder="아이디를 입력해주세요">
+							<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+								<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+							</button>
+						<sec:csrfInput/>
+					</form>
+				</div>
+			</div>
+			<br><h2 style="text-align:center">등록된 게시물이 없습니다.</h2>
+		</table>
+	</div>
 </c:if>
 <c:if test="${!empty list}">
-<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>QnA 게시판 </h1>
 <hr>
-<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+<div class="form-inline form-group" >
 <a href="${initParam.rootPath}/index.do">
 	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 		<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
@@ -92,26 +107,30 @@ input {
 	</a>
 </sec:authorize>
 <!-- 검색 버튼 -->
-<div style="float:right">
-<div class="form-inline form-group" >
-<form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
-	<input class="form-control" type="text" name="memberId" placeholder="키워드를 입력해주세요">
-	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-		<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-	</button>
-	<sec:csrfInput/>
-</form>
+	<div style="float:right">
+		<div class="form-inline form-group" >
+			<form action="${initParam.rootPath}/common/boardqna/boardQnAByMemberId.do" method="post">
+				<input class="form-control" type="text" name="memberId" placeholder="아이디를 입력해주세요">
+				<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+				<sec:csrfInput/>
+			</form>
+		</div>
+	</div>
 </div>
-</div>
-<thead id="thead">
+<table class="table table-hover table-condensed" style="width:auto; border:1; text-align:center;">
+<thead>
     <tr>
         <th style="width:5%;text-align:center;">번호</th>
         <th style="width:50%;text-align:center;">제목</th>
+        <th style="width:5%;text-align:center;"></th>
         <th style="width:10%;text-align:center;">작성일</th>
-        <th style="width:15%;text-align:center;">작성자</th>
+        <th style="width:10%;text-align:center;">작성자</th>
         <th style="width:10%;text-align:center;">댓글수</th>
     </tr>
  </thead>
+ <tbody>
 <c:forEach var="row" items="${list}" varStatus="status">
     <tr>
         <td>${requestScope.totalCount-((requestScope.pageBean.page -1 ) * 10 + status.index)}</td>
@@ -123,7 +142,7 @@ input {
         		<input type="hidden"  name="admin" value="">
         		<input type="hidden" id="memberId" name="memberId" value="${row.memberId}">
         		<input type="hidden" id="boardQnAId" name="boardQnAId" value="${row.boardQnAId}">
-        		<input type="submit" id="error" value="${row.boardQnATitle}" style="background-color:white;border:0;WIDTH: 400pt; HEIGHT: 15pt"> 
+        		<input type="submit" id="error" value="${row.boardQnATitle}" style="background-color:white;border:0;WIDTH: 90%; HEIGHT: 100%">
 			</sec:authorize>
         
      		<!-- 관리자일때 보여줌 -->	
@@ -132,11 +151,17 @@ input {
 				<input type="hidden" name="member" value="">
 				<input type="hidden" name="memberId" value="${row.memberId}">
 				<input type="hidden" id="boardQnAId" name="boardQnAId" value="${row.boardQnAId}">
-        		<input type="submit" value="${row.boardQnATitle}" style="background-color:white;border:0;WIDTH: 400pt; HEIGHT: 15pt"> 
+        		<input type="submit" id="error" value="${row.boardQnATitle}" style="background-color:white;border:0;WIDTH: 90%; HEIGHT: 100%">
 			</sec:authorize>
 			<sec:csrfInput/>
 		</form>
-        </td> 		
+        </td> 	
+        <td>
+        	    <fmt:formatDate value="${row.boardQnAdate}" pattern="yyyy-MM-dd" var="date"/>
+        		 <c:if test="${today == date }">
+					<a class="blink">new</a>
+				</c:if> 
+        </td>	
         <td>
             <fmt:formatDate value="${row.boardQnAdate}" pattern="yyyy-MM-dd"/>
         </td>
@@ -175,7 +200,6 @@ input {
 				◀	
 		</c:otherwise>
 	</c:choose>
-	
 	<!-- 
 		현재 page가 속한 page 그룹내의 페이지들 링크.
 		현재 pageGroup의 시작page ~ 끝 page
@@ -191,7 +215,6 @@ input {
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
-	
 	<!-- 
 		다음페이지 그룹으로 이동
 		만약에 다음페이지 그룹이 있으면 링크 처리 없으면 화살표만 나오도록 처리
@@ -205,11 +228,10 @@ input {
 				▶		
 		</c:otherwise>
 	</c:choose>			
-	
-	
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/common/boardqna/boardQnAList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
 </p>
+</div>
 </c:if>
 </div>
 </body>
