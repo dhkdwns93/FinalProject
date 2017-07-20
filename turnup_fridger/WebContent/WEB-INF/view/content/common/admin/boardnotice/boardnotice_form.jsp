@@ -55,6 +55,7 @@ td{
 </style>
 </head>
 <body>
+<div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
@@ -74,7 +75,7 @@ td{
 			<tr>
 				<th>말머리</th>
 				<td>
-					<select class="form-control" style="float:left;width:20%;" name="items" id="items">
+					<select class="form-control" style="float:left;width:30%;" name="items" id="items">
 						<option>공지사항</option>
 						<option>뉴스</option>
 					</select>
@@ -108,6 +109,7 @@ td{
 			<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
 		</button>
 	</form>  
+</div>
 </div>
 </body>
 </html>

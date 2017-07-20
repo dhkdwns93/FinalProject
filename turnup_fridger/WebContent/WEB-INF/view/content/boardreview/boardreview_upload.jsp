@@ -193,6 +193,7 @@ h2{display:inline}
 </style>
 </head>
 <body>
+<div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
@@ -218,8 +219,8 @@ h2{display:inline}
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 <table style="width:100%"> 
 	<tr>
-		<td>작성자</td>
-		<td>
+		<td style="width:10%;">작성자</td>
+		<td style="width:90%;">
 			<input class="form-control"  style="width:20%;" type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>">
 			<br>
 		</td>
@@ -237,7 +238,7 @@ h2{display:inline}
     	<td>
     	 <div class="form-inline form-group" >
 	    	<input style="width:30%;" type="hidden" id="recipeId" name="recipeId" readonly value="${boardReview.recipeId}">
-	    	<input class="form-control" style="width:20%;" type="text" id="recipeName" name="recipeName" readonly value="${boardReview.recipeName}">
+	    	<input class="form-control" style="width:30%;" type="text" id="recipeName" name="recipeName" readonly value="${boardReview.recipeName}">
 	    	<button type="button" id="recipeName" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="popupRecipeName()">
 				<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 			</button>
@@ -311,6 +312,7 @@ h2{display:inline}
 	<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
 </button>
 </form>
+</div>
 </div>
 </body>
 </html>

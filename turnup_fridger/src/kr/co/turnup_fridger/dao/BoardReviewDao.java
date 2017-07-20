@@ -74,4 +74,6 @@ public interface BoardReviewDao {
 	 */
 	BoardReview selectBoardReviewByBoardReviewId(int boardReviewId);
 	
+	
+	
 }
