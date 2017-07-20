@@ -91,7 +91,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider{
 			list.add(new SimpleGrantedAuthority(userAuthority));
 			return new UsernamePasswordAuthenticationToken(admin,null,list);
 		}
-		//권한 headmaster -비밀번호 passwordencoding 안되있음.
+		//권한 headmaster -DB상으로 관리할 수 있어야 하므로 비밀번호 passwordencoding 처리 안함.
 		if(userAuthority.equals("ROLE_HEADMASTERADMIN")){
 			//ID체크	
 			Admin admin=adminDao.selectAdminById(loginId);
@@ -108,17 +108,11 @@ public class UserAuthenticationProvider implements AuthenticationProvider{
 			System.out.println("User..Provider"+list);//확인용
 			return new UsernamePasswordAuthenticationToken(admin,null,list);
 		}
-		return null;//- 인증 실패 : Exception을 던지거나 return null 인 경우 스프링 시큐리티 컨테이너는 인증실패로처리
+		return null;//- 인증 실패
 	}
 
 	@Override
 	public boolean supports(Class<?> authentication) {
 		return authentication.isAssignableFrom(UsernamePasswordAuthenticationToken.class);
 	}
-	
-	
-	
-	
-	
-	
 }

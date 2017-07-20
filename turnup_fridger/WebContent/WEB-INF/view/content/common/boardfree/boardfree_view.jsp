@@ -144,7 +144,7 @@ h2{display:inline}
 <c:if test="${requestScope.error != null}">
 	<script type="text/javascript">alert('권한이 없습니다.')</script>
 </c:if>
-
+<div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
@@ -234,7 +234,7 @@ h2{display:inline}
 <!-- 댓글 목록 -->
 <c:if test="${empty commentFree}">
 <h3>댓글 목록</h3><br>
-댓글이 없습니다.
+댓글이 없습니다.<br><br><br>
 </c:if>
 <!-- 댓글 있을 때   -->
 <c:if test="${!empty commentFree}">
@@ -245,11 +245,11 @@ h2{display:inline}
 <table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">	
 <thead>
     <tr>
-        <th style="width:10%;">작성자</th>
-        <th style="width:50%;">내용</th>
-        <th style="width:20%;">작성일</th>
-        <th style="width:10%;">수정</th>
-        <th style="width:10%;">삭제</th>
+		        <th style="width:10%;text-align:center;">작성자</th>
+		        <th style="width:56%;text-align:center;">내용</th>
+		        <th style="width:18%;text-align:center;">작성일</th>
+		        <th style="width:8%;text-align:center;">수정</th>
+		        <th style="width:8%;text-align:center;">삭제</th>
     </tr>
  </thead>
 <tbody>
@@ -376,7 +376,7 @@ h2{display:inline}
 	<div id="table" style="width:100%;">
 	<table class="table table-bordered" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">
 			<tr>
-				<td>작성자</td>
+				<td style="width:15%;">작성자</td>
 				<td>
 					<input type="text" name="memberId" readonly class="form-control" style="float:left;width:30%" value="<sec:authentication property="principal.memberId"/>">
 				</td>
@@ -384,7 +384,7 @@ h2{display:inline}
 			<tr>
 				<td>내용</td>
 				<td>
-					<textarea name="commentFreeTxt" class="form-control" style="float:left;width:90%;" row="5" cols="70" placeholder="내용을 입력해주세요"></textarea>	
+					<textarea name="commentFreeTxt" class="form-control" style="float:left;width:85%;" row="5" cols="70" placeholder="내용을 입력해주세요"></textarea>	
 					<div style="float:right"><!-- 오른쪽 정렬 -->
 				 		<input type="hidden" name="boardFreeId" value="${boardFree.boardFreeId}">
 				 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="insert_event();">
@@ -404,6 +404,7 @@ h2{display:inline}
 	</sec:authorize>
 	</form>
 	</div>
+</div>
 </div>
 </div>
 </body>

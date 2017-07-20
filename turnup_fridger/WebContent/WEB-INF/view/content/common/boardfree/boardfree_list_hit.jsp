@@ -27,16 +27,31 @@ text-align:center
 input {
    vertical-align:middle;  
 }
+.blink {
+    -webkit-animation: blink 2.5s linear infinite;
+} 
+@-webkit-keyframes blink {
+    0% { color: red; }
+    33% { color: yellow; }
+    66% { color: blue; }
+    100% { color: green; }
+}
 </style>
 </head>
 <body>
+<div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 
+<jsp:useBean id="now" class="java.util.Date" />
+<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />  
 
-<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+
+<c:if test="${empty list}">
+<div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>자유 게시판</h1>
 <hr>
+<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
 <div class="form-inline form-group" >
 	<a href="${initParam.rootPath}/index.do">
 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
@@ -56,6 +71,44 @@ input {
 			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 			<select class="form-control" name="select" id="select">
 				<option>전체보기</option>
+				<option value="레시피">레시피</option>
+				<option value="아이디">아이디</option>
+			</select>
+				<input class="container form-control input-group" type="text" name="keyword" placeholder="키워드를 입력해주세요">
+				<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+				</button>
+		</form>
+	</div>
+</div>
+</table>
+<br><h2 style="text-align:center">등록된 게시물이 없습니다.</h2>
+</div>
+</c:if>
+<c:if test="${!empty list}">
+	<div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
+<br><br>
+<h1>자유 게시판</h1>
+<hr>
+<div class="form-inline form-group" >
+	<a href="${initParam.rootPath}/index.do">
+		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+		</button>
+	</a>
+	<sec:authorize access="hasRole('ROLE_MEMBER')">
+		<a href="${initParam.rootPath}/common/boardfree/boardfree_form.do">
+			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+			</button>
+		</a>
+	</sec:authorize>
+	<!-- 검색버튼 -->
+	<div class="ccfield-prepend" style="float:right">
+		<form class="form-inline" action="${initParam.rootPath}/common/boardfree/boardFreeBySelect.do" method="post">
+			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+			<select class="form-control" name="select" id="select">
+				<option>전체보기</option>
 				<option value="제목">제목</option>
 				<option value="아이디">아이디</option>
 			</select>
@@ -66,18 +119,18 @@ input {
 		</form>
 	</div>
 </div>
-<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+<table class="table table-hover table-condensed" style="width:auto; border:1; text-align:center;">
 <thead>
     <tr>
         <th style="width:5%;text-align:center;">번호</th>
         <th style="width:50%;text-align:center;">제목</th>
+       	<th style="width:3%;text-align:center;"></th>
         <th style="width:12%;text-align:center;">작성일</th>
-        <th style="width:11%;text-align:center;">작성자</th>
-        <th style="width:11%;text-align:center;">조회수</th>
-        <th style="width:11%;text-align:center;">댓글수</th>
+        <th style="width:10%;text-align:center;">작성자</th>
+        <th style="width:10%;text-align:center;">조회수</th>
+        <th style="width:10%;text-align:center;">댓글수</th>
     </tr>
- </thead>
-
+</thead>
 <tbody>
 <c:forEach var="row" items="${list}" varStatus="status">
     <tr>
@@ -86,8 +139,14 @@ input {
     		<form action="${initParam.rootPath}/common/boardfree/boardFreeView.do" method="post">
     			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
         		<input type="hidden" name="boardFreeId" value="${row.boardFreeId}">
-        		<input type="submit" value="${row.boardFreeTitle}" style="background-color:white;border:0;WIDTH: 350pt; HEIGHT: 15pt"> 
+        		<input type="submit" value="${row.boardFreeTitle}" style="background-color:white;border:0;WIDTH:90%; HEIGHT:100%"> 
 			</form>    
+        </td>
+        <td>
+        		<fmt:formatDate value="${row.date}" pattern="yyyy-MM-dd" var="date"/>
+    			 <c:if test="${today == date }">
+					<a class="blink">new</a>
+				</c:if>
         </td>
         <td>
             <fmt:formatDate value="${row.date}" pattern="yyyy-MM-dd"/>
@@ -162,6 +221,8 @@ input {
 	<a href="${initParam.rootPath}/common/boardfree/boardFreeByBoardFreeHits.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
 
 </p>
+</div>
+</c:if>
 </div>
 </body>
 </html>

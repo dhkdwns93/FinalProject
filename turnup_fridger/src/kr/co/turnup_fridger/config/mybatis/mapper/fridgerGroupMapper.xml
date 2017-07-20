@@ -68,6 +68,11 @@
 		DELETE FROM fridger_group WHERE fridger_id = #{value}
 	</delete>
 	
+	<!-- 냉장고그룹 삭제 - 냉장고가 없어질 때 그룹멤버 전부 제거 -->
+	<delete id="deleteFridgerGroupByFridgerIdAndMemberId" parameterType="java.util.HashMap">
+		DELETE FROM fridger_group WHERE fridger_id = #{fridgerId} AND group_member_id = #{groupMemberId}
+	</delete>
+	
 	<!-- ============= select =============== -->
 	
 	<!-- 회원id로 공유멤버조회 -->

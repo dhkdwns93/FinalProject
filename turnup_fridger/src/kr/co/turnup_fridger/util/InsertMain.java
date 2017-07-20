@@ -32,10 +32,5 @@ public class InsertMain {
 		//레시피기본정보
 		//insertMethod.insertAPI("D:\\Eunyoung\\java\\api\\","recipe_info");
 
-		//insertMethod.insertAPI("C:\\Java\\api\\recipe\\","recipe_crse");
-
-		
-		
-
 	}//end of main
 }

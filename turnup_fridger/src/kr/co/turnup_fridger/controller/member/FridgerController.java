@@ -63,7 +63,7 @@ public class FridgerController {
 	
 	
 	
-	@RequestMapping("register") //맨 끝에 사진이랑 같이 올리는 것 생성 <- 다시 사용(7/16~)
+	@RequestMapping(value="register", produces="text/html;charset=UTF-8") //맨 끝에 사진이랑 같이 올리는 것 생성 <- 다시 사용(7/16~)
 	@ResponseBody
 	public String registerFridger(@ModelAttribute("fridger") @Valid FridgerForm fridgerForm, BindingResult errors ) {
 		System.out.println(fridgerForm);//log
@@ -127,7 +127,7 @@ public class FridgerController {
 
 	
 	// 냉장고 정보 갱신 handler(주인 바꾸기, 이름바꾸기, 사진바꾸기)
-	@RequestMapping("update")
+	@RequestMapping(value="update", produces="text/html;charset=UTF-8")
 	@ResponseBody
 	public String updateFridger(@ModelAttribute("fridger") @Valid FridgerForm fridgerForm, BindingResult errors, HttpServletRequest request) throws IllegalStateException, IOException {
 		System.out.println(fridgerForm);//log
@@ -188,13 +188,27 @@ public class FridgerController {
 	@ResponseBody
 	public String removeSuccess(@RequestParam int fridgerId){
 		System.out.println(fridgerId);
-		return String.format("냉장고[%s]가 삭제되었습니다.", fridgerId);
+		return String.format("냉장고가 삭제되었습니다.", fridgerId);
 	}
+	
+	// 냉장고 그룹 탈퇴 handler
+		@RequestMapping(value="fridgerGroup/out",  produces="text/html;charset=UTF-8")
+		@ResponseBody
+		public String outFridgerGroup(@RequestParam int fridgerId, @RequestParam String groupMemberId) {
+			
+			try {
+				fridgerGroupService.deleteFridgerGroupByFridgerIdAndMemberId(fridgerId, groupMemberId);
+			} catch (Exception e) {
+				return e.getMessage();
+			}
+			
+			return "0";
+		}
 	
 
 	
 	// 모든 리스트 뿌려주는 handler
-	@RequestMapping("show/list")
+	@RequestMapping(value="show/list", produces="text/html;charset=UTF-8")
 	@ResponseBody
 	public List<Fridger> getFridgerList(){
 		list = fridgerService.findFridgerAll();
@@ -202,7 +216,7 @@ public class FridgerController {
 	}
 	
 	// 냉장고Id로 찾아서 뿌려주는 handler
-	@RequestMapping("show/byId")
+	@RequestMapping(value="show/byId", produces="text/html;charset=UTF-8")
 	@ResponseBody
 	public Fridger getFridgerById(int fridgerId){
 		fridger = fridgerService.findFridgerByFridgerId(fridgerId);
@@ -210,7 +224,7 @@ public class FridgerController {
 	}
 	
 	// 이름으로 찾아 뿌려주는 handler
-	@RequestMapping("show/byName")
+	@RequestMapping(value="show/byName")
 	@ResponseBody
 	public Map<String, Object> getFridgerByName(String fridgerName, int page){
 		Map<String, Object> map = fridgerService.findFridgerByFridgerNamePaging(fridgerName, page);
@@ -424,7 +438,7 @@ public class FridgerController {
 	
 	
 	//내가 요청한 처리목록 Handler
-	@RequestMapping("joinProcess/show/list/request")
+	@RequestMapping("joinProcess/show/list/request" )
 	@ResponseBody
 	public List<JoinProcess> getJoinProcessRequestList(){
 		// 0) 권한 ID 체크(지금 로그인한 회원)
@@ -537,6 +551,37 @@ public class FridgerController {
 		return result + "이 거절되었습니다!";
 	}
 	
+	
+	@RequestMapping(value="group/out", produces="text/html;charset=UTF-8")
+	@ResponseBody
+	public String removeFromFridgerGroup(@RequestParam int fridgerId, @RequestParam String groupMemberId) {
+		
+		try {
+			fridgerGroupService.deleteFridgerGroupByFridgerIdAndMemberId(fridgerId, groupMemberId);
+		} catch (Exception e) {
+			return e.getMessage();
+		}
+		
+		return "0";
+	}
+	
+	
+	@RequestMapping(value="joinProcess/intro")
+	@ResponseBody
+	public Map<String, Integer> getIntro() {
+		Map<String, Integer> map = new HashMap<>();
+		int allFridgerCount = 0;
+		int allFridgerGroupCount = 0;
+		for(Fridger f : fridgerService.findFridgerAll()){
+			allFridgerCount++;
+			allFridgerGroupCount += fridgerGroupService.selectFridgerGroupCount(f.getFridgerId());
+			
+		}
+		map.put("allFridgerCount", allFridgerCount);
+		map.put("allFridgerGroupCount", allFridgerGroupCount);
+	
+		return map;
+	}
 	
 	
 	

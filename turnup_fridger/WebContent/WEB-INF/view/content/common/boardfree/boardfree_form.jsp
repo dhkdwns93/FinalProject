@@ -51,6 +51,7 @@ td{
 </style>
 </head>
 <body>
+<div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
@@ -95,6 +96,7 @@ td{
 			<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
 		</button>
 	</form>
+</div>
 </div>
 </body>
 </html>
