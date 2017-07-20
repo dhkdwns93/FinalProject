@@ -83,50 +83,52 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 	public String getFreshLevel(MyIrdnt myirdnt) {
 	      // 해당냉장고에서의 재료마다의 신선도 계산하는 메서드.
 
-		System.out.println("***********************************"+myirdnt);
+		System.out.println("myirdnt="+myirdnt);
 	      int irdntId = myirdnt.getIrdntId();
 	      Long leftDay; // 남은 일수 밀리초변환.
 	      
 	      if (myirdnt.getEndDate() == null) {// 유통기한 없으면
 	         // Calendar myPeriod = Calendar.getInstance();
-	    	 int period;
+	    	 long period;
 	        
 	    	 if(myirdnt.getStorgePlace().equals("실온")){
-	    		 period = irdntDao.selectIrdntById(myirdnt.getIrdntId()).getRoomTemPeriod();
+	    		 period = (long)irdntDao.selectIrdntById(myirdnt.getIrdntId()).getRoomTemPeriod();
 	    	 }
 	    	 else if(myirdnt.getStorgePlace().equals("냉장")){
-	    		 period=irdntDao.selectIrdntById(myirdnt.getIrdntId()).getColdTemPeriod();
+	    		 period=(long)irdntDao.selectIrdntById(myirdnt.getIrdntId()).getColdTemPeriod();
 	    	 }
 	    	 else{
-	    		 period=irdntDao.selectIrdntById(myirdnt.getIrdntId()).getFreezeTemPeriod();
+	    		 period=(long)irdntDao.selectIrdntById(myirdnt.getIrdntId()).getFreezeTemPeriod();
 	    	 }
 	 			
 	         switch (myirdnt.getStartFreshLevel()) {
 	         case "좋음":
-	            period = period * 1;
+	            period = (long)period * 1;
 	            break;
 	         case "보통":
-	            period = (int) (period * 0.8);
+	            period = (long) (period * 0.8);
 	            break;
 	         case "나쁨":
-	            period = (int) (period * 0.5);
+	            period = (long) (period * 0.5);
 	            break;
 	         }
 	         
-	         System.out.println("*********************"+period);
+	         System.out.println("period="+period);
 	         Date startDay = myirdnt.getStartDate();// 재료의 보관시작일
+	         System.out.println("꺼내자마자 startDay="+startDay);
 	         
 	         // myperiod = 보관시작일+보관기간 의 밀리초.
+	         long myPeriod = startDay.getTime() + (long)((long)period * 86400000);
 	         
-	         long myPeriod = startDay.getTime() + (period * 86400000);
-	         
-	         System.out.println("******************"+startDay);
-	        // System.out.println("***********);
-	         
-	         System.out.println("*************"+myPeriod);
+	         System.out.println((long)((long)period * 86400000));
+	         System.out.println("myPeriod:"+myPeriod);
+	         System.out.println("startDay="+startDay);
+	         System.out.println("startDay 밀리초 = "+startDay.getTime());
+	         System.out.println("myPeriod="+myPeriod);
 	         // 예상 유통기한에서 현재시간을 뺀 밀리초.
 	         leftDay = myPeriod - new Date().getTime();
-	         System.out.println("/***********************"+leftDay);
+	         System.out.println(new Date().getTime());
+	         System.out.println("leftDay"+leftDay);
 	      }
 	      else {// 유통기한이 입력됨
 	         // 밀리초단위 : 유통기한 - 현재시간
