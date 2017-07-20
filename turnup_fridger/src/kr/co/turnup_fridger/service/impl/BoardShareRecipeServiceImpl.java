@@ -148,15 +148,15 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 
 	//제목으로 조회
 	@Override
-	public Map<String, Object> boardSearchByTitle(int page, String title) {
+	public Map<String, Object> boardSearchByTitle(String title,int page) {
 		
 		HashMap<String, Object> map = new HashMap<>();
 		int totalCount = dao.selectBoardByTitileCount(title);
 		
 		PagingBean pageBean = new PagingBean(totalCount, page);
-		map.put("pageBean",	pageBean);
 		map.put("totalCount", totalCount);
-		List<BoardShareRecipe> list = dao.boardSearchByTitle(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage(), title);
+		map.put("pageBean",	pageBean);
+		List<BoardShareRecipe> list = dao.boardSearchByTitle(title,pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
 		map.put("title",title);
 		map.put("list", list);
 		return map;
@@ -170,13 +170,13 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 	}
 
 	@Override
-	public Map<String, Object> boardSearchByTxt(int page, String txt) {
+	public Map<String, Object> boardSearchByTxt( String txt,int page) {
 		HashMap<String, Object> map = new HashMap<>();
 		int totalCount = dao.selectBoardByTxtCount(txt);
 		PagingBean pageBean = new PagingBean(totalCount, page);
 		map.put("pageBean",	pageBean);
 		map.put("totalCount", totalCount);
-		List<BoardShareRecipe> list = dao.boardSearchByTxt(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage(), txt);
+		List<BoardShareRecipe> list = dao.boardSearchByTxt(txt,pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
 		map.put("txt",txt);
 		map.put("list", list);
 		return map;
@@ -185,13 +185,13 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 
 
 	@Override
-	public Map<String, Object> boardSearchByMemberId(int page, String memberId) {
+	public Map<String, Object> boardSearchByMemberId(String memberId,int page) {
 		HashMap<String, Object> map = new HashMap<>();
 		int totalCount = dao.selectBoardByMemberIdCount(memberId);
 		PagingBean pageBean = new PagingBean(totalCount, page);
 		map.put("pageBean",	pageBean);
 		map.put("totalCount", totalCount);
-		List<BoardShareRecipe> list = dao.boardSearchByMemberId(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage(), memberId);
+		List<BoardShareRecipe> list = dao.boardSearchByMemberId(memberId,pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
 		map.put("memberId",memberId);
 		map.put("list", list);
 		return map;

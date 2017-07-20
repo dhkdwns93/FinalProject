@@ -62,10 +62,11 @@ p{
 </style>
 </head>
 <body>
-<p id="shopCount"><span id="count"></span></p>
 <div class="container">
-<div id="addBtn"><a href="${initParam.rootPath}/common/shop/shop_register_form.do"><button type="button" id="insertBtn">등록</button></a></div>
-<div style="width:100%; height:500px; overflow:auto">
+<br><br>
+<p id="shopCount"><span id="count"></span></p>
+<div id="addBtn"><a href="${initParam.rootPath}/common/shop/shop_register_form.do"><button type="button" class="btn btn-default" id="insertBtn">등록</button></a></div>
+<div style="width:100%; height:600px; overflow:auto">
 <table class="table table-hover">
 	<tr> 
 		<td>NO</td>
