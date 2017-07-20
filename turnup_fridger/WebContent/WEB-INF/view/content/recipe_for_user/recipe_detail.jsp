@@ -431,7 +431,6 @@ function moveTo(url,recipeId){
 				"_blank",
 				"fullscreen=yes, height=700, width=500, resizable=no, scrollbars=no, location=no, toolbar=no, directories=no, menubar=no"
 				);
-		
 }
 </script>
 <style>
@@ -560,7 +559,7 @@ table tr td{
 		</sec:authorize>
 		
 		<div style="padding:10px;">
-		주재료 - 
+		주재료 :  
 		<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
 		<c:if test="${recipeIrdnt.irdntTypeCode == 3060001}">
 		${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount }&nbsp;&nbsp;
@@ -568,18 +567,18 @@ table tr td{
 		</c:forEach>
 		</div>
 		<div style="padding:10px;">
-		부재료 - 
+		부재료 :  
 		<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
 		<c:if test="${recipeIrdnt.irdntTypeCode == 3060002}">
-		${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount },
+		${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount }&nbsp;&nbsp;
 		</c:if>
 		</c:forEach>
 		</div>
 		<div style="padding:10px;" >
-		양념 - 
+		양념 : 
 		<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
 		<c:if test="${recipeIrdnt.irdntTypeCode == 3060003}">
-		${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount },
+		${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount }&nbsp;&nbsp;
 		</c:if>
 		</c:forEach>
 		</div>

@@ -17,7 +17,10 @@ $(document).ready(function(){
 	
 	$("#myIrdntBadAlert").hide();
 	$("#freshLevelFrame").hide();
-	getFridgerInfo('${ requestScope.fridgerList[0].fridgerId }')
+	if(!${ requestScope.fridgerList == null || requestScope.fridgerList.size() == 0} ){
+		getFridgerInfo('${ requestScope.fridgerList[0].fridgerId }')
+	}
+	
 	
 	$("#fridgerNameSelect").on("change", function(){
 		getFridgerInfo($("#fridgerNameSelect>option:selected").val());

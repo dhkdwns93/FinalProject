@@ -28,7 +28,7 @@ $(document).ready(function (){
 				}
 			},
 			"success": function(txt){
-		       alert(txt);
+		       //alert(txt);
 		       window.location.reload();
 		     },
 	        "error":function(xhr, msg, code){
@@ -52,7 +52,7 @@ $(document).ready(function (){
 				}
 			},
 			"success": function(txt){
-		       	alert(txt);
+		       	//alert(txt);
 		       	getRequestList();
 				getResponseList();
 		     },
@@ -76,7 +76,7 @@ $(document).ready(function (){
 				}
 			},
 			"success": function(txt){
-		       alert(txt);
+		       //alert(txt);
 		   		getRequestList();
 				getResponseList();
 		     },
@@ -155,7 +155,7 @@ $(document).ready(function (){
 	// 냉장고 그룹 가입 처리
 	// 냉장고 가입신청 
 	$(document).on("click","#joinBtn", function(){
-		alert($(this).parent().parent().children(":nth-child(3)").text());
+		//alert($(this).parent().parent().children(":nth-child(3)").text());
 		$.ajax({
 			"url":"/turnup_fridger/common/member/fridger/request.do",
 			"type":"post",
