@@ -103,12 +103,12 @@ function getUserList(page){
 			
 			 $.each(map.userMap.userList, function(){
 				 $("#userUL").append($("<li>").append($("<a>").prop("href","${initParam.rootPath}/boardRecipe/boardRecipeView.do?recipeId="+this.recipeId).prop("class","inner2")
-							.append($("<div>").prop("class","li-text2").append($("<p>").prop("class","li-sub2").append(this.recipeId)))
-							.append($("<div>").prop("class","li-text2").append($("<p>").prop("class","li-sub2").prop("id",this.recipeId).append("")))
-						.append($("<div>").prop("class","li-img2").append($("<img>").prop("src","${initParam.rootPath}/img/"+this.original).prop("alt",this.original)))
-						.append($("<div>").prop("class","li-text2").append($("<p>").prop("class","li-head2").append(this.title)))
-						.append($("<div>").prop("class","li-text2").append($("<h5>").prop("class","li-head2").append($("<i>").prop("class","glyphicon glyphicon-user")
-								.prop("style","font-size:20px").append(this.memberId))).append($("<br>")).append($("<p>").prop("class","li-sub2")
+							.append($("<div>").prop("class","li-text2").prop("style","height:50px").append($("<p>").prop("class","li-sub2").append(this.recipeId)))
+							.append($("<div>").prop("class","li-text2").prop("style","height:50px").append($("<p>").prop("class","li-sub2").prop("id",this.recipeId).append("")))
+						.append($("<div>").prop("class","li-img2").prop("style","height:150px").append($("<img>").prop("src","${initParam.rootPath}/img/"+this.original).prop("style","height:50px").prop("alt",this.original)))
+						.append($("<div>").prop("class","li-text2").prop("style","height:70px").append($("<p>").prop("class","li-head2").append(this.title)))
+						.append($("<div>").prop("class","li-text2").prop("style","height:50px").append($("<h5>").prop("class","li-head2").append($("<i>").prop("class","glyphicon glyphicon-user")
+								.prop("style","font-size:20px").append(this.memberId))).append($("<br>")).append($("<p>").prop("class","li-sub2").prop("style","height:50px")
 										.append($("<i>").prop("class","glyphicon glyphicon-eye-open").prop("style","font-size:20px").append(this.hits)))))
 						.append($("<form>").prop("method","post").prop("action","${initParam.rootPath }/common/boardRecipe/increaseRecommand.do")
 								.append($("<input>").prop("type","hidden").prop("name","${_csrf.parameterName }").prop("value","${_csrf.token }"))
