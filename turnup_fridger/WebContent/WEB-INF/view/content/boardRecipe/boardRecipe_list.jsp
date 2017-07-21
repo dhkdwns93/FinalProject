@@ -31,8 +31,8 @@
 			document.submit();
 		}
 
-});  
- */
+});  */ 
+
 
 /* 추천 중복 에러 알림창으로 떠서 알려주는거 하기!!
  * 
@@ -54,18 +54,21 @@
 			
 		}); 
 		*/
-	/* 	function recommand_event(){
-			var recipeId = $('input[name=recipeId]').val();
+	/* function recommand_event(){
+			var overlap = $('input[name=overlap]').val();
 			var memberId = $('input[name=memberId]').val();
 			
-			if(confirm("확실하게 삭제 하시겠습니까?")==true){
+			if(overlap != memberId){
+				alert('추천하시겠습니까?')
+				return location.href="/turnup_fridger/common/boardRecipe/increaseRecommand.do";
+			}else if(overlap == memberId){
 				
-				location.href="/turnup_fridger/common/boardRecipe/increaseRecommand.do";
-				
-			}else{
+				alert('이미 추천하신 게시물입니다.')
 				return false;
 			}
-		}; */
+				
+			
+		};  */
 		
 		function add_event(){
 			
@@ -160,11 +163,12 @@ text-align:center;
                     <p class="li-sub"><i class="glyphicon glyphicon-eye-open" style="font-size:20px">  ${top.hits }</i> </p>
                 </div>    
             </a>
+               	 	
                	 	<form method="post" action="${initParam.rootPath }/common/boardRecipe/increaseRecommand.do">
 						<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 						<input type="hidden" name="recipeId" value="${top.recipeId }">
 						<input type="hidden" name="memberId" value="${top.memberId }">
-					
+						<input type="hidden" name="overlap" value="">
 					<a href="#" onClick="this.parentNode.submit()" id="recommand-btn"><i class="glyphicon glyphicon-thumbs-up" style="font-size:20px">&emsp;${top.recommand }</i></a>
 					</form><!-- return recommand_event(); -->
 					
@@ -176,7 +180,7 @@ text-align:center;
 
 
 
-    <hr>
+    
 	<h3>레시피공유 게시판 전체 목록</h3>
 	<br><br>
 	<div class="form-inline form-group" >

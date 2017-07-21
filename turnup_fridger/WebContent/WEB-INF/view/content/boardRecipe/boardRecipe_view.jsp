@@ -191,14 +191,16 @@ response.addCookie(hits);
                 <div class="li-text3">
                     <h5 class="li-head3"><i class="glyphicon glyphicon-user" style="font-size:30px"> ${boardShareRecipe.memberId }</i>&emsp;
                     <i class="glyphicon glyphicon-eye-open" style="font-size:30px">  ${boardShareRecipe.hits }</i>&emsp;
-                    
-                    <form method="post" action="${initParam.rootPath }/common/boareRecipe/recommand.do">
+                    <form name="add" method="post" action="${initParam.rootPath }/common/boardRecipe/increaseRecommand.do">
 						<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 						<input type="hidden" name="recipeId" value="${boardShareRecipe.recipeId }">
 						<input type="hidden" name="memberId" value="${boardShareRecipe.memberId }">
-					
-					<a href="#" onClick="this.parentNode.submit()"><i class="glyphicon glyphicon-thumbs-up" style="font-size:30px">&emsp;${boardShareRecipe.recommand }</i></a>
-					</form></h5>
+						<script type="text/javascript">
+						
+						</script>
+					<a href="#" onClick="this.parentNode.submit()" id="recommand-btn"><i class="glyphicon glyphicon-thumbs-up" style="font-size:30px">&emsp;${boardShareRecipe.recommand }</i></a>
+					</form>
+                    </h5>
                     <%-- <i class="glyphicon glyphicon-thumbs-up" style="font-size:30px"> ${boardShareRecipe.recommand }</i> --%>
                 </div>
                 
