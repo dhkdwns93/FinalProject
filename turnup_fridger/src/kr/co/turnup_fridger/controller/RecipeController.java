@@ -85,11 +85,11 @@ public class RecipeController {
 		@RequestMapping(value="common/admin/recipe/register",produces="html/text;charset=UTF-8;",  method={RequestMethod.POST,RequestMethod.GET})
 		public ModelAndView registerRecipe(@ModelAttribute("recipeInfo") @Valid RecipeInfoForm recipeInfoForm, BindingResult errors, HttpServletRequest request)
 				 throws IllegalStateException, IOException{
-			System.out.println(recipeInfoForm.getQnt()+"인분");
-			System.out.println(recipeInfoForm.toString());
+			//System.out.println(recipeInfoForm.getQnt()+"인분");
+			//System.out.println(recipeInfoForm.toString());
 			//발리데이션은 한번에 거쳐서 들어오면, 그걸 나눠서 타입바꿔주는 작업을 하자.
 			if(errors.hasErrors()){
-				System.out.println("BindingResult : "+errors.getAllErrors());
+				//System.out.println("BindingResult : "+errors.getAllErrors());
 				return new ModelAndView("common/admin/recipe_for_admin/register_form.tiles");
 				
 			}
@@ -103,10 +103,10 @@ public class RecipeController {
 			if(recipeInfo.getImgUrlSrc() != null && !recipeInfo.getImgUrlSrc().isEmpty()){
 				fileName = recipeInfo.getImgUrlSrc().getOriginalFilename();
 				fileSize= recipeInfo.getImgUrlSrc().getSize();
-				System.out.printf("파일명 :%s, 파일크기 :%d%n", fileName, fileSize);
+				//System.out.printf("파일명 :%s, 파일크기 :%d%n", fileName, fileSize);
 				
 				//이동 : request.getServletContext().getRealPath("하위 경로") - Application의 Root경로의 실제 파일경로로 리턴
-				System.out.println("request.getServletContext().getRealPath() : "+ request.getServletContext().getRealPath("/images") );
+				//System.out.println("request.getServletContext().getRealPath() : "+ request.getServletContext().getRealPath("/images") );
 				File dest = new File(request.getServletContext().getRealPath("/images"), fileName);
 				recipeInfo.setImgUrl(fileName);
 				recipeInfo.getImgUrlSrc().transferTo(dest);	// Exception 던짐
@@ -123,10 +123,10 @@ public class RecipeController {
 				if(rc.getStepImageUrlSrc() != null && !rc.getStepImageUrlSrc().isEmpty()){
 					fileName = rc.getStepImageUrlSrc().getOriginalFilename();
 					fileSize= rc.getStepImageUrlSrc().getSize();
-					System.out.printf("파일명 :%s, 파일크기 :%d%n", fileName, fileSize);
+					//System.out.printf("파일명 :%s, 파일크기 :%d%n", fileName, fileSize);
 					
 					//이동 : request.getServletContext().getRealPath("하위 경로") - Application의 Root경로의 실제 파일경로로 리턴
-					System.out.println("request.getServletContext().getRealPath() : "+ request.getServletContext().getRealPath("/images") );
+					//System.out.println("request.getServletContext().getRealPath() : "+ request.getServletContext().getRealPath("/images") );
 					File dest = new File(request.getServletContext().getRealPath("/images"), fileName);
 					rc.setStepImageUrl(fileName);
 					rc.getStepImageUrlSrc().transferTo(dest);	// Exception 던짐
@@ -148,7 +148,7 @@ public class RecipeController {
 			recipeInfo.setRecipeHits(0);
 			recipeInfo.setRecipeCrseList(recipeCrseList);
 			recipeInfo.setRecipeIrdntList(recipeIrdntList);
-			System.out.println("레시피컨트롤러 create :"+recipeInfo);
+			//System.out.println("레시피컨트롤러 create :"+recipeInfo);
 			try {
 				recipeService.createRecipe(recipeInfo);
 				//System.out.println("레시피컨트롤러 create - createRecipe직후:");
@@ -175,7 +175,7 @@ public class RecipeController {
 		@RequestMapping("common/admin/recipe/info/update_chk")
 		public ModelAndView move2RecipeInfoUpdateForm(@RequestParam int recipeId){
 			RecipeInfo ri = recipeService.showDetailOfRecipe(recipeId);
-			System.out.println(ri);
+			//System.out.println(ri);
 			return new ModelAndView("common/admin/recipe_for_admin/info_update_form", "recipe", ri);
 		}
 		
@@ -227,7 +227,7 @@ public class RecipeController {
 		
 		@RequestMapping(value={"common/admin/recipe/info/update/success", "common/admin/recipe/irdnt/update/success", "common/admin/recipe/crse/update/success"})
 		public ModelAndView updateRecipeSuccess(int recipeId ) throws Exception{
-			System.out.println("레시피컨트롤러 update success");
+			//System.out.println("레시피컨트롤러 update success");
 			return new ModelAndView("common/admin/recipe_for_admin/update_success","recipeId",recipeId);
 		}
 		
@@ -237,7 +237,7 @@ public class RecipeController {
 		@RequestMapping("common/admin/recipe/irdnt/update_chk")
 		public ModelAndView move2RecipeIrdntUpdateForm(@RequestParam int recipeId){
 			RecipeInfo ri = recipeService.showDetailOfRecipe(recipeId);
-			System.out.println(ri);
+			//System.out.println(ri);
 			return new ModelAndView("common/admin/recipe_for_admin/irdnt_update_form", "recipe", ri);	
 		}
 		
@@ -248,7 +248,7 @@ public class RecipeController {
 												 HttpServletRequest request) throws IllegalStateException, IOException{
 		*/
 		public ModelAndView updateRecipeIrdntHandler(@ModelAttribute RecipeIrdntUpdate riu, BindingResult errors, HttpServletRequest request){
-			System.out.println("업데이트 핸들러: recipeId - "+riu.getRecipeId()+"/removeIrdntList:"+riu.getRemoveIrdntList()+"/addIrdntList:"+riu.getAddIrdntList());
+			//System.out.println("업데이트 핸들러: recipeId - "+riu.getRecipeId()+"/removeIrdntList:"+riu.getRemoveIrdntList()+"/addIrdntList:"+riu.getAddIrdntList());
 			//if(errors.hasErrors()){
 				//System.out.println("업데이트 핸들러 errors수:"+ errors.getAllErrors());
 			//	return new ModelAndView("common/admin/recipe_for_admin/info_update_form", "recipe", recipeInfoForm);
@@ -283,7 +283,7 @@ public class RecipeController {
 		@RequestMapping("common/admin/recipe/crse/update_chk")
 		public ModelAndView move2RecipeCrseUpdateForm(@RequestParam int recipeId){
 			RecipeInfo ri = recipeService.showDetailOfRecipe(recipeId);
-			System.out.println(ri);
+			//System.out.println(ri);
 			return new ModelAndView("common/admin/recipe_for_admin/crse_update_form", "recipe", ri);
 			
 		}
@@ -293,7 +293,7 @@ public class RecipeController {
 			// 3. 래시피 과정 수정하기(삭제와 추가 리스트에 넣기)+수정
 			
 
-			System.out.println("업데이트 핸들러: recipeId - "+rcu.getRecipeId()+"/removeCrseList:"+rcu.getRemoveCrseList()+"/addCrseList:"+rcu.getAddCrseList()+"/CurrentCrseList:"+rcu.getCurrentCrseList());
+			//System.out.println("업데이트 핸들러: recipeId - "+rcu.getRecipeId()+"/removeCrseList:"+rcu.getRemoveCrseList()+"/addCrseList:"+rcu.getAddCrseList()+"/CurrentCrseList:"+rcu.getCurrentCrseList());
 			// 수정 목록 사진처리
 			String fileName = null;
 			long fileSize= 0;
@@ -305,10 +305,10 @@ public class RecipeController {
 						if(rc.getStepImageUrlSrc() != null && !rc.getStepImageUrlSrc().isEmpty()){
 							fileName = rc.getStepImageUrlSrc().getOriginalFilename();
 							fileSize= rc.getStepImageUrlSrc().getSize();
-							System.out.printf("파일명 :%s, 파일크기 :%d%n", fileName, fileSize);
+							//System.out.printf("파일명 :%s, 파일크기 :%d%n", fileName, fileSize);
 							
 							//이동 : request.getServletContext().getRealPath("하위 경로") - Application의 Root경로의 실제 파일경로로 리턴
-							System.out.println("request.getServletContext().getRealPath() : "+ request.getServletContext().getRealPath("/images") );
+							//System.out.println("request.getServletContext().getRealPath() : "+ request.getServletContext().getRealPath("/images") );
 							File dest = new File(request.getServletContext().getRealPath("/images"), fileName);
 							rc.setStepImageUrl("/turnup_fridger/images/"+fileName);
 							rc.getStepImageUrlSrc().transferTo(dest);	// Exception 던짐
@@ -329,10 +329,10 @@ public class RecipeController {
 						if(rc.getStepImageUrlSrc() != null && !rc.getStepImageUrlSrc().isEmpty()){
 							fileName = rc.getStepImageUrlSrc().getOriginalFilename();
 							fileSize= rc.getStepImageUrlSrc().getSize();
-							System.out.printf("파일명 :%s, 파일크기 :%d%n", fileName, fileSize);
+							//System.out.printf("파일명 :%s, 파일크기 :%d%n", fileName, fileSize);
 							
 							//이동 : request.getServletContext().getRealPath("하위 경로") - Application의 Root경로의 실제 파일경로로 리턴
-							System.out.println("request.getServletContext().getRealPath() : "+ request.getServletContext().getRealPath("/images") );
+							//System.out.println("request.getServletContext().getRealPath() : "+ request.getServletContext().getRealPath("/images") );
 							File dest = new File(request.getServletContext().getRealPath("/images"), fileName);
 							rc.setStepImageUrl(fileName);
 							rc.getStepImageUrlSrc().transferTo(dest);	// Exception 던짐
@@ -486,7 +486,7 @@ public class RecipeController {
 		Map userList = shareService.selectBoardShareRecipeByTitle(page,recipeName);
 		HashMap map = new HashMap();
 		map.put("userList", userList); // 이거 안에도 페이징빈이랑 리스트 두개 
-		System.out.println("찍어보자:"+userList.get("list"));
+		//System.out.println("찍어보자:"+userList.get("list"));
 		return map;
 	}
 	
@@ -497,6 +497,15 @@ public class RecipeController {
 		Map list = recipeService.findRecipeByCategory(categoryName, typeName, keyword,page);
 		return list;
 	}
+	
+	@RequestMapping(value="findRecipeByCategoryForAdmin")
+	@ResponseBody
+	public Map findRecipeByCategoryForAdmin(@RequestParam String categoryName, @RequestParam String typeName, @RequestParam String keyword,
+			@RequestParam(defaultValue = "1") int page ){
+		Map list = recipeService.findRecipeByCategory(categoryName, typeName, keyword,page);
+		return list;
+	}
+	
 	
 	@RequestMapping(value="findApiRecipeByIrdntId")
 	@ResponseBody
@@ -530,14 +539,17 @@ public class RecipeController {
 		
 		//레시피 재료 중량변환
 		for(RecipeIrdnt ri : recipe.getRecipeIrdntList()){
-			ri.setirdntAmount(recipeService.amountChange(ri.getirdntAmount()));
-			System.out.println("recipe/show/detail:"+ri.getirdntAmount());
+
+			ri.setirdntAmount(recipeService.amountIrdntChange(ri.getirdntAmount()));
+			//System.out.println("recipe/show/detail:"+ri.getirdntAmount());
+
 
 		}
 		//레시피 과정 중량변환
 		for(RecipeCrse rc : recipe.getRecipeCrseList()){
 			rc.setCookingDc(recipeService.amountChange(rc.getCookingDc()));
 			rc.setStepTip(recipeService.amountChange(rc.getStepTip()));
+			
 		}
 		
 		return new ModelAndView("recipe_for_user/recipe_detail.tiles","recipe",recipe);

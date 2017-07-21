@@ -42,6 +42,10 @@ input{
 </script>
 </head>
 <body>
+<div class="container">
+<br><br>
+<h3 style="text-align: center;"> 쇼핑몰 등록 </h3>
+<br><hr><br><br>
 <form action="${initParam.rootPath}/shop/addShop.do" method="post" enctype="multipart/form-data">
 <table class="table table-bordered">
 	<tr>
@@ -66,5 +70,6 @@ input{
 </table>
 <sec:csrfInput />
 </form>
+</div>
 </body>
 </html>

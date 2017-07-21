@@ -65,7 +65,7 @@ span.error{
 
 <jsp:useBean id="now" class="java.util.Date" />
 <fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />  
-
+<div class="right-box-sidemenu">
 <c:if test="${empty list}">
 <div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
 <br><br>
@@ -116,7 +116,7 @@ span.error{
 
 
 <c:if test="${!empty list}">
-<div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
+<div id="table" style="width:auto;height:100%; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>후기</h1>
 <hr>
@@ -157,8 +157,9 @@ span.error{
 		</form>
 	</div>
 </div>
-<table class="table table-hover table-condensed" style="width:auto; border:1; text-align:center;">
+<table class="table table-hover table-condensed" style="width:50%;height:100%; border:1; text-align:center;">
 <c:forEach var="row" items="${list}">
+<div>
 <table>
 	<tr>
 		<td style="width:10%;">
@@ -270,13 +271,14 @@ span.error{
 				<a style="color:white">&asdfasdfsdfadfasdfasdfasdfasdfasdfasdfasdfasdfsdfassfsdfsdfddfffff</a><br>
 				${fn:replace(row.boardReviewTxt, cn, br)}<br>
 			<c:if test="${row.imageName != null}">
-   				<img width="90%" alt="${row.imageName}" src="${initParam.rootPath}/img/board/${row.imageName}"><br>
+   				<img width="60%" alt="${row.imageName}" src="${initParam.rootPath}/img/board/${row.imageName}"><br>
    			</c:if>
 		</td>
 		<td>
 		</td>
 	</tr>		
 </table>
+</div>
 <br>
 <br>
 </c:forEach>

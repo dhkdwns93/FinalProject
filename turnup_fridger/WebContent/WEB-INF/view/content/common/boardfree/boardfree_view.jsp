@@ -106,7 +106,15 @@ function comment_delete_event2(){
 	    return false;
 	}
 }; 
-
+function checkLength(commentFreeTxt) {
+    if (commentFreeTxt.value.length > 100 ) {
+    	commentFreeTxt.blur();
+    	commentFreeTxt.value = commentFreeTxt.value.substring(0, 100);
+        alert('더 이상 입력이 불가능 합니다.');
+        commentFreeTxt.focus();
+        return false;
+    }
+};
 /* 
 function popup(frm){
 	window.name="opener";
@@ -137,6 +145,13 @@ h2{display:inline}
 	background-color:#dcdcdc;
 	width: 100%;
 }
+.textarea_test {
+    resize:none;
+    line-height:30px;
+    width:100%;
+    overflow-y:hidden;
+    height:100%;
+}
 </style>
 
 </head>
@@ -146,8 +161,8 @@ h2{display:inline}
 </c:if>
 <div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
-
-<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+<div class="right-box-sidemenu">
+<div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>자유 게시판 ></h1><h2> ${boardFree.memberId}님의 글</h2><br>
 <hr>
@@ -205,26 +220,26 @@ h2{display:inline}
 
 <table class="table table-bordered" style="width:100%; border:1; text-align:center">
 	<tr>
-		<td>제목</td>
-		<td>${boardFree.boardFreeTitle}</td>
+		<td style="width:10%;">제목</td>
+		<td style="width:85%;text-align:left;">${boardFree.boardFreeTitle}</td>
 	</tr>
 	<tr>
-		<td>작성날짜</td>
-		<td><fmt:formatDate value="${boardFree.date}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
+		<td style="width:10%;">작성날짜</td>
+		<td style="width:85%;text-align:left;"><fmt:formatDate value="${boardFree.date}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
 	</tr>
 	<tr>
-		<td>작성자</td>
-		<td>${boardFree.memberId}</td>
+		<td style="width:10%;">작성자</td>
+		<td style="width:85%;text-align:left;">${boardFree.memberId}</td>
 	</tr>	
 	<tr>
-		<td>조회수</td>
-		<td>
+		<td style="width:10%;">조회수</td>
+		<td style="width:85%;text-align:left;">
 			${boardFree.boardFreeHits}
 		</td>	
 	</tr>
 	<tr>
-		<td>내용</td>
-		<td style="width:70%">
+		<td style="width:10%;">내용</td>
+		<td style="width:85%;text-align:left;">
 			${fn:replace(boardFree.boardFreeTxt, cn, br)}
 		</td>	
 	</tr>
@@ -243,27 +258,16 @@ h2{display:inline}
 <h3>댓글 목록</h3><br>
 </div>
 <table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;margin-left: auto; margin-right: auto;">	
-<thead>
-    <tr>
-		        <th style="width:10%;text-align:center;">작성자</th>
-		        <th style="width:56%;text-align:center;">내용</th>
-		        <th style="width:18%;text-align:center;">작성일</th>
-		        <th style="width:8%;text-align:center;">수정</th>
-		        <th style="width:8%;text-align:center;">삭제</th>
-    </tr>
- </thead>
-<tbody>
 <c:forEach var="list" items="${commentFree}">
 	<tr>
-		<td>
-			${list.memberId}
+		<td style="width:80%;">
+			<div style="text-align:left;">
+				${list.memberId}&nbsp;|&nbsp;<fmt:formatDate value="${list.commentFreedate}" pattern="yyyy-MM-dd a HH:mm"/><br>
+				${list.commentFreeTxt}
+			</div>
 		</td>
-		<td>
-			${list.commentFreeTxt}
-		</td>
-		<td>
-			<fmt:formatDate value="${list.commentFreedate}" pattern="yyyy-MM-dd a HH:mm:ss"/></td>
-		<td>
+		<td style="width:20%;">
+			<div style="float:right">
 			<sec:authorize access="hasRole('ROLE_MEMBER')">
 		     	<form  action="${initParam.rootPath}/common/commentfree/commentFreeUploadView.do" method="post">
 		     	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
@@ -277,8 +281,6 @@ h2{display:inline}
 					</button>					
 				</form>	
 			</sec:authorize> 
-		</td>
-		<td>
 			<!-- 회원 권한 폼 -->
 			<sec:authorize access="hasRole('ROLE_MEMBER')">
 		     <form action="${initParam.rootPath}/common/commentfree/commentFreeRemove.do" method="post">
@@ -308,10 +310,10 @@ h2{display:inline}
 				</button>
 			 </form>			
 			</sec:authorize>
+			</div>
 		</td>
 	</tr>   
 	</c:forEach>
- </tbody>
 </table>		
 <p style="text-align:center">
 	<%-- ######################################################
@@ -384,7 +386,8 @@ h2{display:inline}
 			<tr>
 				<td>내용</td>
 				<td>
-					<textarea name="commentFreeTxt" class="form-control" style="float:left;width:85%;" row="5" cols="70" placeholder="내용을 입력해주세요"></textarea>	
+					<textarea  id="commentQnATxt" name="commentFreeTxt" class="form-control textarea_test" onkeyup="checkLength(this); this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"	
+					style="float:left;width:85%;" row="5" cols="50" placeholder="내용을 입력해주세요" wrap="physical"></textarea>	
 					<div style="float:right"><!-- 오른쪽 정렬 -->
 				 		<input type="hidden" name="boardFreeId" value="${boardFree.boardFreeId}">
 				 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="insert_event();">
@@ -404,6 +407,7 @@ h2{display:inline}
 	</sec:authorize>
 	</form>
 	</div>
+</div>
 </div>
 </div>
 </div>

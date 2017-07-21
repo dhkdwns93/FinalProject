@@ -462,7 +462,7 @@ SELECT * FROM JOIN_PROCESS
 select * from recipe_info where recipe_id in (360, 1, 2, 4, 5, 7, 60, 105, 110, 160, 165, 179, 183, 186, 257, 258, 296, 355, 382, 406, 452, 453, 476, 492, 500, 90997)
 
 
--------------------재로료 레시피 추출하기(원하는 재료포함, 기피재료 미포함)------------
+----------재로료 레시피 추출하기(원하는 재료포함, 기피재료 미포함)---------
 SELECT * FROM RECIPE_IRDNT;
 
 SELECT	recipe_id,COUNT(*) 
@@ -470,11 +470,11 @@ FROM	recipe_irdnt
 WHERE	recipe_id	NOT IN (
 	SELECT	recipe_id
 	FROM	recipe_irdnt
-	WHERE	irdnt_id	IN ( 1 )
+	WHERE	irdnt_id	IN ( /*포함 안 시킬 재료들*/ )
 )
-AND		irdnt_id	IN ( 454, 45, 24 )
+AND		irdnt_id	IN ( /*포함시킬 재료들*/ )
 GROUP BY	recipe_id
-HAVING COUNT(*) >= 1
+HAVING COUNT(*) >= 2
 ORDER BY	COUNT(*) DESC, recipe_id;
 
 select * from recipe_irdnt 

@@ -33,6 +33,15 @@ function closeWindow(){
 	opener.location.reload();
 	self.close();
 }; */
+function checkLength(commentQnATxt) {
+    if (commentQnATxt.value.length > 100 ) {
+    	commentQnATxt.blur();
+    	commentQnATxt.value = commentQnATxt.value.substring(0, 100);
+        alert('더 이상 입력이 불가능 합니다.');
+        commentQnATxt.focus();
+        return false;
+    }
+};
 </script>
 <style type="text/css">
 span, td, th{
@@ -96,11 +105,12 @@ td{
 	<tr>
 		<th>내용</th>
 		<td>
-			<textarea class="form-control textarea_test" style="float:left;width:70%;"  onkeyup="this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
-				name="commentQnATxt" row="5"cols="70">${commentQnA.commentQnATxt}</textarea>
+			<textarea class="form-control textarea_test" style="float:left;width:100%;"  onkeyup="checkLength(this); this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
+				id="commentQnATxt" name="commentQnATxt" rows="10" cols="60" placeholder="내용을 입력해주세요" wrap="physical">${commentQnA.commentQnATxt}</textarea>
 			<span class="error"><form:errors path="commentQnA.commentQnATxt" delimiter="&nbsp;"/></span>	
 		</td>
 	</tr>	
+	<br>
 </table>
 		<input type="hidden" name="commentQnAId" id="commentQnAId" value="${commentQnA.commentQnAId}">
 		<input type="hidden" name="boardQnAId" id="boardQnAId" value="${commentQnA.boardQnAId}">

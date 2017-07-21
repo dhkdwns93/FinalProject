@@ -2,8 +2,8 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<script type="text/javascript"
-	src="/turnup_fridger/scripts/jquery.js"></script>
+<script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<link href="${ initParam.rootPath }/css/bootstrap.css" rel="stylesheet">
 <script type="text/javascript">
 $(document).ready(function(){
 
@@ -52,13 +52,9 @@ function sendIrdnt(){
 
 </script>
 <style type="text/css">
-table, td, th {
-	border: 1px solid black;
-}
-
 table {
+	border: 0;
 	width: 200px;
-	border-collapse: collapse;
 }
 
 td {
@@ -71,57 +67,67 @@ td {
 </style>
 </head>
 <body>
-
-	<h2>재료명 검색</h2>
-	<input type="text" name ="irdntName" id="irdntName">
-	<button type="button" id="searchBtn">검색</button><br>
-
+<div class="container">
+	<h2>재료명 검색</h2><br>
 	<div id="result">
+	<br>
 		<table>
-			<tbody id="tbody">
+			<thead>
 				<tr>
-				<!-- 스크롤 처리하기, 재료명 누르면 값을 가지고 부모 페이지 이동 -->
-					<td>*검색한 내용 출력부</td>
+					<td><input type="text" class="form-control" style="width: 250px;" name="irdntName" id="irdntName"></td>
+					<td><button type="button" class="btn btn-default" id="searchBtn">검색</button></td>
+				</tr>
+			</thead>
+			<tbody id="tbody" >
+				<tr>
+					<!-- 스크롤 처리하기, 재료명 누르면 값을 가지고 부모 페이지 이동 -->
+					<td colspan="2">*검색한 내용 출력부</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-<hr>
-<div>
-<table id="irdnt_info">
-<thead>
-	<tr>
-		<th>재료명</th>
-		<th>재료구분</th>
-		<th colspan="2">중량</th>
-	</tr>
-</thead>
-<tbody>
-	<tr>
-		<td><input type="text" id="irdntName" size="10" readonly>
-			<input type="hidden" id="irdntId"></td>
-		<td><select id="irdntTypeCode" name="irdntTypeCode">
-			<option value="3060001">주재료</option>
-			<option value="3060002">부재료</option>
-			<option value="3060003">양념</option>
-		</select>
-		</td>
-		<td><input type="number" id="irdntAmount" size="10"></td>
-		<td><select id="unit" name="unit">
-			<option>개</option>
-			<option>g</option>
-			<option>kg</option>
-			<option>컵</option>
-			<option>T</option>
-			<option>마리</option>
-		</select>
-		</td>		
-	</tr>
-</tbody>
-</table>	
-<button type="button" id="submitBtn" onclick="sendIrdnt()">추가완료</button>
-<button type="button" id="submitBtn" onclick="window.close()">취소</button>
+	<hr>
+	<div>
+		<table id="irdnt_info">
+			<thead>
+				<tr>
+					<th>재료명</th>
+					<th>재료구분</th>
+					<th colspan="2">중량</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<input type="text" id="irdntName" size="10" readonly>
+						<input type="hidden" id="irdntId"></td>
+					<td>
+						<select id="irdntTypeCode" name="irdntTypeCode">
+							<option value="3060001">주재료</option>
+							<option value="3060002">부재료</option>
+							<option value="3060003">양념</option>
+						</select>
+					</td>
+					<td><input type="number" id="irdntAmount" size="10"></td>
+					<td>
+						<select id="unit" name="unit">
+							<option>개</option>
+							<option>g</option>
+							<option>kg</option>
+							<option>컵</option>
+							<option>T</option>
+							<option>마리</option>
+						</select>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<br>
+		<button type="button" class="btn btn-warning" id="submitBtn"
+			onclick="sendIrdnt()">추가완료</button>
+		<button type="button" class="btn btn-warning" id="submitBtn"
+			onclick="window.close()">취소</button>
 	</div>
-
+</div>
 </body>
 </html>

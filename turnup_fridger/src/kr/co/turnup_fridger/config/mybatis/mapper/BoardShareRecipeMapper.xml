@@ -134,7 +134,7 @@
 	FROM (
 		SELECT rownum rnum, <include refid="all-column"/>
 		FROM(
-			<include refid="select-boardShareRecipe" />
+			select <include refid="all-column"/> from board_share_recipe
 			WHERE BOARD_SHARE_RECIPE_TITLE LIKE '%'||#{title}||'%')
 		WHERE rownum &lt;=#{endIndex})
 	WHERE rnum>=#{startIndex}

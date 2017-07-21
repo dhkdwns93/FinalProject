@@ -32,13 +32,10 @@ $(document).ready(function(){
 p{
 	text-align: center;
 }
-.tableListScroll{
-	width: 600px;
-}
 </style>
 </head>
 <body>
-<div class="container">
+<div class="container"><!-- container를 인클루드제외하고 하는게 더 이쁜 것 같기도 -->
 <jsp:include page="/WEB-INF/view/layout/side_menu/memberSideMenu.jsp"/>
 <div class='right-box-sidemenu'>
 <input type="hidden" id="id" value="<sec:authentication property='principal.memberId'/>">

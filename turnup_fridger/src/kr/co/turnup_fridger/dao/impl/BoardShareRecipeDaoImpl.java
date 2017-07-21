@@ -201,13 +201,13 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 		map.put("recipeIds", recipeIds);
 		map.put("startIndex", startIndex);
 		map.put("endIndex", endIndex);
-		System.out.println("페이징하러갈때 들고가는 레시피id들"+recipeIds);
+		//System.out.println("페이징하러갈때 들고가는 레시피id들"+recipeIds);
 		return session.selectList(makeSqlId("selectBoardShareRecipeById"),map);
 	}
 
 	@Override
 	public int selectBoardShareRecipeByIdCount(List<Integer> recipeIds) {
-		System.out.println("추출된 레시피id들 받아온거"+recipeIds);
+		//System.out.println("추출된 레시피id들 받아온거"+recipeIds);
 		return session.selectOne(makeSqlId("selectBoardShareRecipeByIdCount"),recipeIds);
 	}
 	@Override

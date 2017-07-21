@@ -15,7 +15,7 @@
  	width:20%;
 	min-width:200px;
 	max-width:250px;
- 	height:100%;
+ 	height:auto;
 	margin-left:5%;
 	margin-bottom:100%;
  	border-radius:10%;
@@ -28,8 +28,8 @@
 	position:relative;
 	background:white;
 	float:right;
-	width:67%;
-	height:100%;
+	width:70%;
+	height:auto;
 	margin-right:5%;
 }
 

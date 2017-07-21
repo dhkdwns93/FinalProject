@@ -26,7 +26,6 @@ public class MyIrdntDaoImpl implements MyIrdntDao{
 
 	@Override
 	public int updateMyIrdnt(MyIrdnt irdnt) {
-		System.out.println("mapper가기전"+irdnt);
 		return session.update(makeSql("updateMyIrdnt"),irdnt);
 	}
 
@@ -103,8 +102,6 @@ public class MyIrdntDaoImpl implements MyIrdntDao{
 		HashMap map = new HashMap();
 		map.put("recipeId", recipeId);
 		map.put("memberId", memberId);
-		System.out.println("dao : "+map);
-		System.out.println("맵퍼에서 돌아온 값:" +session.selectList(makeSql("selectMatchIrdnt"),map));
 		return session.selectList(makeSql("selectMatchIrdnt"),map);
 	}
 	

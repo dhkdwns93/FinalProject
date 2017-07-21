@@ -429,9 +429,9 @@ margin-right: 2px;
 
 <div id="listHeader" style="position: relative" align="center">
 
-지금,<span style="font-size: 35px">Turnup Fridger</span>에서는  <br>
-
-<span id="allFridgerCount" style="font-size: 35px"><!-- 냉장고 수 --></span>개의 냉장고를<br>
+<!-- 지금,<span style="font-size: 35px">Turnup Fridger</span>에서는  <br> -->
+ <img src="/turnup_fridger/images/logo-letter2.png">에서 <br> 
+지금까지 <span id="allFridgerCount" style="font-size: 35px"><!-- 냉장고 수 --></span>개의 냉장고를<br>
 <span id="allFridgerGroupCount" style="font-size: 35px"><!-- 냉장고 수 --></span>명의 회원이 공유하고 있습니다.<br>
 <br>
 <hr>
@@ -439,14 +439,15 @@ margin-right: 2px;
 가족 구성원끼리 냉장고를 공유하여 관리하세요. <br>
 더욱 효율적으로 냉장고를 관리할 수 있을 것입니다.
 
-<div id="inviteModal" style="position: absolute; border:1px solid lightgray; border-radius:5px; padding:20px; width:300px; height:220px; top:300px; left:35px; text-align: center;">
+
+<div id="inviteModal" style="position: absolute; border:1px solid lightgray; border-radius:5px; padding:20px; width:300px; height:220px; top:320px; left:35px; text-align: center;">
 	<h3 style="font-weight: bold;">냉장고로 초대하기</h3>
 	당신의 냉장고를 공유할 <br>
 	회원을 초대합니다. <br>
 	<br>
 	<button type="button" class="btn btn-warning" id="inviteModalBtn" style="background-color:#f7c42d; color:#ffffff; width:70px; border:5px; margin: 2px; text-shadow:none; font-weight: bold">INVITE</button>
 </div>
-<div id="joinModal" style="position: absolute; border:1px solid lightgray; border-radius:5px; padding:20px; width:300px; height:220px; top:300px; right:35px; text-align: center;">
+<div id="joinModal" style="position: absolute; border:1px solid lightgray; border-radius:5px; padding:20px; width:300px; height:220px; top:320px; right:35px; text-align: center;">
 	<h3 style="font-weight: bold;">냉장고에 가입하기</h3>
 	공유를 원하는 다른 회원의 <br>
 	냉장고에 가입합니다.<br>

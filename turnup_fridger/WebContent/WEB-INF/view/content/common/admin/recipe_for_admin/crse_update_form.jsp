@@ -4,6 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link href="${ initParam.rootPath }/css/bootstrap.css" rel="stylesheet">
 <script type="text/javascript">
 $(document).ready(function(){
 	$("div.stepImage_none").hide();
@@ -133,7 +135,15 @@ border:1px solid black
 .recipe_crse_table {
 margin-bottom: 10px;
 }
+.stepImage_button{
+position: absolute;
+top:5px;
+right: 50px;
+}
 
+h2, h3{
+	text-align: center;
+}
 </style>
 
 
@@ -147,12 +157,11 @@ margin-bottom: 10px;
 		
 	<h3 style="margin:10px">레시피 과정정보</h3>
 	<!-- 레시피 과정정보 -->
-	<div id="recipe_crse" style="padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 10px;  background-color: lightgray; margin-bottom: 20px">
+	<div id="recipe_crse" style="padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 10px;  margin-bottom: 20px">
 	
 	
-	<button type="button" id="crseBtn">+과정추가</button>
-	<button type="button" id="backCrseBtn">되돌리기</button>
-	<button type="button" id="deleteCrseBtn">삭제</button>	
+	<button type="button" class="btn btn-default" id="crseBtn">+과정추가</button>
+	<button type="button" class="btn btn-default" id="deleteCrseBtn"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>	
 		
 		<div id="recipe_crse_table">
 		
@@ -175,7 +184,7 @@ margin-bottom: 10px;
 					<c:choose>
 						<c:when test="${ recipeCrse.stepImageUrl eq 'null' || empty recipeCrse.stepImageUrl || recipeCrse.stepImageUrl == null}">
 							<div class="stepImage">
-								<input type="file" id="stepImageUrlSrc" name="currentCrseList[${recipeCrse.cookingNo-1}].stepImageUrlSrc" >
+								<input type="file" id="stepImageUrlSrc" class="btn btn-default" name="currentCrseList[${recipeCrse.cookingNo-1}].stepImageUrlSrc" >
 							</div>
 							</c:when>
 							<c:otherwise>
@@ -187,13 +196,13 @@ margin-bottom: 10px;
 								<img src="${ recipeCrse.stepImageUrl }" height="150px" id="${ recipeCrse.stepImageUrl }">
 								<input type="hidden" id="stepImageUrl" name="currentCrseList[${recipeCrse.cookingNo-1}].stepImageUrl" value="${ recipeCrse.stepImageUrl }">
 								<div class="stepImage_button">
-									<button type="button" id="deleteStepImgBtn">삭제</button>
+									<button type="button" class="btn btn-danger" id="deleteStepImgBtn"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 								</div>
 							</div>
 							</c:otherwise>
 						</c:choose>
 							<div class="stepImage_deleted">
-								<button type="button" id="backStepImgBtn">원래 사진 복구</button>
+								<button type="button" class="btn btn-default" id="backStepImgBtn">원래 사진 복구</button>
 							</div>
 						</td>
 					</tr>
@@ -218,7 +227,7 @@ margin-bottom: 10px;
 		
 	</div>
 	</div>
-	<input type="submit" id="updateBtn" value="업데이트">
-	<input type="reset" value="초기화">
+	<input type="submit" class="btn btn-warning" id="updateBtn" value="업데이트">
+	<input type="reset" class="btn btn-warning" value="초기화">
 	
 </form>
