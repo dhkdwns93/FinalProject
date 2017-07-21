@@ -50,7 +50,7 @@ p, h3{
 	<c:forEach items="${requestScope.list }" var="shop">
 		<tr>
 			<td>${shop.shopId }</td>
-			<td><img alt="${shop.shopImg }" src="${initParam.rootPath}/images/${shop.saveImg}" width="100" height="102"></td>
+			<td><img alt="${shop.shopImg }" src="${initParam.rootPath}/img/${shop.shopImg}" width="100" height="102"></td>
 			<td><a href="#" onClick="window.open('${shop.shopAddress}','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=1000px, height=600px ,top=10, left=10', bottom=10, right=10)">${shop.shopName }</a></td>
 		</tr>
 	</c:forEach>

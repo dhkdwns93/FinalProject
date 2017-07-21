@@ -185,7 +185,7 @@ $(document).ready(function(){
 				}
 			},
 			"success": function(txt){
-		       alert(txt);
+		       alert(txt);s
 		       window.location.reload();
 		     },
 	        "error":function(xhr, msg, code){

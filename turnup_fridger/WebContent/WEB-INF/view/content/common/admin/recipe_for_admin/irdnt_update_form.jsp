@@ -204,7 +204,7 @@ left:5px;
 						<td><input type="hidden" value="${recipeIrdnt.irdntTypeCode}"></td>
 						<td><input type="text" size="5" value="${recipeIrdnt.irdntTypeName}" readonly></td>
 						<td><input type="text" size="5" value="${recipeIrdnt.irdntAmount}" readonly></td>
-						<td style="padding-left:10px"><button type="button" class="btn btn-default" class="deleteOldIrdntBtn"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>
+						<td style="padding-left:10px"><button type="button" class="btn btn-default deleteOldIrdntBtn"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>
 					</tr>
 				</c:forEach>
 
