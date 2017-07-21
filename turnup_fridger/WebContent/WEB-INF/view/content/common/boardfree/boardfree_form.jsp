@@ -23,6 +23,15 @@ function insert_event(){
 	    return false;
 	}
 };
+function checkLength(txt) {
+    if (boardFreeTxt.value.length > 1000 ) {
+    	boardFreeTxt.blur();
+    	boardFreeTxt.value = boardFreeTxt.value.substring(0, 1000);
+        alert('더 이상 입력이 불가능 합니다.');
+        boardFreeTxt.focus();
+        return false;
+    }
+};
 </script>
 <style type="text/css">
 span, td, th{
@@ -79,11 +88,12 @@ td{
 		<tr>
 			<th>내용</th>
 			<td>
-				<textarea class="form-control textarea_test"style="float:left;width:70%;" onkeyup="this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
-					 name="boardFreeTxt" row="5" cols="70" placeholder="내용을 입력해주세요">${boardFree.boardFreeTxt}</textarea>
+				<textarea class="form-control textarea_test"style="float:left;width:100%;" onkeyup="checkLength(this); this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
+				id="boardFreeTxt" name="boardFreeTxt" rows="20" cols="60" placeholder="내용을 입력해주세요" wrap="physical">${boardFree.boardFreeTxt}</textarea>
 				<span class="error"><form:errors path="boardFree.boardFreeTxt" delimiter="&nbsp;"/></span>
 			</td>
 		</tr>	
+		<br>	
 	</table>
 				<input type="hidden" name="boardFreeHits" value="0">
 				<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return insert_event();">

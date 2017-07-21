@@ -24,6 +24,15 @@ function insert_event(){
 	    return false;
 	}	
 };
+function checkLength(txt) {
+    if (txt.value.length > 3000 ) {
+    	txt.blur();
+    	txt.value = txt.value.substring(0, 2900);
+        alert('더 이상 입력이 불가능 합니다.');
+        txt.focus();
+        return false;
+    }
+};
 </script>
 <style type="text/css">
 form{
@@ -92,13 +101,13 @@ td{
 			<tr>
 				<th>내용</th>
 				<td>
-
-					<textarea class="form-control textarea_test"style="float:left;width:70%;" onkeyup="this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
-						name="txt" row="20" cols="70" placeholder="내용을 입력해주세요" class="form-control">${boardNotice.txt}</textarea>
+					<textarea class="form-control textarea_test"style="float:left;width:100%;" onkeyup="checkLength(this); this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
+					 id="txt"; name="txt"  rows="20" cols="60" placeholder="내용을 입력해주세요" wrap="physical" class="form-control">${boardNotice.txt}</textarea>
 					<span class="error"><form:errors path="boardNotice.txt" delimiter="&nbsp;" /></span>
 				</td>
 			</tr>
 	</table>
+		<br>
 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return insert_event();">
 			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 		</button>

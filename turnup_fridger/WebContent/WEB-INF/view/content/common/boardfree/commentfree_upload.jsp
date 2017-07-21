@@ -24,6 +24,15 @@ function comment_update_event(){
 	    return false;
 	}
 }; 
+function checkLength(commentFreeTxt) {
+    if (commentFreeTxt.value.length > 100 ) {
+    	commentFreeTxt.blur();
+    	commentFreeTxt.value = commentFreeTxt.value.substring(0, 100);
+        alert('더 이상 입력이 불가능 합니다.');
+        commentFreeTxt.focus();
+        return false;
+    }
+};
 /* $(document).ready(function(){
 	$("#submit").on("click", function(){
 		alert('수정되었습니다');
@@ -97,8 +106,8 @@ td{
 	<tr>
 		<th>내용</th>
 		<td>
-			<textarea class="form-control textarea_test" style="float:left;width:70%;" onkeyup="this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
-			name="commentFreeTxt" id="commentFreeTxt" row="5"cols="70">${commentFree.commentFreeTxt}</textarea>
+			<textarea class="form-control textarea_test" style="float:left;width:100%;" onkeyup="checkLength(this); this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
+			name="commentFreeTxt" id="commentFreeTxt" rows="10" cols="60" placeholder="내용을 입력해주세요" wrap="physical">${commentFree.commentFreeTxt}</textarea>
 			<span class="error"><form:errors path="commentFree.commentFreeTxt" delimiter="&nbsp;"/></span>
 		</td>
 	</tr>

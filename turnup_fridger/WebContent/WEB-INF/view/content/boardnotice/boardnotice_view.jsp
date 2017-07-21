@@ -41,6 +41,7 @@ h2{display:inline}
 <div class="container">
 
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+<div class="right-box-sidemenu">
 	<div style="width:auto; margin-left: auto; margin-right: auto;"><br><br>
 		<div class="form-inline form-group" >
 		<h1>공지사항 ></h1><h2>&nbsp;${boardNotice.items}</h2>
@@ -73,35 +74,40 @@ h2{display:inline}
 			</form>
 			</sec:authorize>
 		</div>
-			<table class="table table-bordered" style="width:70%; border:1; text-align:center">
+			<table class="table table-bordered" style="width:100%; border:1; text-align:center">
 				<tr>
-					<td>말머리</td>
-					<td>${boardNotice.items}</td>
+					<td style="width:10%;">말머리</td>
+					<td style="width:85%;text-align:left">${boardNotice.items}</td>
 				</tr>
 				<tr>
-					<td>제목</td>
-					<td>${boardNotice.title}</td>
+					<td style="width:10%;">제목</td>
+					<td style="width:85%;text-align:left">${boardNotice.title}</td>
 				</tr>
 				<tr>
-					<td>작성날짜</td>
-					<td><fmt:formatDate value="${boardNotice.date}" pattern="yyyy-MM-dd"/></td>
+					<td style="width:10%;">작성날짜</td>
+					<td style="width:85%;text-align:left"><fmt:formatDate value="${boardNotice.date}" pattern="yyyy-MM-dd"/></td>
 				</tr>
 				<tr>
-					<td>작성자</td>
-					<td>관리자</td>
+					<td style="width:10%;">작성자</td>
+					<td style="width:85%;text-align:left">관리자</td>
 				</tr>	
 				<tr>
-					<td>내용</td>	
-					<td style="width:70%;text-align:left">
+					<td style="width:10%;">내용</td>	
+					<td>
 						<c:if test="${boardNotice.img != null}">
-							<img width="70%" alt="${boardNotice.img}" src="${initParam.rootPath}/img/board/${boardNotice.img}"><br>
+							<div style="float:center;">
+								<img width="70%" alt="${boardNotice.img}" src="${initParam.rootPath}/img/board/${boardNotice.img}"><br>
+							</div>
 						</c:if>
+						<div style="width:85%;text-align:left">
 							${fn:replace(boardNotice.txt, cn, br)}
+						</div>	
 					</td>
 				</tr>
 			</table>
 		</div>
 	</div>
+</div>
 </div>
 </body>
 </html>

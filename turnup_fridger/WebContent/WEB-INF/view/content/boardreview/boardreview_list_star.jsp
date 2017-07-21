@@ -63,6 +63,7 @@ function delete_event(){
 <jsp:useBean id="now" class="java.util.Date" />
 <fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />  
 
+<div class="right-box-sidemenu">
 <c:if test="${empty list}">
 	<div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
 <br><br>
@@ -316,6 +317,7 @@ function delete_event(){
 </p>
 </div>
 </c:if>
+</div>
 </div>
 </body>
 </html>
