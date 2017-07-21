@@ -29,7 +29,7 @@
       <li class="topMenuLi2"><a href="#" class="navbar-brand">Fridger</a>
       	<ul class="submenu2">
 			<li><a href="${initParam.rootPath}/common/member/fridger/main.do" id="submenu2Link">나의 냉장고</a></li>
-			<li><a href="${initParam.rootPath}/common/member/fridger/joinProcess/list.do" id="submenu2Link">공유 관리</a></li>
+			<li><a href="${initParam.rootPath}/common/member/fridger/joinProcess/list.do" id="submenu2Link">냉장고 공유</a></li>
 		</ul>
       </li>
       <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
@@ -52,6 +52,9 @@
          <li><a href="${initParam.rootPath}/boardnotice/boardNoticeList.do" id="submenu2Link">게시판 관리</a></li>
       </ul>
      </li>
+     <li class="topMenuLi2">
+		<a href="${initParam.rootPath}/common/shop/shopList_for_admin.do" class="navbar-brand">Shop</a>
+	</li>
       </sec:authorize>
       <sec:authorize access="!hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
       <li class="topMenuLi2"><a href="#" class="navbar-brand">Board</a>

@@ -47,18 +47,14 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 			throw new NoneMyIrdntException("없는 식재료입니다.");
 		}
 		//재료id를 제외한 다른것들을 수정, 다시 계산해야함
-		System.out.println("신선도 전");
 		String FreshLevel = getFreshLevel(myIrdnt);
-		System.out.println("신선도 후");
 		//String IrdntName = irdntDao.selectIrdntById(myIrdnt.getIrdntId()).getIrdntName();
 		
 		//key값은 jsp쪽에서 고정되도록 처리해야겠다. 
 		MyIrdnt newMyIrdnt= new MyIrdnt(myIrdnt.getMyIrdntKey(),myIrdnt.getStartDate(),myIrdnt.getEndDate(),FreshLevel,
 				myIrdnt.getIrdntCount(),myIrdnt.getIrdntId(),myIrdnt.getIrdntName(),myIrdnt.getFridgerId(),myIrdnt.getStartFreshLevel(),myIrdnt.getStorgePlace());
 		
-		System.out.println("dao 가기전");
 		dao.updateMyIrdnt(newMyIrdnt);
-		System.out.println("dao간후");
 		
 	}
 
@@ -74,13 +70,28 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 	@Override
 	public List<MyIrdnt> findAllMyIrdntByFridgerId(int fridgerId) {
 		// 냉장고 아이디로 나의식재료들 전부 가져오기...
-		// 여기서는 냉장고아이디가 없을수가 없다. 냉장고를 눌러서 선택되서 오는거니까.
-		return dao.selectMyIrdntByFridgerId(fridgerId);
+		List<MyIrdnt> oldList = dao.selectMyIrdntByFridgerId(fridgerId);
+		
+		//신선도 새로고침해서 반환.
+		for(int i=0; i<oldList.size();i++){
+			dao.updateMyIrdnt(oldList.get(i));
+		}
+		List<MyIrdnt> newList = dao.selectMyIrdntByFridgerId(fridgerId);
+		return newList;
 	}
 
 	@Override
 	public List<MyIrdnt> findMyIrdntByIrdntName(String irdntName, int fridgerId) {
-		return dao.selectMyIrdntByName(irdntName, fridgerId);
+		//냉장고 안에서 재료명으로 검색.
+		List<MyIrdnt> oldList = dao.selectMyIrdntByName(irdntName, fridgerId);
+		
+		//신선도 새로고침해서 반환.
+		for(int i=0; i<oldList.size();i++){
+			dao.updateMyIrdnt(oldList.get(i));
+		}
+		List<MyIrdnt> newList = dao.selectMyIrdntByName(irdntName, fridgerId);
+					
+		return newList;
 	}
 
 	@Override
@@ -91,45 +102,35 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 	      Long leftDay; // 남은 일수 밀리초변환.
 	      
 	      if (myirdnt.getEndDate() == null) {// 유통기한 없으면
-	         // Calendar myPeriod = Calendar.getInstance();
-	    	 int period;
+	    	 long period;
 	        
 	    	 if(myirdnt.getStorgePlace().equals("실온")){
-	    		 period = irdntDao.selectIrdntById(myirdnt.getIrdntId()).getRoomTemPeriod();
+	    		 period = (long)irdntDao.selectIrdntById(myirdnt.getIrdntId()).getRoomTemPeriod();
 	    	 }
 	    	 else if(myirdnt.getStorgePlace().equals("냉장")){
-	    		 period=irdntDao.selectIrdntById(myirdnt.getIrdntId()).getColdTemPeriod();
+	    		 period=(long)irdntDao.selectIrdntById(myirdnt.getIrdntId()).getColdTemPeriod();
 	    	 }
 	    	 else{
-	    		 period=irdntDao.selectIrdntById(myirdnt.getIrdntId()).getFreezeTemPeriod();
+	    		 period=(long)irdntDao.selectIrdntById(myirdnt.getIrdntId()).getFreezeTemPeriod();
 	    	 }
-	    	 
-	    	/* if (dao.selectMyIrdntByKey(myirdnt.getMyIrdntKey()).getStorgePlace().equals("실온")) {
-		 			period = irdntDao.selectIrdntById(irdntId).getRoomTemPeriod();
-		 		} else if (dao.selectMyIrdntByKey(myirdnt.getMyIrdntKey()).getStorgePlace().equals("냉장")) {
-		 			period = irdntDao.selectIrdntById(irdntId).getColdTemPeriod();
-		 		}else{
-		 			//냉동
-		 			period = irdntDao.selectIrdntById(irdntId).getFreezeTemPeriod();	
-		 		}*/
 	 			
 	         switch (myirdnt.getStartFreshLevel()) {
 	         case "좋음":
-	            period = period * 1;
+	            period = (long)period * 1;
 	            break;
 	         case "보통":
-	            period = (int) (period * 0.8);
+	            period = (long) (period * 0.8);
 	            break;
 	         case "나쁨":
-	            period = (int) (period * 0.5);
+	            period = (long) (period * 0.5);
 	            break;
 	         }
 	         
 	         Date startDay = myirdnt.getStartDate();// 재료의 보관시작일
 	         
 	         // myperiod = 보관시작일+보관기간 의 밀리초.
-	         long myPeriod = startDay.getTime() + (period * 86400000);
-
+	         long myPeriod = startDay.getTime() + (long)((long)period * 86400000);
+	         
 	         // 예상 유통기한에서 현재시간을 뺀 밀리초.
 	         leftDay = myPeriod - new Date().getTime();
 	      }
@@ -147,39 +148,70 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 
 	@Override
 	public MyIrdnt fingMyIrdntBymyIrdntKey(int myIrdntKey) {
+		MyIrdnt oldIrdnt = dao.selectMyIrdntByKey(myIrdntKey);
+		//신선도 새로고침.
+		dao.updateMyIrdnt(oldIrdnt);
 		return dao.selectMyIrdntByKey(myIrdntKey);
 	}
 
 	@Override
 	public List<MyIrdnt> findMyIrdntByStartDate(Date startDate,int fridgerId) {
+		List<MyIrdnt> oldList = dao.selectMyIrdntByStartDate(startDate, fridgerId);
+		//신선도 새로고침해서 반환.
+			for(int i=0; i<oldList.size();i++){
+				dao.updateMyIrdnt(oldList.get(i));
+			}		
 		return dao.selectMyIrdntByStartDate(startDate, fridgerId);
 	}
 
 	@Override
 	public List<MyIrdnt> findMyIrdntByEndDate(Date endDate,int fridgerId) {
+		List<MyIrdnt> oldList = dao.selectSoonExpireMyIrdnt(endDate, fridgerId);
+		//신선도 새로고침해서 반환.
+			for(int i=0; i<oldList.size();i++){
+				dao.updateMyIrdnt(oldList.get(i));
+			}		
 		return dao.selectSoonExpireMyIrdnt(endDate, fridgerId);
 	}
 
 	@Override
 	public List<MyIrdnt> findMyIrdntByFreshLevel(String freshLevel,int fridgerId) {
 		//신선도입력해서 해당하는 식재료들 뽑아오는거. 
-		//나중에 이걸로 식재료 신선도 보여주자 
+		List<MyIrdnt> oldList = dao.selectMyStaleIrdnt(freshLevel, fridgerId);
+		//신선도 새로고침해서 반환.
+			for(int i=0; i<oldList.size();i++){
+				dao.updateMyIrdnt(oldList.get(i));
+			}	
 		return dao.selectMyStaleIrdnt(freshLevel, fridgerId);
 	}
 
 	@Override
 	public List<MyIrdnt> findMyIrdntByFreshLevelAndIrdntName(String freshLevel, String irdntName, int fridgerId) {
+		List<MyIrdnt> oldList = dao.selectMyIrdntByFreshLevelAndIrdntName(freshLevel, irdntName, fridgerId);
+		//신선도 새로고침해서 반환.
+			for(int i=0; i<oldList.size();i++){
+				dao.updateMyIrdnt(oldList.get(i));
+			}
 		return dao.selectMyIrdntByFreshLevelAndIrdntName(freshLevel, irdntName, fridgerId);
 	}
 
 	@Override
 	public List<MyIrdnt> findMyIrdntByMemberId(String memberId) {
+		List<MyIrdnt> oldList = dao.selectMyIrdntBymemberId(memberId);
+		//신선도 새로고침해서 반환.
+			for(int i=0; i<oldList.size();i++){
+				dao.updateMyIrdnt(oldList.get(i));
+			}
 		return dao.selectMyIrdntBymemberId(memberId);
 	}
 
 	@Override
 	public List<MyIrdnt> findMatchIrdnt(int recipeId, String memberId) {
-		System.out.println("받아온 매개변수들 :"+ recipeId+","+memberId);
+		List<MyIrdnt> oldList = dao.selectMatchIrdnt(recipeId, memberId);
+		//신선도 새로고침해서 반환.
+			for(int i=0; i<oldList.size();i++){
+				dao.updateMyIrdnt(oldList.get(i));
+			}
 		return dao.selectMatchIrdnt(recipeId, memberId);
 	}
 
@@ -200,6 +232,11 @@ public class MyIrdntServiceImpl implements MyIrdntService{
 
 	@Override
 	public int CountMyIrdntByFreshLevel(int fridgerId, String freshLevel) {
+		List<MyIrdnt> oldList = dao.selectMyIrdntByFridgerId(fridgerId);
+		//신선도 새로고침.
+		for(int i=0; i<oldList.size();i++){
+			dao.updateMyIrdnt(oldList.get(i));
+		}
 		return dao.selectCountMyIrdntByFreshLevel(freshLevel, fridgerId);
 	}
 

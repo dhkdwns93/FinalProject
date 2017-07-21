@@ -32,13 +32,10 @@ $(document).ready(function(){
 p{
 	text-align: center;
 }
-.tableListScroll{
-	width: 600px;
-}
 </style>
 </head>
 <body>
-<div class="container">
+<div class="container"><!-- container를 인클루드제외하고 하는게 더 이쁜 것 같기도 -->
 <jsp:include page="/WEB-INF/view/layout/side_menu/memberSideMenu.jsp"/>
 <div class='right-box-sidemenu'>
 <input type="hidden" id="id" value="<sec:authentication property='principal.memberId'/>">
@@ -47,9 +44,10 @@ p{
 <p id="memoNum">현재 <span id="count"></span> 개의 메모가 있습니다</p>
 <div class="tableListScroll">
 <table id="tt" class="table table-hover">
+
 	<tr>
 		<td>NO</td>
-		<td>제목</td>
+		<td>제목</td>	
 		<td>작성일</td>
 	</tr>
 	<c:forEach items="${requestScope.list }" var="memo">

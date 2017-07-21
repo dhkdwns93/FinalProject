@@ -39,8 +39,8 @@ var numberAddInsert=0;
 $(document).ready(function(){
 		$(document).on("click", "button#insertShareRecipeIrdnt", function(){
 			if(numberAddInsert<20){
-				window.open("${initParam.rootPath}/common/member/boardRecipe/boardRecipe_search_result.do", "search_result", "width=500,height=400,resizable=yes");
-				var inputTextHtml=$('#seeIrdnt').append('<div id="ShareRecipeIrdntText"><input type="hidden" id="irdntId" name="irdntId" value="${param.irdntId}" ><input type="text" id="irdntName" name="meIrdntName" value=${param.irdntName}>&nbsp&nbsp<button type="button" id="deleteIrdnt" class="btn">재료삭제</button><br></div>');
+				window.open("${initParam.rootPath}/common/member/boardRecipe/boardRecipe_search_result.do", "search_result", "width=1000,height=400,resizable=yes");
+				var inputTextHtml=$('#seeIrdnt').append('<div id="ShareRecipeIrdntText"><input type="hidden" id="irdntId" name="irdntId" value="${param.irdntId}" ><input type="text" id="irdntName" name="meIrdntName" value=${param.irdntName}>&nbsp&nbsp<button type="button" id="deleteIrdnt" class="btn btn-default">재료삭제</button><br></div>');
 				numberAddInsert=numberAddInsert+1;
 			}else{
 				$('span#irdnterror').text("재료선택은 20개까지 선택가능합니다.");
@@ -218,7 +218,7 @@ td, th{
 					
 					<!-- 검색클릭하면 재료명으로 검색해서 id만 골라오는거 하기. 여기에 id저장. --> 
 					<!-- <input type="button" id="recipeName" value="검색" onclick="popupRecipeName()" > -->
-					<button type="button" id="insertShareRecipeIrdnt" class="btn">사용한재료추가</button><br>
+					<button type="button" id="insertShareRecipeIrdnt" class="btn btn-default">사용한재료추가</button><br>
 					<div id="ShareRecipeIrdnt">
 					<input type="hidden" name="irdntId" id="irdntId" value="-1" class="ccformfield" readonly><br>
 					<input type="hidden" name="meIrdntName" id="meIrdntName" class="ccformfield" value="-1" >
@@ -261,7 +261,7 @@ td, th{
 		<input type="hidden" name="recommand" value="0">
 		<input type="hidden" name="hits" value="0" >
 		<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;"  >
-			<span class="glyphicon glyphicon-pencil" aria-hidden="true">등록</span>
+			<span class="glyphicon glyphicon-ok" aria-hidden="true">등록</span>
 		</button>
 		
 		<button type="button" class="btn btn-default btn-lg" style="border:0;outline:0;" onClick="return list();" >

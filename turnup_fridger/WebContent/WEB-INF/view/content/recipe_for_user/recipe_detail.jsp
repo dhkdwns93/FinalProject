@@ -246,10 +246,9 @@ $(document).ready(function(){
 			}else{
 			
 				if(!isNaN(amt)){	//정수일때
-				 	//console.log(amt/qnt*4)
 					amt = ((amt/qnt)*1);
 					if(!is_integer(amt)){
-						amt = amt.toFixed(1);
+						amt = amt.toFixed(2);
 					}
 				}
 				else if(amt.includes("/")){	//분수인경우
@@ -258,8 +257,6 @@ $(document).ready(function(){
 					frct[0] = frct[0]*1;
 					amt = getFrct(frct);
 				}
-				
-				
 				$(this).fadeIn().text(amt);
 			}
 		})
@@ -285,7 +282,7 @@ $(document).ready(function(){
 					amt = ((amt/qnt)*2);
 
 					if(!is_integer(amt)){
-						amt = amt.toFixed(1);
+						amt = amt.toFixed(2);
 					}					
 				}
 				else if(amt.includes("/")){	//분수인경우
@@ -294,8 +291,6 @@ $(document).ready(function(){
 					frct[0] = frct[0]*2;
 					amt = getFrct(frct);
 				}
-				
-				
 				
 				$(this).fadeIn().text(amt);
 			}
@@ -323,7 +318,7 @@ $(document).ready(function(){
 					amt = ((amt/qnt)*3);
 				
 					if(!is_integer(amt)){
-						amt = amt.toFixed(1);
+						amt = amt.toFixed(2);
 					}
 				}
 				else if(amt.includes("/")){	//분수인경우
@@ -359,7 +354,7 @@ $(document).ready(function(){
 					amt = ((amt/qnt)*4);
 				
 					if(!is_integer(amt)){
-						amt = amt.toFixed(1);
+						amt = amt.toFixed(2);
 					}
 				}
 				else if(amt.includes("/")){	//분수인경우
@@ -390,6 +385,7 @@ function getNumber(str){
 		target = target.replace(regex, '');
 	  return target;
 }
+
 //분수추출
 function getFrct(frct){
 	var bunja = frct[0];
@@ -416,11 +412,8 @@ function getGcd(a,b){ //최대공약수 계산
 }
 
 function is_integer(n){
-
     var reg = /^\d+$/;
-
     return reg.test(n);
-
 }
 
 
@@ -429,9 +422,8 @@ function moveTo(url,recipeId){
 		window.open(
 				url+"?recipeId="+recipeId,
 				"_blank",
-				"fullscreen=yes, height=700, width=500, resizable=no, scrollbars=no, location=no, toolbar=no, directories=no, menubar=no"
+				"fullscreen=yes, height=600, width=600, resizable=no, scrollbars=no, location=no, toolbar=no, directories=no, menubar=no"
 				);
-		
 }
 </script>
 <style>
@@ -469,7 +461,7 @@ table tr td{
 <div id="whole">
 	<div id="recipe_info">
 		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-		<button type="button" onclick="moveTo('/turnup_fridger/common/admin/recipe/info/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
+		<button type="button" class="btn btn-default" onclick="moveTo('/turnup_fridger/common/admin/recipe/info/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
 		</sec:authorize>
 
 		<div style="width:50%;float:left;">
@@ -556,32 +548,32 @@ table tr td{
 		<br><hr>	
 		<h3 style="font-weight:bold;">재료정보</h3>
 		<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-		<button type="button" onclick="moveTo('/turnup_fridger/common/admin/recipe/irdnt/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
+		<button type="button" class="btn btn-default" onclick="moveTo('/turnup_fridger/common/admin/recipe/irdnt/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
 		</sec:authorize>
 		
 		<div style="padding:10px;">
-		주재료 - 
-		<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
-		<c:if test="${recipeIrdnt.irdntTypeCode == 3060001}">
-		${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount }&nbsp;&nbsp;
-		</c:if>
-		</c:forEach>
+		주재료 :  
+			<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
+				<c:if test="${recipeIrdnt.irdntTypeCode == 3060001}">
+					${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount }&nbsp;&nbsp;
+				</c:if>
+			</c:forEach>
 		</div>
 		<div style="padding:10px;">
-		부재료 - 
-		<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
-		<c:if test="${recipeIrdnt.irdntTypeCode == 3060002}">
-		${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount },
-		</c:if>
-		</c:forEach>
+		부재료 :  
+			<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
+				<c:if test="${recipeIrdnt.irdntTypeCode == 3060002}">
+					${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount }&nbsp;&nbsp;
+				</c:if>
+			</c:forEach>
 		</div>
 		<div style="padding:10px;" >
-		양념 - 
-		<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
-		<c:if test="${recipeIrdnt.irdntTypeCode == 3060003}">
-		${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount },
-		</c:if>
-		</c:forEach>
+		양념 : 
+			<c:forEach items="${ requestScope.recipe.recipeIrdntList }" var="recipeIrdnt" >
+				<c:if test="${recipeIrdnt.irdntTypeCode == 3060003}">
+					${ recipeIrdnt.irdntName }&nbsp;${ recipeIrdnt.irdntAmount }&nbsp;&nbsp;
+				</c:if>
+			</c:forEach>
 		</div>
 	</div>
 <!--나의 식재료들 가져와서 수정,삭제할수있게 하는 테이블  -->
@@ -609,7 +601,7 @@ table tr td{
 	<br><hr>
 	<h3 style="font-weight:bold;">상세과정</h3>
 	<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-	<button type="button" onclick="moveTo('/turnup_fridger/common/admin/recipe/crse/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
+	<button type="button" class="btn btn-default" onclick="moveTo('/turnup_fridger/common/admin/recipe/crse/update_chk.do', '${requestScope.recipe.recipeId}')">수정</button>
 	</sec:authorize>
 	<table>
 	<c:forEach items="${ requestScope.recipe.recipeCrseList }" var="recipeCrse">
@@ -617,7 +609,7 @@ table tr td{
 		<td>
 			${recipeCrse.cookingNo} - ${recipeCrse.cookingDc}<br>
 			<c:if test="${recipeCrse.stepTip !='null'}">
-				(팁: ${recipeCrse.stepTip} )<br>
+				*팁: ${recipeCrse.stepTip} <br>
 			</c:if>
 			<c:if test="${recipeCrse.stepImageUrl != 'null'}">
 				<img src="${ recipeCrse.stepImageUrl }"><br>
@@ -654,7 +646,7 @@ table tr td{
 	</div>
 
 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-<button type="button" id="deleteRecipeBtn">삭제</button> 
+<button type="button" class="btn btn-default" id="deleteRecipeBtn">삭제</button> 
 </sec:authorize>
 
 <div class="floating" style="padding:10px;">

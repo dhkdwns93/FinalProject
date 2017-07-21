@@ -62,6 +62,24 @@ public interface BoardShareRecipeDao {
 	 * @return
 	 */
 		int selectBoardCount();
+		/**
+		 * 모든 게시판의 제목 수 반환
+		 * @param title
+		 * @return
+		 */
+		int selectBoardByTitileCount(String title);
+		/**
+		 * 모든 게시판의 아이디 수 반환
+		 * @param memberId
+		 * @return
+		 */
+		int selectBoardByMemberIdCount(String memberId);
+		/**
+		 * 모든 게시판의 내용 수 반환
+		 * @param txt
+		 * @return
+		 */
+		int selectBoardByTxtCount(String txt);
 		
 		//전체조회
 		/**
@@ -110,7 +128,7 @@ public interface BoardShareRecipeDao {
 		 * @param keyword
 		 * @return
 		 */
-		List<BoardShareRecipe> boardSearchByTitle(int startIndex, int endIndex ,String keyword);
+		List<BoardShareRecipe> boardSearchByTitle(String title, int startIndex, int endIndex);
 		
 		
 		/**
@@ -120,7 +138,7 @@ public interface BoardShareRecipeDao {
 		 * @param keyword
 		 * @return
 		 */
-		List<BoardShareRecipe> boardSearchByTxt(int startIndex, int endIndex ,String keyword);
+		List<BoardShareRecipe> boardSearchByTxt(String txt,int startIndex, int endIndex);
 		
 		/**
 		 * 게시판 회원 id로 조회 메소드
@@ -129,7 +147,7 @@ public interface BoardShareRecipeDao {
 		 * @param keyword
 		 * @return
 		 */
-		List<BoardShareRecipe> boardSearchByMemberId(int startIndex, int endIndex ,String keyword);
+		List<BoardShareRecipe> boardSearchByMemberId(String memberId,int startIndex, int endIndex );
 		/**
 		 * TOP4 조회 메소드
 		 * @return

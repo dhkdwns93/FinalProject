@@ -224,7 +224,7 @@ public class FridgerController {
 	}
 	
 	// 이름으로 찾아 뿌려주는 handler
-	@RequestMapping(value="show/byName", produces="text/html;charset=UTF-8")
+	@RequestMapping(value="show/byName")
 	@ResponseBody
 	public Map<String, Object> getFridgerByName(String fridgerName, int page){
 		Map<String, Object> map = fridgerService.findFridgerByFridgerNamePaging(fridgerName, page);
@@ -564,6 +564,25 @@ public class FridgerController {
 		
 		return "0";
 	}
+	
+	
+	@RequestMapping(value="joinProcess/intro")
+	@ResponseBody
+	public Map<String, Integer> getIntro() {
+		Map<String, Integer> map = new HashMap<>();
+		int allFridgerCount = 0;
+		int allFridgerGroupCount = 0;
+		for(Fridger f : fridgerService.findFridgerAll()){
+			allFridgerCount++;
+			allFridgerGroupCount += fridgerGroupService.selectFridgerGroupCount(f.getFridgerId());
+			
+		}
+		map.put("allFridgerCount", allFridgerCount);
+		map.put("allFridgerGroupCount", allFridgerGroupCount);
+	
+		return map;
+	}
+	
 	
 	
 	/*************************업로드 완성<-필요없어짐(ㅠㅠ)**************************/

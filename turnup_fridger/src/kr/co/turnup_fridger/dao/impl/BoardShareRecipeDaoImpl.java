@@ -23,6 +23,7 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 		return "kr.co.turnup_fridger.config.mybatis.mapper.BoardShareRecipeMapper."+id;
 	}
 
+
 	@Override
 	public int insertBoardShareRecipe(BoardShareRecipe boardShareRecipe) {
 		return session.insert(makeSqlId("insertBoardShareRecipe"), boardShareRecipe);
@@ -33,6 +34,7 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 		
 		return session.update(makeSqlId("increaseHit"), recipeId);
 	}
+	
 	@Override
 	public int deleteBoardShareRecipe(int recipeId) {
 		
@@ -46,26 +48,49 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 		return session.update(makeSqlId("updateBoardShareRecipeByRecipeId"), boardShareRecipe);
 	}
 	
+	//BoardShareRecipe 조회
 	@Override
 	public BoardShareRecipe boardRead(int recipeId) {
 		
 		return session.selectOne(makeSqlId("boardRead"), recipeId);
 	}
-	@Override
-	public List<BoardShareRecipe> selectBoardShareRecipeByTitle(String title,int startIndex, int endIndex) {
-		HashMap map = new HashMap();
-		map.put("title", title);
-		map.put("startIndex", startIndex);
-		map.put("endIndex", endIndex);
-		
-		return session.selectList(makeSqlId("selectBoardShareRecipeByTitle"), map);
-	}
 	
+	
+	//전체 수 조회
 	@Override
 	public int selectBoardCount() {
 
 		return session.selectOne(makeSqlId("selectBoardCount"));
 	}
+	
+	//제목 수 조회
+	@Override
+	public int selectBoardByTitileCount(String title) {
+	
+		return session.selectOne(makeSqlId("selectBoardByTitileCount"), title);
+	}
+
+
+
+	//회원ID 수 조회
+	@Override
+	public int selectBoardByMemberIdCount(String memberId) {
+	
+		return session.selectOne(makeSqlId("selectBoardByMemberIdCount"), memberId);
+	}
+
+
+
+	//내용 수 조회
+	@Override
+	public int selectBoardByTxtCount(String txt) {
+		
+		return session.selectOne(makeSqlId("selectBoardByTxtCount"), txt);
+	}
+
+
+
+
 	@Override
 	public List<BoardShareRecipe> selectBoardShareRecipeByAll(int startIndex, int endIndex) {
 		Map<String, Integer> input = new HashMap<String, Integer>();
@@ -97,16 +122,18 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 		recommandMap.put("memberId", memberId);
 		return session.selectOne(makeSqlId("selectRecommand"), recommandMap);
 	}
+	
+	//레시피 ID로 삭제
 	@Override
 	public int deleteRecommand(int recipeId) {
-		// TODO Auto-generated method stub
+	
 		return session.delete(makeSqlId("deleteRecommand"), recipeId);
 	}
 	
 
 	@Override
 	public MemberRecipeRecommand selectRecommandOne(int recipeId) {
-		// TODO Auto-generated method stub
+		
 		return session.selectOne(makeSqlId("selectRecommandOne"), recipeId);
 	}
 	
@@ -115,35 +142,52 @@ public class BoardShareRecipeDaoImpl implements BoardShareRecipeDao{
 	
 		return session.selectList(makeSqlId("selectRecommandByRecipeId"), recipeId);
 	}
+	//제목으로 조회
+		@Override
+		public List<BoardShareRecipe> selectBoardShareRecipeByTitle(String title,int startIndex, int endIndex) {
+			HashMap<String, Object> map = new HashMap<>();
+			map.put("title", title);
+			map.put("startIndex", startIndex);
+			map.put("endIndex", endIndex);
+			
+			return session.selectList(makeSqlId("selectBoardShareRecipeByTitle"), map);
+		}
+	//제목으로 조회2
 	@Override
-	public List<BoardShareRecipe> boardSearchByTitle(int startIndex, int endIndex, String keyword) {
+	public List<BoardShareRecipe> boardSearchByTitle(String title, int startIndex, int endIndex) {
 		HashMap<String, Object> map = new HashMap<>();
+		map.put("title", title);
 		map.put("startIndex", startIndex);
 		map.put("endIndex", endIndex);
-		map.put("keyword", keyword);
 		return session.selectList(makeSqlId("boardSearchByTitle"), map);
 	}
+	
+	//내용으로 조회
 	@Override
-	public List<BoardShareRecipe> boardSearchByTxt(int startIndex, int endIndex, String keyword) {
+	public List<BoardShareRecipe> boardSearchByTxt(String txt, int startIndex, int endIndex) {
 		HashMap<String, Object> map = new HashMap<>();
+		map.put("txt", txt);
 		map.put("startIndex", startIndex);
 		map.put("endIndex", endIndex);
-		map.put("keyword", keyword);
 		return session.selectList(makeSqlId("boardSearchByTxt"), map);
 	}
+	
+	//회원ID로 조회
 	@Override
-	public List<BoardShareRecipe> boardSearchByMemberId(int startIndex, int endIndex, String keyword) {
+	public List<BoardShareRecipe> boardSearchByMemberId( String memberId, int startIndex, int endIndex) {
 		HashMap<String, Object> map = new HashMap<>();
+		map.put("memberId", memberId);
 		map.put("startIndex", startIndex);
 		map.put("endIndex", endIndex);
-		map.put("keyword", keyword);
 		return session.selectList(makeSqlId("boardSearchByMemberId"), map);
 	}
+	//TOP4 조회
 	@Override
 	public List<BoardShareRecipe> selectBoardTop4() {
 		
 		return session.selectList(makeSqlId("selectBoardTop4"));
 	}
+	
 	@Override
 	public BoardShareRecipe selectBoardShareRecipeByRecipeIdToIrdnt(int recipeId) {
 		

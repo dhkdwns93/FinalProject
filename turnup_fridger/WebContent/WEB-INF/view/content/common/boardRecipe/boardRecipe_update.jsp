@@ -14,11 +14,11 @@
 <!-- Latest compiled and minified CSS 아이콘 -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script type="text/javascript">
-/*/* function popupRecipeName()
-{
-	
-	window.open("/turnup_fridger2.2/boardRecipe/boardRecipe_search_result.do","recipeName","width=1100, height=700");
-}  */
+function update_event(){
+	if(confirm("수정 완료")==true){
+		location.href="${initParam.rootPath}/boardRecipe/boardRecipe_updateOk.do";
+	}
+}
 function insert_event(){
 	if(confirm("등록 WANT?")==true){
 		location.href="${initParam.rootPath}/boardRecipe/boardRecipeList.do";
@@ -30,8 +30,8 @@ var numberAddInsert=0;
 $(document).ready(function(){
 		$(document).on("click", "button#insertShareRecipeIrdnt", function(){
 			if(numberAddInsert<20){
-				window.open("${initParam.rootPath}/common/member/boardRecipe/boardRecipe_search_result.do", "search_result", "width=500,height=400,resizable=yes");
-				var inputTextHtml=$('#seeIrdnt').append('<div id="ShareRecipeIrdntText"><input type="hidden" id="irdntId" name="irdntId" value="${param.irdntId}" ><input type="text" id="irdntName" name="irdntName" value=${param.irdntName}>&nbsp&nbsp<button type="button" id="deleteIrdnt">재료삭제</button><br></div>');
+				window.open("${initParam.rootPath}/common/member/boardRecipe/boardRecipe_search_result.do", "search_result", "width=900,height=400,resizable=yes");
+				var inputTextHtml=$('#seeIrdnt').append('<div id="ShareRecipeIrdntText"><input type="hidden" id="irdntId" name="irdntId" value="${param.irdntId}" ><input type="text" id="irdntName" name="irdntName" value=${param.irdntName}>&nbsp&nbsp<button type="button" id="deleteIrdnt" class="btn btn-default">재료삭제</button><br></div>');
 				numberAddInsert=numberAddInsert+1;
 			}else{
 				$('span#irdnterror').text("재료선택은 20개까지 선택가능합니다.");
@@ -181,7 +181,7 @@ text-align:right;
 </head>
 <body>
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
-<h2>글쓰기</h2>
+<h2>글수정</h2>
 <hr>
 		
 <c:if test="${requestScope.error != null }">
@@ -210,11 +210,11 @@ text-align:right;
 				<td>
 				<div id="seeIrdnt">
 					<button type="button" id="insertShareRecipeIrdnt" class="btn">사용한재료추가</button><br>
-					<%-- <c:forEach items="${boardShareRecipe.shareRecipeIrdnt }" var="share">
+					<c:forEach items="${boardShareRecipe.shareRecipeIrdnt }" var="share">
 						<c:forEach items="${share.irdntId }" var="myIrdntName">
 							<input type="text" name="irdntId" value="${myIrdntName.irdntName }">
 						</c:forEach>
-					</c:forEach> --%>
+					</c:forEach>
 				</div> 
 				</td>
 			</tr>
@@ -251,9 +251,10 @@ text-align:right;
 			<input type="hidden" name="recipeId" value="${boardShareRecipe.recipeId}">
 			<input type="hidden" name="recommand" value="${boardShareRecipe.recommand }">
 			<input type="hidden" name="hits" value="${boardShareRecipe.hits }">
+		</form>	
 			<div class="form-inline form-group" >
 			<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onclick="return update_event();">
-				<span class="glyphicon glyphicon-pencil" aria-hidden="true">수정</span>
+				<span class="glyphicon glyphicon-ok" aria-hidden="true">수정</span>
 			</button>
 			<button type="button" class="btn btn-default btn-lg" style="border:0;outline:0;" onClick="location.reload();" >
 				<span class="glyphicon glyphicon-refresh" aria-hidden="true">초기화</span>
@@ -263,7 +264,6 @@ text-align:right;
 					<span class="glyphicon glyphicon-arrow-left" aria-hidden="true">뒤로가기</span>
 				</button>
 			</div>
-		</form>	
 		
 </div>
 </body>

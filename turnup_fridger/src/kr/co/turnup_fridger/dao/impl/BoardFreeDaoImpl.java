@@ -95,7 +95,7 @@ public class BoardFreeDaoImpl implements BoardFreeDao{
 	//제목 수 조회
 	@Override
 	public int selectBoardFreeByTitleCount(String boardFreeTitle) {
-		// TODO Auto-generated method stub
+		
 		return session.selectOne(makeSqlId("selectBoardFreeByTitleCount"),boardFreeTitle);
 	}
 

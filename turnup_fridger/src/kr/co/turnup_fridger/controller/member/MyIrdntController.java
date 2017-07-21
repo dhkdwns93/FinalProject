@@ -42,7 +42,7 @@ public class MyIrdntController {
 		
 		if(errors.hasErrors()){
 			//여기서 새페이지 열리지않고, 팝업창내에서 나왔으면 좋겠다.
-			System.out.println(errors.getAllErrors());
+			//System.out.println(errors.getAllErrors());
 			return new ModelAndView("common/member/myIrdnt/myIrdnt_form");
 		}
 		
@@ -127,7 +127,7 @@ public class MyIrdntController {
 	@RequestMapping("findMyIrdntByFreshLevelAndIrdntName")
 	@ResponseBody
 	public List<MyIrdnt> findMyIrdntByFreshLevelAndIrdntName(@RequestParam String freshLevel, @RequestParam String irdntName, @RequestParam int fridgerId){
-		System.out.println(freshLevel +","+irdntName+","+fridgerId);
+		//System.out.println(freshLevel +","+irdntName+","+fridgerId);
 		
 		List<MyIrdnt> list = service.findMyIrdntByFreshLevelAndIrdntName(freshLevel, irdntName, fridgerId);
 		return list;

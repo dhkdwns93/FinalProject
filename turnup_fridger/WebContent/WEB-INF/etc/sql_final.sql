@@ -2,6 +2,7 @@
 --select * from recipe_irdnt
 --select * from IRDNT_MANAGE
 
+
 --headMaster한명 input(테이블 생성후 넣으세용)
 insert into authority values('headAdmin1','headAdmin1','ROLE_HEADMASTERADMIN');
 insert into admin values('headAdmin1','headAdmin1','HeadMasterAdmin','01012345678','headadmin@kosta.or.kr','ROLE_HEADMASTERADMIN');
@@ -127,12 +128,15 @@ CREATE TABLE BOARD_SHARE_RECIPE (
    MEMBER_ID VARCHAR2(20) NOT NULL, /* 회원ID */
    CONSTRAINT BSR_MEMBER_ID_FK FOREIGN KEY(MEMBER_ID) REFERENCES MEMBER
 );
+
+
+
 DROP SEQUENCE BOARD_SHARE_RECIPE_ID;
 CREATE SEQUENCE BOARD_SHARE_RECIPE_ID INCREMENT BY 1 START WITH 1;  
 --SELECT BOARD_SHARE_RECIPE_ID.NEXTVAL FROM DUAL;
-
+select * from BOARD_SHARE_RECIPE;
 --insert into board_share_recipe values(2,'test','test',sysdate,0,0,'기타재료','user1');
-
+delete from BOARD_SHARE_RECIPE where BOARD_SHARE_RECIPE_ID = 301;
 /* 회원별공유레시피추천현황 */
 DROP TABLE MEMBER_RECIPE_RECOMMAND;
 DELETE FROM MEMBER_RECIPE_RECOMMAND;
@@ -154,7 +158,7 @@ DROP TABLE fridger CASCADE CONSTRAINT;
 --ALTER TABLE fridger ADD(fridger_img VARCHAR2(300));
 --ALTER TABLE fridger DROP CONSTRAINT member_id_fk;
 ALTER TABLE fridger ADD CONSTRAINT member_id_fk FOREIGN KEY (member_id) REFERENCES member ON DELETE CASCADE;
-DELETE FROM fridger;
+DELETE FROM fridger where fridger_id between 1 and 142
 CREATE TABLE fridger (
    fridger_ID NUMBER PRIMARY KEY, /* 냉장고ID */
    fridger_NAME VARCHAR2(30) NOT NULL, /* 냉장고애칭 */
@@ -458,7 +462,7 @@ SELECT * FROM JOIN_PROCESS
 select * from recipe_info where recipe_id in (360, 1, 2, 4, 5, 7, 60, 105, 110, 160, 165, 179, 183, 186, 257, 258, 296, 355, 382, 406, 452, 453, 476, 492, 500, 90997)
 
 
--------------------재로료 레시피 추출하기(원하는 재료포함, 기피재료 미포함)------------
+----------재로료 레시피 추출하기(원하는 재료포함, 기피재료 미포함)---------
 SELECT * FROM RECIPE_IRDNT;
 
 SELECT	recipe_id,COUNT(*) 
@@ -466,11 +470,11 @@ FROM	recipe_irdnt
 WHERE	recipe_id	NOT IN (
 	SELECT	recipe_id
 	FROM	recipe_irdnt
-	WHERE	irdnt_id	IN ( 1 )
+	WHERE	irdnt_id	IN ( /*포함 안 시킬 재료들*/ )
 )
-AND		irdnt_id	IN ( 454, 45, 24 )
+AND		irdnt_id	IN ( /*포함시킬 재료들*/ )
 GROUP BY	recipe_id
-HAVING COUNT(*) >= 1
+HAVING COUNT(*) >= 2
 ORDER BY	COUNT(*) DESC, recipe_id;
 
 select * from recipe_irdnt 
