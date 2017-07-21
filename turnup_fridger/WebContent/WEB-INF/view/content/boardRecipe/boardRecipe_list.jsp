@@ -243,7 +243,7 @@ text-align:center;
                     <img src="${initParam.rootPath }/img/${top.original}" alt="${top.original }" style="width:80%; height:150px;"/>
                     <!-- ${top.upImage}-->
                 </div>
-                <div class="li-text2" style="height:50px">
+                <div class="li-text2" style="height:70px">
             		<p class="li-head2"> ${top.title} </p>
             	</div>
                 <div class="li-text2" style="height:50px">

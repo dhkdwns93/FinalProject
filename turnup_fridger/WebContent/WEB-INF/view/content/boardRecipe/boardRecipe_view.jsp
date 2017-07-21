@@ -69,11 +69,7 @@ function delete_event(){
 function adminDelete_event(){
 	var writer = $('input[name=writer]').val();
 	var adminId = $('input[name=adminId]').val();
-	if(writer != adminId)
-	{
-		alert("권한이 없습니다.");
-		return false;
-	}
+	
 	if(confirm("확실하게 삭제 하시겠습니까?")==true){
 		alert('삭제되었습니다.');
 		location.href="/turnup_fridger/boardRecipe/boardRecipe_list.do";
@@ -143,9 +139,9 @@ response.addCookie(hits);
 <form action="${initParam.rootPath }/common/boardRecipe/boardRecipeDelete.do" method="post">
 	<input type="hidden" name="${_csrf.parameterName }" 	value="${_csrf.token }">
 	<input type="hidden" name="recipeId"					value="${boardShareRecipe.recipeId }">
-	<input type="hidden" name="memberId" 					value="<sec:authentication property="principal.memberId"/>">
 	<input type="hidden" name="writer" 						value="${boardShareRecipe.memberId }">
 	<input type="hidden" name="adminId" 					value="">
+	<input type="hidden" name="memberId" 					value="<sec:authentication property="principal.memberId"/>">
 	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onClick="return delete_event();"><!-- onclick="this.parentNode.submit();" --> 
 	<span class="glyphicon glyphicon-trash" aria-hidden="true">삭제</span>
 	</button>
