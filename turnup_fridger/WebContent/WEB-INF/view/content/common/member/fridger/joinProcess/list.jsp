@@ -52,7 +52,8 @@ $(document).ready(function (){
 				}
 			},
 			"success": function(txt){
-		       	//alert(txt);
+		       	
+		       	$(this).text("승인완료");
 		       	getRequestList();
 				getResponseList();
 		     },
@@ -76,7 +77,7 @@ $(document).ready(function (){
 				}
 			},
 			"success": function(txt){
-		       //alert(txt);
+				$(this).text("거절완료");
 		   		getRequestList();
 				getResponseList();
 		     },
@@ -279,6 +280,7 @@ function getRequestList(){
 			        	/* console.log(this.processNo+","+i); */
 				        	/*처리상태: 10-가입승인대기,11-가입승인완료, 12-가입승인거절,20-초대승인대기,21-초대승인완료, 22-초대승인거절*/
 			        	if(this.processState == 10){
+			        		
 			        		processStateStr = "가입승인대기";
 			        	}else if(this.processState == 11){
 			        		processStateStr = "가입승인완료";
@@ -300,8 +302,15 @@ function getRequestList(){
 												 .append($("<td>").append((this.respDate == null ? "":getTimeStamp(this.respDate))))
 												 .append($("<td>").append(this.reqMemberId))
 												 .append($("<td>").append(this.respMemberId))
-												 .append($("<td>").append($("<button>").prop("type","button").prop("id", "cancelBtn").prop("class","btn btn-default").append("요청취소"))));
- 
+												 );
+ 						if(this.respDate != null){
+
+ 							$("tbody").children(":last-child").append($("<td>").append("완료됨"));
+ 						}else{
+ 							$("tbody").children(":last-child").append($("<td>").append($("<button>").prop("type","button").prop("id", "cancelBtn").prop("class","btn btn-default").append("요청취소")));
+ 						}
+			 
+ 						
 	        });	// end of each        
 		}
 	});
@@ -352,11 +361,10 @@ function getResponseList(){
 													 		  .append($("<button>").prop("type","button").prop("id", "rejectBtn").prop("class","btn btn-default").prop("value",this.processNo).append("거절"))));
 		        	 	 
 		        if(this.processState == 11 || this.processState == 21){
-		        	 $("#responseTable>tbody>tr:nth-child("+i+")").children(":last-child").html("승인함");
+		        	 $("tbody>tr:nth-child("+i+")").children(":last-child").html("승인함");
 		        }else if(this.processState == 12 || this.processState == 22){
-		        	 $("#responseTable>tbody>tr:nth-child("+i+")").children(":last-child").html("거절함");
+		        	 $("tbody>tr:nth-child("+i+")").children(":last-child").html("거절함");
 		        }
-
 		        });	// end of each
 			}
 		});

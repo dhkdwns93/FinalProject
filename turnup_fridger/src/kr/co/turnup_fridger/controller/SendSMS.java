@@ -21,14 +21,14 @@ public class SendSMS {
     public String sendMsg(@RequestParam String memoName, @RequestParam String memoTxt, @RequestParam String memberTel){
         sms.appversion("TEST/1.0");
         sms.charset("UTF-8");
-        sms.setuser("qms1109", "violet0814");	 // coolsms 계정 
+        sms.setuser("janggyu93", "1q2w3e4r");	 // coolsms 계정 
 
         String number = memberTel;				// 받을 사람 폰번호
 
 		SmsMessagePdu pdu = new SmsMessagePdu();
 		pdu.type = "SMS";
 		pdu.destinationAddress = number;
-		pdu.scAddress = "01041841109"; 	// 발신자 번호(등록된 번호여야 함)
+		pdu.scAddress = "01087791763"; 	// 발신자 번호(등록된 번호여야 함)
 		pdu.text = "<" + memoName + ">\n" + memoTxt; // 보낼 메세지 내용
 		sms.add(pdu);
 
