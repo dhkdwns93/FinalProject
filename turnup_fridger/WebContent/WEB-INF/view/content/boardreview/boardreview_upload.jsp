@@ -205,7 +205,6 @@ h2{display:inline}
 <body>
 <div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
-
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>후기 ></h1><h2> ${boardReview.memberId}님의 게시물 수정</h2><br>

@@ -50,8 +50,8 @@
 
 
 <div class='left-box-sidemenu'>
-		<div>
-			<h2 style="text-align:center;">게시판</h2>
+		<div style="text-align:center;">
+			<h2>게시판</h2>
 		</div>
 		<hr style="border:0;height:3px;background:#ccc;">
 		<div class="list-group">

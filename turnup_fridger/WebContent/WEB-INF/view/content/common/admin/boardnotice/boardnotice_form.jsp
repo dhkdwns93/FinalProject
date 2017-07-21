@@ -65,7 +65,7 @@ td{
 </head>
 <body>
 <div class="container">
-<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+<jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>	
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>공시사항 등록</h1>
