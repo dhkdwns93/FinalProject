@@ -103,6 +103,7 @@ public class BoardQnAController extends HttpServlet {
 			
 			Map<String, Object> map = service.findBoardQnAList(page);
 			
+			mav.addObject("totalCount", map.get("totalCount"));
 		    mav.addObject("list", map.get("list"));
 		    mav.addObject("pageBean", map.get("pageBean"));
 	        mav.addObject("error", "err");

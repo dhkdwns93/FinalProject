@@ -25,6 +25,15 @@ function insert_event(){
 	    return false;
 	}
 };
+function checkLength(boardQnATxt) {
+    if (boardQnATxt.value.length > 1000 ) {
+    	boardQnATxt.blur();
+    	boardQnATxt.value = boardQnATxt.value.substring(0, 1000);
+        alert('더 이상 입력이 불가능 합니다.');
+        boardQnATxt.focus();
+        return false;
+    }
+};
 </script>
 <style type="text/css">
 form{display:inline}
@@ -82,13 +91,14 @@ td{
 	<tr>
 		<th>내용</th>
 		<td>
-			<textarea class="form-control textarea_test" onkeyup="this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
-				name="boardQnATxt" row="5" cols="70" placeholder="내용을 입력해주세요">${boardQnA.boardQnATxt}</textarea>
+			<textarea class="form-control textarea_test" style="float:left;width:100%;" onkeyup="checkLength(this); this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
+			id="boardQnATxt" name="boardQnATxt" rows="20" cols="60" placeholder="내용을 입력해주세요" wrap="physical">${boardQnA.boardQnATxt}</textarea>
 			<span class="error"><form:errors path="boardQnA.boardQnATxt" delimiter="&nbsp;"/></span>
 		</td>
 	</tr>	
 </table>
-<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return insert_event();">
+
+<button id="submit" type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return insert_event();">
 	<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 </button>
 <sec:csrfInput/>

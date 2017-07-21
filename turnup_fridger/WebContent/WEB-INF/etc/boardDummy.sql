@@ -155,7 +155,7 @@ INSERT INTO BOARD_NOTICE VALUES (BOARD_NOTICE_ID.nextval,'뉴스',
 '','',to_date('20170715', 'yyyy-mm-dd'));
 INSERT INTO BOARD_NOTICE VALUES (BOARD_NOTICE_ID.nextval,'공지사항','서버 오류 안내',
 '14시 15분 부터 16시까지 서버 오류로 인한 사용자들의 불편하게 된점  죄송하다는 말씀 전합니다. 
-앞으로 빠른 조치하도록 노력하겠습니다. 감사하니다',
+앞으로 빠른 조치하도록 노력하겠습니다. 감사합니다',
 '','',to_date('20170715', 'yyyy-mm-dd'));
 INSERT INTO BOARD_NOTICE VALUES (BOARD_NOTICE_ID.nextval,'공지사항','서버 점검 안내',
 '2017년 07월 15일 9시부터 10시, 약 1시간 가량 서버점이 있습니다. 

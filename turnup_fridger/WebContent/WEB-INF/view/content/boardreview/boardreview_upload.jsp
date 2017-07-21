@@ -69,7 +69,17 @@ var starRating = function(){
 	function popupRecipeName()
 	{
 		 window.open("/turnup_fridger/boardreview/recipenamesearch.do","recpieName","width=500,height=400")
-	}
+	};
+	
+	function checkLength(boardReviewTxt) {
+	    if (boardReviewTxt.value.length > 1000 ) {
+	    	boardReviewTxt.blur();
+	    	boardReviewTxt.value = boardReviewTxt.value.substring(0, 1000);
+	        alert('더 이상 입력이 불가능 합니다.');
+	        boardReviewTxt.focus();
+	        return false;
+	    }
+	};
 </script>
 <style type="text/css">
  form{display:inline}
@@ -295,11 +305,12 @@ h2{display:inline}
 	<tr>
 		<td>내용</td>
 		<td>
-			<textarea class="form-control textarea_test"style="float:left;width:70%;" onkeyup="this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
-			 name="boardReviewTxt" row="5" cols="70" placeholder="내용을 입력해주세요">${boardReview.boardReviewTxt}</textarea>
+			<textarea class="form-control textarea_test"style="float:left;width:100%;" onkeyup="checkLength(this); this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
+			 id="boardReviewTxt" name="boardReviewTxt" rows="20" cols="60" placeholder="내용을 입력해주세요" wrap="physical">${boardReview.boardReviewTxt}</textarea>
 			<span class="error"><form:errors path="boardReview.boardReviewTxt" delimiter="&nbsp;"/></span>
 		</td>
 	</tr>
+	<br>
 </table>
 <input type="hidden" name="boardReviewId" value="${boardReview.boardReviewId}">
 <button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="insert_event();">
