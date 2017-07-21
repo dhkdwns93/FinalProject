@@ -13,6 +13,7 @@
                         <h3>효율적인 식재료 관리를 위한 냉장고 털어먹기</h3>
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
+                        <sec:authorize access="!hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
                             <li class="topMenuLi">
                                 <a href="#recipe" class="btn btn-default btn-lg"><span class="network-name">Recipe</span></a>
                                 <ul class="submenu">
@@ -21,6 +22,7 @@
 						    		<li><a href="${initParam.rootPath}/recipe_for_user/search_by_recipeName.do" id="submenuLink">레시피로 검색</a></li>
 						    	</ul>
                             </li>
+                            </sec:authorize>
                             <sec:authorize access="hasRole('ROLE_MEMBER')">
                             <li class="topMenuLi">
                                 <a href="#fridger" class="btn btn-default btn-lg"><span class="network-name">Fridger</span></a>

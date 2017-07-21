@@ -69,11 +69,7 @@ function delete_event(){
 function adminDelete_event(){
 	var writer = $('input[name=writer]').val();
 	var adminId = $('input[name=adminId]').val();
-	if(writer != adminId)
-	{
-		alert("권한이 없습니다.");
-		return false;
-	}
+	
 	if(confirm("확실하게 삭제 하시겠습니까?")==true){
 		alert('삭제되었습니다.');
 		location.href="/turnup_fridger/boardRecipe/boardRecipe_list.do";
@@ -143,9 +139,9 @@ response.addCookie(hits);
 <form action="${initParam.rootPath }/common/boardRecipe/boardRecipeDelete.do" method="post">
 	<input type="hidden" name="${_csrf.parameterName }" 	value="${_csrf.token }">
 	<input type="hidden" name="recipeId"					value="${boardShareRecipe.recipeId }">
-	<input type="hidden" name="memberId" 					value="<sec:authentication property="principal.memberId"/>">
 	<input type="hidden" name="writer" 						value="${boardShareRecipe.memberId }">
 	<input type="hidden" name="adminId" 					value="">
+	<input type="hidden" name="memberId" 					value="<sec:authentication property="principal.memberId"/>">
 	<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;" onClick="return delete_event();"><!-- onclick="this.parentNode.submit();" --> 
 	<span class="glyphicon glyphicon-trash" aria-hidden="true">삭제</span>
 	</button>
@@ -191,14 +187,16 @@ response.addCookie(hits);
                 <div class="li-text3">
                     <h5 class="li-head3"><i class="glyphicon glyphicon-user" style="font-size:30px"> ${boardShareRecipe.memberId }</i>&emsp;
                     <i class="glyphicon glyphicon-eye-open" style="font-size:30px">  ${boardShareRecipe.hits }</i>&emsp;
-                    
-                    <form method="post" action="${initParam.rootPath }/common/boareRecipe/recommand.do">
+                    <form name="add" method="post" action="${initParam.rootPath }/common/boardRecipe/increaseRecommand.do">
 						<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 						<input type="hidden" name="recipeId" value="${boardShareRecipe.recipeId }">
 						<input type="hidden" name="memberId" value="${boardShareRecipe.memberId }">
-					
-					<a href="#" onClick="this.parentNode.submit()"><i class="glyphicon glyphicon-thumbs-up" style="font-size:30px">&emsp;${boardShareRecipe.recommand }</i></a>
-					</form></h5>
+						<script type="text/javascript">
+						
+						</script>
+					<a href="#" onClick="this.parentNode.submit()" id="recommand-btn"><i class="glyphicon glyphicon-thumbs-up" style="font-size:30px">&emsp;${boardShareRecipe.recommand }</i></a>
+					</form>
+                    </h5>
                     <%-- <i class="glyphicon glyphicon-thumbs-up" style="font-size:30px"> ${boardShareRecipe.recommand }</i> --%>
                 </div>
                 

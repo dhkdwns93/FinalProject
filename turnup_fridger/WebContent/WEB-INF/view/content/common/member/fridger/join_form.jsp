@@ -15,12 +15,12 @@ $(document).ready(function () {
 	
 	
 	$("#searchByNameBtn").on("click", function(){
-		alert($("#joinFridgerName").val());
+		//alert($("#joinFridgerName").val());
 		getFridgerListByName($("#joinFridgerName").val(), 1);
 	}); //end of click on searchByName
 	
 	$("#searchByOwnerBtn").on("click", function(){
-		alert($("#joinMemberId").val());
+		//alert($("#joinMemberId").val());
 		getFridgerListByOwner($("#joinMemberId").val(), 1);
 	}); //end of click on searchByName
 	

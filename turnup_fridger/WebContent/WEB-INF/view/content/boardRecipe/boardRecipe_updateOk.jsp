@@ -121,7 +121,7 @@ response.addCookie(hits);
 			<span class="glyphicon glyphicon-list" aria-hidden="true">목록</span>
 	</button>
 <hr>
-<h1 >View > ${boardShareRecipe.memberId}님의 게시물</h1>
+<h1 >View > dhkd 님의 게시물</h1>
 <!-- 회원만 수정/삭제 가능 (자기자신이 올린 게시물만 가능) -->
 <br><br>
 <div class="align">
@@ -180,24 +180,24 @@ response.addCookie(hits);
             	</div>
             	<hr>
                 <div class="li-img3">
-                    <img src="${initParam.rootPath }/img/goguma.jpg" alt="goguma.jpg" />
+                    <img src="${initParam.rootPath }/img/rabbui.jpg" alt="rabbui.jpg" />
                     <!-- ${top.upImage}-->
                 </div>
                 <hr>
                 <div class="li-text3">
-            		<p class="li-head3" style="font-size: 40px; font-weight: bold;">수정 </p>
+            		<p class="li-head3" style="font-size: 40px; font-weight: bold;">라볶이 </p>
             	</div>
             	<hr>
                 <div class="li-text3">
                     <h5 class="li-head3"><i class="glyphicon glyphicon-user" style="font-size:30px"> dhkd</i>&emsp;
-                    <i class="glyphicon glyphicon-eye-open" style="font-size:30px">  20</i>&emsp;
+                    <i class="glyphicon glyphicon-eye-open" style="font-size:30px">  1</i>&emsp;
                     
                     <form method="post" action="${initParam.rootPath }/common/boareRecipe/recommand.do">
 						<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 						<input type="hidden" name="recipeId" value="${boardShareRecipe.recipeId }">
 						<input type="hidden" name="memberId" value="${boardShareRecipe.memberId }">
 					
-					<a href="#" onClick="this.parentNode.submit()"><i class="glyphicon glyphicon-thumbs-up" style="font-size:30px">&emsp;3</i></a>
+					<a href="#" onClick="this.parentNode.submit()"><i class="glyphicon glyphicon-thumbs-up" style="font-size:30px">&emsp;0</i></a>
 					</form></h5>
                     <%-- <i class="glyphicon glyphicon-thumbs-up" style="font-size:30px"> ${boardShareRecipe.recommand }</i> --%>
                 </div>
@@ -207,8 +207,8 @@ response.addCookie(hits);
 	                	<h2>재료 Ingredients </h2>
 	                	<hr>
 	                	
-	                		<dl style="font-size:18px">비엔나소시지</dl>
-	                		<dl style="font-size:18px">냉동만두</dl>
+	                		<dl style="font-size:18px">라면</dl>
+	                		<dl style="font-size:18px">떡</dl>
 	                	
 						<br><br><br>
                 	</div>
@@ -219,11 +219,7 @@ response.addCookie(hits);
                 	<br><br>
                 	<!-- 띄어쓰기, 엔터  -->
                 	<p class="li-sub3" style="text-align:center;font-size:18px;">
-						재료를 준비한다.<br>
-						냄비에 물을 넣고 양념을 풀어준다.<br>
-						물이 끓으면 라면을 넣어준다.<br>
-						국물이 졸아들면 치즈를 넣는다.<br>
-						<약불></p>
+						수정이요</p>
                 </div>
                 
                 <div class="li-head3">
