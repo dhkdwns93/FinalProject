@@ -498,6 +498,15 @@ public class RecipeController {
 		return list;
 	}
 	
+	@RequestMapping(value="findRecipeByCategoryForAdmin")
+	@ResponseBody
+	public Map findRecipeByCategoryForAdmin(@RequestParam String categoryName, @RequestParam String typeName, @RequestParam String keyword,
+			@RequestParam(defaultValue = "1") int page ){
+		Map list = recipeService.findRecipeByCategory(categoryName, typeName, keyword,page);
+		return list;
+	}
+	
+	
 	@RequestMapping(value="findApiRecipeByIrdntId")
 	@ResponseBody
 	public Map<String,Object> findApiRecipeByIrdntId(@RequestParam List<Integer> irdntIds, @RequestParam List<Integer> hateIrdntIds, @RequestParam String keyword,
@@ -530,14 +539,17 @@ public class RecipeController {
 		
 		//레시피 재료 중량변환
 		for(RecipeIrdnt ri : recipe.getRecipeIrdntList()){
-			ri.setirdntAmount(recipeService.amountChange(ri.getirdntAmount()));
+
+			ri.setirdntAmount(recipeService.amountIrdntChange(ri.getirdntAmount()));
 			//System.out.println("recipe/show/detail:"+ri.getirdntAmount());
+
 
 		}
 		//레시피 과정 중량변환
 		for(RecipeCrse rc : recipe.getRecipeCrseList()){
 			rc.setCookingDc(recipeService.amountChange(rc.getCookingDc()));
 			rc.setStepTip(recipeService.amountChange(rc.getStepTip()));
+			
 		}
 		
 		return new ModelAndView("recipe_for_user/recipe_detail.tiles","recipe",recipe);

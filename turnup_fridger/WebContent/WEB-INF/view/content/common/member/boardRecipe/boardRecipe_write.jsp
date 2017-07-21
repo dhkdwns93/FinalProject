@@ -261,7 +261,7 @@ td, th{
 		<input type="hidden" name="recommand" value="0">
 		<input type="hidden" name="hits" value="0" >
 		<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;"  >
-			<span class="glyphicon glyphicon-pencil" aria-hidden="true">등록</span>
+			<span class="glyphicon glyphicon-ok" aria-hidden="true">등록</span>
 		</button>
 		
 		<button type="button" class="btn btn-default btn-lg" style="border:0;outline:0;" onClick="return list();" >

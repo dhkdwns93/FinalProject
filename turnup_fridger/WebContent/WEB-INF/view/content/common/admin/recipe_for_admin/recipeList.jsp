@@ -13,7 +13,7 @@ function getList(keyword,page){
 	if(!page) page = 1;
 	
 	$.ajax({
-		"url":"/turnup_fridger/findRecipeByCategory.do",
+		"url":"/turnup_fridger/findRecipeByCategoryForAdmin.do",
 		"data":{'categoryName' : $("#categoryName").val(),'typeName' : $("#typeName").val(),'keyword' : keyword,'page':page,'${_csrf.parameterName}':'${_csrf.token}'},
 		"dataType":"json", 
 		"success":function(list){

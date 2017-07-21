@@ -4,6 +4,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<!-- <script type="text/javascript" src="/turnup_fridger/scripts/bootstrap.min.js"></script> -->
+<link href="${ initParam.rootPath }/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script type="text/javascript">
 $(document).ready(function(){
 	$("div.image_none").hide();
@@ -90,7 +93,7 @@ width: 100%;
 .image_button{
 position: absolute;
 top:5px;
-left:5px;
+right:30px;
 }
 
 
@@ -109,7 +112,7 @@ left:5px;
 </style>
 
 
-
+<div style="margin-top: 30px; margin-left: 70px;">
 <h2>레시피 업데이트</h2>
 
 <form id="recipe_register_form" 
@@ -120,7 +123,7 @@ left:5px;
 	<input type="hidden" name="recipeId" value="${requestScope.recipe.recipeId}"> 
 		<!-- 레시피 기본정보 -->
 	<div id="innerFrom">
-	<div id="recipe_info" style="padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 10px;  background-color: lightgray; margin-bottom: 20px">
+	<div id="recipe_info" style="padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 10px; margin-bottom: 20px">
 	<h3 style="margin:10px">레시피 기본정보</h3>
 		<table id="recipe_info_table" style="margin-bottom: 10px">
 			<tbody>
@@ -150,7 +153,7 @@ left:5px;
 							<img src="${ requestScope.recipe.imgUrl }" height="150px">
 							<input type="hidden" name="imgUrl" id="imgUrl" value="${ requestScope.recipe.imgUrl }">
 							<div class="image_button">
-							<button type="button" id="deleteImgBtn">삭제</button>
+							<button type="button" class="btn btn-default" id="deleteImgBtn"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
 							</div>
 						</div>
 						<div class="image_none">
@@ -268,7 +271,7 @@ left:5px;
 				</tr>
 				<tr>
 					<th>참조페이지</th>
-					<td><input type="text" id="detUrl" name="detUrl"
+					<td><input type="text" id="detUrl" name="detUrl" size="30"
 						value="${ requestScope.recipe.detUrl }"> <span class="error"><form:errors
 								path="recipeInfo.detUrl" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
@@ -280,7 +283,8 @@ left:5px;
 
 	</div>
 
-	<input type="submit" id="updateBtn" value="업데이트">
-	<input type="reset" value="초기화">
+	<input type="submit" id="updateBtn" value="업데이트" class="btn btn-warning">
+	<input type="reset" value="초기화" class="btn btn-warning">
 	</div>
 </form>
+</div>

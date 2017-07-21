@@ -114,7 +114,7 @@ $(document).ready(function(){
 <!--검색 전 화면이 비어있을테니, top4들 불러오는작업? 여기서는 레시피쪽 조회수 top4  -->
 <div class="container">
 	<div style= "text-align:center;">
-	<h2>카테고리로 레시피 찾기</h2><hr>
+	<h2 style= "text-align:center;font-weight:bold;">카테고리로 레시피 찾기</h2><hr>
 	유형분류 :
 	<select name="categoryName" id="categoryName">
 		<option value="전체">전체</option>

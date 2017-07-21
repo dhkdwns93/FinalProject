@@ -4,6 +4,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
+<link href="${ initParam.rootPath }/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <script type="text/javascript">
 $(document).ready(function(){
 
@@ -147,10 +149,8 @@ width: 100%;
 }
 
 
-.image_button{
-position: absolute;
-top:5px;
-left:5px;
+.deleteOldIrdntBtn{
+right:25px;
 }
 
 
@@ -169,7 +169,7 @@ left:5px;
 </style>
 
 
-
+<div style="margin-top: 20px; margin-left: 70px;">
 <h2>레시피 업데이트</h2>
 
 <form id="recipe_register_form" 
@@ -181,15 +181,14 @@ left:5px;
 
 	<div id="innerFrom">
 		<!-- 레시피 재료정보 -->
-	<div id="recipe_irdnt" style="padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 10px;  background-color: lightgray; margin-bottom: 20px">
+	<div id="recipe_irdnt" style="padding-left: 10px; padding-right: 10px; padding-top: 5px; padding-bottom: 10px; margin-bottom: 20px">
 	<h3 style="margin:10px">레시피 재료</h3>
 		<span class="error"><form:errors
 								path="recipeInfo.recipeIrdntList" delimiter="&nbsp;" /> <c:if
 								test="${ requestScope.errorMsg_fridgerImgSrc != null }">
 							${ requestScope.errorMsg_fridgerImgSrc }
 							</c:if> </span>
-		<button type="button" id="irdntBtn" onclick="openPopup('${initParam.rootPath}/irdntList_pop.do')">+재료추가</button>
-		<button type="button" id="backIrdntBtn">되돌리기</button>
+		<button type="button" class="btn btn-default" id="irdntBtn" onclick="openPopup('${initParam.rootPath}/irdntList_pop.do')">+재료추가</button>
 		<table id="recipe_irdnt_table" style="margin-bottom: 10px">
 			<tbody>
 				<tr>
@@ -205,7 +204,7 @@ left:5px;
 						<td><input type="hidden" value="${recipeIrdnt.irdntTypeCode}"></td>
 						<td><input type="text" size="5" value="${recipeIrdnt.irdntTypeName}" readonly></td>
 						<td><input type="text" size="5" value="${recipeIrdnt.irdntAmount}" readonly></td>
-						<td><button type="button" class="deleteOldIrdntBtn">삭제</button></td>
+						<td style="padding-left:10px"><button type="button" class="btn btn-default" class="deleteOldIrdntBtn"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>
 					</tr>
 				</c:forEach>
 
@@ -215,7 +214,8 @@ left:5px;
 
 
 </div>
-	<input type="submit" id="updateBtn" value="업데이트">
-	<input type="reset" value="초기화">
+	<input type="submit" class="btn btn-warning" id="updateBtn" value="업데이트">
+	<input type="reset" class="btn btn-warning" value="초기화">
 	
 </form>
+</div>
