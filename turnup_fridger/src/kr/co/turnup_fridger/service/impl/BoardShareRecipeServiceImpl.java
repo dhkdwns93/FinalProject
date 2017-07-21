@@ -85,7 +85,7 @@ public class BoardShareRecipeServiceImpl implements BoardShareRecipeService{
 		map.put("totalCount", totalCount);
 		List<BoardShareRecipe> list = dao.selectBoardShareRecipeByAll(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
 		
-		System.out.println(list);
+		//System.out.println(list);
 		map.put("list", list);
 		
 		
