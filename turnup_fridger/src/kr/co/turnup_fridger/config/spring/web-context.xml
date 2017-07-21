@@ -233,7 +233,7 @@
 	<mvc:view-controller path="/common/admin/recipe/irdnt/update_form.do" view-name="common/admin/recipe_for_admin/irdnt_update_form.tiles"/>
 	<mvc:view-controller path="/common/admin/recipe/crse/update_form.do" view-name="common/admin/recipe_for_admin/crse_update_form.tiles"/>
 	<!--레시피 상세페이지  -->
-	<mvc:view-controller path="/recipe_for_admin/recipe_detail.do" view-name="recipe_for_admin/recipe_detail.tiles"/>
+	<mvc:view-controller path="/recipe_for_admin/recipe_detail_admin.do" view-name="recipe_for_admin/recipe_detail_admin.tiles"/>
 	
 	
 	<!--레시피 사용자용  -->
