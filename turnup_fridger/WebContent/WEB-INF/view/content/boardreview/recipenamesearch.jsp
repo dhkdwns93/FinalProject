@@ -118,12 +118,18 @@ $(document).ready(function(){
 </style>
 </head>
 <body>
-<h1>레시피 검색</h1>
-<hr>
-<input type="text" id="recipeName">
-<button id="textBtn" type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-</button>
+<h2 style="text-align:center;">레시피 검색</h2>
+<hr style="border:0;height:3px;background:#ccc;">
+
+<center>
+	<div class="form-inline form-group" >
+		<input class="form-control" style="width:20%;" type="text" id="recipeName">
+		<button id="textBtn" type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+			<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+		</button>
+	</div>
+</center>
+
 <table class="table table-striped table-bordered table-hover" style="width:100%;text-align:center;margin-left: auto; margin-right: auto;">
 	<thead id="thead"></thead>
 	<tbody id="tbody"></tbody>
