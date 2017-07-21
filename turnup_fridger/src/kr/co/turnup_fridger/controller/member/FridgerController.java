@@ -286,8 +286,6 @@ public class FridgerController {
 	//선택한 냉장고 현황 보여주는 handler
 	@RequestMapping("main")
 	public ModelAndView getFridgerMain(){
-//		Map<String, List> fridgerDetail = new HashMap<String, List>();
-//		fridgerDetail.put("FridgerGroupList", fridgerGroupService.selectFridgerGroupByGroupMemberId(memberId));
 		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		list = fridgerGroupService.selectFridgerGroupByGroupMemberId(member.getMemberId());
 		/*로그*/
@@ -297,6 +295,21 @@ public class FridgerController {
 		}
 		return new ModelAndView("common/member/fridger/myFridger.tiles", "fridgerList", list);
 	}
+	
+	
+	//공유관리를 위한 회원의 공유 냉장고 현황 보여주는 handler
+		@RequestMapping("group/manage")
+		public ModelAndView getFridgerManage(){
+			Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			list = fridgerGroupService.selectFridgerGroupByGroupMemberId(member.getMemberId());
+			/*로그*/
+			//System.out.println("getMyFridgerInDetail의 공유 냉장고 리스트");
+			for(Object fg: list){
+				System.out.println(fg);
+			}
+			return new ModelAndView("common/member/fridger/group_select_form.tiles", "fridgerList", list);
+		}
+		
 
 	@RequestMapping("select")
 	@ResponseBody
