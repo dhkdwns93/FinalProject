@@ -60,7 +60,7 @@
             </button>
          </a>
          
-         <a href="/turnup_fridger/common/member/fridger/group_select_form.do" class="list-group-item" style="text-align:right;">
+         <a href="/turnup_fridger/common/member/fridger/group/manage.do" class="list-group-item" style="text-align:right;">
        공유관리   
             <button type="button" class="btn btn-default btn-lg" style="background:none;color:black;width:30%;border:0;outline:0;">
                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>

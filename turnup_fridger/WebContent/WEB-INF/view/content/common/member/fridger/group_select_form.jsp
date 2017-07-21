@@ -12,33 +12,12 @@
 <link href="${ initParam.rootPath }/css/landing-page.css" rel="stylesheet">
  <script type="text/javascript">
 $(document).ready(function (){
-	getFridgerGroup();
+
 			
 	
+	
 });
 
-
-
-function getFridgerGroup(){
-	$("#listHeader").hide();
-	$("#listTable").hide();
-	
-	
-	$.ajax({
-		"url":"/turnup_fridger/common/member/fridger/group/manage.do",
-		"type":"post",
-		"data":{'${_csrf.parameterName}':'${_csrf.token}'},
-		"dataType":"json",
-		"success": function(list){
-        	$("tbody").empty();
-	        $.each(list, function(index){
-	        	
-    });	// end of each        
-}
-});
-	
-	
-};
 
 
 </script>
@@ -61,14 +40,6 @@ margin-right: 2px;
 </style>
 
 
-<div>
-<!-- 가입펌 -->
-<jsp:include page="/WEB-INF/view/content/common/member/fridger/join_form.jsp"/>
-<!-- 초대폼 -->
-<jsp:include page="/WEB-INF/view/content/common/member/fridger/invite_form.jsp"/>
-
-</div>
-	
 <div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/fridgerSideMenu.jsp"/>
 <div class='right-box-sidemenu'>

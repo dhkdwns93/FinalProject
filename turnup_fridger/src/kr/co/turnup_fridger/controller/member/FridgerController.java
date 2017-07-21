@@ -307,8 +307,9 @@ public class FridgerController {
 			for(Object fg: list){
 				System.out.println(fg);
 			}
-			return new ModelAndView("common/member/fridger/myFridger.tiles", "fridgerList", list);
+			return new ModelAndView("common/member/fridger/group_select_form.tiles", "fridgerList", list);
 		}
+		
 
 	@RequestMapping("select")
 	@ResponseBody
