@@ -71,6 +71,7 @@ td {
 	<h2>재료명 검색</h2><br>
 	<div id="result">
 	<br>
+		<div style="overflow-x:hidden; overflow-y:scroll; height:300px;">
 		<table>
 			<thead>
 				<tr>
@@ -85,6 +86,7 @@ td {
 				</tr>
 			</tbody>
 		</table>
+		</div>
 	</div>
 	<hr>
 	<div>

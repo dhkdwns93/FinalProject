@@ -271,7 +271,7 @@ span.error{
 				<a style="color:white">&asdfasdfsdfadfasdfasdfasdfasdfasdfasdfasdfasdfsdfassfsdfsdfddfffff</a><br>
 				${fn:replace(row.boardReviewTxt, cn, br)}<br>
 			<c:if test="${row.imageName != null}">
-   				<img width="60%" alt="${row.imageName}" src="${initParam.rootPath}/img/board/${row.imageName}"><br>
+   				<img width="90%" alt="${row.imageName}" src="${initParam.rootPath}/img/board/${row.imageName}"><br>
    			</c:if>
 		</td>
 		<td>

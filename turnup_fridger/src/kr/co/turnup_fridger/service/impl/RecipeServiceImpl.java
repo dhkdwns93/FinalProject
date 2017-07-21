@@ -39,24 +39,20 @@ public class RecipeServiceImpl implements RecipeService{
 	//레시피 등록
 		@Override
 		public void createRecipe(RecipeInfo recipe) throws DuplicateRecipeException {
-			System.out.println("레시피서비스createRecipe 실행:"+recipe.getRecipeName());
 			if(infoDao.selectRecipeInfoByFullName(recipe.getRecipeName())!=null){
 				throw new DuplicateRecipeException("이미 존재하는 레시피명입니다.");
 			}
 
 			infoDao.insertRecipeInfo(recipe);
-			System.out.println("레시피 서비스 createRecipe: "+recipe);
 			
 			int cnt = 1;
 			for(RecipeCrse rc : recipe.getRecipeCrseList()){
 				rc.setRecipeId(recipe.getRecipeId());
 				rc.setCookingNo(cnt++);
-				System.out.println(rc);
 				crseDao.insertRecipeCrse(rc);
 			}
 			for(RecipeIrdnt ri : recipe.getRecipeIrdntList()){
 				ri.setRecipeId(recipe.getRecipeId());
-				System.out.println(ri);
 				irdntDao.insertRecipeIrdnt(ri);
 			}	
 		}
@@ -87,7 +83,6 @@ public class RecipeServiceImpl implements RecipeService{
 			
 			//추가할 목록
 			List<RecipeIrdnt> addIrdntList = recipeIrdnt.get("addIrdntList");	//추가할 재료
-//			System.out.println("addIrdntList 널첵:"+addIrdntList);
 			if(addIrdntList != null && addIrdntList.size() > 0 && !addIrdntList.isEmpty()){
 				for(int i=0;i<addIrdntList.size();i++){
 					if(addIrdntList.get(i) != null )
@@ -278,7 +273,6 @@ public class RecipeServiceImpl implements RecipeService{
 								}
 								//패턴이 발견되지 않으면 
 								startIdx = i+1;	// 숫자였던 곳(i+1) start tag들어갈 곳 표시	
-								System.out.println("startIdx:"+startIdx);
 								break;	//숫자 끝
 							}
 							if((endIdx-startIdx) >= 1 ){
@@ -309,7 +303,6 @@ public class RecipeServiceImpl implements RecipeService{
 							+"큰술/포기/묶음/알/쪽/모/단/톨/봉/통/L/되/덩이/캔/관/근/C/"
 							+ "쪽/개/T/컵/잎/대/g/장";
 			String[] danwiArr = danwi.split("/");	//단위 "/"를 구분자로 쪼개서 배열로 저장
-			System.out.println(Arrays.toString(danwiArr));
 			//숫자판별을 위한 배열
 			StringBuffer sb = new StringBuffer(str); //문자열 사이에 새로운 문자열 삽입을 위해 사용
 			int idx = 0;	

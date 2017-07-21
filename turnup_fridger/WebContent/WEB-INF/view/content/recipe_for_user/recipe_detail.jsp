@@ -577,7 +577,7 @@ table tr td{
       </div>
    </div>
 <!--나의 식재료들 가져와서 수정,삭제할수있게 하는 테이블  -->
-   <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN','ROLE_MEMBER')">
+   <sec:authorize access="hasAnyRole('ROLE_MEMBER')">
    <br>
    <a data-toggle="tooltip" title="${requestScope.recipe.recipeName}를 만들면서 다 쓴 재료를 삭제할 수 있습니다.">
    <button type="button" id="matchMyIrdnt" data-toggle="collapse" data-target="#myIrdnt" class="btn btn-default">냉장고 속 재료 삭제 ↓</button></a>
