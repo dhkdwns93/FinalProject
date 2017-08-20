@@ -73,27 +73,10 @@ $(document).ready(function(){
             "fullscreen=yes, height=700, width=500, resizable=no, scrollbars=no, location=no, toolbar=no, directories=no, menubar=no"
             );
    });
-/*    $("#deleteBtn").on("click", function(){
-      $.ajax({
-         "url":"/turnup_fridger/common/admin/recipe/update.do",
-         "type":"POST",
-         "data":{'recipe' : $("#categoryName").val(),'${_csrf.parameterName}':'${_csrf.token}'},
-         "dataType":"json", 
-         "success":function(list){
-            $("#typeName").empty();
-            $.each(list, function(){
-               $("#typeName").append($("<option>").prop("value",this).append(this))
-            });//each
-         },
-         "error":function(xhr, msg, code){
-            alert("오류발생-" +msg+ ":" +code);
-         }
-      })
-   }); */
+
    
    $(document).on("click",".review_col",function(){
       var reviewId=$(this).children(":first-child").text();
-      //alert(reviewId);
       $.ajax({
          "url":"/turnup_fridger/findReviewByboardReviewId.do",
          //"type":"POST",      
@@ -115,7 +98,6 @@ $(document).ready(function(){
    });//후기게시판페이지로 이동.
    
    $(document).on("click" ,"#deleteRecipeBtn", function(){
-      console.log(${ requestScope.recipe.recipeId});
       $.ajax({
          "url":"/turnup_fridger/common/admin/recipe/remove.do",
          "type":"POST",      
@@ -160,14 +142,12 @@ $(document).ready(function(){
    });
     
    $(document).on("click",".deleteIrdnt",function(){
-      //alert($(this).val());
       $.ajax({
          "url":"/turnup_fridger/removeMyIrdnt.do", 
          //"type":"POST",
          "data":{'myIrdntKey':$(this).val()},
          "dataType":"text", 
          "success":function(text){
-            alert(text);
             document.location.reload();
             },
             "error":function(xhr, msg, code){ 
@@ -182,7 +162,6 @@ $(document).ready(function(){
       "data":'recipeId='+${requestScope.recipe.recipeId}, 
       "dataType":"text", 
       "success":function(text){
-         //alert(text);
          if(text=="0"){
             //빈하트출력.
             $("#favoriteSection").append($("<img>").prop("width","30").prop("id","heart").prop("class","img-rounded")
@@ -204,7 +183,6 @@ $(document).ready(function(){
          "data":'recipeId='+${requestScope.recipe.recipeId},    
          "dataType":"text", 
          "success":function(text){
-            //alert(text);
             if(text=="0"){
                //추가할꺼냐 확인받고 add
                if (confirm("즐겨찾기에 추가하시겠습니까?") == true){    
@@ -278,7 +256,6 @@ $(document).ready(function(){
          }else{
          
             if(!isNaN(amt)){   //정수일때
-                //console.log(amt/qnt*4)
                amt = ((amt/qnt)*2);
 
                if(!is_integer(amt)){
@@ -306,7 +283,6 @@ $(document).ready(function(){
       var qnt = getNumber($("#standardQnt").text())
       $("#standardQnt").fadeIn().text('3인분');
       $("span.amountChangable").each(function(){
-         //console.log($(this).text());
          $(this).fadeOut();
          var amt = $(this).text();
          if(!amt || amt ==''){
@@ -314,7 +290,6 @@ $(document).ready(function(){
          }else{
          
             if(!isNaN(amt)){   //정수일때
-                //console.log(amt/qnt*4)
                amt = ((amt/qnt)*3);
             
                if(!is_integer(amt)){
@@ -328,9 +303,6 @@ $(document).ready(function(){
                amt = getFrct(frct);
             }
             
-            
-            
-            
             $(this).fadeIn().text(amt);
          }
       })
@@ -338,6 +310,8 @@ $(document).ready(function(){
       $("#changePortionFor3_Btn").prop("disabled","disabled");
       
    });//단위변환:3인분
+   
+   
    $("#changePortionFor4_Btn").on("click",function(){
       $("#standardQnt").fadeOut();
       var qnt = getNumber($("#standardQnt").text())
@@ -350,7 +324,6 @@ $(document).ready(function(){
          }else{
          
             if(!isNaN(amt)){   //정수일때
-                //console.log(amt/qnt*4)
                amt = ((amt/qnt)*4);
             
                if(!is_integer(amt)){
@@ -402,7 +375,9 @@ function getFrct(frct){
    return bunja+"/"+bunmo;
    
 }
-function getGcd(a,b){ //최대공약수 계산
+
+//최대공약수 계산
+function getGcd(a,b){ 
    while(b != 0){
       var temp = a%b;
       a = b;
@@ -426,6 +401,8 @@ function moveTo(url,recipeId){
             );
 }
 </script>
+
+
 <style>
 .star-rating { width:130px; }
 .star-rating,.star-rating 
@@ -452,11 +429,11 @@ table tr td{
 
 <!--즐겨찾기버튼  -->
 
-
-<h1 style="font-weight:bold;">${requestScope.recipe.recipeName}</h1>
+<h1 style="font-weight:bold;" id="recipe_name">${requestScope.recipe.recipeName}</h1>
 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN','ROLE_MEMBER')">
    <div id="favoriteSection" style="cursor:pointer;position:absolute; right:30px;top:40px"></div>
 </sec:authorize>
+
 <hr>
 <div id="whole">
    <div id="recipe_info">
@@ -650,9 +627,9 @@ table tr td{
 </sec:authorize>
 
 <div class="floating" style="padding:10px;">
-    <a href="#"><button type="button" id="topBtn" class="btn btn-default">TOP</button></a>
-    <button type="button" id="timerBtn" class="btn btn-warning" style="width:70px;height:40px;">타이머</button>
-   <button type="button" onclick="window.history.back()" class="btn btn-default">BACK</button>
+    <a href="#recipe_name"><button type="button" id="topBtn" class="btn btn-default" style="width:100px;height:34px;">TOP</button></a>
+    <button type="button" id="timerBtn" class="btn btn-warning" style="width:100px;height:40px;font-size: 18px">타이머</button>
+   <a href="#review"><button type="button" onclick="window.history.back()" class="btn btn-default" style="width:100px;height:34px;">BOTTOM</button></a>
 </div>
 
 </div>

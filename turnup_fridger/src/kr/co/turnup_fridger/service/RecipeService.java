@@ -86,12 +86,7 @@ public interface RecipeService {
 	RecipeInfo showDetailOfRecipe(int recipeId);
 	
 	
-	/**
-	 * 레시피 단위변환
-	 * @return
-	 */
-	RecipeInfo changePortion(int portion);
-
+	
 	/**
 	 * 전체 레시피들 가져오는것.
 	 * @return

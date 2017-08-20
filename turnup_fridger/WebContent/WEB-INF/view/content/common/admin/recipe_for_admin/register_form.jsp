@@ -15,14 +15,17 @@ $(document).ready(function(){
 	
 	//카테고리를 선택했을때 카테고리별 음식분류명 불러오기
 	$("#categoryCode").on("change",function(){
-		alert( $(this).find(":selected").val())
 		$.ajax({
 			"url":"/turnup_fridger/getTypeCodeAndName.do",
 			"type":"POST",
 			"data":{'categoryCode' : $(this).find(":selected").val(),'${_csrf.parameterName}':'${_csrf.token}'},
 			"dataType":"json", 
 			"success":function(list){
-			
+				$("#typeCode").empty().append($("<option>").append("선택하세요"))
+				
+				$.each(list, function(){
+					$("#typeCode").append($("<option>").prop("value",this.typeCode).append(this.typeName));
+				});//each
 			},
 			"error":function(xhr, msg, code){
 				alert("오류발생-" +msg+ ":" +code);
@@ -35,15 +38,21 @@ $(document).ready(function(){
 		$(this).parent().next().show();
 	})
 	
+	//레시피 과정정보 추가하기
 	$(document).on("click","#crseBtn", function(){
 		crse_idx += 1;
-		alert(crse_idx);
-		
 		$("#recipe_crse_table>tbody").append($("<tr>").append($("<td>").append($("<input>").prop("type", "hidden").prop("name","recipeCrseList["+crse_idx+"].cookingNo").prop("value", irdnt_idx)).append(" 과정#"+(crse_idx+1)).append($("<br><textarea>").prop("cols", "50").prop("rows", "3").prop("name", "recipeCrseList["+crse_idx+"].cookingDc")))
 													   .append($("<td>").append($("<input>").prop("type", "file").prop("name","recipeCrseList["+crse_idx+"].stepImageUrlSrc"))))
 									  .append($("<tr>").append($("<td>").append("팁").append($("<input>").prop("type", "text").prop("name", "recipeCrseList["+crse_idx+"].stepTip"))));
 	});
 	
+	
+	
+	$(document).on("click", ".deleteIrdntBtn", function(){
+		$(this).parent().parent().remove();	
+	})
+	
+
 	$(document).on("change", "#typeCode", function(){
 		var row = $("<input>").prop("type", "hidden").prop("name", "typeName" ).prop("value", $(this).find(":selected").text());
 		row.appendTo($("form"));
@@ -53,10 +62,10 @@ $(document).ready(function(){
 		var row = $("<input>").prop("type", "hidden").prop("name", "CategoryName" ).prop("value", $(this).find(":selected").text());
 		row.appendTo($("form"));
 	});
-	$(document).on("click", ".deleteIrdntBtn", function(){
-		$(this).parent().parent().remove();	
-	})
+	
 });
+
+/* 레시피 재료정보 추가를 위한 function */
 function openPopup(url){
 	window.open(
 			url,
@@ -75,14 +84,10 @@ function setIrdnt(irdntId, irdntName, irdntTypeCode, irdntTypeName, irdntAmount 
 								  					.append($("<td>").append($("<button>").prop("type", "button").prop("class"," btn btn-default deleteIrdntBtn").append($("<span>").prop("class", "glyphicon glyphicon-trash").prop("aria-hidden", "true")))));
 }
 </script>
+
+
 <style>
-/* #recipe_info{
-	align:center !important;
-	padding-left:auto !important; 
-	padding-right: auto !important; 
-	margin-left:auto !important; 
-	margin-right: auto !important; 
-} */
+
 td{
 	padding: 5px;
 }
@@ -90,6 +95,7 @@ th{
 	padding-right: 20px;
 }
 </style>
+
 
 <h2 style="font-weight:bold; text-align:center; ">레시피 등록</h2><hr>
 
@@ -153,6 +159,7 @@ th{
 				<tr>
 					<th>음식분류</th>
 					<td><select name="typeCode" id="typeCode">
+							<!-- categoryCode선택에 따라 typeCode의 옵션들이 달라짐  -->
 							<option>---------</option>
 					</select>
 					

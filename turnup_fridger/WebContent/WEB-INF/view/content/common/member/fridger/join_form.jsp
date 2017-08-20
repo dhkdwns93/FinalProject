@@ -15,12 +15,10 @@ $(document).ready(function () {
 	
 	
 	$("#searchByNameBtn").on("click", function(){
-		//alert($("#joinFridgerName").val());
 		getFridgerListByName($("#joinFridgerName").val(), 1);
 	}); //end of click on searchByName
 	
 	$("#searchByOwnerBtn").on("click", function(){
-		//alert($("#joinMemberId").val());
 		getFridgerListByOwner($("#joinMemberId").val(), 1);
 	}); //end of click on searchByName
 	
@@ -31,7 +29,6 @@ $(document).ready(function () {
 		$(".fridgerName_col").parent().css("background-color", "white");
 		$(this).parent().css("background-color", "lightblue");
 		//한번에 여러개 냉장고 정보 열어서 비교가능함
-		//$(".fridgerName_col").next().addClass("out").removeClass("in");
 		if($(this).parent().next().hasClass("out")) {
 			$(".fridgerName_col").parent().next().addClass("out").removeClass("in");
 	    	$(this).parent().next().addClass("in");
@@ -44,8 +41,7 @@ $(document).ready(function () {
 		
 	    var fridgerId = $(this).parent().children(":first-child").attr("id");
 		var ownerId = $(this).parent().children(":nth-child(3)").text();
-	    //alert(ownerId);
-	    
+	   
 		$.ajax({
 			"url":"/turnup_fridger/common/member/fridger/show/detail.do",
 			"type":"post",
@@ -90,10 +86,7 @@ function getFridgerListByName(fridgerName, page){
 		"success":function(map){
 			$("#fridgerList_thead").show();
 			$("#fridgerList_tbody").empty();
-			/* <th style="width:10%;">NO</th>
-			<th style="width:40%;">Fridger Name</th>
-			<th style="width:20%;">Owner</th>
-			<th style="width:20%;">Join</th> */
+			
 			var no = (map.pagingBean.page-1)*5
 			$.each(map.list, function(){
 				$("#fridgerList_tbody").append($("<tr>").append($("<td>").prop("id",this.fridgerId).append(++no))
@@ -152,10 +145,7 @@ function getFridgerListByOwner(memberId, page){
 		"success":function(map){
 			$("#fridgerList_thead").show();
 			$("#fridgerList_tbody").empty();
-			/* <th style="width:10%;">NO</th>
-			<th style="width:40%;">Fridger Name</th>
-			<th style="width:20%;">Owner</th>
-			<th style="width:20%;">Join</th> */
+			
 			var no = (map.pagingBean.page-1)*5
 			$.each(map.list, function(){
 				$("#fridgerList_tbody").append($("<tr>").append($("<td>").append(++no))

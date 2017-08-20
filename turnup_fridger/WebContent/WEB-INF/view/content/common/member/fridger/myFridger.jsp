@@ -14,23 +14,16 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	
-	
 	$("#myIrdntBadAlert").hide();
 	$("#freshLevelFrame").hide();
 	if(!${ requestScope.fridgerList == null || requestScope.fridgerList.size() == 0} ){
 		getFridgerInfo('${ requestScope.fridgerList[0].fridgerId }')
 	}
-	
-	
+		
 	$("#fridgerNameSelect").on("change", function(){
 		getFridgerInfo($("#fridgerNameSelect>option:selected").val());
 	
-
-	
 	})
-
-	
-	
 	
 	/* 냉장고 컨트롤 기능 */
 	// 냉장고 열어보기
@@ -42,8 +35,7 @@ $(document).ready(function(){
 	});
 	
 	
-	
-	
+		
 	// 냉장고 추가 폼
 	$(document).on("click","#createBtn", function(){
 		var fridgerId = $("span#fridgerId").text();
@@ -52,13 +44,13 @@ $(document).ready(function(){
 		$("#createFridgerModal").modal("show");
 	});	// end of click on requstBtn
 	
+	
+	
 	// 냉장고 추가 처리
 	$(document).on("click", "#registerFormBtn",function(){
-		
-		 $("#fridgerImg").val($(".item.active").find("img").attr("src"))
-		//alert($("#fridgerImg").val())
+		$("#fridgerImg").val($(".item.active").find("img").attr("src"))
 		 var formData = $("#registerForm").serializeArray();
-		console.log(formData)
+		
 		$.ajax({
 			"url": "${initParam.rootPath }/common/member/fridger/register.do",
 			"type": "post",
@@ -66,7 +58,6 @@ $(document).ready(function(){
 			"dataType":"text",
 			"success": function(text){
 				if(text == "0"){
-					//alert("완료!")
 					$("#createFridgerModal").modal("hide");
 					$(".errorWell").find(".error").empty();
 					$(".errorWell").hide();
@@ -100,8 +91,6 @@ $(document).ready(function(){
 				}
 			},
 			"success": function(list){
-				//alert($("span#fridgerName").text());
-				
 				$.each(list,function(){
 					$("#updateOwnerIdList").append($("<option>").prop("value", this.groupMemberId).append(this.groupMemberId))
 				});
@@ -112,30 +101,19 @@ $(document).ready(function(){
 				$("#updateFridgerModal").modal("show");
 				
 			}
-		})
-		
-			
-		
-		
-		
-		
-		
+		})		
 	});	// end of click on requstBtn
+	
 	
 	//냉장고 수정 처리
 	$(document).on("click", "#updateFormBtn",function(){
-		/*  alert($("#updateFridgerName").val());
-		alert($("#updateFridgerCarousel .item.active").find("img").attr("src")); */
 		var fridgerImg = $("#updateFridgerCarousel .item.active").find("img").attr("src");
 		$("#updateFridgerImg").val(fridgerImg);
-		//alert($("#updateFridgerImg").val())
 		if(!$("#updateFridgerName").val()){
 			$("#updateFridgerName").val($("#updateFridgerName").prop("placeholder"));
-		}	
-			
+		}				
 		
 		var formData = $("#updateForm").serializeArray();
-		console.log(formData)
 		$.ajax({
 			"url": "${initParam.rootPath }/common/member/fridger/update.do",
 			"type": "post",
@@ -143,13 +121,10 @@ $(document).ready(function(){
 			"dataType":"text",
 			"beforeSend": function(){
 				getFridgerInfo($("#updateFridgerId").val())
-				console.log($("#updateFridgerImg").val());
-				console.log(fridgerImg);				
-				
+
 			},
 			"success": function(text){
 				if(text == "0"){
-					/* alert("완료!")*/
 					getFridgerInfo($("#updateFridgerId").val())
 					$("#updateFridgerModal").modal('hide');
 					resetUpdateModal();
@@ -174,7 +149,6 @@ $(document).ready(function(){
 			"data":{'fridgerId' : fridgerId, '${_csrf.parameterName}':'${_csrf.token}'},
 			"dataType":"text",
 			"beforeSend":function(){
-				
 				if("${memberId}" != fridgerOwner){
 					alert("삭제 권한이  없습니다!");
 					return false;
@@ -185,7 +159,6 @@ $(document).ready(function(){
 				}
 			},
 			"success": function(txt){
-		       alert(txt);s
 		       window.location.reload();
 		     },
 	        "error":function(xhr, msg, code){
@@ -228,14 +201,13 @@ $(document).ready(function(){
 	
 	$('#createFridgerModal').on('hide.bs.modal', function (e) {
 		resetRegisterModal();
-	})
-	
-	
+	});
+		
 	$('#updateFridgerModal').on('hide.bs.modal', function (e) {
 		resetUpdateModal();
-	})
+	});
 	
-})
+});
 
 
 function getFridgerInfo(fridgerId){
@@ -338,11 +310,10 @@ function getFridgerInfo(fridgerId){
 	        }
 	    }
 	} 
-		 
-	function getTypeChart(list){
-	 
 	
-	  var typeData = [];
+	
+	function getTypeChart(list){
+	 var typeData = [];
 	 var colors = ["#e64200","#ff9933", "#f5d03d", "#b7e236", "#dce8c9", "#d1d194", "#94946b","#585841"];
 	 var highlights = ["#e6672d","#ffb366", "#f7dc6e","#c7e963", "#f3f7ed", "#e0e0b8", "#a9a989","#757557"];
 	  var idx = 0;
@@ -360,18 +331,17 @@ function getFridgerInfo(fridgerId){
 	 var option = {
 			    responsive: false
 			    };
-	//Get the context of the canvas element we want to select
+	
 	var typeCnv = document.getElementById("typeChart");
 	var typeCtx= typeCnv.getContext("2d");
 		typeCtx.clearRect(0, 0, 1500, 1000);
 		typeCtx.beginPath();
-		//typeCtx.fillStyle = "white";
-		//typeCtx.fillRect(0, 0, typeCnv.width, typeCnv.height);
-
+		
 		var myDoughnutChart = new Chart(typeCtx).Doughnut(typeData,option); 
 		$("#typeChart").attr("width","150").attr("height","150");
 	};
-		
+	
+	
 	function getPlaceChart(roomTemp,coldTemp,freezeTemp){
 		console.log(roomTemp+","+coldTemp+","+freezeTemp)
 		
@@ -406,9 +376,7 @@ function getFridgerInfo(fridgerId){
 		var placeCtx= placeCnv.getContext("2d");
 			placeCtx.clearRect(0, 0, 1500, 1000);
 			placeCtx.beginPath();
-			/* placeCtx.fillStyle = "white";
-			placeCtx.fillRect(0, 0, placeCnv.width, placeCnv.height); */
-		 	
+			
 		 var myDoughnutChart = new Chart(placeCtx).Doughnut(placeData,option); 
 		 $("#placeChart").attr("width","150").attr("height","150");
 	};

@@ -18,7 +18,6 @@ $(document).ready(function(){
 	
 	
 	$(document).on("click","#crseBtn", function(){
-		alert(crse_idx);
 		crse_idx += 1;
 		$("#recipe_crse_table").append($("<table>").prop("class","recipe_crse_table").prop("id","newCrseRow").append($("<tbody>")
 							.append($("<tr>").append($("<td>").prop("rowspan", "3").prop("width","60px").append($("<input>").prop("type", "hidden").prop("name","addCrseList["+newCrse_idx+"].cookingNo")).append((crse_idx+1)))
@@ -33,9 +32,7 @@ $(document).ready(function(){
 
 
 	$(document).on("click", "#deleteCrseBtn", function(){
-		
-		//console.log($(".recipe_crse_table:eq("+crse_idx+")").prop("id") == 'newCrseRow')
-		
+				
 			if($(".recipe_crse_table:eq("+crse_idx+")").prop("id") == 'newCrseRow'){
 				$(".recipe_crse_table:eq("+crse_idx+")").remove();
 				crse_idx -= 1;
@@ -48,17 +45,10 @@ $(document).ready(function(){
 				removeCrse_idx += 1;
 				crse_idx -= 1;
 			}
-		/* $(this).parent().parent().parent().parent().hide();
-		$(this).parent().children(":first-child").prop("name", "removeCrseList["+removeCrse_idx+"].cookingNo")
-		$(this).parent().children(":nth-child(2)").prop("name", "removeCrse["+removeCrse_idx+"].cookingNo")
 		
-		$("#recipe_crse_table tbody").find(".6").children("input#currentCrseList.cookingNo").prop("name", "removeCrseList["+removeCrse_idx+"].cookingNo" )
-		$(this).parent().find("input#currentCrseList.recipeId").prop("name", "removeCrseList["+removeCrse_idx+"].recipeId" )
-		$("#recipe_crse_table tbody").hide(); */
 	})
 	
 	$(document).on("click", "#deleteStepImgBtn", function(){
-		console.log($(".stepImage").find("img"))
 		if(confirm("기존사진을 삭제하시겠습니까?") != true){
 			return false;
 		}else{
@@ -72,8 +62,6 @@ $(document).ready(function(){
 	
 	
 	$(document).on("click", "#backStepImgBtn", function(){
-		//console.log($(this).parent().parent().children(".stepImage").find("#stepImageUrl"));
-		//console.log($(this).parent().parent().children(".stepImage").find("img").prop("id"));
 			$(this).parent().parent().find("div.stepImage_none").hide();
 			$(this).parent().filter("div.stepImage_deleted").hide();
 			$(this).parent().parent().children(".stepImage").show();

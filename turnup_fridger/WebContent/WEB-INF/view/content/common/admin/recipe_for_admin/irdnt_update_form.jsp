@@ -18,8 +18,6 @@ $(document).ready(function(){
 	
 	$(document).on("click","#crseBtn", function(){
 		crse_idx += 1;
-		alert(crse_idx);
-		
 		$("#recipe_crse_table>tbody").append($("<tr>").prop("class","newCrseRow"+crse_idx).append($("<td>").prop("rowspan", "3").append($("<input>").prop("type", "hidden").prop("name","addCrseList["+crse_idx+"].cookingNo").prop("value", crse_idx+1)).append("과정"+(crse_idx+1)))
 									.append($("<td>").append($("<textarea>").prop("cols", "60").prop("rows", "3").prop("name", "addCrseList["+crse_idx+"].cookingDc").prop("size", "60"))))
 									.append($("<tr>").prop("class","newCrseRow"+crse_idx).append($("<td>").append($("<input>").prop("type", "file").prop("name","addCrseList["+crse_idx+"].stepImageUrlSrc"))))
@@ -50,9 +48,7 @@ $(document).ready(function(){
 	
 
 	$(document).on("click", ".deleteCrseBtn", function(){
-		
 		removeCrse_idx += 1;	
-		console.log($("#recipe_crse_table tbody").find(".6"));
 		$("#recipe_crse_table tbody").find(".6").hide();
 		$("#recipe_crse_table tbody").find(".6").children("input#OldCrseList.cookingNo").prop("name", "removeCrseList["+removeCrse_idx+"].cookingNo" )
 		$(this).parent().find("input#OldCrseList.recipeId").prop("name", "removeCrseList["+removeCrse_idx+"].recipeId" )
@@ -61,7 +57,6 @@ $(document).ready(function(){
 	
 	
 	$(document).on("click", "#deleteImgBtn", function(){
-		console.log($(".image").find("img"))
 		if(confirm("기존사진을 삭제하시겠습니까?") != true){
 			return false;
 		}else{
@@ -74,7 +69,6 @@ $(document).ready(function(){
 	})
 	
 	$(document).on("click", "#deleteStepImgBtn", function(){
-		console.log($(".stepImage").find("img"))
 		if(confirm("기존사진을 삭제하시겠습니까?") != true){
 			return false;
 		}else{

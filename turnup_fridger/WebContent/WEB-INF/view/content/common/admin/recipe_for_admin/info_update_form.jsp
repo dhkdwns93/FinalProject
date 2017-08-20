@@ -34,19 +34,8 @@ $(document).ready(function(){
 	});//categoryName
 	
 	
-	/* 
-	$(document).on("change", "#typeCode", function(){
-		var row = $("<input>").prop("type", "hidden").prop("name", "typeName" ).prop("value", $(this).find(":selected").text());
-		row.appendTo($("form"));
-	});
-	
-	$(document).on("change", "#categoryCode", function(){
-		var row = $("<input>").prop("type", "hidden").prop("name", "CategoryName" ).prop("value", $(this).find(":selected").text());
-		row.appendTo($("form"));
-	}); */
 	
 	$(document).on("click", "#deleteImgBtn", function(){
-		console.log($(".image").find("img"))
 		if(confirm("기존사진을 삭제하시겠습니까?") != true){
 			return false;
 		}else{
@@ -67,7 +56,6 @@ $(document).ready(function(){
 	})
 
 	$(document).on("change", "#typeCode", function(){
-		alert($(this).find(":selected").text())
 		var row = $("<input>").prop("type", "hidden").prop("name", "typeName" ).prop("value", $(this).find(":selected").text());
 		row.appendTo($("form"));
 	});

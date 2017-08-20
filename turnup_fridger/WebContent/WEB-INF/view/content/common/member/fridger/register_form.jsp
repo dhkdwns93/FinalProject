@@ -11,38 +11,6 @@
 
 <script>
 $(document).ready(function(){	
-	//console.log($(".item.active").find("img").attr("src"))
-	
-	 /* $(document).on("click", "#registerFormBtn",function(){
-		
-		 $("#fridgerImg").val($(".item.active").find("img").attr("src"))
-		//alert($("#fridgerImg").val())
-		 var formData = $("#registerForm").serializeArray();
-		console.log(formData)
-		$.ajax({
-			"url": "${initParam.rootPath }/common/member/fridger/register.do",
-			"type": "post",
-			"data": formData,
-			"dataType":"text",
-			"beforeSend": function(){
-			},
-			"success": function(text){
-				if(text == "0"){
-					alert("완료!")
-					resetModal()
-					$("#createFridgerModal").modal("hide");
-				}else if(text =="-1"){
-					alert("실패!")				
-					//회색차유ㅠ
-				}
-			
-			}
-			
-		})
-
-  }) */
-		
-	
 	
 })
 
