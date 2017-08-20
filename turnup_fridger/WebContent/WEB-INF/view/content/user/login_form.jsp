@@ -96,44 +96,38 @@ h1 {
 </style>
 </head>
 <body>
-
-<div>
-<jsp:include page="/WEB-INF/view/content/user/popup_find_IdPw_form.jsp"/>
-</div>
-
-<div class="container">
-<div class='wrapperDiv'>
-
-<jsp:include page="/WEB-INF/view/layout/side_menu/nonMemberSideMenu.jsp"/>
-<div class='right-box-sidemenu'>
-
-<div class="login-form">
-<h1>Login</h1>
-<c:if test="${not empty param.errorMessage }">
-	<div class="well text-danger">${param.errorMessage }</div>
-</c:if>
-<form action="${initParam.rootPath}/login.do" method="post">
-	<sec:csrfInput />
-	<%-- csrf token생성 --%>
-	<div class="form-group">
-		<label for="id"><span class="form-text">ID</span></label><br> <input type="text" id="id"
-			name="userId" class="form-control">
+	<div>
+		<jsp:include page="/WEB-INF/view/content/user/popup_find_IdPw_form.jsp"/>
 	</div>
-	<div class="form-group">
-		<label for="password"><span class="form-text">Password</span></label><br> <input type="password"
-			id="password" name="userPw" class="form-control">
-	</div>
-	<div class="ccfield-submit-part">
-		<button type="submit" class="btn btn-default">LOGIN</button>
-		<button type="button" id="findIdPwBtn" class="btn btn-default" data-toggle="modal"  data-target="#findIdPwModal">forget
-			ID/Password</button>
-	</div>
-</form>
-</div><!-- login-form -->
-
-
-</div><!-- right-box-sidemenu -->
-</div><!-- wrapperDiv -->
-</div><!-- container -->
+	<div class="container">
+		<div class='wrapperDiv'>
+			<jsp:include page="/WEB-INF/view/layout/side_menu/nonMemberSideMenu.jsp"/>
+			<div class='right-box-sidemenu'>
+				<div class="login-form">
+				<h1>Login</h1>
+				<c:if test="${not empty param.errorMessage }">
+					<div class="well text-danger">${param.errorMessage }</div>
+				</c:if>
+				<form action="${initParam.rootPath}/login.do" method="post">
+					<sec:csrfInput />
+					<%-- csrf token생성 --%>
+					<div class="form-group">
+						<label for="id"><span class="form-text">ID</span></label><br> <input type="text" id="id"
+							name="userId" class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="password"><span class="form-text">Password</span></label><br> <input type="password"
+							id="password" name="userPw" class="form-control">
+					</div>
+					<div class="ccfield-submit-part">
+						<button type="submit" class="btn btn-default">LOGIN</button>
+						<button type="button" id="findIdPwBtn" class="btn btn-default" data-toggle="modal"  data-target="#findIdPwModal">forget
+							ID/Password</button>
+					</div>
+				</form>
+				</div><!-- login-form -->
+			</div><!-- right-box-sidemenu -->
+		</div><!-- wrapperDiv -->
+	</div><!-- container -->
 </body>
 </html>

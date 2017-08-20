@@ -116,75 +116,70 @@ h1 {
 <div class="container">
 <div class='wrapperDiv'>
 	<jsp:include page="/WEB-INF/view/layout/side_menu/adminSideMenu.jsp"/>
-	<div class='right-box-sidemenu'>
-
-	<div class="form-page">
-		<h1>Member Management</h1>
-			<div id="wrap">
-				<!-- 엑셀로 추출버튼 -->
-				<a id="exportBtn" href="#" download=""><button type="button">(Excel)Download</button></a>
-				<div id="allMemberList"
-					style="width:100%; border-style:outset; overflow-x:scroll; overflow-y:scroll; height:400px;padding:10px;">
-				<table id="tblExport" border="1" class="ExcelTable2007">
-						<thead id="thead">
-						<tr>
-							<th class="heading">&nbsp;</th>
-							<th>A</th>
-							<th>B</th>
-							<th>C</th>
-							<th>D</th>
-							<th>E</th>
-							<th>F</th>
-							<th>G</th>
-							<th>H</th>
-						</tr>
-						</thead>
-
-						<tbody>
+		<div class='right-box-sidemenu'>
+		<div class="form-page">
+			<h1>Member Management</h1>
+				<div id="wrap">
+					<!-- 엑셀로 추출버튼 -->
+					<a id="exportBtn" href="#" download=""><button type="button">(Excel)Download</button></a>
+					<div id="allMemberList"
+						style="width:100%; border-style:outset; overflow-x:scroll; overflow-y:scroll; height:400px;padding:10px;">
+					<table id="tblExport" border="1" class="ExcelTable2007">
+							<thead id="thead">
 							<tr>
-								<td align="left" valign="middle" class="heading">1</td>
-								<td align="left" valign="middle" ><b>No</b></td>
-								<td align="left" valign="middle" ><b>Member ID</b></td>
-								<td align="left" valign="middle" ><b>Name</b></td>
-								<td align="left" valign="middle" ><b>Address</b></td>
-								<td align="left" valign="middle" ><b>Email</b></td>
-								<td align="left" valign="middle" ><b>Tel</b></td>
-								<td align="left" valign="middle" ><b>Gender</b></td>
-								<td align="left" valign="middle" ><b>Control Box</b></td>
+								<th class="heading">&nbsp;</th>
+								<th>A</th>
+								<th>B</th>
+								<th>C</th>
+								<th>D</th>
+								<th>E</th>
+								<th>F</th>
+								<th>G</th>
+								<th>H</th>
 							</tr>
-							
-							<c:forEach var="member" items="${requestScope.memberList}"
-								varStatus="loop">
+							</thead>
+							<tbody>
 								<tr>
-									<td align="left" valign="middle" class="heading">${(loop.index)+2}</td>
-									<td align="left" valign="middle" >${(loop.index)+1}</td>
-									<td align="left" valign="middle" >${member.memberId }</td>
-									<td align="left" valign="middle" >${member.memberName }</td>
-									<td align="left" valign="middle" >${member.memberAddress }</td>
-									<td align="left" valign="middle" >${member.memberEmail }</td>
-									<td align="left" valign="middle" >${member.memberTel}</td>
-									<td align="left" valign="middle" >${member.memberSex}</td>
-									<td align="left" valign="middle">
-										<!-- 개인회원강제탈퇴처리 -->
-										<form
-											action="${initParam.rootPath}/common/admin/member_delete.do"
-											method="post">
-											<input type="hidden" name="memberId" value="${member.memberId}">
-											<sec:csrfInput />
-											<button type="submit" id="deleteMemberBtn"><span class="glyphicon glyphicon-remove" aria-hidden="true">탈퇴</span></button>
-										</form>
-									</td>
+									<td align="left" valign="middle" class="heading">1</td>
+									<td align="left" valign="middle" ><b>No</b></td>
+									<td align="left" valign="middle" ><b>Member ID</b></td>
+									<td align="left" valign="middle" ><b>Name</b></td>
+									<td align="left" valign="middle" ><b>Address</b></td>
+									<td align="left" valign="middle" ><b>Email</b></td>
+									<td align="left" valign="middle" ><b>Tel</b></td>
+									<td align="left" valign="middle" ><b>Gender</b></td>
+									<td align="left" valign="middle" ><b>Control Box</b></td>
 								</tr>
-							</c:forEach>
-						</tbody>
+								<c:forEach var="member" items="${requestScope.memberList}"
+									varStatus="loop">
+									<tr>
+										<td align="left" valign="middle" class="heading">${(loop.index)+2}</td>
+										<td align="left" valign="middle" >${(loop.index)+1}</td>
+										<td align="left" valign="middle" >${member.memberId }</td>
+										<td align="left" valign="middle" >${member.memberName }</td>
+										<td align="left" valign="middle" >${member.memberAddress }</td>
+										<td align="left" valign="middle" >${member.memberEmail }</td>
+										<td align="left" valign="middle" >${member.memberTel}</td>
+										<td align="left" valign="middle" >${member.memberSex}</td>
+										<td align="left" valign="middle">
+											<!-- 개인회원강제탈퇴처리 -->
+											<form
+												action="${initParam.rootPath}/common/admin/member_delete.do"
+												method="post">
+												<input type="hidden" name="memberId" value="${member.memberId}">
+												<sec:csrfInput />
+												<button type="submit" id="deleteMemberBtn"><span class="glyphicon glyphicon-remove" aria-hidden="true">탈퇴</span></button>
+											</form>
+										</td>
+									</tr>
+								</c:forEach>
+							</tbody>
 					</table>
 				</div>
 			</div>
-		</div>
-
-		 </div><!-- form-page -->
- 	</div><!-- rightside menu -->
+		</div><!-- form-page -->
+	</div><!-- right-box-sidemenu -->
+ </div><!-- wrapperDiv -->
 </div>
-
 </body>
 </html>

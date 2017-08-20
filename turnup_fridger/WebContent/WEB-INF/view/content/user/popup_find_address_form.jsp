@@ -29,7 +29,6 @@ $(document).ready(function(){
 	$(function(){
 			$("button#useAddressAPIBtn").postcodifyPopUp();
 	});//end of useAddressAPIBtn 
-
 	$("button#useAddressBtn").on("click",function(){
 		var inputAddress=$(this).parent().children(":nth-child(3)").val();
 		if(confirm(inputAddress+"를 입력하시겠습니까?")==true){
@@ -39,8 +38,6 @@ $(document).ready(function(){
 			return false;
 		}
 	});//end of useAddressBtn
-
-
 });
 </script>
 <style>
@@ -158,9 +155,7 @@ h1 {
 </style>
 </head>
 <body>
-
 	<div class="container">
-
 		<div class="popup-body">
 			<h1 class="modal-title font-Viner_Hand_ITC">Search Address</h1>
 			<hr>
@@ -196,8 +191,6 @@ h1 {
 						<span class="glyphicon glyphicon-remove" aria-hidden="true">Close</span>
 					</button>
 				</div>
-
-
 		</div>
 		<!-- popup-body -->
 	</div>

@@ -5,7 +5,7 @@
 작성자 :  김경혜
 최초 작성일 170705
 변경이력 
-170711 headMaster는 정보 수정 버튼 안보임
+170711 headMaster는 정보 수정 버튼 안보이게 수정
  -->
 <!DOCTYPE html>
 <html>
@@ -152,60 +152,54 @@ input[type="button"].btn-block {
 </style>
 </head>
 <body>
-
-
-<div class="container">
-<div class='wrapperDiv'>
-	<jsp:include page="/WEB-INF/view/layout/side_menu/adminSideMenu.jsp"/>
-	<div class='right-box-sidemenu'>
-	
-		<div class="card hovercard">
-			<img src="${initParam.rootPath }/img/business.jpg" alt>
-			<div class="avatar">
-				<img src="${initParam.rootPath }/img/administer.ico" alt>
-			</div>
-			<div class="info">	
-				<div class="title font-Viner_Hand_ITC">My Information for Admin</div>
-				<div class="desc">
-					<table class="mypage-table">
-						<tr>
-							<td class="font-Broadway table-attribute-name">Admin ID</td>
-							<th><sec:authentication property="principal.adminId"></sec:authentication></th>
-						</tr>
-						<tr>
-							<td class="font-Broadway table-attribute-name">Admin Name</td>
-							<th><sec:authentication property="principal.adminName"></sec:authentication></th>
-						</tr>
-						<tr>
-							<td class="font-Broadway table-attribute-name">Admin Tel</td>
-							<th><sec:authentication property="principal.adminTel"></sec:authentication></th>
-						</tr>
-						<tr>
-							<td class="font-Broadway table-attribute-name">Admin Email</td>
-							<th><sec:authentication property="principal.adminEmail"></sec:authentication></th>
-						</tr>
-						<tr>
-							<td class="font-Broadway table-attribute-name">Authority</td>
-							<th><sec:authentication property="principal.adminAuthority"></sec:authentication></th>
-						</tr>
-					</table>
-				</div><!-- info dsec -->
-				<div class="bottom-mypage">
-					<sec:authorize access="hasAnyRole('ROLE_MASTERADMIN','ROLE_ADMIN')">
-						<a href="${initParam.rootPath }/common/admin/admin_change_info.do"><button type="button" class="btn btn-default">관리자 개인정보수정</button></a>
-					</sec:authorize>
-					<!-- headMaster는 관리자 정보수정 버튼 안보임 -->
-					<sec:authorize access="hasRole('ROLE_HEADMASTERADMIN')">
-						<button type="button" id="accessDenied" class="btn btn-default">HeadMaster관리자는 정보수정이 불가합니다.</button>
-					</sec:authorize>
-				</div><!--bottom  -->
-				</div><!-- info -->
-		
-		
-		</div><!-- card hovercard -->
-
-	</div><!-- rightside menu -->
-</div>
-</div><!-- container -->
+	<div class="container">
+		<div class='wrapperDiv'>
+			<jsp:include page="/WEB-INF/view/layout/side_menu/adminSideMenu.jsp"/>
+			<div class='right-box-sidemenu'>
+				<div class="card hovercard">
+					<img src="${initParam.rootPath }/img/business.jpg" alt>
+					<div class="avatar">
+						<img src="${initParam.rootPath }/img/administer.ico" alt>
+					</div>
+					<div class="info">	
+						<div class="title font-Viner_Hand_ITC">My Information for Admin</div>
+						<div class="desc">
+							<table class="mypage-table">
+								<tr>
+									<td class="font-Broadway table-attribute-name">Admin ID</td>
+									<th><sec:authentication property="principal.adminId"></sec:authentication></th>
+								</tr>
+								<tr>
+									<td class="font-Broadway table-attribute-name">Admin Name</td>
+									<th><sec:authentication property="principal.adminName"></sec:authentication></th>
+								</tr>
+								<tr>
+									<td class="font-Broadway table-attribute-name">Admin Tel</td>
+									<th><sec:authentication property="principal.adminTel"></sec:authentication></th>
+								</tr>
+								<tr>
+									<td class="font-Broadway table-attribute-name">Admin Email</td>
+									<th><sec:authentication property="principal.adminEmail"></sec:authentication></th>
+								</tr>
+								<tr>
+									<td class="font-Broadway table-attribute-name">Authority</td>
+									<th><sec:authentication property="principal.adminAuthority"></sec:authentication></th>
+								</tr>
+							</table>
+						</div><!-- info dsec -->
+						<div class="bottom-mypage">
+							<sec:authorize access="hasAnyRole('ROLE_MASTERADMIN','ROLE_ADMIN')">
+								<a href="${initParam.rootPath }/common/admin/admin_change_info.do"><button type="button" class="btn btn-default">관리자 개인정보수정</button></a>
+							</sec:authorize>
+							<!-- headMaster는 관리자 정보수정 버튼 안보임 -->
+							<sec:authorize access="hasRole('ROLE_HEADMASTERADMIN')">
+								<button type="button" id="accessDenied" class="btn btn-default">HeadMaster관리자는 정보수정이 불가합니다.</button>
+							</sec:authorize>
+						</div><!--bottom  -->
+						</div><!-- info -->
+				</div><!-- card hovercard -->
+			</div><!-- rightside menu -->
+		</div>
+	</div><!-- container -->
 </body>
 </html>

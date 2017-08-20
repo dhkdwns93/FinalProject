@@ -30,7 +30,7 @@ $(document).ready(function(){
 		$("span#duplicateAfter").show();
 		$("input#id").val("");
 	});//end of duplicateIdBtn
-	
+
 	$("button#duplicateEmailBtn").on("click",function(){
 		var inputEmail=$("input#inputEmail").val();
 		window.open("${initParam.rootPath}/popup_duplicate_email_form.do?inputEmail="+inputEmail,"duplicate_email_form","width=600,height=380,resizable=yes");
@@ -149,91 +149,87 @@ h1 {
 </head>
 <body>
 <div class="container">
-<div class='wrapperDiv'>
-<jsp:include page="/WEB-INF/view/layout/side_menu/nonMemberSideMenu.jsp"/>
-<div class='right-box-sidemenu'>
-
-<div class="form-page">
-<h1>Contact Form</h1>
-<%-- controller.common패키지 --%>
-<form action="${initParam.rootPath}/join_member.do" method="post" name="usePopup">
-	<span class="form-text">※모든 사항은 필수기입사항입니다.</span>
-	<hr>
-	<div id="idCheck" class="ccfield-prepend">
-		<span id="duplicateBefore">
-		<span class="ccform-addon"><i class="material-icons">&#xE150;</i></span>
-		<input type="text" id="id" name="inputId" class="ccformfield" placeholder="ID    *중복검사는 필수사항입니다.">
-		</span>
-		<span id="duplicateAfter" style="display:none">
-		<span class="ccform-addon"><i class="material-icons">&#xE150;</i></span>
-		<input type="text" id="memberId" name="memberId" value="${param.memberId}" readonly="readonly" class="ccformfield">
-		</span>
-		<span><button type="button" id="duplicateIdBtn" class="ccbtn">ID 중복검사</button></span>
-		<div class="error"><form:errors path="member.memberId" delimiter="&nbsp;&nbsp"/></div>
-	</div>
-	<div class="ccfield-prepend">
-		<span class="ccform-addon"><i class="material-icons">&#xE150;</i></span>
-		<input type="password"  id="password" name="memberPw" class="ccformfield" placeholder="Password">
-		<div class="error"><form:errors path="member.memberPw" delimiter="&nbsp;&nbsp"/></div>
-	</div>
-	<div class="ccfield-prepend">
-		<span class="ccform-addon"><i class="material-icons">&#xE853;</i></span>
-		<input type="text" id="name" name="memberName" class="ccformfield" placeholder="Name">
-		<div class="error"><form:errors path="member.memberName" delimiter="&nbsp;&nbsp"/></div>	
-	</div>
-	<div class="ccfield-prepend">
-		<span class="ccform-addon"><i class="material-icons">&#xE153;</i></span>
-		<input type="text" id="address" name="memberAddress" readonly="readonly" class="ccformfield" placeholder="Address">
-		<button type="button" id="findAddressBtn" class="ccbtn">주소검색</button>
-		<div class="error"><form:errors path="member.memberAddress" delimiter="&nbsp;&nbsp"/></div>
-	</div>
-	<div id="emailCheck" class="ccfield-prepend">
-		<span class="ccform-addon"><i class="material-icons">&#xE0BE;</i></span>
-		<span id="duplicateEmailBefore">
-		<input type="text" id="inputEmail" name="inputEmail" class="ccformfield" placeholder="Email    *이메일 중복검사는 필수사항입니다.">
-		</span>
-		<span id="duplicateEmailAfter" style="display:none">
-		<input type="text" id="memberEmail" name="memberEmail" value="${param.email}" readonly="readonly" class="ccformfield">
-		</span>
-		<button type="button" id="duplicateEmailBtn" class="ccbtn">Email 중복검사</button>
-		<div class="error"><form:errors path="member.memberEmail" delimiter="&nbsp;&nbsp"/></div>
-	</div>
-	<div class="ccfield-prepend">
-		<span class="ccform-addon"><i class="material-icons">&#xE0B0;</i></span>
-		<input type="text" id="tel" name="memberTel" class="ccformfield" placeholder="Tel  *ex.01012345678">
-		<div class="error"><form:errors path="member.memberTel"/></div>
-	</div>
-	<div class="ccfield-prepend">
-		<span class="form-text">성별&nbsp;&nbsp;&nbsp;</span>
-		<label for="sex_man"><span class="form-text">Man</span></label>&nbsp;<input type="radio" id="sex_man" name="memberSex" value="M" >
-		&nbsp;&nbsp;<label for="sex_woman"><span class="form-text">Woman</span></label>&nbsp;<input type="radio" id="sex_woman" name="memberSex" value="W">
-		<div class="error"><form:errors path="member.memberSex" delimiter="&nbsp;&nbsp"/></div>
-	</div>
-	<div class="ccfield-prepend">
-		<div class="form-text">기피재료</div>
-		<div id="showMyDislikeIrdnt">
-			<input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="-1" class="ccformfield">
-			<button type="button" id="createMyDislikeIrdnt" class="ccbtn">기피재료추가</button><br>
-			<div class="error" id="tooMuchIrdnt"></div>
-		</div>
-	</div>
-	<sec:csrfInput/>
-	<div class="ccfield-submit-part">
-			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-				<span class="glyphicon glyphicon-ok" aria-hidden="true">Join</span>
-			</button>
-			
-			<button type="button" onclick="location.reload()" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-				<span class="glyphicon glyphicon-refresh" aria-hidden="true">Reset</span>
-			</button>
-	</div>
-</form>
-</div>
-
-</div><!-- contact-form -->
-
-
-</div><!-- wrapperDiv -->
+	<div class='wrapperDiv'>
+		<jsp:include page="/WEB-INF/view/layout/side_menu/nonMemberSideMenu.jsp"/>
+		<div class='right-box-sidemenu'>
+			<div class="form-page">
+				<h1>Contact Form</h1>
+				<%-- controller.common패키지 --%>
+				<form action="${initParam.rootPath}/join_member.do" method="post" name="usePopup">
+					<span class="form-text">※모든 사항은 필수기입사항입니다.</span>
+					<hr>
+					<div id="idCheck" class="ccfield-prepend">
+						<span id="duplicateBefore">
+						<span class="ccform-addon"><i class="material-icons">&#xE150;</i></span>
+						<input type="text" id="id" name="inputId" class="ccformfield" placeholder="ID    *중복검사는 필수사항입니다.">
+						</span>
+						<span id="duplicateAfter" style="display:none">
+						<span class="ccform-addon"><i class="material-icons">&#xE150;</i></span>
+						<input type="text" id="memberId" name="memberId" value="${param.memberId}" readonly="readonly" class="ccformfield">
+						</span>
+						<span><button type="button" id="duplicateIdBtn" class="ccbtn">ID 중복검사</button></span>
+						<div class="error"><form:errors path="member.memberId" delimiter="&nbsp;&nbsp"/></div>
+					</div>
+					<div class="ccfield-prepend">
+						<span class="ccform-addon"><i class="material-icons">&#xE150;</i></span>
+						<input type="password"  id="password" name="memberPw" class="ccformfield" placeholder="Password">
+						<div class="error"><form:errors path="member.memberPw" delimiter="&nbsp;&nbsp"/></div>
+					</div>
+					<div class="ccfield-prepend">
+						<span class="ccform-addon"><i class="material-icons">&#xE853;</i></span>
+						<input type="text" id="name" name="memberName" class="ccformfield" placeholder="Name">
+						<div class="error"><form:errors path="member.memberName" delimiter="&nbsp;&nbsp"/></div>	
+					</div>
+					<div class="ccfield-prepend">
+						<span class="ccform-addon"><i class="material-icons">&#xE153;</i></span>
+						<input type="text" id="address" name="memberAddress" readonly="readonly" class="ccformfield" placeholder="Address">
+						<button type="button" id="findAddressBtn" class="ccbtn">주소검색</button>
+						<div class="error"><form:errors path="member.memberAddress" delimiter="&nbsp;&nbsp"/></div>
+					</div>
+					<div id="emailCheck" class="ccfield-prepend">
+						<span class="ccform-addon"><i class="material-icons">&#xE0BE;</i></span>
+						<span id="duplicateEmailBefore">
+						<input type="text" id="inputEmail" name="inputEmail" class="ccformfield" placeholder="Email    *이메일 중복검사는 필수사항입니다.">
+						</span>
+						<span id="duplicateEmailAfter" style="display:none">
+						<input type="text" id="memberEmail" name="memberEmail" value="${param.email}" readonly="readonly" class="ccformfield">
+						</span>
+						<button type="button" id="duplicateEmailBtn" class="ccbtn">Email 중복검사</button>
+						<div class="error"><form:errors path="member.memberEmail" delimiter="&nbsp;&nbsp"/></div>
+					</div>
+					<div class="ccfield-prepend">
+						<span class="ccform-addon"><i class="material-icons">&#xE0B0;</i></span>
+						<input type="text" id="tel" name="memberTel" class="ccformfield" placeholder="Tel  *ex.01012345678">
+						<div class="error"><form:errors path="member.memberTel"/></div>
+					</div>
+					<div class="ccfield-prepend">
+						<span class="form-text">성별&nbsp;&nbsp;&nbsp;</span>
+						<label for="sex_man"><span class="form-text">Man</span></label>&nbsp;<input type="radio" id="sex_man" name="memberSex" value="M" >
+						&nbsp;&nbsp;<label for="sex_woman"><span class="form-text">Woman</span></label>&nbsp;<input type="radio" id="sex_woman" name="memberSex" value="W">
+						<div class="error"><form:errors path="member.memberSex" delimiter="&nbsp;&nbsp"/></div>
+					</div>
+					<div class="ccfield-prepend">
+						<div class="form-text">기피재료</div>
+						<div id="showMyDislikeIrdnt">
+							<input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="-1" class="ccformfield">
+							<button type="button" id="createMyDislikeIrdnt" class="ccbtn">기피재료추가</button><br>
+							<div class="error" id="tooMuchIrdnt"></div>
+						</div>
+					</div>
+					<sec:csrfInput/>
+					<div class="ccfield-submit-part">
+							<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+								<span class="glyphicon glyphicon-ok" aria-hidden="true">Join</span>
+							</button>
+							
+							<button type="button" onclick="location.reload()" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+								<span class="glyphicon glyphicon-refresh" aria-hidden="true">Reset</span>
+							</button>
+					</div>
+				</form>
+			</div>
+		</div><!-- right-box-sidemenu -->
+	</div><!-- wrapperDiv -->
 </div><!-- container -->
 </body>
 </html>

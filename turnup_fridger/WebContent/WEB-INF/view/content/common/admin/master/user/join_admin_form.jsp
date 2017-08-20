@@ -25,12 +25,9 @@ $(document).ready(function(){
 		window.open("${initParam.rootPath}/common/admin/master/join_admin_form.do","join_admin_form","width=450,height=650,resizable=no");
 	});
 });//end of ready(function)
-
 </script>
 
-
 <style>
-
 .ccfield-prepend{
 	margin-bottom:20px;
 	width:100%;
@@ -100,60 +97,52 @@ h1 {
 	margin-left:auto;
 	margin-right:auto;
 }
-
-
 </style>
 </head>
 <body>
-
-<div class="container">
-
-<div class="popup-body">
-	<h1 class="modal-title font-Viner_Hand_ITC" >Register Admin</h1>
-<%-- controller.admin패키지 --%>
-<hr>
-<form action="${initParam.rootPath}/common/admin/master/join_admin.do" method="post">
-	<div class="ccfield-prepend">
-		<span class="ccform-addon"><span class="material-icons">&#xE150;</span></span>
-		<input type="text" id="id" name="adminId" class="ccformfield" placeholder="ID">
-		<div class="error"><form:errors path="admin.adminId" delimiter="&nbsp;&nbsp"/></div>
-	</div>
-	<div class="ccfield-prepend">
-		<span class="ccform-addon"><i class="material-icons">&#xE150;</i></span>
-		<input type="password"  id="password" name="adminPw" class="ccformfield" placeholder="Password">
-		<div class="error"><form:errors path="admin.adminPw" delimiter="&nbsp;&nbsp"/></div>	
-	</div>
-	<div class="ccfield-prepend">
-		<span class="ccform-addon"><i class="material-icons">&#xE853;</i></span>
-		<input type="text" id="name" name="adminName" class="ccformfield" placeholder="Name">	
-		<div class="error"><form:errors path="admin.adminName" delimiter="&nbsp;&nbsp"/></div>	
-	</div>
-	<div class="ccfield-prepend">
-		<span class="ccform-addon"><i class="material-icons">&#xE0B0;</i></span>
-		<input type="text" id="tel" name="adminTel" class="ccformfield" placeholder="Tel">
-		<div class="error"><form:errors path="admin.adminTel" delimiter="&nbsp;&nbsp"/></div>	
-	</div>
-	<div class="ccfield-prepend">
-		<span class="ccform-addon"><i class="material-icons">&#xE0BE;</i></span>
-		<input type="text" id="email" name="adminEmail" class="ccformfield" placeholder="Email">
-		<div class="error"><form:errors path="admin.adminEmail" delimiter="&nbsp;&nbsp"/></div>
-	</div>
-	<sec:csrfInput/>
-
-
-	<hr>
-	<div style="text-align:center">
-	<button type="submit" id="registerAdminPopBtn" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Register
-	</button>
-	<button type="button" onclick="self.close()" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-		<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Close
-	</button>
-	</div>
-</form>
-
-</div><!-- popup-body -->
-</div><!-- container -->
-
+	<div class="container">
+		<div class="popup-body">
+			<h1 class="modal-title font-Viner_Hand_ITC" >Register Admin</h1>
+		<%-- controller.admin패키지 --%>
+			<hr>
+			<form action="${initParam.rootPath}/common/admin/master/join_admin.do" method="post">
+				<div class="ccfield-prepend">
+					<span class="ccform-addon"><span class="material-icons">&#xE150;</span></span>
+					<input type="text" id="id" name="adminId" class="ccformfield" placeholder="ID">
+					<div class="error"><form:errors path="admin.adminId" delimiter="&nbsp;&nbsp"/></div>
+				</div>
+				<div class="ccfield-prepend">
+					<span class="ccform-addon"><i class="material-icons">&#xE150;</i></span>
+					<input type="password"  id="password" name="adminPw" class="ccformfield" placeholder="Password">
+					<div class="error"><form:errors path="admin.adminPw" delimiter="&nbsp;&nbsp"/></div>	
+				</div>
+				<div class="ccfield-prepend">
+					<span class="ccform-addon"><i class="material-icons">&#xE853;</i></span>
+					<input type="text" id="name" name="adminName" class="ccformfield" placeholder="Name">	
+					<div class="error"><form:errors path="admin.adminName" delimiter="&nbsp;&nbsp"/></div>	
+				</div>
+				<div class="ccfield-prepend">
+					<span class="ccform-addon"><i class="material-icons">&#xE0B0;</i></span>
+					<input type="text" id="tel" name="adminTel" class="ccformfield" placeholder="Tel">
+					<div class="error"><form:errors path="admin.adminTel" delimiter="&nbsp;&nbsp"/></div>	
+				</div>
+				<div class="ccfield-prepend">
+					<span class="ccform-addon"><i class="material-icons">&#xE0BE;</i></span>
+					<input type="text" id="email" name="adminEmail" class="ccformfield" placeholder="Email">
+					<div class="error"><form:errors path="admin.adminEmail" delimiter="&nbsp;&nbsp"/></div>
+				</div>
+				<sec:csrfInput/>
+				<hr>
+				<div style="text-align:center">
+				<button type="submit" id="registerAdminPopBtn" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>Register
+				</button>
+				<button type="button" onclick="self.close()" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Close
+				</button>
+				</div>
+			</form>
+		</div><!-- popup-body -->
+	</div><!-- container -->
 </body>
 </html>

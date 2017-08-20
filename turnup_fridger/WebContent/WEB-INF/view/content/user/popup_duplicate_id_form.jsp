@@ -130,9 +130,7 @@ h1 {
 </style>
 </head>
 <body>
-
 	<div class="container">
-
 		<div class="popup-body">
 			<h1 class="modal-title font-Viner_Hand_ITC">ID Duplication Check</h1>
 			<hr>
@@ -143,7 +141,6 @@ h1 {
 			</div>
 			<div id="useId" class="popup-btn" style="display: none">
 				<hr>
-				
 				<input type="hidden" id="id" name="id">
 				<button type="submit" id="useIdBtn" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 					<span class="glyphicon glyphicon-ok" aria-hidden="true">Use</span>
@@ -154,12 +151,7 @@ h1 {
 					<span class="glyphicon glyphicon-remove" aria-hidden="true">Close</span>
 				</button>
 			</div>
-
-
-		</div>
-		<!-- popup-body -->
-	</div>
-	<!-- container -->
-
+		</div><!-- popup-body -->
+	</div><!-- container -->
 </body>
 </html>

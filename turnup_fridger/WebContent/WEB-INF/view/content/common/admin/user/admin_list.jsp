@@ -25,8 +25,6 @@
 $(document).ready(function(){
 	var loginId=$("input#loginId").val();
 	var loginAuthority=$("input#loginAuthority").val();
-
-	
 	$(document).on("click","button#changeAdminAuthorityBtn",function(){
 		var adminIdChange=$(this).parent().children(":nth-child(1)").val();
 		var originalAuthorityChange=$(this).parent().children(":nth-child(2)").val();
@@ -89,7 +87,6 @@ $(document).ready(function(){
 	$("button#RegisterAdminBtn").on("click",function(){
 		window.open("${initParam.rootPath}/common/admin/master/join_admin_form.do","join_admin_form","width=400,height=500,resizable=no");
 	});//end of findIdPwBtn
-	
 });
 </script>
 <style>
@@ -150,117 +147,106 @@ h1 {
 </style>
 </head>
 <body>
-
-
-<div class="container">
-<div class='wrapperDiv'>
-	<jsp:include page="/WEB-INF/view/layout/side_menu/adminSideMenu.jsp"/>
-	<div class='right-box-sidemenu'>
-
-	<div class="form-page">
-	
-		<h1>Manager Management</h1>
-		<hr>
-		<input type="hidden" id="loginId" value='<sec:authentication property="principal.adminId"/>'>
-		<input type="hidden" id="loginAuthority" value='<sec:authentication property="authorities"/>'>
-		<div id="wrap">
-			<!-- 엑셀로 추출버튼 -->
-			<a id="exportBtn" href="#" download=""><button type="button">(Excel)Download</button></a>
-			
-		 	<!-- 관리자 등록 -->
-			<sec:authorize access="hasAnyRole('ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-		 	<button type="button" id="RegisterAdminBtn" class="btn btn-default" style="border:0;outline:0;float:right;"><span class="glyphicon glyphicon-ok" aria-hidden="true">관리자등록</span></button>
-		 </sec:authorize>
-		 
-	
-			
-			<div id="allAdminList" 
-			style="width:100%; border-style:outset; overflow-x:scroll; overflow-y:scroll; height:400px;padding:10px;">
-				<table id="tblExport" border="1" class="ExcelTable2007">
-					<thead id="thead">
-						<tr>
-							<th class="heading">&nbsp;</th>
-							<th>A</th>
-							<th>B</th>
-							<th>C</th>
-							<th>D</th>
-							<th>E</th>
-							<th>F</th>
-							<th>G</th>
-						</tr>
-					</thead>
-					<tbody id="tbody">
-						<tr>
-							<td align="left" valign="middle" class="heading">1</td>
-							<td align="left" valign="middle" ><b>No</b></td>
-							<td align="left" valign="middle" ><b>Admin ID</b></td>
-							<td align="left" valign="middle" ><b>Name</b></td>
-							<td align="left" valign="middle" ><b>Tel</b></td>
-							<td align="left" valign="middle" ><b>Email</b></td>
-							<td align="left" valign="middle" ><b>Authority</b></td>
-							<td align="left" valign="middle" ><b>Control Box</b></td>
-						</tr>
-						
-						<c:forEach var="admin" items="${requestScope.adminList}"
-							varStatus="loop">
-							<tr>
-								<td align="left" valign="middle" class="heading">${(loop.index)+2}</td>
-								<td align="center" valign="middle" >${(loop.index)+1}</td>
-								<td align="left" valign="middle" >${admin.adminId }</td>
-								<td align="left" valign="middle" >${admin.adminName }</td>
-								<td align="left" valign="middle" >${admin.adminTel }</td>
-								<td align="left" valign="middle" >${admin.adminEmail }</td>
-								<td align="left" valign="middle" >${admin.adminAuthority }</td>
-								<td>
-									<!-- 일반 Admin에게 보이는 것 --> <sec:authorize
-										access="hasRole('ROLE_ADMIN')">권한없음</sec:authorize> 
-									<!-- MasterAdmin/HeadMasterAdmin에게 보이는 것  --> <sec:authorize
-										access="hasAnyRole('ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
-										<!-- 관리자권한수정 -->
-										<form
-											action="${initParam.rootPath }/common/admin/master/admin_change_authority.do"
-											method="post">
-											<input type="hidden" id="adminId" name="adminId"
-												value="${admin.adminId }"> <input type="hidden"
-												id="originalAuthority" name="originalAuthority"
-												value="${admin.adminAuthority }"> <select
-												name="adminAuthority" value="${admin.adminAuthority}">
-												<option value="${admin.adminAuthority}">--권한선택--</option>
-												<option value="ROLE_ADMIN">일반 Admin</option>
-												<option value="ROLE_MASTERADMIN">MasterAdmin</option>
-											</select>
-											<sec:csrfInput />
-											<button type="submit" id="changeAdminAuthorityBtn"><span class="glyphicon glyphicon-refresh" aria-hidden="true">권한수정</span></button>
-											<br>
-										</form>
-		
-										<!-- 관리자탈퇴처리 -->
-										<form
-											action="${initParam.rootPath}/common/admin/master/admin_delete.do"
-											method="post">
-											<input type="hidden" id="adminId" name="adminId"
-												value="${admin.adminId}"> <input type="hidden"
-												id="originalAuthority" name="originalAuthority"
-												value="${admin.adminAuthority }">
-											<sec:csrfInput />
-											<button type="submit" id="deleteAdminBtn"><span class="glyphicon glyphicon-remove" aria-hidden="true">탈퇴</span></button>
-										</form>
-									</sec:authorize>
-								</td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-			</div>
+	<div class="container">
+		<div class='wrapperDiv'>
+			<jsp:include page="/WEB-INF/view/layout/side_menu/adminSideMenu.jsp"/>
+			<div class='right-box-sidemenu'>
+				<div class="form-page">
+					<h1>Manager Management</h1>
+					<hr>
+					<input type="hidden" id="loginId" value='<sec:authentication property="principal.adminId"/>'>
+					<input type="hidden" id="loginAuthority" value='<sec:authentication property="authorities"/>'>
+					<div id="wrap">
+						<!-- 엑셀로 추출버튼 -->
+						<a id="exportBtn" href="#" download=""><button type="button">(Excel)Download</button></a>
+					 	<!-- 관리자 등록 -->
+						<sec:authorize access="hasAnyRole('ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+					 		<button type="button" id="RegisterAdminBtn" class="btn btn-default" style="border:0;outline:0;float:right;"><span class="glyphicon glyphicon-ok" aria-hidden="true">관리자등록</span></button>
+					 	</sec:authorize>
+						<div id="allAdminList" 
+						style="width:100%; border-style:outset; overflow-x:scroll; overflow-y:scroll; height:400px;padding:10px;">
+							<table id="tblExport" border="1" class="ExcelTable2007">
+								<thead id="thead">
+									<tr>
+										<th class="heading">&nbsp;</th>
+										<th>A</th>
+										<th>B</th>
+										<th>C</th>
+										<th>D</th>
+										<th>E</th>
+										<th>F</th>
+										<th>G</th>
+									</tr>
+								</thead>
+								<tbody id="tbody">
+									<tr>
+										<td align="left" valign="middle" class="heading">1</td>
+										<td align="left" valign="middle" ><b>No</b></td>
+										<td align="left" valign="middle" ><b>Admin ID</b></td>
+										<td align="left" valign="middle" ><b>Name</b></td>
+										<td align="left" valign="middle" ><b>Tel</b></td>
+										<td align="left" valign="middle" ><b>Email</b></td>
+										<td align="left" valign="middle" ><b>Authority</b></td>
+										<td align="left" valign="middle" ><b>Control Box</b></td>
+									</tr>
+									<c:forEach var="admin" items="${requestScope.adminList}"
+										varStatus="loop">
+										<tr>
+											<td align="left" valign="middle" class="heading">${(loop.index)+2}</td>
+											<td align="center" valign="middle" >${(loop.index)+1}</td>
+											<td align="left" valign="middle" >${admin.adminId }</td>
+											<td align="left" valign="middle" >${admin.adminName }</td>
+											<td align="left" valign="middle" >${admin.adminTel }</td>
+											<td align="left" valign="middle" >${admin.adminEmail }</td>
+											<td align="left" valign="middle" >${admin.adminAuthority }</td>
+											<td>
+												<!-- 일반 Admin에게 보이는 것 --> <sec:authorize
+													access="hasRole('ROLE_ADMIN')">권한없음</sec:authorize> 
+												<!-- MasterAdmin/HeadMasterAdmin에게 보이는 것  --> <sec:authorize
+													access="hasAnyRole('ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+													<!-- 관리자권한수정 -->
+													<form
+														action="${initParam.rootPath }/common/admin/master/admin_change_authority.do"
+														method="post">
+														<input type="hidden" id="adminId" name="adminId"
+															value="${admin.adminId }"> <input type="hidden"
+															id="originalAuthority" name="originalAuthority"
+															value="${admin.adminAuthority }"> <select
+															name="adminAuthority" value="${admin.adminAuthority}">
+															<option value="${admin.adminAuthority}">--권한선택--</option>
+															<option value="ROLE_ADMIN">일반 Admin</option>
+															<option value="ROLE_MASTERADMIN">MasterAdmin</option>
+														</select>
+														<sec:csrfInput />
+														<button type="submit" id="changeAdminAuthorityBtn"><span class="glyphicon glyphicon-refresh" aria-hidden="true">권한수정</span></button>
+														<br>
+													</form>
+													<!-- 관리자탈퇴처리 -->
+													<form
+														action="${initParam.rootPath}/common/admin/master/admin_delete.do"
+														method="post">
+														<input type="hidden" id="adminId" name="adminId"
+															value="${admin.adminId}"> <input type="hidden"
+															id="originalAuthority" name="originalAuthority"
+															value="${admin.adminAuthority }">
+														<sec:csrfInput />
+														<button type="submit" id="deleteAdminBtn"><span class="glyphicon glyphicon-remove" aria-hidden="true">탈퇴</span></button>
+													</form>
+												</sec:authorize>
+											</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					 </div>
+					 <!-- reload -->
+					 <button type="button" onclick="location.reload()" class="btn btn-default btn-lg"  style="border:0;outline:0;float:right;">
+						<span class="glyphicon glyphicon-refresh" aria-hidden="true">Reset</span>
+					 </button>
+				</div><!-- form-page -->
+		 	</div><!-- rightside menu -->
 		</div>
-		 <!-- reload -->
-		 <button type="button" onclick="location.reload()" class="btn btn-default btn-lg"  style="border:0;outline:0;float:right;">
-			<span class="glyphicon glyphicon-refresh" aria-hidden="true">Reset</span>
-		 </button>
-		 
-		 </div><!-- form-page -->
- 	</div><!-- rightside menu -->
-</div>
-</div><!-- container -->
+	</div><!-- container -->
 </body>
 </html>

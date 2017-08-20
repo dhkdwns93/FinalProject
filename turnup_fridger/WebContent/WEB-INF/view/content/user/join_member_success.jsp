@@ -134,69 +134,67 @@ input[type="button"].btn-block {
 }
 </style>
 
-<body>
-		
+<body>	
 	<div class='wrapperDiv'>
-	
-	<jsp:include page="/WEB-INF/view/layout/side_menu/nonMemberSideMenu.jsp"/>
-	<div class='right-box-sidemenu'>
-		<div class="join-member">
-		<div class="card hovercard">
-			<img src="img/asparagus.jpg" alt>
-			<div class="avatar">
-				<img src="img/cooker.jpeg" alt>
+		<jsp:include page="/WEB-INF/view/layout/side_menu/nonMemberSideMenu.jsp"/>
+		<div class='right-box-sidemenu'>
+			<div class="join-member">
+			<div class="card hovercard">
+				<img src="img/asparagus.jpg" alt>
+				<div class="avatar">
+					<img src="img/cooker.jpeg" alt>
+				</div>
+				<div class="info">
+					<div class="title font-Viner_Hand_ITC">Welcome to Turnup-Fridger!</div>
+					<div class="desc">
+					<table class="member-join-success-table">
+						<tr>
+							<td class="font-Broadway table-attribute-name">ID</td>
+							<td class="table-attribute-text">${requestScope.member.memberId}</td>
+						</tr>
+						<tr>
+							<td class="font-Broadway table-attribute-name">Name</td>
+							<td class="table-attribute-text">${requestScope.member.memberName }</td>
+						</tr>
+						<tr>
+							<td class="font-Broadway table-attribute-name">Address</td>
+							<td class="table-attribute-text">${requestScope.member.memberAddress }</td>
+						</tr>
+						<tr>
+							<td class="font-Broadway table-attribute-name">Email</td>
+							<td class="table-attribute-text">${requestScope.member.memberEmail }</td>
+						</tr>
+						<tr>
+							<td class="font-Broadway table-attribute-name">Tel</td>
+							<td class="table-attribute-text">${requestScope.member.memberTel }</td>
+						</tr>
+						<tr>
+							<td class="font-Broadway table-attribute-name">Gender</td>
+							<td class="table-attribute-text">${requestScope.member.memberSex }</td>
+						</tr>
+						<tr>
+							<td class="font-Broadway table-attribute-name" style="font-size:15px">기피재료목록</td>
+							<td class="table-attribute-text">
+								<c:forEach items="${requestScope.myDislikeIrdntNameList }"
+									var="myDislikeIrdntName">
+									<li>${myDislikeIrdntName }</li>
+								</c:forEach>
+							</td>
+						</tr>
+					</table><!-- end of table  -->			
+					</div><!-- desc -->
+				</div>
+				<!-- info -->
+				<div class="bottom">
+					<a href="${initParam.rootPath}/login_form.do"><button
+							type="button" class="btn btn-block">LOGIN</button></a>
+				</div>
+				<!-- bottom -->
 			</div>
-			<div class="info">
-				<div class="title font-Viner_Hand_ITC">Welcome to Turnup-Fridger!</div>
-				<div class="desc">
-				<table class="member-join-success-table">
-					<tr>
-						<td class="font-Broadway table-attribute-name">ID</td>
-						<td class="table-attribute-text">${requestScope.member.memberId}</td>
-					</tr>
-					<tr>
-						<td class="font-Broadway table-attribute-name">Name</td>
-						<td class="table-attribute-text">${requestScope.member.memberName }</td>
-					</tr>
-					<tr>
-						<td class="font-Broadway table-attribute-name">Address</td>
-						<td class="table-attribute-text">${requestScope.member.memberAddress }</td>
-					</tr>
-					<tr>
-						<td class="font-Broadway table-attribute-name">Email</td>
-						<td class="table-attribute-text">${requestScope.member.memberEmail }</td>
-					</tr>
-					<tr>
-						<td class="font-Broadway table-attribute-name">Tel</td>
-						<td class="table-attribute-text">${requestScope.member.memberTel }</td>
-					</tr>
-					<tr>
-						<td class="font-Broadway table-attribute-name">Gender</td>
-						<td class="table-attribute-text">${requestScope.member.memberSex }</td>
-					</tr>
-					<tr>
-						<td class="font-Broadway table-attribute-name" style="font-size:15px">기피재료목록</td>
-						<td class="table-attribute-text">
-							<c:forEach items="${requestScope.myDislikeIrdntNameList }"
-								var="myDislikeIrdntName">
-								<li>${myDislikeIrdntName }</li>
-							</c:forEach>
-						</td>
-					</tr>
-				</table><!-- end of table  -->			
-				</div><!-- desc -->
-			</div>
-			<!-- info -->
-			<div class="bottom">
-				<a href="${initParam.rootPath}/login_form.do"><button
-						type="button" class="btn btn-block">LOGIN</button></a>
-			</div>
-			<!-- bottom -->
+			<!-- card hovercard -->
+			</div><!-- rounded -->
 		</div>
-		<!-- card hovercard -->
-		</div><!-- rounded -->
-	</div>
-	<!-- rightbox -->
-</div><!-- wrapperDiv -->
+		<!-- rightbox -->
+	</div><!-- wrapperDiv -->
 </body>
 </html>
