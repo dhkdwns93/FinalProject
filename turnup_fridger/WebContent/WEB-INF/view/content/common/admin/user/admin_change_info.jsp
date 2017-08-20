@@ -90,66 +90,61 @@ h1 {
 </style>
 </head>
 <body>
-
-<div class="container">
-<div class='wrapperDiv'>
-	
-	<jsp:include page="/WEB-INF/view/layout/side_menu/adminSideMenu.jsp"/>
-	<div class='right-box-sidemenu'>
-		
-		<div class="contact-form">
-		<h1>Edit Profile for Admin</h1>
-		<form action="${initParam.rootPath}/common/admin/admin_change.do" method="post">
-			<div class="ccfield-prepend">
-				<div><label for="id" class="form-text">Admin ID</label></div>
-				<span class="ccform-addon"><i class="material-icons">&#xE85E;</i></span>
-				<input type="text" id="id" name="adminId" readonly="readonly" value='<sec:authentication property="principal.adminId"/>' class="ccformfield">
-				<div class="error"><form:errors path="adminChangeForm.adminId" delimiter="&nbsp;&nbsp"/></div>
-			</div>
-			<div class="ccfield-prepend">
-				<div><label for="password" class="form-text">Password</label></div>
-				<span class="ccform-addon"><i class="material-icons">&#xE85E;</i></span>
-				<input type="password" id="password" name="oldAdminPw"  class="ccformfield">
-				<div class="error"><form:errors path="adminChangeForm.oldAdminPw" delimiter="&nbsp;&nbsp"/></div>	
-			</div>
-			<div class="ccfield-prepend">
-				<div><label for="newPassword" class="form-text">New Password</label></div>
-				<span class="ccform-addon"><i class="material-icons">&#xE150;</i></span>
-				<input type="password" id="newPassword" name="adminPw"  class="ccformfield">
-				<div class="error"><form:errors path="adminChangeForm.adminPw" delimiter="&nbsp;&nbsp"/></div>		
-			</div>
-			<div class="ccfield-prepend">
-				<div><label for="name" class="form-text">Name</label></div>
-			 	<span class="ccform-addon"><i class="material-icons">&#xE853;</i></span>	
-				<input type="text" id="name" name="adminName" value='<sec:authentication property="principal.adminName"/>' class="ccformfield">
-				<div class="error"><form:errors path="adminChangeForm.adminName" delimiter="&nbsp;&nbsp"/></div>	
-			</div>
-			<div class="ccfield-prepend">
-				<div><label for="tel" class="form-text">Tel</label><span id="lengthTel" class="error">&nbsp&nbsp*ex.01012345678</span></div>
-				<span class="ccform-addon"><i class="material-icons">&#xE0B0;</i></span>
-				<input type="text" id="tel" name="adminTel" value='<sec:authentication property="principal.adminTel"/>' class="ccformfield">
-				<div class="error"><form:errors path="adminChangeForm.adminTel" delimiter="&nbsp;&nbsp"/></div>		
-			</div>
-			<div class="ccfield-prepend">
-				<div><label for="inputEmail" class="form-text">Email</label></div>
-				<span class="ccform-addon"><i class="material-icons">&#xE0BE;</i></span>
-				<input type="text" id="email" name="adminEmail" value='<sec:authentication property="principal.adminEmail"/>' class="ccformfield">
-				<div class="error"><form:errors path="adminChangeForm.adminEmail" delimiter="&nbsp;&nbsp"/></div>	
-			</div>
-			<sec:csrfInput/>
-			<div class="ccfield-submit-part">
-				<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-					<span class="glyphicon glyphicon-ok" aria-hidden="true">Edit</span>
-				</button>
-				<button type="button" onclick="location.reload()" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-					<span class="glyphicon glyphicon-refresh" aria-hidden="true">Reset</span>
-				</button>
-
-			</div>
-		</form>
+	<div class="container">
+		<div class='wrapperDiv'>
+			<jsp:include page="/WEB-INF/view/layout/side_menu/adminSideMenu.jsp"/>
+			<div class='right-box-sidemenu'>
+				<div class="contact-form">
+				<h1>Edit Profile for Admin</h1>
+				<form action="${initParam.rootPath}/common/admin/admin_change.do" method="post">
+					<div class="ccfield-prepend">
+						<div><label for="id" class="form-text">Admin ID</label></div>
+						<span class="ccform-addon"><i class="material-icons">&#xE85E;</i></span>
+						<input type="text" id="id" name="adminId" readonly="readonly" value='<sec:authentication property="principal.adminId"/>' class="ccformfield">
+						<div class="error"><form:errors path="adminChangeForm.adminId" delimiter="&nbsp;&nbsp"/></div>
+					</div>
+					<div class="ccfield-prepend">
+						<div><label for="password" class="form-text">Password</label></div>
+						<span class="ccform-addon"><i class="material-icons">&#xE85E;</i></span>
+						<input type="password" id="password" name="oldAdminPw"  class="ccformfield">
+						<div class="error"><form:errors path="adminChangeForm.oldAdminPw" delimiter="&nbsp;&nbsp"/></div>	
+					</div>
+					<div class="ccfield-prepend">
+						<div><label for="newPassword" class="form-text">New Password</label></div>
+						<span class="ccform-addon"><i class="material-icons">&#xE150;</i></span>
+						<input type="password" id="newPassword" name="adminPw"  class="ccformfield">
+						<div class="error"><form:errors path="adminChangeForm.adminPw" delimiter="&nbsp;&nbsp"/></div>		
+					</div>
+					<div class="ccfield-prepend">
+						<div><label for="name" class="form-text">Name</label></div>
+					 	<span class="ccform-addon"><i class="material-icons">&#xE853;</i></span>	
+						<input type="text" id="name" name="adminName" value='<sec:authentication property="principal.adminName"/>' class="ccformfield">
+						<div class="error"><form:errors path="adminChangeForm.adminName" delimiter="&nbsp;&nbsp"/></div>	
+					</div>
+					<div class="ccfield-prepend">
+						<div><label for="tel" class="form-text">Tel</label><span id="lengthTel" class="error">&nbsp&nbsp*ex.01012345678</span></div>
+						<span class="ccform-addon"><i class="material-icons">&#xE0B0;</i></span>
+						<input type="text" id="tel" name="adminTel" value='<sec:authentication property="principal.adminTel"/>' class="ccformfield">
+						<div class="error"><form:errors path="adminChangeForm.adminTel" delimiter="&nbsp;&nbsp"/></div>		
+					</div>
+					<div class="ccfield-prepend">
+						<div><label for="inputEmail" class="form-text">Email</label></div>
+						<span class="ccform-addon"><i class="material-icons">&#xE0BE;</i></span>
+						<input type="text" id="email" name="adminEmail" value='<sec:authentication property="principal.adminEmail"/>' class="ccformfield">
+						<div class="error"><form:errors path="adminChangeForm.adminEmail" delimiter="&nbsp;&nbsp"/></div>	
+					</div>
+					<sec:csrfInput/>
+					<div class="ccfield-submit-part">
+						<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true">Edit</span>
+						</button>
+						<button type="button" onclick="location.reload()" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+							<span class="glyphicon glyphicon-refresh" aria-hidden="true">Reset</span>
+						</button>
+					</div>
+				</form>
+				</div>
+			</div><!-- rightside menu -->
 		</div>
-
-	</div><!-- rightside menu -->
-</div>
-</div><!-- container -->
+	</div><!-- container -->
 </body>

@@ -162,7 +162,7 @@ public class UserManageController {
 						+ "Password : "+newMemberPw+"\n\n"
 								+ "*로그인 하신후 비밀번호를 재설정해주세요.");
 		mailSender.send(simpleMailMessage);//전송	
-		
+
 		//3.응답
 		return "redirect:/login_form.do";
 	}

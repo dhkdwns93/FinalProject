@@ -127,21 +127,18 @@ h1 {
 </style>
 </head>
 <body>
-
 	<div class="container">
-
 		<div class="popup-body">
 			<h1 class="modal-title font-Viner_Hand_ITC">Email Duplication Check</h1>
 			<hr>
 			<div class="form-text">*이메일은 ID/PW찾을 때 사용되니 실제 사용 이메일을 작성해주시기 바랍니다.</div>
-			<div class="ccfield-prepend">
-			<input type="email" id="inputEmail" name="inputEmail email" value="${param.inputEmail}" class="ccformfield" placeholder="Email">
-			<button type="button" id="duplicateEmailBtn" class="ccbtn"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Check</span></button>
-			<div id="duplicateResult" class="error-popup"></div>
+				<div class="ccfield-prepend">
+				<input type="email" id="inputEmail" name="inputEmail email" value="${param.inputEmail}" class="ccformfield" placeholder="Email">
+				<button type="button" id="duplicateEmailBtn" class="ccbtn"><span class="glyphicon glyphicon-ok" aria-hidden="true"> Check</span></button>
+				<div id="duplicateResult" class="error-popup"></div>
 			</div>
-			
 			<div id="useEmail" class="popup-btn" style="display:none">
-			<hr>
+				<hr>
 				<input type="hidden" id="email" name="email">
 				<button type="submit" id="useEmailBtn"class="btn btn-default btn-lg"  style="border:0;outline:0;">
 					<span class="glyphicon glyphicon-ok" aria-hidden="true">Use</span>
@@ -152,10 +149,7 @@ h1 {
 					<span class="glyphicon glyphicon-remove" aria-hidden="true">Close</span>
 				</button>
 			</div>
-			
-		</div>
-		<!-- popup-body -->
-	</div>
-	<!-- container -->
+		</div><!-- popup-body -->
+	</div><!-- container -->
 </body>
 </html>

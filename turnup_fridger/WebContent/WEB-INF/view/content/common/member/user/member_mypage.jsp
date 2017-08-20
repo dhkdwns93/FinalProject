@@ -7,7 +7,7 @@
 최초 작성일 170704
 변경이력 
 170714 박연수 // 즐겨찾기목록 추가. 
-170717 (경혜) // error alert 주석처리(잠시해놨어여ㅜㅜ)
+170717 (경혜) // error alert 주석처리
  -->
 <!DOCTYPE html>
 <html>
@@ -27,13 +27,11 @@ $(document).ready(function(){
 		"success":function(list){
 			$("#favoriteSection").show();
 			$("#fTbody").empty();
-			
 			$.each(list, function(){
 				$("#fTbody").append($("<tr>").append($("<td>").append(this.recipeId))
 						.append($("<td>").append($("<a>").prop("href", "${initParam.rootPath}/recipe/show/detail.do?recipeId="+this.recipeId).append(this.recipeInfo.recipeName))));
 				 });//each	 		 
-			},//success
-			
+			},//success		
 			"error":function(xhr, msg, code){
 				//alert("오류발생-" +msg+ ":" +code);
 			}//error
@@ -42,7 +40,6 @@ $(document).ready(function(){
 	$(document).on("click","#deleteMemberBtn", function(){
 		$("#deleteMemberModal").modal("show");
 	});	// end of click on requstBtn
-	
 	
 	$("button#favoriteSectionBtn").on("click",function(){
 		$("#favoriteSectionModal").modal("show");
@@ -188,107 +185,90 @@ input[type="button"].btn-block {
 
 </head>
 <body>
-
-<div>
-<jsp:include page="/WEB-INF/view/content/common/member/user/member_delete_form.jsp"/>
-</div>
-
-
-<div class="container">
-<div class='wrapperDiv'>
-	
-	<jsp:include page="/WEB-INF/view/layout/side_menu/memberSideMenu.jsp"/>
-	<div class='right-box-sidemenu'>
-		
-	
-		<div class="card hovercard">
-			<img src="${initParam.rootPath }/img/asparagus.jpg" alt>
-			<div class="avatar">
-				<img src="${initParam.rootPath }/img/cooker.jpeg" alt>
-			</div>
-			<div class="info">
-				<div class="title font-Viner_Hand_ITC">My Information</div>
-				<div class="desc">
-					<table class="mypage-table">
-						<tr>
-							<td class="font-Broadway table-attribute-name">ID</td>
-							<th><sec:authentication property="principal.memberId"></sec:authentication></th>
-						</tr>
-						<tr>
-							<td class="font-Broadway table-attribute-name">Name</td>
-							<th><sec:authentication property="principal.memberName"></sec:authentication></th>
-						</tr>
-						<tr>
-							<td class="font-Broadway table-attribute-name">Address</td>
-							<th><sec:authentication property="principal.memberAddress"></sec:authentication></th>
-						</tr>
-						<tr>
-							<td class="font-Broadway table-attribute-name">Email</td>
-							<th><sec:authentication property="principal.memberEmail"></sec:authentication></th>
-						</tr>
-						<tr>
-							<td class="font-Broadway table-attribute-name">Tel</td>
-							<th><sec:authentication property="principal.memberTel"></sec:authentication></th>
-						</tr>
-						<tr>
-							<td class="font-Broadway table-attribute-name">Gender</td>
-							<th><sec:authentication property="principal.memberSex"></sec:authentication></th>
-						</tr>
-						<tr>
-							<td class="font-Broadway table-attribute-name" style="font-size:15px">기피재료목록</td>
-							<td class="table-attribute-text">
-								<c:forEach items="${requestScope.myDislikeIrdntNameList }" var="myDislikeIrdntName">
-										<li>${myDislikeIrdntName }</li>
-								</c:forEach> 
-							</td>
-						</tr>
-					</table>
-					
-					<button type="button" class="ccbtn"  id="favoriteSectionBtn"  data-toggle="modal"  data-target="#favoriteSectionModal">등록된 즐겨찾기</button>
-					
-				</div><!-- info  desc -->
-				<div class="bottom-mypage">
-					<a href="${initParam.rootPath }/common/member/member_change_info.do"><button type="button" class="btn btn-block">회원정보수정</button></a>
-					<button type="button" class="btn btn-block" id="deleteMemberBtn" data-toggle="modal"  data-target="#deleteMemberModal" >회원탈퇴하기</button>
-				</div><!-- bottom -->
-		</div><!-- info -->
-		</div><!-- card hover card -->
-		
-		
-		<div class="modal fade" id="favoriteSectionModal" tabindex="-1" role="dialog" aria-labelledby="createFridgerModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-		<div class="modal-content">
-		
-		<div class="modal-header">
-			<h3 class="modal-title font-Viner_Hand_ITC" id="myModalLabel">Favorite Recipe</h3>
+	<div>
+		<jsp:include page="/WEB-INF/view/content/common/member/user/member_delete_form.jsp"/>
+	</div>
+	<div class="container">
+		<div class='wrapperDiv'>
+			<jsp:include page="/WEB-INF/view/layout/side_menu/memberSideMenu.jsp"/>
+			<div class='right-box-sidemenu'>
+				<div class="card hovercard">
+					<img src="${initParam.rootPath }/img/asparagus.jpg" alt>
+					<div class="avatar">
+						<img src="${initParam.rootPath }/img/cooker.jpeg" alt>
+					</div>
+					<div class="info">
+						<div class="title font-Viner_Hand_ITC">My Information</div>
+						<div class="desc">
+							<table class="mypage-table">
+								<tr>
+									<td class="font-Broadway table-attribute-name">ID</td>
+									<th><sec:authentication property="principal.memberId"></sec:authentication></th>
+								</tr>
+								<tr>
+									<td class="font-Broadway table-attribute-name">Name</td>
+									<th><sec:authentication property="principal.memberName"></sec:authentication></th>
+								</tr>
+								<tr>
+									<td class="font-Broadway table-attribute-name">Address</td>
+									<th><sec:authentication property="principal.memberAddress"></sec:authentication></th>
+								</tr>
+								<tr>
+									<td class="font-Broadway table-attribute-name">Email</td>
+									<th><sec:authentication property="principal.memberEmail"></sec:authentication></th>
+								</tr>
+								<tr>
+									<td class="font-Broadway table-attribute-name">Tel</td>
+									<th><sec:authentication property="principal.memberTel"></sec:authentication></th>
+								</tr>
+								<tr>
+									<td class="font-Broadway table-attribute-name">Gender</td>
+									<th><sec:authentication property="principal.memberSex"></sec:authentication></th>
+								</tr>
+								<tr>
+									<td class="font-Broadway table-attribute-name" style="font-size:15px">기피재료목록</td>
+									<td class="table-attribute-text">
+										<c:forEach items="${requestScope.myDislikeIrdntNameList }" var="myDislikeIrdntName">
+												<li>${myDislikeIrdntName }</li>
+										</c:forEach> 
+									</td>
+								</tr>
+							</table>
+							<button type="button" class="ccbtn"  id="favoriteSectionBtn"  data-toggle="modal"  data-target="#favoriteSectionModal">등록된 즐겨찾기</button>
+						</div><!-- info  desc -->
+						<div class="bottom-mypage">
+							<a href="${initParam.rootPath }/common/member/member_change_info.do"><button type="button" class="btn btn-block">회원정보수정</button></a>
+							<button type="button" class="btn btn-block" id="deleteMemberBtn" data-toggle="modal"  data-target="#deleteMemberModal" >회원탈퇴하기</button>
+						</div><!-- bottom -->
+				</div><!-- info -->
+				</div><!-- card hover card -->
+				<div class="modal fade" id="favoriteSectionModal" tabindex="-1" role="dialog" aria-labelledby="createFridgerModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h3 class="modal-title font-Viner_Hand_ITC" id="myModalLabel">Favorite Recipe</h3>
+							</div>
+							<div class="modal-body">
+							<h3 style="text-align:center;">추가한 즐겨찾기 목록</h3><br><br>
+								<table class="table table-hover table-condensed" style="width:300px;margin-left:auto;margin-right:auto;">
+									<thead id="fThead">
+										<tr>
+											<th>레시피id</th>
+											<th>레시피이름</th>
+										</tr>		
+									</thead>
+									<tbody id="fTbody">
+									</tbody>
+								</table>
+							</div><!--modal-body  -->
+							<div class="modal-footer">
+								<input type="button" id="cancel" class="btn btn-default" data-dismiss="modal" onclick="resetModal()" value="Close">
+							</div><!-- modal footer -->
+						</div><!-- .modal-content -->
+					</div><!-- .modal-dialog -->
+				</div><!-- .modal fade -->
+			</div><!-- rightside menu -->
 		</div>
-		<div class="modal-body">
-		<h3 style="text-align:center;">추가한 즐겨찾기 목록</h3><br><br>
-			<table class="table table-hover table-condensed" style="width:300px;margin-left:auto;margin-right:auto;">
-				<thead id="fThead">
-					<tr>
-						<th>레시피id</th>
-						<th>레시피이름</th>
-					</tr>		
-				</thead>
-				<tbody id="fTbody">
-				</tbody>
-			</table>
-		</div><!--modal-body  -->
-		
-		<div class="modal-footer">
-			<input type="button" id="cancel" class="btn btn-default" data-dismiss="modal" onclick="resetModal()" value="Close">
-		</div><!-- modal footer -->
-
-		
-		</div><!-- .modal-content -->
-		</div><!-- .modal-dialog -->
-		</div><!-- .modal fade -->
-		
-		
-		
-	</div><!-- rightside menu -->
-</div>
-</div><!-- container -->
+	</div><!-- container -->
 </body>
 </html>

@@ -123,95 +123,89 @@ h1 {
 </style>
 </head>
 <body>
-<div class="container">
-<div class='wrapperDiv'>
-	
-	<jsp:include page="/WEB-INF/view/layout/side_menu/memberSideMenu.jsp"/>
-	<div class='right-box-sidemenu'>
-		
-		<div class="contact-form">
-		<h1>Edit Profile</h1>
-		<form action="${initParam.rootPath}/common/member/member_change.do" method="post" name="usePopup">
-		
-			<div class="ccfield-prepend">
-				<div><label for="id" class="form-text">ID</label></div>
-				<span class="ccform-addon"><i class="material-icons">&#xE85E;</i></span>
-				<input type="text" id="id" name="memberId" readonly="readonly" value='<sec:authentication property="principal.memberId"/>' class="ccformfield" >
-				<div class="error"><form:errors path="memberChangeForm.memberId" delimiter="&nbsp;&nbsp"/></div>
-			</div>
-			<div class="ccfield-prepend">
-				<div><label for="password" class="form-text">Password</label></div>
-				<span class="ccform-addon"><i class="material-icons">&#xE85E;</i></span>
-				<input type="password" id="oldPassword" name="oldMemberPw"  class="ccformfield">
-				<div class="error"><form:errors path="memberChangeForm.oldMemberPw" delimiter="&nbsp;&nbsp"/></div>
-			</div>
-			<div class="ccfield-prepend">
-				<div><label for="newPassword" class="form-text">New Password</label></div>
-				<span class="ccform-addon"><i class="material-icons">&#xE150;</i></span>
-				<input type="password" id="password" name="memberPw"  class="ccformfield">
-				<div class="error"><form:errors path="memberChangeForm.memberPw" delimiter="&nbsp;&nbsp"/></div>
-			</div>
-			<div class="ccfield-prepend">
-				<div><label for="name" class="form-text">Name</label></div>
-			 	<span class="ccform-addon"><i class="material-icons">&#xE853;</i></span>	
-				<input type="text" id="name" name="memberName" value='<sec:authentication property="principal.memberName"/>' class="ccformfield">
-				<div class="error"><form:errors path="memberChangeForm.memberName" delimiter="&nbsp;&nbsp"/></div>
-			</div>
-			<div class="ccfield-prepend">
-				<div><label for="address" class="form-text">Address</label></div>
-				<span class="ccform-addon"><i class="material-icons">&#xE153;</i></span>
-				<input type="text" id="address" name="memberAddress" value='<sec:authentication property="principal.memberAddress"/>' readonly="readonly" class="ccformfield">
-				<button type="button" id="findAddressBtn" class="ccbtn">주소검색</button>
-				<div class="error"><form:errors path="memberChangeForm.memberAddress" delimiter="&nbsp;&nbsp"/></div>
-			</div>
-			<div class="ccfield-prepend">
-				<div><label for="inputEmail" class="form-text">Email</label></div>
-				<span class="ccform-addon"><i class="material-icons">&#xE0BE;</i></span>
-				<span id="duplicateEmailBefore" style="display:none">
-				<input type="text" id="inputEmail" name="inputEmail" value='<sec:authentication property="principal.memberEmail"/>' readonly="readonly" class="ccformfield" >
-				</span>
-				<span id="duplicateEmailAfter">
-				<input type="text" id="memberEmail" name="memberEmail" value='<sec:authentication property="principal.memberEmail"/>' readonly="readonly" class="ccformfield">
-				</span>
-				<button type="button" id="duplicateEmailBtn" class="ccbtn">Email 중복검사</button>
-				<div class="error"><form:errors path="memberChangeForm.memberEmail" delimiter="&nbsp;&nbsp"/></div>
-				<div id="duplicateEmailError" class="error">&nbsp&nbsp*이메일변경을 원하시면 중복검사를 해주세요.</div>	
-				</div>
-			<div class="ccfield-prepend">
-				<div><label for="tel" class="form-text">Tel</label><span id="lengthTel" class="error">&nbsp&nbsp*ex.01012345678</span></div>
-				<span class="ccform-addon"><i class="material-icons">&#xE0B0;</i></span>
-				<input type="text" id="tel" name="memberTel" value='<sec:authentication property="principal.memberTel"/>' class="ccformfield">
-				<div class="error"><form:errors path="memberChangeForm.memberTel" delimiter="&nbsp;&nbsp"/></div>
-			</div>
-			<div class="ccfield-prepend" hidden>
-				<span class="form-text">성별&nbsp;&nbsp;&nbsp;</span>
-				<input type="text" id="sex" name="memberSex" readonly="readonly" value='<sec:authentication property="principal.memberSex"/>' class="ccformfield">
-				<div class="error"><form:errors path="memberChangeForm.memberSex" delimiter="&nbsp;&nbsp"/></div>
-			</div>
-			<div class="ccfield-prepend">
-				<div class="form-text">기피재료</div>
-				<div id="showMyDislikeIrdnt">
-					<input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="-1" class="ccformfield">
-					<button type="button" id="createMyDislikeIrdnt" class="ccbtn">기피재료추가</button><br>
-					<div class="error" id="tooMuchIrdnt"></div>
-				</div>
-			</div>
-			<sec:csrfInput/>
-			<div class="ccfield-submit-part">
-				<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-					<span class="glyphicon glyphicon-ok" aria-hidden="true">Edit</span>
-				</button>
-				<button type="button" onclick="location.reload()" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-					<span class="glyphicon glyphicon-refresh" aria-hidden="true">Reset</span>
-				</button>
-
-			</div>
-		</form>
-		
-		</div><!-- contact-form -->
-		
-	</div><!-- right-side-menu -->
-</div><!-- wrapperDiv -->
-</div><!-- container -->
+	<div class="container">
+		<div class='wrapperDiv'>
+			<jsp:include page="/WEB-INF/view/layout/side_menu/memberSideMenu.jsp"/>
+			<div class='right-box-sidemenu'>
+				<div class="contact-form">
+					<h1>Edit Profile</h1>
+					<form action="${initParam.rootPath}/common/member/member_change.do" method="post" name="usePopup">
+						<div class="ccfield-prepend">
+							<div><label for="id" class="form-text">ID</label></div>
+							<span class="ccform-addon"><i class="material-icons">&#xE85E;</i></span>
+							<input type="text" id="id" name="memberId" readonly="readonly" value='<sec:authentication property="principal.memberId"/>' class="ccformfield" >
+							<div class="error"><form:errors path="memberChangeForm.memberId" delimiter="&nbsp;&nbsp"/></div>
+						</div>
+						<div class="ccfield-prepend">
+							<div><label for="password" class="form-text">Password</label></div>
+							<span class="ccform-addon"><i class="material-icons">&#xE85E;</i></span>
+							<input type="password" id="oldPassword" name="oldMemberPw"  class="ccformfield">
+							<div class="error"><form:errors path="memberChangeForm.oldMemberPw" delimiter="&nbsp;&nbsp"/></div>
+						</div>
+						<div class="ccfield-prepend">
+							<div><label for="newPassword" class="form-text">New Password</label></div>
+							<span class="ccform-addon"><i class="material-icons">&#xE150;</i></span>
+							<input type="password" id="password" name="memberPw"  class="ccformfield">
+							<div class="error"><form:errors path="memberChangeForm.memberPw" delimiter="&nbsp;&nbsp"/></div>
+						</div>
+						<div class="ccfield-prepend">
+							<div><label for="name" class="form-text">Name</label></div>
+						 	<span class="ccform-addon"><i class="material-icons">&#xE853;</i></span>	
+							<input type="text" id="name" name="memberName" value='<sec:authentication property="principal.memberName"/>' class="ccformfield">
+							<div class="error"><form:errors path="memberChangeForm.memberName" delimiter="&nbsp;&nbsp"/></div>
+						</div>
+						<div class="ccfield-prepend">
+							<div><label for="address" class="form-text">Address</label></div>
+							<span class="ccform-addon"><i class="material-icons">&#xE153;</i></span>
+							<input type="text" id="address" name="memberAddress" value='<sec:authentication property="principal.memberAddress"/>' readonly="readonly" class="ccformfield">
+							<button type="button" id="findAddressBtn" class="ccbtn">주소검색</button>
+							<div class="error"><form:errors path="memberChangeForm.memberAddress" delimiter="&nbsp;&nbsp"/></div>
+						</div>
+						<div class="ccfield-prepend">
+							<div><label for="inputEmail" class="form-text">Email</label></div>
+							<span class="ccform-addon"><i class="material-icons">&#xE0BE;</i></span>
+							<span id="duplicateEmailBefore" style="display:none">
+							<input type="text" id="inputEmail" name="inputEmail" value='<sec:authentication property="principal.memberEmail"/>' readonly="readonly" class="ccformfield" >
+							</span>
+							<span id="duplicateEmailAfter">
+							<input type="text" id="memberEmail" name="memberEmail" value='<sec:authentication property="principal.memberEmail"/>' readonly="readonly" class="ccformfield">
+							</span>
+							<button type="button" id="duplicateEmailBtn" class="ccbtn">Email 중복검사</button>
+							<div class="error"><form:errors path="memberChangeForm.memberEmail" delimiter="&nbsp;&nbsp"/></div>
+							<div id="duplicateEmailError" class="error">&nbsp&nbsp*이메일변경을 원하시면 중복검사를 해주세요.</div>	
+							</div>
+						<div class="ccfield-prepend">
+							<div><label for="tel" class="form-text">Tel</label><span id="lengthTel" class="error">&nbsp&nbsp*ex.01012345678</span></div>
+							<span class="ccform-addon"><i class="material-icons">&#xE0B0;</i></span>
+							<input type="text" id="tel" name="memberTel" value='<sec:authentication property="principal.memberTel"/>' class="ccformfield">
+							<div class="error"><form:errors path="memberChangeForm.memberTel" delimiter="&nbsp;&nbsp"/></div>
+						</div>
+						<div class="ccfield-prepend" hidden>
+							<span class="form-text">성별&nbsp;&nbsp;&nbsp;</span>
+							<input type="text" id="sex" name="memberSex" readonly="readonly" value='<sec:authentication property="principal.memberSex"/>' class="ccformfield">
+							<div class="error"><form:errors path="memberChangeForm.memberSex" delimiter="&nbsp;&nbsp"/></div>
+						</div>
+						<div class="ccfield-prepend">
+							<div class="form-text">기피재료</div>
+							<div id="showMyDislikeIrdnt">
+								<input type="hidden" id="myDislikeIrdntId" name="myDislikeIrdntId" value="-1" class="ccformfield">
+								<button type="button" id="createMyDislikeIrdnt" class="ccbtn">기피재료추가</button><br>
+								<div class="error" id="tooMuchIrdnt"></div>
+							</div>
+						</div>
+						<sec:csrfInput/>
+						<div class="ccfield-submit-part">
+							<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+								<span class="glyphicon glyphicon-ok" aria-hidden="true">Edit</span>
+							</button>
+							<button type="button" onclick="location.reload()" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+								<span class="glyphicon glyphicon-refresh" aria-hidden="true">Reset</span>
+							</button>
+						</div>
+					</form>
+				</div><!-- contact-form -->
+			</div><!-- right-side-menu -->
+		</div><!-- wrapperDiv -->
+	</div><!-- container -->
 </body>
 </html>
