@@ -43,33 +43,33 @@ input{
 </head>
 <body>
 <div class="container">
-<br><br>
-<h3 style="text-align: center;"> 쇼핑몰 등록 </h3>
-<br><hr><br><br>
-<form action="${initParam.rootPath}/shop/addShop.do" method="post" enctype="multipart/form-data">
-<table class="table table-bordered">
-	<tr>
-		<td rowspan="3"><img id="blah" src="#" alt="shop Image" width="100" height="102"></td>
-		<td colspan="2"><input type="file" id="shopImg" name="upImage"></td>
-	</tr>
-	<tr>
-		<td>이름</td>
-		<td><input type="text" name="shopName" value="${param.shopName}" placeholder="shop name" size="50">
-			<span class="error"><form:errors path="shop.shopName" delimiter="&nbsp;"/></span>
-		</td>
-	</tr>
-	<tr>
-		<td>url</td>
-		<td><input type="url" name="shopAddress" value="${param.shopAddress}" placeholder="shop url"  size="50">
-			<span class="error"><form:errors path="shop.shopAddress" delimiter="&nbsp;"/></span>
-		</td>
-	</tr>
-	<tr>
-		<td colspan="3"><input type="submit" value="등록"></td>
-	</tr>
-</table>
-<sec:csrfInput />
-</form>
+	<br><br>
+	<h3 style="text-align: center;"> 쇼핑몰 등록 </h3>
+	<br><hr><br><br>
+	<form action="${initParam.rootPath}/shop/addShop.do" method="post" enctype="multipart/form-data">
+	<table class="table table-bordered">
+		<tr>
+			<td rowspan="3"><img id="blah" src="#" alt="shop Image" width="100" height="102"></td>
+			<td colspan="2"><input type="file" id="shopImg" name="upImage"></td>
+		</tr>
+		<tr>
+			<td>이름</td>
+			<td><input type="text" name="shopName" value="${param.shopName}" placeholder="shop name" size="50">
+				<span class="error"><form:errors path="shop.shopName" delimiter="&nbsp;"/></span>
+			</td>
+		</tr>
+		<tr>
+			<td>url</td>
+			<td><input type="url" name="shopAddress" value="${param.shopAddress}" placeholder="shop url"  size="50">
+				<span class="error"><form:errors path="shop.shopAddress" delimiter="&nbsp;"/></span>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3"><input type="submit" value="등록"></td>
+		</tr>
+	</table>
+	<sec:csrfInput />
+	</form>
 </div>
 </body>
 </html>

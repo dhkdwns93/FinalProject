@@ -15,8 +15,8 @@ public class ShopDaoImpl implements ShopDao{
 	
 	@Autowired
 	private SqlSessionTemplate session;
-
-	private String sql = "kr.co.turnup_fridger.config.mybatis.mapper.shopMapper.";
+	private String sql = "kr.co.turnup_fridger.config.mybatis.mapper.shopMapper."; // shopMapper의 namespace 변수로 선언해서 관리
+	
 	
 	@Override
 	public int insertShop(Shop shop) {

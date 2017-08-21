@@ -26,7 +26,10 @@ public class MemoController {
 	@Autowired
 	private MyMemoService service;
 	
-	// 지도 팝업 띄우는 핸들러(no-tiles)
+	
+	/*	------------------------------------- tiles 적용하지 않는 view 호출을 위한 핸들러 -------------------------------------- */	
+	
+	// 지도 팝업 띄우는 핸들러(no-tiles)  
 	@RequestMapping("map")
 	public ModelAndView map(){
 		View view = new InternalResourceView("/WEB-INF/view/content/map.jsp");
@@ -48,6 +51,7 @@ public class MemoController {
 		View view = new InternalResourceView("/WEB-INF/view/content/common/member/memo/memoDetail.jsp");
 		return new ModelAndView(view, "memo", mm);
 	}
+/*	-------------------------------------------------------------------------------------------------------------------------------- */	
 	
 	// 메모등록 - O
 	@RequestMapping(value="addMemo", method=RequestMethod.POST) 
@@ -99,13 +103,7 @@ public class MemoController {
 		return memo;
 	}
 	
-	// 내가 쓴 메모목록 - O 					 ajax사용시 produces해줘야 한글 깨지지않음!
-/*	@RequestMapping(value="memoList")
-	@ResponseBody
-	public List<MyMemo> selectMemoByMember(String memberId){
-		return service.selectMemoList(memberId);
-	}*/
-	
+	// 내가 쓴 메모목록 - O
 	@RequestMapping("memoList")
 	public ModelAndView selectMemoByMember(String memberId){
 		List<MyMemo>list = service.selectMemoList(memberId);

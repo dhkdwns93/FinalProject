@@ -78,7 +78,6 @@ table {
 				<td>
 					<sec:authentication property="principal.memberId" var="mid" />
 					<input type="hidden" name="memberId" value="${mid}">
-					<!-- <input type="submit" id="submit" value="save"> -->
 					<button type="submit" id="submit" class="btn btn-default btn-md"  style="border:0;outline:0;">
 					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span></button>
 				</td>

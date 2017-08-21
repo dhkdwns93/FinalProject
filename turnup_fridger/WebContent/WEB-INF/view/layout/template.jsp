@@ -2,7 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
-
+<!-- 메인화면 템플릿 -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,47 +17,43 @@
 <link href="${ initParam.rootPath }/css/createStyle.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"  rel="stylesheet">
 </head>
+
+
 <div class="fridger">
-<div id="container">
-<!-- Navigation -->
-<nav id="head" class="navbar navbar-default navbar-fixed-top topnav " role="navigation">
-   <div class="container topnav">
-      <tiles:insertAttribute name="head" />
-   </div>
-</nav>
-
-<!-- 메뉴바 -->
-<%-- <nav id="head" class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
-<div class="container topnav">
-	<tiles:insertAttribute name="menu" />
-</div>
-</nav> --%>
-
-
-<!-- content -->
-<div id ="content" class="">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-lg-12 content">
-					<tiles:insertAttribute name="content" />
+	<div id="container">
+	
+		<!-- Navigation -->
+		<nav id="head" class="navbar navbar-default navbar-fixed-top topnav " role="navigation">
+		   <div class="container topnav">
+		      <tiles:insertAttribute name="head" />
+		   </div>
+		</nav>
+		
+		<!-- content -->
+		<div id ="content" class="">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-12 content">
+							<tiles:insertAttribute name="content" />
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
-</div>
-
-<!-- footer -->
-<footer>
-<div id="foot">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<tiles:insertAttribute name="footer" />
+		
+		<!-- footer -->
+		<footer>
+		<div id="foot">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<tiles:insertAttribute name="footer" />
+					</div>
+				</div>
 			</div>
-		</div>
-	</div>
-	</div>
-</footer>
-</div> <!-- end of container -->
+			</div>
+		</footer>
+		
+	</div> <!-- end of container -->
 </div> <!-- end of fridger -->
 
 </html>

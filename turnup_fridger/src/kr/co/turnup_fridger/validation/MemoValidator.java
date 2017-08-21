@@ -19,6 +19,7 @@ public class MemoValidator implements Validator  {
 		
 		// 메모제목
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memoName", "required");
+		
 		// 메모내용
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "memoTxt", "required");
 	}

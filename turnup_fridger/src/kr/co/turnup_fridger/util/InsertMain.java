@@ -1,9 +1,5 @@
 package kr.co.turnup_fridger.util;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.catalina.core.ApplicationContext;
-
 public class InsertMain {
 	public static void main(String[] args) {
 		InsertMethod insertMethod=new InsertMethod();

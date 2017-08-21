@@ -1,4 +1,4 @@
-package kr.co.turnup_fridger.controller;
+package kr.co.turnup_fridger.util;
 
 import java.io.IOException;
 
@@ -23,11 +23,9 @@ public class SendSMS {
         sms.charset("UTF-8");
         sms.setuser("janggyu93", "1q2w3e4r");	 // coolsms 계정 
 
-        String number = memberTel;				// 받을 사람 폰번호
-
 		SmsMessagePdu pdu = new SmsMessagePdu();
 		pdu.type = "SMS";
-		pdu.destinationAddress = number;
+		pdu.destinationAddress = memberTel;
 		pdu.scAddress = "01087791763"; 	// 발신자 번호(등록된 번호여야 함)
 		pdu.text = "<" + memoName + ">\n" + memoTxt; // 보낼 메세지 내용
 		sms.add(pdu);

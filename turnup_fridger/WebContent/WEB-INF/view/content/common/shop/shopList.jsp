@@ -10,7 +10,6 @@
 <script type="text/javascript" src="${initParam.rootPath}/scripts/jquery.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	/* setTimeout("location.reload()",1000); // 일정시간마다 새로고침*/
 	
 	// 개수 불러오기
 	$.ajax({
@@ -41,21 +40,21 @@ p, h3{
 <br><br>
 <p id="shopCount"><span id="count"></span>
 <div class="container">
-<div style="width:100%; height:500px; overflow:auto">
-<table class="table table-hover">
-	<tr> 
-		<td>NO</td>
-		<td colspan="3">Shop</td>
-	</tr>
-	<c:forEach items="${requestScope.list }" var="shop">
-		<tr>
-			<td>${shop.shopId }</td>
-			<td><img alt="${shop.shopImg }" src="${initParam.rootPath}/img/${shop.shopImg}" width="100" height="102"></td>
-			<td><a href="#" onClick="window.open('${shop.shopAddress}','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=1000px, height=600px ,top=10, left=10', bottom=10, right=10)">${shop.shopName }</a></td>
-		</tr>
-	</c:forEach>
-</table>
-</div>
+	<div style="width:100%; height:500px; overflow:auto">
+		<table class="table table-hover">
+			<tr> 
+				<td>NO</td>
+				<td colspan="3">Shop</td>
+			</tr>
+			<c:forEach items="${requestScope.list }" var="shop">
+			<tr>
+				<td>${shop.shopId }</td>
+				<td><img alt="${shop.shopImg }" src="${initParam.rootPath}/img/${shop.shopImg}" width="100" height="102"></td>
+				<td><a href="#" onClick="window.open('${shop.shopAddress}','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=1000px, height=600px ,top=10, left=10', bottom=10, right=10)">${shop.shopName }</a></td>
+			</tr>
+			</c:forEach>
+		</table>
+	</div>
 </div>
 </body>
 </html>
