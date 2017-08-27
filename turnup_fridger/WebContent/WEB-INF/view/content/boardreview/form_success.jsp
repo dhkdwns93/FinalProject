@@ -21,18 +21,22 @@ href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
+
 <div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
 <h2>${boardReview.memberId}님의 레시피 후기</h2>
 <div id="table" style="width:800px;">
+
+<%-- 목록으로 이동 버튼 --%>
 <form action="${initParam.rootPath}/boardreview/boardReviewList.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 		<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
 	</button>
 </form>
+
 <table class="table table-bordered" style="width:100%; border:1; text-align:center">
 	<tr>
 		<td>레시피</td>

@@ -1,7 +1,4 @@
 package kr.co.turnup_fridger.service.impl;
-
-
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,49 +17,39 @@ public class BoardNoticeServiceImpl implements BoardNoticeService
 	@Autowired
 	private BoardNoticeDao dao;
 	
-	
+	/*
+	 * 한개의 공지사항 정보를 등록 하는 메소드  - 관리자
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public void addBoardNotice(BoardNotice boardNotice) {
-/*       		String title = boardNotice.getTitle();
-	       	String txt = boardNotice.getTxt();
-	        // *태그문자 처리 (< ==> &lt; > ==> &gt;)
-	        // replace(A, B) A를 B로 변경
-	        title = title.replace("<", "&lt;");
-	        title = title.replace("<", "&gt;");
-	        txt = txt.replace("<", "&lt;");
-	        // *공백문자 처리
-	        title = title.replace("  ",    "&nbsp;&nbsp;");
-	        txt = txt.replace("  ",    "&nbsp;&nbsp;");
-	        // *줄바꿈 문자처리
-	        txt = txt.replace("\n", "<br>");
-	        boardNotice.setTitle(title);
-	        boardNotice.setTxt(txt);*/
 		dao.insertBoardNotice(boardNotice);
 	}
 
-
+	/*
+	 * 공지사항 정보를 수정 하는 메소드  - 관리자
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public void updateBoardNotice(BoardNotice boardNotice) {
 		dao.updateBoardNotice(boardNotice);
 		
 	}
-
 	
-
-	@Override
-	public void updateImageNull(BoardNotice boardNotice) {
-		dao.updateImageNull(boardNotice);
-		
-	}
-
-
+	/*
+	 * 매개변수로 받은 ID로 저장된 공지사항 삭제하는 메소드  - 관리자
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public void removeBoardNoticeById(int id) {
 		dao.deleteBoardNoticeByid(id);
 		
 	}
 
-
+	/*
+	 * 저장된 공지사항 정보 중 매개변수 ID를 가진 정보 조회하는 메소드
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public BoardNotice findBoardNoticeById(int id) {
 		// TODO Auto-generated method stub
@@ -70,7 +57,10 @@ public class BoardNoticeServiceImpl implements BoardNoticeService
 		return dao.selectBoardNoticeById(id);
 	}
 
-
+	/*
+	 * 저장된 공지사항 정보를  전체 조회 조회하는 메소드
+	 * 작성자 - 김장규	
+	 */
 	@Override
 	public Map<String, Object>  findBoardNoticeList(int page) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -80,10 +70,13 @@ public class BoardNoticeServiceImpl implements BoardNoticeService
 		map.put("totalCount", totalCount);
 		List<BoardNotice> list = dao.selectBoardNoticeList(pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
 		map.put("list", list);
-		
 		return map;
 	}
-
+	
+	/*
+	 * 저장된 공지사항 정보 중 매개변수 ITEMS을 가진 정보 조회하는 메소드
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public Map<String, Object> findBoardNoticeByItmes(String items, int page) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -93,8 +86,7 @@ public class BoardNoticeServiceImpl implements BoardNoticeService
 		map.put("totalCount", totalCount);
 		List<BoardNotice> list = dao.selectBoardNoticeByItems(items, pageBean.getBeginItemInPage(), pageBean.getEndItemInPage());
 		map.put("items", items);
-		map.put("list", list);
-		
+		map.put("list", list);	
 		return map;
 	}
 	

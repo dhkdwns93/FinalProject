@@ -14,8 +14,9 @@ href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
-function insert_event(){
-	if (confirm("등록 하시겠습니까??") == true){    
+//수정 확인 버튼
+function update_event(){
+	if (confirm("수정 하시겠습니까??") == true){    
 		//확인
 		location.href="/turnup_fridger/common/boardfree/boardfree_view.do";
 	}else{   
@@ -23,6 +24,7 @@ function insert_event(){
 	    return false;
 	}
 };
+//글자수 확인
 function checkLength(txt) {
     if (boardFreeTxt.value.length > 1000 ) {
     	boardFreeTxt.blur();
@@ -66,50 +68,52 @@ td{
 <br><br>
 <h1>자유 게시판 ></h1><h2> ${boardFree.memberId}님의 질문 수정</h2><br>
 <hr>
-<form action="${initParam.rootPath}/common/boardfree/boardFreeUploadForm.do" method="post">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-<table>
-	<tr>
-		<th>작성자</th>
-		<td>
-			<input class="form-control" style="float:left;width:40%;" type="text" name="memberId" readonly value="${boardFree.memberId}">
-			<br><br>
-		</td>
-	</tr>
-	<tr>
-		<th>제목</th>
-		<td>
-			<input  class="form-control" style="float:left;width:50%;" type="text" name="boardFreeTitle" value="${boardFree.boardFreeTitle}" placeholder="제목을 입력해주세요">
-			<span class="error"><form:errors path="boardFree.boardFreeTitle" delimiter="&nbsp;"/></span>
-			<br><br>
-		</td>
-	</tr>
-	<tr>
-		<th>내용</th>
-		<td>
-			<textarea class="form-control textarea_test" onkeyup="checkLength(this); this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
-			style="float:left;width:100%;" id="boardFreeTxt" name="boardFreeTxt" rows="20" cols="60"" placeholder="내용을 입력해주세요" wrap="physical">${boardFree.boardFreeTxt}</textarea>
-			<span class="error"><form:errors path="boardFree.boardFreeTxt" delimiter="&nbsp;"/></span>
-		</td>
-	</tr>	
-	<br>
-</table>
-			<input type="hidden" name="boardFreeId" value="${boardFree.boardFreeId}">
-			<input type="hidden" name="boardFreeHits" value="${boardFree.boardFreeHits}">
-			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return insert_event();">
-				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+	<form action="${initParam.rootPath}/common/boardfree/boardFreeUploadForm.do" method="post">
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+	<table>
+		<tr>
+			<th>작성자</th>
+			<td>
+				<input class="form-control" style="float:left;width:40%;" type="text" name="memberId" readonly value="${boardFree.memberId}">
+				<br><br>
+			</td>
+		</tr>
+		<tr>
+			<th>제목</th>
+			<td>
+				<input  class="form-control" style="float:left;width:50%;" type="text" name="boardFreeTitle" value="${boardFree.boardFreeTitle}" placeholder="제목을 입력해주세요">
+				<span class="error"><form:errors path="boardFree.boardFreeTitle" delimiter="&nbsp;"/></span>
+				<br><br>
+			</td>
+		</tr>
+		<tr>
+			<th>내용</th>
+			<td>
+				<textarea class="form-control textarea_test" onkeyup="checkLength(this); this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
+				style="float:left;width:100%;" id="boardFreeTxt" name="boardFreeTxt" rows="20" cols="60"" placeholder="내용을 입력해주세요" wrap="physical">${boardFree.boardFreeTxt}</textarea>
+				<span class="error"><form:errors path="boardFree.boardFreeTxt" delimiter="&nbsp;"/></span>
+			</td>
+		</tr>	
+		<br>
+	</table>
+				<input type="hidden" name="boardFreeId" value="${boardFree.boardFreeId}">
+				<input type="hidden" name="boardFreeHits" value="${boardFree.boardFreeHits}">
+				<%-- 수정 확인 버튼 --%>
+				<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return update_event();">
+					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				</button>
+	</form>
+	<%-- 뒤로가기 버튼 --%>
+	<form action="${initParam.rootPath}/common/boardfree/boardFreeView.do" method="post">
+			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+	        <input type="hidden" name="member" value=""> 
+	        <input type="hidden" name="admin" value="">
+	        <input type="hidden" name="memberId" value="${boardFree.memberId}">
+	        <input type="hidden" name="boardFreeId" value="${boardFree.boardFreeId}">
+	        <button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+				<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
 			</button>
-</form>
-<form action="${initParam.rootPath}/common/boardfree/boardFreeView.do" method="post">
-		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-        <input type="hidden" name="member" value=""> 
-        <input type="hidden" name="admin" value="">
-        <input type="hidden" name="memberId" value="${boardFree.memberId}">
-        <input type="hidden" name="boardFreeId" value="${boardFree.boardFreeId}">
-        <button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-			<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-		</button>
-</form> 
+	</form> 
 </div>
 </div>
 </body>

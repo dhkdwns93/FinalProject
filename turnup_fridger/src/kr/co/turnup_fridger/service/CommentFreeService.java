@@ -7,21 +7,46 @@ import kr.co.turnup_fridger.vo.CommentFree;
 
 public interface CommentFreeService  {
 
-	//댓글 등록
+	/*
+	 * 자유게시판 댓글 등록 - 회원
+	 * 작성자 : 김장규
+	 */
 	void addCommentFree(CommentFree commentFree);
-	//댓글수 증가
+	
+	/*
+	 * 자유게시판 댓글수 증가
+	 * 작성자 : 김장규
+	 */
 	void commentCount(int boardFreeId);
 	
-	//댓글 수정
+	/*
+	 * 자유게시판 댓글 수정 - 작성자
+	 * 작성자 : 김장규
+	 */
 	void updateCommentFree(CommentFree commentFree);
-	//댓글 삭제
+	
+	/*
+	 * 자유게시판 댓글 삭제 - 관리자, 작성자
+	 * 작성자 : 김장규
+	 */
 	void removeCommentFree(int id);
-	//댓글수 감소
+	
+	/*
+	 * 자유게시판 댓글수 감소
+	 * 작성자 : 김장규
+	 */
 	void commentDeleteCount(int boardFreeId);
 	
 	
-	//전체 댓글 조회
+	/*
+	 * 자유게시판 댓글 목록 조회
+	 * 작성자 : 김장규
+	 */
 	Map<String, Object> selectCommentFreeListbyId(int id,int page);
-	//해당 댓글 상세 조회
+	
+	/*
+	 * 자유게시판 댓글 상세정보 조회
+	 * 작성자 : 김장규
+	 */
 	CommentFree selectCommentFreeById(int commentFreeId);
 }

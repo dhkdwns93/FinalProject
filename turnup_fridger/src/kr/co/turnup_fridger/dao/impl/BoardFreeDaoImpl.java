@@ -23,39 +23,57 @@ public class BoardFreeDaoImpl implements BoardFreeDao{
 	}
 	
 	
-	//등록
+	/*
+	 * BoardFree 등록 - 회원
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public int insertBoardFree(BoardFree boardFree) {
 		return session.insert(makeSqlId("insertBoardFree"), boardFree);
 	}
 
-	//수정
+	/*
+	 * BoardFree 정보를 수정 - 작성자
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public int updateBoardFree(BoardFree boardFree) {
 		return session.update(makeSqlId("updateBoardFree"), boardFree);
 	}
 
-	//삭제
+	/*
+	 * BoardFree 삭제 - 관리자, 작성자
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public int deleteBoardFree(int id) {
 		return session.delete(makeSqlId("deleteBoardFree"),id);
 	}
 
 	
-	//조회수 체크
+	/*
+	 * BoardFree 조회수 증가
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public int increaseViewcnt(int boardFreeId) {
 		return session.update(makeSqlId("increaseViewcnt"),boardFreeId);
 	}
 
-	//전체수 카운트
+	/*
+	 * BoardFree 전체 목록 수 반환
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public int selectBoardFreeCount() {
 		return session.selectOne(makeSqlId("selectBoardFreeCount"));
 	}
 
 	
-	//전체 목록
+	/*
+	 * BoardFree 전체 목록 조회
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public List<BoardFree> selectBoardFreeList(int startIndex, int endIndex) {
 		Map<String, Integer> input = new HashMap<String, Integer>();
@@ -64,7 +82,10 @@ public class BoardFreeDaoImpl implements BoardFreeDao{
 		return session.selectList(makeSqlId("selectBoardFreeList"),input);
 	}
 
-	//조회수 검색
+	/*
+	 * BoardFree 조회수로 조회
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public List<BoardFree> selectBoardFreeByBoardFreeHits(int startIndex, int endIndex) {
 		Map<String, Integer> input = new HashMap<String, Integer>();
@@ -74,14 +95,19 @@ public class BoardFreeDaoImpl implements BoardFreeDao{
 	}
 	
 	
-	//아이디 수 조회
+	/*
+	 * BoardFree 아이디 수 반환 조회
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public int selectBoardFreeByMemberIdCount(String memberId) {
 		return session.selectOne(makeSqlId("selectBoardFreeByMemberIdCount"),memberId);
 	}
 
-
-	//아이디로 조회
+	/*
+	 * BoardFree 아이디 조회
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public List<BoardFree> selectBoardFreeByMemberId(String memberId, int startIndex, int endIndex) {
 		Map<String, Object> input = new HashMap<String, Object>();
@@ -92,14 +118,20 @@ public class BoardFreeDaoImpl implements BoardFreeDao{
 	}
 	
 	
-	//제목 수 조회
+	/*
+	 * BoardFree 제목 수 반환 조회
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public int selectBoardFreeByTitleCount(String boardFreeTitle) {
 		
 		return session.selectOne(makeSqlId("selectBoardFreeByTitleCount"),boardFreeTitle);
 	}
 
-	//제목으로 조회
+	/*
+	 * BoardFree 제목 조회
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public List<BoardFree> selectBoardFreeByTitle(String boardFreeTitle, int startIndex, int endIndex) {
 		Map<String, Object> input = new HashMap<String, Object>();
@@ -110,25 +142,13 @@ public class BoardFreeDaoImpl implements BoardFreeDao{
 	}
 
 
-	//상세페이지
+	/*
+	 * BoardFree 상세 보기
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public BoardFree selectBoardFreeByboardFreeId(int boardFreeId) {
 		return session.selectOne(makeSqlId("selectBoardFreeById"),boardFreeId);
 	}
-
-
-	@Override
-	public List<BoardFree> test(String boardFreeTitle) {
-		// TODO Auto-generated method stub
-		return session.selectList(makeSqlId("test"),boardFreeTitle);
-	}
-
-
-
-
-	
-	
-	
-	
 	
 }

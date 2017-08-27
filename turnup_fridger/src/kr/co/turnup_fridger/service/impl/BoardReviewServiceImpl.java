@@ -27,34 +27,40 @@ public class BoardReviewServiceImpl implements BoardReviewService{
 	private BoardReviewDao dao;
 
 	
-	//등록
+	/*
+	 * 후기게시판 등록 - 회원
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public void addBoardReview(BoardReview boardReview) {
 		dao.insertBoardReview(boardReview);
 		
 	}
-	
-	//이미지 삭제
-	@Override
-	public void updateImageNull(BoardReview boardReview) {
-		dao.updateImageNull(boardReview);
-	}
 
-	//수정
+	/*
+	 * 후기게시판 수정 - 작성자
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public void updateBoardReview(BoardReview boardReview) {
 		dao.updateBoardReview(boardReview);
 		
 	}
 
-	//삭제
+	/*
+	 * 후기게시판 삭제 - 관리자, 작성자
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public void removeBoardReview(int boardReviewId) {
 		dao.deleteBoardReview(boardReviewId);
 		
 	}
 
-	//전체 리스트 조회
+	/*
+	 * 후기게시판 전체 목록 조회
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public Map<String, Object> selectBoardReviewList(int page) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -66,7 +72,10 @@ public class BoardReviewServiceImpl implements BoardReviewService{
 		return map;
 	}
 	
-	//별점순 리스트 조회
+	/*
+	 * 후기게시판 별점순 조회
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public Map<String, Object> selectBoardReviewByStarList(int page) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -78,7 +87,10 @@ public class BoardReviewServiceImpl implements BoardReviewService{
 		return map;
 	}
 	
-	//레시피 이름으로 리스트 조회
+	/*
+	 * 후기게시판 레시피이름으로 조회
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public Map<String, Object> selectBoardReviewByRecipeNameList(String recipeName,int page) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -91,7 +103,10 @@ public class BoardReviewServiceImpl implements BoardReviewService{
 		return map;
 	}
 
-	//아이디로 리스트 조회
+	/*
+	 * 후기게시판 회원 아이디로 목록 조회
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public Map<String, Object> selectBoardReviewByMemberIdList(String memberId,int page) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -105,7 +120,10 @@ public class BoardReviewServiceImpl implements BoardReviewService{
 	}
 	
 
-	//상세 정보
+	/*
+	 * 후기게시판 해당 글 상세 정보 조회
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public BoardReview selecetBoardReviewByBoardReviewId(int boardReviewId) {
 		// TODO Auto-generated method stub
@@ -113,16 +131,20 @@ public class BoardReviewServiceImpl implements BoardReviewService{
 	}
 	
 	
-	//레시피 검색
+	/*
+	 * 후기게시판 레시피 이름으로 조회
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public List<RecipeInfo> selectRecipeName(String recipeName) {
 		// TODO Auto-generated method stub
 		return dao.selectRecipeName(recipeName);
 	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	
-	//레시피 아이디로 리스트조회
+	/*
+	 * 후기게시판 레시피 아이디로 조회
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public Map<String, Object> findBoardReviewByRecipeId(int recipeId,int page) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -133,21 +155,5 @@ public class BoardReviewServiceImpl implements BoardReviewService{
 		map.put("list", list);
 		map.put("pageBean", pageBean);
 		return map;
-	}
-	
-	public static void main(String[] args) {
-		//ApplicationContext 객체 생성
-		ApplicationContext container = new ClassPathXmlApplicationContext("kr/co/turnup_fridger/config/spring/model-context.xml");
-		//Spring 컨테이너로 부터 BoardReviewService bean 가져오기
-		BoardReviewService service = (BoardReviewService)container.getBean("boardReviewServiceImpl");
-
-	
-		int recipeId = 1;
-		
-		Map<String, Object> map = service.findBoardReviewByRecipeId(recipeId,1);
-				
-		System.out.println(map);
-	}
-
-	
+	}	
 }

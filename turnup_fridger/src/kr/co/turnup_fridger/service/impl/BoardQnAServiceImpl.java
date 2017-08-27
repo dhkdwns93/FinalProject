@@ -21,8 +21,8 @@ public class BoardQnAServiceImpl implements BoardQnAService {
 	@Autowired
 	private BoardQnADao dao;
 
-	/**
-	 * 한개의 QnA 등록 하는 메소드
+	/*
+	 * QnA 등록 하는 메소드 - 회원
 	 * 작성자 - 김장규
 	 */
 	@Override
@@ -30,8 +30,8 @@ public class BoardQnAServiceImpl implements BoardQnAService {
 		dao.insertBoardQnA(boardQnA);
 	}
 
-	/**
-	 * QnA 정보를 수정 하는 메소드
+	/*
+	 * QnA 정보를 수정 하는 메소드 - 해당 글 작성자
 	 * 작성자 - 김장규
 	 */
 	@Override
@@ -40,8 +40,8 @@ public class BoardQnAServiceImpl implements BoardQnAService {
 		
 	}
 	
-	/**
-	 * 매개변수로 받은 ID로 저장된 QnA 삭제하는 메소드(댓글 포함)
+	/*
+	 * 매개변수로 받은 ID로 저장된 QnA 삭제하는 메소드(댓글 포함) - 작성자,관리자
 	 * 작성자 - 김장규
 	 */
 	@Override
@@ -50,7 +50,7 @@ public class BoardQnAServiceImpl implements BoardQnAService {
 		
 	}
 
-	/**
+	/*
 	 * 저장된 QnA 정보를  전체 조회 조회하는 메소드(댓글 포함)
 	 * 작성자 - 김장규
 	 */
@@ -67,16 +67,7 @@ public class BoardQnAServiceImpl implements BoardQnAService {
 		return map;
 	}
 	
-	/**
-	 * 저장된 QnA 정보 중 매개변수 ID를 가진 정보 조회하는 메소드(댓글 포함)
-	 * 작성자 - 김장규
-	 */
-	@Override
-	public BoardQnA findBoardQnAById(int id) {
-		return dao.selectBoardQnAById(id);
-	}
-
-	/**
+	/*
 	 * 저장된 QnA 정보 중 매개변수 MemberId을 가진 정보 조회하는 메소드(댓글 포함)
 	 * 작성자 - 김장규
 	 */	
@@ -92,41 +83,14 @@ public class BoardQnAServiceImpl implements BoardQnAService {
 		map.put("list", list);
 		
 		return map;
-	}
-
+	}	
 	
-	/**
-	 * 메소드 Test
+	/*
+	 * 저장된 QnA 정보 중 매개변수 ID를 가진 정보 조회하는 메소드(상세 보기 - 댓글 포함) - 작성자, 관리자
 	 * 작성자 - 김장규
 	 */
-	public static void main(String[] args) {
-		//ApplicationContext 객체 생성
-		ApplicationContext container = new ClassPathXmlApplicationContext("kr/co/turnup_fridger/config/spring/model-context.xml");
-		//Spring 컨테이너로 부터 BoardNoticeService bean 가져오기
-		BoardQnAService service = (BoardQnAService)container.getBean("boardQnAServiceImpl");
-		//service.addBoardQnA(new BoardQnA(1, "회원수요청입니다.", "회원 수정하고 싶은데 어떻게 해야 하나요?", new Date(2017-1900,01,02), "jang"));
-		//service.addBoardQnA(new BoardQnA(5, "회원탈퇴요청입니다.", "그만 이 사이트를 이용하고 싶습니다.", new Date(2017-1900,01,02), "id-3"));
-		
-		int upId = 1;
-		//service.updateBoardQnA(new BoardQnA(upId, "궁금한게 있어요!!!", "재료추가 하고 싶은데 어떻게 하나요????", new Date(2017-1900,01,02), "jang"));
-	
-		int delId = 2;
-		//service.removeBoardQnA(delId);
-		
-		
-		List<BoardQnA> list = null;
-		BoardQnA board =null;
-		//list = service.findBoardQnAList();
-		//System.out.println(list);
-		
-		int selId = 1;
-		
-		board = service.findBoardQnAById(selId);
-		System.out.println(board);
-		
-		String id = "jang";
-		//list = service.findBoardQnAByMemberId(id);
-		//System.out.println(list);
+	@Override
+	public BoardQnA findBoardQnAById(int id) {
+		return dao.selectBoardQnAById(id);
 	}
-	
 }

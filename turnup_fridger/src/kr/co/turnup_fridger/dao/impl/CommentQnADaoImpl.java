@@ -12,7 +12,7 @@ import kr.co.turnup_fridger.vo.CommentQnA;
 @Repository
 public class CommentQnADaoImpl implements CommentQnADao{
 
-	//Spring Container에서 SqlSessionTemplate을 주입(주입) 받아서 instance 변수로 대입
+		//Spring Container에서 SqlSessionTemplate을 주입(주입) 받아서 instance 변수로 대입
 		@Autowired
 		private SqlSessionTemplate session;
 		
@@ -20,7 +20,7 @@ public class CommentQnADaoImpl implements CommentQnADao{
 			return "kr.co.turnup_fridger.config.mybatis.mapper.CommentQnAMapper."+id;
 		}
 
-	/**
+	/*
 	 * QnA 댓글 등록
 	 * 작성자 - 김장규
 	 */	
@@ -29,14 +29,16 @@ public class CommentQnADaoImpl implements CommentQnADao{
 		return session.insert(makeSqlId("insertCommentQnA"),commentQnA);
 	}
 
-	//추천게시물 증가
+	/*
+	 * QnA 댓글 수 증가
+	 * 작성자 - 김장규
+	 */	
 	@Override
 	public int commentCount(int boardQnAId) {
-		// TODO Auto-generated method stub
 		return session.update(makeSqlId("boardQnAcount"),boardQnAId);
 	}
 
-	/**
+	/*
 	 * QnA 댓글 수정
 	 * 작성자 - 김장규
 	 */	
@@ -46,14 +48,16 @@ public class CommentQnADaoImpl implements CommentQnADao{
 	}
 
 	
-	//댓글 카운트 삭제
+	/*
+	 * QnA 댓글수 감소
+	 * 작성자 - 김장규
+	 */	
 	@Override
 	public int commentDeleteCount(int boardQnAId) {
-		// TODO Auto-generated method stub
 		return session.update(makeSqlId("boardQnADeleteCount"), boardQnAId);
 	}
 
-	/**
+	/*
 	 * QnA 댓글 삭제
 	 * 작성자 - 김장규
 	 */	
@@ -62,7 +66,7 @@ public class CommentQnADaoImpl implements CommentQnADao{
 		return session.update(makeSqlId("deleteCommentQnA"), id);
 	}
 
-	/**
+	/*
 	 * QnA 댓글 조회
 	 * 작성자 - 김장규
 	 */	
@@ -71,15 +75,21 @@ public class CommentQnADaoImpl implements CommentQnADao{
 		return session.selectList(makeSqlId("selectCommentQnAList"));
 	}
 
+	/*
+	 * QnA 댓글 상세정보
+	 * 작성자 - 김장규
+	 */		
 	@Override
 	public CommentQnA selectCommentQnAById(int commentQnAId) {
-		// TODO Auto-generated method stub
 		return session.selectOne(makeSqlId("selectCommentQnAById"),commentQnAId);
 	}
 
+	/*
+	 * QnA 댓글 목록 조회
+	 * 작성자 - 김장규
+	 */	
 	@Override
 	public List<CommentQnA> selectCommentQnAByboardQnAId(int boardQnAId) {
-		// TODO Auto-generated method stub
 		return session.selectList(makeSqlId("selectCommentQnAByboardQnAId"),boardQnAId);
 	}
 

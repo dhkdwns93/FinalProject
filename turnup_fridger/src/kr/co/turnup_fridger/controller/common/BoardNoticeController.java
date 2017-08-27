@@ -41,7 +41,7 @@ public class BoardNoticeController extends HttpServlet {
 	private String eclipseDir = "C:\\Java\\apache-tomcat-8.0.43\\webapps\\turnup_fridger\\img"; 
 	
 	
-	//카피
+	//이미지 카피
 	private void copyToEclipseDir(String newImageName, MultipartFile upImage) throws Exception{
 		File eclipseDest = new File(eclipseDir, newImageName);
 		FileOutputStream fo = new FileOutputStream(eclipseDest);
@@ -78,9 +78,6 @@ public class BoardNoticeController extends HttpServlet {
 	@ResponseBody
 	public ModelAndView boardNoticeById(@RequestParam String items, @RequestParam(defaultValue="1") int page)
 	{
-		/*int p =  Integer.parseInt(page);
-	
-		System.out.printf("%s,%d",items,p);*/
 		ModelAndView mav = new ModelAndView(); 
 		
 		Map<String, Object> map = service.findBoardNoticeByItmes(items,page);
@@ -97,6 +94,7 @@ public class BoardNoticeController extends HttpServlet {
 			    
 			return mav;
 		}
+		
 	    mav.addObject("list", map.get("list"));
 	    mav.addObject("items",  map.get("items"));
 	    mav.addObject("totalCount",map.get("totalCount"));
@@ -127,8 +125,7 @@ public class BoardNoticeController extends HttpServlet {
 	@RequestMapping("/common/admin/boardnotice/boardNoticeAdd")
 	@ResponseBody
 	 public ModelAndView boardNoticeAdd(@ModelAttribute BoardNotice boardNotice,BindingResult errors, HttpServletRequest request,
-			 ModelMap model
-			 ) throws Exception
+			 ModelMap model) throws Exception
 	{
 			BoardNoticeValidator validator = new BoardNoticeValidator();
 			validator.validate(boardNotice, errors);
@@ -169,10 +166,6 @@ public class BoardNoticeController extends HttpServlet {
 				//저장
 				service.addBoardNotice(boardNotice);
 			}
-/*			mav.addObject("boardNotice",boardNotice);
-			mav.setViewName("boardnotice/boardnotice_view.tiles");
-			mav.addObject("boardNotice", service.findBoardNoticeById(boardNotice.getId()));
-			return mav;	*/
 			boardNotice = service.findBoardNoticeById(boardNotice.getId());
 
 			model.addAttribute("boardNotice",boardNotice);			
@@ -194,9 +187,6 @@ public class BoardNoticeController extends HttpServlet {
 	}
 	
 	
-	
-	
-	
 	//수정 폼 이동
 	@RequestMapping("/common/admin/boardnotice/boardNoticeUploadView")
 	@ResponseBody
@@ -211,21 +201,6 @@ public class BoardNoticeController extends HttpServlet {
 		return mav;
 	}	
 
-	//사진삭제
-	@RequestMapping("/common/admin/boardnotice/boardNoticeImageDelete")
-	@ResponseBody
-	 public ModelAndView boardNoticeImageDelete(@ModelAttribute BoardNotice boardNotice,BindingResult errors)
-	{
-		ModelAndView mav = new ModelAndView();
-		
-		service.updateImageNull(boardNotice);
-		
-		mav.addObject("boardNotice", service.findBoardNoticeById(boardNotice.getId()));
-		mav.setViewName("common/admin/boardnotice/boardnotice_upload.tiles");
-		return mav;
-	}
-
-	
 	//수정
 	@RequestMapping("/common/admin/boardnotice/boardNoticeUploadForm")
 	@ResponseBody
@@ -310,6 +285,5 @@ public class BoardNoticeController extends HttpServlet {
 	    return mav;
 
 	}	
-	
-	
+
 }

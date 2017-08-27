@@ -14,11 +14,15 @@ href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
+
+//이미지 삭제
 $(document).ready(function(){
 	$("#img").on("click",function(){
 		$("#image").empty().append("<input type='file' name='upImage'>");
 	});
 });
+
+//수정 확인
 function modify_event(){
 	if (confirm("수정 하시겠습니까??") == true){    
 		//확인
@@ -28,6 +32,8 @@ function modify_event(){
 	    return false;
 	}
 };
+
+//글자수 확인
 function checkLength(txt) {
     if (txt.value.length > 1000 ) {
     	txt.blur();
@@ -65,79 +71,84 @@ td{
 <body>
 <div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
-<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
-<br><br>
-<h1>공지사항 수정</h1>
-<hr>
-<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadForm.do" method="post" enctype="multipart/form-data">
-<table>
-	<tr>
-		<th>제목</th>
-		<td>
-			<input style="float:left;width:50%;" type="text" name="title" value="${boardNotice.title}" placeholder="제목을 입력해주세요" class="form-control">
-			<span class="error"><form:errors path="boardNotice.title" delimiter="&nbsp;"/></span>
-			<br><br>
-		</td>
-	</tr>
-	<tr>
-		<th>말머리</th>
-		<td>
-			<select class="form-control" style="float:left;width:30%;" name="items" id="items">
-				<option>공지사항</option>
-				<option>뉴스</option>
-			</select>
-			<br><br>
-		</td>
-	</tr>
-		<c:if test="${boardNotice.saveImg == null}">
-		<tr>
-			<th>사진</th>
-			<td>
-				<input type="file" name="upImage">
-				<br>
-			</td>
-		</tr>
-		</c:if>		
-		<c:if test="${boardNotice.saveImg != null}">
-		<tr>	
-			<th>사진</th>
-			<td>
-				<div id="image">
-					<input type="hidden" name="img" value="${boardNotice.img}">
-					<input type="hidden" name="saveImg" value="${boardNotice.saveImg}">
-					${boardNotice.img}
-					<button type="button" class="btn btn-default btn-lg" id="img"  style="border:0;outline:0;">
-						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-					</button>
-				</div>
-				<br>
-			</td>
-		</tr>
-		</c:if>
-	<tr>	
-		<th>내용</th>
-		<td>
-			<textarea class="form-control textarea_test"style="float:left;width:100%;" onkeyup="checkLength(this); this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
-				id="txt" name="txt" rows="20" cols="60" placeholder="내용을 입력해주세요" wrap="physical" class="form-control">${boardNotice.txt}</textarea>
-			<span class="error"><form:errors path="boardNotice.txt" delimiter="&nbsp;"/></span>
-		</td>
-	</tr>	
-</table>
-	<br>
-	<input type="hidden" name="id" value="${boardNotice.id}">
-	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return modify_event();">
-		<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-	</button>
-<sec:csrfInput/>
-</form>
-<form action="${initParam.rootPath}/boardnotice/boardNoticeView.do" method="post">
-    <input type="hidden" name="id" value="${boardNotice.id}">
-    <button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-		<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-	</button>
-<sec:csrfInput/>
-</form>
-</div>
+	<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+		<br><br>
+		<h1>공지사항 수정</h1>
+		<hr>
+		<form action="${initParam.rootPath}/common/admin/boardnotice/boardNoticeUploadForm.do" method="post" enctype="multipart/form-data">
+		<table>
+			<tr>
+				<th>제목</th>
+				<td>
+					<input style="float:left;width:50%;" type="text" name="title" value="${boardNotice.title}" placeholder="제목을 입력해주세요" class="form-control">
+					<span class="error"><form:errors path="boardNotice.title" delimiter="&nbsp;"/></span>
+					<br><br>
+				</td>
+			</tr>
+			<tr>
+				<th>말머리</th>
+				<td>
+					<select class="form-control" style="float:left;width:30%;" name="items" id="items">
+						<option>공지사항</option>
+						<option>뉴스</option>
+					</select>
+					<br><br>
+				</td>
+			</tr>
+				<c:if test="${boardNotice.saveImg == null}">
+				<tr>
+					<th>사진</th>
+					<td>
+						<input type="file" name="upImage">
+						<br>
+					</td>
+				</tr>
+				</c:if>		
+				<c:if test="${boardNotice.saveImg != null}">
+				<tr>	
+					<th>사진</th>
+					<td>
+						<div id="image">
+							<input type="hidden" name="img" value="${boardNotice.img}">
+							<input type="hidden" name="saveImg" value="${boardNotice.saveImg}">
+							${boardNotice.img}
+							<!-- 이미지 삭제 버튼 -->
+							<button type="button" class="btn btn-default btn-lg" id="img"  style="border:0;outline:0;">
+								<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+							</button>
+						</div>
+						<br>
+					</td>
+				</tr>
+				</c:if>
+			<tr>	
+				<th>내용</th>
+				<td>
+					<textarea class="form-control textarea_test"style="float:left;width:100%;" onkeyup="checkLength(this); this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
+						id="txt" name="txt" rows="20" cols="60" placeholder="내용을 입력해주세요" wrap="physical" class="form-control">${boardNotice.txt}</textarea>
+					<span class="error"><form:errors path="boardNotice.txt" delimiter="&nbsp;"/></span>
+				</td>
+			</tr>	
+		</table>
+			<br>
+			<!-- 수정 완료 버튼 -->
+			<input type="hidden" name="id" value="${boardNotice.id}">
+			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return modify_event();">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+			</button>
+		<sec:csrfInput/>
+		</form>
+		
+		<!-- 상세페이지 이동 버튼(뒤로가기) -->
+		<form action="${initParam.rootPath}/boardnotice/boardNoticeView.do" method="post">
+		    <input type="hidden" name="id" value="${boardNotice.id}">
+		    <button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+				<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+			</button>
+		<sec:csrfInput/>
+		</form>
+		
+	</div>
 </div>
 </body>
 </html>

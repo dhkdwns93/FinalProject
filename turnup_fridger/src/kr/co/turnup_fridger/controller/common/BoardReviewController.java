@@ -134,6 +134,7 @@ public class BoardReviewController extends HttpServlet {
 			String id = "아이디";
 			String name = "레시피";
 			
+			//아이디로 검색 할 경우
 			if(select.equals(id))
 			{
 				map  = service.selectBoardReviewByMemberIdList(keyword,page);
@@ -145,6 +146,7 @@ public class BoardReviewController extends HttpServlet {
 
 		        return mav;
 			}		
+			//레시피 이름으로 검색할 경우
 			else if(select.equals(name))
 			{
 				map  = service.selectBoardReviewByRecipeNameList(keyword,page);
@@ -183,8 +185,10 @@ public class BoardReviewController extends HttpServlet {
 			
 			String fname = upImage.getOriginalFilename();
 
+			//이미지 정보가 빈칸일 경우
 			if (fname.equals("")) 
 			{
+				//null로 저장
 				boardReview.setImageSaveName(null);
 				service.addBoardReview(boardReview);
 		    } 
@@ -213,11 +217,8 @@ public class BoardReviewController extends HttpServlet {
 			Map<String, Object> map = service.selectBoardReviewList(page);
 			model.addAttribute("boardReviewId", boardReview.getBoardReviewId());
 			return new ModelAndView("redirect:/boardreview/success.do");
-			/*mav.addObject("list", map.get("list"));
-			mav.addObject("pageBean", map.get("pageBean"));
-	        mav.setViewName("boardreview/form_success.tiles");
-	        return mav; */
 		}
+		
 		@RequestMapping("success")
 		public ModelAndView registerSuccess(@RequestParam int boardReviewId,@RequestParam(defaultValue="1") int page)
 		{
@@ -240,9 +241,10 @@ public class BoardReviewController extends HttpServlet {
 		{
 			
 	        ModelAndView mav = new ModelAndView();
+	        //로그인 아이디와 작성자가 일치할 경우, 관리자일 경우 삭제
 	        if((writer.equals(memberId) && adminId.trim().isEmpty()) || !adminId.trim().isEmpty())
 	        {
-	        	service.removeBoardReview(boardReviewId);//정보삭제 
+	        	service.removeBoardReview(boardReviewId);
 				Map<String, Object> map = service.selectBoardReviewList(page);
 				 
 				mav.addObject("list", map.get("list"));
@@ -251,10 +253,12 @@ public class BoardReviewController extends HttpServlet {
 		        return mav; 
 	        }
 			
+	        //일치 하지 않을 경우 목록으로 이동
 			Map<String, Object> map = service.selectBoardReviewList(page);
 			 
 			mav.addObject("list", map.get("list"));
 			mav.addObject("pageBean", map.get("pageBean"));
+			//alert 창 
 			mav.addObject("error", "err");
 	        mav.setViewName("boardreview/boardreview_list.tiles");
 	        return mav; 
@@ -270,6 +274,7 @@ public class BoardReviewController extends HttpServlet {
 		{
 			ModelAndView mav = new ModelAndView();
 			
+			//로그인 아이디와 작성자가 일치할 경우
 			if(writer.equals(memberId))
 			{
 				mav.addObject("boardReview", service.selecetBoardReviewByBoardReviewId(boardReviewId));//해당 수정 정보 불러서 저장
@@ -277,29 +282,17 @@ public class BoardReviewController extends HttpServlet {
 				return mav;
 			}	
 			
+			//일치하지 않을 경우
 			Map<String, Object> map = service.selectBoardReviewList(page);
 			 
 			mav.addObject("list", map.get("list"));
 			mav.addObject("pageBean", map.get("pageBean"));
+			//alert창
 			 mav.addObject("error", "err");
 	        mav.setViewName("boardreview/boardreview_list.tiles");
 	        return mav; 
 		}
 		
-		//이지지 삭제
-		@RequestMapping("boardReviewImageDelete")
-		@ResponseBody
-		public ModelAndView boardReviewImageDelete(@ModelAttribute BoardReview boardReview,BindingResult errors,@RequestParam int boardReviewId)
-		{
-			ModelAndView mav = new ModelAndView();
-			
-			service.updateImageNull(boardReview);
-			
-			mav.addObject("boardReview", service.selecetBoardReviewByBoardReviewId(boardReview.getBoardReviewId()));//해당 수정 정보 불러서 저장
-			mav.setViewName("boardreview/boardreview_upload.tiles");
-			return mav;
-		}		
-			
 		//수정
 		@RequestMapping("boardReviewUploadForm")
 		@ResponseBody
@@ -309,11 +302,12 @@ public class BoardReviewController extends HttpServlet {
 			
 			BoardReviewValidator validator = new BoardReviewValidator();
 			validator.validate(boardReview, errors);
+			//에러가 있을 경우
 			if(errors.hasErrors()) 
 			{
 				return new ModelAndView("boardreview/boardreview_upload.tiles"); 
 			}
-			
+			//이미지를 수정하지 않을 경우
 			if(boardReview.getImageName() != null)
 			{
 				service.updateBoardReview(boardReview);
@@ -323,15 +317,17 @@ public class BoardReviewController extends HttpServlet {
 				mav.addObject("pageBean", map.get("pageBean"));
 		        mav.setViewName("boardreview/boardreview_list.tiles");
 		        return mav;  
-				
 			}
+			//이미지 수정할 경우
 			String upImageDir = request.getServletContext().getRealPath("/img");
 			MultipartFile upImage = boardReview.getUpImage();
 			
 			String fname = upImage.getOriginalFilename();
 
+			//이미지 정보가 빈칸일 경우
 			if (fname.equals("")) 
 			{
+				//정보 null로 저장
 				boardReview.setImageSaveName(null);
 				service.updateBoardReview(boardReview);
 		    } 
@@ -374,7 +370,6 @@ public class BoardReviewController extends HttpServlet {
 	        return list; 
 		} 
 		
-		////////////////////////////////////////////////////////////////////////////////////////////////////////
 		//레시피 아이디 조회
 		@RequestMapping("boardReviewByRecipeId")
 		@ResponseBody

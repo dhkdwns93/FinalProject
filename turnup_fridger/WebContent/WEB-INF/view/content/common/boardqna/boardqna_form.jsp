@@ -16,6 +16,7 @@ href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
+//등록 확인
 function insert_event(){
 	if (confirm("등록 하시겠습니까??") == true){    
 		//확인
@@ -25,6 +26,8 @@ function insert_event(){
 	    return false;
 	}
 };
+
+//글자수 확인
 function checkLength(boardQnATxt) {
     if (boardQnATxt.value.length > 1000 ) {
     	boardQnATxt.blur();
@@ -68,48 +71,49 @@ td{
 <body>
 <div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
-<div style="width:50%; margin-left: auto; margin-right: auto;">
-<br><br>
-<h1>QnA 게시판 ></h1><h2> 질문 등록</h2><br>
-<hr>
-<form action="${initParam.rootPath}/common/boardqna/boardQnAAdd.do" method="POST">
-<table style="width:100%;">
-	<tr>
-		<th>작성자</th>
-		<td>
-			<input class="form-control" style="float:left;width:40%;" type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>">
-			<br><br>			
-		</td>
-	</tr>
-	<tr>
-		<th>제목</th>
-		<td>
-			<input class="form-control" style="float:left;width:50%;" type="text" name="boardQnATitle" value="<sec:authentication property="principal.memberId"></sec:authentication>님의 질문입니다." readOnly>
-			<br><br>
-		</td>
-	</tr>
-	<tr>
-		<th>내용</th>
-		<td>
-			<textarea class="form-control textarea_test" style="float:left;width:100%;" onkeyup="checkLength(this); this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
-			id="boardQnATxt" name="boardQnATxt" rows="20" cols="60" placeholder="내용을 입력해주세요" wrap="physical">${boardQnA.boardQnATxt}</textarea>
-			<span class="error"><form:errors path="boardQnA.boardQnATxt" delimiter="&nbsp;"/></span>
-		</td>
-	</tr>	
-</table>
-
-<button id="submit" type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return insert_event();">
-	<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-</button>
-<sec:csrfInput/>
-</form>
-<form action="${initParam.rootPath}/common/boardqna/boardQnAList.do" method="POST">
-	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-		<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-	</button>
-	<sec:csrfInput/>
-</form>
-</div>
+	<div style="width:50%; margin-left: auto; margin-right: auto;">
+		<br><br>
+		<h1>QnA 게시판 ></h1><h2> 질문 등록</h2><br>
+		<hr>
+		<form action="${initParam.rootPath}/common/boardqna/boardQnAAdd.do" method="POST">
+		<table style="width:100%;">
+			<tr>
+				<th>작성자</th>
+				<td>
+					<input class="form-control" style="float:left;width:40%;" type="text" name="memberId" readonly value="<sec:authentication property="principal.memberId"></sec:authentication>">
+					<br><br>			
+				</td>
+			</tr>
+			<tr>
+				<th>제목</th>
+				<td>
+					<input class="form-control" style="float:left;width:50%;" type="text" name="boardQnATitle" value="<sec:authentication property="principal.memberId"></sec:authentication>님의 질문입니다." readOnly>
+					<br><br>
+				</td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td>
+					<textarea class="form-control textarea_test" style="float:left;width:100%;" onkeyup="checkLength(this); this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
+					id="boardQnATxt" name="boardQnATxt" rows="20" cols="60" placeholder="내용을 입력해주세요" wrap="physical">${boardQnA.boardQnATxt}</textarea>
+					<span class="error"><form:errors path="boardQnA.boardQnATxt" delimiter="&nbsp;"/></span>
+				</td>
+			</tr>	
+		</table>
+		<%-- 등록 완료 --%>
+		<button id="submit" type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return insert_event();">
+			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+		</button>
+		<sec:csrfInput/>
+		</form>
+		<%-- 뒤로가기(목록으로 이동) --%>
+		<form action="${initParam.rootPath}/common/boardqna/boardQnAList.do" method="POST">
+			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+				<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+			</button>
+			<sec:csrfInput/>
+		</form>
+	</div>
 </div>
 </body>
 </html>

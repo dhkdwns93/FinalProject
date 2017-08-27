@@ -26,8 +26,8 @@ public class BoardNoticeDaoImpl implements BoardNoticeDao
 	}
 	
 	
-	/**
-	 * 공지사항 등록
+	/*
+	 * 공지사항 등록  - 관리자
 	 * 작성자 - 김장규
 	 */
 	@Override
@@ -35,8 +35,8 @@ public class BoardNoticeDaoImpl implements BoardNoticeDao
 		return session.insert(makeSqlId("insertBoardNotice"),boardNotice);
 	}
 
-	/**
-	 * 공지사항 업데이트
+	/*
+	 * 공지사항 업데이트  - 관리자
 	 * 작성자 - 김장규
 	 */
 	@Override
@@ -44,17 +44,8 @@ public class BoardNoticeDaoImpl implements BoardNoticeDao
 		return session.update(makeSqlId("updateBoardNotice"), boardNotice);
 	}
 
-	
-	
-	@Override
-	public int updateImageNull(BoardNotice boardNotice) {
-		// TODO Auto-generated method stub
-		return session.update(makeSqlId("updateImageNull"), boardNotice);
-	}
-
-
-	/**
-	 * 공지사항 삭제
+	/*
+	 * 공지사항 삭제  - 관리자
 	 * 작성자 - 김장규
 	 */
 	@Override
@@ -62,14 +53,17 @@ public class BoardNoticeDaoImpl implements BoardNoticeDao
 		return session.delete(makeSqlId("deleteBoardNotice"),id);
 	}
 
+	/*
+	 * 공지사항 전체 수 카운트
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public int selectBoardNoticeCount() {
-		// TODO Auto-generated method stub
 		return session.selectOne(makeSqlId("selectBoardNoticeCount"));
 	}
 
 
-	/**
+	/*
 	 * 공지사항 전체 조회
 	 * 작성자 - 김장규
 	 */
@@ -81,29 +75,28 @@ public class BoardNoticeDaoImpl implements BoardNoticeDao
 		return session.selectList(makeSqlId("selectBoardNoticeList"),input);
 	}
 
-	/**
-	 * 공지사항 ID로 조회
+	/*
+	 * 공지사항 상세보기
 	 * 작성자 - 김장규
 	 */
 	@Override
 	public BoardNotice selectBoardNoticeById(int id) {
-		// TODO Auto-generated method stub
 		return session.selectOne(makeSqlId("selectBoardNoticeById"),id);
 	}
 
-	
-	
-	
+	/*
+	 * 공지사항 ITMES 수 카운트
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public int selectBoardNoticeByItmesCount(String items) {
-		// TODO Auto-generated method stub
 		Map<String, Object> input = new HashMap<String, Object>();
 		input.put("items",items);
 		return session.selectOne(makeSqlId("selectBoardNoticeByItemsCount"),input);
 	}
 
 
-	/**
+	/*
 	 * 공지사항 ITMES로 조회
 	 * 작성자 - 김장규
 	 */

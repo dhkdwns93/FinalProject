@@ -181,9 +181,7 @@ input {
  </tbody>
 </table>
 <p style="text-align:center">
-	<%-- ######################################################
-														페이징 처리
-			###################################################### --%>
+	<%-- 페이징 처리 --%>
 	<!-- 첫페이지로 이동 -->
 	<a href="${initParam.rootPath}/common/boardqna/boardQnAList.do?page=1">첫페이지</a>
 

@@ -21,43 +21,65 @@ public class CommentFreeDaoImpl implements CommentFreeDao {
 		return "kr.co.turnup_fridger.config.mybatis.mapper.CommentFreeMapper."+id;
 	}
 
-	//댓글 추가
+	/*
+	 * CommentFree 정보를 insert 하는 메소드 - 회원
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public int insertCommentFree(CommentFree commentFree) {
 		return session.insert(makeSqlId("insertCommentFree"),commentFree);
 	}
 
-	//댓글 수 증가 
+	/*
+	 * BoardFree 댓글 증가 하는 메소드 
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public int commentCount(int boardFreeId) {
 		return session.update(makeSqlId("boardFreeCount"),boardFreeId);
 	}
 	
-	//댓글 수정
+	/*
+	 * CommentFree 정보를 update 하는 메소드 - 작성자
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public int updateCommentFree(CommentFree commentFree) {
 		return session.update(makeSqlId("updateCommentFree"),commentFree);
 	}
 
-	//댓글 수 감소
+	/*
+	 * BoardFree 댓글수 감수 하는 메소드
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public int commentDeleteCount(int boardFreeId) {
 		return session.update(makeSqlId("boardFreeDeleteCount"),boardFreeId);
 	}
 	
-	//댓글 삭제
+	/*
+	 * CommentFree 정보를 delete 하는 메소드 - 관리자, 작성자
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public int deleteCommentFree(int id) {
 		return session.update(makeSqlId("deleteCommentFree"),id);
 	}
 
-	//댓글 전체 수 조회
+
+	/*
+	 * CommentFree 댓글 수 반환 하는 메소드
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public int selectCommentFreeCount(int boardFreeId) {
 		return session.selectOne(makeSqlId("selectCommentFreeCount"),boardFreeId);
 	}
 
-	//댓글 목록 조회(페이징)
+	/*
+	 * CommentFree 목록 조회 하는 메소드
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public List<CommentFree> selectCommentFreeListbyId(int boardFreeId,int startIndex, int endIndex) {
 		Map<String, Object> input = new HashMap<String, Object>();
@@ -67,10 +89,12 @@ public class CommentFreeDaoImpl implements CommentFreeDao {
 		return session.selectList(makeSqlId("selectCommentFreeListbyId"),input);
 	}
 
-	//해당 댓글 상세 정보 조회
+	/*
+	 * CommentFree 해당 댓글 정보 상세정보 조회 하는 메소드 
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public CommentFree selectCommentFreeById(int commentFreeId) {
-		// TODO Auto-generated method stub
 		return session.selectOne(makeSqlId("selectCommentFreeById"),commentFreeId);
 	}
 	

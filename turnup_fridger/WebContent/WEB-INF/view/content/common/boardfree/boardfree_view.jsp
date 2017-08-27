@@ -115,13 +115,6 @@ function checkLength(commentFreeTxt) {
         return false;
     }
 };
-/* 
-function popup(frm){
-	window.name="opener";
-	window.open("/turnup_fridger/common/boardfree/commentfree_upload.do","commentupload","width=500, height=400");
-
-}
- */
 </script>
 <style type="text/css">
  form{display:inline}
@@ -156,6 +149,7 @@ h2{display:inline}
 
 </head>
 <body>
+<%-- 권한 없을 때 이벤트 --%>
 <c:if test="${requestScope.error != null}">
 	<script type="text/javascript">alert('권한이 없습니다.')</script>
 </c:if>
@@ -166,15 +160,18 @@ h2{display:inline}
 <br><br>
 <h1>자유 게시판 ></h1><h2> ${boardFree.memberId}님의 글</h2><br>
 <hr>
+	<%-- 목록이동 버튼 --%>
 	<form action="${initParam.rootPath}/common/boardfree/boardFreeList.do" method="post">
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">	
 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 			<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
 		</button>
 	</form>
-<div style="float:right"><!-- 오른쪽 정렬 -->
+<div style="float:right">
+
 <!-- 회원 수정폼 -->
 <sec:authorize access="hasRole('ROLE_MEMBER')">
+	<%-- 수정 버튼 --%>
 	<form action="${initParam.rootPath}/common/boardfree/boardFreeUploadView.do" method="post">
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 		<input type="hidden" name="boardFreeId" id="boardFreeId" value="${boardFree.boardFreeId}">
@@ -185,26 +182,23 @@ h2{display:inline}
 			<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 		</button>
 	</form>
-</sec:authorize>
-
-
-<!-- 회원 권한 폼 -->
-<sec:authorize access="hasRole('ROLE_MEMBER')">
-<form action="${initParam.rootPath}/common/boardfree/boardFreeRemove.do" method="post">
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	<input type="hidden" name="boardFreeId" value="${boardFree.boardFreeId}">
-	<input type="hidden" name="writer" value="${boardFree.memberId}">	
-	<input type="hidden" name="memberId" value="<sec:authentication property="principal.memberId"></sec:authentication>">
-	<input type="hidden" name="adminId" value="">
-	<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return delete_event();">
-		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-	</button>
-</form>
+	<%-- 삭제 버튼 --%>
+	<form action="${initParam.rootPath}/common/boardfree/boardFreeRemove.do" method="post">
+	<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+		<input type="hidden" name="boardFreeId" value="${boardFree.boardFreeId}">
+		<input type="hidden" name="writer" value="${boardFree.memberId}">	
+		<input type="hidden" name="memberId" value="<sec:authentication property="principal.memberId"></sec:authentication>">
+		<input type="hidden" name="adminId" value="">
+		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return delete_event();">
+			<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+		</button>
+	</form>
 </sec:authorize>
 
 
 <!-- 관리자 권한 폼 -->
 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">
+<%-- 삭제 버튼 --%>
 <form action="${initParam.rootPath}/common/boardfree/boardFreeRemove.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 	<input type="hidden" name="boardFreeId" value="${boardFree.boardFreeId}">
@@ -251,6 +245,7 @@ h2{display:inline}
 <h3>댓글 목록</h3><br>
 댓글이 없습니다.<br><br><br>
 </c:if>
+
 <!-- 댓글 있을 때   -->
 <c:if test="${!empty commentFree}">
 <div id="table" style="width:100%; border:1; text-align:center">
@@ -316,9 +311,7 @@ h2{display:inline}
 	</c:forEach>
 </table>		
 <p style="text-align:center">
-	<%-- ######################################################
-														페이징 처리
-			###################################################### --%>
+	<%-- 페이징 처리  --%>
 	<!-- 첫페이지로 이동 -->
 	<a href="${initParam.rootPath}/common/boardfree/boardFreeView.do?page=1&boardFreeId=${requestScope.boardFreeId}">첫페이지</a>
 

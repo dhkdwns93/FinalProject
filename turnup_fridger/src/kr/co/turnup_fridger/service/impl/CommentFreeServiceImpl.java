@@ -18,20 +18,30 @@ public class CommentFreeServiceImpl implements CommentFreeService{
 	@Autowired
 	private CommentFreeDao dao;
 
-	//댓글 등록
+	/*
+	 * 자유게시판 댓글 등록 - 회원
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public void addCommentFree(CommentFree commentFree) {
 		dao.insertCommentFree(commentFree);
 		
 	}
 
+	/*
+	 * 자유게시판 댓글수 증가
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public void commentCount(int boardFreeId) {
 		dao.commentCount(boardFreeId);
 		
 	}
 
-	//댓글 수정
+	/*
+	 * 자유게시판 댓글 수정 - 작성자
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public void updateCommentFree(CommentFree commentFree) {
 		dao.updateCommentFree(commentFree);
@@ -39,20 +49,30 @@ public class CommentFreeServiceImpl implements CommentFreeService{
 	}
 	
 
-	//댓글 삭제
+	/*
+	 * 자유게시판 댓글 삭제 - 관리자, 작성자
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public void removeCommentFree(int id) {
 		dao.deleteCommentFree(id);
 		
 	}
 	
+	/*
+	 * 자유게시판 댓글수 감소
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public void commentDeleteCount(int boardFreeId) {
 		dao.commentDeleteCount(boardFreeId);
 		
 	}
 
-	//댓글 목록
+	/*
+	 * 자유게시판 댓글 목록 조회
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public Map<String, Object> selectCommentFreeListbyId(int boardFreeId,int page) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -66,10 +86,12 @@ public class CommentFreeServiceImpl implements CommentFreeService{
 		return map;
 	}
 
-	//해당 댓글 상세 정보
+	/*
+	 * 자유게시판 댓글 상세정보 조회
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public CommentFree selectCommentFreeById(int commentFreeId) {
-		// TODO Auto-generated method stub
 		return dao.selectCommentFreeById(commentFreeId);
 	}
 
