@@ -132,19 +132,15 @@ body{
 		</tr>
 		<tr>
 			<td>
-				 <!-- <button type="button" id="mod" class="one btn btn-info">수정</button> -->
 				 <button type="button" id="mod" class="btn btn-default btn-md one"  style="border:0;outline:0;paddind:auto;">
 					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-				</button>
-				<!--  <button type="button" id="del" class="one">삭제</button> -->
+				 </button>
 				 <button type="button" id="del" class="btn btn-default btn-md one"  style="border:0;outline:0;">
 					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-				</button>
-				 <!-- <button type="button" id="send" class="one">문자전송</button> -->
+				 </button>
 				 <button type="button" id="send" class="btn btn-default btn-md one"  style="border:0;outline:0;">
 					<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-				</button>
-				 <!-- <button type="button" id="submit">확인</button> -->
+				 </button>
 				 <button type="button" id="submit" class="btn btn-default btn-md"  style="border:0;outline:0;">
 					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 				 </button>

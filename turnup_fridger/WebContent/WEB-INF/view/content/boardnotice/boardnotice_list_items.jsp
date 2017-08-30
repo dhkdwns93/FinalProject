@@ -167,9 +167,7 @@ input {
  </tbody>
 </table>
 <p style="text-align:center">
-	<%-- ######################################################
-														페이징 처리
-			###################################################### --%>
+	<%-- 페이징 처리 --%>
 	<!-- 첫페이지로 이동 -->
 	<a href="${initParam.rootPath}/boardnotice/boardNoticeByItems.do?page=1&items=${requestScope.items}">첫페이지</a>
 

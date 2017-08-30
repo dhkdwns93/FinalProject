@@ -2,7 +2,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core"%>
 
-    <a id="about"></a>
+
     <div class="intro-header">
     <div class="container">
         <div class="container">
@@ -68,34 +68,21 @@
                             </li>
                             </sec:authorize>
                             <sec:authorize access="hasRole('ROLE_MEMBER')">
-                             <%-- <li class="topMenuLi">
-                                <a href="#" class="btn btn-default btn-lg"><span class="network-name">MyMenu</span></a>
-                            	<ul class="submenu">
-                            		<sec:authentication property='principal.memberId' var='memberId'/>
-						    		<li><a href="${initParam.rootPath}/memo/memoList.do?memberId=${memberId}" id="submenuLink">내 메모보기</a></li>
-						    		<li><a href="#" onClick="window.open('${initParam.rootPath}/memo/map.do','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=750px, height=500px ,top=10, left=10', bottom=10, right=10)" id="submenuLink" id="submenuLink">주변 마트보기</a></li>
-						    		<li><a href="${initParam.rootPath}/common/member/member_mypage_event.do" id="submenuLink">회원정보관리</a></li>
-						    	</ul>
-                            </li> --%>
                             <li class="topMenuLi">
                                 <a href="${initParam.rootPath}/shop/findShopList.do" class="btn btn-default btn-lg"><span class="network-name">Shop</span></a>
                             </li>
                             </sec:authorize>
                         </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.container -->
-    </div>
-    <!-- /.intro-header -->
-</div>
-    <!-- Page Content -->
+                    </div> <!-- intro message -->
+                </div> <!-- col-lg-12 -->
+            </div> <!-- row -->
+        </div> <!-- container -->
+    </div> <!-- container -->
+	</div> <!-- intro-header -->
 
 
-	<a  id="services"></a>
+
     <div class="content-section-a">
-
         <div class="container">
             <div class="row">
                 <div class="col-lg-5 col-sm-6">
@@ -109,18 +96,14 @@
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                     <img class="img-responsive mainImg" src="img/la.png"  style="border-radius: 50em;">
                 </div>
-            </div>
+            </div> <!-- row -->
+        </div>  <!-- container -->
+    </div> <!-- content-section-a -->
 
-        </div>
-        <!-- /.container -->
 
-    </div>
-    <!-- /.content-section-a -->
 
     <div class="content-section-b">
-
         <div class="container">
-
             <div class="row">
                 <div class="col-lg-5 col-lg-offset-1 col-sm-push-6  col-sm-6">
                     <hr class="section-heading-spacer">
@@ -132,18 +115,14 @@
                 <div class="col-lg-5 col-sm-pull-6  col-sm-6">
                     <img class="img-responsive mainImg" src="img/rose.jpg"  style="border-radius: 50em;">
                 </div>
-            </div>
+            </div> <!-- row -->
+        </div>  <!--  container -->
+    </div> <!-- content-section-b -->
 
-        </div>
-        <!-- /.container -->
 
-    </div>
-    <!-- /.content-section-b -->
 
     <div class="content-section-a">
-
         <div class="container">
-
             <div class="row">
                 <div class="col-lg-5 col-sm-6">
                     <hr class="section-heading-spacer">
@@ -156,10 +135,7 @@
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                     <img class="img-responsive mainImg" src="img/women.jpg" style="border-radius: 50em;">
                 </div>
-            </div>
-
-        </div>
-        <!-- /.container -->
-
-    </div>
-    <!-- /.content-section-a -->
+            </div> <!-- row -->
+        </div> <!-- container -->
+    </div> <!--  content-section-a -->
+    

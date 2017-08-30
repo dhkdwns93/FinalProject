@@ -43,13 +43,13 @@ public class BoardQnAController extends HttpServlet {
 		
 	        ModelAndView mav = new ModelAndView();
 		    mav.addObject("list", map.get("list"));
+		    //글번호를 구하기 위한 총 게시물 수
 		    mav.addObject("totalCount", map.get("totalCount"));
 		    mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("common/boardqna/boardqna_list.tiles");
 	        return mav; 
 		} 
 	
-		
 		
 		//아이디 조회
 		@RequestMapping("boardQnAByMemberId")
@@ -58,22 +58,25 @@ public class BoardQnAController extends HttpServlet {
 		{
 			ModelAndView mav = new ModelAndView();	
 			Map<String, Object> map = new HashMap<>();
+			
 			if(!memberId.trim().isEmpty())
 			{
 				map  = service.findBoardQnAByMemberId(memberId,page);
 				
 			    mav.addObject("list", map.get("list"));
+			    //글번호를 구하기 위한 총 게시물 수
 			    mav.addObject("totalCount", map.get("totalCount"));
+			    
 			    mav.addObject("memberId",  map.get("memberId"));
 			    mav.addObject("pageBean", map.get("pageBean"));
 		        mav.setViewName("common/boardqna/boardqna_list_memberid.tiles");
 
 		        return mav; 
 			}
-			
+
 			map = service.findBoardQnAList(page);
-		
 		    mav.addObject("list", map.get("list"));
+		    //글번호를 구하기 위한 총 게시물 수
 		    mav.addObject("totalCount", map.get("totalCount"));
 		    mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("common/boardqna/boardqna_list.tiles"); 
@@ -90,9 +93,9 @@ public class BoardQnAController extends HttpServlet {
 		{
 			ModelAndView mav = new ModelAndView();
 			
+			//등록한 회원의 아이디와 로그인 아이디가 같거나 관리자일 경우 상세페이지 이동
 			if( (member.equals(memberId) && admin.trim().isEmpty()) || !admin.trim().isEmpty())
 			{
-				
 				List<CommentQnA> list = comment.selectCommentQnAByboardQnAId(boardQnAId);
 				mav.addObject("list", list);
 				BoardQnA boardQnA = service.findBoardQnAById(boardQnAId);
@@ -101,11 +104,14 @@ public class BoardQnAController extends HttpServlet {
 				return mav;
 			}
 			
+			//일치하지 않을 경우 
 			Map<String, Object> map = service.findBoardQnAList(page);
 			
 			mav.addObject("totalCount", map.get("totalCount"));
 		    mav.addObject("list", map.get("list"));
 		    mav.addObject("pageBean", map.get("pageBean"));
+		    
+		    //에러 메세지 
 	        mav.addObject("error", "err");
 		    mav.setViewName("common/boardqna/boardqna_list.tiles"); 
 	        
@@ -127,17 +133,11 @@ public class BoardQnAController extends HttpServlet {
 				//errors에 오류가 1개라도 등록되 있으면 true 리턴
 				return new ModelAndView("common/boardqna/boardqna_form.tiles"); 
 			}
+			
 			ModelAndView mav = new ModelAndView();
 			
 			service.addBoardQnA(boardQnA);
 			
-/*			mav.addObject("boardQnA",boardQnA);
-			
-			List<CommentQnA> list = comment.selectCommentQnAByboardQnAId(boardQnA.getBoardQnAId());
-			mav.addObject("list", list);
-			mav.addObject("boardQnA", service.findBoardQnAById(boardQnA.getBoardQnAId()));
-			mav.setViewName("common/boardqna/boardqna_view.tiles");	
-			return mav;			*/
 			boardQnA = service.findBoardQnAById(boardQnA.getBoardQnAId());
 			List<CommentQnA> list = comment.selectCommentQnAByboardQnAId(boardQnA.getBoardQnAId());
 
@@ -160,7 +160,7 @@ public class BoardQnAController extends HttpServlet {
 			return mav;
 		}
 		
-		
+	
 		//삭제
 		@RequestMapping("boardQnARemove")
 		@ResponseBody
@@ -171,7 +171,10 @@ public class BoardQnAController extends HttpServlet {
 			Map<String, Object> map = service.findBoardQnAList(page);
 			
 	        ModelAndView mav = new ModelAndView();
+	        
+	        //삭제 후 목록으로 이동
 		    mav.addObject("list", map.get("list"));
+		    //글번호를 구하기 위한 총 게시물 수
 		    mav.addObject("totalCount", map.get("totalCount"));
 		    mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("common/boardqna/boardqna_list.tiles");
@@ -179,7 +182,7 @@ public class BoardQnAController extends HttpServlet {
 
 		}	
 		
-		//수정 폼
+		//수정 폼 이동
 		@RequestMapping("boardQnAUploadView")
 		@ResponseBody
 		public ModelAndView boardQnAUploadView(@RequestParam int boardQnAId)
@@ -209,13 +212,20 @@ public class BoardQnAController extends HttpServlet {
 			ModelAndView mav = new ModelAndView();
 			
 			service.updateBoardQnA(boardQnA);
+			
 			mav.addObject("boardQnA",boardQnA);
-			List<CommentQnA> list = comment.selectCommentQnAByboardQnAId(boardQnA.getBoardQnAId());
-			mav.addObject("list", list);
-			mav.setViewName("common/boardqna/boardqna_view.tiles");
 			mav.addObject("boardQnA", service.findBoardQnAById(boardQnAId));
-		    
+			
+			//QnA 댓글 목록
+			List<CommentQnA> list = comment.selectCommentQnAByboardQnAId(boardQnA.getBoardQnAId());
+			mav.addObject("list", list);		
+			
+			mav.setViewName("common/boardqna/boardqna_view.tiles");
+			 
 			return mav;
-
 		}		
+		
+		
+		
+		
 }

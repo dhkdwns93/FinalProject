@@ -47,7 +47,7 @@ $(document).ready(function(){
 		});
 	});
 	$(document).on("click","#col",function(){
-		//id랑 재료명만 받아오는고~
+		//id랑 재료명만 받아오기
 		var recipeId = $(this).children(":first-child").text();
 		var recipeName = $(this).children(":nth-child(2)").text();
 		
@@ -58,7 +58,6 @@ $(document).ready(function(){
 	
 });
 </script>
-
  <link href="bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
 <style>
     #container {

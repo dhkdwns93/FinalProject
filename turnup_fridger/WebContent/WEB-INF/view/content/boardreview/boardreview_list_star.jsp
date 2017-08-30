@@ -21,6 +21,7 @@ href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
+//글 삭제 확인
 function delete_event(){
 	if (confirm("정말 삭제하시겠습니까??") == true){    
 		//확인
@@ -52,6 +53,7 @@ function delete_event(){
 </style>
 </head>
 <body>
+<%-- 권한이 없을 때 --%>
 <c:if test="${requestScope.error != null}">
 	<script type="text/javascript">alert('권한이 없습니다.')</script>
 </c:if>
@@ -59,11 +61,12 @@ function delete_event(){
 
 <div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
-
+<%-- 오늘 날짜 확인 --%>
 <jsp:useBean id="now" class="java.util.Date" />
 <fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />  
 
 <div class="right-box-sidemenu">
+<%-- 리스트가 없을 때 --%>
 <c:if test="${empty list}">
 	<div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
 <br><br>
@@ -72,11 +75,13 @@ function delete_event(){
 <table class="table table-hover table-condensed" style="width:100%;text-align:center;margin-left: auto; margin-right: auto;">
 <div class="form-inline form-group" >
 	<a href="${initParam.rootPath}/index.do">
+		<%-- 홈 이동 버튼 --%>
 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 		</button>
 	</a>
 	<sec:authorize access="hasRole('ROLE_MEMBER')">
+		<%-- 회원 후기 등록 버튼 --%>
 		<a href="${initParam.rootPath}/boardreview/boardreview_form.do">
 			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -84,6 +89,7 @@ function delete_event(){
 		</a>
 	</sec:authorize>
 	<div class="ccfield-prepend" style="float:right">
+		<%-- 검색 조회 --%>
 		<form class="form-inline" action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
 			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 			<select class="form-control" name="select" id="select">
@@ -98,22 +104,27 @@ function delete_event(){
 		</form>
 	</div>
 </div>
-	<br><h2 style="text-align:center">등록된 게시물이 없습니다.</h2>
+	<br>
+	<h2 style="text-align:center">등록된 게시물이 없습니다.</h2>
 </table>
 </div>
 </c:if>
+
+<%-- 리스트가 있을 경우 --%>
 <c:if test="${!empty list}">
 <div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>후기</h1>
 <hr>
 <div class="form-inline form-group" >
+	<%-- 홈 이동 버튼 --%>
 	<a href="${initParam.rootPath}/index.do">
 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 		</button>
 	</a>
 	<sec:authorize access="hasRole('ROLE_MEMBER')">
+		<%-- 회원 후기 등록 버튼 --%>
 		<a href="${initParam.rootPath}/boardreview/boardreview_form.do">
 			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -122,6 +133,7 @@ function delete_event(){
 	</sec:authorize>
 
 	<div class="ccfield-prepend" style="float:right">
+		<%-- 검색 조회 --%>
 		<form class="form-inline" action="${initParam.rootPath}/boardreview/boardReviewBySelect.do" method="post">
 			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 			<select class="form-control" name="select" id="select">
@@ -148,13 +160,15 @@ function delete_event(){
 		<td style="width:70%;">
 				<h4>${row.memberId}</h4>님의 후기  |  <fmt:formatDate value="${row.boardReviewDate}" pattern="yyyy-MM-dd"/>
 				<fmt:formatDate value="${row.boardReviewDate}" pattern="yyyy-MM-dd" var="date"/>  
+				<%-- 작성 날짜가 오늘일 경우의 이벤트--%>
 				<c:if test="${today == date }">
 					&nbsp;&nbsp;&nbsp;<a class="blink">new</a>
 				</c:if> 
 		</td>
 		<td  style="width:20%;">
-	<!-- 회원 권한 폼 -->
+			<%-- 회원 권한 --%>
 			<sec:authorize access="hasRole('ROLE_MEMBER')">
+			<%-- 작성자 글 수정 --%>
    			<form action="${initParam.rootPath}/boardreview/boardReviewUploadView.do" method="post">
 				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 				<input type="hidden" name="boardReviewId" value="${row.boardReviewId}">
@@ -164,6 +178,7 @@ function delete_event(){
 					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 				</button>
 			</form>
+				<%-- 작성자 글 삭제 --%>
 				<form action="${initParam.rootPath}/boardreview/boardReviewRemove.do" method="post">
 				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 					<input type="hidden" name="boardReviewId" value="${row.boardReviewId}">
@@ -175,8 +190,9 @@ function delete_event(){
 					</button>
 				</form>
 			</sec:authorize>
-	<!-- 관리자 권한 폼 -->
+			<!-- 관리자 권한  -->
 			<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">	
+			<%-- 글 삭제 --%>
 			<form action="${initParam.rootPath}/boardreview/boardReviewRemove.do" method="post">
 			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 				<input type="hidden" name="boardReviewId" value="${row.boardReviewId}">
@@ -202,10 +218,13 @@ function delete_event(){
 	<tr>
 		<td>
 		</td>
+		
 		<td style="width:70%;">
-				<a href="${initParam.rootPath}/recipe/show/detail.do?recipeId=${row.recipeId}">${row.recipeName}</a>	|	
+			<%-- 해당 레시피 이동 --%>
+			<a href="${initParam.rootPath}/recipe/show/detail.do?recipeId=${row.recipeId}">${row.recipeName}</a>	|	
+			<%-- 별점 --%>
 			<c:if test="${row.boardReviewStar == 0}">
-    			<img width="20%" src="${initParam.rootPath}/starimage/rating0.png">
+    		<img width="20%" src="${initParam.rootPath}/starimage/rating0.png">
     		</c:if>
     		<c:if test="${row.boardReviewStar == 1}">
     			<img width="20%" src="${initParam.rootPath}/starimage/rating01.png">    		
@@ -260,12 +279,9 @@ function delete_event(){
 </c:forEach>
 </table>
 <p style="text-align:center;">
-	<%-- ######################################################
-														페이징 처리
-			###################################################### --%>
+	<%--페이징 처리 --%>
 	<!-- 첫페이지로 이동 -->
 	<a href="${initParam.rootPath}/boardreview/boardReviewStarList.do?page=1">첫페이지</a>
-
 	<!--
 		이전 페이지 그룹 처리.
 		만약에 이전페이지 그룹이 있으면 링크처리하고 없으면 화살표만 나오도록 처리.
@@ -279,7 +295,6 @@ function delete_event(){
 				◀	
 		</c:otherwise>
 	</c:choose>
-	
 	<!-- 
 		현재 page가 속한 page 그룹내의 페이지들 링크.
 		현재 pageGroup의 시작page ~ 끝 page
@@ -295,8 +310,6 @@ function delete_event(){
 				</c:otherwise>
 			</c:choose>
 		</c:forEach>
-	
-
 	<!-- 
 		다음페이지 그룹으로 이동
 		만약에 다음페이지 그룹이 있으면 링크 처리 없으면 화살표만 나오도록 처리
@@ -313,7 +326,6 @@ function delete_event(){
 	
 	<!-- 마지막 페이지로 이동 -->
 	<a href="${initParam.rootPath}/boardreview/boardReviewStarList.do?page=${requestScope.pageBean.totalPage}">마지막페이지</a>
-
 </p>
 </div>
 </c:if>

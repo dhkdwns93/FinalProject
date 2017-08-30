@@ -44,67 +44,76 @@ input {
 <div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 
+<%-- 오늘 날짜 확인 --%>
 <jsp:useBean id="now" class="java.util.Date" />
 <fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" /> 
 
+<%-- 리스트 없을 경우  --%>
 <c:if test="${empty list}">
-<div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
-<br><br>
-<h1>자유 게시판</h1>
-<hr>
-<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
-<div class="form-inline form-group" >
-	<a href="${initParam.rootPath}/index.do">
-		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-		</button>
-	</a>
-	<sec:authorize access="hasRole('ROLE_MEMBER')">
+	<div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
+	<br><br>
+	<h1>자유 게시판</h1>
+	<hr>
+	<table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
+	<div class="form-inline form-group" >
+	<%-- 홈으로 이동 버튼 --%>
+		<a href="${initParam.rootPath}/index.do">
+			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+				<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+			</button>
+		</a>
+		<%-- 회원일 경우 등록 버튼 --%>		
+		<sec:authorize access="hasRole('ROLE_MEMBER')">
 		<a href="${initParam.rootPath}/common/boardfree/boardfree_form.do">
 			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
 			</button>
 		</a>
-	</sec:authorize>
-	<!-- 검색버튼 -->
-	<div style="float:right">
-		<form class="form-inline" action="${initParam.rootPath}/common/boardfree/boardFreeBySelect.do" method="post">
-			<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-			<select class="form-control" name="select" id="select">
-				<option>전체보기</option>
-				<option value="레시피">레시피</option>
-				<option value="아이디">아이디</option>
-			</select>
-				<input class="container form-control input-group" type="text" name="keyword" placeholder="키워드를 입력해주세요">
-				<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-				</button>
-		</form>
+		</sec:authorize>
+		<!-- 검색버튼 -->
+		<div style="float:right">
+			<form class="form-inline" action="${initParam.rootPath}/common/boardfree/boardFreeBySelect.do" method="post">
+				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+				<select class="form-control" name="select" id="select">
+					<option>전체보기</option>
+					<option value="레시피">레시피</option>
+					<option value="아이디">아이디</option>
+				</select>
+					<input class="container form-control input-group" type="text" name="keyword" placeholder="키워드를 입력해주세요">
+					<button type="submit" class="btn btn-default btn-lg" style="border:0;outline:0;">
+						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+					</button>
+			</form>
+		</div>
 	</div>
-</div>
-<br><h2 style="text-align:center">검색한 아이디가 없습니다.</h2>
-</table>
-</div>
+	<br>
+	<h2 style="text-align:center">검색한 아이디가 없습니다.</h2>
+	</table>
+	</div>
 </c:if>
 
+<%-- 리스트 있을 경우 --%>
 <c:if test="${!empty list}">
 	<div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>자유 게시판</h1>
 <hr>
 <div class="form-inline form-group" >
+	<%-- 홈 이동 버튼 --%>
 	<a href="${initParam.rootPath}/index.do">
 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 		</button>
 	</a>
+	<%-- 회원 등록 버튼 --%>
 	<sec:authorize access="hasRole('ROLE_MEMBER')">
-		<a href="${initParam.rootPath}/common/boardfree/boardfree_form.do">
-			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-			</button>
-		</a>
+	<a href="${initParam.rootPath}/common/boardfree/boardfree_form.do">
+		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+			<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+		</button>
+	</a>
 	</sec:authorize>
+	
 	<!-- 검색버튼 -->
 	<div style="float:right">
 		<form class="form-inline" action="${initParam.rootPath}/common/boardfree/boardFreeBySelect.do" method="post">
@@ -146,6 +155,7 @@ input {
 			</form>  
         </td>
         <td>
+        		<%-- 작성 날짜가 오늘일 경우의 이벤트--%>
         		<fmt:formatDate value="${row.date}" pattern="yyyy-MM-dd" var="date"/>
     			 <c:if test="${today == date }">
 					<a class="blink">new</a>
@@ -169,9 +179,7 @@ input {
  </tbody>
 </table>
 <p style="text-align:center">
-	<%-- ######################################################
-														페이징 처리
-			###################################################### --%>
+	<%-- 페이징 처리 --%>
 	<!-- 첫페이지로 이동 -->
 	<a href="${initParam.rootPath}/common/boardfree/boardFreeByMemberId.do?page=1&memberId=${requestScope.memberId}">첫페이지</a>
 

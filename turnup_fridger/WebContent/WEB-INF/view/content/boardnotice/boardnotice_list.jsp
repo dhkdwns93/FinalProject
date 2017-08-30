@@ -17,6 +17,7 @@
 
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <style type="text/css">
+
 /* focus none 지정 */
 input:focus {
   outline: none;
@@ -25,13 +26,16 @@ input:focus {
 th{
 text-align:center;
 }
+
 /* input 정렬 */
 input {
    vertical-align:middle;  
 }
+
 .blink {
     -webkit-animation: blink 2.5s linear infinite;
 } 
+
 @-webkit-keyframes blink {
     0% { color: red; }
     33% { color: yellow; }
@@ -45,9 +49,12 @@ input {
 
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 
+<!-- 현재 날짜 확인 -->
 <jsp:useBean id="now" class="java.util.Date" />
 <fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />  
 
+
+<!-- 검색 결과가 없을 때  -->
 <c:if test="${empty list}">
 <div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
 <br><br>
@@ -169,9 +176,7 @@ input {
  </tbody>
 </table>
 <p style="text-align:center">
-	<%-- ######################################################
-														페이징 처리
-			###################################################### --%>
+	<%-- 페이징 처리 --%>
 	<!-- 첫페이지로 이동 -->
 	<a href="${initParam.rootPath}/boardnotice/boardNoticeList.do?page=1">첫페이지</a>
 

@@ -60,6 +60,9 @@ public class MyMemoServiceImpl implements MyMemoService{
 		return dao.selectMemoCount(memberId);
 	}
 
+	
+	/* ------------------- 기능 테스트 ---------------------------------------------------------------------------------------------*/
+	
 	public static void main(String[] args) throws Exception {
 		
 		ApplicationContext c = new ClassPathXmlApplicationContext("kr/co/turnup_fridger/config/spring/model-context.xml");

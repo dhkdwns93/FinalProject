@@ -38,15 +38,14 @@ text-align:center
 </style>
 </head>
 <body>
-
-
 <div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 
+<%-- 오늘 날짜 확인 --%>
 <jsp:useBean id="now" class="java.util.Date" />
 <fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />  
 
-
+<%-- 리스트 없을 경우  --%>
 <c:if test="${empty list}">
 <div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
 <br><br>
@@ -54,11 +53,13 @@ text-align:center
 <hr>
 <table class="table table-hover table-condensed" style="width:100%; border:1; text-align:center;">
 <div class="form-inline form-group" >
+	<%-- 홈으로 이동 버튼 --%>
 	<a href="${initParam.rootPath}/index.do">
 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 		</button>
 	</a>
+	<%-- 회원일 경우 등록 버튼 --%>	
 	<sec:authorize access="hasRole('ROLE_MEMBER')">
 		<a href="${initParam.rootPath}/common/boardfree/boardfree_form.do">
 			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
@@ -82,21 +83,25 @@ text-align:center
 		</form>
 	</div>
 </div>
-<br><h2 style="text-align:center">등록된 게시물이 없습니다.</h2>
+<br>
+<h2 style="text-align:center">등록된 게시물이 없습니다.</h2>
 </table>
 </div>
 </c:if>
+<%-- 리스트 있을 경우 --%>
 <c:if test="${!empty list}">
 <div id="table" style="width:auto; margin-left: auto; margin-right: auto;">
 <br><br>
 <h1>자유 게시판</h1>
 <hr>
 <div class="form-inline form-group" >
+	<%-- 홈 이동 버튼 --%>
 	<a href="${initParam.rootPath}/index.do">
 		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 			<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
 		</button>
 	</a>
+	<%-- 회원 등록 버튼 --%>
 	<sec:authorize access="hasRole('ROLE_MEMBER')">
 		<a href="${initParam.rootPath}/common/boardfree/boardfree_form.do">
 			<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
@@ -144,6 +149,7 @@ text-align:center
 			</form>    
         </td>
         <td>
+     		    <%-- 작성 날짜가 오늘일 경우의 이벤트--%>
         		<fmt:formatDate value="${row.date}" pattern="yyyy-MM-dd" var="date"/>
     			 <c:if test="${today == date }">
 					<a class="blink">new</a>
@@ -167,9 +173,7 @@ text-align:center
  </tbody>
 </table>
 <p style="text-align:center">
-	<%-- ######################################################
-														페이징 처리
-			###################################################### --%>
+	<%-- 페이징 처리  --%>
 	<!-- 첫페이지로 이동 -->
 	<a href="${initParam.rootPath}/common/boardfree/boardFreeList.do?page=1">첫페이지</a>
 

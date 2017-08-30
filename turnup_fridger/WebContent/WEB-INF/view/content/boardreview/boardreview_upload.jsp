@@ -15,15 +15,16 @@ href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
+//이미지 삭제 
 $(document).ready(function(){
 	$("#img").on("click",function(){
 		$("#image").empty().append("<input type='file' name='upImage'>");
 	});
 });
 
-//후기 수정
-function insert_event(){
-	if (confirm("등록 하시겠습니까??") == true){    
+//후기 수정 확인
+function update_event(){
+	if (confirm("수정 하시겠습니까??") == true){    
 		//확인
 		location.href="/turnup_fridger/boardreview/boardreview_list.do";
 	}else{    	
@@ -64,22 +65,21 @@ var starRating = function(){
     }
   });
 };
-//starRating();
-	//레시피 검색
-	function popupRecipeName()
-	{
-		 window.open("/turnup_fridger/boardreview/recipenamesearch.do","recpieName","width=500,height=400")
-	};
-	
-	function checkLength(boardReviewTxt) {
-	    if (boardReviewTxt.value.length > 1000 ) {
-	    	boardReviewTxt.blur();
-	    	boardReviewTxt.value = boardReviewTxt.value.substring(0, 1000);
-	        alert('더 이상 입력이 불가능 합니다.');
-	        boardReviewTxt.focus();
-	        return false;
-	    }
-	};
+//레시피 검색
+function popupRecipeName()
+{
+	 window.open("/turnup_fridger/boardreview/recipenamesearch.do","recpieName","width=500,height=400")
+};
+//글자수 확인
+function checkLength(boardReviewTxt) {
+	   if (boardReviewTxt.value.length > 1000 ) {
+    	boardReviewTxt.blur();
+	    boardReviewTxt.value = boardReviewTxt.value.substring(0, 1000);
+	    alert('더 이상 입력이 불가능 합니다.');
+	    boardReviewTxt.focus();
+	    return false;
+	   }
+};
 </script>
 <style type="text/css">
  form{display:inline}
@@ -95,6 +95,8 @@ span.error{
 }
 h1{display:inline}
 h2{display:inline}
+
+//별점 css
 .boardReviewStar>.input,
 .boardReviewStar>.input>label:hover,
 .boardReviewStar>.input>input:focus+label,
@@ -204,26 +206,15 @@ h2{display:inline}
 </head>
 <body>
 <div class="container">
+
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
+
 <div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
 <br><br>
-<h1>후기 ></h1><h2> ${boardReview.memberId}님의 게시물 수정</h2><br>
+<h1>후기 ></h1>
+<h2> ${boardReview.memberId}님의 게시물 수정</h2><br>
 <hr>
-<c:if test="${boardReview.imageName != null}">
-<%-- <form action="${initParam.rootPath}/boardreview/boardReviewImageDelete.do" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-	    <input type="hidden" name="boardReviewId" value="${boardReview.boardReviewId}">
-		<input type="hidden" name="memberId" value="${boardReview.memberId}">
-		<input type="hidden" name="boardReviewStar" value="${boardReview.boardReviewStar}">
-		<input type="hidden" name="boardReviewTitle" value="${boardReview.boardReviewTitle}">
-		<input type="hidden" name="boardReviewTxt" value="${boardReview.boardReviewTxt}">
-		<input type="hidden" name="recipeName" value="${boardReview.recipeName}">
-		<input type="hidden" name="recipeId" value="${boardReview.recipeId}">
-		<input type="hidden" name="imageName" value="${boardReview.imageName}">
-		<input type="hidden" name="imageSaveName" value="${boardReview.imageSaveName}">
-		<input type="submit" value="이미지 삭제">
-</form> --%>
-</c:if>
+
 <form name="review"action="${initParam.rootPath}/boardreview/boardReviewUploadForm.do" method="post" enctype="multipart/form-data">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 <table style="width:100%"> 
@@ -312,16 +303,21 @@ h2{display:inline}
 	<br>
 </table>
 <input type="hidden" name="boardReviewId" value="${boardReview.boardReviewId}">
-<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="insert_event();">
+
+<%-- 글 수정 버튼 --%>
+<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="update_event();">
 	<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
 </button>
 </form>
+
+<%-- 목록으로 이동 버튼  --%>
 <form action="${initParam.rootPath}/boardreview/boardReviewList.do" method="post">
 <input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
 <button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
 	<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
 </button>
 </form>
+
 </div>
 </div>
 </body>

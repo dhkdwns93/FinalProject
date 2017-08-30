@@ -3,12 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%
-	//줄 바꿈
-	pageContext.setAttribute("br", "<br/>");
-	pageContext.setAttribute("cn", "\n");
 
-%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,6 +16,7 @@ href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript" src="/turnup_fridger/scripts/jquery.js"></script>
 <script type="text/javascript">
+//삭제 확인
 function delete_event(){
 	if (confirm("정말 삭제하시겠습니까??") == true){    
 		//확인
@@ -38,8 +34,8 @@ h2{display:inline}
 </style>
 </head>
 <body>
-<div class="container">
 
+<div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
 <div class="right-box-sidemenu">
 	<div style="width:auto; margin-left: auto; margin-right: auto;"><br><br>
@@ -52,6 +48,8 @@ h2{display:inline}
 				<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
 			</button>
 		</form>
+		
+		<!-- 관리자  -->
 		<div style="float:right">
 			<!-- 관리자만 수정 가능 -->
 			 <sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MASTERADMIN','ROLE_HEADMASTERADMIN')">

@@ -42,6 +42,8 @@ public class BoardFreeController extends HttpServlet {
 			Map<String, Object> map = service.selectBoardFreeList(page);
 	 
 			mav.addObject("list", map.get("list"));
+			
+			//글번호를 구하기 위한 총 게시물 수
 			mav.addObject("totalCount", map.get("totalCount"));
 			mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("common/boardfree/boardfree_list.tiles");
@@ -58,7 +60,10 @@ public class BoardFreeController extends HttpServlet {
 			Map<String, Object> map = service.selectBoardFreeByBoardFreeHits(page);
 
 			mav.addObject("list", map.get("list"));
+			
+			//글번호를 구하기 위한 총 게시물 수
 			mav.addObject("totalCount", map.get("totalCount"));
+			
 			mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("common/boardfree/boardfree_list_hit.tiles");
 	        return mav; 
@@ -70,13 +75,14 @@ public class BoardFreeController extends HttpServlet {
 		public ModelAndView boardFreeByMemberId(@RequestParam String memberId,@RequestParam(defaultValue="1") int page)
 		{
 			ModelAndView mav = new ModelAndView();	
-			
-			
-			
+		
 			Map<String, Object> map  = service.selectBoardFreeByMemberId(memberId,page);
 			
 			mav.addObject("list", map.get("list"));
+			
+			//글번호를 구하기 위한 총 게시물 수
 			mav.addObject("totalCount", map.get("totalCount"));
+			
 		    mav.addObject("memberId",  map.get("memberId"));
 		    mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("common/boardfree/boardfree_list_memberid.tiles"); 
@@ -94,7 +100,9 @@ public class BoardFreeController extends HttpServlet {
 			Map<String, Object> map  = service.selectBoardFreeByTitle(boardFreeTitle,page);
 			
 			mav.addObject("list", map.get("list"));
+			//글번호를 구하기 위한 총 게시물 수
 			mav.addObject("totalCount", map.get("totalCount"));
+			
 		    mav.addObject("boardFreeTitle", map.get("boardFreeTitle"));
 		    mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("common/boardfree/boardfree_list_title.tiles"); 
@@ -114,31 +122,42 @@ public class BoardFreeController extends HttpServlet {
 			String id = "아이디";
 			String title = "제목";
 			
+			//아이디로 검색 했을 경우
 			if(select.equals(id))
 			{
 				map  = service.selectBoardFreeByMemberId(keyword,page);
 				mav.addObject("list", map.get("list"));
+				//글번호를 구하기 위한 총 게시물 수
 				mav.addObject("totalCount", map.get("totalCount"));
+				
 			    mav.addObject("memberId",  map.get("memberId"));
 			    mav.addObject("pageBean", map.get("pageBean"));
 		        mav.setViewName("common/boardfree/boardfree_list_memberid.tiles"); 
 		        
 		        return mav;
 			}			
+			//제목으로 검색 했을 경우
 			else if(select.equals(title))
 			{
 				map = service.selectBoardFreeByTitle(keyword, page);
 				System.out.println(map);
 				mav.addObject("list", map.get("list"));
+				
+				//글번호를 구하기 위한 총 게시물 수
 				mav.addObject("totalCount", map.get("totalCount"));
+				
 				mav.addObject("boardFreeTitle",  map.get("boardFreeTitle.tiles"));
 			    mav.addObject("pageBean", map.get("pageBean"));
 		        mav.setViewName("common/boardfree/boardfree_list_title.tiles");
 		        return mav; 
 			}
+			//빈칸으로 검색할 경우(전체 리스트 출력)
 			map = service.selectBoardFreeList(page);
 			mav.addObject("list", map.get("list"));
+			
+			//글번호를 구하기 위한 총 게시물 수
 			mav.addObject("totalCount", map.get("totalCount"));
+			
 			mav.addObject("pageBean", map.get("pageBean"));
 	        mav.setViewName("common/boardfree/boardfree_list.tiles");
 	        return mav; 
@@ -159,11 +178,12 @@ public class BoardFreeController extends HttpServlet {
 			mav.addObject("boardFree",boradFree);
 			
 			Map<String, Object> map = commentFree.selectCommentFreeListbyId(boardFreeId,page);
-			mav.addObject("commentFree", map.get("list"));
 			mav.addObject("boardFreeId",  map.get("boardFreeId"));
+			
+			//해당 글  댓글
+			mav.addObject("commentFree", map.get("list"));
 		    mav.addObject("pageBean", map.get("pageBean"));
 		    
-			
 			mav.setViewName("common/boardfree/boardfree_view.tiles");
 			
 			return mav;
@@ -176,8 +196,10 @@ public class BoardFreeController extends HttpServlet {
 		{
 			BoardFreeValidator validator = new BoardFreeValidator();
 			validator.validate(boradFree, errors);
+			
 			if(errors.hasErrors())
 			{
+				//errors에 오류가 1개라도 등록되 있으면 true 리턴
 				return new ModelAndView("common/boardfree/boardfree_form.tiles"); //errors에 오류가 1개라도 등록되 있으면 true 리턴
 			}
 			ModelAndView mav = new ModelAndView();
@@ -194,12 +216,16 @@ public class BoardFreeController extends HttpServlet {
 				@RequestParam String writer,@RequestParam String memberId,@RequestParam String adminId)
 		{
 	        ModelAndView mav = new ModelAndView();
+	        
+	        //로그인한 아이디와 작성자가 일치 할 경우 또는 관리자인 경우 삭제
 	        if((writer.equals(memberId) && adminId.trim().isEmpty()) || !adminId.trim().isEmpty())
 	        {
-	        	service.removeBoardFree(boardFreeId);//정보삭제
+	        	service.removeBoardFree(boardFreeId);
 				Map<String, Object> map = service.selectBoardFreeList(page);//리스트 값 불러오기
-			    mav.addObject("list", map.get("list"));//리스트 값 저장
+			    mav.addObject("list", map.get("list"));
+				//글번호를 구하기 위한 총 게시물 수
 			    mav.addObject("totalCount", map.get("totalCount"));
+			    
 			    mav.addObject("pageBean", map.get("pageBean"));
 		        mav.setViewName("common/boardfree/boardfree_list.tiles"); 
 		        return mav; 
@@ -227,6 +253,7 @@ public class BoardFreeController extends HttpServlet {
 		{
 			ModelAndView mav = new ModelAndView();
 			
+			//로그인 한 회원과 작성자가 일치할 경우 수정 페이지 이동
 			if(writer.equals(memberId))
 			{
 				mav.addObject("boardFree", service.selectBoardFreeByboardFreeId(boardFreeId));//해당 수정 정보 불러서 저장
@@ -242,7 +269,6 @@ public class BoardFreeController extends HttpServlet {
 			mav.addObject("boardFreeId",  map.get("boardFreeId"));
 		    mav.addObject("pageBean", map.get("pageBean"));
 		    
-			
 			mav.setViewName("common/boardfree/boardfree_view.tiles");
 			
 			return mav;
@@ -262,14 +288,16 @@ public class BoardFreeController extends HttpServlet {
 			}
 			ModelAndView mav = new ModelAndView();
 			
-			service.updateBoardFree(boardFree);//수정
+			service.updateBoardFree(boardFree);
 			
 			boardFree = service.selectBoardFreeByboardFreeId(boardFreeId);
-			mav.addObject("boardFree", boardFree);//게시물 상세 정보
+			mav.addObject("boardFree", boardFree);
 			
 			Map<String, Object> map = commentFree.selectCommentFreeListbyId(boardFreeId,page);
-			mav.addObject("commentFree",map.get("list"));//해당게시물 댓글 정보
 		    mav.addObject("boardFreeId",  map.get("boardFreeId"));
+			
+			//해당 글 댓글 목록 출력
+			mav.addObject("commentFree",map.get("list"));
 		    mav.addObject("pageBean", map.get("pageBean"));
 		    
 		    mav.setViewName("common/boardfree/boardfree_view.tiles"); 

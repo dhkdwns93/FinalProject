@@ -23,27 +23,56 @@ public class BoardFreeServiceImpl implements BoardFreeService{
 	@Autowired
 	private BoardFreeDao dao;
 	
-	//등록
+	/*
+	 * BoardFree 등록 - 회원
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public void addBoardFree(BoardFree boardFree) {
 		dao.insertBoardFree(boardFree);
 	}
 	
-	//수정
+	/*
+	 * BoardFree 정보를 수정 - 작성자
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public void updateBoardFree(BoardFree boardFree) {
 		dao.updateBoardFree(boardFree);
 		
 	}
 	
-	//삭제
+	/*
+	 * BoardFree 삭제 - 관리자, 작성자
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public void removeBoardFree(int id) {
 		dao.deleteBoardFree(id);
 		
 	}
 	
-	//전체 리스트 
+	/*
+	 * BoardFree 조회수 증가
+	 * 작성자 : 김장규
+	 */
+	@Override
+	public void increasHit(int boardFreeId, HttpSession session) throws Exception {
+		long udateTime = 0;
+		long currentTime = System.currentTimeMillis();
+		
+		if(currentTime - udateTime > 5*1000)
+		{
+			dao.increaseViewcnt(boardFreeId);
+			
+			session.setAttribute("updateTime"+boardFreeId,currentTime);
+		}
+	}
+	
+	/*
+	 * BoardFree 전체 목록 조회
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public Map<String, Object> selectBoardFreeList(int page) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -57,7 +86,10 @@ public class BoardFreeServiceImpl implements BoardFreeService{
 	}
 	
 	
-	//조회수로 조회
+	/*
+	 * BoardFree 조회수로 조회
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public Map<String, Object>  selectBoardFreeByBoardFreeHits(int page) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -70,7 +102,10 @@ public class BoardFreeServiceImpl implements BoardFreeService{
 		return map;
 	}
 	
-	//아이디로 조회
+	/*
+	 * BoardFree 아이디 조회
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public Map<String, Object> selectBoardFreeByMemberId(String memberId,int page) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -86,7 +121,10 @@ public class BoardFreeServiceImpl implements BoardFreeService{
 	}
 	
 	
-	//제목으로 조회
+	/*
+	 * BoardFree 제목 조회
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public Map<String, Object> selectBoardFreeByTitle(String boardFreeTitle, int page) {
 		HashMap<String, Object> map = new HashMap<>();
@@ -100,57 +138,14 @@ public class BoardFreeServiceImpl implements BoardFreeService{
 		return map;
 	}
 
-	//조회수 증가
-	@Override
-	public void increasHit(int boardFreeId, HttpSession session) throws Exception {
-		long udateTime = 0;
-		long currentTime = System.currentTimeMillis();
-		
-		if(currentTime - udateTime > 5*1000)
-		{
-			dao.increaseViewcnt(boardFreeId);
-			
-			session.setAttribute("updateTime"+boardFreeId,currentTime);
-		}
-	}
-
-
-	//상세페이지
+	/*
+	 * BoardFree 상세 보기
+	 * 작성자 : 김장규
+	 */
 	@Override
 	public BoardFree selectBoardFreeByboardFreeId(int boardFreeId) {
 		
 		return dao.selectBoardFreeByboardFreeId(boardFreeId);
 	}
 
-	@Override
-	public List<BoardFree> test(String boardFreeTitle) {
-		// TODO Auto-generated method stub
-		return dao.test(boardFreeTitle);
-	}
-	
-	public static void main(String[] args) {
-		//ApplicationContext 객체 생성
-		ApplicationContext container = new ClassPathXmlApplicationContext("kr/co/turnup_fridger/config/spring/model-context.xml");
-		//Spring 컨테이너로 부터 BoardNoticeService bean 가져오기
-		BoardFreeService service = (BoardFreeService)container.getBean("boardFreeServiceImpl");
-
-		List<BoardFree> list = null;
-		BoardQnA board =null;
-		//list = service.findBoardQnAList();
-		//System.out.println(list);
-		
-		//int selId = 1;
-		
-		//board = service.findBoardQnAById(selId);
-		//System.out.println(board);
-		
-		String id = "id";
-		//Map<String, Object> map = service.selectBoardFreeByTitle(id, 1);
-		
-
-		list = service.test(id);
-		System.out.println(list);
-	}
-	
-	
 }	

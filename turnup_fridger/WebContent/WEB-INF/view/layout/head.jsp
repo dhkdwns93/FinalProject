@@ -44,8 +44,6 @@
 		</sec:authorize>
                 
                 </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-        </div>
-        <!-- /.container -->
+            </div> <!-- navbar-collapse -->
+        </div> <!-- container -->
     </nav>

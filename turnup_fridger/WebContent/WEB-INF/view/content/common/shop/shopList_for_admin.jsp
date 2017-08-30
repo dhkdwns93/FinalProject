@@ -10,23 +10,22 @@
 <script type="text/javascript" src="${initParam.rootPath}/scripts/jquery.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
-	/* setTimeout("location.reload()",1000); // 일정시간마다 새로고침*/
 	
 	// 등록 후 쇼핑몰 목록 불러오기
-		$.ajax({
-			"url": "${initParam.rootPath}/shop/findShopListAjax.do",
-			"dataType" : "json",
-			"success" : function(shopList){
-				var list = ""; 
-				$.each(shopList, function(){
-					list += "<tr><td id='shopid'>"+this.shopId+"</td><td><img alt='"+this.shopImg+"' src=${initParam.rootPath}/img/"+this.shopImg+" width='100' height='102'></td><td><a href='#' onClick='window.open('"+this.shopAddress+"','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=1000px, height=600px ,top=10, left=10', bottom=10, right=10)'>"+this.shopName+"</a></td><td><button type='button' class='btn btn-warning' id='delBtn'>삭제</button></td></tr>";
-				});
-				$("#tbody").html(list);
-			},
-			"error":function(xhr, msg, code){
-				alert('error!'+code);
-			}
-		});
+	$.ajax({
+		"url": "${initParam.rootPath}/shop/findShopListAjax.do",
+		"dataType" : "json",
+		"success" : function(shopList){
+			var list = ""; 
+			$.each(shopList, function(){
+				list += "<tr><td id='shopid'>"+this.shopId+"</td><td><img alt='"+this.shopImg+"' src=${initParam.rootPath}/img/"+this.shopImg+" width='100' height='102'></td><td><a href='#' onClick='window.open('"+this.shopAddress+"','_blank','toolbar=no,location=no,status=no,menubar=no,scrollbar=auto,resizable=no, directories=no,width=1000px, height=600px ,top=10, left=10', bottom=10, right=10)'>"+this.shopName+"</a></td><td><button type='button' class='btn btn-warning' id='delBtn'>삭제</button></td></tr>";
+			});
+			$("#tbody").html(list);
+		},
+		"error":function(xhr, msg, code){
+			alert('error!'+code);
+		}
+	});
 	
 	// 개수 불러오기
 	$.ajax({
@@ -63,20 +62,20 @@ p{
 </head>
 <body>
 <div class="container">
-<br><br>
-<p id="shopCount"><span id="count"></span></p>
-<div id="addBtn"><a href="${initParam.rootPath}/common/shop/shop_register_form.do"><button type="button" class="btn btn-default" id="insertBtn">등록</button></a></div>
-<div style="width:100%; height:600px; overflow:auto">
-<table class="table table-hover">
-	<tr> 
-		<td>NO</td>
-		<td colspan="3">Shop</td>
-	</tr>
-	<tbody id="tbody">
-	
-	</tbody>
-</table>
-</div>
+	<br><br>
+	<p id="shopCount"><span id="count"></span></p>
+	<div id="addBtn"><a href="${initParam.rootPath}/common/shop/shop_register_form.do"><button type="button" class="btn btn-default" id="insertBtn">등록</button></a></div>
+	<div style="width:100%; height:600px; overflow:auto">
+		<table class="table table-hover">
+			<tr> 
+				<td>NO</td>
+				<td colspan="3">Shop</td>
+			</tr>
+			<tbody id="tbody">
+			
+			</tbody>
+		</table>
+	</div>
 </div>
 </body>
 </html>

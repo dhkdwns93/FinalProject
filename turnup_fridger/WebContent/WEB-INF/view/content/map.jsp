@@ -17,7 +17,7 @@
 
 <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=a48481878cc565128cd84abd9fda8053&libraries=services"></script>
 <script>
-// 마커를 클릭하면 장소명을 표출할 인포윈도우
+// 마커를 클릭하면 장소명을 표시
 var infowindow = new daum.maps.InfoWindow({zIndex:1});
 
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 

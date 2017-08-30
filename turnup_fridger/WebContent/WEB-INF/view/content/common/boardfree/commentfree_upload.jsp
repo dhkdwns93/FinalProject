@@ -24,6 +24,7 @@ function comment_update_event(){
 	    return false;
 	}
 }; 
+//글자수 확인
 function checkLength(commentFreeTxt) {
     if (commentFreeTxt.value.length > 100 ) {
     	commentFreeTxt.blur();
@@ -33,32 +34,6 @@ function checkLength(commentFreeTxt) {
         return false;
     }
 };
-/* $(document).ready(function(){
-	$("#submit").on("click", function(){
-		alert('수정되었습니다');
-	});
-});
-
-
-window.onload = function(){
-	document.getElementById('memberId').value = opener.document.getElementById('memberId').value;
-	document.getElementById('commentFreeId').value = opener.document.getElementById('commentFreeId').value;
-	document.getElementById('commentFreeTxt').value = opener.document.getElementById('commentFreeTxt').value;
-	document.getElementById('boardFreeId').value = opener.document.getElementById('boardFreeId').value;
-	};
-
-
-
-function closeWindow(){
-	var form = document.upload;
-		
-	window.opener.name = "opener";
-	form.target = "opener";
-	form.action = "/turnup_fridger/common/commentfree/commentFreeUploadForm.do";
-	form.submit();
-	window.opener.location.reload();
-	self.close();
-}; */
 </script>
 <style type="text/css">
 form{display:inline}
@@ -87,48 +62,51 @@ td{
 </style>
 </head>
 <body>
+
 <div class="container">
 <jsp:include page="/WEB-INF/view/layout/side_menu/boardSideMenu.jsp"/>
-<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
-<br><br>
-<h1>자유 게시판 ></h1><h2>${commentFree.memberId }님의 댓글 수정</h2><br>
-<hr>
-<form id="upload" method="post" action="${initParam.rootPath}/common/commentfree/commentFreeUploadForm.do"<%--  onsubmit="closeWindow()" --%>>
-<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-<table style="width:100%;">
-	<tr>
-		<th>작성자</th>
-		<td>
-			<input type="text" class="form-control" style="float:left;width:40%;" name="memberId" id="memberId" readonly value="${commentFree.memberId }">
-			<br><br>
-		</td>
-	</tr>
-	<tr>
-		<th>내용</th>
-		<td>
-			<textarea class="form-control textarea_test" style="float:left;width:100%;" onkeyup="checkLength(this); this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
-			name="commentFreeTxt" id="commentFreeTxt" rows="10" cols="60" placeholder="내용을 입력해주세요" wrap="physical">${commentFree.commentFreeTxt}</textarea>
-			<span class="error"><form:errors path="commentFree.commentFreeTxt" delimiter="&nbsp;"/></span>
-		</td>
-	</tr>
-</table>
-		<input type="hidden" name="commentFreeId" id="commentFreeId" value="${commentFree.commentFreeId}">
-		<input type="hidden" name="boardFreeId" id="boardFreeId" value="${commentFree.boardFreeId}">
-		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return comment_update_event();">
-			<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-		</button>
-</form>
-<form action="${initParam.rootPath}/common/boardfree/boardFreeView.do" method="post">
+	<div id="table" style="width:50%; margin-left: auto; margin-right: auto;">
+	<br><br>
+	<h1>자유 게시판 ></h1><h2>${commentFree.memberId }님의 댓글 수정</h2><br>
+	<hr>
+		<form id="upload" method="post" action="${initParam.rootPath}/common/commentfree/commentFreeUploadForm.do"<%--  onsubmit="closeWindow()" --%>>
 		<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
-        <input type="hidden" name="member" value=""> 
-        <input type="hidden" name="admin" value="">
-        <input type="hidden" name="memberId" value="${commentFree.memberId}">
-        <input type="hidden" name="boardFreeId" value="${commentFree.boardFreeId}">
-		<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
-			<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
-		</button>
-</form> 
-</div>
+		<table style="width:100%;">
+			<tr>
+				<th>작성자</th>
+				<td>
+					<input type="text" class="form-control" style="float:left;width:40%;" name="memberId" id="memberId" readonly value="${commentFree.memberId }">
+					<br><br>
+				</td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td>
+					<textarea class="form-control textarea_test" style="float:left;width:100%;" onkeyup="checkLength(this); this.style.height='100%'; this.style.height = this.scrollHeight + 'px';"
+					name="commentFreeTxt" id="commentFreeTxt" rows="10" cols="60" placeholder="내용을 입력해주세요" wrap="physical">${commentFree.commentFreeTxt}</textarea>
+					<span class="error"><form:errors path="commentFree.commentFreeTxt" delimiter="&nbsp;"/></span>
+				</td>
+			</tr>
+		</table>
+		<%-- 수정 확인 버튼 --%>
+				<input type="hidden" name="commentFreeId" id="commentFreeId" value="${commentFree.commentFreeId}">
+				<input type="hidden" name="boardFreeId" id="boardFreeId" value="${commentFree.boardFreeId}">
+				<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;" onclick="return comment_update_event();">
+					<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+				</button>
+		</form>
+		<%-- 뒤로가기 버튼 --%>
+		<form action="${initParam.rootPath}/common/boardfree/boardFreeView.do" method="post">
+				<input type="hidden" name="${_csrf.parameterName }" value="${_csrf.token }">
+		        <input type="hidden" name="member" value=""> 
+		        <input type="hidden" name="admin" value="">
+		        <input type="hidden" name="memberId" value="${commentFree.memberId}">
+		        <input type="hidden" name="boardFreeId" value="${commentFree.boardFreeId}">
+				<button type="submit" class="btn btn-default btn-lg"  style="border:0;outline:0;">
+					<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+				</button>
+		</form> 
+	</div>
 </div>
 </body>
 </html>

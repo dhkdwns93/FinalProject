@@ -19,9 +19,9 @@ public class ShopValidator implements Validator  {
 		
 		// 쇼핑몰 이름
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shopName", "required");
+		
 		// 쇼핑몰 주소(url)
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "shopAddress", "required");
-		// 사진도 추가?
 	
 	}
 

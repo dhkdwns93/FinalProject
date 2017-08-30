@@ -23,8 +23,8 @@ public class BoardReviewDaoImpl implements BoardReviewDao {
 		return "kr.co.turnup_fridger.config.mybatis.mapper.BoardReviewMapper."+id;
 	}
 	
-	/**
-	 * QnA 등록
+	/*
+	 * 후기 등록 - 회원
 	 * 작성자 - 김장규
 	 */
 	@Override
@@ -32,8 +32,8 @@ public class BoardReviewDaoImpl implements BoardReviewDao {
 		return session.insert(makeSqlId("insertBoardReview"),boardReview);
 	}
 
-	/**
-	 * QnA 업데이트
+	/*
+	 * 후기 업데이트 - 작성자
 	 * 작성자 - 김장규
 	 */
 	@Override
@@ -41,14 +41,8 @@ public class BoardReviewDaoImpl implements BoardReviewDao {
 		return session.update(makeSqlId("updateBoardReview"),boardReview);
 	}
 
-	//이미지 null
-	@Override
-	public int updateImageNull(BoardReview boardReview) {
-		return session.update(makeSqlId("updateImageNull"),boardReview);
-	}
-
-	/**
-	 * QnA 삭제(댓글과 함께 삭제)
+	/*
+	 * 후기 삭제(댓글과 함께 삭제) - 관리자, 작성자
 	 * 작성자 - 김장규
 	 */
 	@Override
@@ -56,13 +50,19 @@ public class BoardReviewDaoImpl implements BoardReviewDao {
 		return session.delete(makeSqlId("deleteBoardReview"),boardReviewId);
 	}
 
-	//전체 카운트
+	/*
+	 * 후기 전체 목록 수
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public int selectBoardReviewCount() {
 		return session.selectOne(makeSqlId("selectBoardReviewCount"));
 
 	}
-	//전체 목록
+	/*
+	 * 후기 전체 목록 조회
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public List<BoardReview> selectBoardReviewList(int startIndex, int endIndex) {
 		Map<String, Integer> input = new HashMap<String, Integer>();
@@ -71,7 +71,10 @@ public class BoardReviewDaoImpl implements BoardReviewDao {
 		return session.selectList(makeSqlId("selectBoardReviewList"),input);
 	}
 
-	//별점순 조회
+	/*
+	 * 후기 별점 순 조회
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public List<BoardReview> selectBoardReviewByStarList(int startIndex, int endIndex) {
 		Map<String, Integer> input = new HashMap<String, Integer>();
@@ -81,13 +84,19 @@ public class BoardReviewDaoImpl implements BoardReviewDao {
 	}
 
 	
-	//레시피 이름 카운트
+	/*
+	 * 후기 해당 레시피 이름 수 카운트
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public int selectBoardReviewByRecipeNameCount(String recipeName) {
 		return session.selectOne(makeSqlId("selectBoardReviewRecipeNameCount"),recipeName);
 
 	}
-	//레시피 이름 리스트 조회
+	/*
+	 * 후기 해당 레시피 이름 조회
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public List<BoardReview> selectBoardReviewByRecipeNameList(String recipeName,int startIndex, int endIndex) {
 		Map<String, Object> input = new HashMap<String, Object>();
@@ -97,13 +106,19 @@ public class BoardReviewDaoImpl implements BoardReviewDao {
 		return session.selectList(makeSqlId("selectBoardReviewByRecipeNameList"), input);
 	}
 	
-	//아이디 카운트
+	/*
+	 * 후기 해당 아이디 수 카운트
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public int selectBoardReviewByMemberIdCount(String memberId) {
 		return session.selectOne(makeSqlId("selectBoardReviewMemberIdCount"),memberId);
 	}
 
-	//작성 아이디 리스트 조회
+	/*
+	 * 후기 해당 아이디 목록 조회
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public List<BoardReview> selectBoardReviewByMemberIdList(String memberId,int startIndex, int endIndex) {
 		Map<String, Object> input = new HashMap<String, Object>();
@@ -113,30 +128,37 @@ public class BoardReviewDaoImpl implements BoardReviewDao {
 		return session.selectList(makeSqlId("selectBoardReviewByMemberIdList"), input);
 	}
 	
-	//해당 레시피 상세정보 조회
+	/*
+	 * 후기 해당 레시피 상세정보 조회
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public BoardReview selecetBoardReviewByBoardReviewId(int boardReviewId) {
-		// TODO Auto-generated method stub
 		return session.selectOne(makeSqlId("selectBoardReviewByBoardReviewId"), boardReviewId);
 	}
 
-	//레시피 이름 검색
+	/*
+	 * 후기 해당 레시피 이름 조회
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public List<RecipeInfo> selectRecipeName(String recipeName) {
-		// TODO Auto-generated method stub
 		return session.selectList(makeSqlId("selectRecipeName"), recipeName);
 	}
-	
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	//레시피Id 카운트
+		
+	/*
+	 * 후기 레시피ID 수 카운트
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public int selectRecipeIdCount(int recipeId) {
 		return session.selectOne(makeSqlId("selectRecipeIdCount"), recipeId);
 	}
 	
-	//레시피Id로 리스트  조회
+	/*
+	 * 후기 레시피ID 목록 조회
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public List<BoardReview> selectBoardReviewByRecipeId(int recipeId,int startIndex,int endIndex) {
 		Map<String, Object> input = new HashMap<String, Object>();
@@ -146,6 +168,10 @@ public class BoardReviewDaoImpl implements BoardReviewDao {
 		return session.selectList(makeSqlId("selectBoardReviewByRecipeId"), input);
 	}
 
+	/*
+	 * 후기 레시피ID 상세정보 조회
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public BoardReview selectBoardReviewByBoardReviewId(int boardReviewId) {
 		return session.selectOne(makeSqlId("selectBoardReviewByBoardReviewId"),boardReviewId);

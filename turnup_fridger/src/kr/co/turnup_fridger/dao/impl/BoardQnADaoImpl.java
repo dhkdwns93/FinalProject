@@ -22,8 +22,8 @@ public class BoardQnADaoImpl implements BoardQnADao{
 		return "kr.co.turnup_fridger.config.mybatis.mapper.BoardQnAMapper."+id;
 	}
 
-	/**
-	 * QnA 등록
+	/*
+	 * QnA 등록 - 회원
 	 * 작성자 - 김장규
 	 */
 	@Override
@@ -31,8 +31,8 @@ public class BoardQnADaoImpl implements BoardQnADao{
 		return session.insert(makeSqlId("insertBoardQnA"),boardQnA);
 	}
 
-	/**
-	 * QnA 업데이트
+	/*
+	 * QnA 업데이트 - 해당 글 작성자
 	 * 작성자 - 김장규
 	 */
 	@Override
@@ -40,8 +40,8 @@ public class BoardQnADaoImpl implements BoardQnADao{
 		return session.update(makeSqlId("updateBoardQnA"),boardQnA);
 	}
 
-	/**
-	 * QnA 삭제(댓글과 함께 삭제)
+	/*
+	 * QnA 삭제(댓글과 함께 삭제) - 관리자, 회원
 	 * 작성자 - 김장규
 	 */
 	@Override
@@ -49,16 +49,16 @@ public class BoardQnADaoImpl implements BoardQnADao{
 		return session.delete(makeSqlId("deleteBoardQnA"),id);
 	}
 
-	
-	
-	
-	
+	/*
+	 * QnA 전체 수 카운트
+	 * 작성자 - 김장규
+	 */
 	@Override
 	public int selectBoardQnACount() {
-		// TODO Auto-generated method stub
 		return session.selectOne(makeSqlId("selectBoardQnACount"));
 	}
-	/**
+	
+	/*
 	 * QnA 목록 조회
 	 * 작성자 - 김장규
 	 */
@@ -70,27 +70,17 @@ public class BoardQnADaoImpl implements BoardQnADao{
 		return session.selectList(makeSqlId("selectBoardQnAList"),input);
 	}
 
-	/**
-	 * QnA 상제보기(댓글 포함)
+	/*
+	 * 매개변수 memberID을 가진 정보 BoardQnA 수 카운트
 	 * 작성자 - 김장규
 	 */
-	@Override
-	public BoardQnA selectBoardQnAById(int id) {
-		return session.selectOne(makeSqlId("selectBoardQnAById"),id);
-	}
-
-	
-	
-	
-	
-	
 	@Override
 	public int selectBoardQnAByMemberIdCount(String memberId) {
 		return session.selectOne(makeSqlId("selectBoardQnAByMemberIdCount"),memberId);
 	}
 
-	/**
-	 * QnA MemberId로 조회
+	/*
+	 * 매개변수 memberID을 가진 정보 BoardQnA 목록 조회
 	 * 작성자 - 김장규
 	 */
 	@Override
@@ -102,6 +92,13 @@ public class BoardQnADaoImpl implements BoardQnADao{
 		return session.selectList(makeSqlId("selectBoardQnAByMemberId"), input);
 	}
 	
-	
+	/*
+	 * QnA 상제보기(댓글 포함) - 해당 글  작성자, 관리자
+	 * 작성자 - 김장규
+	 */
+	@Override
+	public BoardQnA selectBoardQnAById(int id) {
+		return session.selectOne(makeSqlId("selectBoardQnAById"),id);
+	}
 			
 }

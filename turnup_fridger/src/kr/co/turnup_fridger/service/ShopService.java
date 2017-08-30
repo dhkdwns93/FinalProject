@@ -23,6 +23,7 @@ public interface ShopService {
 	 * @param shopId
 	 */
 	Shop selectShopById(int shopId);
+	
 	/**
 	 * 전체쇼핑몰 리스트 조회
 	 * @return

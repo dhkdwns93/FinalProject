@@ -93,7 +93,7 @@ public class ShopController {
 		try {
 			service.deleteShop(sId);
 		} catch (Exception e) {
-			return "";
+			return "삭제할 shop이 없습니다.";
 		}
 		return "삭제완료";
 	}

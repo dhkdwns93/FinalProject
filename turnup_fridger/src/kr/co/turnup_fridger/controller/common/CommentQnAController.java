@@ -26,14 +26,14 @@ import kr.co.turnup_fridger.vo.CommentQnA;
 public class CommentQnAController extends HttpServlet {
 	
 		@Autowired
-		private CommentQnAService service;
+		private CommentQnAService commentQnAService;
 		
 		@Autowired
-		private BoardQnAService service2;
+		private BoardQnAService boardQnAservice;
 	
 
 		
-		//등록
+		//댓글 등록
 		@RequestMapping("commentQnAAdd")
 		@ResponseBody
 		 public ModelAndView commentQnAAdd(@ModelAttribute CommentQnA commentQnA, BindingResult errors,
@@ -47,19 +47,19 @@ public class CommentQnAController extends HttpServlet {
 			if(errors.hasErrors()) 
 			{
 				//errors에 오류가 1개라도 등록되 있으면 true 리턴
-				//mav.addObject("commentQnA",commentQnA);
-				List<CommentQnA> list = service.selectCommentQnAByboardQnAId(boardQnAId);
+				List<CommentQnA> list = commentQnAService.selectCommentQnAByboardQnAId(boardQnAId);
 				mav.addObject("list", list);
-				BoardQnA boardQnA = service2.findBoardQnAById(boardQnAId);
+				BoardQnA boardQnA = boardQnAservice.findBoardQnAById(boardQnAId);
 				mav.addObject("boardQnA", boardQnA);
 				mav.setViewName("common/boardqna/boardqna_view.tiles");
 				return mav; 
 			}
 				
-			service.addCommentQnA(commentQnA);
-			service.commentCount(boardQnAId);
-			BoardQnA boardQnA = service2.findBoardQnAById(boardQnAId);
+			commentQnAService.addCommentQnA(commentQnA);
+			//댓글 등록 시 댓글수 증가
+			commentQnAService.commentCount(boardQnAId);
 			
+			BoardQnA boardQnA = boardQnAservice.findBoardQnAById(boardQnAId);
 			map.addAttribute("commentQnA", commentQnA);
 			map.addAttribute("boardQnAId", boardQnA.getBoardQnAId());
 
@@ -71,8 +71,8 @@ public class CommentQnAController extends HttpServlet {
 		{
 			ModelAndView mav = new ModelAndView();
 			
-			BoardQnA boardQnA = service2.findBoardQnAById(boardQnAId);
-			List<CommentQnA> list = service.selectCommentQnAByboardQnAId(boardQnA.getBoardQnAId());
+			BoardQnA boardQnA = boardQnAservice.findBoardQnAById(boardQnAId);
+			List<CommentQnA> list = commentQnAService.selectCommentQnAByboardQnAId(boardQnA.getBoardQnAId());
 			mav.addObject("list", list);
 			mav.addObject("boardQnA", boardQnA);
 			mav.setViewName("common/boardqna/boardqna_view.tiles");
@@ -80,18 +80,20 @@ public class CommentQnAController extends HttpServlet {
 		}
 		
 
-		//삭제
+		//댓글 삭제
 		@RequestMapping("commentQnARemove")
 		@ResponseBody
 		public ModelAndView commentQnARemove(@RequestParam int commentQnAId,@RequestParam int boardQnAId)
 		{
-			service.removeCommentQnA(commentQnAId);
+			commentQnAService.removeCommentQnA(commentQnAId);
 			
-			service.commentDeleteCount(boardQnAId);
+			//댓글 삭제 시 댓글수 감소
+			commentQnAService.commentDeleteCount(boardQnAId);
+			
 			ModelAndView mav = new ModelAndView();
 			
-			BoardQnA boardQnA = service2.findBoardQnAById(boardQnAId);
-			List<CommentQnA> list = service.selectCommentQnAByboardQnAId(boardQnAId);
+			BoardQnA boardQnA = boardQnAservice.findBoardQnAById(boardQnAId);
+			List<CommentQnA> list = commentQnAService.selectCommentQnAByboardQnAId(boardQnAId);
 			mav.addObject("list", list);
 			mav.addObject("boardQnA", boardQnA);
 			mav.setViewName("common/boardqna/boardqna_view.tiles");
@@ -108,7 +110,7 @@ public class CommentQnAController extends HttpServlet {
 			
 			mav.setViewName("common/boardqna/commentqna_upload.tiles");
 			
-			mav.addObject("commentQnA", service.selectCommentQnAById(commentQnAId));
+			mav.addObject("commentQnA", commentQnAService.selectCommentQnAById(commentQnAId));
 		    
 			return mav;
 		}	
@@ -126,17 +128,17 @@ public class CommentQnAController extends HttpServlet {
 				{
 					mav.setViewName("common/boardqna/commentqna_upload.tiles");
 					
-					mav.addObject("commentQnA", service.selectCommentQnAById(commentQnAId));
+					mav.addObject("commentQnA", commentQnAService.selectCommentQnAById(commentQnAId));
 				    
 					return mav;
 				}
 				
-				service.updateCommentQnA(commentQnA);
-				
+				commentQnAService.updateCommentQnA(commentQnA);
 				mav.addObject("commentQnA",commentQnA);
-				List<CommentQnA> list = service.selectCommentQnAByboardQnAId(boardQnAId);
+				
+				List<CommentQnA> list = commentQnAService.selectCommentQnAByboardQnAId(boardQnAId);
 				mav.addObject("list", list);
-				mav.addObject("boardQnA", service2.findBoardQnAById(boardQnAId));
+				mav.addObject("boardQnA", boardQnAservice.findBoardQnAById(boardQnAId));
 				mav.setViewName("common/boardqna/boardqna_view.tiles");
 		    
 			return mav;

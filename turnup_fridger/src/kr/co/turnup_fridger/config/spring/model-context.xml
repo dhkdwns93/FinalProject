@@ -22,7 +22,7 @@
 			  
 	<bean 	name="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean"
 			   	p:dataSource-ref="dataSource"
-			   	p:configLocation="classpath:kr/co/turnup_fridger/config/mybatis/mybatis-config.xml"/>
+			   	p:configLocation="classpath:kr/co/turnup_fridger/config/mybatis/mybatis-config.xml"/> 	
 	<bean 	name="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate"
 				c:sqlSessionFactory-ref="sqlSessionFactoryBean"/>
 	
