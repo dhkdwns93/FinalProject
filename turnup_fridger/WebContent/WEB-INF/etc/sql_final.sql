@@ -394,7 +394,7 @@ CREATE TABLE RECIPE_IRDNT (
    CONSTRAINT VTRI_IRDNT_ID_FK FOREIGN KEY(IRDNT_ID) REFERENCES IRDNT_MANAGE on delete cascade
 );
 
-DROP SEQUENCE IRDNT_NO_seq
+DROP SEQUENCE IRDNT_NO_seq;
 CREATE SEQUENCE IRDNT_NO_seq INCREMENT BY 1 START WITH 7000;  
 
 
@@ -435,23 +435,6 @@ CREATE SEQUENCE process_no INCREMENT BY 1 START WITH 1;
 --SELECT process_no.NEXTVAL FROM DUAL;
 
 
-
-----------재로료 레시피 추출하기 sql(원하는 재료포함, 기피재료 미포함)---------
-SELECT * FROM RECIPE_IRDNT;
-
-SELECT	recipe_id,COUNT(*) 
-FROM	recipe_irdnt
-WHERE	recipe_id	NOT IN (
-	SELECT	recipe_id
-	FROM	recipe_irdnt
-	WHERE	irdnt_id	IN ( /*포함 안 시킬 재료들*/ )
-)
-AND		irdnt_id	IN ( /*포함시킬 재료들*/ )
-GROUP BY	recipe_id
-HAVING COUNT(*) >= 2
-ORDER BY	COUNT(*) DESC, recipe_id;
-
-select * from recipe_irdnt 
 
 
 /*레피시 재료정보 DB를 IRDNT_ID값을 설정하기 전 저장할임시 테이블*/
