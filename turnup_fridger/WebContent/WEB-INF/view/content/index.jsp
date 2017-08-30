@@ -130,7 +130,12 @@
                     <h2 class="section-heading">당신의 냉장고는 쾌적한가요?</h2>
                     <p class="lead">내부의 여유공간이 5% 이하가 되면 우리의 냉장고는 점점 지쳐갑니다. 기술이 발달해 성능 좋은 냉장고들이 넘치는 요즘에도 마찬가지입니다.<br>
                     하지만 지금 당신의 냉장고는 어떤가요?<br>언젠간 먹어야지라는 마음으로 넣어둔 음식이 이미 가득채우고 있지는 않은가요? 
-                    지쳐가는 당신의 냉장고와 허기진 당신의 배를 위해 '냉장고 털어먹기'가 필요한 지금, 바로 <a href="${initParam.rootPath}/join_member_form.do"><span class="tf"><b>Turnup-Fridger</b></span></a> 와 함께 하세요.</p>
+                    지쳐가는 당신의 냉장고와 허기진 당신의 배를 위해 '냉장고 털어먹기'가 필요한 지금, 바로<sec:authorize access="isAuthenticated()">
+                    <span class="tf"><b>Turnup-Fridger</b></span>
+                    </sec:authorize>
+                    <sec:authorize access="!isAuthenticated()">
+                    <a href="${initParam.rootPath}/join_member_form.do"><span class="tf"><b>Turnup-Fridger</b></span></a>
+                    </sec:authorize> 와 함께 하세요.</p>
                 </div>
                 <div class="col-lg-5 col-lg-offset-2 col-sm-6">
                     <img class="img-responsive mainImg" src="img/women.jpg" style="border-radius: 50em;">
