@@ -6,7 +6,7 @@ public class InsertMain {
 		String fileRoot = System.getProperty("user.dir")+"\\WebContent\\WEB-INF\\etc\\";
 		
 		//레시피기본정보
-		insertMethod.insertAPI(fileRoot, "recipe_info");
+		//insertMethod.insertAPI(fileRoot, "recipe_info");
 		
 		
 		//레시피재료정보

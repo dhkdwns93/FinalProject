@@ -629,7 +629,7 @@ table tr td{
 <div class="floating" style="padding:10px;">
     <a href="#recipe_name"><button type="button" id="topBtn" class="btn btn-default" style="width:100px;height:34px;">TOP</button></a>
     <button type="button" id="timerBtn" class="btn btn-warning" style="width:100px;height:40px;font-size: 18px">타이머</button>
-   <a href="#review"><button type="button" onclick="window.history.back()" class="btn btn-default" style="width:100px;height:34px;">BOTTOM</button></a>
+   <a href="#review"><button type="button" class="btn btn-default" style="width:100px;height:34px;">BOTTOM</button></a>
 </div>
 
 </div>
