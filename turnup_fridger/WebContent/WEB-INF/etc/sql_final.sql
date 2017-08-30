@@ -158,7 +158,7 @@ DROP TABLE fridger CASCADE CONSTRAINT;
 --ALTER TABLE fridger ADD(fridger_img VARCHAR2(300));
 --ALTER TABLE fridger DROP CONSTRAINT member_id_fk;
 ALTER TABLE fridger ADD CONSTRAINT member_id_fk FOREIGN KEY (member_id) REFERENCES member ON DELETE CASCADE;
-DELETE FROM fridger where fridger_id between 1 and 142
+DELETE FROM fridger where fridger_id between 1 and 142;
 CREATE TABLE fridger (
    fridger_ID NUMBER PRIMARY KEY, /* 냉장고ID */
    fridger_NAME VARCHAR2(30) NOT NULL, /* 냉장고애칭 */
