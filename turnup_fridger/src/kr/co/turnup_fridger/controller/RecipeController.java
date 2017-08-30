@@ -497,28 +497,26 @@ public class RecipeController {
 
 	@RequestMapping("getMyDislikeIrdnt")
 	@ResponseBody
-	public Map getMyDislikeIrdnt(){
-		Member member = (Member)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if(member==null){
-			//비회원
+	public List getMyDislikeIrdnt() {
+		Member member = (Member) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (member == null) {
+			// 비회원
 			return null;
 		}
 		List<MyDislikeIrdnt> dislikeIrdnt = disService.findMyDislikeIrdntByMemberId(member.getMemberId());
-		
+
 		HashMap map = new HashMap();
-		HashMap irdntMap = new HashMap();
 		List irdntList = new ArrayList();
-		
-		for(int i=0; i<dislikeIrdnt.size();i++){
+		// System.out.println(dislikeIrdnt);
+
+		for (int i = 0; i < dislikeIrdnt.size(); i++) {
 			String irdntName = imService.findIrdntByIrdntId(dislikeIrdnt.get(i).getIrdntId()).getIrdntName();
-			irdntMap.put("irdntName", irdntName);
-			irdntMap.put("irdntId",dislikeIrdnt.get(i).getIrdntId());
-			irdntList.add(irdntMap);
+			HashMap dislikeIrdntMap = new HashMap();
+			dislikeIrdntMap.put("irdntName", irdntName);
+			dislikeIrdntMap.put("irdntId", dislikeIrdnt.get(i).getIrdntId());
+			irdntList.add(dislikeIrdntMap);
 		}
-		map.put("dislikeIrdnt", dislikeIrdnt);
-		map.put("irdntList", irdntList);
-		
-		return map;
+		return irdntList;
 	}
 	
 

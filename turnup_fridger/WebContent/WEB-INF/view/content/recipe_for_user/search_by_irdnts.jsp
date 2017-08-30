@@ -266,32 +266,32 @@ $(document).ready(function(){
 	});//냉장고선택-> 식재료 보여주기 
 	
 	$("#getMydislike").on("click",function(){
-		$.ajax({
-			//나의 기피재료 받아오기.
-			"url":"/turnup_fridger/getMyDislikeIrdnt.do", 
-			"type":"POST",
-			"data":{'${_csrf.parameterName}':'${_csrf.token}'},
-			"dataType":"json", 
-			"success":function(map){
-				$("#dislikeResult").show();
-				$("#dislikeTbody").empty();
-				$.each(map.dislikeIrdnt, function(){
-					$("#dislikeTbody").append($("<tr>").prop("class","select_col").prop("id",this.irdntId).append($("<td>").append(this.irdntId)).append($("<td>").append('')));	 
-					})
-				$.each(map.irdntList, function(){
-					$("#"+this.irdntId).children(":nth-child(2)").text(this.irdntName);	 
-					})	
-				},//success
-				"error":function(xhr, msg, code){ 
-					if(msg=='error'&&code=='Internal Server Error'){
-						alert("회원만 불러올 수 있습니다.");
-					}else{
-						alert("오류발생-" +msg+ ":" +code);	
-					}
-						
-				}//error	
-		});//ajax4
-	});
+	      $.ajax({
+	         //나의 기피재료 받아오기.
+	         "url":"/turnup_fridger/getMyDislikeIrdnt.do", 
+	         "type":"POST",
+	         "data":{'${_csrf.parameterName}':'${_csrf.token}'},
+	         "dataType":"json", 
+	         "success":function(list){
+	            $("#dislikeResult").show();
+	            $("#dislikeTbody").empty();
+	            $.each(list, function(){
+	               $("#dislikeTbody").append($("<tr>").prop("class","select_col").prop("id",this.irdntId).append($("<td>").append(this.irdntId)).append($("<td>").append('')));    
+	               });
+	            $.each(list, function(){
+	               $("#"+this.irdntId).children(":nth-child(2)").text(this.irdntName);    
+	               })   
+	            },//success
+	            "error":function(xhr, msg, code){ 
+	               if(msg=='error'&&code=='Internal Server Error'){
+	                  alert("회원만 불러올 수 있습니다.");
+	               }else{
+	                  alert("오류발생-" +msg+ ":" +code);   
+	               }
+	                  
+	            }//error   
+	      });//ajax4
+	   });
 	
 	//*******************************************************************************************************************************************************
 	$(document).on("click",("#dislikeBtn"),function(){
